@@ -1,0 +1,275 @@
+﻿@page "/renderizar"
+@page "/filtro/{capitulo:int}/{filtrar}/{redirecionar?}"
+@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/substory/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/grupo/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/subgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/subsubgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/camadaseis/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/camadasete/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/camadaoito/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/camadanove/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{compartilhante}"
+@page "/camadadez/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{compartilhante}"
+@inherits RenderizarBase
+@layout MeuLayout
+
+
+@if(Mensagem != null)
+{
+    <h1>@Mensagem</h1>
+    <a href="" onclick="@Casinha" style="left: 3%;" class="btn btn-primary">Home</a>
+}
+else
+{
+  
+    <a  href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{compartilhante}"))" class="btn btn-primary" style="display:none;">
+        anterior
+    </a>
+
+    <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{compartilhante}"))" class="btn btn-primary" style="display:none;">
+        proximo
+    </a>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+
+     
+
+    <div style="width:100%;" class="blocoLoader">
+
+        <div class="col-xs-4">
+            @{
+
+                if (Model!.Story!.PaginaPadraoLink != 0)
+                {
+                    <header>Story: @Model.Story.Nome</header>
+                    <br />
+                    <span style="font-size: 12px; background-color: white;">
+                            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{Model.Story.PaginaPadraoLink}/1/{compartilhante}"))" class="btn btn-primary">
+                            Capítulo @Model.Story.PaginaPadraoLink
+                        </a>
+                    </span>
+                }
+                else
+                {
+                    <span style="background-color:white;">Capítulos</span>
+                }
+            }
+        </div>
+
+        <div class="right col-xs-8" id="Pesquisa">
+            @{
+                if (Model.Story.PaginaPadraoLink == 0)
+                {
+                    <span style="background-color:white;">Cap.</span>
+                }
+                else
+                {
+                    <span style="background-color:white;">Vers.</span>
+                }
+            }
+                @{
+                    if(substory == null)
+                    {
+                        <input type="number" placeholder="digita o nome" 
+                               id="NumeroPaginaAcesso2" value="@indice" style="width: 60px; font-size: large;" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                        <a id="acessoPaginaComInput2" href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{opcional}/0/{compartilhante}"))"
+                           class="btn btn-primary">
+                            pesquisar
+                        </a>
+                    }
+            }
+
+                <a href="" onclick="@Casinha" style="left: 3%;" class="btn btn-primary">Home</a>
+            <br />
+                <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{compartilhante}"))" class="btn btn-primary">
+                    anterior
+                </a>
+
+                <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{compartilhante}"))" class="btn btn-primary">
+                    proximo
+                </a>
+            <a id="message" href="#" class="btn btn-warning abrir">
+                <img src="~/imagem/blue-messager2.png" width="30" alt="mensagem" id="msg" />
+            </a>
+            @*<a href="#" class="btn btn-primary agrupamento">
+                sub-story
+            </a>*@
+            <a href="/paginacao/1/capitulo/1/20/81/@compartilhante" class="btn btn-primary">
+                Listas
+            </a>                           
+        </div>
+
+    </div>
+
+    <div id="user"></div>  
+
+     </div> 
+
+     
+        if (Model.Story.Comentario)
+        {
+            <br />  <br />
+            <p style="background-color: rgb(227, 196, 101);" class="text-center" >@Model.Data.ToString("dd/MM/yyyy")</p>
+             
+              <br /> 
+        }
+       else if (Model.Produto == null && Model.Div!.Count != 0 && Model.Story.PaginaPadraoLink != 0)
+        {
+            <p style="background-color: rgb(227, 196, 101);" class="text-center" >@Model.Data.ToString("dd/MM/yyyy")</p>
+
+        }
+    
+
+     
+    
+        if(Model.Produto != null)
+        {
+            <div class="row container" >
+                <div class="col-md-6 info">
+                    <p> Categoria: @Model.Produto.Nome </p>
+                            <p> Descrição: @Model.Produto.Descricao </p>
+                            <p> Preço: @Model.Produto.Preco </p>
+                            <p> Estoque: @Model.Produto.QuantEstoque </p>
+                            <div class="col-md-12 imagens">
+                                @{
+                                    @foreach (var item in Model.Produto.Imagem!.ToList())
+                                    {
+                                        if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
+                                        {
+                                            <img src="@item.ArquivoImagem" style="width: 100%;" />
+                                        }
+                                    }
+                                }
+                            </div>
+                </div>
+                <div class="col-md-6 imagem">
+                    <img src="@Model.Produto.Imagem!.First().ArquivoImagem" style="width: 100%;"  />
+                </div>
+                
+            </div>
+
+        }
+        else if(Model.ImagemContent != null)
+        {  
+            <center>
+           <img src="@Model.ImagemContent" style="height: 600px;" >      
+
+            </center>         
+        }
+        else if(html!.Contains("iframe"))
+        {           
+
+            <div id="descricao" ></div>  
+            <center>
+            <div id="player" ></div>      
+
+            </center> 
+        }
+        else
+        {          
+            @markup           
+        }
+    
+
+
+      
+        if (Model.Story.Comentario
+        && Model.SubStory != null)
+        {
+        for (var i = 1; i <= classificacoes!.Length; i++)
+            {
+            <p>@(i)º classificação: @classificacoes![i - 1] </p>
+
+            }
+        }
+        else if (Model.Story.Comentario)
+        {
+            <p>Comentário não classificado </p>
+
+        }
+     
+     
+      
+        if (Model.Story.Comentario
+        && Model.Comentario != null)
+        {
+            <p>Comentário do Capitulo @CapituloComentario Verso @VersoComentario </p>
+        }
+        else if (Model.Story.Comentario)
+        {
+            <p>Apenas um comentário </p>
+
+        }
+     
+
+    <div id="PaginacaoConteudo" style="position:fixed; bottom:1%; width: 100%; " class="Paginacao">
+
+        <center>
+
+        <h3 style="background-color:darkgray; opacity: 0.80;">
+            @if(auto == 1)
+                {
+                    <input type="checkbox" id="automatico" name="automatico" checked="checked" onclick="@(() =>  navigation!.NavigateTo($"/Renderizar/{Model.Story.PaginaPadraoLink}/{indice}/0/{compartilhante}"))" />
+                }
+                else
+                {
+                    <input type="checkbox" id="automatico" name="automatico" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model.Story.PaginaPadraoLink}/{indice}/1/{compartilhante}"))" />
+                }
+                
+            Automático 
+            </h3>
+            @{
+                 if (Model.Story.Nome == "Padrao")
+                        {
+                            <span style="background-color:white; opacity: 0.80;">Capitulo @indice de @quantidadePaginas</span>
+                        }
+                        else
+                        {
+                <span style="background-color:white; opacity: 0.80;">Versiculo @indice de @quantidadePaginas</span>
+                        } 
+            }
+            
+            <div class="DivPagina" style=" height:50px; overflow: hidden; background-color: darkgrey;  opacity: 0.90;">
+                    <span id="redireciona-1"></span>                        
+                @{
+                for (var indice = 1; indice <= quantidadePaginas; indice++)
+                    {
+                         <div class="DivPag"
+                             style="width:35px; height: 30px; border-radius: 30px; display:inline-grid; margin: 6px; background-color:darkgray; opacity: 0.80;"
+                             id="DivPagina@(indice)">  
+                                <span style="font-size: 2rem;" class="indices"><b>@indice</b> </span>
+                                <span class="barra glyphicon glyphicon-minus"
+                              style="font-size: 2rem;"  ></span>
+
+                            </div>
+                                     
+                            if(indice >= 20){
+                                <span id="redireciona-@(indice)"></span>
+                            }          
+                    }                          
+                }
+
+            </div>
+        </center>
+
+        <div class="progressbar">
+                <div></div>
+            </div>
+
+    </div>
+
+    <div id="comentario" style="display: none;">
+
+    </div>
+
+    <div id="loading" style="display:none; z-index:50;"><img src="~/imagem/loader.gif" /></div>
+
+    
+
+}
+
+<input type="text" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput" />
+
+
+
+
+

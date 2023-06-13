@@ -1,0 +1,580 @@
+
+#foreach($container in $divs)
+
+#foreach($bloco in $container.Container.Div)
+
+#if($bloco.Div.Tipo == "DivFixo" && $bloco.Div.EscolherPosicao == false)
+
+<style>
+    #DIV${bloco.Div.Id}Pagina${model.Pagina.Id} 
+    {
+        display: none;
+        position: fixed; 
+        right: ${bloco.Div.EixoXBlocoFixado}%;
+        top: ${bloco.Div.EixoYBlocoFixado}%;
+    }
+</style>
+
+#elseif($bloco.Div.Tipo == "DivFixo")
+
+<style>
+    #DIV${bloco.Div.Id}Pagina${model.Pagina.Id} 
+    {
+        display: none;
+    }
+</style>
+
+#end
+
+#if($bloco.Div.Background.Tipo == "BackgroundImagem")
+<style>
+    #DIV${bloco.Div.Id}Pagina${model.Pagina.Id} {
+
+      background-repeat: ${bloco.Div.Background.Background_Repeat};       
+
+    background-image: url($bloco.Div.Background.Imagem.ArquivoImagem);
+       
+    }
+</style>
+
+#elseif($bloco.Div.Background.Tipo == "BackgroundGradiente")
+
+  <style>
+    #DIV${bloco.Div.Id}Pagina${model.Pagina.Id} {
+
+        #set($um = 1)
+         #foreach($Cores in $bloco.Div.Background.Cores)
+         #if($um == 1)
+        #set($back = $Cores.HexToColor($Cores.CorBackground))
+        background: rgb($back); 
+        #end
+        #set($um = $um + 1)        
+         #end
+
+
+         #set($quantidade = $bloco.Div.Background.Cores.Count())
+        background: -moz-linear-gradient(${bloco.Div.Background.Grau}deg,
+        #foreach($Cor in $bloco.Div.Background.Cores)
+         #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: -webkit-linear-gradient(${bloco.Div.Background.Grau}deg,
+        #foreach($Cor in $bloco.Div.Background.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+        #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: linear-gradient(${bloco.Div.Background.Grau}deg,
+        #foreach($Cor in $bloco.Div.Background.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+             ,
+            #end
+
+        #end  
+
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#09e718',endColorstr='#1c8ea5',GradientType=1);
+    
+    }
+</style>
+
+#else
+
+<style>
+    #DIV${bloco.Div.Id}Pagina${model.Pagina.Id} {       
+
+    background-color: $bloco.Div.Background.Cor;    
+    
+    }
+</style>
+#end
+
+
+
+#end
+
+#end
+
+<div>
+    <script type='text/javascript'>
+        jQuery(function () {
+
+                $('#Ocultar').click(function () {
+
+                    #foreach($bloco in $divs)
+                    $('#DIV${bloco.Div.Id}Pagina${model.Pagina.Id}').css('display', 'block');
+                    #end
+
+                });
+
+            $('.Ferramenta').click(function () {
+
+                    #foreach($bloco in $divs)
+                    #if($bloco.Div.Fixado)
+                        $('#DIV${bloco.Div.Id}Pagina${model.Pagina.Id}').css('display', 'none');
+                    #end
+                    #end
+
+            });
+
+
+                    #foreach($bloco in $divs) 
+                    #if ($bloco.Div.Fixado && $bloco.Div.EscolherPosicao)
+
+                        var header = $('#DIV${bloco.Div.Id}Pagina${model.Pagina.Id}');
+                    var sticky = header[0].offsetTop;
+
+                        window.onscroll = function () {
+                            if (window.pageYOffset + ${bloco.Div.InicioFixacao} > sticky) {
+
+                        header.addClass('stickyDIV${bloco.Div.Id}Pagina${model.Pagina.Id}');
+                    } else
+                    {
+                        header.removeClass('stickyDIV${bloco.Div.Id}Pagina${model.Pagina.Id}');
+                    }
+                }
+        #end
+        #end
+
+        });
+    </script>
+</div>
+
+
+#foreach($bloco in $divs)
+#foreach($bl in $bloco.Container.Div)
+
+#if($bl.Div.Tipo == 'DivFixo' && $bl.Div.Fixado && $bloco.Div.EscolherPosicao)
+
+<style>
+    .stickyDIV${bl.Div.Id}Pagina${model.Pagina.Id} {
+        position: fixed;
+        top: ${bloco.Div.PosicaoFixacao}%;
+        
+    }
+</style>
+#end
+#end
+#end
+
+
+#foreach($bloco in $divs)
+
+#if($bloco.Container.Background.Tipo == "BackgroundImagemContainer")
+<style>
+    #Container${bloco.Container.Id}Pagina${model.Pagina.Id} {
+
+      background-repeat: ${bloco.Container.Background.Background_RepeatContainer};       
+
+    background-image: url($bloco.Container.Background.Imagem.ArquivoImagem);
+
+    }
+</style>
+
+#elseif($bloco.Container.Background.Tipo == "BackgroundGradienteContainer")
+
+  <style>
+    #Container${bloco.Container.Id}Pagina${model.Pagina.Id} {
+
+        #set($um = 1)
+         #foreach($Cores in $bloco.Container.Background.Cores)
+         #if($um == 1)
+        #set($back = $Cores.HexToColor($Cores.CorBackground))
+        background: rgb($back); 
+        #end
+        #set($um = $um + 1)        
+         #end
+
+
+         #set($quantidade = $bloco.Container.Background.Cores.Count())
+        background: -moz-linear-gradient(${bloco.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $bloco.Container.Background.Cores)
+         #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: -webkit-linear-gradient(${bloco.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $bloco.Container.Background.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+        #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: linear-gradient(${bloco.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $bloco.Container.Background.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+             ,
+            #end
+
+        #end  
+
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#09e718',endColorstr='#1c8ea5',GradientType=1);
+           
+    }
+</style>
+
+#else
+
+<style>
+    #Container${bloco.Container.Id}Pagina${model.Pagina.Id} {     
+    
+    background-color: $bloco.Container.Background.CorContainer;
+    
+    }
+</style>
+#end
+
+#end
+
+#set($site = '')
+
+#if($model.Div1.Container.Background.Tipo == "BackgroundImagemContainer")
+
+<style>    
+
+    .content {
+        background-image: url($site$model.Div1.Container.Background.Imagem.ArquivoImagem);
+    }
+</style>
+
+#elseif($model.Div1.Container.Background.Tipo == "BackgroundGradienteContainer")
+
+<style>
+    .content {
+
+         #set($um = 1)
+         #foreach($Cores in $model.Div1.Container.Background.BackgroundGradiente.Cores)
+         #if($um == 1)
+        #set($back = $Cores.HexToColor($Cores.CorBackground))
+        background: rgb($back); 
+        #end
+        #set($um = $um + 1)        
+         #end
+
+
+         #set($quantidade = $model.Div1.Container.Background.Cores.Count())
+        background: -moz-linear-gradient(${model.Div1.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $model.Div1.Container.Background.Cores)
+         #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: -webkit-linear-gradient(${model.Div1.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $model.Div1.Container.Background.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+        #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: linear-gradient(${model.Div1.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $model.Div1.Container.Background.BackgroundGradiente.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+             ,
+            #end
+
+        #end  
+
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#09e718',endColorstr='#1c8ea5',GradientType=1);
+    }
+
+    #pagina$model.Pagina.Id {
+
+         #set($um = 1)
+         #foreach($Cores in $model.Div1.Container.Background.Cores)
+         #if($um == 1)
+        #set($back = $Cores.HexToColor($Cores.CorBackground))
+        background: rgb($back); 
+        #end
+        #set($um = $um + 1)        
+         #end
+
+
+         #set($quantidade = $model.Div1.Container.Background.Cores.Count())
+        background: -moz-linear-gradient(${model.Div1.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $model.Div1.Container.Background.Cores)
+         #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: -webkit-linear-gradient(${model.Div1.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $model.Div1.Container.Background.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+        #if($velocityCount == $quantidade)
+             );
+        #else
+            ,
+            #end
+
+        #end  
+
+        background: linear-gradient(${model.Div1.Container.Background.GrauContainer}deg,
+        #foreach($Cor in $model.Div1.Container.Background.Cores)
+        #set($Transparencia = $Cor.Transparencia / 10)
+        rgba($Cor.HexToColor($Cor.CorBackground),$Transparencia.toString().replace(',','.')) ${Cor.Position}%
+
+            #if($velocityCount == $quantidade)
+             );
+        #else
+             ,
+            #end
+
+        #end  
+
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#09e718',endColorstr='#1c8ea5',GradientType=1);
+    }
+
+</style>
+
+#else
+
+<style>
+    .content {
+        background-color: $model.Div1.Container.Background.CorContainer;
+    }
+
+    #pagina$model.Pagina.Id {
+        background-color: $model.Div1.Container.Background.CorContainer;
+    }
+</style>
+
+#end
+
+
+<style>
+
+    img {
+        margin: auto;
+    }
+    .Elemento {
+        margin: auto;
+    }
+</style>
+
+#set($site = '')
+
+<style>
+    .bloco 
+    {
+        display: flex;    
+        flex-direction: ${model.Pagina.FlexDirection};    
+        align-items: ${model.Pagina.AlignItems};
+        width: 100%;
+        min-height: 50px;
+        height: auto;
+        background-size: contain;
+    } 
+
+</style>
+
+#foreach($container in $divs)
+
+<style>
+
+#Container${container.Container.Id}Pagina${model.Pagina.Id}
+    {
+        width: ${container.Container.Width}%;
+        min-height: ${container.Container.Height}px;
+        height: auto;
+        border-radius: ${container.Container.BorderRadius}px;
+        padding: ${container.Container.Padding}%;
+        order: ${container.Container.Ordem};
+        flex-wrap: ${container.Container.FlexWrap};
+        justify-content: ${container.Container.JustifyContent};
+        flex-direction: ${container.Container.FlexDirection};    
+        align-items: ${container.Container.AlignItems};          
+        align-self: ${container.Container.AlignSelf};
+        
+    }
+</style>
+
+#foreach($bl in $container.Container.Div)
+
+<style>
+    #DIV${bl.Div.Id}Pagina${model.Pagina.Id} 
+    {
+        order: ${bl.Div.Ordem};
+        width: ${bl.Div.Width}%;
+        min-height: ${bl.Div.Height}px;
+        height: auto;
+        border-radius: ${bl.Container.BorderRadius}px;
+        flex-wrap: ${bl.Div.FlexWrap};
+        justify-content: ${bl.Div.JustifyContent};
+        flex-direction: ${bl.Div.FlexDirection};    
+        align-items: ${bl.Div.AlignItems};        
+        align-self: ${bl.Div.AlignSelf};
+        
+    }
+</style>
+
+
+#end
+#end
+
+
+               #if($model.Pagina.MostrarDados == 1)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".Elemento").css("border", "ridge");
+            $(".Elemento").css("border-width", "3px");
+            $(".ClassDiv").css("border", "ridge");
+            $(".ClassDiv").css("border-width", "8px");
+            $(".ContainerDiv").css("border", "ridge");
+            $(".ContainerDiv").css("border-width", "15px");
+        });
+    </script>
+            #else
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".Elemento").css("border", "none");
+            $(".ClassDiv").css("border", "none");
+            $(".ContainerDiv").css("border", "none");
+            });
+    </script>
+            #end
+
+            <script type="text/javascript">
+        $(document).ready(function () {      
+            
+                if ($("#margem").is(':checked'))
+                {
+                    $(".Elemento").css("border", "ridge");
+                    $(".Elemento").css("border-width", "3px");
+                    $(".ClassDiv").css("border", "ridge");
+                    $(".ClassDiv").css("border-width", "8px");
+                    $(".ContainerDiv").css("border", "ridge");
+                    $(".ContainerDiv").css("border-width", "15px"); 
+                }
+                else
+                {
+                    $(".Elemento").css("border", "none");
+                    $(".ClassDiv").css("border", "none");
+                    $(".ContainerDiv").css("border", "none");
+                }      
+
+        });
+    </script>
+
+#set($site = '')
+
+<meta charset='UTF-8'>
+
+ 
+
+    <div id='blocos$model.Div1.Container.Id' class='bloco' data-value='$model.Div1.Container.Id'>
+
+        
+            #foreach($bloco in $divs)
+
+           <div id='Container${bloco.Container.Id}Pagina${model.Pagina.Id}' class='${bloco.Container.ClassesModificadoras}ContainerDiv' data-value='$bloco.Container.Id' >                
+                #if ($model.Pagina.Id == 0 && $bloco.Container.Id != 0 && $model.Pagina.MostrarDados == 1)
+                <center><p>Identificação do Container: $bloco.Container.Id</p></center> 
+                #end
+
+
+              #foreach($bl in $bloco.Container.Div)
+            <div id='DIV${bl.Div.Id}Pagina${model.Pagina.Id}' class='${bl.Div.ClassesModificadoras}ClassDiv' data-value='$bl.Div.Id'>
+                #if ($model.Pagina.Id == 0 && $bl.Div.Id != 0 && $model.Pagina.MostrarDados == 1)
+                <center><p>Identificação do bloco: $bl.Div.Id</p></center> 
+                #end
+
+               
+                #foreach($element in $bl.Div.Elemento)
+
+                #if ($element.Elemento.Tipo == 'Texto')
+                             
+                <div id='elemento${element.Elemento.Id}Pagina${model.Pagina.Id}' class='Elemento' data-value='$element.Elemento.Id'>
+                        #if($model.Pagina.MostrarDados == 1)
+                       <center><p>Identificação do elemento: $element.Elemento.Id</p></center> 
+                        #end
+                   
+                        #if ($element.Elemento.Tipo == 'Texto')
+                            <p>$element.Elemento.PalavrasTexto</p>
+                        #end
+                </div>
+
+                #end
+                #end
+            </div>
+            #end
+
+           </div>
+
+
+            #end        
+    
+</div>    
+
+
+
+#if($model.Musicbool)
+<audio controls autoplay loop>
+    <source src='$site$model.arquivoMusic' type='audio/mp3' />
+
+</audio>
+#end
+
+
