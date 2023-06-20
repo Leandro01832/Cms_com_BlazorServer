@@ -1,0 +1,28 @@
+﻿@page "/story/create"
+@inject NavigationManager navigation
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="exampleModel.Nome" />
+    </p>
+
+    <button type="submit">Adicionar</button>
+</EditForm>
+
+@code {
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    private Story exampleModel = new();
+
+    private async void HandleSubmit()
+    {
+        var list = await context.Story!.Where(p => p.Nome == "Padrao").ToListAsync();
+        exampleModel.PaginaPadraoLink = list.Count + 1;
+        await context.AddAsync(exampleModel);
+        await context.SaveChangesAsync();
+        navigation.NavigateTo("story");
+    }
+}

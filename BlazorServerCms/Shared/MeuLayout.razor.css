@@ -1,0 +1,68 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+span {
+    background-color: white;
+}
+
+h3 {
+    background-color: darkgray;
+    opacity: 0.80;
+}
+
+p {
+    background-color: rgb(227, 196, 101);
+}
+
+
+#comentario {
+    display: none;
+}
+
+#NumeroPaginaAcesso2 {
+    width: 60px;
+    font-size: large;
+}
+
+.ImagemProduto {
+    width: 100%;
+}
+
+.linksPagina {
+    display: none;
+}
+
+.blocoLoader {
+    width: 100%;
+}
+
+.capitulos {
+    font-size: 12px;
+    background-color: white;
+}
+
+.ImagemContent {
+    height: 600px;
+}
+
+.Paginacao {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+}
+
+.indices {
+    font-size: 2rem;
+}
+
+.barra {
+    font-size: 2rem;
+}
+
+.TextoInformativo {
+    background-color: white;
+    opacity: 0.80;
+}
+

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6ayTGNfaQw+MRh30fGIaHfuP7owi9wuRyZj1P5OQQR0=",
+  "Hash": "xrMcrLp4fo8ApZfFx4RunyBXmcrk5isWPbdKApbwOK4=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -1309,6 +1309,23 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
+      "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Dropdown.js",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "Dropdown.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Dropdown.js"
+    },
+    {
       "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\favicon.ico",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
@@ -1341,6 +1358,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JSFunctions.js"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\svg\\house.svg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "svg/house.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\svg\\house.svg"
     }
   ]
 }

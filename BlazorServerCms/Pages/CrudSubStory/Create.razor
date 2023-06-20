@@ -1,0 +1,63 @@
+﻿@page "/substory/create"
+@inject NavigationManager navigation
+@inject IJSRuntime js
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="exampleModel.Nome" />
+    </p>
+    <p>
+        <label>Story:</label>
+        <select @bind="exampleModel.StoryId">
+            @foreach (var item in lista)
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+   
+   
+
+    <button type="submit">Adicionar</button>
+</EditForm>
+
+@code {
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    private SubStory exampleModel = new();
+    private List<Story> lista;
+    public List<SubStory> SubStory;
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = await context.Story!.Where(str => str.Nome != "Padrao").ToListAsync();
+        exampleModel.StoryId = lista.OrderBy(l => l.Id).First().Id;
+    }
+
+    private async void HandleSubmit()
+    {
+        var filtro = new Filtro
+            {
+                SubStory = exampleModel,
+                Nome = exampleModel.Nome,
+                StoryId = exampleModel.StoryId,
+                Rotas = exampleModel.Nome + ", "
+            };
+
+        await context.AddAsync(filtro);
+        await context.SaveChangesAsync();
+        navigation.NavigateTo("substory");
+    }
+
+    private async void ExecutarChange(string e)
+    {
+        exampleModel.StoryId = long.Parse(e);
+        SubStory = await context.SubStory!.Where(sub => sub.StoryId == long.Parse(e)).ToListAsync();
+        await js.InvokeAsync<object>("OptionSelected", "option" + e);
+    }
+
+    
+}

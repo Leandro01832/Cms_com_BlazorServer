@@ -1,0 +1,35 @@
+﻿@page "/livro/create"
+@inject NavigationManager navigation
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Url:</label>
+        <InputText id="url" @bind-Value="exampleModel.url" />
+    </p>
+    <p>
+        <label>Capitulo:</label>
+        <InputNumber id="Capitulo" @bind-Value="exampleModel.Capitulo"></InputNumber>
+    </p>
+    <p>
+        <label>Compartilhando</label>
+        <InputCheckbox id="Compartilhando" @bind-Value="exampleModel.Compartilhando"></InputCheckbox>
+    </p>
+   
+
+    <button type="submit">Adicionar</button>
+</EditForm>
+
+@code {
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    private Livro exampleModel = new();
+
+    private async void HandleSubmit()
+    {
+        await context.AddAsync(exampleModel);
+        await context.SaveChangesAsync();
+        navigation.NavigateTo("livro");
+    }
+}

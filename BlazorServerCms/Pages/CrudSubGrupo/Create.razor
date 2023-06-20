@@ -1,0 +1,77 @@
+﻿@page "/subgrupo/create"
+@inject NavigationManager navigation
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="exampleModel.Nome" />
+    </p>
+    <p>
+        <label>Story:</label>
+        <select @bind="StoryId">
+            @foreach (var item in lista)
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Sub-Story:</label>
+        <select @bind="SubStoryId">
+            @foreach (var item in SubStory!.Where(sub => sub.StoryId == StoryId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Grupo:</label>
+        <select @bind="exampleModel.GrupoId">
+            @foreach (var item in Grupo!.Where(sub => sub.SubStoryId == SubStoryId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+
+
+
+    <button type="submit">Adicionar</button>
+</EditForm>
+
+@code {
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    private SubGrupo exampleModel = new();
+    long StoryId = 0;
+    long SubStoryId = 0;
+    private List<Story> lista = new List<Story>();
+    public List<SubStory> SubStory = new List<SubStory>();
+    public List<Grupo> Grupo = new List<Grupo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = await context.Story!
+        .Where(str => str.Nome != "Padrao").ToListAsync();
+        StoryId = lista.First().Id;
+        SubStory = await context.SubStory!.ToListAsync();
+        Grupo = await context.Grupo!.ToListAsync();
+    }
+
+    private async void HandleSubmit()
+    {
+        var filtro = new Filtro
+            {
+                Subgrupo = exampleModel,
+                Nome = exampleModel.Nome,
+                StoryId = StoryId,
+                Rotas = exampleModel.Nome + ", ",
+                  
+            };
+        await context.AddAsync(filtro);
+        await context.SaveChangesAsync();
+        navigation.NavigateTo("subgrupo");
+    }
+}

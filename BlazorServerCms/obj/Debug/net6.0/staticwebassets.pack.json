@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\Arquivotxt\\default.html"
     },
     {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Dropdown.js",
+      "PackagePath": "staticwebassets\\Dropdown.js"
+    },
+    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "PackagePath": "staticwebassets\\JSFunctions.js"
     },
@@ -67,6 +71,10 @@
     {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\svg\\house.svg",
+      "PackagePath": "staticwebassets\\svg\\house.svg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.BlazorServerCms.Microsoft.AspNetCore.StaticWebAssets.props",

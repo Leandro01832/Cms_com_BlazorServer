@@ -1,0 +1,47 @@
+﻿@page "/livro"
+@inherits IndexCamdaDezBase
+@if (livros == null)
+{
+<p><em>Carregando...</em></p>
+}
+else if (livros.Length == 0)
+{
+<p><em>Não existem livros cadastrados...</em></p>
+    <div>
+        <a class="btn btn-success" href="livro/create">Novo livro</a>
+    </div>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Livros</th>
+            <th>Capitulo</th>
+            <th>Edita</th>
+            <th>Deleta</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var livro in livros)
+        {
+            <tr>
+                <td>@livro.url</td>
+                <td>@livro.Capitulo</td>
+                <td><a class="btn btn-primary" href="livro/edit/@livro.Id">Editar</a> </td>
+                <td><a class="btn btn-danger" @onclick="(()=> DeletarLivro(livro.Id))">Deletar</a> </td>
+                @*<td><a href='/deletealuno/@categoria.CategoriaId'>Deletar</a></td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a class="btn btn-success" href="livro/create">Novo livro</a>
+</div>
+}
+
+@code {
+
+    
+
+}

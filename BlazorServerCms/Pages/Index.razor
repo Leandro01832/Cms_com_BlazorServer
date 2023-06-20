@@ -1,10 +1,64 @@
 ﻿@page "/"
+@page "/{capitulo:int}/{filtrar}"
+@page "/{capitulo:int}/{indice:int}"
+@page "/{indice:int}"
+@page "/{filtrar}"
 
+
+
+@inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+<h3>@Mensagem</h3>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+    [Parameter] public int? capitulo { get; set; }
+    [Parameter] public int? indice { get; set; }
+    [Parameter] public string? filtrar { get; set; }
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao) ;
+
+    string? Mensagem { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (capitulo != null && indice != null)
+        {
+            navigation.NavigateTo($"/renderizar/{capitulo}/{indice}/1/user");
+        }
+        else if (capitulo != null && filtrar != null)
+        {
+            navigation.NavigateTo($"/filtro/{capitulo}/{filtrar}/1");
+        }        
+        else if (indice != null)
+        {
+            var livro = await context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            if (livro != null)
+                navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{indice}/1/user");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (filtrar != null && filtrar.Contains("pasta"))
+        {
+            var livro = await context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            if (livro != null)
+                navigation.NavigateTo($"/filtro/{livro.Capitulo}/{filtrar}");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (filtrar != null)
+        {
+          //  navigation.NavigateTo($"/paginacao/1/capitulo/1/30/81/{filtrar}");
+        }
+
+       
+
+        
+    }
+
+
+}

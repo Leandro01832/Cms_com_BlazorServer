@@ -1,0 +1,50 @@
+﻿@page "/substory/edit/{Id:long}"
+@inject NavigationManager navigation
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+   
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="exampleModel.Nome" />
+    </p>
+    <label>Story:</label>
+    <select @bind="exampleModel.StoryId">
+        @foreach (var item in lista)
+        {
+            <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+        }
+    </select>
+   
+
+    <button type="submit">Alterar</button>
+</EditForm>
+
+@code {
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    private SubStory exampleModel = new();
+    private List<Story> lista = new List<Story>();
+
+    [Parameter]public long Id{ get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        exampleModel = await context.SubStory!.Include(sub => sub.Filtro).FirstAsync(l => l.Id == Id);
+        lista = await context.Story!
+        .Where(str => str.Nome != "Padrao").ToListAsync();
+        
+    }
+
+    private async void HandleSubmit()
+    {
+        exampleModel.Filtro!.Nome = exampleModel.Nome;
+        context.Update(exampleModel);
+        context.Update(exampleModel.Filtro);
+        await context.SaveChangesAsync();
+        navigation.NavigateTo("substory");
+        // Process the form
+    }
+}
+

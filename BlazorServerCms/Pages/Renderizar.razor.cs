@@ -30,8 +30,7 @@ namespace BlazorCms.Client.Pages
         
         public ClassArray Arr = new ClassArray();
         static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-        ApplicationDbContext context =
-                new ApplicationDbContext(conexao);
+        ApplicationDbContext context = new ApplicationDbContext(conexao);
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
@@ -99,9 +98,9 @@ namespace BlazorCms.Client.Pages
             if(compartilhante == null)
                 compartilhante = "user";
             if (repositoryPagina!.paginas == null || !repositoryPagina.aguarde &&
-                repositoryPagina.paginas.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
+               repositoryPagina.paginas.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
             {
-                
+
                 repositoryPagina.aguarde = true;
                 Mensagem = "aguarde um momento...";
                 if (repositoryPagina.paginas == null)
@@ -119,12 +118,10 @@ namespace BlazorCms.Client.Pages
                     repositoryPagina.aguarde = false;
                 }
             }
-            else
-            {
-                if(repositoryPagina.paginas.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
-                    Mensagem = "aguarde um momento...";
+            else if (repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
+            Mensagem = "aguarde um momento...";
                 
-            }
+            
             //try
             //{
             //    await js!.InvokeAsync<object>("FullScreen", "1");
@@ -303,16 +300,14 @@ namespace BlazorCms.Client.Pages
                 List<Pagina>? listaComConteudo = null;
                 if (filtrar != null)
                 {
-                    //var livro = await db.Livro.FirstOrDefaultAsync(l => l.Compartilhando);
-                    var livro = new Livro { url = "" };
+                    var livro = await context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
                     if (livro != null && redirecionar == null)
-                        navigation!.NavigateTo($"{livro.url}/{capitulo}/{filtrar}/1");
+                        navigation!.NavigateTo($"{livro.url}/{livro.Capitulo}/{filtrar}/1");
 
                     var indiceFiltro = int.Parse(filtrar.Replace("pasta-", ""));
                     var fi = pag.Story!.Filtro!.OrderBy(f => f.Id).ToList()[indiceFiltro];
                     var arr = Arr.RetornarArray(pag.Story, false, (long)fi.CamadaDezId!, capitulo, 1);
                     indice = 1;
-                    auto = 1;
                     compartilhante = "user";
                     if (arr.Length == 10)
                     {
@@ -499,7 +494,7 @@ namespace BlazorCms.Client.Pages
                 }               
             }
 
-            if(capitulo == 0)
+           // if(capitulo == 0)
                 try
                 {
                     await firstInput.FocusAsync();
@@ -508,6 +503,18 @@ namespace BlazorCms.Client.Pages
                 {
                     Console.WriteLine(ex.Message);
                 }
+
+            try
+            {
+                if (indice >= quantidadePaginas)
+                    await js!.InvokeAsync<object>("MarcarIndice", "1");
+                else
+                    await js!.InvokeAsync<object>("MarcarIndice", $"{indice}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
         }
 
@@ -523,7 +530,7 @@ namespace BlazorCms.Client.Pages
             repositoryPagina.paginas!.FirstOrDefault(p => p.Story!.PaginaPadraoLink ==
             capitulo)!.Story!.Quantidade == 0)
             {
-                quant = buscarCount(null!, null!, new Story().GetType(), conexao, capitulo);
+                quant = buscarCount( conexao, capitulo);
                 repositoryPagina.paginas!.First(p => p.Story!.PaginaPadraoLink ==
                  capitulo)!.Story!.Quantidade = quant;
 
@@ -564,9 +571,10 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        private static int buscarCount(SqlConnection con, SqlCommand cmd, Type item, string conexao, int? capitulo)
+        private static int buscarCount(string conexao, int? capitulo)
         {
-
+            SqlConnection con;
+            SqlCommand cmd;
             var _TotalRegistros = 0;
             try
             {
@@ -630,12 +638,22 @@ namespace BlazorCms.Client.Pages
             return listaComConteudo;
         }
 
-        private void StartTimer(Pagina p)
+        private async void StartTimer(Pagina p)
         {
-            Timer!.SetTimer(p.Tempo);
-            Timer._timer!.Elapsed += _timer_Elapsed;
-
-            Console.WriteLine("Timer Started.");
+            if (auto == 1)
+            {
+                Timer!.SetTimer(p.Tempo);
+                Timer._timer!.Elapsed += _timer_Elapsed;
+                try
+                {
+                        await js!.InvokeAsync<object>("PreencherProgressBar", p.Tempo);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                Console.WriteLine("Timer Started.");
+            }            
         }
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -788,6 +806,22 @@ namespace BlazorCms.Client.Pages
         {
             auto = 0;
             navigation!.NavigateTo("/");
+        }
+
+        protected async void Pesquisar()
+        {
+            auto = 0;
+            var url = $"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{opcional}/0/{compartilhante}";
+            navigation!.NavigateTo(url);
+        }
+
+        protected async void Listar()
+        {
+            auto = 0;
+            var url = $"/paginacao/1/capitulo/1/30/81/{compartilhante}";
+            navigation!.NavigateTo(url);
+
+            
         }
 
     }

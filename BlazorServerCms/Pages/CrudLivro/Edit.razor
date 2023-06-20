@@ -1,0 +1,43 @@
+﻿@page "/livro/edit/{Id:long}"
+@inject NavigationManager navigation
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Url:</label>
+        <InputText id="url" @bind-Value="exampleModel.url" />
+    </p>
+    <p>
+        <label>Capitulo:</label>
+        <InputNumber id="Capitulo" @bind-Value="exampleModel.Capitulo"></InputNumber>
+    </p>
+    <p>
+        <label>Compartilhando</label>
+        <InputCheckbox id="Compartilhando" @bind-Value="exampleModel.Compartilhando"></InputCheckbox>
+    </p>
+
+    <button type="submit">Alterar</button>
+</EditForm>
+
+@code {
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    private Livro exampleModel = new();
+
+    [Parameter]public long Id{ get; set; }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        exampleModel = await context.Livro!.FirstAsync(l => l.Id == Id);
+    }
+
+    private async void HandleSubmit()
+    {
+        context.Update(exampleModel);
+        await context.SaveChangesAsync();
+        navigation.NavigateTo("livro");
+        // Process the form
+    }
+}
+

@@ -1,0 +1,190 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+.content {
+    height: 700px;
+    display : flex;
+}
+
+
+
+span {
+    background-color: white;
+}
+
+h3 {
+    background-color: darkgray;
+    opacity: 0.80;
+}
+
+p {
+    background-color: rgb(227, 196, 101);
+}
+
+
+#comentario {
+    display: none;
+}
+
+#NumeroPaginaAcesso2 {
+    width: 60px;
+    font-size: large;
+}
+
+.ImagemProduto {
+    width: 100%;
+}
+
+.linksPagina {
+    display: none;
+}
+
+.blocoLoader {
+    width: 100%;
+}
+
+.capitulos {
+    font-size: 12px;
+    background-color: transparent;
+}
+
+.ImagemContent {
+    height: 600px;
+}
+
+
+
+.indices {
+    font-size: 1.2rem;
+}
+
+.barra {
+    font-size: 2rem;
+}
+
+
+
+
+.Paginacao {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+    height: 120px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    opacity: 0.90;
+    justify-content: center;
+}
+
+Informativo {
+    align-self: center;
+    display: flex;
+}
+
+
+
+.DivPagina {
+    height: 50px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.DivPag {
+    width: 35px;
+    height: 30px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    border-radius: 30px;
+    flex-direction: column;
+    background-color:black;
+}
+
+
+
+.navbar {
+    width: 100%;
+    background-color: transparent;
+}
+
+.progressbar {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: solid 2px rgb(130, 130, 130);
+}
+
+    .progressbar div {
+        height: 100%;
+        border-radius: 5px;
+        background-color: red;
+        width: 1%;
+    }
+
+
+@media (max-width: 550px) and (min-width: 50px) {
+
+    .blocoLoader2 {
+        display: block !important;
+        z-index: 40 !important;
+    }
+
+    #Livro {
+        font-size: 1.5rem !important;
+    }
+
+    #record {
+        font-size: 1rem !important;
+    }
+
+    .barra {
+        font-size: 1rem !important;
+    }
+
+   
+
+    .indices {
+        font-size: 0.8rem !important;
+    }
+
+    .DivPag {
+        width: 16px !important;
+        height: 8px !important;
+        margin: 4px !important;
+    }
+
+    #voltar {
+        display: none;
+    }
+
+    #avancar {
+        display: none;
+    }
+
+    .content {
+        width: 100% !important;
+    }
+
+    img {
+        width: 100% !important;
+    }
+
+    
+
+    #message {
+        width: 20%;
+    }
+
+    #user img {
+        display: none;
+    }
+}

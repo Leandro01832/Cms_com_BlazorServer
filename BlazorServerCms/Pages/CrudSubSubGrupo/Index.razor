@@ -1,0 +1,66 @@
+﻿@page "/subsubgrupo"
+
+@if (camadas == null)
+{
+<p><em>Carregando...</em></p>
+}
+else if (camadas.Length == 0)
+{
+<p><em>Não existem camadas cadastradas...</em></p>
+    <div>
+        <a class="btn btn-success" href="subsubgrupo/create">Nova camada</a>
+    </div>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Edita</th>
+            <th>Deleta</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var camada in camadas)
+        {
+            <tr>
+                <td>@camada.Nome</td>
+                <td><a class="btn btn-primary" href="subsubgrupo/edit/@camada.Id">Editar</a> </td>
+                <td><a class="btn btn-danger" @onclick="(()=> DeletarCamada(camada.Id))">Deletar</a> </td>
+                @*<td><a href='/deletealuno/@categoria.CategoriaId'>Deletar</a></td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a class="btn btn-success" href="subsubgrupo/create">Nova Camada</a>
+</div>
+}
+
+@code {
+
+    static string? conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+
+    protected SubSubGrupo[] camadas { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregaCamadas();
+    }
+
+    async Task CarregaCamadas()
+    {
+        camadas = await context.SubSubGrupo!.ToArrayAsync();
+    }
+
+    protected async void DeletarCamada(long Id)
+    {
+        var camada = await context.SubSubGrupo!.FirstAsync(l => l.Id == Id);
+        context.Remove(camada);
+        await context.SaveChangesAsync();
+        await CarregaCamadas();
+    }
+
+}

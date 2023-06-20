@@ -1,0 +1,125 @@
+﻿@page "/camadaoito/create"
+@inject NavigationManager navigation
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="exampleModel.Nome" />
+    </p>
+    <p>
+        <label>Story:</label>
+        <select @bind="StoryId">
+            @foreach (var item in lista)
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Sub-Story:</label>
+        <select @bind="SubStoryId">
+            @foreach (var item in SubStory!.Where(sub => sub.StoryId == StoryId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Grupo:</label>
+        <select @bind="GrupoId">
+            @foreach (var item in Grupo!.Where(sub => sub.SubStoryId == SubStoryId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Sub-Grupo:</label>
+        <select @bind="SubGrupoId">
+            @foreach (var item in SubGrupo!.Where(sub => sub.GrupoId == GrupoId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Sub-Sub-Grupo:</label>
+        <select @bind="SubSubGrupoId">
+            @foreach (var item in SubSubGrupo!.Where(sub => sub.SubGrupoId == SubGrupoId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Camada Seis:</label>
+        <select @bind="CamadaSeisId">
+            @foreach (var item in CamadaSeis!.Where(sub => sub.SubSubGrupoId == SubSubGrupoId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Camada Sete:</label>
+        <select @bind="exampleModel.CamadaSeteId">
+            @foreach (var item in CamadaSete!.Where(sub => sub.CamadaSeisId == SubSubGrupoId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+   
+   
+
+    <button type="submit">Adicionar</button>
+</EditForm>
+
+@code {
+    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    private CamadaOito exampleModel = new();
+
+    long StoryId = 0;
+    long SubStoryId = 0;
+    long GrupoId = 0;
+    long SubGrupoId = 0;
+    long SubSubGrupoId = 0;
+    long CamadaSeisId = 0;
+    private List<Story> lista = new List<Story>();
+    public List<SubStory> SubStory = new List<SubStory>();
+    public List<Grupo> Grupo = new List<Grupo>();
+    public List<SubGrupo> SubGrupo = new List<SubGrupo>();
+    public List<SubSubGrupo> SubSubGrupo = new List<SubSubGrupo>();
+    public List<CamadaSeis> CamadaSeis = new List<CamadaSeis>();
+    public List<CamadaSete> CamadaSete = new List<CamadaSete>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = await context.Story!
+        .Where(str => str.Nome != "Padrao").ToListAsync();
+        StoryId = lista.First().Id;
+        SubStory = await context.SubStory!.ToListAsync();
+        Grupo = await context.Grupo!.ToListAsync();
+        SubGrupo = await context.SubGrupo!.ToListAsync();
+        SubSubGrupo = await context.SubSubGrupo!.ToListAsync();
+        CamadaSeis = await context.CamadaSeis!.ToListAsync();
+        CamadaSete = await context.CamadaSete!.ToListAsync();
+    }
+
+    private async void HandleSubmit()
+    {
+        var filtro = new Filtro
+            {
+                CamadaOito = exampleModel,
+                Nome = exampleModel.Nome,
+                StoryId = StoryId,
+                Rotas = exampleModel.Nome + ", "
+            };
+        await context.AddAsync(filtro);
+        await context.SaveChangesAsync();
+        navigation.NavigateTo("camadaoito");
+    }
+}

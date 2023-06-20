@@ -1,3 +1,464 @@
+/* _content/BlazorServerCms/Pages/Paginacao.razor.rz.scp.css */
+*[b-brm1o9lvas] {
+    padding: 0;
+    margin: 0;
+}
+
+body[b-brm1o9lvas] {
+    border: solid 4px coral;
+    min-height: 950px;
+    height: auto;
+}
+
+img[b-brm1o9lvas] {
+    width: 100%;
+}
+
+.container[b-brm1o9lvas] {
+    display: flex;
+}
+
+#cabecalho[b-brm1o9lvas] {
+    display: none;
+    justify-content: space-around;
+    border: 3px solid chocolate;
+}
+
+#configuracao[b-brm1o9lvas] {
+    display: flex;
+    justify-content: space-around;
+    border: 3px solid chocolate;
+}
+
+    #configuracao p[b-brm1o9lvas] {
+        border: 3px solid black;
+    }
+
+#livro[b-brm1o9lvas] {
+    background-color: chocolate;
+    font-size: large;
+}
+
+#automatico a[b-brm1o9lvas] {
+    background-color: rgb(255, 255, 255);
+    color: chocolate;
+    font-size: large;
+    text-decoration: none;
+}
+
+#lista a[b-brm1o9lvas] {
+    background-color: rgb(255, 255, 255);
+    color: chocolate;
+    font-size: large;
+    text-decoration: none;
+}
+
+#config a[b-brm1o9lvas] {
+    background-color: rgb(255, 255, 255);
+    color: chocolate;
+    font-size: large;
+    text-decoration: none;
+}
+
+.container[b-brm1o9lvas] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.produto[b-brm1o9lvas] {
+    margin-left: 5px;
+    margin-top: 4px;
+    border: solid 4px coral;
+}
+
+.caps[b-brm1o9lvas] {
+    background-color: rgb(232, 255, 127);
+    font-size: 1.0em;
+}
+
+    .caps strong a[b-brm1o9lvas] {
+        text-align: center;
+        text-decoration: none;
+        border: 3px solid rgb(255, 255, 255);
+        color: rgb(164, 52, 11);
+    }
+
+.info[b-brm1o9lvas] {
+    display: none;
+    overflow: auto;
+    max-height: 90px;
+}
+
+#proxima-lista[b-brm1o9lvas] {
+    align-self: center;
+    text-align: start;
+    margin-right: 10px;
+}
+
+    #proxima-lista strong a[b-brm1o9lvas] {
+        text-decoration: none;
+        border: 2px solid;
+        color: black;
+    }
+
+#ordenacao a[b-brm1o9lvas] {
+    text-decoration: none;
+    border: 2px solid;
+    color: black;
+}
+
+.progressbar[b-brm1o9lvas] {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: solid 2px rgb(130, 130, 130);
+}
+
+    .progressbar div[b-brm1o9lvas] {
+        height: 100%;
+        border-radius: 5px;
+        background-color: red;
+        width: 1%;
+    }
+
+@media (max-width: 500px) and (min-width: 50px) {
+
+    .produto[b-brm1o9lvas] {
+        width: 160px;
+        margin-left: 3px;
+        margin-top: 2px;
+    }
+}
+*[b-brm1o9lvas] {
+    padding: 0;
+    margin: 0;
+}
+
+body[b-brm1o9lvas] {
+    border: solid 4px coral;
+    min-height: 950px;
+    height: auto;
+}
+
+img[b-brm1o9lvas] {
+    width: 100%;
+}
+
+.container[b-brm1o9lvas] {
+    display: flex;
+}
+
+#cabecalho[b-brm1o9lvas] {
+    display: none;
+    justify-content: space-around;
+    border: 3px solid chocolate;
+}
+
+#configuracao[b-brm1o9lvas] {
+    display: flex;
+    justify-content: space-around;
+    border: 3px solid chocolate;
+}
+
+    #configuracao p[b-brm1o9lvas] {
+        border: 3px solid black;
+    }
+
+#livro[b-brm1o9lvas] {
+    background-color: chocolate;
+    font-size: large;
+}
+
+#automatico a[b-brm1o9lvas] {
+    background-color: rgb(255, 255, 255);
+    color: chocolate;
+    font-size: large;
+    text-decoration: none;
+}
+
+#lista a[b-brm1o9lvas] {
+    background-color: rgb(255, 255, 255);
+    color: chocolate;
+    font-size: large;
+    text-decoration: none;
+}
+
+#config a[b-brm1o9lvas] {
+    background-color: rgb(255, 255, 255);
+    color: chocolate;
+    font-size: large;
+    text-decoration: none;
+}
+
+.container[b-brm1o9lvas] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.produto[b-brm1o9lvas] {
+    margin-left: 5px;
+    margin-top: 4px;
+    border: solid 4px coral;
+}
+
+.caps[b-brm1o9lvas] {
+    background-color: rgb(232, 255, 127);
+    font-size: 1.0em;
+}
+
+    .caps strong a[b-brm1o9lvas] {
+        text-align: center;
+        text-decoration: none;
+        border: 3px solid rgb(255, 255, 255);
+        color: rgb(164, 52, 11);
+    }
+
+.info[b-brm1o9lvas] {
+    display: none;
+    overflow: auto;
+    max-height: 90px;
+}
+
+#proxima-lista[b-brm1o9lvas] {
+    align-self: center;
+    text-align: start;
+    margin-right: 10px;
+}
+
+    #proxima-lista strong a[b-brm1o9lvas] {
+        text-decoration: none;
+        border: 2px solid;
+        color: black;
+    }
+
+#ordenacao a[b-brm1o9lvas] {
+    text-decoration: none;
+    border: 2px solid;
+    color: black;
+}
+
+.progressbar[b-brm1o9lvas] {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: solid 2px rgb(130, 130, 130);
+}
+
+    .progressbar div[b-brm1o9lvas] {
+        height: 100%;
+        border-radius: 5px;
+        background-color: red;
+        width: 1%;
+    }
+
+
+
+@media (max-width: 500px) and (min-width: 50px) {
+    .produto[b-brm1o9lvas] {
+        width: 160px;
+        margin-left: 3px;
+        margin-top: 2px;
+    }
+}
+/* _content/BlazorServerCms/Pages/Renderizar.razor.rz.scp.css */
+*[b-k8aihg5em2] {
+    padding: 0;
+    margin: 0;
+}
+
+.content[b-k8aihg5em2] {
+    height: 700px;
+    display : flex;
+}
+
+
+
+span[b-k8aihg5em2] {
+    background-color: white;
+}
+
+h3[b-k8aihg5em2] {
+    background-color: darkgray;
+    opacity: 0.80;
+}
+
+p[b-k8aihg5em2] {
+    background-color: rgb(227, 196, 101);
+}
+
+
+#comentario[b-k8aihg5em2] {
+    display: none;
+}
+
+#NumeroPaginaAcesso2[b-k8aihg5em2] {
+    width: 60px;
+    font-size: large;
+}
+
+.ImagemProduto[b-k8aihg5em2] {
+    width: 100%;
+}
+
+.linksPagina[b-k8aihg5em2] {
+    display: none;
+}
+
+.blocoLoader[b-k8aihg5em2] {
+    width: 100%;
+}
+
+.capitulos[b-k8aihg5em2] {
+    font-size: 12px;
+    background-color: transparent;
+}
+
+.ImagemContent[b-k8aihg5em2] {
+    height: 600px;
+}
+
+
+
+.indices[b-k8aihg5em2] {
+    font-size: 1.2rem;
+}
+
+.barra[b-k8aihg5em2] {
+    font-size: 2rem;
+}
+
+
+
+
+.Paginacao[b-k8aihg5em2] {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+    height: 120px;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    opacity: 0.90;
+    justify-content: center;
+}
+
+Informativo[b-k8aihg5em2] {
+    align-self: center;
+    display: flex;
+}
+
+
+
+.DivPagina[b-k8aihg5em2] {
+    height: 50px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.DivPag[b-k8aihg5em2] {
+    width: 35px;
+    height: 30px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    border-radius: 30px;
+    flex-direction: column;
+    background-color:black;
+}
+
+
+
+.navbar[b-k8aihg5em2] {
+    width: 100%;
+    background-color: transparent;
+}
+
+.progressbar[b-k8aihg5em2] {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: solid 2px rgb(130, 130, 130);
+}
+
+    .progressbar div[b-k8aihg5em2] {
+        height: 100%;
+        border-radius: 5px;
+        background-color: red;
+        width: 1%;
+    }
+
+
+@media (max-width: 550px) and (min-width: 50px) {
+
+    .blocoLoader2[b-k8aihg5em2] {
+        display: block !important;
+        z-index: 40 !important;
+    }
+
+    #Livro[b-k8aihg5em2] {
+        font-size: 1.5rem !important;
+    }
+
+    #record[b-k8aihg5em2] {
+        font-size: 1rem !important;
+    }
+
+    .barra[b-k8aihg5em2] {
+        font-size: 1rem !important;
+    }
+
+   
+
+    .indices[b-k8aihg5em2] {
+        font-size: 0.8rem !important;
+    }
+
+    .DivPag[b-k8aihg5em2] {
+        width: 16px !important;
+        height: 8px !important;
+        margin: 4px !important;
+    }
+
+    #voltar[b-k8aihg5em2] {
+        display: none;
+    }
+
+    #avancar[b-k8aihg5em2] {
+        display: none;
+    }
+
+    .content[b-k8aihg5em2] {
+        width: 100% !important;
+    }
+
+    img[b-k8aihg5em2] {
+        width: 100% !important;
+    }
+
+    
+
+    #message[b-k8aihg5em2] {
+        width: 20%;
+    }
+
+    #user img[b-k8aihg5em2] {
+        display: none;
+    }
+}
 /* _content/BlazorServerCms/Shared/MainLayout.razor.rz.scp.css */
 .page[b-ofu5x09pw2] {
     position: relative;
@@ -69,6 +530,75 @@ main[b-ofu5x09pw2] {
         padding-right: 1.5rem !important;
     }
 }
+/* _content/BlazorServerCms/Shared/MeuLayout.razor.rz.scp.css */
+*[b-mnex5vseq6] {
+    padding: 0;
+    margin: 0;
+}
+
+span[b-mnex5vseq6] {
+    background-color: white;
+}
+
+h3[b-mnex5vseq6] {
+    background-color: darkgray;
+    opacity: 0.80;
+}
+
+p[b-mnex5vseq6] {
+    background-color: rgb(227, 196, 101);
+}
+
+
+#comentario[b-mnex5vseq6] {
+    display: none;
+}
+
+#NumeroPaginaAcesso2[b-mnex5vseq6] {
+    width: 60px;
+    font-size: large;
+}
+
+.ImagemProduto[b-mnex5vseq6] {
+    width: 100%;
+}
+
+.linksPagina[b-mnex5vseq6] {
+    display: none;
+}
+
+.blocoLoader[b-mnex5vseq6] {
+    width: 100%;
+}
+
+.capitulos[b-mnex5vseq6] {
+    font-size: 12px;
+    background-color: white;
+}
+
+.ImagemContent[b-mnex5vseq6] {
+    height: 600px;
+}
+
+.Paginacao[b-mnex5vseq6] {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+}
+
+.indices[b-mnex5vseq6] {
+    font-size: 2rem;
+}
+
+.barra[b-mnex5vseq6] {
+    font-size: 2rem;
+}
+
+.TextoInformativo[b-mnex5vseq6] {
+    background-color: white;
+    opacity: 0.80;
+}
+
 /* _content/BlazorServerCms/Shared/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-hzn4tv4b19] {
     background-color: rgba(255, 255, 255, 0.1);
