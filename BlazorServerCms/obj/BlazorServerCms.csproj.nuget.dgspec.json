@@ -53,6 +53,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Google.Apis.YouTube.v3": {
+              "target": "Package",
+              "version": "[1.61.0.3064, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.15, )"

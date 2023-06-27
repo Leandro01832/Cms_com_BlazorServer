@@ -1,5 +1,6 @@
 ﻿@page "/livro/edit/{Id:long}"
 @inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
@@ -21,21 +22,19 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao);
     private Livro exampleModel = new();
 
     [Parameter]public long Id{ get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await context.Livro!.FirstAsync(l => l.Id == Id);
+        exampleModel = await repositoryPagina!.Context.Livro!.FirstAsync(l => l.Id == Id);
     }
 
     private async void HandleSubmit()
     {
-        context.Update(exampleModel);
-        await context.SaveChangesAsync();
+        repositoryPagina!.Context.Update(exampleModel);
+        await repositoryPagina!.Context.SaveChangesAsync();
         navigation.NavigateTo("livro");
         // Process the form
     }

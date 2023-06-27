@@ -9,7 +9,8 @@ main[b-ofu5x09pw2] {
 }
 
 .sidebar[b-ofu5x09pw2] {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-image: linear-gradient(180deg, rgb(95, 56, 23) 0%, rgb(208, 146, 61) 80%);
+    /*background-image: linear-gradient(180deg, rgb(235, 175, 9) 0%, rgb(95, 56, 23) 80%);*/
 }
 
 .top-row[b-ofu5x09pw2] {

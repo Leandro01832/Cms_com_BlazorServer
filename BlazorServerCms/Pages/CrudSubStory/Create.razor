@@ -1,6 +1,7 @@
 ﻿@page "/substory/create"
 @inject NavigationManager navigation
 @inject IJSRuntime js
+@inject RepositoryPagina repositoryPagina
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
@@ -25,15 +26,13 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao);
     private SubStory exampleModel = new();
-    private List<Story> lista;
-    public List<SubStory> SubStory;
+    private List<Story> lista = new List<Story>();
+    public List<SubStory> SubStory = new List<SubStory>();
 
     protected override async Task OnInitializedAsync()
     {
-        lista = await context.Story!.Where(str => str.Nome != "Padrao").ToListAsync();
+        lista = await repositoryPagina!.Context.Story!.Where(str => str.Nome != "Padrao").ToListAsync();
         exampleModel.StoryId = lista.OrderBy(l => l.Id).First().Id;
     }
 
@@ -47,15 +46,15 @@
                 Rotas = exampleModel.Nome + ", "
             };
 
-        await context.AddAsync(filtro);
-        await context.SaveChangesAsync();
+        await repositoryPagina!.Context.AddAsync(filtro);
+        await repositoryPagina!.Context.SaveChangesAsync();
         navigation.NavigateTo("substory");
     }
 
     private async void ExecutarChange(string e)
     {
         exampleModel.StoryId = long.Parse(e);
-        SubStory = await context.SubStory!.Where(sub => sub.StoryId == long.Parse(e)).ToListAsync();
+        SubStory = await repositoryPagina!.Context.SubStory!.Where(sub => sub.StoryId == long.Parse(e)).ToListAsync();
         await js.InvokeAsync<object>("OptionSelected", "option" + e);
     }
 

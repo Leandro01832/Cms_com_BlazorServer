@@ -13,10 +13,6 @@
       "PackagePath": "staticwebassets\\Arquivotxt\\default.html"
     },
     {
-      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Dropdown.js",
-      "PackagePath": "staticwebassets\\Dropdown.js"
-    },
-    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "PackagePath": "staticwebassets\\JSFunctions.js"
     },
@@ -71,6 +67,14 @@
     {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\livro.jpg",
+      "PackagePath": "staticwebassets\\livro.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\story.jpg",
+      "PackagePath": "staticwebassets\\story.jpg"
     },
     {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\svg\\house.svg",

@@ -1,8 +1,5 @@
 ﻿
-using business.div;
-using business.Elementos.texto;
 using business.Group;
-using business.Join;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +13,7 @@ namespace business
             if(Pagina.entity)
             {
                 Comentario = null;
-                Div = null;              
+             //   Div = null;              
                 Music = false;
                 Tempo = 11000;
                 Data = DateTime.Now;
@@ -34,35 +31,7 @@ namespace business
             }
         }
         
-        public Pagina(int quant)
-        {
-            Div = new List<PaginaContainer>
-            {
-                new PaginaContainer{Container = new Container()}, 
-                new PaginaContainer
-                {
-                     Container = new Container(quant){Content = true}
-                }
-
-            };
-            Tempo = 11000;
-        }
-       
-        public Pagina(int quant, int quantContainers)
-        {
-            Div = new List<PaginaContainer>
-            {
-                new PaginaContainer{Container = new Container()},
-                new PaginaContainer
-                {
-                     Container = new Container(quant){Content = true}
-                }
-
-            };
-            for (int i = 0; i < quantContainers; i++)
-            Div.Add(new PaginaContainer());
-            Tempo = 11000;
-        }
+        
 
         private int mostrarDados = 0;
         private DateTime data = DateTime.Now;
@@ -236,11 +205,10 @@ namespace business
         public long? Comentario { get; set; } 
 
         [Display(Name = "Arquivo")]
-        public string? ImagemContent { get; set; }  
-        
-        [JsonIgnore]
-        public virtual List<PaginaContainer>? Div { get; set; }
-      
+        public string? ImagemContent { get; set; }
+
+        public string? Content { get; set; }
+
         public virtual Produto? Produto { get; set; }                         
 
         [NotMapped]
@@ -258,23 +226,23 @@ namespace business
 
         public int Tempo { get; set; }       
         
-        public void IncluiDiv(Container container)
-        {
-            this.Div!.Add(new PaginaContainer { Container = container, Pagina = this });
-        }
+        //public void IncluiDiv(Container container)
+        //{
+        //    this.Div!.Add(new PaginaContainer { Container = container, Pagina = this });
+        //}
         
-        public void setarElemento(Texto elemento)
-        {
-            this.Div!.First(d => d.Container!.Content).Container!.Div!
-            .First(d => d.Div!.Content).Div!.Elemento = new List<DivElemento>();
-            this.Div!.First(d => d.Container!.Content).Container!.Div!
-            .First(d => d.Div!.Content).Div!.Elemento!.Add(new DivElemento
-            {
-                Div = this.Div!.First(d => d.Container!.Content).Container!.Div!
-                .First(d => d.Div!.Content).Div,
-                Elemento = elemento                
-            });
-        }
+        //public void setarElemento(Texto elemento)
+        //{
+        //    this.Div!.First(d => d.Container!.Content).Container!.Div!
+        //    .First(d => d.Div!.Content).Div!.Elemento = new List<DivElemento>();
+        //    this.Div!.First(d => d.Container!.Content).Container!.Div!
+        //    .First(d => d.Div!.Content).Div!.Elemento!.Add(new DivElemento
+        //    {
+        //        Div = this.Div!.First(d => d.Container!.Content).Container!.Div!
+        //        .First(d => d.Div!.Content).Div,
+        //        Elemento = elemento                
+        //    });
+        //}
        
     }
 }

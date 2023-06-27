@@ -1,5 +1,6 @@
 ﻿@page "/story/create"
 @inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
@@ -13,16 +14,14 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao);
     private Story exampleModel = new();
 
     private async void HandleSubmit()
     {
-        var list = await context.Story!.Where(p => p.Nome == "Padrao").ToListAsync();
+        var list = await repositoryPagina!.Context.Story!.Where(p => p.Nome == "Padrao").ToListAsync();
         exampleModel.PaginaPadraoLink = list.Count + 1;
-        await context.AddAsync(exampleModel);
-        await context.SaveChangesAsync();
+        await repositoryPagina!.Context.AddAsync(exampleModel);
+        await repositoryPagina!.Context.SaveChangesAsync();
         navigation.NavigateTo("story");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BlazorServerCms.Data;
+using BlazorServerCms.servicos;
 using business;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,7 @@ namespace BlazorServerCms.Pages.CrudLivro
 {
     public class IndexCamdaDezBase : ComponentBase
     {
-        static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-        ApplicationDbContext context = new ApplicationDbContext(conexao);
+        [Inject] public RepositoryPagina? repositoryPagina { get; set; }
 
        protected  Livro[] livros { get; set; }
 
@@ -20,14 +20,14 @@ namespace BlazorServerCms.Pages.CrudLivro
 
         async Task CarregaLivros()
         {
-            livros = await context.Livro!.ToArrayAsync();
+            livros = await repositoryPagina!.Context.Livro!.ToArrayAsync();
         }
 
         protected async void DeletarLivro(long Id)
         {
-            var livro = await context.Livro!.FirstAsync(l => l.Id == Id);
-            context.Remove(livro);
-            await context.SaveChangesAsync();
+            var livro = await repositoryPagina!.Context.Livro!.FirstAsync(l => l.Id == Id);
+            repositoryPagina!.Context.Remove(livro);
+            await repositoryPagina!.Context.SaveChangesAsync();
             await CarregaLivros();
             //confirma.Exibir();
             //codigoCategoria = categoriaId;

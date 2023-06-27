@@ -1,6 +1,7 @@
 ﻿@page "/grupo/create"
 @inject NavigationManager navigation
 @inject IJSRuntime js
+@inject RepositoryPagina repositoryPagina
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
@@ -32,8 +33,6 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext contexto = new ApplicationDbContext(conexao);
     private Grupo exampleModel = new();
     long StoryId = 0;
     private List<Story> lista = new List<Story>();
@@ -41,10 +40,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        lista = await contexto.Story!
+        lista = await repositoryPagina!.Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         StoryId = lista.First().Id;
-        SubStory = await contexto.SubStory!.ToListAsync();
+        SubStory = await repositoryPagina!.Context.SubStory!.ToListAsync();
     }
 
     private async void HandleSubmit()
@@ -56,8 +55,8 @@
                 StoryId = StoryId,
                 Rotas = exampleModel.Nome + ", "
             };
-        await contexto.AddAsync(filtro);
-        await contexto.SaveChangesAsync();
+        await repositoryPagina!.Context.AddAsync(filtro);
+        await repositoryPagina!.Context.SaveChangesAsync();
         navigation.NavigateTo("grupo");
     }
 }

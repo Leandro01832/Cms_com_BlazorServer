@@ -1,11 +1,11 @@
 ﻿using BlazorServerCms.Data;
 using business;
-using business.Elementos.texto;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NVelocity;
 using NVelocity.App;
+using System.Net;
 using System.Text;
 
 namespace BlazorServerCms.servicos
@@ -15,52 +15,65 @@ namespace BlazorServerCms.servicos
     public class RepositoryPagina 
     {
         public IConfiguration Configuration { get; }
-        public HttpClient Http { get; }
+        public  HttpClient Http { get; }
+        public static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+        public ApplicationDbContext Context =  new ApplicationDbContext(conexao);
+
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
             Configuration = configuration;
             Http = http;
         }
 
-       static string path = Directory.GetCurrentDirectory();       
-     // public static string outroLivro = "https://localhost:5001";    
+       static string path = Directory.GetCurrentDirectory();
+        // public static string outroLivro = "https://localhost:5001";    
 
-    //  public  static int? outroCapitulo = 1;  
+        //  public  static int? outroCapitulo = 1;  
 
-     // public static Random randNum = new Random();
+        // public static Random randNum = new Random();
 
-    // public static string[] livros = new string[10];
+        // public static string[] livros = new string[10];
 
-     //public static string Verificar(string url)
-     // {     
-        
-     //       WebClient client = new WebClient();
-     //       var html = client.DownloadString(url);                        
+        //public static string Verificar(string url)
+        // {     
 
-     //       if( html.Contains("<h1>Pagina não encontrada</h1>"))
-     //       return null!;
-     //       else 
-     //       return html; 
-     // }  
+        //       WebClient client = new WebClient();
+        //       var html = client.DownloadString(url);                        
 
-      //public static int RetornarCapitulos(string livro)
-      //{
-      //  int cap = 1;
-      //   var url = livro + "/Renderizar/" + cap + "/" + 1 + "/1/user";   
-      //   var html = "teste";
+        //       if( html.Contains("<h1>Pagina não encontrada</h1>"))
+        //       return null!;
+        //       else 
+        //       return html; 
+        // }  
 
-      //   while(html != null)
-      //   {
-      //      html = Verificar(url);
-      //      if(html != null)
-      //      {
-      //          cap++;
-      //          url = livro + "/Renderizar/" + cap + "/" + 1 + "/1/user";   
-      //      }
+        //public static int RetornarCapitulos(string livro)
+        //{
+        //  int cap = 1;
+        //   var url = livro + "/Renderizar/" + cap + "/" + 1 + "/1/user";   
+        //   var html = "teste";
 
-      //   }
-      //  return cap;
-      //}  
+        //   while(html != null)
+        //   {
+        //      html = Verificar(url);
+        //      if(html != null)
+        //      {
+        //          cap++;
+        //          url = livro + "/Renderizar/" + cap + "/" + 1 + "/1/user";   
+        //      }
+
+        //   }
+        //  return cap;
+        //}  
+
+        public  async Task<string> Verificar(string url)
+        {
+            var html = await Http.GetStringAsync(url);
+
+            if (html.Contains("<h1>Pagina não encontrada</h1>"))
+                return null;
+            else
+                return html;
+        }
 
         private async Task<string> texto()
         {           
@@ -113,8 +126,6 @@ namespace BlazorServerCms.servicos
                 arquivoMusic = pagina.ArquivoMusic,
                 Pagina = pagina,
                 titulo = pagina.Titulo,
-                Div1 = pagina.Div!.OrderBy(d => d.Container!.Id).ToList().First(),
-                divs = pagina.Div!.OrderBy(d => d.Container!.Id).Skip(1).ToList(),
                 espacamento = 0,
                 indice = 1
 
@@ -122,7 +133,6 @@ namespace BlazorServerCms.servicos
 
             var velocitycontext = new VelocityContext();
             velocitycontext.Put("model", Modelo);
-            velocitycontext.Put("divs", pagina.Div!.OrderBy(d => d.Container!.Id).Skip(1).ToList());
             var html = new StringBuilder();
             bool result = Velocity.Evaluate(velocitycontext, new StringWriter(html), "NomeParaCapturarLogError",
             new StringReader(TextoHtml));
@@ -132,24 +142,24 @@ namespace BlazorServerCms.servicos
 
         
 
-        public async Task<List<Pagina>> buscarCapitulo(ApplicationDbContext _Context, int capitulo)
+        public async Task<List<Pagina>> buscarCapitulo( int capitulo)
         {
-            return await includes(_Context)
+            return await includes()
             .Where(p => p.Story!.PaginaPadraoLink == capitulo && !p.Layout).ToListAsync();
         }
 
-        public async Task buscarCapitulos(ApplicationDbContext context)
+        public async Task buscarCapitulos()
         {
-            var lista = await includes(context)
+            var lista = await includes()
             .ToListAsync();
 
             paginas!.Clear();
             paginas.AddRange(lista);
         }
 
-        public IIncludableQueryable<Pagina, Texto> includes(ApplicationDbContext context)
+        public IIncludableQueryable<Pagina, List<Pagina>> includes()
         {
-            return context.Pagina!
+            return Context.Pagina!
              .Include(p => p.Produto)
              .ThenInclude(p => p!.Imagem)
              .Include(p => p.Produto)
@@ -175,10 +185,7 @@ namespace BlazorServerCms.servicos
              .Include(b => b!.CamadaOito).ThenInclude(b => b!.CamadaNove)
              .Include(b => b!.CamadaNove).ThenInclude(b => b!.Pagina)
              .Include(b => b!.CamadaNove).ThenInclude(b => b!.CamadaDez)
-             .Include(b => b!.CamadaDez).ThenInclude(b => b!.Pagina)
-
-            .Include(p => p.Div)!.ThenInclude(b => b.Container).ThenInclude(b => b!.Div)!
-            .ThenInclude(b => b.Div).ThenInclude(b => b!.Elemento)!.ThenInclude(b => b.Elemento)!;
+             .Include(b => b!.CamadaDez).ThenInclude(b => b!.Pagina)!;
         }
     }
 }

@@ -16,6 +16,7 @@
 
 @if(Mensagem != null)
 {
+    <PageTitle>@Mensagem</PageTitle>
     <h1>@Mensagem</h1>
     <br />
     <a href="#" onclick="@Casinha" class="btn btn-primary">
@@ -27,7 +28,7 @@
 }
 else
 {
-  
+
     <a  href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{compartilhante}"))" class="btn btn-primary linksPagina">
         anterior
     </a>
@@ -48,6 +49,7 @@ else
 
                 if (Model!.Story!.PaginaPadraoLink != 0)
                 {
+                        <PageTitle>@Model!.Story!.Nome</PageTitle>
                     <header>Story: @Model.Story.Nome</header>
                     <br />
                     <span class="capitulos">
@@ -58,6 +60,7 @@ else
                 }
                 else
                 {
+                        <PageTitle>Capítulos</PageTitle>
                     <span class="capitulos">Capítulos</span>
                 }
             }
@@ -116,7 +119,7 @@ else
             @*<a href="#" class="btn btn-primary agrupamento">
                 sub-story
             </a>*@
-            <a href="#" onclick="@Listar" class="btn btn-primary">
+                <a href="#" onclick="@(() => navigation!.NavigateTo($"/paginacao/1/capitulo/1/30/81/{compartilhante}"))" class="btn btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z" />
                         <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z" />
@@ -140,7 +143,7 @@ else
              
               <br /> 
         }
-       else if (Model.Produto == null && Model.Div!.Count != 0 && Model.Story.PaginaPadraoLink != 0)
+       else if (Model.Produto == null && Model.Content != null && Model.Story.PaginaPadraoLink != 0)
         {
             <p >@Model.Data.ToString("dd/MM/yyyy")</p>
 
@@ -285,7 +288,6 @@ else
 
     </div>
 
-    <div id="loading" style="display:none; z-index:50;"><img src="~/imagem/loader.gif" /></div>
 
     
 

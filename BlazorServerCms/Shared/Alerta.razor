@@ -1,0 +1,15 @@
+﻿<div>
+    @if(Mensagem == null)
+    {
+        <span style="color:black">Seja Bem-vindo</span>
+    }
+    else
+    {
+        @Conteudo1
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment Conteudo1 { get; set; }
+    [Parameter] public string Mensagem { get; set; }
+}

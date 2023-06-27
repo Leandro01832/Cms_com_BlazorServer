@@ -1,4 +1,5 @@
 ﻿@page "/subgrupo"
+@inject RepositoryPagina repositoryPagina
 
 @if (camadas == null)
 {
@@ -40,9 +41,6 @@ else
 
 @code {
 
-    static string? conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao);
-
     protected SubGrupo[] camadas { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -52,14 +50,14 @@ else
 
     async Task CarregaCamadas()
     {
-        camadas = await context.SubGrupo!.ToArrayAsync();
+        camadas = await repositoryPagina!.Context.SubGrupo!.ToArrayAsync();
     }
 
     protected async void DeletarCamada(long Id)
     {
-        var camada = await context.SubGrupo!.FirstAsync(l => l.Id == Id);
-        context.Remove(camada);
-        await context.SaveChangesAsync();
+        var camada = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == Id);
+        repositoryPagina!.Context.Remove(camada);
+        await repositoryPagina!.Context.SaveChangesAsync();
         await CarregaCamadas();
     }
 

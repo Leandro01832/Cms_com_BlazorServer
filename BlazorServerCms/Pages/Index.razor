@@ -3,26 +3,93 @@
 @page "/{capitulo:int}/{indice:int}"
 @page "/{indice:int}"
 @page "/{filtrar}"
+@page "/mensagem/{MensagemSistema}"
+@page "/compartilhe/{user}"
+@page "/pesquisar/{Query}"
 
 
 
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Instagleo</PageTitle>
 
 
 <h3>@Mensagem</h3>
+
+@if (MensagemSistema != null)
+{
+    <h3>@MensagemSistema</h3>    
+}
+
+    
+    
+ <div class="container">
+     <input type="text" @bind-value="Query" @bind-value:event="oninput" placeholder="Nº do capitulo ou o nome" />
+    <a id="acessoPaginaComInput2" href="#" onclick="@(() => navigation.NavigateTo($"/renderizar/{cap}/1/1/user"))"
+       class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+        </svg>
+    </a>
+     <br />
+     <p>Pesquisa: @Query</p>
+
+     <img src="/story.jpg" width="900" />
+ </div>
+
+@if(filtros!.Count > 0)
+{
+    <div>
+        <table>
+            <tr>
+                <th>Capitulo</th>
+                <th>Resultado</th>
+                <th></th>
+            </tr>
+            @foreach (var item in filtros!)
+            {
+                <tr>
+                    <td>Capitulo @item.Story!.PaginaPadraoLink</td>
+                    <td>@item.Nome</td>
+                    <td><a href="#" onclick="@(() => navigation.NavigateTo("/"))">Acessar</a></td>
+                </tr>
+            }
+
+        </table>
+    </div>
+}
+
 
 
 @code{
     [Parameter] public int? capitulo { get; set; }
     [Parameter] public int? indice { get; set; }
     [Parameter] public string? filtrar { get; set; }
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao) ;
-
+    [Parameter] public string? MensagemSistema { get; set; }
+    [Parameter] public string? user { get; set; }    
+    [Parameter] public string? Query { get; set; }
+    List<Filtro>? filtros = new List<Filtro>();
+    int cap = 1;
     string? Mensagem { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            cap = int.Parse(Query!);
+        }
+        catch (Exception ex)
+        {
+            if (!string.IsNullOrEmpty(Query))
+            {
+                filtros = await repositoryPagina.Context.Filtro!
+                .Include(f => f.Story)
+                .Where(f => f.Nome!.Contains(Query!)).ToListAsync();                
+            }
+            cap = 1;
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,29 +103,25 @@
         }        
         else if (indice != null)
         {
-            var livro = await context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
                 navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{indice}/1/user");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
-        else if (filtrar != null && filtrar.Contains("pasta"))
+        else if (filtrar != null)
         {
-            var livro = await context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
                 navigation.NavigateTo($"/filtro/{livro.Capitulo}/{filtrar}");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
-        else if (filtrar != null)
+        else if (user != null)
         {
-          //  navigation.NavigateTo($"/paginacao/1/capitulo/1/30/81/{filtrar}");
+            navigation.NavigateTo($"/paginacao/1/capitulo/1/30/81/{user}");
         }
-
-       
-
-        
     }
 
-
+   
 }

@@ -1,8 +1,6 @@
 using BlazorServerCms.Areas.Identity;
 using BlazorServerCms.Data;
-using business.Elementos.texto;
 using business.Group;
-using business.Join;
 using business;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -13,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using Newtonsoft.Json;
 using BlazorServerCms.servicos;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,11 +25,12 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
+
 
 var app = builder.Build();
 
@@ -61,21 +62,31 @@ app.MapFallbackToPage("/_Host");
 using (var scope = app.Services.CreateScope())
 {
     var contexto = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var email = builder.Configuration.GetConnectionString("Email");
+    var password = builder.Configuration.GetConnectionString("Senha");
+    var userASP = await userManager.FindByNameAsync(email);
 
-    if (!await contexto!.Set<Texto>().AnyAsync())
+    if (userASP == null)
     {
-        var imagem1 = new Texto
+        string[] rolesNames = { "Admin" };
+    IdentityResult result;
+    foreach (var namesRole in rolesNames)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(namesRole);
+        if (!roleExist)
         {
-            PalavrasTexto = "<img src='/ImagensGaleria/1.jpg' width='100' />"
-        };
-        var imagem2 = new Texto
-        {
-            PalavrasTexto = "<img src='/ImagensGaleria/2.jpg' width='100' />"
-        };
-        var imagem3 = new Texto
-        {
-            PalavrasTexto = "<img src='/ImagensGaleria/3.jpg' width='100' />"
-        };
+            result = await roleManager.CreateAsync(new IdentityRole(namesRole));
+        }
+    }    
+        var user = new IdentityUser { UserName = email, EmailConfirmed = true };
+        await userManager.CreateAsync(user, password);
+        await userManager.AddToRoleAsync(user, "Admin");
+    }
+
+    if (!await contexto!.Set<Story>().AnyAsync())
+    {
 
         var storyPadrao = new Story
         {
@@ -85,9 +96,6 @@ using (var scope = app.Services.CreateScope())
         };
 
         contexto.Add(storyPadrao);
-        contexto.Add(imagem1);
-        contexto.Add(imagem2);
-        contexto.Add(imagem3);
         contexto.SaveChanges();
 
 
@@ -154,32 +162,11 @@ using (var scope = app.Services.CreateScope())
                     SubSubGrupoId = null,
                     Layout = false,
                     Music = false,
-                    Tempo = 11000
-                };
-                pag.Div = null;
+                    Tempo = 11000,
+                    Content = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>"
+            };
 
                 contexto.Add(pag);
-                try
-                {
-                    contexto.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                var pagin = new Pagina(1);
-                pagin.setarElemento(new Texto
-                {
-                    PalavrasTexto = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>"
-                });
-
-
-                pag.Div = new List<PaginaContainer>();
-                foreach (var item in pagin.Div!)
-
-                    pag.IncluiDiv(item.Container!);
-
                 try
                 {
                     contexto.SaveChanges();
@@ -194,7 +181,6 @@ using (var scope = app.Services.CreateScope())
                 for (var i = 0; i < livro.ShoppingResults!.Length; i++)
                 {
                     Pagina pagina = new Pagina();
-                    pagina.Div = null;
                     pagina.Produto = new Produto
                     {
                         Descricao = livro.ShoppingResults[i].Title,
@@ -225,7 +211,6 @@ using (var scope = app.Services.CreateScope())
                         {
                             Pagina pagi = new Pagina();
                             pagi.Story = str;
-                            pagi.Div = null;
                             pagi.Tempo = 11000;
                             pagi.Titulo = name;
                             contexto.Pagina.Add(pagi);
@@ -251,4 +236,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-app.Run();
+
+
+    app.Run();
+

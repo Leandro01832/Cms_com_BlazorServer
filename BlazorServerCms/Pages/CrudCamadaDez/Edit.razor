@@ -1,5 +1,6 @@
 ﻿@page "/camadadez/edit/{Id:long}"
 @inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
@@ -95,8 +96,7 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao);
+    
     private CamadaDez exampleModel = new();
     
     long StoryId = 0;
@@ -121,40 +121,40 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await context.CamadaDez!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
-        var camadanove = await context.CamadaNove!.FirstAsync(l => l.Id == exampleModel.CamadaNoveId);
+        exampleModel = await repositoryPagina!.Context.CamadaDez!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        var camadanove = await repositoryPagina!.Context.CamadaNove!.FirstAsync(l => l.Id == exampleModel.CamadaNoveId);
         CamadaOitoId = camadanove.CamadaOitoId;
-        var camadaoito = await context.CamadaOito!.FirstAsync(l => l.Id == CamadaOitoId);
+        var camadaoito = await repositoryPagina!.Context.CamadaOito!.FirstAsync(l => l.Id == CamadaOitoId);
         CamadaSeteId = camadaoito.CamadaSeteId;
-        var camadasete = await context.CamadaSete!.FirstAsync(l => l.Id == CamadaSeteId);
+        var camadasete = await repositoryPagina!.Context.CamadaSete!.FirstAsync(l => l.Id == CamadaSeteId);
         CamadaSeisId = camadasete.CamadaSeisId;
-        var camadaseis = await context.CamadaSeis!.FirstAsync(l => l.Id == CamadaSeisId);
+        var camadaseis = await repositoryPagina!.Context.CamadaSeis!.FirstAsync(l => l.Id == CamadaSeisId);
         SubSubGrupoId = camadaseis.SubSubGrupoId;
-        var subsubgrupo = await context.SubSubGrupo!.FirstAsync(l => l.Id == SubSubGrupoId);
+        var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == SubSubGrupoId);
         SubGrupoId = subsubgrupo.SubGrupoId;
-        var subgrupo = await context.SubGrupo!.FirstAsync(l => l.Id == SubGrupoId);
+        var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == SubGrupoId);
         GrupoId = subgrupo.GrupoId;
-        var grupo = await context.Grupo!.FirstAsync(l => l.Id == GrupoId);
+        var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == GrupoId);
         SubStoryId = grupo.SubStoryId;
-        lista = await context.Story!
+        lista = await repositoryPagina!.Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         StoryId = lista.First().Id;
-        SubStory = await context.SubStory!.ToListAsync();
-        Grupo = await context.Grupo!.ToListAsync();
-        SubGrupo = await context.SubGrupo!.ToListAsync();
-        SubSubGrupo = await context.SubSubGrupo!.ToListAsync();
-        CamadaSeis = await context.CamadaSeis!.ToListAsync();
-        CamadaSete = await context.CamadaSete!.ToListAsync();
-        CamadaOito = await context.CamadaOito!.ToListAsync();
-        CamadaNove = await context.CamadaNove!.ToListAsync();
+        SubStory = await repositoryPagina!.Context.SubStory!.ToListAsync();
+        Grupo = await repositoryPagina!.Context.Grupo!.ToListAsync();
+        SubGrupo = await repositoryPagina!.Context.SubGrupo!.ToListAsync();
+        SubSubGrupo = await repositoryPagina!.Context.SubSubGrupo!.ToListAsync();
+        CamadaSeis = await repositoryPagina!.Context.CamadaSeis!.ToListAsync();
+        CamadaSete = await repositoryPagina!.Context.CamadaSete!.ToListAsync();
+        CamadaOito = await repositoryPagina!.Context.CamadaOito!.ToListAsync();
+        CamadaNove = await repositoryPagina!.Context.CamadaNove!.ToListAsync();
     }
 
     private async void HandleSubmit()
     {
         exampleModel.Filtro!.Nome = exampleModel.Nome;
-        context.Update(exampleModel);
-        context.Update(exampleModel.Filtro);
-        await context.SaveChangesAsync();
+        repositoryPagina!.Context.Update(exampleModel);
+        repositoryPagina!.Context.Update(exampleModel.Filtro);
+        await repositoryPagina!.Context.SaveChangesAsync();
         navigation.NavigateTo("camadadez");
         // Process the form
     }

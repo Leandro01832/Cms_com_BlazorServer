@@ -12,12 +12,14 @@ using Microsoft.JSInterop;
 using Models;
 using NVelocity.Runtime.Directive;
 using System;
+using Google.Apis.Services;
+using Google.Apis.YouTube.v3;
 
 namespace BlazorCms.Client.Pages
 {
     public class RenderizarBase : ComponentBase
     {
-        
+
 
         [Inject] RepositoryPagina? repositoryPagina { get; set; }
 
@@ -27,10 +29,9 @@ namespace BlazorCms.Client.Pages
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] IJSRuntime? js { get; set; }
 
-        
+
         public ClassArray Arr = new ClassArray();
-        static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-        ApplicationDbContext context = new ApplicationDbContext(conexao);
+
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
@@ -63,16 +64,26 @@ namespace BlazorCms.Client.Pages
         [Parameter] public string? filtrar { get; set; } = null;
 
         protected override void OnAfterRender(bool firstRender = false)
-        {               
-                            
+        {
+
         }
 
         protected override async Task OnParametersSetAsync()
         {
             if (repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
+            {
                 Mensagem = "aguarde um momento...";
+                var lista = await repositoryPagina.buscarCapitulo(capitulo);
+                repositoryPagina.paginas!.AddRange(lista);
+
+            }
+
             else
+            {
+                Mensagem = null;
                 await renderizar();
+            }
+
 
             if (repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count > 0
                 && auto == 1)
@@ -95,7 +106,7 @@ namespace BlazorCms.Client.Pages
         {
             if (indice == 0)
                 indice = 1;
-            if(compartilhante == null)
+            if (compartilhante == null)
                 compartilhante = "user";
             if (repositoryPagina!.paginas == null || !repositoryPagina.aguarde &&
                repositoryPagina.paginas.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
@@ -106,22 +117,22 @@ namespace BlazorCms.Client.Pages
                 if (repositoryPagina.paginas == null)
                 {
                     repositoryPagina.paginas = new List<Pagina>();
-                    var lista = await repositoryPagina.buscarCapitulo(context, capitulo);
+                    var lista = await repositoryPagina.buscarCapitulo(capitulo);
                     repositoryPagina.paginas.AddRange(lista);
                     repositoryPagina.aguarde = false;
-                    await repositoryPagina.buscarCapitulos(context);
+                    await repositoryPagina.buscarCapitulos();
                 }
                 else
                 {
-                    var lista = await repositoryPagina.buscarCapitulo(context, capitulo);
+                    var lista = await repositoryPagina.buscarCapitulo(capitulo);
                     repositoryPagina.paginas.AddRange(lista);
                     repositoryPagina.aguarde = false;
                 }
             }
             else if (repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
-            Mensagem = "aguarde um momento...";
-                
-            
+                Mensagem = "aguarde um momento...";
+
+
             //try
             //{
             //    await js!.InvokeAsync<object>("FullScreen", "1");
@@ -133,15 +144,13 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        
-
 
         protected async Task renderizar()
         {
             await Verificar(capitulo);
             var lista = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo && !p.Layout).ToList();
             Pagina pag = lista.First();
-            
+
 
             if (filtrar == null && substory == null)
             {
@@ -159,7 +168,7 @@ namespace BlazorCms.Client.Pages
                 quantidadePaginas = lista.Count();
                 //  ViewBag.story = pagina.Story.Nome;
                 string html = "";
-                if (Model!.Div!.Count > 0)
+                if (Model!.Content != null)
                 {
                     if (!string.IsNullOrEmpty(Model.Sobreescrita))
                         html = Model.Sobreescrita;
@@ -187,7 +196,7 @@ namespace BlazorCms.Client.Pages
                     var page = repositoryPagina.paginas!.FirstOrDefault(p => p.Id == Model.Comentario);
                     if (page == null)
                     {
-                        page = await context.Pagina!.FirstAsync(p => p.Id == Model.Comentario);
+                        page = await repositoryPagina.Context.Pagina!.FirstAsync(p => p.Id == Model.Comentario);
                         await Verificar(page!.Story!.PaginaPadraoLink);
                         page = repositoryPagina.paginas!.FirstOrDefault(p => p.Id == Model.Comentario);
                     }
@@ -293,14 +302,14 @@ namespace BlazorCms.Client.Pages
 
                 }
 
-                
+
             }
             else
             {
                 List<Pagina>? listaComConteudo = null;
                 if (filtrar != null)
                 {
-                    var livro = await context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+                    var livro = await repositoryPagina.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
                     if (livro != null && redirecionar == null)
                         navigation!.NavigateTo($"{livro.url}/{livro.Capitulo}/{filtrar}/1");
 
@@ -487,22 +496,22 @@ namespace BlazorCms.Client.Pages
                         html = await repositoryPagina!.renderizarPagina(Model);
 
                     proximo = indice + 1;
-                    anterior = indice - 1;                    
+                    anterior = indice - 1;
 
                     var Filtro = pag.Story!.Filtro!.First(f => f.CamadaNoveId == group8!.Id);
                     filtro = pag.Story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
-                }               
+                }
             }
 
-           // if(capitulo == 0)
-                try
-                {
-                    await firstInput.FocusAsync();
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+            // if(capitulo == 0)
+            try
+            {
+                await firstInput.FocusAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             try
             {
@@ -530,7 +539,7 @@ namespace BlazorCms.Client.Pages
             repositoryPagina.paginas!.FirstOrDefault(p => p.Story!.PaginaPadraoLink ==
             capitulo)!.Story!.Quantidade == 0)
             {
-                quant = buscarCount( conexao, capitulo);
+                quant = buscarCount(RepositoryPagina.conexao, capitulo);
                 repositoryPagina.paginas!.First(p => p.Story!.PaginaPadraoLink ==
                  capitulo)!.Story!.Quantidade = quant;
 
@@ -547,7 +556,7 @@ namespace BlazorCms.Client.Pages
             if (repositoryPagina.paginas!.Count != 0 &&
              repositoryPagina.paginas!.FirstOrDefault()!.Story!.QuantComentario == 0)
             {
-                comentarios = CountComentarios(null!, null!, new Story().GetType(), conexao);
+                comentarios = CountComentarios(null!, null!, new Story().GetType(), RepositoryPagina.conexao);
                 repositoryPagina.paginas!.First()!.Story!.QuantComentario = comentarios;
             }
             else if (repositoryPagina.paginas!.Count != 0)
@@ -557,14 +566,14 @@ namespace BlazorCms.Client.Pages
             {
                 repositoryPagina.paginas!.RemoveAll(p => p.Story!.PaginaPadraoLink == capitulo);
                 repositoryPagina.paginas
-                .AddRange(await repositoryPagina.buscarCapitulo(context, (int) capitulo!));
+                .AddRange(await repositoryPagina.buscarCapitulo((int)capitulo!));
             }
 
             if (repositoryPagina.paginas!.Where(p => p.Story!.Comentario).ToList().Count != comentarios)
             {
                 repositoryPagina.paginas!.RemoveAll(p => p.Story!.Comentario);
                 repositoryPagina.paginas
-                .AddRange(await repositoryPagina.includes(context)
+                .AddRange(await repositoryPagina.includes()
                 .Where(p => p.Story!.Comentario).ToListAsync());
             }
 
@@ -617,7 +626,7 @@ namespace BlazorCms.Client.Pages
         private List<Pagina> retornarListaComConteudo(List<Pagina> content, List<Pagina> produtos, int grupo)
         {
             int pular = (int)(content.Count * 0.2);
-            List<Pagina> conteudo = content.Where(p => p.Div!.Count > 0).ToList();
+            List<Pagina> conteudo = content.Where(p => p!.Content != null).ToList();
             List<Pagina> conteudoPorGrupo = conteudo.Skip((grupo - 1) * pular).Take(pular).ToList();
             List<Pagina> listaComConteudo = new List<Pagina>();
             int interacao = 0;
@@ -642,25 +651,48 @@ namespace BlazorCms.Client.Pages
         {
             if (auto == 1)
             {
-                Timer!.SetTimer(p.Tempo);
-                Timer._timer!.Elapsed += _timer_Elapsed;
                 try
                 {
+                    if (p.Content != null && p.Content.Contains("iframe"))
+                    {
+                        var arr = p.Content.Split("/");
+                        var id_video = "";
+                        for (var index = 0; index < arr.Length; index++)
+                        {
+                            if (arr[index] == "embed")
+                            {
+                                var text = arr[index + 1];
+                                var arr2 = text.Split("?");
+                                id_video = arr2[0];
+                                break;
+                            }
+                        }
+                        var tempoVideo = await GetYouTubeVideo(id_video);
+                        await js!.InvokeAsync<object>("PreencherProgressBar", tempoVideo);
+                        Timer!.SetTimer(tempoVideo);
+                    }
+
+                    else
+                    {
                         await js!.InvokeAsync<object>("PreencherProgressBar", p.Tempo);
+                        Timer!.SetTimer(p.Tempo);
+                    }
+                        
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
+                Timer._timer!.Elapsed += _timer_Elapsed;
                 Console.WriteLine("Timer Started.");
-            }            
+            }
         }
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            if(auto == 1)
+            if (auto == 1)
             {
-                if(substory == null)
+                if (substory == null)
                 {
                     if (capitulo == 0 && indice >= quantidadePaginas)
                         navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/1/1/{compartilhante}");
@@ -782,7 +814,7 @@ namespace BlazorCms.Client.Pages
 
         protected void TeclaPressionada(KeyboardEventArgs args)
         {
-            if(substory == null)
+            if (substory == null)
             {
                 if (args.Key == "Enter" && capitulo == 0)
                 {
@@ -799,7 +831,7 @@ namespace BlazorCms.Client.Pages
             {
                 navegarSubgrupos();
             }
-           
+
         }
 
         protected void Casinha()
@@ -815,14 +847,32 @@ namespace BlazorCms.Client.Pages
             navigation!.NavigateTo(url);
         }
 
-        protected async void Listar()
+        private async Task<int> GetYouTubeVideo(string id_video)
         {
-            auto = 0;
-            var url = $"/paginacao/1/capitulo/1/30/81/{compartilhante}";
-            navigation!.NavigateTo(url);
+            int calculo = 0;
+            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = "",
+                ApplicationName = this.GetType().ToString()
+            });
+            var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
+            searchListRequest.Id = id_video;
+            var search = await searchListRequest.ExecuteAsync();
+            var duration = search.Items[0].ContentDetails.Duration;
+            if (duration.Contains("M"))
+            {
+                duration = duration.Replace("PT", "");
+                var minutos = int.Parse(duration.Split('M')[0]);
+                var segundos = int.Parse(duration.Replace(minutos.ToString() + "M", "").Replace("S", ""));
+                var minutosEmMileSegundos = minutos * 60 * 1000;
+                var segundosEmMileSegundos = segundos * 1000;
+                calculo = minutosEmMileSegundos + segundosEmMileSegundos;
+            }
+            else
+                calculo = int.Parse(duration.Replace("PT", "").Replace("S", "")) * 1000;
 
-            
+
+            return calculo;
         }
-
     }
 }

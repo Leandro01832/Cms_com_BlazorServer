@@ -1,5 +1,6 @@
 ﻿@page "/subgrupo/edit/{Id:long}"
 @inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
@@ -41,8 +42,6 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao);
     private SubGrupo exampleModel = new();
 
     long StoryId = 0;
@@ -55,23 +54,23 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await context.SubGrupo!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
-        var grupo = await context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+        exampleModel = await repositoryPagina!.Context.SubGrupo!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
         SubStoryId = grupo.SubStoryId;
-        lista = await context.Story!
+        lista = await repositoryPagina!.Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         StoryId = lista.First().Id;
-        SubStory = await context.SubStory!.ToListAsync();
-        Grupo = await context.Grupo!.ToListAsync();
+        SubStory = await repositoryPagina!.Context.SubStory!.ToListAsync();
+        Grupo = await repositoryPagina!.Context.Grupo!.ToListAsync();
         
     }
 
     private async void HandleSubmit()
     {
         exampleModel.Filtro!.Nome = exampleModel.Nome;
-        context.Update(exampleModel);
-        context.Update(exampleModel.Filtro);
-        await context.SaveChangesAsync();
+        repositoryPagina!.Context.Update(exampleModel);
+        repositoryPagina!.Context.Update(exampleModel.Filtro);
+        await repositoryPagina!.Context.SaveChangesAsync();
         navigation.NavigateTo("subgrupo");
         // Process the form
     }

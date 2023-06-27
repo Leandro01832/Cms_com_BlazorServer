@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BlazorServerCms.Data.Migrations
+namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace BlazorServerCms.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "6.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -70,139 +70,6 @@ namespace BlazorServerCms.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Compartilhamento");
-                });
-
-            modelBuilder.Entity("business.div.Container", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("AlignItems")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AlignSelf")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BorderRadius")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClassesModificadoras")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Content")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FlexDirection")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FlexWrap")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<string>("JustifyContent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Ordem")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Padding")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Container");
-                });
-
-            modelBuilder.Entity("business.div.Div", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("AlignItems")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AlignSelf")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("BorderRadius")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClassesModificadoras")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Content")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FlexDirection")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FlexWrap")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<string>("JustifyContent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Ordem")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Padding")
-                        .HasColumnType("int");
-
-                    b.Property<long>("Pagina_")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Div", (string)null);
-                });
-
-            modelBuilder.Entity("business.Elementos.texto.Texto", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("PalavrasTexto")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Texto", (string)null);
                 });
 
             modelBuilder.Entity("business.Filtro", b =>
@@ -493,51 +360,6 @@ namespace BlazorServerCms.Data.Migrations
                     b.ToTable("ItemPedido");
                 });
 
-            modelBuilder.Entity("business.Join.DivContainer", b =>
-                {
-                    b.Property<long?>("DivId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ContainerId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("DivId", "ContainerId");
-
-                    b.HasIndex("ContainerId");
-
-                    b.ToTable("DivContainer");
-                });
-
-            modelBuilder.Entity("business.Join.DivElemento", b =>
-                {
-                    b.Property<long?>("DivId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ElementoId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("DivId", "ElementoId");
-
-                    b.HasIndex("ElementoId");
-
-                    b.ToTable("DivElemento");
-                });
-
-            modelBuilder.Entity("business.Join.PaginaContainer", b =>
-                {
-                    b.Property<long?>("ContainerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("PaginaId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ContainerId", "PaginaId");
-
-                    b.HasIndex("PaginaId");
-
-                    b.ToTable("PaginaContainer");
-                });
-
             modelBuilder.Entity("business.Livro", b =>
                 {
                     b.Property<long>("Id")
@@ -592,6 +414,9 @@ namespace BlazorServerCms.Data.Migrations
 
                     b.Property<long?>("Comentario")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
@@ -1162,63 +987,6 @@ namespace BlazorServerCms.Data.Migrations
                     b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("business.Join.DivContainer", b =>
-                {
-                    b.HasOne("business.div.Container", "Container")
-                        .WithMany("Div")
-                        .HasForeignKey("ContainerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.div.Div", "Div")
-                        .WithMany("Container")
-                        .HasForeignKey("DivId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Container");
-
-                    b.Navigation("Div");
-                });
-
-            modelBuilder.Entity("business.Join.DivElemento", b =>
-                {
-                    b.HasOne("business.div.Div", "Div")
-                        .WithMany("Elemento")
-                        .HasForeignKey("DivId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Elementos.texto.Texto", "Elemento")
-                        .WithMany()
-                        .HasForeignKey("ElementoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Div");
-
-                    b.Navigation("Elemento");
-                });
-
-            modelBuilder.Entity("business.Join.PaginaContainer", b =>
-                {
-                    b.HasOne("business.div.Container", "Container")
-                        .WithMany("PaginaContainer")
-                        .HasForeignKey("ContainerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Pagina", "Pagina")
-                        .WithMany("Div")
-                        .HasForeignKey("PaginaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Container");
-
-                    b.Navigation("Pagina");
-                });
-
             modelBuilder.Entity("business.Pagina", b =>
                 {
                     b.HasOne("business.Group.CamadaDez", "CamadaDez")
@@ -1346,20 +1114,6 @@ namespace BlazorServerCms.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("business.div.Container", b =>
-                {
-                    b.Navigation("Div");
-
-                    b.Navigation("PaginaContainer");
-                });
-
-            modelBuilder.Entity("business.div.Div", b =>
-                {
-                    b.Navigation("Container");
-
-                    b.Navigation("Elemento");
-                });
-
             modelBuilder.Entity("business.Filtro", b =>
                 {
                     b.Navigation("CamadaDez");
@@ -1453,8 +1207,6 @@ namespace BlazorServerCms.Data.Migrations
 
             modelBuilder.Entity("business.Pagina", b =>
                 {
-                    b.Navigation("Div");
-
                     b.Navigation("Produto");
                 });
 

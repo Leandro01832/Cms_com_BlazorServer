@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xrMcrLp4fo8ApZfFx4RunyBXmcrk5isWPbdKApbwOK4=",
+  "Hash": "BXtAbaWkj5dJ6oFQrztGeSBmV5j86fI92vGUX9ChQ+0=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -1309,23 +1309,6 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Dropdown.js",
-      "SourceId": "BlazorServerCms",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\",
-      "BasePath": "_content/BlazorServerCms",
-      "RelativePath": "Dropdown.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Dropdown.js"
-    },
-    {
       "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\favicon.ico",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
@@ -1358,6 +1341,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JSFunctions.js"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\livro.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "livro.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\livro.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\story.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "story.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\story.jpg"
     },
     {
       "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\svg\\house.svg",

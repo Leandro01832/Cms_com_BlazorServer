@@ -3,12 +3,51 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace BlazorServerCms.Data.Migrations
+namespace BlazorServerCms.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class Inicio : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Comentario",
                 columns: table => new
@@ -39,56 +78,6 @@ namespace BlazorServerCms.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Compartilhamento", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Container",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ordem = table.Column<int>(type: "int", nullable: false),
-                    BorderRadius = table.Column<int>(type: "int", nullable: false),
-                    Height = table.Column<int>(type: "int", nullable: false),
-                    Width = table.Column<int>(type: "int", nullable: false),
-                    FlexWrap = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JustifyContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FlexDirection = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlignItems = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlignSelf = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClassesModificadoras = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Padding = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Container", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Div",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ordem = table.Column<int>(type: "int", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Padding = table.Column<int>(type: "int", nullable: false),
-                    Height = table.Column<int>(type: "int", nullable: false),
-                    Width = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<bool>(type: "bit", nullable: false),
-                    BorderRadius = table.Column<int>(type: "int", nullable: false),
-                    Pagina_ = table.Column<long>(type: "bigint", nullable: false),
-                    FlexWrap = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JustifyContent = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FlexDirection = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlignItems = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlignSelf = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClassesModificadoras = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Div", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,19 +141,6 @@ namespace BlazorServerCms.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Texto",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PalavrasTexto = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Texto", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "VideoIncorporado",
                 columns: table => new
                 {
@@ -179,25 +155,107 @@ namespace BlazorServerCms.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DivContainer",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    ContainerId = table.Column<long>(type: "bigint", nullable: false),
-                    DivId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DivContainer", x => new { x.DivId, x.ContainerId });
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DivContainer_Container_ContainerId",
-                        column: x => x.ContainerId,
-                        principalTable: "Container",
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DivContainer_Div_DivId",
-                        column: x => x.DivId,
-                        principalTable: "Div",
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -228,30 +286,6 @@ namespace BlazorServerCms.Data.Migrations
                         name: "FK_Filtro_Story_StoryId",
                         column: x => x.StoryId,
                         principalTable: "Story",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DivElemento",
-                columns: table => new
-                {
-                    ElementoId = table.Column<long>(type: "bigint", nullable: false),
-                    DivId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DivElemento", x => new { x.DivId, x.ElementoId });
-                    table.ForeignKey(
-                        name: "FK_DivElemento_Div_DivId",
-                        column: x => x.DivId,
-                        principalTable: "Div",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DivElemento_Texto_ElementoId",
-                        column: x => x.ElementoId,
-                        principalTable: "Texto",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -504,6 +538,7 @@ namespace BlazorServerCms.Data.Migrations
                     Music = table.Column<bool>(type: "bit", nullable: false),
                     Comentario = table.Column<long>(type: "bigint", nullable: true),
                     ImagemContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Layout = table.Column<bool>(type: "bit", nullable: false),
                     FlexDirection = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AlignItems = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -563,30 +598,6 @@ namespace BlazorServerCms.Data.Migrations
                         column: x => x.SubSubGrupoId,
                         principalTable: "SubSubGrupo",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PaginaContainer",
-                columns: table => new
-                {
-                    ContainerId = table.Column<long>(type: "bigint", nullable: false),
-                    PaginaId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PaginaContainer", x => new { x.ContainerId, x.PaginaId });
-                    table.ForeignKey(
-                        name: "FK_PaginaContainer_Container_ContainerId",
-                        column: x => x.ContainerId,
-                        principalTable: "Container",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PaginaContainer_Pagina_PaginaId",
-                        column: x => x.PaginaId,
-                        principalTable: "Pagina",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -660,6 +671,45 @@ namespace BlazorServerCms.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CamadaDez_CamadaNoveId",
                 table: "CamadaDez",
                 column: "CamadaNoveId");
@@ -683,16 +733,6 @@ namespace BlazorServerCms.Data.Migrations
                 name: "IX_CamadaSete_CamadaSeisId",
                 table: "CamadaSete",
                 column: "CamadaSeisId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DivContainer_ContainerId",
-                table: "DivContainer",
-                column: "ContainerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DivElemento_ElementoId",
-                table: "DivElemento",
-                column: "ElementoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Filtro_StoryId",
@@ -770,11 +810,6 @@ namespace BlazorServerCms.Data.Migrations
                 column: "SubSubGrupoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaginaContainer_PaginaId",
-                table: "PaginaContainer",
-                column: "PaginaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SubGrupo_GrupoId",
                 table: "SubGrupo",
                 column: "GrupoId");
@@ -793,16 +828,25 @@ namespace BlazorServerCms.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "Comentario");
 
             migrationBuilder.DropTable(
                 name: "Compartilhamento");
-
-            migrationBuilder.DropTable(
-                name: "DivContainer");
-
-            migrationBuilder.DropTable(
-                name: "DivElemento");
 
             migrationBuilder.DropTable(
                 name: "ImagemProduto");
@@ -814,28 +858,22 @@ namespace BlazorServerCms.Data.Migrations
                 name: "Livro");
 
             migrationBuilder.DropTable(
-                name: "PaginaContainer");
-
-            migrationBuilder.DropTable(
                 name: "Telefone");
 
             migrationBuilder.DropTable(
                 name: "VideoIncorporado");
 
             migrationBuilder.DropTable(
-                name: "Div");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Texto");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Pedido");
 
             migrationBuilder.DropTable(
                 name: "Produto");
-
-            migrationBuilder.DropTable(
-                name: "Container");
 
             migrationBuilder.DropTable(
                 name: "Pagina");

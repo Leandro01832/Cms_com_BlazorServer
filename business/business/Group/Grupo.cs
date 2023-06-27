@@ -13,6 +13,7 @@ namespace business.Group
         public string? Nome { get; set; }
         public virtual List<Pagina>? Pagina { get; set; }
              public virtual List<SubGrupo>? SubGrupo { get; set; }
+            [Range(1, 1000000, ErrorMessage ="Informe uma sub-story")]
             public Int64 SubStoryId { get; set; }
             public virtual SubStory? SubStory { get; set; }
             public virtual Filtro? Filtro { get; set; }

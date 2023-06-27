@@ -1,0 +1,53 @@
+﻿@page "/livro-compartilhado"
+@inject RepositoryPagina repositoryPagina
+@inject NavigationManager navigation
+<h3>Livro compartilhado</h3>
+
+<div class="container">
+    @if(livro == null)
+    {
+        
+    }
+    else
+    {
+        <h3>@livro.url - Capitulo @livro.Capitulo</h3>
+        <br />
+        <label>Nº do versiculo</label>
+        <input type="text" @bind="verso" placeholder="Nº do versiculo" />
+        <a href="#" onclick="@(() => navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{verso}/1/user"))"
+           class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+        </a>
+        <br />
+
+        <label>Nº da pasta</label>
+        <input type="text" @bind="pasta" placeholder="Nº da pasta" />
+        <a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{livro.Capitulo}/pasta-{pasta}"))"
+           class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+        </a>
+
+        <img src="/livro.jpg" width="700" />
+    }
+    
+    
+</div>
+
+@code {
+    int verso = 1;
+    int pasta = 1;
+    Livro livro = new Livro { Capitulo = 1, url = "" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+        if (livro == null)
+            navigation.NavigateTo($"/mensagem/Voce ainda não esta compartilhando nenhum livro");
+        
+    }
+
+}

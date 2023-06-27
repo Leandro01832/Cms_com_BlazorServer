@@ -20,8 +20,8 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Config.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlnLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudCamadaDez/Create.razor]
@@ -168,12 +168,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN1YkdydXBvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/LivroCompartilhado.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGl2cm9Db21wYXJ0aWxoYWRvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Sumario.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3VtYXJpby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Shared/Alerta.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEFsZXJ0YS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Shared/LoginDisplay.razor]
