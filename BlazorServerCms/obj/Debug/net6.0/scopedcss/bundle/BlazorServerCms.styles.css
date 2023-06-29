@@ -304,6 +304,15 @@ p[b-k8aihg5em2] {
     font-size: large;
 }
 
+#inputime[b-k8aihg5em2] {
+    width: 60px;
+    font-size: large;
+}
+
+#inputenter[b-k8aihg5em2] {
+    width: 10px;
+}
+
 .ImagemProduto[b-k8aihg5em2] {
     width: 100%;
 }
@@ -384,6 +393,14 @@ Informativo[b-k8aihg5em2] {
 .navbar[b-k8aihg5em2] {
     width: 100%;
     background-color: transparent;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navegacao[b-k8aihg5em2] {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
 }
 
 .progressbar[b-k8aihg5em2] {

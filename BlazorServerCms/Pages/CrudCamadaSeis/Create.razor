@@ -1,5 +1,6 @@
 ﻿@page "/camadaseis/create"
 @inject NavigationManager navigation
+@attribute [Authorize(Roles = "Admin")]
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />

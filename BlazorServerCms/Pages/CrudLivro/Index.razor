@@ -1,5 +1,7 @@
 ﻿@page "/livro"
 @inherits IndexCamdaDezBase
+@attribute [Authorize(Roles = "Admin")]
+
 @if (livros == null)
 {
 <p><em>Carregando...</em></p>

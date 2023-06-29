@@ -1,6 +1,7 @@
 ﻿using BlazorServerCms.Data;
 using business;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NVelocity;
@@ -17,7 +18,7 @@ namespace BlazorServerCms.servicos
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
         public static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-        public ApplicationDbContext Context =  new ApplicationDbContext(conexao);
+        public ApplicationDbContext Context = new ApplicationDbContext(conexao);
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
@@ -64,6 +65,28 @@ namespace BlazorServerCms.servicos
         //   }
         //  return cap;
         //}  
+
+        public int buscarCount()
+        {
+            SqlConnection con;
+            SqlCommand cmd;
+            var _TotalRegistros = 0;
+            try
+            {
+                using (con = new SqlConnection(conexao))
+                {
+                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Pagina", con);
+                    con.Open();
+                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);
+                    con.Close();
+                }
+            }
+            catch (Exception)
+            {
+                _TotalRegistros = 0;
+            }
+            return _TotalRegistros;
+        }
 
         public  async Task<string> Verificar(string url)
         {
@@ -116,19 +139,12 @@ namespace BlazorServerCms.servicos
        
 
         public string renderizar(Pagina pagina, string TextoHtml)
-        {
-                      
-
+        {     
             Velocity.Init();
             var Modelo = new
             {
-                Musicbool = pagina.Music,
-                arquivoMusic = pagina.ArquivoMusic,
                 Pagina = pagina,
-                titulo = pagina.Titulo,
-                espacamento = 0,
-                indice = 1
-
+                titulo = pagina.Titulo
             };
 
             var velocitycontext = new VelocityContext();
@@ -138,14 +154,12 @@ namespace BlazorServerCms.servicos
             new StringReader(TextoHtml));
             
             return html.ToString();
-        }
-
-        
+        }        
 
         public async Task<List<Pagina>> buscarCapitulo( int capitulo)
         {
             return await includes()
-            .Where(p => p.Story!.PaginaPadraoLink == capitulo && !p.Layout).ToListAsync();
+            .Where(p => p.Story!.PaginaPadraoLink == capitulo).ToListAsync();
         }
 
         public async Task buscarCapitulos()

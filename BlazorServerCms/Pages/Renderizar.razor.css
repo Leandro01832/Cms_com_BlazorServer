@@ -33,6 +33,15 @@ p {
     font-size: large;
 }
 
+#inputime {
+    width: 60px;
+    font-size: large;
+}
+
+#inputenter {
+    width: 10px;
+}
+
 .ImagemProduto {
     width: 100%;
 }
@@ -113,6 +122,14 @@ Informativo {
 .navbar {
     width: 100%;
     background-color: transparent;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navegacao {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
 }
 
 .progressbar {

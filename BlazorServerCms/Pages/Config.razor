@@ -1,5 +1,4 @@
 ﻿@page "/config"
-
 @attribute [Authorize(Roles = "Admin")]
 @inject NavigationManager navigation
 @inject RepositoryPagina? repositoryPagina
@@ -9,11 +8,34 @@
 
 @if(Mensagem != null)
 {
+    <a href="/livro">livros</a>
+    <a href="/story">stories</a>
+    <a href="/sub-story">sub-stories</a>
+    <a href="/grupo">grupos</a>
+    <a href="/sub-grupo">sub-grupos</a>
+    <a href="/sub-sub-grupo">sub-sub-grupos</a>
+    <a href="/camadaseis">camada seis</a>
+    <a href="/camadasete">camada sete</a>
+    <a href="/camadaoito">camada oito</a>
+    <a href="/camadanove">camada nove</a>
+    <a href="/camadadez">camada dez</a>
     <p>Mensagem</p><br />
     <a class="btn btn-danger" href="/story/create" >Criar story</a>
 }
 else
 {
+    <a href="/livro">livros</a>
+    <a href="/story" >stories</a>
+    <a href="/sub-story">sub-stories</a>
+    <a href="/grupo">grupos</a>
+    <a href="/sub-grupo">sub-grupos</a>
+    <a href="/sub-sub-grupo">sub-sub-grupos</a>
+    <a href="/camadaseis">camada seis</a>
+    <a href="/camadasete">camada sete</a>
+    <a href="/camadaoito">camada oito</a>
+    <a href="/camadanove">camada nove</a>
+    <a href="/camadadez">camada dez</a>
+
     <EditForm Model="data" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />

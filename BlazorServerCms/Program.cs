@@ -152,17 +152,12 @@ using (var scope = app.Services.CreateScope())
                 var pag = new Pagina()
                 {
                     Data = DateTime.Now,
-                    ArquivoMusic = "",
                     Titulo = "Story - " + str.Nome,
                     StoryId = Story.Id,
-                    Sobreescrita = null,
                     SubStoryId = null,
                     GrupoId = null,
                     SubGrupoId = null,
                     SubSubGrupoId = null,
-                    Layout = false,
-                    Music = false,
-                    Tempo = 11000,
                     Content = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>"
             };
 
@@ -191,7 +186,6 @@ using (var scope = app.Services.CreateScope())
                         QuantEstoque = 10
                     };
                     pagina.Story = str;
-                    pagina.Tempo = 11000;
                     pagina.Titulo = name;
                     contexto.Pagina!.Add(pagina);
                     try
@@ -211,7 +205,6 @@ using (var scope = app.Services.CreateScope())
                         {
                             Pagina pagi = new Pagina();
                             pagi.Story = str;
-                            pagi.Tempo = 11000;
                             pagi.Titulo = name;
                             contexto.Pagina.Add(pagi);
                             try

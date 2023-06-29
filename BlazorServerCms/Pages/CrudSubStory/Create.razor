@@ -2,6 +2,7 @@
 @inject NavigationManager navigation
 @inject IJSRuntime js
 @inject RepositoryPagina repositoryPagina
+@attribute [Authorize(Roles = "Admin")]
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />

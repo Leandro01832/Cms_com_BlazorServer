@@ -394,9 +394,6 @@ namespace BlazorServerCms.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ArquivoMusic")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long?>("CamadaDezId")
                         .HasColumnType("bigint");
 
@@ -431,15 +428,6 @@ namespace BlazorServerCms.Migrations
                     b.Property<string>("ImagemContent")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Layout")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Music")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Sobreescrita")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("StoryId")
                         .HasColumnType("bigint");
 
@@ -451,9 +439,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<long?>("SubSubGrupoId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("Tempo")
-                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .IsRequired()

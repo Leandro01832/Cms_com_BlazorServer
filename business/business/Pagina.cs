@@ -12,13 +12,8 @@ namespace business
         {
             if(Pagina.entity)
             {
-                Comentario = null;
-             //   Div = null;              
-                Music = false;
-                Tempo = 11000;
+                Comentario = null;   
                 Data = DateTime.Now;
-                ArquivoMusic = "";
-                Sobreescrita = null;
                 SubStoryId = null;
                 GrupoId = null;
                 SubGrupoId = null;
@@ -193,14 +188,7 @@ namespace business
 
         [Required(ErrorMessage = "O titulo é necessário")]
         [Display(Name = "Titulo da pagina")]
-        public string? Titulo { get; set; }      
-
-        public string? Sobreescrita { get; set; }      
-
-        [Display(Name = "Arquivo")]
-        public string? ArquivoMusic { get; set; }       
-
-        public bool Music { get; set; }      
+        public string? Titulo { get; set; }        
 
         public long? Comentario { get; set; } 
 
@@ -217,32 +205,9 @@ namespace business
         [NotMapped]
         public string NomeComId { get { return Titulo + " chave - " + Id.ToString(); } }
 
-        //Para Programador
-        public bool Layout { get; set; }
-
         public string FlexDirection { get { return flexDirection; } set { flexDirection = value; } }
         
         public string AlignItems { get { return alignItems; } set { alignItems = value; } }
-
-        public int Tempo { get; set; }       
-        
-        //public void IncluiDiv(Container container)
-        //{
-        //    this.Div!.Add(new PaginaContainer { Container = container, Pagina = this });
-        //}
-        
-        //public void setarElemento(Texto elemento)
-        //{
-        //    this.Div!.First(d => d.Container!.Content).Container!.Div!
-        //    .First(d => d.Div!.Content).Div!.Elemento = new List<DivElemento>();
-        //    this.Div!.First(d => d.Container!.Content).Container!.Div!
-        //    .First(d => d.Div!.Content).Div!.Elemento!.Add(new DivElemento
-        //    {
-        //        Div = this.Div!.First(d => d.Container!.Content).Container!.Div!
-        //        .First(d => d.Div!.Content).Div,
-        //        Elemento = elemento                
-        //    });
-        //}
        
     }
 }

@@ -108,8 +108,14 @@ else
         </div>
         <div>
             <label for="tempo" > <strong>Time em segundos (s):</strong> </label>
-            <input type="number" value="@tempo" id="tempo" name="tempo" max="600" min="15" >
-            <a href="#" onclick="alterou()">Alterar time</a>
+            <input type="number" @bind-value="tempo" @bind-value:event="oninput" max="600" min="15" >
+            
+
+            <br />
+
+            <label for="tempoproduto"> <strong>Time em segundos (s):</strong> </label>
+            <input type="number" @bind-value="tempoproduto" @bind-value:event="oninput" max="600" min="5">
+            
         </div>
 
     </div>
@@ -132,7 +138,7 @@ else
                 void Clicou()
                 {
                     auto = 0;
-                    navigation.NavigateTo($"/renderizar/{Capitulo}/{Versiculo}/1/{compartilhante}");
+                    navigation.NavigateTo($"/renderizar/{Capitulo}/{Versiculo}/1/{tempoproduto}/{compartilhante}");
                 }
 
                     <div class="produto" onclick="cancelar()">
@@ -175,18 +181,18 @@ else
     string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
 
     [Parameter] public int? pagina { get; set; } [Parameter] public string? ordenar { get; set; }
-    [Parameter] public int? auto { get; set; } [Parameter] public int? tempo { get; set; }
+    [Parameter] public int? auto { get; set; } [Parameter] public int? tempo { get; set; } = 20;
     [Parameter] public int? tamanho { get; set; } [Parameter] public string? compartilhante { get; set; }
 
     string? Mensagem { get; set; }
     List<Pagina>? Model { get; set; }
     List<Pagina>? lista { get; set; }
+    int tempoproduto { get; set; } = 11;
 
 
     protected override async Task OnInitializedAsync()
     {
-        var totalDePaginas = buscarCount(conexao);
-        if(repositoryPagina.paginas!.Where(p => !p.Layout).ToList().Count != totalDePaginas)
+        if (repositoryPagina.paginas!.ToList().Count != repositoryPagina.buscarCount())
         {
             Mensagem = "Aguarde um momento...";
         }
@@ -254,27 +260,6 @@ else
         return applicationDbContext;
     }
 
-    private static int buscarCount(string conexao)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        var _TotalRegistros = 0;
-        try
-        {
-            using (con = new SqlConnection(conexao))
-            {
-                cmd = new SqlCommand($"SELECT COUNT(*) FROM Pagina as P where p.Layout='False'", con);
-                con.Open();
-                _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);
-                con.Close();
-            }
-        }
-        catch (Exception)
-        {
-            _TotalRegistros = 0;
-        }
-        return _TotalRegistros;
-    }
 
     private void StartTimer()
     {

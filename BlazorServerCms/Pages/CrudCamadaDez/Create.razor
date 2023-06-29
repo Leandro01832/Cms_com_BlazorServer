@@ -1,6 +1,7 @@
 ﻿@page "/camadadez/create"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
+@attribute [Authorize(Roles = "Admin")]
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />

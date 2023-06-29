@@ -1,5 +1,6 @@
 ﻿@page "/subgrupo"
 @inject RepositoryPagina repositoryPagina
+@attribute [Authorize(Roles = "Admin")]
 
 @if (camadas == null)
 {
