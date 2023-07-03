@@ -1,0 +1,128 @@
+﻿@page "/vitrine/{indiceFiltro:int}"
+@attribute [Authorize(Roles = "Admin")]
+@inject RepositoryPagina repositoryPagina
+@inject BlazorTimer Timer
+@inject NavigationManager navigation
+<h3>Vitrine</h3>
+<PageTitle>Vitrine</PageTitle>
+
+@if(filtros.Count > 0)
+{
+    <p>Capitulo @retornarCap(filtros[indiceFiltro])</p>
+    <p>Pasta @retornarPasta(filtros[indiceFiltro]) - <header>@filtros[indiceFiltro].Nome</header> </p>
+    <div class="container">        
+            @{
+                      
+                @foreach (var item in Model!.ToList())
+                {
+                    if (Model!.ToList().IndexOf(item) != 0)
+                    {
+                        var paginaItem = repositoryPagina.paginas!.First(p => p.Id == item.Id);
+                    var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
+                    var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
+                    var identifica = paginaItem.Id;
+                    List<Pagina> lista = paginaItem.Story!.Pagina!.OrderBy(p => p.Id).ToList();
+                    var Capitulo = paginaItem.Story.PaginaPadraoLink;
+
+                        var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
+
+                        <div class="produto" onclick="cancelar()">
+                            <div class="info">
+                                <p> Nome: @item.Produto!.Nome </p>
+                                <p> Descrição: @item.Produto!.Descricao </p>
+                                <p> Preço: @item.Produto!.Preco </p>
+                                <p> Estoque: @item.Produto!.QuantEstoque </p>
+                            </div>
+                            <div class="caps">
+                                <strong>
+                                        Capitulo @Capitulo
+                                     <br>
+                                        Versiculo @Versiculo
+                            
+                                </strong>
+                            </div>
+                                <img src="@path" alt="Imagem do produto" />
+
+                        </div>
+                    }
+                }
+            }
+    </div>
+    
+}
+
+@code {
+    List<Filtro> filtros = new List<Filtro>();
+    List<Pagina> Model = new List<Pagina>();
+    [Parameter] public int indiceFiltro{ get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if(indiceFiltro >= filtros.Count)
+            indiceFiltro = 0;
+        VerificarFiltro(filtros[indiceFiltro]);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        indiceFiltro = 0;
+        if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
+            filtros = await repositoryPagina.Context.Filtro!
+        .OrderBy(f => f.StoryId)
+        .OrderBy(f => f.Id)
+        .ToListAsync();
+    }
+
+    private int retornarCap(Filtro fil)
+    {
+        return repositoryPagina.paginas!.First(p => p.StoryId == fil.StoryId).Story!.PaginaPadraoLink;
+    }
+
+    private int retornarPasta(Filtro fil)
+    {
+        var filtros = repositoryPagina.paginas!.First(p => p.StoryId == fil.StoryId).Story!.Filtro;
+        var f = filtros!.First(fi => fi.Id == fil.Id);
+        return filtros!.IndexOf(f) + 1;
+    }
+
+    private void VerificarFiltro(Filtro fil)
+    {
+        if(fil.CamadaDezId != null)
+        Model = repositoryPagina.paginas!.First(p => p.CamadaDezId == fil.CamadaDezId).CamadaDez!.Pagina!;        
+        else if (fil.CamadaNoveId != null)
+            Model = repositoryPagina.paginas!.First(p => p.CamadaNoveId == fil.CamadaNoveId).CamadaNove!.Pagina!;
+        else if (fil.CamadaOitoId != null)
+            Model = repositoryPagina.paginas!.First(p => p.CamadaOitoId == fil.CamadaOitoId).CamadaOito!.Pagina!;
+        else if (fil.CamadaSeteId != null)
+            Model = repositoryPagina.paginas!.First(p => p.CamadaSeteId == fil.CamadaSeteId).CamadaSete!.Pagina!;
+        else if (fil.CamadaSeisId != null)
+            Model = repositoryPagina.paginas!.First(p => p.CamadaSeisId == fil.CamadaSeisId).CamadaSeis!.Pagina!;
+        else if (fil.SubSubGrupoId != null)
+            Model = repositoryPagina.paginas!.First(p => p.SubSubGrupoId == fil.SubSubGrupoId).SubSubGrupo!.Pagina!;
+        else if (fil.SubGrupoId != null)
+            Model = repositoryPagina.paginas!.First(p => p.SubGrupoId == fil.SubGrupoId).SubGrupo!.Pagina!;
+        else if (fil.GrupoId != null)
+            Model = repositoryPagina.paginas!.First(p => p.GrupoId == fil.GrupoId).Grupo!.Pagina!;
+        else if (fil.SubStoryId != null)
+            Model = repositoryPagina.paginas!.First(p => p.SubStoryId == fil.SubStoryId).SubStory!.Pagina!;
+
+    }
+
+
+    private void StartTimer()
+    {
+            Timer!.SetTimer(30000);
+            Timer._timer!.Elapsed += _timer_Elapsed;
+            Console.WriteLine("Timer Started.");
+        
+
+    }
+
+    private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {          
+        navigation.NavigateTo($"/vitrine/{indiceFiltro + 1}");
+        Console.WriteLine("Timer Elapsed.");
+        Timer!._timer!.Elapsed -= _timer_Elapsed;
+    }
+
+}

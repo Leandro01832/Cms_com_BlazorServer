@@ -1,0 +1,73 @@
+﻿@page "/definir-livro"
+@inject RepositoryPagina repositoryPagina
+@inject NavigationManager navigation
+@inject IJSRuntime js
+<h3>Definir Livro</h3>
+
+<p>
+    <label>Pesquisar:</label>
+    <input id="url" @bind-value="Url" @bind-value:event="oninput" />
+</p>
+
+
+<EditForm Model="@livro" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />  
+    <select @bind="livro.url">
+        <option value="0" >Selecione uma opção</option>
+        @{
+            if(Url != null)
+            foreach (var item in livros!.Where(sub => sub.url.Contains(Url)))
+            {
+                <option value="@item.url">@item.url</option>
+            }
+         }
+    </select>
+    <p>
+        <label>Capitulo:</label>
+        <InputNumber id="Capitulo" @bind-Value="@livro.Capitulo"></InputNumber>
+    </p>
+    <button type="submit">Definir</button>
+</EditForm>
+
+@code {
+    Livro livro = new Livro();
+    List<Livro> livros = new List<Livro>();
+    public string? Url { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        livros = await repositoryPagina!.Context.Livro!.ToListAsync();
+    }
+
+
+    private async void HandleSubmit()
+    {
+        var liv = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.url == livro.url);
+        if(liv != null && livro.Capitulo != 0)
+        {
+            while (await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando) != null)
+            {
+                var l = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+                if(l != null)
+                {
+                    l.Compartilhando = false;
+                    repositoryPagina!.Context.Update(l);
+                    await repositoryPagina!.Context.SaveChangesAsync();
+                }                
+            }
+            liv.Compartilhando = true;
+            liv.Capitulo = livro.Capitulo;
+            repositoryPagina!.Context.Update(liv);
+            await repositoryPagina!.Context.SaveChangesAsync();
+        }        
+        navigation.NavigateTo("livro");
+    }
+
+   async void selecionar(Livro liv)
+    {
+        await js!.InvokeAsync<object>("SelecionarLivro", liv.Id);
+    }
+
+    
+}

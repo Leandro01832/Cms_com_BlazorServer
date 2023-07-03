@@ -1,6 +1,7 @@
 ﻿using BlazorServerCms.Data;
 using business;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -18,7 +19,7 @@ namespace BlazorServerCms.servicos
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
         public static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-        public ApplicationDbContext Context = new ApplicationDbContext(conexao);
+        public ApplicationDbContext Context =  new ApplicationDbContext(conexao);
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
@@ -124,10 +125,16 @@ namespace BlazorServerCms.servicos
         public string CodigoCarousel { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/Carousel.cshtml")); } }
 
         public string CodigoVideos { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/videos.txt")); } }
-        
-        
+
+
         public List<Pagina>? paginas { get; set; }
         public bool aguarde { get; set; } = false;
+
+        public string buscarDominio()
+        {
+            var dominio = Configuration.GetConnectionString("dominio");
+            return dominio;
+        }
 
 
         public async Task<string> renderizarPagina(Pagina pagina)

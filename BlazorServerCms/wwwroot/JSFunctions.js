@@ -2,7 +2,6 @@
     location.reload();
 }
 
-
 window.ConfigurarPaginacao = (m) => {
     var elements2 = document.getElementsByClassName("produto");
     var elements3 = document.getElementsByClassName("caps");
@@ -137,6 +136,14 @@ window.FullScreen =(teste) => {
     }
 }
 
+window.SelecionarLivro = (id) =>
+{
+    var elemento = document.getElementById("select" + id);
+    var input = document.getElementById("url");
+    var lista = document.getElementById("lista");
+    input.value = elemento.innerText;
+    lista.innerHTML = "";
+}
 
 function focusById(elementId) {
     var element = document.getElementById(elementId);    

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@page "/info/{user}/{desconto:int}"
 @page "/{capitulo:int}/{filtrar:int}"
 @page "/{capitulo:int}/{indice}"
 @page "/{indice}"
@@ -7,23 +8,19 @@
 @page "/compartilhe/{user}"
 @page "/pesquisar/{Query}"
 
-
-
-
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 
 <PageTitle>Instagleo</PageTitle>
 
-
 <h3>@Mensagem</h3>
+
+
 
 @if (MensagemSistema != null)
 {
     <h3>@MensagemSistema</h3>    
-}
-
-    
+}    
     
  <div class="container">
      <input type="text" @bind-value="Query" @bind-value:event="oninput" placeholder="Nº do capitulo ou o nome" />
@@ -62,14 +59,13 @@
 }
 <img src="/story.jpg" width="900" />
 
-
-
 @code{
     [Parameter] public int? capitulo { get; set; }
     [Parameter] public string? indice { get; set; }
     [Parameter] public int? filtrar { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
     [Parameter] public string? user { get; set; }    
+    [Parameter] public int? desconto { get; set; }
     [Parameter] public string? Query { get; set; }
     List<Filtro>? filtros = new List<Filtro>();
     int cap = 1;
@@ -95,20 +91,27 @@
 
     protected override async Task OnInitializedAsync()
     {
+        if(user == null)
+        {
+            user = repositoryPagina.buscarDominio();
+            desconto = 0;
+        }
+        
+
         if (capitulo != null && indice != null)
         {
-            navigation.NavigateTo($"/renderizar/{capitulo}/{indice}/1/11/user");
+            navigation.NavigateTo($"/renderizar/{capitulo}/{indice}/1/11/{user}/{desconto}");
         }
         else if (capitulo != null && filtrar != null)
         {
-            navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/1");
+            navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/{user}/{desconto}/1");
         }        
         else if (indice != null)
         {
             var number = Regex.Match(indice, @"d+").Value;
             var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
-                navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/user");
+                navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/{user}/{livro.DescontoDoCompartilhante}");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
@@ -116,13 +119,9 @@
         {
             var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
-                navigation.NavigateTo($"/filtro/{livro.Capitulo}/pasta-{filtrar}");
+                navigation.NavigateTo($"/filtro/{livro.Capitulo}/pasta-{filtrar}/{user}/{livro.DescontoDoCompartilhante}");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
-        }
-        else if (user != null)
-        {
-            navigation.NavigateTo($"/paginacao/1/capitulo/1/30/81/{user}");
         }
     }
 
@@ -132,7 +131,7 @@
         var filtros = repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.Filtro;
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
-        navigation.NavigateTo($"/filtro/{cap}/{indiceFiltro}/1");
+        navigation.NavigateTo($"/filtro/{cap}/pasta-{indiceFiltro}/{user}/{desconto}/1");
     }
 
    

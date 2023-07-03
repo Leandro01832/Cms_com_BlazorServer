@@ -1,0 +1,19 @@
+﻿@page "/transmissao"
+@attribute [Authorize]
+
+<PageTitle>Transmissão ao vivo</PageTitle>
+<h3>Transmissão ao vivo</h3>
+
+<div id="minhaSala" class="col-md-12">  
+
+    <h1>
+        <span>Show</span>
+    </h1>
+
+    <div class="col-md-12">
+        <video id="gum" playsinline autoplay muted></video>
+    </div>
+
+    <Display></Display>
+    
+</div>

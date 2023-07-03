@@ -1,15 +1,15 @@
 ﻿@page "/renderizar"
-@page "/filtro/{capitulo:int}/{filtrar}/{redirecionar?}"
-@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/substory/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{compartilhante}"
-@page "/grupo/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/subgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/subsubgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/camadaseis/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/camadasete/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/camadaoito/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/camadanove/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
-@page "/camadadez/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}"
+@page "/filtro/{capitulo:int}/{filtrar}/{compartilhante}/{desconto:int}/{redirecionar?}"
+@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/substory/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{compartilhante}/{desconto:int}"
+@page "/grupo/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/subgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/subsubgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/camadaseis/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/camadasete/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/camadaoito/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/camadanove/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
+@page "/camadadez/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{compartilhante}/{desconto:int}"
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -29,11 +29,11 @@
 else
 {
 
-    <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{timeproduto}/{compartilhante}"))" class="btn btn-primary linksPagina">
+    <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{timeproduto}/{compartilhante}/{desconto}"))" class="btn btn-primary linksPagina">
         anterior
     </a>
 
-    <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{timeproduto}/{compartilhante}"))" class="btn btn-primary linksPagina">
+    <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{timeproduto}/{compartilhante}/{desconto}"))" class="btn btn-primary linksPagina">
         proximo
     </a>
     
@@ -50,7 +50,7 @@ else
                     <header>Story: @Model.Story.Nome</header>
                     <br />
                     <span class="capitulos">
-                        <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{Model.Story.PaginaPadraoLink}/1/{timeproduto}/{compartilhante}"))" class="btn btn-primary">
+                        <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{Model.Story.PaginaPadraoLink}/1/{timeproduto}/{compartilhante}/{desconto}"))" class="btn btn-primary">
                             Capítulo @Model.Story.PaginaPadraoLink
                         </a>
                     </span>
@@ -107,14 +107,14 @@ else
                 </svg>
             </a>
             <br />
-            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{timeproduto}/{compartilhante}"))" class="btn btn-primary ms-1">
+            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{timeproduto}/{compartilhante}/{desconto}"))" class="btn btn-primary ms-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                     <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                 </svg>
             </a>
 
-            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{timeproduto}/{compartilhante}"))" class="btn btn-primary ms-1">
+            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{timeproduto}/{compartilhante}/{desconto}"))" class="btn btn-primary ms-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
                     <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
@@ -129,7 +129,7 @@ else
             @*<a href="#" class="btn btn-primary agrupamento">
         sub-story
         </a>*@
-            <a href="#" onclick="@(() => navigation!.NavigateTo($"/paginacao/1/capitulo/1/30/81/{compartilhante}"))" class="btn btn-primary ms-3">
+            <a href="#" onclick="@(() => navigation!.NavigateTo($"/paginacao/1/capitulo/1/30/81/{compartilhante}/{desconto}"))" class="btn btn-primary ms-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z" />
                     <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z" />

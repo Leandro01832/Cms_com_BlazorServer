@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject RepositoryPagina repositoryPagina
 
 <PageTitle>Instagleo</PageTitle>
 
@@ -14,6 +15,9 @@
         </div>
 
         <article class="content px-4">
+            <CascadingValue Value="@repositoryPagina.buscarDominio()">
+                <Compartilhante></Compartilhante>
+            </CascadingValue>
             @Body
         </article>
     </main>

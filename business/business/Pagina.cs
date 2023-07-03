@@ -208,6 +208,13 @@ namespace business
         public string FlexDirection { get { return flexDirection; } set { flexDirection = value; } }
         
         public string AlignItems { get { return alignItems; } set { alignItems = value; } }
-       
+
+        public string ContentUser { get; set; }
+
+        [NotMapped]
+        public string Conteudo
+        {
+            get { if (Content != null) return Content; else if (ContentUser != null) return ContentUser; return ""; }
+        }
     }
 }

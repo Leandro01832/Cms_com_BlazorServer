@@ -69,8 +69,16 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\ga.js",
+      "PackagePath": "staticwebassets\\ga.js"
+    },
+    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\livro.jpg",
       "PackagePath": "staticwebassets\\livro.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\main.js",
+      "PackagePath": "staticwebassets\\main.js"
     },
     {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\story.jpg",
