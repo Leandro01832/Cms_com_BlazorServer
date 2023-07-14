@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230701132940_propertyContentUser")]
-    partial class propertyContentUser
+    [Migration("20230714184109_comissao")]
+    partial class comissao
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Comentario");
                 });
 
-            modelBuilder.Entity("business.Compartilhamento", b =>
+            modelBuilder.Entity("business.Compartilhante", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Capitulo")
+                    b.Property<int>("Comissao")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
@@ -62,12 +62,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<string>("Livro")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Verso")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -250,6 +244,9 @@ namespace BlazorServerCms.Migrations
                     b.Property<int>("PaginaPadraoLink")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Produto")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Story");
@@ -375,6 +372,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<bool>("Compartilhando")
                         .HasColumnType("bit");
+
+                    b.Property<int>("DescontoDoCompartilhante")
+                        .HasColumnType("int");
 
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)");

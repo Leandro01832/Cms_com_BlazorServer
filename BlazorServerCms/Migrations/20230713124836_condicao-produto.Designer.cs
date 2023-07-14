@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230702170959_propertyDesconto")]
-    partial class propertyDesconto
+    [Migration("20230713124836_condicao-produto")]
+    partial class condicaoproduto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Comentario");
                 });
 
-            modelBuilder.Entity("business.Compartilhamento", b =>
+            modelBuilder.Entity("business.Compartilhante", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,20 +54,11 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Capitulo")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Livro")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Verso")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -249,6 +240,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<int>("PaginaPadraoLink")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Produto")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

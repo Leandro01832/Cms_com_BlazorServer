@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\JSFunctions.js"
     },
     {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Tynymce.js",
+      "PackagePath": "staticwebassets\\Tynymce.js"
+    },
+    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },

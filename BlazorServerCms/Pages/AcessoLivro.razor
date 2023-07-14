@@ -1,0 +1,32 @@
+﻿@page "/acessolivro"
+@inject RepositoryPagina repositoryPagina
+@inject NavigationManager navigation
+<h3>Acesso ao Livro</h3>
+
+<p>
+    <label>Pesquisar:</label>
+    <input id="url" @bind-value="Url" @bind-value:event="oninput" />
+</p>
+@{
+    if (Url != null)
+        foreach (var item in livros!.Where(sub => sub.url.Contains(Url)))
+        {
+            <p>
+                <a href="#" onclick="@(() => navigation.NavigateTo($"{item.url}"))"> @item.url </a>
+            </p>
+            
+        }
+}
+
+@code {
+
+    List<Livro> livros = new List<Livro>();
+    public string? Url { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        livros = await repositoryPagina!.Context.Livro!.ToListAsync();
+    }
+
+
+}

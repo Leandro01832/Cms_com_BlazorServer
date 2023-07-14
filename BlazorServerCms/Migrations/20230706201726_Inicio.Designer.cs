@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230624150040_Inicio")]
+    [Migration("20230706201726_Inicio")]
     partial class Inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,20 +54,11 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Capitulo")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Livro")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Verso")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -376,6 +367,9 @@ namespace BlazorServerCms.Migrations
                     b.Property<bool>("Compartilhando")
                         .HasColumnType("bit");
 
+                    b.Property<int>("DescontoDoCompartilhante")
+                        .HasColumnType("int");
+
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)");
 
@@ -394,9 +388,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<string>("AlignItems")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ArquivoMusic")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("CamadaDezId")
@@ -420,6 +411,10 @@ namespace BlazorServerCms.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ContentUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
@@ -433,15 +428,6 @@ namespace BlazorServerCms.Migrations
                     b.Property<string>("ImagemContent")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Layout")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Music")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Sobreescrita")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("StoryId")
                         .HasColumnType("bigint");
 
@@ -453,9 +439,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<long?>("SubSubGrupoId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("Tempo")
-                        .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .IsRequired()

@@ -12,8 +12,6 @@ using System.Text;
 
 namespace BlazorServerCms.servicos
 {
-
-
     public class RepositoryPagina 
     {
         public IConfiguration Configuration { get; }

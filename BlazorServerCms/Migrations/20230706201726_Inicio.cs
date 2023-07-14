@@ -70,10 +70,7 @@ namespace BlazorServerCms.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Livro = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Capitulo = table.Column<int>(type: "int", nullable: false),
-                    Verso = table.Column<int>(type: "int", nullable: false),
-                    Quantidade = table.Column<int>(type: "int", nullable: false)
+                    Livro = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,7 +85,8 @@ namespace BlazorServerCms.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Capitulo = table.Column<int>(type: "int", nullable: false),
-                    Compartilhando = table.Column<bool>(type: "bit", nullable: false)
+                    Compartilhando = table.Column<bool>(type: "bit", nullable: false),
+                    DescontoDoCompartilhante = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -533,16 +531,12 @@ namespace BlazorServerCms.Migrations
                     CamadaNoveId = table.Column<long>(type: "bigint", nullable: true),
                     CamadaDezId = table.Column<long>(type: "bigint", nullable: true),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sobreescrita = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ArquivoMusic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Music = table.Column<bool>(type: "bit", nullable: false),
                     Comentario = table.Column<long>(type: "bigint", nullable: true),
                     ImagemContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Layout = table.Column<bool>(type: "bit", nullable: false),
                     FlexDirection = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AlignItems = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tempo = table.Column<int>(type: "int", nullable: false)
+                    ContentUser = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

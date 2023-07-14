@@ -44,7 +44,7 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Comentario");
                 });
 
-            modelBuilder.Entity("business.Compartilhamento", b =>
+            modelBuilder.Entity("business.Compartilhante", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +52,7 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Capitulo")
+                    b.Property<int>("Comissao")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
@@ -60,12 +60,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<string>("Livro")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Verso")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -247,6 +241,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<int>("PaginaPadraoLink")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Produto")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

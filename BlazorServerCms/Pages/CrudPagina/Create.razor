@@ -20,77 +20,18 @@
         </select>
     </p>
     <p>
-        <label>Sub-Story:</label>
+        <label>Pasta (Opcional):</label>
         <select @bind="exampleModel.SubStoryId">
-            @foreach (var item in SubStory!.Where(sub => sub.StoryId == exampleModel.StoryId))
+            @foreach (var item in Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId))
             {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+                var filtros = repositoryPagina.paginas.First(p => p.StoryId == item.StoryId).Story.Filtro;
+                var fil = filtros.First(f => f.Id == item.Id);
+                var pasta = filtros.IndexOf(fil) + 1;
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome - pasta @pasta</option>
             }
         </select>
     </p>
-    <p>
-        <label>Grupo:</label>
-        <select @bind="exampleModel.GrupoId">
-            @foreach (var item in Grupo!.Where(sub => sub.SubStoryId == exampleModel.SubStoryId))
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
-    <p>
-        <label>Sub-Grupo:</label>
-        <select @bind="exampleModel.SubGrupoId">
-            @foreach (var item in SubGrupo!.Where(sub => sub.GrupoId == exampleModel.GrupoId))
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
-    <p>
-        <label>Sub-Sub-Grupo:</label>
-        <select @bind="exampleModel.SubSubGrupoId">
-            @foreach (var item in SubSubGrupo!.Where(sub => sub.SubGrupoId == exampleModel.SubGrupoId))
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
-    <p>
-        <label>Camada Seis:</label>
-        <select @bind="exampleModel.CamadaSeisId">
-            @foreach (var item in CamadaSeis!.Where(sub => sub.SubSubGrupoId == exampleModel.SubSubGrupoId))
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
-    <p>
-        <label>Camada Sete:</label>
-        <select @bind="exampleModel.CamadaSeteId">
-            @foreach (var item in CamadaSete!.Where(sub => sub.CamadaSeisId == exampleModel.CamadaSeisId))
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
-    <p>
-        <label>Camada Oito:</label>
-        <select @bind="exampleModel.CamadaOitoId">
-            @foreach (var item in CamadaOito!.Where(sub => sub.CamadaSeteId == exampleModel.CamadaSeteId))
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
-    <p>
-        <label>Camada Nove:</label>
-        <select @bind="exampleModel.CamadaNoveId">
-            @foreach (var item in CamadaNove!.Where(sub => sub.CamadaOitoId == exampleModel.CamadaOitoId))
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
+   
 
     <button type="submit">Adicionar</button>
 </EditForm>
@@ -100,27 +41,13 @@
 
     
     private List<Story> lista = new List<Story>();
-    public List<SubStory> SubStory = new List<SubStory>();
-    public List<Grupo> Grupo = new List<Grupo>();
-    public List<SubGrupo> SubGrupo = new List<SubGrupo>();
-    public List<SubSubGrupo> SubSubGrupo = new List<SubSubGrupo>();
-    public List<CamadaSeis> CamadaSeis = new List<CamadaSeis>();
-    public List<CamadaSete> CamadaSete = new List<CamadaSete>();
-    public List<CamadaOito> CamadaOito = new List<CamadaOito>();
-    public List<CamadaNove> CamadaNove = new List<CamadaNove>();
+    public List<Filtro> Filtro = new List<Filtro>();
 
     protected override async Task OnInitializedAsync()
     {
         lista = await repositoryPagina!.Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
-        SubStory = await repositoryPagina!.Context.SubStory!.ToListAsync();
-        Grupo = await repositoryPagina!.Context.Grupo!.ToListAsync();
-        SubGrupo = await repositoryPagina!.Context.SubGrupo!.ToListAsync();
-        SubSubGrupo = await repositoryPagina!.Context.SubSubGrupo!.ToListAsync();
-        CamadaSeis = await repositoryPagina!.Context.CamadaSeis!.ToListAsync();
-        CamadaSete = await repositoryPagina!.Context.CamadaSete!.ToListAsync();
-        CamadaOito = await repositoryPagina!.Context.CamadaOito!.ToListAsync();
-        CamadaNove = await repositoryPagina!.Context.CamadaNove!.ToListAsync();
+        Filtro = await repositoryPagina!.Context.Filtro!.ToListAsync();
     }
 
     private async void HandleSubmit()

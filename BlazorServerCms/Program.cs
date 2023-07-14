@@ -24,7 +24,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
@@ -146,6 +146,24 @@ using (var scope = app.Services.CreateScope())
 
                 contexto.Add(str);
                 await contexto.SaveChangesAsync();
+
+                var indice0 = new Pagina()
+                {
+                    Data = DateTime.Now,
+                    Titulo = "Story - " + str.Nome,
+                    StoryId = str.Id,
+                    Content = "<p> <h1> Seja bem vindo a Story " + str.Nome + "</h1> </p>"
+                 };
+
+                contexto.Add(indice0);
+                try
+                {
+                    contexto.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
                 var Story = await contexto.Story!.FirstAsync(st => st.Nome == "Padrao");
 

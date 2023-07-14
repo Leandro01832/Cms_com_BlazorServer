@@ -16,6 +16,7 @@ namespace business.Group
         public virtual List<SubStory>? SubStory { get; set; }
 
         public bool Comentario { get; set; }
+        public bool Produto { get; set; }
 
         public string? Nome { get; set; }
         public virtual List<Pagina>? Pagina { get; set; }

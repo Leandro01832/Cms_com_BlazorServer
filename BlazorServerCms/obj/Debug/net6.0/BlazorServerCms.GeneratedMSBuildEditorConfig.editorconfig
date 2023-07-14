@@ -20,6 +20,14 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/AcessoLivro.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNlc3NvTGl2cm8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Admin.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Config.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlnLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -215,6 +223,10 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ListaFiltro.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-622vkbnu9r
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Paginacao.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFnaW5hY2FvLnJhem9y

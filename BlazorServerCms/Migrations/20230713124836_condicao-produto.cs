@@ -4,23 +4,23 @@
 
 namespace BlazorServerCms.Migrations
 {
-    public partial class propertyContentUser : Migration
+    public partial class condicaoproduto : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "ContentUser",
-                table: "Pagina",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<bool>(
+                name: "Produto",
+                table: "Story",
+                type: "bit",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ContentUser",
-                table: "Pagina");
+                name: "Produto",
+                table: "Story");
         }
     }
 }

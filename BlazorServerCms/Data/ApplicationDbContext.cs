@@ -44,7 +44,7 @@ namespace BlazorServerCms.Data
         public DbSet<CamadaOito>? CamadaOito { get; set; }
         public DbSet<CamadaNove>? CamadaNove { get; set; }
         public DbSet<CamadaDez>? CamadaDez { get; set; }
-        public DbSet<Compartilhamento>? Compartilhamento { get; set; }
+        public DbSet<Compartilhante>? Compartilhamento { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

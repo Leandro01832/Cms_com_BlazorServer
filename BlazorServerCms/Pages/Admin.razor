@@ -1,0 +1,28 @@
+﻿@page "/admin"
+@inject UserManager<IdentityUser> userManager
+
+<h3>Admin</h3>
+<PageTitle>Admin</PageTitle>
+
+@{
+    if(users == null)
+    {
+        <p>Aguarde um momento</p>
+    }
+    else
+    {
+        foreach (var user in users)
+        {
+            <p>@user.UserName</p>
+        }
+
+    }
+}
+
+@code {
+    IList<IdentityUser> users;
+    protected override async Task OnInitializedAsync()
+    {
+         users = await userManager.GetUsersInRoleAsync("Admin");        
+    }
+}

@@ -292,3 +292,4 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Goo
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Google.Apis.Core.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Google.Apis.YouTube.v3.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Transmissao.razor.rz.scp.css
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\ListaFiltro.razor.rz.scp.css

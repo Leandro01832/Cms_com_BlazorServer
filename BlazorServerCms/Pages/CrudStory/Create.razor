@@ -10,6 +10,10 @@
         <label>Nome:</label>
         <InputText id="Nome" @bind-Value="exampleModel.Nome" />
     </p>
+    <p>
+        <input type="checkbox" checked="@exampleModel.Produto" /> Para produtos
+    </p>
+    
 
     <button type="submit">Adicionar</button>
 </EditForm>
@@ -19,9 +23,32 @@
 
     private async void HandleSubmit()
     {
-        var list = await repositoryPagina!.Context.Story!.Where(p => p.Nome == "Padrao").ToListAsync();
+        var list = await repositoryPagina!.Context.Story!.Where(p => p.Nome != "Padrao").ToListAsync();
         exampleModel.PaginaPadraoLink = list.Count + 1;
         await repositoryPagina!.Context.AddAsync(exampleModel);
+        await repositoryPagina!.Context.SaveChangesAsync();
+
+        var conteudo = "<p> <h1> Seja bem vindo a Story " + exampleModel.Nome + "</h1> </p>";
+
+        Pagina pag = null;
+        if(exampleModel.Produto)
+        pag = new Pagina()
+            {
+                Data = DateTime.Now,
+                Titulo = "Story - " + exampleModel.Nome,
+                StoryId = exampleModel.Id,
+                Content = conteudo
+            };
+            else
+            pag = new Pagina()
+                {
+                    Data = DateTime.Now,
+                    Titulo = "Story - " + exampleModel.Nome,
+                    StoryId = exampleModel.Id,
+                    ContentUser = conteudo
+                };
+
+        await repositoryPagina!.Context.AddAsync(pag);
         await repositoryPagina!.Context.SaveChangesAsync();
         navigation.NavigateTo("story");
     }

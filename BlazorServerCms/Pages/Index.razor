@@ -5,11 +5,12 @@
 @page "/{indice}"
 @page "/{filtrar:int}"
 @page "/mensagem/{MensagemSistema}"
-@page "/compartilhe/{user}"
 @page "/pesquisar/{Query}"
+
 
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
+@inject UserManager<IdentityUser> userManager
 
 <PageTitle>Instagleo</PageTitle>
 
@@ -96,7 +97,23 @@
             user = repositoryPagina.buscarDominio();
             desconto = 0;
         }
-        
+        else if (user != repositoryPagina.buscarDominio())
+        {
+
+            var usuario = await userManager.FindByNameAsync(user);
+            var dominio = await repositoryPagina.Context.Compartilhamento!.FirstOrDefaultAsync(l => l.Livro == user);
+            if (dominio == null && usuario == null)
+            {
+                var compartilhante = new business.Compartilhante
+                    {
+                        Livro = user,
+                        Data = DateTime.Now
+                    };
+                await repositoryPagina.Context.AddAsync(compartilhante);
+                await repositoryPagina.Context.SaveChangesAsync();
+            }
+        }
+
 
         if (capitulo != null && indice != null)
         {
@@ -107,13 +124,13 @@
             navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/{user}/{desconto}/1");
         }        
         else if (indice != null)
-        {
-            var number = Regex.Match(indice, @"d+").Value;
-            var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
-            if (livro != null)
-                navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/{user}/{livro.DescontoDoCompartilhante}");
-            else
-                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        { 
+                var number = Regex.Match(indice, @"d+").Value;
+                var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+                if (livro != null)
+                    navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/{user}/{livro.DescontoDoCompartilhante}");
+                else
+                    Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
         else if (filtrar != null)
         {

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "z1xbeQJvya7pH+JkniEfFdQxWV4dhYTyOJtEK4YLDYY=",
+  "Hash": "cLh+6AMMN8LndQC+TUVbIrkUijCrgMeGEIS05r6MYYc=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -1426,6 +1426,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\svg\\house.svg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Tynymce.js",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "Tynymce.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Tynymce.js"
     }
   ]
 }

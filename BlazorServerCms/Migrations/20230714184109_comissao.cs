@@ -4,13 +4,13 @@
 
 namespace BlazorServerCms.Migrations
 {
-    public partial class propertyDesconto : Migration
+    public partial class comissao : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "DescontoDoCompartilhante",
-                table: "Livro",
+                name: "Comissao",
+                table: "Compartilhamento",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -19,8 +19,8 @@ namespace BlazorServerCms.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "DescontoDoCompartilhante",
-                table: "Livro");
+                name: "Comissao",
+                table: "Compartilhamento");
         }
     }
 }

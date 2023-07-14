@@ -5,6 +5,8 @@ using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
@@ -25,12 +27,15 @@ namespace BlazorCms.Client.Pages
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
+        protected string? MensagemComentario = null;
         protected Pagina? Model;
         protected string[]? classificacoes = null;
         protected int opcional = 1;
-        
+        protected List<MarkupString> comentarios;
+        protected Pagina exampleModel = new Pagina();
+
         protected string? html { get; set; } = "";
-        protected int? filtro { get; set; } = null;
+        protected int? indice_Filtro { get; set; } = null;
         protected int? vers { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
         protected int? VersoComentario { get; set; } = null;
@@ -56,6 +61,7 @@ namespace BlazorCms.Client.Pages
         
         protected override async Task OnParametersSetAsync()
         {
+            MensagemComentario = null;
 
             if (repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
             {
@@ -487,12 +493,27 @@ namespace BlazorCms.Client.Pages
                     proximo = indice + 1;
                     anterior = indice - 1;
 
-                    var Filtro = pag.Story!.Filtro!.First(f => f.CamadaNoveId == group8!.Id);
-                    filtro = pag.Story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
+                    Filtro Filtro = null;
+                    if(group8 != null)
+                    Filtro = pag.Story!.Filtro!.First(f => f.CamadaNoveId == group8!.Id);
+                    else if (group7 != null)
+                        Filtro = pag.Story!.Filtro!.First(f => f.CamadaOitoId == group7!.Id);
+                    else if (group6 != null)
+                        Filtro = pag.Story!.Filtro!.First(f => f.CamadaSeteId == group6!.Id);
+                    else if (group5 != null)
+                        Filtro = pag.Story!.Filtro!.First(f => f.CamadaSeisId == group5!.Id);
+                    else if (group4 != null)
+                        Filtro = pag.Story!.Filtro!.First(f => f.SubSubGrupoId == group4!.Id);
+                    else if (group3 != null)
+                        Filtro = pag.Story!.Filtro!.First(f => f.SubGrupoId == group3!.Id);
+                    else if (group2 != null)
+                        Filtro = pag.Story!.Filtro!.First(f => f.GrupoId == group2!.Id);
+                    else if (group != null)
+                        Filtro = pag.Story!.Filtro!.First(f => f.SubStoryId == group!.Id);
+                    indice_Filtro = pag.Story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
                 }
             }
 
-            // if(capitulo == 0)
             try
             {
                 await firstInput.FocusAsync();
@@ -512,6 +533,22 @@ namespace BlazorCms.Client.Pages
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+
+            List<Comentario> listaComentarios = await repositoryPagina.Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
+                        .OrderBy(c => c.Id)
+                        .ToListAsync();
+            comentarios = new List<MarkupString>();
+
+            foreach (var item in listaComentarios)
+            {
+                var p = repositoryPagina.paginas!.Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
+                .OrderBy(pa => pa.Id)
+                .Skip(item.Verso - 1).First();
+                var html = await repositoryPagina
+                .renderizarPagina(p);
+                var comentario = new MarkupString(html + $" <hr /> <p> Capitulo {item.Capitulo} Verso {item.Verso} </p>");
+                comentarios.Add(comentario);
             }
 
         }
@@ -687,7 +724,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (substory == null)
                 {
-                    if (capitulo == 0 && indice >= quantidadePaginas)
+                    if (capitulo == 0 && indice > quantidadePaginas)
                         navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/1/1/{timeproduto}/{compartilhante}/{desconto}");
                     else if (capitulo != 0 && indice >= quantidadePaginas)
                         navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink + 1}/1/1/{timeproduto}/{compartilhante}/{desconto}");
@@ -859,6 +896,75 @@ namespace BlazorCms.Client.Pages
             auto = 0;
         }
 
+        protected async void FazerComentario()
+        {
+            var Quant = await repositoryPagina.Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
+            var comenta = await repositoryPagina.Context.Story!.Include(st => st.Pagina)
+            .Where(st => st.Comentario)
+            .OrderBy(st => st.Id)
+            .ToListAsync();
+            var Story = comenta.LastOrDefault();
+
+            if (Story == null || Story.Pagina!.ToList().Count > 499)
+            {
+                Story = new Story
+                {
+                    Nome = "Comentario " + (comenta.Count + 1),
+                    Comentario = true,
+                    PaginaPadraoLink = Quant.Count + 1
+
+                };
+                repositoryPagina.Context.Add(Story);
+                repositoryPagina.Context.SaveChanges();
+
+                var str = await repositoryPagina.Context.Story!.FirstAsync(st => st.Nome == "Padrao");
+
+                Pagina.entity = true;
+                var p = new Pagina()
+                {
+                    Titulo = "Story - " + str.Nome,
+                    StoryId = str.Id,
+                    ContentUser = "<h1> Story " + Story.Nome + "</h1>"
+            };
+                Pagina.entity = false;
+
+                repositoryPagina.Context.Add(p);
+                repositoryPagina.Context.SaveChanges();
+                p.Story!.Quantidade++;
+            }
+
+            Pagina.entity = true;
+            var pagina = new Pagina()
+            {
+                Titulo = "Story - " + Story.Nome,
+                StoryId = Story.Id,
+                Comentario = Model.Id,
+                ContentUser = $"<div id='usuario' style='display:nome;'>" +
+              $"{exampleModel.ContentUser}"
+        };
+            Pagina.entity = false;
+
+            repositoryPagina.Context.Add(pagina);
+            repositoryPagina.Context.SaveChanges();
+            pagina.Story.QuantComentario++;
+
+            repositoryPagina.paginas!.Add(pagina);
+
+           
+                var comentar = new Comentario
+                {
+                    IdPagina = Model.Id,
+                    Capitulo = Story.PaginaPadraoLink,
+                    Verso = Story.Pagina!.ToList().Count
+                };
+                repositoryPagina.Context.Add(comentar);
+                repositoryPagina.Context.SaveChanges();
+            
+
+            MensagemComentario = $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}";
+
+        }
+
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             if (auto == 1)
@@ -896,7 +1002,6 @@ namespace BlazorCms.Client.Pages
 
 
             return calculo;
-        }
-       
+        }        
     }
 }
