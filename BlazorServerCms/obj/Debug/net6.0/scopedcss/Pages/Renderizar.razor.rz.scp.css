@@ -151,9 +151,19 @@ Informativo[b-k8aihg5em2] {
 @media (max-width: 550px) and (min-width: 50px) {
 
     .blocoLoader2[b-k8aihg5em2] {
-        display: block !important;
-        z-index: 40 !important;
+        display: flex !important;
+        z-index: 40000 !important;
+        flex-wrap: wrap;
+        flex-direction: row;
+        position:absolute;
+        top: 50%;
     }
+
+    .direita[b-k8aihg5em2]{
+        margin-left: 300px;
+    }
+
+   
 
     #Livro[b-k8aihg5em2] {
         font-size: 1.5rem !important;

@@ -4,6 +4,8 @@
 @page "/{capitulo:int}/{indice}"
 @page "/{indice}"
 @page "/{filtrar:int}"
+@page "/preferencia/{filtrar:int}/{versoPreferencia:int}"
+@page "/pref/{filtrar:int}/{versoPreferencia:int}"
 @page "/mensagem/{MensagemSistema}"
 @page "/pesquisar/{Query}"
 
@@ -11,6 +13,7 @@
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject UserManager<IdentityUser> userManager
+@inject IJSRuntime js
 
 <PageTitle>Instagleo</PageTitle>
 
@@ -62,6 +65,7 @@
 
 @code{
     [Parameter] public int? capitulo { get; set; }
+    [Parameter] public int? versoPreferencia { get; set; }
     [Parameter] public string? indice { get; set; }
     [Parameter] public int? filtrar { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
@@ -71,6 +75,7 @@
     List<Filtro>? filtros = new List<Filtro>();
     int cap = 1;
     string? Mensagem { get; set; }
+    public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
 
     protected override async Task OnParametersSetAsync()
     {
@@ -82,12 +87,13 @@
         {
             if (!string.IsNullOrEmpty(Query) && repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
             {
-                filtros = await repositoryPagina.Context.Filtro!
+                filtros = await Context.Filtro!
                 .Include(f => f.Story)
                 .Where(f => f.Nome!.Contains(Query!)).ToListAsync();                
             }
             cap = 1;
         }
+
     }
 
     protected override async Task OnInitializedAsync()
@@ -101,7 +107,7 @@
         {
 
             var usuario = await userManager.FindByNameAsync(user);
-            var dominio = await repositoryPagina.Context.Compartilhamento!.FirstOrDefaultAsync(l => l.Livro == user);
+            var dominio = await Context.Compartilhante!.FirstOrDefaultAsync(l => l.Livro == user);
             if (dominio == null && usuario == null)
             {
                 var compartilhante = new business.Compartilhante
@@ -109,8 +115,8 @@
                         Livro = user,
                         Data = DateTime.Now
                     };
-                await repositoryPagina.Context.AddAsync(compartilhante);
-                await repositoryPagina.Context.SaveChangesAsync();
+                await Context.AddAsync(compartilhante);
+                await Context.SaveChangesAsync();
             }
         }
 
@@ -126,7 +132,7 @@
         else if (indice != null)
         { 
                 var number = Regex.Match(indice, @"d+").Value;
-                var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+                var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
                 if (livro != null)
                     navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/{user}/{livro.DescontoDoCompartilhante}");
                 else
@@ -134,9 +140,17 @@
         }
         else if (filtrar != null)
         {
-            var livro = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
                 navigation.NavigateTo($"/filtro/{livro.Capitulo}/pasta-{filtrar}/{user}/{livro.DescontoDoCompartilhante}");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (versoPreferencia != null)
+        {
+            var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/{user}/{livro.Capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{versoPreferencia}");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }

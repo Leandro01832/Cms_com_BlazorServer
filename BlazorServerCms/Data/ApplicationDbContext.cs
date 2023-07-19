@@ -7,7 +7,7 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        private readonly string _connectionString = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+        public static string _connectionString = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
 
         public ApplicationDbContext(string connectionString)
         {
@@ -44,7 +44,7 @@ namespace BlazorServerCms.Data
         public DbSet<CamadaOito>? CamadaOito { get; set; }
         public DbSet<CamadaNove>? CamadaNove { get; set; }
         public DbSet<CamadaDez>? CamadaDez { get; set; }
-        public DbSet<Compartilhante>? Compartilhamento { get; set; }
+        public DbSet<Compartilhante>? Compartilhante { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

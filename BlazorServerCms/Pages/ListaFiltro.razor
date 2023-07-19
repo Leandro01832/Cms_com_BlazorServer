@@ -1,4 +1,4 @@
-﻿@page "/lista-filtro/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}"
+﻿@page "/lista-filtro/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}/{preferencia}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @layout MeuLayout
@@ -27,6 +27,11 @@
                 var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
 
                 <div class="produto" onclick="cancelar()">
+                    @if(Versiculo == preferencia)
+                    {
+                        <p id="pref">Minha Preferência</p>
+                    }
+                    
                     <div class="info">
                         <p> Nome: @item.Produto!.Nome </p>
                         <p> Descrição: @item.Produto!.Descricao </p>
@@ -60,15 +65,16 @@
     [Parameter] public int indiceFiltro { get; set; }
     [Parameter] public int Capitulo { get; set; }
     [Parameter] public int desconto { get; set; }
+    [Parameter] public int preferencia { get; set; }
     [Parameter] public string? compartilhante { get; set; }
-
+    public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
 
 
     protected override async Task OnInitializedAsync()
     {
         if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
         {
-            var filtros = await repositoryPagina.Context.Filtro!
+            var filtros = await Context.Filtro!
             .Include(f => f.Story)
              .Where(f => f.Story.PaginaPadraoLink == Capitulo)
          .OrderBy(f => f.StoryId)

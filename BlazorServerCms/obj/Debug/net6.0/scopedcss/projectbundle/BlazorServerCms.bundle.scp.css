@@ -1,3 +1,21 @@
+/* _content/BlazorServerCms/Pages/Config.razor.rz.scp.css */
+*[b-dxxtsk4tmq] {
+    padding: 0;
+    margin: 0;
+}
+
+.container[b-dxxtsk4tmq] {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    background-color: rgb(208, 146, 61);
+}
+
+ p[b-dxxtsk4tmq]{
+    text-align: center;
+    margin-left: 20px;
+    font-size: large;
+}
 /* _content/BlazorServerCms/Pages/ListaFiltro.razor.rz.scp.css */
 *[b-622vkbnu9r] {
     padding: 0;
@@ -675,9 +693,19 @@ Informativo[b-k8aihg5em2] {
 @media (max-width: 550px) and (min-width: 50px) {
 
     .blocoLoader2[b-k8aihg5em2] {
-        display: block !important;
-        z-index: 40 !important;
+        display: flex !important;
+        z-index: 40000 !important;
+        flex-wrap: wrap;
+        flex-direction: row;
+        position:absolute;
+        top: 50%;
     }
+
+    .direita[b-k8aihg5em2]{
+        margin-left: 300px;
+    }
+
+   
 
     #Livro[b-k8aihg5em2] {
         font-size: 1.5rem !important;

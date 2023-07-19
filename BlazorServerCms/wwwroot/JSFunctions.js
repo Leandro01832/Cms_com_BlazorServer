@@ -1,4 +1,7 @@
-﻿window.ExecutarReload = (m) => {
+﻿
+
+
+window.ExecutarReload = (m) => {
     location.reload();
 }
 

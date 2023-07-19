@@ -1,4 +1,5 @@
-﻿using BlazorServerCms.servicos;
+﻿using BlazorServerCms.Data;
+using BlazorServerCms.servicos;
 using business;
 using business.Group;
 using Google.Apis.Services;
@@ -23,6 +24,7 @@ namespace BlazorCms.Client.Pages
         [Inject] IJSRuntime? js { get; set; }
 
         public ClassArray Arr = new ClassArray();
+        public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
 
         protected MarkupString markup;
         protected ElementReference firstInput;
@@ -31,7 +33,7 @@ namespace BlazorCms.Client.Pages
         protected Pagina? Model;
         protected string[]? classificacoes = null;
         protected int opcional = 1;
-        protected List<MarkupString> comentarios;
+        protected List<MarkupString> comentarios = new List<MarkupString>();
         protected Pagina exampleModel = new Pagina();
 
         protected string? html { get; set; } = "";
@@ -535,7 +537,7 @@ namespace BlazorCms.Client.Pages
                 Console.WriteLine(ex.Message);
             }
 
-            List<Comentario> listaComentarios = await repositoryPagina.Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
+            List<Comentario> listaComentarios = await Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
                         .OrderBy(c => c.Id)
                         .ToListAsync();
             comentarios = new List<MarkupString>();
@@ -564,7 +566,7 @@ namespace BlazorCms.Client.Pages
             repositoryPagina.paginas!.FirstOrDefault(p => p.Story!.PaginaPadraoLink ==
             capitulo)!.Story!.Quantidade == 0)
             {
-                quant = buscarCount(RepositoryPagina.conexao, capitulo);
+                quant = buscarCount(ApplicationDbContext._connectionString, capitulo);
                 repositoryPagina.paginas!.First(p => p.Story!.PaginaPadraoLink ==
                  capitulo)!.Story!.Quantidade = quant;
 
@@ -581,7 +583,7 @@ namespace BlazorCms.Client.Pages
             if (repositoryPagina.paginas!.Count != 0 &&
              repositoryPagina.paginas!.FirstOrDefault()!.Story!.QuantComentario == 0)
             {
-                comentarios = CountComentarios(null!, null!, new Story().GetType(), RepositoryPagina.conexao);
+                comentarios = CountComentarios(null!, null!, new Story().GetType(), ApplicationDbContext._connectionString);
                 repositoryPagina.paginas!.First()!.Story!.QuantComentario = comentarios;
             }
             else if (repositoryPagina.paginas!.Count != 0)
@@ -724,7 +726,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (substory == null)
                 {
-                    if (capitulo == 0 && indice > quantidadePaginas)
+                    if (capitulo == 0 && indice >= quantidadePaginas)
                         navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/1/1/{timeproduto}/{compartilhante}/{desconto}");
                     else if (capitulo != 0 && indice >= quantidadePaginas)
                         navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink + 1}/1/1/{timeproduto}/{compartilhante}/{desconto}");
@@ -890,10 +892,13 @@ namespace BlazorCms.Client.Pages
 
         protected void desabilitarAuto()
         {
-            Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
-            Timer!.desligarAuto!.Enabled = false;
-            Timer.desligarAuto.Dispose();            
-            auto = 0;
+            if(Timer!.desligarAuto != null)
+            {
+                Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
+                Timer!.desligarAuto!.Enabled = false;
+                Timer.desligarAuto.Dispose();
+                auto = 0;
+            }            
         }
 
         protected async void FazerComentario()

@@ -1,63 +1,77 @@
 ﻿@page "/config"
 @attribute [Authorize(Roles = "Admin")]
 @inject NavigationManager navigation
-@inject RepositoryPagina? repositoryPagina
+@inject RepositoryPagina repositoryPagina
 
-
-<h3>Upload de videos do youtube do usuario</h3>
-
-@if(Mensagem != null)
+<p>Configurações de filtro</p>
+@if (Mensagem != null)
 {
-    <a href="/livro">livros</a>
-    <a href="/story">stories</a>
-    <a href="/sub-story">sub-stories</a>
-    <a href="/grupo">grupos</a>
-    <a href="/sub-grupo">sub-grupos</a>
-    <a href="/sub-sub-grupo">sub-sub-grupos</a>
-    <a href="/camadaseis">camada seis</a>
-    <a href="/camadasete">camada sete</a>
-    <a href="/camadaoito">camada oito</a>
-    <a href="/camadanove">camada nove</a>
-    <a href="/camadadez">camada dez</a>
-    <p>Mensagem</p><br />
-    <a class="btn btn-danger" href="/story/create" >Criar story</a>
+    <div class="container">
+
+
+        <p> <a href="/crud/livro">livros</a>                  </p>
+        <p> <a href="/crud/story">stories</a>                 </p>
+        <p> <a href="/crud/sub-story">sub-stories</a>         </p>
+        <p> <a href="/crud/grupo">grupos</a>                  </p>
+        <p> <a href="/crud/sub-grupo">sub-grupos</a>          </p>
+        <p> <a href="/crud/sub-sub-grupo">sub-sub-grupos</a>  </p>
+        <p> <a href="/crud/camadaseis">camada seis</a>        </p>
+        <p> <a href="/crud/camadasete">camada sete</a>        </p>
+        <p> <a href="/crud/camadaoito">camada oito</a>        </p>
+        <p> <a href="/crud/camadanove">camada nove</a>        </p>
+        <p> <a href="/crud/camadadez">camada dez</a>      </p>
+        <p>Mensagem</p><br />
+        <p><a class="btn btn-danger" href="/story/create">Criar story</a></p>
+    </div>
 }
 else
 {
-    <a href="/livro">livros</a>
-    <a href="/story" >stories</a>
-    <a href="/sub-story">sub-stories</a>
-    <a href="/grupo">grupos</a>
-    <a href="/sub-grupo">sub-grupos</a>
-    <a href="/sub-sub-grupo">sub-sub-grupos</a>
-    <a href="/camadaseis">camada seis</a>
-    <a href="/camadasete">camada sete</a>
-    <a href="/camadaoito">camada oito</a>
-    <a href="/camadanove">camada nove</a>
-    <a href="/camadadez">camada dez</a>
+    <div class="container">
+        <p><a href="/crud/livro">livros</a>                  </p>
+        <p><a href="/crud/story">stories</a>                </p>
+        <p><a href="/crud/sub-story">sub-stories</a>         </p>
+        <p><a href="/crud/grupo">grupos</a>                  </p>
+        <p><a href="/crud/sub-grupo">sub-grupos</a>          </p>
+        <p><a href="/crud/sub-sub-grupo">sub-sub-grupos</a>  </p>
+        <p><a href="/crud/camadaseis">camada seis</a>        </p>
+        <p><a href="/crud/camadasete">camada sete</a>        </p>
+        <p><a href="/crud/camadaoito">camada oito</a>        </p>
+        <p><a href="/crud/camadanove">camada nove</a>        </p>
+        <p><a href="/crud/camadadez">camada dez</a>      </p>
+    </div>
+}
 
-    <EditForm Model="data" OnSubmit="@HandleSubmit">
+<br />
+<br />
+<br />
+
+<p>Configurações de conteudo</p>
+<div class="container">
+    <p><a href="config/download-capitulo">Download de capitulo</a> </p>
+
+</div>
+<h3>Upload de videos do youtube do usuario</h3>
+<EditForm Model="data" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-        <p>
-            <label>Story:</label>
-            <select @bind="data.StoryId">
+    <p>
+        <label>Story:</label>
+        <select @bind="data.StoryId">
 
-                @foreach (var item in lista)
-                {
-                    <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-                }
-            </select>
-        </p>
-    
-        <p>
-            <label>Nome:</label>
-            <InputText id="Nome" @bind-Value="data.Usuario" />
-        </p>
+            @foreach (var item in lista)
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.CapituloComNome</option>
+            }
+        </select>
+    </p>
 
-        <button type="submit">Adicionar videos</button>
-    </EditForm>
-}
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="data.Usuario" />
+    </p>
+
+    <p><button type="submit">Adicionar videos</button></p>
+</EditForm>
 
 
 @code {
@@ -65,11 +79,11 @@ else
     DataForm data = new DataForm();
     string Mensagem;
     List<Story> lista = new List<Story>();
-
+    public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
 
     protected override async Task OnInitializedAsync()
     {
-        lista = await repositoryPagina!.Context.Story!
+        lista = await Context.Story!
            .Where(str => str.Nome != "Padrao" && !str.Comentario).ToListAsync();
 
         if (lista.Count == 0)
@@ -82,7 +96,7 @@ else
 
     private async void HandleSubmit()
     {
-        var story = await repositoryPagina!.Context.Story!.FirstAsync(str => str.Id == data.StoryId);
+        var story = await Context.Story!.FirstAsync(str => str.Id == data.StoryId);
         var cap = story.PaginaPadraoLink;
         Pagina pag = null;
         if (data.Usuario.Contains("@"))
@@ -102,7 +116,7 @@ else
                 text += "?autoplay=1";
                 if (cap != 0)
                 {
-                    pag = await repositoryPagina!.Context!.Pagina!.Include(pa => pa!.Story!)
+                    pag = await Context!.Pagina!.Include(pa => pa!.Story!)
                    .FirstOrDefaultAsync(pa => pa!.Content == null &&
                    pa!.Produto! == null && pa!.Story!.PaginaPadraoLink == cap);
                     if (pag == null)
@@ -112,12 +126,12 @@ else
                         "frameborder='0' title='video' allow='accelerometer; autoplay; clipboard-write; encrypted-media; " +
                         "gyroscope; picture-in-picture; web-share' allowfullscreen ></iframe>";
 
-                    repositoryPagina!.Context.Update(pag);
-                    repositoryPagina!.Context.SaveChanges();
+                    Context.Update(pag);
+                    Context.SaveChanges();
                 }
                 else
                 {
-                    pag = await repositoryPagina!.Context.Pagina.Include(pa => pa.Story!)
+                    pag = await Context.Pagina.Include(pa => pa.Story!)
                 .FirstOrDefaultAsync(pa => pa!.Content == null && pa!.Produto! == null);
                     if (pag == null)
                         break;
@@ -127,8 +141,8 @@ else
                         "frameborder='0' title='video' allow='accelerometer; autoplay; clipboard-write; encrypted-media; " +
                         "gyroscope; picture-in-picture; web-share' allowfullscreen ></iframe>";
 
-                    repositoryPagina!.Context.Update(pag);
-                    repositoryPagina!.Context.SaveChanges();
+                    Context.Update(pag);
+                    Context.SaveChanges();
                 }
             }
         }
@@ -147,7 +161,7 @@ else
 
     private string ObterMensagem(long StoryId)
     {
-        var story = repositoryPagina!.Context.Story!
+        var story = Context.Story!
         .Include(str => str.Pagina!)
         .Include(str => str.Pagina!)
         .ThenInclude(str => str.Produto)

@@ -16,8 +16,7 @@ namespace BlazorServerCms.servicos
     {
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
-        public static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-        public ApplicationDbContext Context =  new ApplicationDbContext(conexao);
+        public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
@@ -26,44 +25,7 @@ namespace BlazorServerCms.servicos
         }
 
        static string path = Directory.GetCurrentDirectory();
-        // public static string outroLivro = "https://localhost:5001";    
-
-        //  public  static int? outroCapitulo = 1;  
-
-        // public static Random randNum = new Random();
-
-        // public static string[] livros = new string[10];
-
-        //public static string Verificar(string url)
-        // {     
-
-        //       WebClient client = new WebClient();
-        //       var html = client.DownloadString(url);                        
-
-        //       if( html.Contains("<h1>Pagina não encontrada</h1>"))
-        //       return null!;
-        //       else 
-        //       return html; 
-        // }  
-
-        //public static int RetornarCapitulos(string livro)
-        //{
-        //  int cap = 1;
-        //   var url = livro + "/Renderizar/" + cap + "/" + 1 + "/1/user";   
-        //   var html = "teste";
-
-        //   while(html != null)
-        //   {
-        //      html = Verificar(url);
-        //      if(html != null)
-        //      {
-        //          cap++;
-        //          url = livro + "/Renderizar/" + cap + "/" + 1 + "/1/user";   
-        //      }
-
-        //   }
-        //  return cap;
-        //}  
+         
 
         public int buscarCount()
         {
@@ -72,7 +34,7 @@ namespace BlazorServerCms.servicos
             var _TotalRegistros = 0;
             try
             {
-                using (con = new SqlConnection(conexao))
+                using (con = new SqlConnection(ApplicationDbContext._connectionString))
                 {
                     cmd = new SqlCommand($"SELECT COUNT(*) FROM Pagina", con);
                     con.Open();
@@ -104,29 +66,14 @@ namespace BlazorServerCms.servicos
         }
 
         public static string Capa { get { return System.IO.File.ReadAllText(path + "/wwwroot/Arquivotxt/Capa.html"); } }  
-        public  string textDefault {  get  { return System.IO.File.ReadAllText(path + Configuration.GetConnectionString("path")); } }  
+        public  string textDefault {  get  { return System.IO.File.ReadAllText(path + Configuration.GetConnectionString("path")); } }
         //140 linhas
-        public string CodCss { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/DocCss.cshtml")); } }  
-        //93 linhas
-        public string CodCss2 { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/DocCssDiv.cshtml")); } }  
-
-        //350 linhas
-        public string CodigoBloco { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/DocBloco.cshtml")); } }
-        
-        //515 linhas
-        public string CodigoProducao { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/DocProducao.cshtml")); } }
-        
-        //7 linhas
-        public string CodigoMusic { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/music.cshtml")); } }
-
-        // 30 linhas
-        public string CodigoCarousel { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/Carousel.cshtml")); } }
-
-        public string CodigoVideos { get { return System.IO.File.ReadAllText(Path.Combine(path + "/wwwroot/Arquivotxt/videos.txt")); } }
-
 
         public List<Pagina>? paginas { get; set; }
+
+
         public bool aguarde { get; set; } = false;
+
 
         public string buscarDominio()
         {
@@ -138,6 +85,7 @@ namespace BlazorServerCms.servicos
         public async Task<string> renderizarPagina(Pagina pagina)
         {
         var text = await Http.GetStringAsync("https://localhost:7224/Arquivotxt/default.html");
+           
             var resultado = renderizar(pagina, text!);
             return resultado;
         }       
@@ -207,4 +155,5 @@ namespace BlazorServerCms.servicos
              .Include(b => b!.CamadaDez).ThenInclude(b => b!.Pagina)!;
         }
     }
+
 }
