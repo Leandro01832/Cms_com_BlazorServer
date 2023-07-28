@@ -1,7 +1,73 @@
-﻿@page "/lista-filtro/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}/{preferencia}"
+﻿@page "/lista-filtro/{pagina:int}/{auto:int}/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}/{preferencia}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
+@inject IJSRuntime js
+@inject BlazorTimer Timer
 @layout MeuLayout
+
+
+<div id="configuracao">
+    <p id="livro">livro</p>
+    <p id="config">
+        <strong>
+            <a href="#" id="configurar" onclick="clicou()">Info e Config</a>
+        </strong>
+    </p>
+    <p> <input type="checkbox" @bind="preco" /> Ordenar por preço </p>
+    <p id="automatico">
+        <strong>
+            @{
+                if (auto == 1)
+                {
+                    <a href="#"
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/0/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                        Desabilitar automático
+                    </a>
+                }
+                else
+                {
+                    <a href="#"
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                        Habilitar automático
+                    </a>
+                }
+            }
+
+        </strong>
+    </p>
+
+    <p id="lista">
+        <strong>
+            @{
+                if (pagina > 1)
+                {
+                    <a href="#"
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina - 1}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                        Lista Anterior ||
+                    </a>
+                }
+
+            }
+
+            <a href="#"
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina + 1}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                Proxima lista >>>
+            </a>
+
+        </strong>
+    </p>
+</div>
+
+<div id="cabecalho">
+    <div>
+        <h4>Logo</h4>
+
+    </div>
+    
+   
+    
+
+</div>
 
 <h3>Lista de Filtro</h3>
 
@@ -62,13 +128,30 @@
 
     Filtro filtro = new Filtro();
     List<Pagina> Model = new List<Pagina>();
+    List<Pagina>? lista { get; set; }
+    public bool preco { get; set; }
+    [Parameter] public int auto { get; set; }
+    [Parameter] public int pagina { get; set; }
     [Parameter] public int indiceFiltro { get; set; }
     [Parameter] public int Capitulo { get; set; }
     [Parameter] public int desconto { get; set; }
     [Parameter] public int preferencia { get; set; }
     [Parameter] public string? compartilhante { get; set; }
-    public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
+    public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
 
+    protected override async Task OnParametersSetAsync()
+    {
+        Model = RetornarLista(pagina);
+        try
+        {
+            await js!.InvokeAsync<object>("ConfigurarPaginacao", "1");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        StartTimer();
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,7 +167,7 @@
             filtro = filtros[indiceFiltro];
             VerificarFiltro(filtro);
         }
-        
+
     }
 
     private void VerificarFiltro(Filtro fil)
@@ -112,7 +195,51 @@
 
     void Clicou(int Versiculo)
     {
+        auto = 0;
         navigation.NavigateTo($"/renderizar/{Capitulo}/{Versiculo}/1/11/{compartilhante}/{desconto}");
+    }
+
+    private List<Pagina> RetornarLista(int numeroPagina)
+    {
+        List<Pagina>? applicationDbContext = null;
+
+        if (preco)
+            applicationDbContext = lista!
+               .OrderBy(p => p.Produto!.Preco)
+               .Skip((numeroPagina - 1) * 20)
+               .Take(20).ToList();
+        else
+            applicationDbContext = lista!
+               .OrderBy(p => p.Id)
+               .Skip((numeroPagina - 1) * 20)
+               .Take(20).ToList();
+
+        return applicationDbContext;
+    }
+
+
+    private void StartTimer()
+    {
+        if (auto == 1)
+        {
+            Timer!.SetTimer(10000);
+            Timer._timer!.Elapsed += _timer_Elapsed;
+            Console.WriteLine("Timer Started.");
+        }
+
+    }
+
+    private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        if (auto == 1 && Model!.ToList().Count == 20)
+            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
+        else if (auto == 1)
+            navigation.NavigateTo($"/lista-filtro/1/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
+        else
+            navigation.NavigateTo($"/lista-filtro/{pagina}/0/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
+
+        Console.WriteLine("Timer Elapsed.");
+        Timer!._timer!.Elapsed -= _timer_Elapsed;
     }
 
 

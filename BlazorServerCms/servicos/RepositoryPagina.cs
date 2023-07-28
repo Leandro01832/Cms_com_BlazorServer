@@ -16,7 +16,7 @@ namespace BlazorServerCms.servicos
     {
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
-        public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
+        public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
@@ -34,7 +34,7 @@ namespace BlazorServerCms.servicos
             var _TotalRegistros = 0;
             try
             {
-                using (con = new SqlConnection(ApplicationDbContext._connectionString))
+                using (con = new SqlConnection(""))
                 {
                     cmd = new SqlCommand($"SELECT COUNT(*) FROM Pagina", con);
                     con.Open();
@@ -72,8 +72,7 @@ namespace BlazorServerCms.servicos
         public List<Pagina>? paginas { get; set; }
 
 
-        public bool aguarde { get; set; } = false;
-
+        public bool aguarde { get; set; } = false;        
 
         public string buscarDominio()
         {

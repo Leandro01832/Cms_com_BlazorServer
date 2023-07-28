@@ -1,0 +1,127 @@
+﻿@page "/comentario/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
+@inject RepositoryPagina? repositoryPagina
+<h3>Comentar</h3>
+
+<a href="/renderizar/@capitulo/@verso/1/11/@compartilhante/@desconto">Voltar</a>
+
+<EditForm Model="@exampleModel" OnSubmit="@FazerComentario">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label id="PalavrasTexto" name="PalavrasTexto" class="control-label">Conteudo:</label>
+    <InputTextArea id="textarea" @bind-Value="exampleModel.ContentUser"></InputTextArea>
+    <button type="submit">Fazer comentário</button>
+</EditForm>
+@{
+    if (MensagemComentario != null)
+    {
+        @MensagemComentario
+    }
+    foreach (var codHtml in comentarios)
+    {
+        @codHtml
+    }
+
+}
+
+@code {
+    [Parameter] public int capitulo { get; set; }
+    [Parameter] public int verso { get; set; }
+    [Parameter] public string? compartilhante { get; set; }
+    [Parameter] public int desconto { get; set; }
+    protected List<MarkupString> comentarios = new List<MarkupString>();
+    protected string? MensagemComentario = null;
+    Pagina exampleModel = new Pagina();
+    Pagina Model = new Pagina();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
+        Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
+        List<business.Comentario> listaComentarios = 
+        await repositoryPagina!.Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
+                       .OrderBy(c => c.Id)
+                       .ToListAsync();
+        comentarios = new List<MarkupString>();
+
+        foreach (var item in listaComentarios)
+        {
+            var p = repositoryPagina.paginas!.Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
+            .OrderBy(pa => pa.Id)
+            .Skip(item.Verso - 1).First();
+            var html = await repositoryPagina
+            .renderizarPagina(p);
+            var comentario = new MarkupString(html + $" <hr /> <p> Capitulo {item.Capitulo} Verso {item.Verso} </p>");
+            comentarios.Add(comentario);
+        }
+    }
+
+    protected async void FazerComentario()
+    {
+        var Quant = await repositoryPagina.Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
+        var comenta = await repositoryPagina.Context.Story!.Include(st => st.Pagina)
+        .Where(st => st.Comentario)
+        .OrderBy(st => st.Id)
+        .ToListAsync();
+        var Story = comenta.LastOrDefault();
+
+        if (Story == null || Story.Pagina!.ToList().Count > 499)
+        {
+            Story = new Story
+                {
+                    Nome = "Comentario " + (comenta.Count + 1),
+                    Comentario = true,
+                    PaginaPadraoLink = Quant.Count + 1
+
+                };
+            repositoryPagina.Context.Add(Story);
+            repositoryPagina.Context.SaveChanges();
+
+            var str = await repositoryPagina.Context.Story!.FirstAsync(st => st.Nome == "Padrao");
+
+            Pagina.entity = true;
+            var p = new Pagina()
+                {
+                    Titulo = "Story - " + str.Nome,
+                    StoryId = str.Id,
+                    ContentUser = "<h1> Story " + Story.Nome + "</h1>"
+                };
+            Pagina.entity = false;
+
+            repositoryPagina.Context.Add(p);
+            repositoryPagina.Context.SaveChanges();
+            p.Story!.Quantidade++;
+        }
+
+        Pagina.entity = true;
+        var pagina = new Pagina()
+            {
+                Titulo = "Story - " + Story.Nome,
+                StoryId = Story.Id,
+                Comentario = Model.Id,
+                ContentUser = $"<div id='usuario' style='display:nome;'>" +
+              $"{exampleModel.ContentUser}"
+            };
+        Pagina.entity = false;
+
+        repositoryPagina.Context.Add(pagina);
+        repositoryPagina.Context.SaveChanges();
+        pagina.Story.QuantComentario++;
+
+        repositoryPagina.paginas!.Add(pagina);
+
+
+        var comentar = new business.Comentario
+            {
+                IdPagina = Model.Id,
+                Capitulo = Story.PaginaPadraoLink,
+                Verso = Story.Pagina!.ToList().Count
+            };
+        repositoryPagina.Context.Add(comentar);
+        repositoryPagina.Context.SaveChanges();
+
+
+        MensagemComentario = $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}";
+
+    }
+}

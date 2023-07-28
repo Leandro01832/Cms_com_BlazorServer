@@ -40,7 +40,7 @@
     int verso = 1;
     int pasta = 1;
     Livro livro = new Livro { Capitulo = 1, url = "" };
-    public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
+    public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
 
     protected override async Task OnInitializedAsync()
     {

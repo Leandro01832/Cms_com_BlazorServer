@@ -1,0 +1,50 @@
+﻿@page "/pareamento"
+@inject RepositoryPagina repositoryPagina
+@inject PareamentServices servico
+@inject HttpClient http
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Aceitar Pareamento</h3>
+
+<p>
+    <label>Dominio</label>
+    <input type="text" value="@servico.parearDominio" />
+</p>
+
+<p>
+    <label>Capitulo</label>
+    <input type="text" value="@servico.parearCapitulo" />
+</p>
+
+<p>
+    <label>Pasta</label>
+    <input type="text" value="@servico.parearIndice" />
+</p>
+
+<p>
+    <label>Preferencia</label>
+    <input type="text" value="@servico.parearPreferencia" />
+</p>
+
+<a  onclick="@(() => Aceitar())">Aceitar</a>
+
+@code {
+    List<Livro> livros = new List<Livro>();
+    List<business.Compartilhante> compartilhantes = new List<business.Compartilhante>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        livros = await repositoryPagina.Context.Livro!.ToListAsync();
+        compartilhantes = await repositoryPagina.Context.Compartilhante!.ToListAsync();
+    }
+
+    private async void Aceitar()
+    {
+        foreach(var item in livros)
+        await http.GetAsync($"{item.url}/api/pareamento?dominio={servico.parearDominio}&capitulo={servico.parearCapitulo}&indiceFiltro={servico.parearIndice}&preferencia={servico.parearPreferencia}");
+        foreach (var item in compartilhantes)
+        await http.GetAsync($"{item.Livro}/api/pareamento?dominio={servico.parearDominio}&capitulo={servico.parearCapitulo}&indiceFiltro={servico.parearIndice}&preferencia={servico.parearPreferencia}");
+       // await http.GetAsync($"https://localhost:7224/api/pareamento?dominio={servico.parearDominio}&capitulo={servico.parearCapitulo}&indiceFiltro={servico.parearIndice}&preferencia={servico.parearPreferencia}");
+    }
+
+}

@@ -158,7 +158,7 @@
 
 @code {
     static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = null;// new ApplicationDbContext(conexao);
+    ApplicationDbContext context =  new ApplicationDbContext(conexao);
     private CamadaNove exampleModel = new();
     
     long StoryId = 0;

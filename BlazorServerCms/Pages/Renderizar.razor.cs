@@ -6,8 +6,6 @@ using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
@@ -17,8 +15,9 @@ namespace BlazorCms.Client.Pages
 {
     public class RenderizarBase : ComponentBase
     {
-        [Inject] RepositoryPagina? repositoryPagina { get; set; }
+        [Inject] public RepositoryPagina? repositoryPagina { get; set; }
         [Inject] public NavigationManager? navigation { get; set; }
+        [Inject] PareamentServices? servico { get; set; }
         [Inject] HttpClient? Http { get; set; }
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] IJSRuntime? js { get; set; }
@@ -29,12 +28,14 @@ namespace BlazorCms.Client.Pages
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
-        protected string? MensagemComentario = null;
+        protected string nameGroup = "";
+        
         protected Pagina? Model;
         protected string[]? classificacoes = null;
         protected int opcional = 1;
-        protected List<MarkupString> comentarios = new List<MarkupString>();
-        protected Pagina exampleModel = new Pagina();
+        
+        
+        
 
         protected string? html { get; set; } = "";
         protected int? indice_Filtro { get; set; } = null;
@@ -44,6 +45,8 @@ namespace BlazorCms.Client.Pages
         protected int quantidadePaginas { get; set; }
         protected int anterior { get; set; }
         protected int proximo { get; set; }
+
+        [Parameter] public int lista { get; set; } = 1;
         [Parameter] public int timeproduto { get; set; } = 1; [Parameter] public int desconto { get; set; } = 1;
         [Parameter] public int indice { get; set; } = 1; [Parameter] public int capitulo { get; set; } = 1;
 
@@ -63,7 +66,6 @@ namespace BlazorCms.Client.Pages
         
         protected override async Task OnParametersSetAsync()
         {
-            MensagemComentario = null;
 
             if (repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0)
             {
@@ -157,8 +159,8 @@ namespace BlazorCms.Client.Pages
         protected async Task renderizar()
         {
             await Verificar(capitulo);
-            var lista = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
-            Pagina pag = lista.First();
+            var list = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
+            Pagina pag = list.First();
 
 
             if (filtrar == null && substory == null)
@@ -174,7 +176,7 @@ namespace BlazorCms.Client.Pages
                     return;
                 }
 
-                quantidadePaginas = lista.Count();
+                quantidadePaginas = list.Count();
                 //  ViewBag.story = pagina.Story.Nome;
                 string html = "";
                 if (Model!.Content != null || Model.ContentUser != null)
@@ -312,6 +314,7 @@ namespace BlazorCms.Client.Pages
                 List<Pagina>? listaComConteudo = null;
                 if (filtrar != null)
                 {
+                    lista = 1;
                     var livro = await repositoryPagina.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
                     if (livro != null && redirecionar == null)
                         navigation!.NavigateTo($"{livro.url}/{livro.Capitulo}/{filtrar}/{compartilhante}/{livro.DescontoDoCompartilhante}/1");
@@ -396,6 +399,7 @@ namespace BlazorCms.Client.Pages
                 }
                 else if (substory != null)
                 {
+                    
                     SubStory? group = null;
                     Grupo? group2 = null;
                     SubGrupo? group3 = null;
@@ -407,8 +411,9 @@ namespace BlazorCms.Client.Pages
                     CamadaDez? group9 = null;
 
                     group = pag.Story!.SubStory!.Where(str => str.Pagina!.Count > 0).Skip((int)substory! - 1).First();
-                    if (group!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                        listaComConteudo = retornarListaComConteudo(lista,
+                    nameGroup = group.Nome!;
+                    if (group!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                        listaComConteudo = retornarListaComConteudo(list,
                      group.Pagina!.ToList(), (int)camadadez!);
                     else listaComConteudo = group.Pagina!.ToList();
 
@@ -416,8 +421,9 @@ namespace BlazorCms.Client.Pages
                     if (grupo != null)
                     {
                         group2 = group!.Grupo!.Where(str => str.Pagina!.Count > 0).Skip((int)grupo! - 1).First();
-                        if (group2!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group2.Nome!;
+                        if (group2!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group2.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group2.Pagina!.ToList();
                     }
@@ -425,8 +431,9 @@ namespace BlazorCms.Client.Pages
                     if (subgrupo != null)
                     {
                         group3 = group2!.SubGrupo!.Where(str => str.Pagina!.Count > 0).Skip((int)subgrupo! - 1).First();
-                        if (group3!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group3.Nome!;
+                        if (group3!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group3.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group3.Pagina!.ToList();
                     }
@@ -434,8 +441,9 @@ namespace BlazorCms.Client.Pages
                     if (subsubgrupo != null)
                     {
                         group4 = group3!.SubSubGrupo!.Where(str => str.Pagina!.Count > 0).Skip((int)subsubgrupo! - 1).First();
-                        if (group4!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group4.Nome!;
+                        if (group4!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group4.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group4.Pagina!.ToList();
                     }
@@ -443,8 +451,9 @@ namespace BlazorCms.Client.Pages
                     if (camadaseis != null)
                     {
                         group5 = group4!.CamadaSeis!.Where(str => str.Pagina!.Count > 0).Skip((int)camadaseis! - 1).First();
-                        if (group5!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group5.Nome!;
+                        if (group5!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group5.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group5.Pagina!.ToList();
                     }
@@ -452,8 +461,9 @@ namespace BlazorCms.Client.Pages
                     if (camadasete != null)
                     {
                         group6 = group5!.CamadaSete!.Where(str => str.Pagina!.Count > 0).Skip((int)camadasete! - 1).First();
-                        if (group6!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group6.Nome!;
+                        if (group6!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group6.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group6.Pagina!.ToList();
                     }
@@ -461,8 +471,9 @@ namespace BlazorCms.Client.Pages
                     if (camadaoito != null)
                     {
                         group7 = group6!.CamadaOito!.Where(str => str.Pagina!.Count > 0).Skip((int)camadaoito! - 1).First();
-                        if (group7!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group7.Nome!;
+                        if (group7!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group7.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group7.Pagina!.ToList();
                     }
@@ -470,8 +481,9 @@ namespace BlazorCms.Client.Pages
                     if (camadanove != null)
                     {
                         group8 = group7!.CamadaNove!.Where(str => str.Pagina!.Count > 0).Skip((int)camadanove! - 1).First();
-                        if (group8!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group8.Nome!;
+                        if (group8!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group8.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group8.Pagina!.ToList();
                     }
@@ -479,16 +491,17 @@ namespace BlazorCms.Client.Pages
                     if (camadadez != null)
                     {
                         group9 = group8!.CamadaDez!.Where(str => str.Pagina!.Count > 0).Skip((int)camadadez! - 1).First();
-                        if (group9!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && pag.ContentUser == null)
-                            listaComConteudo = retornarListaComConteudo(lista,
+                        nameGroup = group9.Nome!;
+                        if (group9!.Pagina!.Where(p => p.Produto != null).ToList().Count > 0 && lista == 1 && pag.ContentUser == null)
+                            listaComConteudo = retornarListaComConteudo(list,
                          group9.Pagina!.ToList(), (int)camadadez!);
                         else listaComConteudo = group9.Pagina!.ToList();
                     }
 
                     Pagina pag2 = listaComConteudo!.Skip((int)indice - 1).First();
 
-                    Model = lista.First(p => p.Id == pag2.Id);
-                    vers = lista.IndexOf(Model) + 1;
+                    Model = list.First(p => p.Id == pag2.Id);
+                    vers = list.IndexOf(Model) + 1;
 
                     quantidadePaginas = listaComConteudo!.Count;
                     html = await repositoryPagina!.renderizarPagina(Model);
@@ -537,21 +550,7 @@ namespace BlazorCms.Client.Pages
                 Console.WriteLine(ex.Message);
             }
 
-            List<Comentario> listaComentarios = await Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
-                        .OrderBy(c => c.Id)
-                        .ToListAsync();
-            comentarios = new List<MarkupString>();
-
-            foreach (var item in listaComentarios)
-            {
-                var p = repositoryPagina.paginas!.Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
-                .OrderBy(pa => pa.Id)
-                .Skip(item.Verso - 1).First();
-                var html = await repositoryPagina
-                .renderizarPagina(p);
-                var comentario = new MarkupString(html + $" <hr /> <p> Capitulo {item.Capitulo} Verso {item.Verso} </p>");
-                comentarios.Add(comentario);
-            }
+           
 
         }
 
@@ -727,11 +726,11 @@ namespace BlazorCms.Client.Pages
                 if (substory == null)
                 {
                     if (capitulo == 0 && indice >= quantidadePaginas)
-                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                     else if (capitulo != 0 && indice >= quantidadePaginas)
-                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink + 1}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink + 1}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                     else
-                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/1/{timeproduto}/{compartilhante}/{desconto}");
+                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 }
                 else
                 {
@@ -751,9 +750,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, camadadez);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadadez/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/camadadez/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (camadanove != null && indice >= quantidadePaginas)
@@ -762,9 +761,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadanove/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/camadanove/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (camadaoito != null && indice >= quantidadePaginas)
@@ -773,9 +772,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadaoito/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/camadaoito/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (camadasete != null && indice >= quantidadePaginas)
@@ -784,9 +783,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadasete/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/camadasete/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (camadaseis != null && indice >= quantidadePaginas)
@@ -795,9 +794,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadaseis/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/camadaseis/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (subsubgrupo != null && indice >= quantidadePaginas)
@@ -806,9 +805,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/subsubgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/subsubgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (subgrupo != null && indice >= quantidadePaginas)
@@ -817,9 +816,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/subgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/subgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (grupo != null && indice >= quantidadePaginas)
@@ -827,9 +826,9 @@ namespace BlazorCms.Client.Pages
                 var arr = Arr.RetornarArray(Model!.Story!, true, 0, capitulo, (int)substory!, grupo);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/grupo/{arr[0]}/{arr[1]}/{arr[2]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/grupo/{arr[0]}/{arr[1]}/{arr[2]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
             else
                                 if (substory != null && indice >= quantidadePaginas)
@@ -837,9 +836,9 @@ namespace BlazorCms.Client.Pages
                 var arr = Arr.RetornarArray(Model!.Story!, true, 0, capitulo, (int)substory);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/substory/{arr[0]}/{arr[1]}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                 .NavigateTo($"/substory/{arr[0]}/{arr[1]}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
                 else
-                    navigation!.NavigateTo($"/renderizar/{capitulo}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{compartilhante}/{desconto}");
             }
         }
 
@@ -855,12 +854,12 @@ namespace BlazorCms.Client.Pages
                 if (args.Key == "Enter" && capitulo == 0)
                 {
                     Console.WriteLine("foi dado Enter");
-                    navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{lista}/{lista}/{compartilhante}/{desconto}");
                 }
                 else if (args.Key == "Enter")
                 {
                     Console.WriteLine("foi dado Enter em outro capitulo");
-                    navigation!.NavigateTo($"/Renderizar/0/{Model!.Story!.PaginaPadraoLink}/1/{timeproduto}/{compartilhante}/{desconto}");
+                    navigation!.NavigateTo($"/Renderizar/0/{Model!.Story!.PaginaPadraoLink}/1/{timeproduto}/{lista}/{lista}/{compartilhante}/{desconto}");
                 }
             }
             else if (args.Key == "Enter")
@@ -879,7 +878,7 @@ namespace BlazorCms.Client.Pages
         protected async void Pesquisar()
         {
             auto = 0;
-            var url = $"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{opcional}/0/{timeproduto}/{compartilhante}/{desconto}";
+            var url = $"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{opcional}/0/{timeproduto}/{lista}/{lista}/{compartilhante}/{desconto}";
             navigation!.NavigateTo(url);
         }
 
@@ -887,7 +886,7 @@ namespace BlazorCms.Client.Pages
         {
             Timer!.SetTimerAuto();
             Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
-            navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{indice}/1/{timeproduto}/{compartilhante}/{desconto}");
+            navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{indice}/1/{timeproduto}/{lista}/{lista}/{compartilhante}/{desconto}");
         }
 
         protected void desabilitarAuto()
@@ -903,71 +902,9 @@ namespace BlazorCms.Client.Pages
 
         protected async void FazerComentario()
         {
-            var Quant = await repositoryPagina.Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
-            var comenta = await repositoryPagina.Context.Story!.Include(st => st.Pagina)
-            .Where(st => st.Comentario)
-            .OrderBy(st => st.Id)
-            .ToListAsync();
-            var Story = comenta.LastOrDefault();
-
-            if (Story == null || Story.Pagina!.ToList().Count > 499)
-            {
-                Story = new Story
-                {
-                    Nome = "Comentario " + (comenta.Count + 1),
-                    Comentario = true,
-                    PaginaPadraoLink = Quant.Count + 1
-
-                };
-                repositoryPagina.Context.Add(Story);
-                repositoryPagina.Context.SaveChanges();
-
-                var str = await repositoryPagina.Context.Story!.FirstAsync(st => st.Nome == "Padrao");
-
-                Pagina.entity = true;
-                var p = new Pagina()
-                {
-                    Titulo = "Story - " + str.Nome,
-                    StoryId = str.Id,
-                    ContentUser = "<h1> Story " + Story.Nome + "</h1>"
-            };
-                Pagina.entity = false;
-
-                repositoryPagina.Context.Add(p);
-                repositoryPagina.Context.SaveChanges();
-                p.Story!.Quantidade++;
-            }
-
-            Pagina.entity = true;
-            var pagina = new Pagina()
-            {
-                Titulo = "Story - " + Story.Nome,
-                StoryId = Story.Id,
-                Comentario = Model.Id,
-                ContentUser = $"<div id='usuario' style='display:nome;'>" +
-              $"{exampleModel.ContentUser}"
-        };
-            Pagina.entity = false;
-
-            repositoryPagina.Context.Add(pagina);
-            repositoryPagina.Context.SaveChanges();
-            pagina.Story.QuantComentario++;
-
-            repositoryPagina.paginas!.Add(pagina);
-
-           
-                var comentar = new Comentario
-                {
-                    IdPagina = Model.Id,
-                    Capitulo = Story.PaginaPadraoLink,
-                    Verso = Story.Pagina!.ToList().Count
-                };
-                repositoryPagina.Context.Add(comentar);
-                repositoryPagina.Context.SaveChanges();
-            
-
-            MensagemComentario = $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}";
-
+            if (auto == 1)
+                desabilitarAuto();
+            navigation!.NavigateTo($"/comentario/{Model!.Story!.PaginaPadraoLink}/{indice}/{compartilhante}/{desconto}");
         }
 
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -1008,5 +945,25 @@ namespace BlazorCms.Client.Pages
 
             return calculo;
         }        
+   
+        protected async void Parear()
+        {
+            var Contexto = new ApplicationDbContext(ApplicationDbContext._connectionString);
+            var livros = await Contexto.Livro!.ToListAsync();
+           var compartilhantes = await Contexto.Compartilhante!.ToListAsync();
+
+            foreach (var item in livros)
+                await Http.GetAsync($"{item.url}/api/pareamento?dominio={"https://" +repositoryPagina.buscarDominio()}&capitulo={capitulo}&indiceFiltro={indice_Filtro}&preferencia={indice}");
+            foreach (var item in compartilhantes)
+                await Http.GetAsync($"{item.Livro}/api/pareamento?dominio={"https://" + repositoryPagina.buscarDominio()}&capitulo={capitulo}&indiceFiltro={indice_Filtro}&preferencia={indice}");
+            // await http.GetAsync($"https://localhost:7224/api/pareamento?dominio={"https://" + repositoryPagina.buscarDominio()}&capitulo={capitulo}&indiceFiltro={indice_Filtro}&preferencia={indice}");
+        }
+
+       protected void getPastas()
+        {
+            if (auto == 1)
+                desabilitarAuto();
+            navigation!.NavigateTo($"/pastas/{Model!.Story!.PaginaPadraoLink}/{indice}/{compartilhante}/{desconto}");
+        }
     }
 }

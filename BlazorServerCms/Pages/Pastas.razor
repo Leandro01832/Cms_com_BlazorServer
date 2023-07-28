@@ -1,0 +1,103 @@
+﻿@page "/pastas/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
+@inject RepositoryPagina? repositoryPagina 
+<h3>Pastas do versiculo @verso</h3>
+
+@{
+    getPastas();
+
+    for (var i = 0; i < pastas.Length; i++)
+        if (pastas[i] != 0)
+        {
+            <label>pasta @pastas[i] - @namePastas[i]</label>
+        }
+}
+
+<a href="/renderizar/@capitulo/@verso/1/11/@compartilhante/@desconto" >Voltar</a>
+
+@code {
+    protected int[] pastas = new int[9];
+    protected string[] namePastas = new string[9];
+    [Parameter] public int capitulo { get; set; }
+    [Parameter] public int verso { get; set; }
+    [Parameter] public string? compartilhante { get; set; }
+    [Parameter] public int desconto { get; set; }
+    public Pagina Model { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
+        Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
+    }
+
+    protected void getPastas()
+    {
+        for (var i = 0; i < pastas.Length; i++)
+            pastas[i] = 0;
+
+        var filtros = repositoryPagina!.paginas!
+                        .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
+        if (Model.SubStoryId != null)
+        {
+            var fil = filtros.First(f => f.SubStoryId == Model.SubStoryId);
+            namePastas[0] = fil.Nome!;
+            pastas[0] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.GrupoId != null)
+        {
+            var fil = filtros.First(f => f.GrupoId == Model.GrupoId);
+            namePastas[1] = fil.Nome!;
+            pastas[1] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.SubGrupoId != null)
+        {
+            var fil = filtros.First(f => f.SubGrupoId == Model.SubGrupoId);
+            namePastas[2] = fil.Nome!;
+            pastas[2] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.SubSubGrupoId != null)
+        {
+            var fil = filtros.First(f => f.SubSubGrupoId == Model.SubSubGrupoId);
+            namePastas[3] = fil.Nome!;
+            pastas[3] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.CamadaSeisId != null)
+        {
+            var fil = filtros.First(f => f.CamadaSeisId == Model.CamadaSeisId);
+            namePastas[4] = fil.Nome!;
+            pastas[4] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.CamadaSeteId != null)
+        {
+            var fil = filtros.First(f => f.CamadaSeteId == Model.CamadaSeteId);
+            namePastas[5] = fil.Nome!;
+            pastas[5] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.CamadaOitoId != null)
+        {
+            var fil = filtros.First(f => f.CamadaOitoId == Model.CamadaOitoId);
+            namePastas[6] = fil.Nome!;
+            pastas[6] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.CamadaNoveId != null)
+        {
+            var fil = filtros.First(f => f.CamadaNoveId == Model.CamadaNoveId);
+            namePastas[7] = fil.Nome!;
+            pastas[7] = filtros.IndexOf(fil) + 1;
+        }
+
+        if (Model.CamadaDezId != null)
+        {
+            var fil = filtros.First(f => f.CamadaDezId == Model.CamadaDezId);
+            namePastas[8] = fil.Nome!;
+            pastas[8] = filtros.IndexOf(fil) + 1;
+        }
+    }
+}

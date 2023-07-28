@@ -75,7 +75,7 @@
     List<Filtro>? filtros = new List<Filtro>();
     int cap = 1;
     string? Mensagem { get; set; }
-    public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
+    public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
 
     protected override async Task OnParametersSetAsync()
     {
@@ -150,7 +150,7 @@
         {
             var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
-                navigation.NavigateTo($"{livro.url}/lista-filtro/{user}/{livro.Capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{versoPreferencia}");
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/1/{user}/{livro.Capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{versoPreferencia}");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
