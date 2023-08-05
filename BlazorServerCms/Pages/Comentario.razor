@@ -1,8 +1,9 @@
 ﻿@page "/comentario/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
 @inject RepositoryPagina? repositoryPagina
+@layout MeuLayout
 <h3>Comentar</h3>
 
-<a href="/renderizar/@capitulo/@verso/1/11/@compartilhante/@desconto">Voltar</a>
+<a href="/renderizar/@capitulo/@verso/1/11/1/@compartilhante/@desconto">Voltar</a>
 
 <EditForm Model="@exampleModel" OnSubmit="@FazerComentario">
     <DataAnnotationsValidator />
@@ -36,23 +37,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
-        Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
-        List<business.Comentario> listaComentarios = 
-        await repositoryPagina!.Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
-                       .OrderBy(c => c.Id)
-                       .ToListAsync();
-        comentarios = new List<MarkupString>();
-
-        foreach (var item in listaComentarios)
+        if(capitulo != 0)
         {
-            var p = repositoryPagina.paginas!.Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
-            .OrderBy(pa => pa.Id)
-            .Skip(item.Verso - 1).First();
-            var html = await repositoryPagina
-            .renderizarPagina(p);
-            var comentario = new MarkupString(html + $" <hr /> <p> Capitulo {item.Capitulo} Verso {item.Verso} </p>");
-            comentarios.Add(comentario);
+            var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
+            Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
+            List<business.Comentario> listaComentarios =
+            await repositoryPagina!.Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
+                           .OrderBy(c => c.Id)
+                           .ToListAsync();
+            comentarios = new List<MarkupString>();
+
+            foreach (var item in listaComentarios)
+            {
+                var p = repositoryPagina.paginas!.Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
+                .OrderBy(pa => pa.Id)
+                .Skip(item.Verso - 1).First();
+                var html = await repositoryPagina
+                .renderizarPagina(p);
+                var comentario = new MarkupString(html + $" <hr /> <p> Capitulo {item.Capitulo} Verso {item.Verso} </p>");
+                comentarios.Add(comentario);
+            }
         }
     }
 
@@ -99,8 +103,7 @@
                 Titulo = "Story - " + Story.Nome,
                 StoryId = Story.Id,
                 Comentario = Model.Id,
-                ContentUser = $"<div id='usuario' style='display:nome;'>" +
-              $"{exampleModel.ContentUser}"
+                ContentUser = $"<div> {exampleModel.ContentUser} </div>"
             };
         Pagina.entity = false;
 

@@ -58,6 +58,9 @@
             };
         await repositoryPagina!.Context.AddAsync(filtro);
         await repositoryPagina!.Context.SaveChangesAsync();
-        navigation.NavigateTo("grupo");
+        filtro.GrupoId = filtro.Id;
+        repositoryPagina!.Context.Update(filtro);
+        await repositoryPagina!.Context.SaveChangesAsync();
+        navigation.NavigateTo("crud/grupo");
     }
 }

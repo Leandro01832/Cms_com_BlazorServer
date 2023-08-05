@@ -1,5 +1,6 @@
 ﻿@page "/pastas/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
 @inject RepositoryPagina? repositoryPagina 
+@layout MeuLayout
 <h3>Pastas do versiculo @verso</h3>
 
 @{
@@ -12,7 +13,7 @@
         }
 }
 
-<a href="/renderizar/@capitulo/@verso/1/11/@compartilhante/@desconto" >Voltar</a>
+<a href="/renderizar/@capitulo/@verso/1/11/1/@compartilhante/@desconto" >Voltar</a>
 
 @code {
     protected int[] pastas = new int[9];

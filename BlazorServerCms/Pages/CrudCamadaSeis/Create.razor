@@ -1,4 +1,5 @@
 ﻿@page "/camadaseis/create"
+@inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @attribute [Authorize(Roles = "Admin")]
 
@@ -61,8 +62,6 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context = new ApplicationDbContext(conexao);
     private CamadaSeis exampleModel = new();
 
     long StoryId = 0;
@@ -77,13 +76,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        lista = await context.Story!
+        lista = await repositoryPagina.Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         StoryId = lista.First().Id;
-        SubStory = await context.SubStory!.ToListAsync();
-        Grupo = await context.Grupo!.ToListAsync();
-        SubGrupo = await context.SubGrupo!.ToListAsync();
-        SubSubGrupo = await context.SubSubGrupo!.ToListAsync();
+        SubStory = await repositoryPagina.Context.SubStory!.ToListAsync();
+        Grupo = await repositoryPagina.Context.Grupo!.ToListAsync();
+        SubGrupo = await repositoryPagina.Context.SubGrupo!.ToListAsync();
+        SubSubGrupo = await repositoryPagina.Context.SubSubGrupo!.ToListAsync();
     }
 
     private async void HandleSubmit()
@@ -95,8 +94,11 @@
                 StoryId = StoryId,
                 Rotas = exampleModel.Nome + ", "
             };
-        await context.AddAsync(filtro);
-        await context.SaveChangesAsync();
-        navigation.NavigateTo("camadaseis");
+        await repositoryPagina.Context.AddAsync(filtro);
+        await repositoryPagina.Context.SaveChangesAsync();
+        filtro.CamadaSeisId = filtro.Id;
+        repositoryPagina!.Context.Update(filtro);
+        await repositoryPagina!.Context.SaveChangesAsync();
+        navigation.NavigateTo("crud/camadaseis");
     }
 }

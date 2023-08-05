@@ -907,6 +907,13 @@ namespace BlazorCms.Client.Pages
             navigation!.NavigateTo($"/comentario/{Model!.Story!.PaginaPadraoLink}/{indice}/{compartilhante}/{desconto}");
         }
 
+        protected async void configurar()
+        {
+            if (auto == 1)
+                desabilitarAuto();
+            navigation!.NavigateTo($"/configuracoes/{Model!.Story!.PaginaPadraoLink}/{indice}/{compartilhante}/{desconto}");
+        }
+
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             if (auto == 1)

@@ -3,54 +3,38 @@
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 
-<p>Configurações de filtro</p>
 @if (Mensagem != null)
 {
-    <div class="container">
-
-
-        <p> <a href="/crud/livro">livros</a>                  </p>
-        <p> <a href="/crud/story">stories</a>                 </p>
-        <p> <a href="/crud/sub-story">sub-stories</a>         </p>
-        <p> <a href="/crud/grupo">grupos</a>                  </p>
-        <p> <a href="/crud/sub-grupo">sub-grupos</a>          </p>
-        <p> <a href="/crud/sub-sub-grupo">sub-sub-grupos</a>  </p>
-        <p> <a href="/crud/camadaseis">camada seis</a>        </p>
-        <p> <a href="/crud/camadasete">camada sete</a>        </p>
-        <p> <a href="/crud/camadaoito">camada oito</a>        </p>
-        <p> <a href="/crud/camadanove">camada nove</a>        </p>
-        <p> <a href="/crud/camadadez">camada dez</a>      </p>
-        <p>Mensagem</p><br />
-        <p><a class="btn btn-danger" href="/story/create">Criar story</a></p>
-    </div>
-}
-else
-{
-    <div class="container">
-        <p><a href="/crud/livro">livros</a>                  </p>
-        <p><a href="/crud/story">stories</a>                </p>
-        <p><a href="/crud/sub-story">sub-stories</a>         </p>
-        <p><a href="/crud/grupo">grupos</a>                  </p>
-        <p><a href="/crud/sub-grupo">sub-grupos</a>          </p>
-        <p><a href="/crud/sub-sub-grupo">sub-sub-grupos</a>  </p>
-        <p><a href="/crud/camadaseis">camada seis</a>        </p>
-        <p><a href="/crud/camadasete">camada sete</a>        </p>
-        <p><a href="/crud/camadaoito">camada oito</a>        </p>
-        <p><a href="/crud/camadanove">camada nove</a>        </p>
-        <p><a href="/crud/camadadez">camada dez</a>      </p>
-    </div>
+    <p>Mensagem</p>
 }
 
-<br />
-<br />
-<br />
+<p>Configurações de filtro</p>
+
+    <div class="container">        
+        <p><a href="/crud/substory/1">sub-stories</a>  </p>
+        <p><a href="/crud/grupo/1">grupos</a>          </p>
+        <p><a href="/crud/subgrupo/1">sub-grupos</a>   </p>
+        <p><a href="/crud/subsubgrupo/1">sub-sub-grupos</a>  </p>
+        <p><a href="/crud/camadaseis/1">camada seis</a></p>
+        <p><a href="/crud/camadasete/1">camada sete</a></p>
+        <p><a href="/crud/camadaoito/1">camada oito</a></p>
+        <p><a href="/crud/camadanove/1">camada nove</a></p>
+        <p><a href="/crud/camadadez/1">camada dez</a>  </p>
+    </div>
+
+<hr />
 
 <p>Configurações de conteudo</p>
+
 <div class="container">
     <p><a href="config/download-capitulo">Download de capitulo</a> </p>
-
+    <p><a href="/crud/livro/1">livros</a>   </p>
+    <p><a href="crud/story/1">Stories</a>   </p>
+    <p><a href="crud/pagina/1">Paginas</a>  </p>
 </div>
+
 <h3>Upload de videos do youtube do usuario</h3>
+
 <EditForm Model="data" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -72,7 +56,6 @@ else
 
     <p><button type="submit">Adicionar videos</button></p>
 </EditForm>
-
 
 @code {
     

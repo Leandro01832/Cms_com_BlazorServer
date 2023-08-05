@@ -49,7 +49,10 @@
 
         await repositoryPagina!.Context.AddAsync(filtro);
         await repositoryPagina!.Context.SaveChangesAsync();
-        navigation.NavigateTo("substory");
+        filtro.SubStoryId = filtro.Id;
+        repositoryPagina!.Context.Update(filtro);
+        await repositoryPagina!.Context.SaveChangesAsync();
+        navigation.NavigateTo("crud/substory");
     }
 
     private async void ExecutarChange(string e)

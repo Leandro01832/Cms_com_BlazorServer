@@ -32,6 +32,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tZW50YXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configuracoes.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhY29lcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudCamadaDez/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYURlelxDcmVhdGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

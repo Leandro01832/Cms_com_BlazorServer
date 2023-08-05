@@ -1,0 +1,43 @@
+﻿@page "/configuracoes/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
+@layout MeuLayout
+<h3>Configurações</h3>
+
+
+<a href="/renderizar/@capitulo/@verso/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/@compartilhante/@desconto">
+    Voltar
+</a>
+
+<p>
+    <label>Time:</label>
+    <input type="number" placeholder="digita o nome" @bind-value="timeproduto" @bind-value:event="oninput"
+           min="4" id="inputime" />
+</p>
+
+<p>    
+    <input type="checkbox" @bind="listaCompleta" />
+    <label>Lista completa</label>
+</p>
+
+<p>
+    <input type="checkbox" @bind="auto" />
+    <label>automatico</label>
+</p>
+
+
+@code {
+
+    [Parameter] public int capitulo { get; set; }
+    [Parameter] public int verso { get; set; }
+    [Parameter] public string? compartilhante { get; set; }
+    [Parameter] public int desconto { get; set; }
+    public int timeproduto { get; set; } = 11;
+    public bool listaCompleta { get; set; } = true;
+    public bool auto { get; set; } = true;
+
+    protected override void OnInitialized()
+    {
+        int converter = int.Parse(listaCompleta.ToString());
+    }
+
+
+}

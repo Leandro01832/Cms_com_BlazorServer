@@ -1,5 +1,6 @@
-﻿@page "/crud/camadaoito"
+﻿@page "/crud/camadaoito/{pagina:int}"
 @inject RepositoryPagina repositoryPagina
+@inject NavigationManager navigation
 @attribute [Authorize(Roles = "Admin")]
 
 @if (camadas == null)
@@ -9,9 +10,6 @@
 else if (camadas.Length == 0)
 {
 <p><em>Não existem camadas cadastradas...</em></p>
-    <div>
-        <a class="btn btn-success" href="camadaoito/create">Nova camada</a>
-    </div>
 }
 else
 {
@@ -35,23 +33,35 @@ else
         }
     </tbody>
 </table>
+}
 <div>
+    <label>Lista:</label>
+    <input type="number" onchange="@acessarPagina" min="1" />
     <a class="btn btn-success" href="camadaoito/create">Nova Camada</a>
 </div>
-}
 
 @code {
 
     protected CamadaOito[] camadas { get; set; }
+    [Parameter] public int pagina { get; set; } = 1;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await CarregaCamadas(pagina);
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        await CarregaCamadas();
+        await CarregaCamadas(pagina);
     }
 
-    async Task CarregaCamadas()
+    async Task CarregaCamadas(int pag)
     {
-        camadas = await repositoryPagina!.Context.CamadaOito!.ToArrayAsync();
+        camadas = await repositoryPagina!.Context.CamadaOito!
+        .OrderBy(p => p.Id)
+               .Skip((pag - 1) * 10)
+               .Take(10)
+        .ToArrayAsync();
     }
 
     protected async void DeletarCamada(long Id)
@@ -59,7 +69,15 @@ else
         var camada = await repositoryPagina!.Context.CamadaOito!.FirstAsync(l => l.Id == Id);
         repositoryPagina!.Context.Remove(camada);
         await repositoryPagina!.Context.SaveChangesAsync();
-        await CarregaCamadas();
+        await CarregaCamadas(1);
+    }
+
+    private void acessarPagina(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
+            navigation.NavigateTo($"/crud/camadaoito/{e.Value!.ToString()}");
+        else
+            navigation.NavigateTo($"/crud/camadaoito/1");
     }
 
 }
