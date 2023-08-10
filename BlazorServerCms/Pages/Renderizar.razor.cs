@@ -172,7 +172,7 @@ namespace BlazorCms.Client.Pages
 
                 if (Model == null)
                 {
-                    Mensagem = "Por favor digite um numero menor";
+                    Mensagem = "Por favor digite um numero menor.";
                     return;
                 }
 

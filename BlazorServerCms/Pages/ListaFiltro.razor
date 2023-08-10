@@ -1,4 +1,4 @@
-﻿@page "/lista-filtro/{pagina:int}/{auto:int}/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}/{preferencia}"
+﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}/{preferencia}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject IJSRuntime js
@@ -13,21 +13,21 @@
             <a href="#" id="configurar" onclick="clicou()">Info e Config</a>
         </strong>
     </p>
-    <p> <input type="checkbox" @bind="preco" /> Ordenar por preço </p>
+   
     <p id="automatico">
         <strong>
             @{
                 if (auto == 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/0/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
                         Desabilitar automático
                     </a>
                 }
                 else
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
                         Habilitar automático
                     </a>
                 }
@@ -42,7 +42,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina - 1}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -50,12 +50,69 @@
             }
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina + 1}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
                 Proxima lista >>>
             </a>
 
         </strong>
     </p>
+</div>
+
+<div id="cabecalho">
+    <div>
+        <h4>Logo</h4>
+
+    </div>
+    <div id="ordenacao">
+        <h4>Ordenar</h4>
+
+        <input type="hidden" value="@auto" id="auto" name="auto">
+        <a href="#"
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+            Ordenar por nome
+        </a>
+        <a href="#"
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+            Ordenar por preço
+        </a>
+        <a href="#"
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+            Ordenar por capitulo
+        </a>
+    </div>
+    <div id="proxima-lista">
+        <h3>Tamanho da lista</h3>
+        <strong>
+            <a href="#"
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/11/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                10 itens
+            </a>
+
+        </strong>
+        <strong>
+            <a href="#"
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/41/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                40 itens
+            </a>
+
+        </strong>
+        <strong>
+            <a href="#"
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/81/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}"))">
+                80 itens
+            </a>
+        </strong>
+    </div>
+    <div>
+        <label for="tempo"> <strong>Time em segundos (s):</strong> </label>
+        <input type="number" @bind-value="tempo" @bind-value:event="oninput" max="600" min="15">
+
+
+        <br />
+
+
+    </div>
+
 </div>
 
 <div id="cabecalho">
@@ -129,7 +186,6 @@
     Filtro filtro = new Filtro();
     List<Pagina> Model = new List<Pagina>();
     List<Pagina>? lista { get; set; }
-    public bool preco { get; set; }
     [Parameter] public int auto { get; set; }
     [Parameter] public int pagina { get; set; }
     [Parameter] public int indiceFiltro { get; set; }
@@ -137,11 +193,15 @@
     [Parameter] public int desconto { get; set; }
     [Parameter] public int preferencia { get; set; }
     [Parameter] public string? compartilhante { get; set; }
-    public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
+    [Parameter] public string? ordenar { get; set; }
+    [Parameter] public double tempo { get; set; } = 20;
+    [Parameter] public int? tamanho { get; set; }
+    public ApplicationDbContext Context = 
+    new ApplicationDbContext(ApplicationDbContext._connectionString);
 
     protected override async Task OnParametersSetAsync()
     {
-        Model = RetornarLista(pagina);
+        Model = RetornarLista(pagina, ordenar!, (int)tamanho!);
         try
         {
             await js!.InvokeAsync<object>("ConfigurarPaginacao", "1");
@@ -199,20 +259,30 @@
         navigation.NavigateTo($"/renderizar/{Capitulo}/{Versiculo}/1/11/{compartilhante}/{desconto}");
     }
 
-    private List<Pagina> RetornarLista(int numeroPagina)
+    private List<Pagina> RetornarLista(int numeroPagina, string ordem, int tamanhoPagina)
     {
         List<Pagina>? applicationDbContext = null;
 
-        if (preco)
+        if (ordem == "preco")
             applicationDbContext = lista!
                .OrderBy(p => p.Produto!.Preco)
-               .Skip((numeroPagina - 1) * 20)
-               .Take(20).ToList();
-        else
+               .Skip((numeroPagina - 1) * tamanhoPagina)
+               .Take(tamanhoPagina).ToList();
+        else if(ordem == "descricao")
+            applicationDbContext = lista!
+               .OrderBy(p => p.Produto!.Descricao)
+               .Skip((numeroPagina - 1) * tamanhoPagina)
+               .Take(tamanhoPagina).ToList();
+        else if (ordem == "nome")
+            applicationDbContext = lista!
+               .OrderBy(p => p.Produto!.Nome)
+               .Skip((numeroPagina - 1) * tamanhoPagina)
+               .Take(tamanhoPagina).ToList();
+        else 
             applicationDbContext = lista!
                .OrderBy(p => p.Id)
-               .Skip((numeroPagina - 1) * 20)
-               .Take(20).ToList();
+               .Skip((numeroPagina - 1) * tamanhoPagina)
+               .Take(tamanhoPagina).ToList();
 
         return applicationDbContext;
     }
@@ -222,7 +292,7 @@
     {
         if (auto == 1)
         {
-            Timer!.SetTimer(10000);
+            Timer!.SetTimer(tempo!);
             Timer._timer!.Elapsed += _timer_Elapsed;
             Console.WriteLine("Timer Started.");
         }
@@ -232,11 +302,11 @@
     private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
         if (auto == 1 && Model!.ToList().Count == 20)
-            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
+            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
         else if (auto == 1)
-            navigation.NavigateTo($"/lista-filtro/1/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
+            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
         else
-            navigation.NavigateTo($"/lista-filtro/{pagina}/0/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/0/{tempo}/{tamanho}/{compartilhante}/{Capitulo}/{indiceFiltro}/{desconto}/{preferencia}");
 
         Console.WriteLine("Timer Elapsed.");
         Timer!._timer!.Elapsed -= _timer_Elapsed;

@@ -1,18 +1,10 @@
 ﻿@page "/comentario/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
 @inject RepositoryPagina? repositoryPagina
 @layout MeuLayout
+
+
 <h3>Comentar</h3>
 
-<a href="/renderizar/@capitulo/@verso/1/11/1/@compartilhante/@desconto">Voltar</a>
-
-<EditForm Model="@exampleModel" OnSubmit="@FazerComentario">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <label id="PalavrasTexto" name="PalavrasTexto" class="control-label">Conteudo:</label>
-    <InputTextArea id="textarea" @bind-Value="exampleModel.ContentUser"></InputTextArea>
-    <button type="submit">Fazer comentário</button>
-</EditForm>
 @{
     if (MensagemComentario != null)
     {
@@ -25,6 +17,28 @@
 
 }
 
+@if(capitulo == 0)
+{
+    <a href="/renderizar/@capitulo/@verso/1/11/1/@compartilhante/@desconto">Voltar</a>
+}
+else
+{
+    <a href="/">Voltar</a>
+}
+
+
+
+<Editor Id="contentextarea"
+            Inline=false
+            CloudChannel="5"
+            Disable=false
+        JsConfSrc="sample"
+        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
+        ClassName="tinymce-wrapper" @bind-Value="exampleModel.ContentUser" />
+    <a href="#" onclick="@FazerComentario" class="btn btn-dark" >Adicionar comentário</a>
+
+
+
 @code {
     [Parameter] public int capitulo { get; set; }
     [Parameter] public int verso { get; set; }
@@ -34,6 +48,7 @@
     protected string? MensagemComentario = null;
     Pagina exampleModel = new Pagina();
     Pagina Model = new Pagina();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -111,20 +126,20 @@
         repositoryPagina.Context.SaveChanges();
         pagina.Story.QuantComentario++;
 
-        repositoryPagina.paginas!.Add(pagina);
+        if(repositoryPagina.paginas != null)
+            repositoryPagina.paginas!.Add(pagina);
 
-
-        var comentar = new business.Comentario
-            {
-                IdPagina = Model.Id,
-                Capitulo = Story.PaginaPadraoLink,
-                Verso = Story.Pagina!.ToList().Count
-            };
-        repositoryPagina.Context.Add(comentar);
-        repositoryPagina.Context.SaveChanges();
-
-
+        if (capitulo != 0)
+        {
+            var comentar = new business.Comentario
+                {
+                    IdPagina = Model.Id,
+                    Capitulo = Story.PaginaPadraoLink,
+                    Verso = Story.Pagina!.ToList().Count
+                };
+            repositoryPagina.Context.Add(comentar);
+            repositoryPagina.Context.SaveChanges();
+        }
         MensagemComentario = $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}";
-
     }
 }

@@ -66,13 +66,12 @@
         </table>
     </div>
 }
-<img src="/story.jpg" width="900" />
+<img src="/story.jpg" width="800" />
 
     <a href="#" onclick="@(() => navigation.NavigateTo($"/comentario/0/1/{user}/{desconto}"))"
    style="background-color:rgb(208, 146, 61); font-size:large;color:rgb(95, 56, 23);">
         Compartilhe seu comentário
     </a>
-
 
 
 @code{
@@ -133,9 +132,9 @@
         }
 
 
-        if (capitulo != null && indice != null)
+        if (capitulo != null && indice != null && indice.Contains("verso"))
         {
-            navigation.NavigateTo($"/renderizar/{capitulo}/{indice}/1/11/{user}/{desconto}");
+            navigation.NavigateTo($"/renderizar/{capitulo}/{indice.Replace("verso-", "")}/1/11/1/{user}/{desconto}");
         }
         else if (capitulo != null && filtrar != null)
         {
@@ -146,7 +145,7 @@
                 var number = Regex.Match(indice, @"d+").Value;
                 var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
                 if (livro != null)
-                    navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/{user}/{livro.DescontoDoCompartilhante}");
+                    navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/1/{user}/{livro.DescontoDoCompartilhante}");
                 else
                     Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
@@ -162,7 +161,7 @@
         {
             var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
-                navigation.NavigateTo($"{livro.url}/lista-filtro/1/1/{user}/{livro.Capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{versoPreferencia}");
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{livro.Capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{versoPreferencia}");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }

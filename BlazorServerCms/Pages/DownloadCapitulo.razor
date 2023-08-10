@@ -35,6 +35,11 @@
         </select>
     </p>
 
+    <p>
+        <label>Capitulo para Download:</label>
+        <input id="Download" @bind="data.Download" />
+    </p>
+
     
 
     <p><button type="submit">Fazer Download</button></p>
@@ -65,80 +70,35 @@
 
     private async void HandleSubmit()
     {
-        var url = data.Url + "/renderizar/" + data.Capitulo + "/1/1/user";
+        var url = data.Url + "/renderizar/" + data.Download + "/1/1/11/1/user/0";
 
         // WebClient client = new WebClient();
         var html = await repositoryPagina!.Verificar(url);
 
         if (string.IsNullOrEmpty(html))        
-            Mensagem = "Pagina não encontrada!!! Informe corretamente o capitulo e verso!!!";
-
+            Mensagem = "Pagina não encontrada!!! Informe corretamente o capitulo!!!";
 
         var verso = 1;
         var codigoHtml = "teste";
-        var conteudoHtml = "";
-        var lst = await repositoryPagina.Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
+        var conteudoHtml = "";       
 
-        var str = new Story();
         Story destino = await repositoryPagina.Context.Story!
            .Include(dest => dest.Pagina!)
            .ThenInclude(dest => dest.Produto)
            .FirstAsync(dest => dest.Id == data.Capitulo);
         Pagina pagina = null;
 
-
-
-
-
-
-
-        str.PaginaPadraoLink = lst.Count + 1;
-        str.Nome = "Inportados";
-        repositoryPagina.Context.Add(str);
-        await repositoryPagina.Context.SaveChangesAsync();
-
         var Story = await repositoryPagina.Context.Story!.FirstAsync(st => st.Nome == "Padrao");
 
-        Pagina.entity = true;
-        var p = new Pagina()
-            {
-                Titulo = "Story - " + Story.Nome,
-                StoryId = Story.Id,
-                Content = "<h1> Story " + str.Nome + "</h1>"
-            };
-        Pagina.entity = false;
-
-        repositoryPagina.Context.Add(p);
-        repositoryPagina.Context.SaveChanges();
-        p.Story.Quantidade++;
-
-
-
-        while (!codigoHtml.Contains("<h1>Pagina não encontrada</h1>"))
+        while (!codigoHtml.Contains("<h1>Pagina não encontrada</h1>") && html != null)
         {
 
-            codigoHtml = await repositoryPagina.Verificar(data.Url!);
-            var arr2 = html.Split("<!-- ProdutoContent -->");
+            codigoHtml = await repositoryPagina.Verificar(data.Url + "/renderizar/" + data.Download + $"/{verso}/1/11/1/user/0");
+            var arr2 = codigoHtml.Split("<!-- ProdutoContent -->");
             conteudoHtml = arr2[1];
 
-            if (destino == null)
-            {
-                Pagina.entity = true;
-                pagina = new Pagina()
-                    {
-                        Titulo = "Story - " + str.Nome,
-                        StoryId = str.Id,
-                        Content = conteudoHtml
-                    };
-                Pagina.entity = false;
-
-                repositoryPagina.Context.Add(pagina);
-                repositoryPagina.Context.SaveChanges();
-                pagina.Story!.Quantidade++;
-            }
-            else
-            {
-                pagina = await repositoryPagina.Context.Pagina!.Include(pa => pa.Story)
+            
+                pagina = await repositoryPagina.Context.Pagina!.Include(pa => pa.Story).Skip(verso -1)
                .FirstOrDefaultAsync(pa => pa.Produto == null && pa.StoryId == data.Capitulo);
                 if (pagina == null)
                     break;
@@ -147,7 +107,7 @@
 
                 repositoryPagina.Context.Update(pagina);
                 repositoryPagina.Context.SaveChanges();
-            }
+            
 
             verso++;
         }
@@ -164,6 +124,7 @@
     {
         public string? Url { get; set; }
         public int Capitulo { get; set; }
+        public int Download { get; set; }
     }
 
 }

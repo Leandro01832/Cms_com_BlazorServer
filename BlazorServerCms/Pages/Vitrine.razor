@@ -1,4 +1,4 @@
-﻿@page "/vitrine/{indiceFiltro:int}"
+﻿@page "/vitrine/{capitulo:int}/{indiceFiltro:int}"
 @attribute [Authorize(Roles = "Admin")]
 @inject RepositoryPagina repositoryPagina
 @inject BlazorTimer Timer
@@ -8,8 +8,8 @@
 
 @if(filtros.Count > 0)
 {
-    <p>Capitulo @retornarCap(filtros[indiceFiltro])</p>
-    <p>Pasta @retornarPasta(filtros[indiceFiltro]) - <header>@filtros[indiceFiltro].Nome</header> </p>
+    <p>Capitulo @retornarCap(filtrosPorCap[indiceFiltro])</p>
+    <p>Pasta @retornarPasta(filtrosPorCap[indiceFiltro]) - <header>@filtrosPorCap[indiceFiltro].Nome</header> </p>
     <div class="container">        
             @{
                       
@@ -18,11 +18,11 @@
                     if (Model!.ToList().IndexOf(item) != 0)
                     {
                         var paginaItem = repositoryPagina.paginas!.First(p => p.Id == item.Id);
-                    var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
-                    var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
-                    var identifica = paginaItem.Id;
-                    List<Pagina> lista = paginaItem.Story!.Pagina!.OrderBy(p => p.Id).ToList();
-                    var Capitulo = paginaItem.Story.PaginaPadraoLink;
+                        var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
+                        var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
+                        var identifica = paginaItem.Id;
+                        List<Pagina> lista = paginaItem.Story!.Pagina!.OrderBy(p => p.Id).ToList();
+                        var Capitulo = paginaItem.Story.PaginaPadraoLink;
 
                         var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
 
@@ -53,24 +53,32 @@
 
 @code {
     List<Filtro> filtros = new List<Filtro>();
+    List<Filtro> filtrosPorCap = new List<Filtro>();
     List<Pagina> Model = new List<Pagina>();
     [Parameter] public int indiceFiltro{ get; set; }
+    [Parameter] public int capitulo { get; set; } = 1;
 
     protected override void OnParametersSet()
     {
-        if(indiceFiltro >= filtros.Count)
+        filtrosPorCap = filtros
+        .Where(f => f.Story!.PaginaPadraoLink == capitulo)
+        .ToList();
+
+        if (indiceFiltro >= filtrosPorCap.Count)
             indiceFiltro = 0;
-        VerificarFiltro(filtros[indiceFiltro]);
+        VerificarFiltro(filtrosPorCap[indiceFiltro]);
     }
 
     protected override async Task OnInitializedAsync()
     {
         indiceFiltro = 0;
+        capitulo = 1;
         if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
             filtros = await repositoryPagina.Context.Filtro!
+            .Include(f => f.Story)
         .OrderBy(f => f.StoryId)
         .OrderBy(f => f.Id)
-        .ToListAsync();
+        .ToListAsync();        
     }
 
     private int retornarCap(Filtro fil)
@@ -114,13 +122,14 @@
             Timer!.SetTimer(30000);
             Timer._timer!.Elapsed += _timer_Elapsed;
             Console.WriteLine("Timer Started.");
-        
-
     }
 
     private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-    {          
-        navigation.NavigateTo($"/vitrine/{indiceFiltro + 1}");
+    {    
+        if (indiceFiltro + 1 >= filtrosPorCap.Count)
+        navigation.NavigateTo($"/vitrine/{capitulo + 1}/1");
+        else
+            navigation.NavigateTo($"/vitrine/{capitulo}/{indiceFiltro + 1}");
         Console.WriteLine("Timer Elapsed.");
         Timer!._timer!.Elapsed -= _timer_Elapsed;
     }

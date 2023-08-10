@@ -17,6 +17,10 @@
 @if(Mensagem != null)
 {
     <PageTitle>@Mensagem</PageTitle>
+    if (Mensagem.Contains("digite um numero menor"))
+    {
+        <h1>Pagina não encontrada</h1>
+    }
     <h1>@Mensagem</h1>
     <br />
     <a href="#" onclick="@Casinha" class="btn btn-primary">
@@ -89,7 +93,7 @@ else
                 }
                 else
                 {
-                    <a href="#" class="btn btn-dark" onclick="@(() => navigation!.NavigateTo($"/lista-filtro/{compartilhante}/{Model.Story.PaginaPadraoLink}/{indice_Filtro}/{desconto}/0"))">Listar pasta @indice_Filtro</a>
+                    <a href="#" class="btn btn-dark" onclick="@(() => navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/20/{compartilhante}/{Model.Story.PaginaPadraoLink}/{indice_Filtro}/{desconto}/0"))">Listar pasta @indice_Filtro</a>
                     <a href="#" class="btn btn-dark" onclick="@Parear">Parear</a>
                 }
             }
@@ -196,6 +200,7 @@ else
 
     }
 
+    <!-- ProdutoContent -->
 
     if(indice == 1 && substory == null)
     {
@@ -215,7 +220,7 @@ else
     else
         if(Model.Produto != null)
         {
-            <div class="row container" >
+            <div class="row container produto" >
                 <div class="col-md-6 info">
                     <p> Categoria: @Model.Produto.Nome </p>
                             <p> Descrição: @Model.Produto.Descricao </p>
@@ -260,7 +265,8 @@ else
         {
                 @markup
         }
-    
+
+    <!-- ProdutoContent -->
           
         if (Model.Story.Comentario
         && Model.SubStory != null)
