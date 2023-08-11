@@ -157,10 +157,10 @@
 </EditForm>
 
 @code {
-    static string conexao = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
-    ApplicationDbContext context =  new ApplicationDbContext(conexao);
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext context;
     private CamadaNove exampleModel = new();
-    
+
     long StoryId = 0;
     long SubStoryId = 0;
     long GrupoId = 0;
@@ -178,6 +178,11 @@
     public List<CamadaOito> CamadaOito = new List<CamadaOito>();
 
     [Parameter]public long Id{ get; set; }
+
+    protected override void OnInitialized()
+    {
+        context = db.CreateDbContext(null);
+    }
 
     protected async override Task OnParametersSetAsync()
     {

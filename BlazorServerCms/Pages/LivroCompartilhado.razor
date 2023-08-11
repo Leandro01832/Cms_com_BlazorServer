@@ -40,10 +40,12 @@
     int verso = 1;
     int pasta = 1;
     Livro livro = new Livro { Capitulo = 1, url = "" };
-    public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
         if (livro == null)
             navigation.NavigateTo($"/mensagem/Voce ainda não esta compartilhando nenhum livro");

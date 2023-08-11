@@ -23,7 +23,8 @@ namespace BlazorCms.Client.Pages
         [Inject] IJSRuntime? js { get; set; }
 
         public ClassArray Arr = new ClassArray();
-        public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
+        private DemoContextFactory db = new DemoContextFactory();
+        private ApplicationDbContext Context;
 
         protected MarkupString markup;
         protected ElementReference firstInput;
@@ -34,9 +35,6 @@ namespace BlazorCms.Client.Pages
         protected string[]? classificacoes = null;
         protected int opcional = 1;
         
-        
-        
-
         protected string? html { get; set; } = "";
         protected int? indice_Filtro { get; set; } = null;
         protected int? vers { get; set; } = null;
@@ -102,6 +100,7 @@ namespace BlazorCms.Client.Pages
         
         protected override async Task OnInitializedAsync()
         {
+            Context = db.CreateDbContext(null);
             if (compartilhante == null)
             {
                 compartilhante = repositoryPagina!.buscarDominio();
@@ -955,8 +954,9 @@ namespace BlazorCms.Client.Pages
    
         protected async void Parear()
         {
-            var Contexto = new ApplicationDbContext(ApplicationDbContext._connectionString);
-            var livros = await Contexto.Livro!.ToListAsync();
+             DemoContextFactory db = new DemoContextFactory();
+         ApplicationDbContext Contexto = db.CreateDbContext(null);
+        var livros = await Contexto.Livro!.ToListAsync();
            var compartilhantes = await Contexto.Compartilhante!.ToListAsync();
 
             foreach (var item in livros)

@@ -196,8 +196,8 @@
     [Parameter] public string? ordenar { get; set; }
     [Parameter] public double tempo { get; set; } = 20;
     [Parameter] public int? tamanho { get; set; }
-    public ApplicationDbContext Context = 
-    new ApplicationDbContext(ApplicationDbContext._connectionString);
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -215,6 +215,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
         {
             var filtros = await Context.Filtro!

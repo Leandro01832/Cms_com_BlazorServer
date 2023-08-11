@@ -1,4 +1,5 @@
 ﻿using business;
+using business.business;
 using business.Group;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Rota>? Rota { get; set; }
         public DbSet<Filtro>? Filtro { get; set; }
         public DbSet<Pagina>? Pagina { get; set; }
         public DbSet<Produto>? Produto { get; set; }

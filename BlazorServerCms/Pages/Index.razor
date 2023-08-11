@@ -7,7 +7,8 @@
 @page "/preferencia/{filtrar:int}/{versoPreferencia:int}"
 @page "/pref/{filtrar:int}/{versoPreferencia:int}"
 @page "/mensagem/{MensagemSistema}"
-@page "/pesquisar/{Query}"
+@using business.business;
+
 
 
 @inject NavigationManager navigation
@@ -32,17 +33,13 @@
 </p>
     
  <div class="container">
-     <input type="text" @bind-value="Query" @bind-value:event="oninput" placeholder="Nº do capitulo ou o nome" />
-    <a id="acessoPaginaComInput2" href="#" onclick="@(() => navigation.NavigateTo($"/renderizar/{cap}/1/1/11/user"))"
+     <input type="text" @bind="Query"  placeholder="Nº do capitulo ou o nome" />
+    <a id="acessoPaginaComInput2" href="#" onclick="@buscar"
        class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
         </svg>
-    </a>
-     <br />
-     <p>Pesquisa: @Query</p>
-
-     
+    </a>     
  </div>
 
 @if(filtros!.Count > 0)
@@ -82,33 +79,16 @@
     [Parameter] public string? MensagemSistema { get; set; }
     [Parameter] public string? user { get; set; }    
     [Parameter] public int? desconto { get; set; }
-    [Parameter] public string? Query { get; set; }
+    public string? Query { get; set; }
     List<Filtro>? filtros = new List<Filtro>();
     int cap = 1;
     string? Mensagem { get; set; }
-    public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
-
-    protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            cap = int.Parse(Query!);
-        }
-        catch (Exception ex)
-        {
-            if (!string.IsNullOrEmpty(Query) && repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
-            {
-                filtros = await Context.Filtro!
-                .Include(f => f.Story)
-                .Where(f => f.Nome!.Contains(Query!)).ToListAsync();                
-            }
-            cap = 1;
-        }
-
-    }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         if(user == null)
         {
             user = repositoryPagina.buscarDominio();
@@ -142,12 +122,12 @@
         }        
         else if (indice != null)
         { 
-                var number = Regex.Match(indice, @"d+").Value;
-                var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
-                if (livro != null)
-                    navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/1/{user}/{livro.DescontoDoCompartilhante}");
-                else
-                    Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+            var number = Regex.Match(indice, @"d+").Value;
+            var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            if (livro != null)
+                navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/1/{user}/{livro.DescontoDoCompartilhante}");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
         else if (filtrar != null)
         {
@@ -174,6 +154,36 @@
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
         navigation.NavigateTo($"/filtro/{cap}/pasta-{indiceFiltro}/{user}/{desconto}/1");
+    }
+
+    private async void buscar()
+    {
+        try
+        {
+            cap = int.Parse(Query!);
+            navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/{user}/{desconto}");
+        }
+        catch(Exception ex)
+        {
+            if (!string.IsNullOrEmpty(Query) && repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
+            {
+                filtros = await Context.Filtro!
+                .Include(f => f.Story)
+                .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower())).ToListAsync();
+
+                if(filtros.Count == 0)
+                {
+                    var rota = new Rota
+                        {
+                            Nome = Query,
+                            Registrado = false
+                        };
+                        Context.Add(rota);
+                        await Context.SaveChangesAsync();
+                }
+            }
+            cap = 1;
+        }
     }
 
    

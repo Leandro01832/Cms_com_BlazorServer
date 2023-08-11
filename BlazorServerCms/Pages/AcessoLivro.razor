@@ -22,10 +22,12 @@
 
     List<Livro> livros = new List<Livro>();
     public string? Url { get; set; }
-    public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         livros = await Context.Livro!.ToListAsync();
     }
 
