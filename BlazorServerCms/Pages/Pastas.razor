@@ -1,7 +1,13 @@
 ﻿@page "/pastas/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
+@using business.business;
 @inject RepositoryPagina? repositoryPagina 
+@inject NavigationManager navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<IdentityUser> userManager
 @layout MeuLayout
 <h3>Pastas do versiculo @verso</h3>
+
+<p>@authMessage</p>
 
 @{
     getPastas();
@@ -9,13 +15,37 @@
     for (var i = 0; i < pastas.Length; i++)
         if (pastas[i] != 0)
         {
-            <label>pasta @pastas[i] - @namePastas[i]</label>
+            var filtros = repositoryPagina!.paginas!
+            .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
+            var fil = filtros.OrderBy(f => f.Id).Skip(pastas[i] - 1).First();
+            var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
+            <label>
+            pasta @pastas[i] - @namePastas[i]
+                <a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{capitulo}/{pastas[i]}/{compartilhante}/{desconto}"))" class="btn btn-primary" >Acessar</a>
+                <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
+                    @if (condicao != null)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                        </svg>
+                        
+                    }
+                    else
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                        </svg>
+                    }
+                    
+            </a>
+            </label>
         }
 }
 
 <a href="/renderizar/@capitulo/@verso/1/11/1/@compartilhante/@desconto" >Voltar</a>
 
 @code {
+    private string? authMessage;
     protected int[] pastas = new int[9];
     protected string[] namePastas = new string[9];
     [Parameter] public int capitulo { get; set; }
@@ -23,12 +53,17 @@
     [Parameter] public string? compartilhante { get; set; }
     [Parameter] public int desconto { get; set; }
     public Pagina Model { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
+    List<savedFolder> saved = new List<savedFolder>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
+        saved = await Context.savedFolder.ToListAsync();
     }
 
     protected void getPastas()
@@ -99,6 +134,44 @@
             var fil = filtros.First(f => f.CamadaDezId == Model.CamadaDezId);
             namePastas[8] = fil.Nome!;
             pastas[8] = filtros.IndexOf(fil) + 1;
+        }
+    }
+
+    private async Task GetClaimsPrincipalData(Filtro fil)
+    {
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            authMessage = $"{user.Identity.Name} esta autenticado.";
+            var usuario = await userManager.GetUserAsync(user);
+            var save = Context.savedFolder
+            .FirstOrDefaultAsync(s => s.FiltroId == fil.Id && s.user == usuario.UserName);
+            if (save == null)
+            {
+                var s = new savedFolder
+                    {
+                        FiltroId = fil.Id,
+                        user = usuario.UserName
+                    };
+                Context.Add(s);
+                await Context.SaveChangesAsync();
+                saved.Add(s);
+            }
+            else
+            {
+                Context.Remove(Context.savedFolder.First(s => s.FiltroId == fil.Id &&
+                    s.user == usuario.UserName));
+                  await  Context.SaveChangesAsync();
+                saved.Remove(saved.First(s => s.FiltroId == fil.Id &&
+                    s.user == usuario.UserName));
+            }
+        }
+        else
+        {
+            authMessage = "não esta autenticado.";
         }
     }
 }

@@ -1,3 +1,4 @@
+using business.business;
 using business.Group;
 using System;
 
@@ -7,6 +8,7 @@ namespace business
     {
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
+        public virtual List<savedFolder>? savedFolder { get; set; }
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
         public long? SubStoryId { get; set; }

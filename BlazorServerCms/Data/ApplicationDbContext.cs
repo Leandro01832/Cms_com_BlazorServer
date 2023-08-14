@@ -24,6 +24,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<savedFolder> savedFolder { get; set; }
         public DbSet<Rota>? Rota { get; set; }
         public DbSet<Filtro>? Filtro { get; set; }
         public DbSet<Pagina>? Pagina { get; set; }

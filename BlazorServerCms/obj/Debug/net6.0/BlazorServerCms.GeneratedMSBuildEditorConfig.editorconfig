@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ClaimsPrincipalData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xhaW1zUHJpbmNpcGFsRGF0YS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Comentario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tZW50YXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -210,6 +214,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Sumario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3VtYXJpby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Usuario.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXN1YXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Vitrine.razor]

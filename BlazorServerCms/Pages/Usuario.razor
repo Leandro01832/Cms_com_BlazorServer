@@ -1,0 +1,51 @@
+﻿@page "/usuario/{user}"
+@inject UserManager<IdentityUser> userManager
+@inject RepositoryPagina? repositoryPagina
+<h3>Usuario</h3>
+
+@for(var i = 1; i <= caps.Length; i++)
+{
+    <p>Capitulo @i</p>
+    foreach (var item in filtros.Where(f => f.Story!.PaginaPadraoLink == i).ToList())
+    {
+        var filtrs = repositoryPagina!.paginas!
+                .Where(p => p.StoryId == item.StoryId).First().Story!.Filtro!;
+        var fil = filtrs.First(f => f.Id == item.Id);
+        var pasta = filtrs.OrderBy(f => f.Id).ToList().IndexOf(fil) + 1;
+       
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+            </svg>
+            <span> Pasta @pasta</span>
+        </div>
+        
+    }
+    <hr />
+}
+
+
+@code {
+    [Parameter] public string user { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private List<Filtro> filtros = new List<Filtro>();
+    int[] caps = null;
+
+    protected override async Task OnParametersSetAsync()
+    {        
+        var folders = await Context.savedFolder.Where(s => s.user == user).ToListAsync();
+        foreach(var item in folders)
+            filtros.Add(await Context.Filtro!
+                .Include(f => f.Story)
+                .FirstAsync(f => f.Id == item.FiltroId));
+
+        var stories = await Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
+        caps = new int[stories.Count];
+    }
+
+    protected override void OnInitialized()
+    {
+        Context = db.CreateDbContext(null);
+    }
+}
