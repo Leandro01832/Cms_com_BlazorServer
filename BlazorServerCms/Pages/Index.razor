@@ -4,8 +4,27 @@
 @page "/{capitulo:int}/{indice}"
 @page "/{indice}"
 @page "/{filtrar:int}"
-@page "/preferencia/{filtrar:int}/{versoPreferencia:int}"
-@page "/pref/{filtrar:int}/{versoPreferencia:int}"
+@page "/preferencia/{filtrar:int}/{p1:int}"
+@page "/pref/{filtrar:int}/{p1:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}"
+@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}"
+@page "/form/{Capitulo:int}/{filtrar:int}/{user}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 @page "/mensagem/{MensagemSistema}"
 @using business.business;
 
@@ -73,7 +92,16 @@
 
 @code{
     [Parameter] public int? capitulo { get; set; }
-    [Parameter] public int? versoPreferencia { get; set; }
+    [Parameter] public int? p1 { get; set; }
+    [Parameter] public int? p2 { get; set; }
+    [Parameter] public int? p3 { get; set; }
+    [Parameter] public int? p4 { get; set; }
+    [Parameter] public int? p5 { get; set; }
+    [Parameter] public int? p6 { get; set; }
+    [Parameter] public int? p7 { get; set; }
+    [Parameter] public int? p8 { get; set; }
+    [Parameter] public int? p9 { get; set; }
+    [Parameter] public int? p10 { get; set; }
     [Parameter] public string? indice { get; set; }
     [Parameter] public int? filtrar { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
@@ -89,6 +117,7 @@
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+        var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
         if(user == null)
         {
             user = repositoryPagina.buscarDominio();
@@ -104,7 +133,9 @@
                 var compartilhante = new business.Compartilhante
                     {
                         Livro = user,
-                        Data = DateTime.Now
+                        Data = DateTime.Now,
+                        Comissao = 10,
+                        Desconto = (int)desconto!
                     };
                 await Context.AddAsync(compartilhante);
                 await Context.SaveChangesAsync();
@@ -118,12 +149,11 @@
         }
         else if (capitulo != null && filtrar != null)
         {
-            navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/{user}/{desconto}/1");
+            navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/{user}/{desconto}/0/0/0/0/0/0/0/0/0/0/1");
         }        
         else if (indice != null)
         { 
             var number = Regex.Match(indice, @"d+").Value;
-            var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
                 navigation.NavigateTo($"/renderizar/{livro.Capitulo}/{number}/1/11/1/{user}/{livro.DescontoDoCompartilhante}");
             else
@@ -131,17 +161,102 @@
         }
         else if (filtrar != null)
         {
-            var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
             if (livro != null)
-                navigation.NavigateTo($"/filtro/{livro.Capitulo}/pasta-{filtrar}/{user}/{livro.DescontoDoCompartilhante}");
+                navigation.NavigateTo($"/filtro/{livro.Capitulo}/pasta-{filtrar}/{user}/{livro.DescontoDoCompartilhante}/0/0/0/0/0/0/0/0/0/0");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }
-        else if (versoPreferencia != null)
+        else if (capitulo != null && p1 != null)
         {
-            var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+            if (p10 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");                
+            else if (p9 != null)
+           navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");               
+            else if (p8 != null)
+           navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");               
+            else if (p7 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");               
+            else if (p6 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");               
+            else if (p5 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");                
+            else if (p4 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");                
+            else if (p3 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");                
+            else if (p2 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/{p2}/0/0/0/0/0/0/0/0");                            
+            else if (p1 != null)
+            navigation.NavigateTo($"/formulario/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{desconto}/{p1}/0/0/0/0/0/0/0/0/0");
+         }
+        else if (p10 != null)
+        {
+            
             if (livro != null)
-                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{livro.Capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{versoPreferencia}");
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p9 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p8 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p7 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p6 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p5 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p4 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p3 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+         else if (p2 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/{p2}/0/0/0/0/0/0/0/0");
+            else
+                Mensagem = "Voce ainda não esta compartilhando nenhum livro";
+        }
+        else if (p1 != null)
+        {
+            if (livro != null)
+                navigation.NavigateTo($"{livro.url}/lista-filtro/1/teste/1/11/20/{user}/{capitulo}/{filtrar}/{livro.DescontoDoCompartilhante}/{p1}/0/0/0/0/0/0/0/0/0");
             else
                 Mensagem = "Voce ainda não esta compartilhando nenhum livro";
         }

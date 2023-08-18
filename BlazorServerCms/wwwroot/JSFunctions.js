@@ -152,3 +152,20 @@ function focusById(elementId) {
     var element = document.getElementById(elementId);    
         element.focus();    
 }
+
+window.CopiarLink = (m) => {
+    let textoCopiado = document.getElementById("texto");
+    textoCopiado.select();
+    textoCopiado.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("O texto é: " + textoCopiado.value);
+}
+
+window.SetarLink = (m) => {
+    let texto = document.getElementById("texto");
+    texto.value = m;
+}
+
+window.DarAlert = (m) => {
+    alert(m);
+}

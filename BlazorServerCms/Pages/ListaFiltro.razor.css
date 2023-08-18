@@ -242,6 +242,36 @@ img {
     color: black;
 }
 
+#texto, #botaoTexto {
+    font-size: 25px;
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+}
+
+#texto {
+    background-color: #d4e8ff;
+    color: #06224a;
+    width: 500px;
+}
+
+    #texto:focus {
+        outline: none;
+    }
+
+#botaoTexto {
+    margin-left: 10px;
+    background-color: #06224a;
+    color: white;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+    #botaoTexto:hover {
+        background-color: #010d1f;
+        transition: 0.3s;
+    }
+
 
 @media (max-width: 500px) and (min-width: 50px) {
     .produto {

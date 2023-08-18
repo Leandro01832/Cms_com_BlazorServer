@@ -7,6 +7,7 @@ namespace business
         public DateTime Data { get; set; }
         public string? Livro { get; set; }
         public int Comissao { get; set; }
+        public int Desconto { get; set; }
     }
 
 }
