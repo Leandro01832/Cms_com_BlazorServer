@@ -14,14 +14,7 @@
             <a href="#" id="configurar" onclick="clicou()">Info e Config</a>
         </strong>
     </p>
-    <p>
-        <input type="text" name="texto" id="texto" @bind="link" placeholder="link de preferência" readonly />
-        <button onclick="@copiarTexto" id="botaoTexto" >Copiar Link</button>
-        <a href="#" class="btn btn-danger"
-           onclick="@removePreferencia">
-            Remover Preferência
-        </a>
-    </p>
+    
    
     <p id="automatico">
         <strong>
@@ -136,6 +129,14 @@
 </div>
 
 <h3>Lista de Filtro</h3>
+<p>
+    <input type="text" name="texto" id="texto" @bind="link" placeholder="link de preferência" readonly />
+    <button onclick="@copiarTexto" id="botaoTexto">Copiar Link</button>
+    <a href="#" class="btn btn-danger"
+       onclick="@removePreferencia">
+        Remover Preferência
+    </a>
+</p>
 
  Capitulo @Capitulo
 <a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/{compartilhante}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}/1"))">
@@ -166,6 +167,8 @@
                 var Capitulo = paginaItem.Story.PaginaPadraoLink;
 
                 var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
+
+               
 
                 <div class="produto" onclick="cancelar()">
                     @if(Versiculo == p1)
@@ -216,19 +219,19 @@
                         <p> Estoque: @item.Produto!.QuantEstoque </p>
                     </div>
                     <div class="caps">
-                        <p>
+                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/@compartilhante/@desconto" >
                             Capitulo @Capitulo
-                        </p> <br>
-                        <p>
+                        </a> <br>
+                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/@compartilhante/@desconto">
                             Versiculo @Versiculo
-                        </p>
+                        </a>
                     </div>
                     <p>
                         <img src="@path" alt="Imagem do produto" />
                     </p>
 
                 </div>
-                <a href="#" onclick="@(() => marcarPreferencia(Versiculo))" >Marcar como preferência</a>
+                <a href="#" class="btn btn-primary" onclick="@(() => marcarPreferencia(Versiculo))" >Marcar como preferência</a>
             }
         }
     }
@@ -443,6 +446,95 @@
     private async void copiarTexto()
     {
         await js!.InvokeAsync<object>("CopiarLink", "1");
+        
+            var page = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p1 - 1).FirstOrDefault()!.Classificacao;
+            var prefe = Context.Classificacao.First(cl => cl.Id == page!.Id);
+            prefe.preferencia1++;
+            Context.Update(prefe);
+            await Context.SaveChangesAsync();
+        
+        if (p2 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p2 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia2++;
+            Context.Update(pref);
+            await Context.SaveChangesAsync();
+        }
+        if (p3 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p3 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia3++;
+            Context.Update(pref);
+            await Context.SaveChangesAsync();
+        }
+        if (p4 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p4 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia4++;
+            Context.Update(pref);
+            await Context.SaveChangesAsync();
+        }
+        if (p5 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p5 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia5++;
+            Context.Update(pref);
+            await Context.SaveChangesAsync();
+        }
+        if (p6 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p6 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia6++;
+            Context.Update(pref);
+            await Context.SaveChangesAsync();
+        }
+        if (p7 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p7 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia7++;
+            Context.Update(pref);
+            await Context.SaveChangesAsync();
+        }
+        if (p8 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p8 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia8++;
+            Context.Update(pref);
+           await Context.SaveChangesAsync();
+        }
+        if (p9 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p9 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia9++;
+            Context.Update(pref);
+           await Context.SaveChangesAsync();
+        }
+        if (p10 != 0)
+        {
+            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            .OrderBy(p => p.Id).Skip(p10 - 1).FirstOrDefault()!.Classificacao;
+            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
+            pref.preferencia10++;
+            Context.Update(pref);
+           await Context.SaveChangesAsync();
+        }
     }
 
     private async void setarTexto(string texto)

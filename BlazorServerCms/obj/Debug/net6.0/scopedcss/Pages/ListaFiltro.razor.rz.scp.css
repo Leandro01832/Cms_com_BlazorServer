@@ -242,6 +242,36 @@ img[b-622vkbnu9r] {
     color: black;
 }
 
+#texto[b-622vkbnu9r], #botaoTexto[b-622vkbnu9r] {
+    font-size: 25px;
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+}
+
+#texto[b-622vkbnu9r] {
+    background-color: #d4e8ff;
+    color: #06224a;
+    width: 500px;
+}
+
+    #texto:focus[b-622vkbnu9r] {
+        outline: none;
+    }
+
+#botaoTexto[b-622vkbnu9r] {
+    margin-left: 10px;
+    background-color: #06224a;
+    color: white;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+    #botaoTexto:hover[b-622vkbnu9r] {
+        background-color: #010d1f;
+        transition: 0.3s;
+    }
+
 
 @media (max-width: 500px) and (min-width: 50px) {
     .produto[b-622vkbnu9r] {

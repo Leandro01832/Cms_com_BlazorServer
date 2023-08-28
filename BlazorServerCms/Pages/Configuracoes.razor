@@ -1,9 +1,11 @@
-﻿@page "/configuracoes/{capitulo:int}/{verso:int}/{compartilhante}/{desconto:int}"
+﻿@page "/configuracoes/{capitulo:int}/{verso:int}/{filtro:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 @layout MeuLayout
+@inject IJSRuntime js
+@inject RepositoryPagina repositoryPagina
 <h3>Configurações</h3>
 
 
-<a href="/renderizar/@capitulo/@verso/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/@compartilhante/@desconto">
+<a href="/renderizar/@capitulo/@verso/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/@Convert.ToInt32(pref)/@compartilhante/@desconto/@p1/@p2/@p3/@p4/p5/@p6/@p7/@p8/@p9/@p10">
     Voltar
 </a>
 
@@ -19,25 +21,89 @@
 </p>
 
 <p>
+    @if(preferencia == 1)
+    {
+        <input  type="checkbox" @bind="pref"  />
+    }
+    
+    <label>Somente preferências</label>
+</p>
+
+<p>
     <input type="checkbox" @bind="auto" />
     <label>automatico</label>
 </p>
+
+@if(filtro != 0)
+{
+    <p>
+        <a href="#" class="btn btn-primary" onclick="@removePreferencia">
+            remover preferências
+        </a>
+    </p>
+
+    <p>
+        <input type="text" name="texto" id="texto" @bind="link" />
+        <a href="#" class="btn btn-primary" onclick="@gerarLink">
+            compartilhar preferências
+        </a>
+    </p>
+}
 
 
 @code {
 
     [Parameter] public int capitulo { get; set; }
+    [Parameter] public int preferencia { get; set; }
     [Parameter] public int verso { get; set; }
+    [Parameter] public int filtro { get; set; }
     [Parameter] public string? compartilhante { get; set; }
     [Parameter] public int desconto { get; set; }
+    [Parameter] public int? p1 { get; set; } = 0;
+    [Parameter] public int? p2 { get; set; } = 0;
+    [Parameter] public int? p3 { get; set; } = 0;
+    [Parameter] public int? p4 { get; set; } = 0;
+    [Parameter] public int? p5 { get; set; } = 0;
+    [Parameter] public int? p6 { get; set; } = 0;
+    [Parameter] public int? p7 { get; set; } = 0;
+    [Parameter] public int? p8 { get; set; } = 0;
+    [Parameter] public int? p9 { get; set; } = 0;
+    [Parameter] public int? p10 { get; set; } = 0;
     public int timeproduto { get; set; } = 11;
     public bool listaCompleta { get; set; } = true;
+    public bool pref { get; set; }
     public bool auto { get; set; } = true;
+    private string link = "";
 
     protected override void OnInitialized()
     {
         int converter = int.Parse(listaCompleta.ToString());
     }
 
+    private void removePreferencia()
+    {
+        p1 = 0; p2 = 0; p3 = 0; p4 = 0; p5 = 0;
+        p6 = 0; p7 = 0; p8 = 0; p9 = 0; p10 = 0;
+        setarTexto("");
 
+    }
+
+    private void gerarLink()
+    {
+        if(p1 == 0)
+        {
+
+        }
+        else
+        {
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{capitulo}/{filtro}/{compartilhante}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+        }
+
+        
+    }
+
+    private async void setarTexto(string texto)
+    {
+        await js!.InvokeAsync<object>("SetarLink", texto);
+    }
 }

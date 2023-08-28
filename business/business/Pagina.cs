@@ -1,4 +1,5 @@
 ﻿
+using business.business;
 using business.Group;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
@@ -197,7 +198,9 @@ namespace business
 
         public string? Content { get; set; }
 
-        public virtual Produto? Produto { get; set; }                         
+        public virtual Produto? Produto { get; set; }
+
+        public virtual Classificacao? Classificacao { get; set; }
 
         [NotMapped]
         public int MostrarDados { get { return mostrarDados; } set { mostrarDados = value; } }
