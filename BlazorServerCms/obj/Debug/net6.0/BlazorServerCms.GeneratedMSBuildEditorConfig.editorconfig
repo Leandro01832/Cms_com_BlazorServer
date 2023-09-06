@@ -28,16 +28,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ClaimsPrincipalData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xhaW1zUHJpbmNpcGFsRGF0YS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Comentario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tZW50YXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configuracoes.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhY29lcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Criterio.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JpdGVyaW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudCamadaDez/Create.razor]
@@ -118,6 +118,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/DefinirLivro.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXERlZmluaXJMaXZyby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/DefinirLivroUser.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXERlZmluaXJMaXZyb1VzZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Edit.razor]

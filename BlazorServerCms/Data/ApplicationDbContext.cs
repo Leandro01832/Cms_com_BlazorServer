@@ -23,6 +23,8 @@ namespace BlazorServerCms.Data
             : base(options)
         {
         }
+
+        public DbSet<UserBook> UserBook { get; set; }
         public DbSet<Classificacao> Classificacao { get; set; }
         public DbSet<savedFolder> savedFolder { get; set; }
         public DbSet<Rota>? Rota { get; set; }

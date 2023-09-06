@@ -1,7 +1,8 @@
-﻿@page "/livro/definir-livro"
+﻿@page "/user-book"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
-@attribute [Authorize(Roles = "Admin")]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
 @inject IJSRuntime js
 <h3>Definir Livro</h3>
 
@@ -44,25 +45,34 @@
 
     private async void HandleSubmit()
     {
+        var authState = await AuthenticationStateProvider
+           .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+
         var liv = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.url == livro.url);
-        if(liv != null && livro.Capitulo != 0)
+        liv.Capitulo = livro.Capitulo;
+
+        var userBook = await repositoryPagina!.Context.UserBook.FirstOrDefaultAsync(u => u.user == user.Identity!.Name);
+        if(userBook == null)
         {
-            while (await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando) != null)
+            userBook = new business.business.UserBook
             {
-                var l = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
-                if(l != null)
-                {
-                    l.Compartilhando = false;
-                    repositoryPagina!.Context.Update(l);
-                    await repositoryPagina!.Context.SaveChangesAsync();
-                }                
-            }
-            liv.Compartilhando = true;
-            liv.Capitulo = livro.Capitulo;
-            repositoryPagina!.Context.Update(liv);
+                LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+            };
+            await repositoryPagina!.Context.AddAsync(userBook);
             await repositoryPagina!.Context.SaveChangesAsync();
-        }        
-        navigation.NavigateTo("livro");
+        }
+        else
+        {
+            userBook.LivroId = liv.Id;
+            userBook.Capitulo = liv.Capitulo;
+            repositoryPagina!.Context.Update(userBook);
+            await repositoryPagina!.Context.SaveChangesAsync();
+        }
+        navigation.NavigateTo("/");
     }
 
    async void selecionar(Livro liv)

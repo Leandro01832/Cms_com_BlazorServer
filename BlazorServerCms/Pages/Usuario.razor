@@ -1,9 +1,28 @@
-﻿@page "/usuario/{user}"
+﻿@page "/{user}"
+@using business.business;
 @inject UserManager<IdentityUser> userManager
 @inject RepositoryPagina? repositoryPagina
+@inject NavigationManager navigation
 <h3>Usuario</h3>
 
-@for(var i = 1; i <= caps.Length; i++)
+@if(livroCompartilhado == null)
+{
+    <h4>Usuario @user não está compartilhando nenhum livro</h4>
+}
+else
+{
+    <label>Nº da pasta</label>
+    <input type="text" @bind="pasta" placeholder="Nº da pasta" />
+    <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livroCompartilhado.Livro!.url}/filtro/{livroCompartilhado.Capitulo}/pasta-{pasta}/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/{livroCompartilhado.Livro!.DescontoDoCompartilhante}/0/0/0/0/0/0/0/0/0/0"))"
+       class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+        </svg>
+    </a>
+}
+
+@if(caps != null)
+for(var i = 1; i <= caps.Length; i++)
 {
     <p>Capitulo @i</p>
     foreach (var item in filtros.Where(f => f.Story!.PaginaPadraoLink == i).ToList())
@@ -30,10 +49,14 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private List<Filtro> filtros = new List<Filtro>();
+    private UserBook? livroCompartilhado = null;
+    private int pasta;
     int[] caps = null;
 
     protected override async Task OnParametersSetAsync()
-    {        
+    {
+        livroCompartilhado = await Context.UserBook.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+
         var folders = await Context.savedFolder.Where(s => s.user == user).ToListAsync();
         foreach(var item in folders)
             filtros.Add(await Context.Filtro!

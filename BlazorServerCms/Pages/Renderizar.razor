@@ -1,15 +1,15 @@
 ﻿@page "/renderizar"
-@page "/filtro/{capitulo:int}/{filtrar}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}/{redirecionar?}"
-@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{compartilhante}/{desconto:int}"
-@page "/substory/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/grupo/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/subgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/subsubgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/camadaseis/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/camadasete/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/camadaoito/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/camadanove/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/camadadez/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{compartilhante}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/filtro/{capitulo:int}/{filtrar}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}/{redirecionar?}"
+@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}"
+@page "/substory/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/grupo/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/subgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/subsubgrupo/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/camadaseis/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/camadasete/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/camadaoito/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/camadanove/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/camadadez/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -46,7 +46,7 @@ else
                         <PageTitle>@Model!.Story!.Nome</PageTitle>
                         <header>Story: @Model.Story.Nome</header>
                         <span class="capitulos">
-                            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{Model.Story.PaginaPadraoLink}/1/{timeproduto}/{lista}/{compartilhante}/{desconto}"))" class="btn btn-primary">
+                            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{Model.Story.PaginaPadraoLink}/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}"))" class="btn btn-primary">
                                 Capítulo @Model.Story.PaginaPadraoLink
                             </a>
                         </span>
@@ -59,7 +59,7 @@ else
                           Capítulo @Model.Story.PaginaPadraoLink                            
                         </span>
                         <span class="versos">
-                            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{Model.Story.PaginaPadraoLink}/1/{timeproduto}/{lista}/{compartilhante}/{desconto}"))" class="btn btn-primary">
+                            <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{Model.Story.PaginaPadraoLink}/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}"))" class="btn btn-primary">
                                 Versiculo @indice
                             </a>
                         </span>
@@ -153,14 +153,14 @@ else
      </nav>
 
      <div class="blocoLoader2" >
-        <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{timeproduto}/{lista}/{compartilhante}/{desconto}"))" class="esquerda">
+        <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{anterior}/0/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}"))" class="esquerda">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                 <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
             </svg>
         </a>
 
-        <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{timeproduto}/{lista}/{compartilhante}/{desconto}"))" class="direita">
+        <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/0/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}"))" class="direita">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
                 <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />

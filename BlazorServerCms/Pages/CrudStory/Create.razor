@@ -31,6 +31,7 @@
         var conteudo = "<p> <h1> Seja bem vindo a Story " + exampleModel.Nome + "</h1> </p>";
 
         Pagina pag = null;
+        Pagina.entity = true;
         if(exampleModel.Produto)
         pag = new Pagina()
             {
@@ -47,6 +48,7 @@
                     StoryId = exampleModel.Id,
                     ContentUser = conteudo
                 };
+        Pagina.entity = false;
 
         await repositoryPagina!.Context.AddAsync(pag);
         await repositoryPagina!.Context.SaveChangesAsync();

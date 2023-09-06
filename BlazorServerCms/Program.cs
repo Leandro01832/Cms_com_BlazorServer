@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using BlazorServerCms.servicos;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
+using business.business;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -153,8 +154,9 @@ using (var scope = app.Services.CreateScope())
                     Data = DateTime.Now,
                     Titulo = "Story - " + str.Nome,
                     StoryId = str.Id,
-                    Content = "<p> <h1> Seja bem vindo a Story " + str.Nome + "</h1> </p>"
-                 };
+                    Content = "<p> <h1> Seja bem vindo a Story " + str.Nome + "</h1> </p>",
+                    Classificacao = new Classificacao()
+                };
 
                 contexto.Add(indice0);
                 try
@@ -177,8 +179,9 @@ using (var scope = app.Services.CreateScope())
                     GrupoId = null,
                     SubGrupoId = null,
                     SubSubGrupoId = null,
-                    Content = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>"
-            };
+                    Content = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>",
+                    Classificacao = new Classificacao()
+                };
 
                 contexto.Add(pag);
                 try
@@ -202,8 +205,10 @@ using (var scope = app.Services.CreateScope())
                         Imagem = new List<ImagemProduto>
                         { new ImagemProduto { ArquivoImagem = livro.ShoppingResults[i].Thumbnail!.ToString() } },
                         Preco = decimal.Parse(randNum.Next(50, 3000).ToString()),
-                        QuantEstoque = 10
+                        QuantEstoque = 10,
+                         
                     };
+                    pagina.Classificacao = new Classificacao();
                     pagina.Story = str;
                     pagina.Titulo = name;
                     contexto.Pagina!.Add(pagina);
@@ -225,6 +230,7 @@ using (var scope = app.Services.CreateScope())
                             Pagina pagi = new Pagina();
                             pagi.Story = str;
                             pagi.Titulo = name;
+                            pagi.Classificacao = new Classificacao();
                             contexto.Pagina.Add(pagi);
                             try
                             {

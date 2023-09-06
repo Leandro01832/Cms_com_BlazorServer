@@ -16,7 +16,7 @@ namespace BlazorServerCms.servicos
     {
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
-        public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
+        public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
@@ -77,6 +77,12 @@ namespace BlazorServerCms.servicos
         public string buscarDominio()
         {
             var dominio = Configuration.GetConnectionString("dominio");
+            return dominio;
+        }
+
+        public string buscarAdmin()
+        {
+            var dominio = Configuration.GetConnectionString("admin");
             return dominio;
         }
 

@@ -24,6 +24,7 @@ namespace business
                 CamadaOito = null;
                 CamadaNove = null;
                 CamadaDez = null;
+                Classificacao = new Classificacao();
             }
         }
         
