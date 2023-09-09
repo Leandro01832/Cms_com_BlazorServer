@@ -1,7 +1,18 @@
 ﻿@page "/{user}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}"
+@page "/acesso-pastas/{user}/{pasta1:int}"
 @using business.business;
 @inject UserManager<IdentityUser> userManager
 @inject RepositoryPagina? repositoryPagina
+@inject IJSRuntime? js 
 @inject NavigationManager navigation
 <h3>Usuario</h3>
 
@@ -13,7 +24,7 @@ else
 {
     <label>Nº da pasta</label>
     <input type="text" @bind="pasta" placeholder="Nº da pasta" />
-    <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livroCompartilhado.Livro!.url}/filtro/{livroCompartilhado.Capitulo}/pasta-{pasta}/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/{livroCompartilhado.Livro!.DescontoDoCompartilhante}/0/0/0/0/0/0/0/0/0/0"))"
+    <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livroCompartilhado.Livro!.url}/filtro/{livroCompartilhado.Capitulo}/pasta-{pasta}/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0"))"
        class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -46,6 +57,16 @@ for(var i = 1; i <= caps.Length; i++)
 
 @code {
     [Parameter] public string user { get; set; }
+    [Parameter] public int? pasta1 { get; set; }
+    [Parameter] public int? pasta2 { get; set; }
+    [Parameter] public int? pasta3 { get; set; }
+    [Parameter] public int? pasta4 { get; set; }
+    [Parameter] public int? pasta5 { get; set; }
+    [Parameter] public int? pasta6 { get; set; }
+    [Parameter] public int? pasta7 { get; set; }
+    [Parameter] public int? pasta8 { get; set; }
+    [Parameter] public int? pasta9 { get; set; }
+    [Parameter] public int? pasta10 { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private List<Filtro> filtros = new List<Filtro>();
@@ -67,8 +88,20 @@ for(var i = 1; i <= caps.Length; i++)
         caps = new int[stories.Count];
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+
+        if (pasta1 != null)
+        {
+            int? pastaAcessada = null;
+            livroCompartilhado = await Context.UserBook.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+
+            if (pastaAcessada != null && pastaAcessada != 0 && livroCompartilhado != null)
+            {
+                string url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/1/teste/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
+                await js!.InvokeAsync<object>("AcessarSites", url);
+            }
+        }
     }
 }

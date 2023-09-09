@@ -46,8 +46,8 @@ namespace BlazorCms.Client.Pages
         protected int proximo { get; set; }
 
         [Parameter] public int lista { get; set; } = 1; [Parameter] public int preferencia { get; set; } = 0;
-        [Parameter] public int timeproduto { get; set; } = 1; [Parameter] public int desconto { get; set; } = 1;
-        [Parameter] public int indice { get; set; } = 1; [Parameter] public int capitulo { get; set; } = 1;
+        [Parameter] public int timeproduto { get; set; } = 1;   [Parameter] public int indice { get; set; } = 1;
+        [Parameter] public int capitulo { get; set; } = 1;
 
         [Parameter] public int? substory { get; set; } = null; [Parameter] public int? grupo { get; set; } = null;
 
@@ -115,10 +115,8 @@ namespace BlazorCms.Client.Pages
         {
             Context = db.CreateDbContext(null);
             if (compartilhante == null)
-            {
-                compartilhante = repositoryPagina!.buscarDominio();
-                desconto = 0;
-            }
+            compartilhante = repositoryPagina!.buscarDominio();
+            
             if (auto == 0 && Timer!.desligarAuto! != null
                 && Timer!.desligarAuto!.Enabled == true)
             {
@@ -327,7 +325,7 @@ namespace BlazorCms.Client.Pages
                     lista = 1;
                     var livro = await repositoryPagina.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
                     if (livro != null && redirecionar == null)
-                        navigation!.NavigateTo($"{livro.url}/filtro/{livro.Capitulo}/{filtrar}/{dominio}/{compartilhante}/{compartilhante2}/{livro.DescontoDoCompartilhante}/0/0/0/0/0/0/0/0/0/0/1");
+                        navigation!.NavigateTo($"{livro.url}/filtro/{livro.Capitulo}/{filtrar}/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0/1");
 
                     removePreferencia();
                     preferencia = 0;
@@ -879,11 +877,11 @@ namespace BlazorCms.Client.Pages
                 if (substory == null)
                 {
                     if (capitulo == 0 && indice >= quantidadePaginas)
-                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/1/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/1/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}");
                     else if (capitulo != 0 && indice >= quantidadePaginas)
-                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink + 1}/1/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink + 1}/1/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}");
                     else
-                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+                        navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{proximo}/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}");
                 }
                 else
                 {
@@ -904,9 +902,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, camadadez);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadadez/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/camadadez/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (camadanove != null && indice >= quantidadePaginas)
@@ -915,9 +913,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadanove/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/camadanove/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (camadaoito != null && indice >= quantidadePaginas)
@@ -926,9 +924,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadaoito/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/camadaoito/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (camadasete != null && indice >= quantidadePaginas)
@@ -937,9 +935,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadasete/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/camadasete/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (camadaseis != null && indice >= quantidadePaginas)
@@ -948,9 +946,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo, camadaseis);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/camadaseis/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/camadaseis/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (subsubgrupo != null && indice >= quantidadePaginas)
@@ -959,9 +957,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo, subsubgrupo);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/subsubgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/subsubgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (subgrupo != null && indice >= quantidadePaginas)
@@ -970,9 +968,9 @@ namespace BlazorCms.Client.Pages
                     grupo, subgrupo);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/subgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/subgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (grupo != null && indice >= quantidadePaginas)
@@ -980,9 +978,9 @@ namespace BlazorCms.Client.Pages
                 var arr = Arr.RetornarArray(Model!.Story!, true, 0, capitulo, (int)substory!, grupo);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/grupo/{arr[0]}/{arr[1]}/{arr[2]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/grupo/{arr[0]}/{arr[1]}/{arr[2]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             }
             else
                                 if (substory != null && indice >= quantidadePaginas)
@@ -990,9 +988,9 @@ namespace BlazorCms.Client.Pages
                 var arr = Arr.RetornarArray(Model!.Story!, true, 0, capitulo, (int)substory);
                 if (arr != null)
                     navigation!
-                 .NavigateTo($"/substory/{arr[0]}/{arr[1]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                 .NavigateTo($"/substory/{arr[0]}/{arr[1]}/1/1/{timeproduto}/{lista}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+                    navigation!.NavigateTo($"/renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{dominio}/{compartilhante}/{compartilhante2}");
             }
         }
 
@@ -1008,12 +1006,12 @@ namespace BlazorCms.Client.Pages
                 if (args.Key == "Enter" && capitulo == 0)
                 {
                     Console.WriteLine("foi dado Enter");
-                    navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+                    navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}");
                 }
                 else if (args.Key == "Enter")
                 {
                     Console.WriteLine("foi dado Enter em outro capitulo");
-                    navigation!.NavigateTo($"/Renderizar/0/{Model!.Story!.PaginaPadraoLink}/1/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+                    navigation!.NavigateTo($"/Renderizar/0/{Model!.Story!.PaginaPadraoLink}/1/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}");
                 }
             }
             else if (args.Key == "Enter")
@@ -1026,13 +1024,13 @@ namespace BlazorCms.Client.Pages
         protected void Casinha()
         {
             auto = 0;
-            navigation!.NavigateTo($"/info/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+            navigation!.NavigateTo($"/info/{dominio}/{compartilhante}/{compartilhante2}");
         }
 
         protected async void Pesquisar()
         {
             auto = 0;
-            var url = $"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{opcional}/0/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}";
+            var url = $"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{opcional}/0/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}";
             navigation!.NavigateTo(url);
         }
 
@@ -1040,7 +1038,7 @@ namespace BlazorCms.Client.Pages
         {
             Timer!.SetTimerAuto();
             Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
-            navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{indice}/1/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+            navigation!.NavigateTo($"/Renderizar/{Model!.Story!.PaginaPadraoLink}/{indice}/1/{timeproduto}/{lista}/{lista}/{dominio}/{compartilhante}/{compartilhante2}");
         }
 
         protected void desabilitarAuto()
@@ -1058,7 +1056,7 @@ namespace BlazorCms.Client.Pages
         {
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/comentario/{Model!.Story!.PaginaPadraoLink}/{indice}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+            navigation!.NavigateTo($"/comentario/{Model!.Story!.PaginaPadraoLink}/{indice}/{dominio}/{compartilhante}/{compartilhante2}");
         }
 
         protected async void configurar()
@@ -1067,9 +1065,9 @@ namespace BlazorCms.Client.Pages
                 desabilitarAuto();
 
             if(substory != null)
-            navigation!.NavigateTo($"/configuracoes/{Model!.Story!.PaginaPadraoLink}/{indice}/{indice_Filtro}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation!.NavigateTo($"/configuracoes/{Model!.Story!.PaginaPadraoLink}/{indice}/{indice_Filtro}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
             else
-                navigation!.NavigateTo($"/configuracoes/{Model!.Story!.PaginaPadraoLink}/{indice}/0/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/0/0/0/0/0/0/0/0/0/0");
+                navigation!.NavigateTo($"/configuracoes/{Model!.Story!.PaginaPadraoLink}/{indice}/0/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
         }
 
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -1129,7 +1127,7 @@ namespace BlazorCms.Client.Pages
         {
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/pastas/{Model!.Story!.PaginaPadraoLink}/{indice}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}");
+            navigation!.NavigateTo($"/pastas/{Model!.Story!.PaginaPadraoLink}/{indice}/{dominio}/{compartilhante}/{compartilhante2}");
         }
     
         private void removePreferencia()
@@ -1199,14 +1197,14 @@ namespace BlazorCms.Client.Pages
         {
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/filtro/{Model.Story.PaginaPadraoLink}/pasta-{indice_Filtro}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/0/0/0/0/0/0/0/0/0/0");
+            navigation!.NavigateTo($"/filtro/{Model.Story.PaginaPadraoLink}/pasta-{indice_Filtro}/{preferencia}/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
         }
 
         protected void listarPasta()
         {
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{Model.Story.PaginaPadraoLink}/{indice_Filtro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{Model.Story.PaginaPadraoLink}/{indice_Filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         }
     }
 }

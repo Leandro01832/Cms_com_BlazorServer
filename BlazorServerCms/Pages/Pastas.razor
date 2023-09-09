@@ -1,4 +1,4 @@
-﻿@page "/pastas/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}"
+﻿@page "/pastas/{capitulo:int}/{verso:int}"
 @using business.business;
 @inject RepositoryPagina? repositoryPagina 
 @inject NavigationManager navigation
@@ -21,7 +21,7 @@
             var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
             <label>
             pasta @pastas[i] - @namePastas[i]
-                <a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{capitulo}/{pastas[i]}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/0/0/0/0/0/0/0/0/0/0"))" class="btn btn-primary">Acessar</a>
+                <a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{capitulo}/{pastas[i]}/dominio/comp/comp2/0/0/0/0/0/0/0/0/0/0"))" class="btn btn-primary">Acessar</a>
                 <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                     @if (condicao != null)
                     {
@@ -42,7 +42,7 @@
         }
 }
 
-<a href="/renderizar/@capitulo/@verso/1/11/1/@dominio/@compartilhante/@compartilhante2/@desconto" >Voltar</a>
+<a href="/renderizar/@capitulo/@verso/1/11/1/dominio/comp/com2" >Voltar</a>
 
 @code {
     private string? authMessage;
@@ -50,10 +50,6 @@
     protected string[] namePastas = new string[9];
     [Parameter] public int capitulo { get; set; }
     [Parameter] public int verso { get; set; }
-    [Parameter] public string? dominio { get; set; }
-    [Parameter] public string? compartilhante { get; set; }
-    [Parameter] public string? compartilhante2 { get; set; }
-    [Parameter] public int desconto { get; set; }
     public Pagina Model { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;

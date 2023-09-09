@@ -9,6 +9,5 @@ namespace business
         [Range(1, 500, ErrorMessage ="O capitulo deve ser maior ou igual a 1")]
         public int Capitulo { get; set; }
         public bool Compartilhando { get; set; }
-        public int DescontoDoCompartilhante { get; set; }
     }
 }

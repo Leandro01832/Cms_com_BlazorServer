@@ -1,4 +1,4 @@
-﻿@page "/comentario/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}"
+﻿@page "/comentario/{capitulo:int}/{verso:int}"
 @inject RepositoryPagina? repositoryPagina
 @layout MeuLayout
 
@@ -19,7 +19,7 @@
 
 @if(capitulo == 0)
 {
-    <a href="/renderizar/@capitulo/@verso/1/11/1/@dominio/@compartilhante/@compartilhante2/@desconto">Voltar</a>
+    <a href="/renderizar/@capitulo/@verso/1/11/1">Voltar</a>
 }
 else
 {
@@ -42,10 +42,6 @@ else
 @code {
     [Parameter] public int capitulo { get; set; }
     [Parameter] public int verso { get; set; }
-    [Parameter] public string? dominio { get; set; }
-    [Parameter] public string? compartilhante { get; set; }
-    [Parameter] public string? compartilhante2 { get; set; }
-    [Parameter] public int desconto { get; set; }
     protected List<MarkupString> comentarios = new List<MarkupString>();
     protected string? MensagemComentario = null;
     Pagina exampleModel = new Pagina();

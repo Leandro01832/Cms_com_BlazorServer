@@ -169,3 +169,8 @@ window.SetarLink = (m) => {
 window.DarAlert = (m) => {
     alert(m);
 }
+
+window.AcessarSites = (url) => {
+    window.open(url, '_blank');
+}
+

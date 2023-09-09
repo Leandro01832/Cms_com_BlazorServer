@@ -1,11 +1,11 @@
-﻿@page "/configuracoes/{capitulo:int}/{verso:int}/{filtro:int}/{preferencia:int}/{dominio}/{compartilhante}/{compartilhante2}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+﻿@page "/configuracoes/{capitulo:int}/{verso:int}/{filtro:int}/{preferencia:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 @layout MeuLayout
 @inject IJSRuntime js
 @inject RepositoryPagina repositoryPagina
 <h3>Configurações</h3>
 
 
-<a href="/renderizar/@capitulo/@verso/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/@Convert.ToInt32(pref)/@dominio/@compartilhante/@compartilhante2/@desconto/@p1/@p2/@p3/@p4/p5/@p6/@p7/@p8/@p9/@p10">
+<a href="/renderizar/@capitulo/@verso/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/@Convert.ToInt32(pref)/@p1/@p2/@p3/@p4/p5/@p6/@p7/@p8/@p9/@p10">
     Voltar
 </a>
 
@@ -57,10 +57,6 @@
     [Parameter] public int preferencia { get; set; }
     [Parameter] public int verso { get; set; }
     [Parameter] public int filtro { get; set; }
-    [Parameter] public string? dominio { get; set; }
-    [Parameter] public string? compartilhante { get; set; }
-    [Parameter] public string? compartilhante2 { get; set; }
-    [Parameter] public int desconto { get; set; }
     [Parameter] public int? p1 { get; set; } = 0;
     [Parameter] public int? p2 { get; set; } = 0;
     [Parameter] public int? p3 { get; set; } = 0;
@@ -98,7 +94,7 @@
         }
         else
         {
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{capitulo}/{filtro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{capitulo}/{filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         }
 
         

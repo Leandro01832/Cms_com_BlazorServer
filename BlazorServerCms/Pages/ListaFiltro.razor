@@ -1,5 +1,16 @@
-﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo:int}/{indiceFiltro:int}/{desconto:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}"
+@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}"
+@page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@using business.business;
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject IJSRuntime js
@@ -22,14 +33,14 @@
                 if (auto == 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                         Desabilitar automático
                     </a>
                 }
                 else
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                         Habilitar automático
                     </a>
                 }
@@ -44,7 +55,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -52,7 +63,7 @@
             }
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 Proxima lista >>>
             </a>
 
@@ -70,15 +81,15 @@
 
         <input type="hidden" value="@auto" id="auto" name="auto">
         <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
             Ordenar por nome
         </a>
         <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
             Ordenar por preço
         </a>
         <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
             Ordenar por capitulo
         </a>
     </div>
@@ -86,21 +97,21 @@
         <h3>Tamanho da lista</h3>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/11/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/11/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 10 itens
             </a>
 
         </strong>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/41/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/41/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 40 itens
             </a>
 
         </strong>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/81/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/81/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 80 itens
             </a>
         </strong>
@@ -139,7 +150,7 @@
 </p>
 
  Capitulo @Capitulo
-<a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}/1"))">
+<a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}/1"))">
     Pasta @indiceFiltro
 </a>
 @if(filtro != null)
@@ -219,10 +230,10 @@
                         <p> Estoque: @item.Produto!.QuantEstoque </p>
                     </div>
                     <div class="caps">
-                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/@compartilhante/@desconto" >
+                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/compartilhante/0" >
                             Capitulo @Capitulo
                         </a> <br>
-                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/@compartilhante/@desconto">
+                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/compartilhante/0">
                             Versiculo @Versiculo
                         </a>
                     </div>
@@ -242,11 +253,24 @@
     Filtro filtro = new Filtro();
     List<Pagina> Model = new List<Pagina>();
     List<Pagina>? lista { get; set; }
+    [Parameter] public string? user { get; set; }
+    [Parameter] public int? indicePasta { get; set; }
+    [Parameter] public int? pasta1 { get; set; }
+    [Parameter] public int? pasta2 { get; set; }
+    [Parameter] public int? pasta3 { get; set; }
+    [Parameter] public int? pasta4 { get; set; }
+    [Parameter] public int? pasta5 { get; set; }
+    [Parameter] public int? pasta6 { get; set; }
+    [Parameter] public int? pasta7 { get; set; }
+    [Parameter] public int? pasta8 { get; set; }
+    [Parameter] public int? pasta9 { get; set; }
+    [Parameter] public int? pasta10 { get; set; }
+
+
     [Parameter] public int auto { get; set; }
     [Parameter] public int pagina { get; set; }
     [Parameter] public int indiceFiltro { get; set; }
     [Parameter] public int Capitulo { get; set; }
-    [Parameter] public int desconto { get; set; }
     [Parameter] public int p1 { get; set; }
     [Parameter] public int p2 { get; set; }
     [Parameter] public int p3 { get; set; }
@@ -257,9 +281,7 @@
     [Parameter] public int p8 { get; set; }
     [Parameter] public int p9 { get; set; }
     [Parameter] public int p10 { get; set; }
-    [Parameter] public string? dominio { get; set; }
-    [Parameter] public string? compartilhante { get; set; }
-    [Parameter] public string? compartilhante2 { get; set; }
+    [Parameter] public int? redirecionar { get; set; }
     [Parameter] public string? ordenar { get; set; }
     [Parameter] public double tempo { get; set; } = 20;
     [Parameter] public int? tamanho { get; set; }
@@ -279,6 +301,30 @@
             Console.WriteLine(ex.Message);
         }
         StartTimer();
+
+        if(indicePasta != null & pasta1 != null && user != null )
+        {
+            int? pastaAcessada = null;
+            UserBook? livroCompartilhado = await Context.UserBook.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (indicePasta == 0) pastaAcessada = pasta1;
+            if (indicePasta == 1) pastaAcessada = pasta2;
+            if (indicePasta == 2) pastaAcessada = pasta3;
+            if (indicePasta == 3) pastaAcessada = pasta4;
+            if (indicePasta == 4) pastaAcessada = pasta5;
+            if (indicePasta == 5) pastaAcessada = pasta6;
+            if (indicePasta == 6) pastaAcessada = pasta7;
+            if (indicePasta == 7) pastaAcessada = pasta8;
+            if (indicePasta == 8) pastaAcessada = pasta9;
+            if (indicePasta == 9) pastaAcessada = pasta10;
+
+            if (pastaAcessada != null && livroCompartilhado != null && indicePasta < 10)
+            {
+                string url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/1/teste/1/11/30/{livroCompartilhado!.Capitulo}/{pastaAcessada}/{user}/{indicePasta + 1}/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
+                await js!.InvokeAsync<object>("AcessarSites", url);
+            }
+        }
+
+
     }
 
     protected override async Task OnInitializedAsync()
@@ -367,11 +413,11 @@
     private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
         if (auto == 1 && Model!.ToList().Count == 20)
-            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         else if (auto == 1)
-            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         else
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/0/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/0/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
 
         Console.WriteLine("Timer Elapsed.");
         Timer!._timer!.Elapsed -= _timer_Elapsed;
@@ -382,62 +428,62 @@
         if(p1 == 0)
         {
             p1 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/0/0/0/0/0/0/0/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/0/0/0/0/0/0/0/0/0");
         }
         else if(p2 == 0)
         {
             p2 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/0/0/0/0/0/0/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/0/0/0/0/0/0/0/0");
         }
         else if (p3 == 0)
         {
             p3 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
         }
         else if (p4 == 0)
         {
             p4 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
         }
         else if (p5 == 0)
         {
             p5 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
         }
         else if (p6 == 0)
         {
             p6 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
         }
         else if (p7 == 0)
         {
             p7 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
         }
         else if (p8 == 0)
         {
             p8 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
         }
         else if (p9 == 0)
         {
             p9 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
         }
         else if (p10 == 0)
         {
             p10 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{dominio}/{compartilhante}/{compartilhante2}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         }
         else
         {
@@ -547,6 +593,6 @@
     private void removePreferencia()
     {
         setarTexto("");
-        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{tempo}/{tamanho}/{dominio}/{compartilhante}/{compartilhante2}/{Capitulo}/{indiceFiltro}/{desconto}/0/0/0/0/0/0/0/0/0/0");
+        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/0/0/0/0/0/0/0/0/0/0");
     }
 }

@@ -8,8 +8,6 @@ namespace business
         public string? Livro { get; set; }
         public string? Admin { get; set; }
         public int Comissao { get; set; }
-        public int ComissaoParaUser { get; set; }
-        public int Desconto { get; set; }
     }
 
 }
