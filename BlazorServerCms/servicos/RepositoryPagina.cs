@@ -16,7 +16,7 @@ namespace BlazorServerCms.servicos
     {
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
-        public ApplicationDbContext Context =  new ApplicationDbContext(ApplicationDbContext._connectionString);
+        public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {

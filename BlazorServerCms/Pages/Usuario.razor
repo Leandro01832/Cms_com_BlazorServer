@@ -1,15 +1,14 @@
 ﻿@page "/{user}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}/{pasta7:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}/{pasta6:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}{pasta5:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}/{pasta2:int}"
-@page "/acesso-pastas/{user}/{pasta1:int}"
-@using business.business;
+@page "/pastas/{user}/{pasta1:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
+@page "/pastas/{user}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
 @inject UserManager<IdentityUser> userManager
 @inject RepositoryPagina? repositoryPagina
 @inject IJSRuntime? js 
@@ -99,7 +98,29 @@ for(var i = 1; i <= caps.Length; i++)
 
             if (pastaAcessada != null && pastaAcessada != 0 && livroCompartilhado != null)
             {
-                string url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/1/teste/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
+                string url = "";
+                
+                if (pasta10 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
+                else if (pasta9 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}";
+                else if (pasta8 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}";
+                else if (pasta7 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}";
+                else if (pasta6 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}";
+                else if (pasta5 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}";
+                else if (pasta4 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}";
+                else if (pasta3 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}";
+                else if (pasta2 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}";
+                else if (pasta1 != null)
+                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}";
+                
                 await js!.InvokeAsync<object>("AcessarSites", url);
             }
         }

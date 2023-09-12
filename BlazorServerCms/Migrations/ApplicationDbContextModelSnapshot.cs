@@ -156,17 +156,14 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Comissao")
-                        .HasColumnType("int");
+                    b.Property<string>("Admin")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ComissaoParaUser")
+                    b.Property<int>("Comissao")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Desconto")
-                        .HasColumnType("int");
 
                     b.Property<string>("Livro")
                         .HasColumnType("nvarchar(max)");
@@ -480,9 +477,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<bool>("Compartilhando")
                         .HasColumnType("bit");
-
-                    b.Property<int>("DescontoDoCompartilhante")
-                        .HasColumnType("int");
 
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)");

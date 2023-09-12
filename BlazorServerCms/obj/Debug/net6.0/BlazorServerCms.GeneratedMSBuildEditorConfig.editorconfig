@@ -236,10 +236,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENvbXBhcnRpbGhhbnRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Shared/Display.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXERpc3BsYXkucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Shared/LoginDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -264,13 +260,13 @@ build_metadata.AdditionalFiles.CssScope = b-622vkbnu9r
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFnaW5hY2FvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-brm1o9lvas
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Plataforma.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGxhdGFmb3JtYS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-j12sz7i7s5
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Renderizar.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVuZGVyaXphci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-k8aihg5em2
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Transmissao.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVHJhbnNtaXNzYW8ucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-1u2lb4rjte
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=

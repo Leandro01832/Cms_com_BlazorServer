@@ -1,16 +1,16 @@
 ﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}"
-@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
+@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
 @page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@using business.business;
+
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject IJSRuntime js
@@ -266,6 +266,9 @@
     [Parameter] public int? pasta9 { get; set; }
     [Parameter] public int? pasta10 { get; set; }
 
+    [Parameter] public string? dominio { get; set; }
+    [Parameter] public string? compartilhante { get; set; }
+    [Parameter] public string? compartilhante2 { get; set; }
 
     [Parameter] public int auto { get; set; }
     [Parameter] public int pagina { get; set; }
@@ -319,8 +322,27 @@
 
             if (pastaAcessada != null && livroCompartilhado != null && indicePasta < 10)
             {
-                string url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/1/teste/1/11/30/{livroCompartilhado!.Capitulo}/{pastaAcessada}/{user}/{indicePasta + 1}/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
+                string url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pastaAcessada}/{user}/{indicePasta + 1}/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
                 await js!.InvokeAsync<object>("AcessarSites", url);
+            }
+
+            if (dominio != repositoryPagina.buscarDominio())
+            {
+                var domi = await Context.Compartilhante!.FirstOrDefaultAsync(l => l.Livro == dominio);
+                if (domi == null)
+                {
+                    var compartilhant = new business.Compartilhante
+                        {
+                            Livro = dominio,
+                            Admin = compartilhante,
+                            Data = DateTime.Now,
+                            Comissao = 5
+                            // ComissaoParaUser = 0.25 * Comissao,
+                            // Desconto = 0.5 * Comissao
+                        };
+                    await Context.AddAsync(compartilhant);
+                    await Context.SaveChangesAsync();
+                }
             }
         }
 
