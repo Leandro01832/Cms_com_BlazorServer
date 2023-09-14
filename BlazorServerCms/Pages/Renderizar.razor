@@ -86,9 +86,9 @@ else
                     {
                         <span class="ms-3">Vers.</span>
                     }
-
-                        <input type="number" placeholder="digita o nome" 
-                               id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                   
+                        <input type="number" placeholder="digita o nome"
+                        id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />                      
                         <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
                            class="btn btn-primary ms-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -102,7 +102,7 @@ else
                     <a href="#" class="btn btn-dark" onclick="@listarPasta">
                     Listar pasta @indice_Filtro
                     </a>
-                    <a href="#" class="btn btn-dark" onclick="@Parear">Parear</a>
+                   <!--  <a href="#" class="btn btn-dark" onclick="@Parear">Parear</a> -->
                 }
             }
 
@@ -220,83 +220,79 @@ else
                     }
                     else if (indice == p10)
                     {
-                        <p id="pref">Minha 10º Preferência</p>
-                    } 
+        <p id="pref">Minha 10º Preferência</p>
+    } 
 
-    <!-- ProdutoContent -->
-
-    if(indice == 1 && substory == null)
+    if(outroHorizonte == 0)
     {
-        <p> Seja bem vindo a story @Model.Story.Nome </p>
-        if(Model.Story.Filtro.Count > 0)
+        <!-- ProdutoContent -->
+        if (indice == 1 && substory == null)
         {
-            <p>
-                <input type="number" min="1" @bind="indice_Filtro" />
-                <a href="#"
-                   onclick="@acessarPasta">
-                    Acessar pasta
-                </a>
-            </p>
+            <p> Seja bem vindo a story @Model.Story.Nome </p>   
         }
-        
-    }
-    else
-        if(Model.Produto != null)
+        else
+        if (Model.Produto != null)
         {
-            <div class="row container produto" >
+            <div class="row container produto">
                 <div class="col-md-6 info">
                     <p> Categoria: @Model.Produto.Nome </p>
-                            <p> Descrição: @Model.Produto.Descricao </p>
-                            <p> Preço: @Model.Produto.Preco </p>
-                            <p> Estoque: @Model.Produto.QuantEstoque </p>
-                            <div class="col-md-12 imagens">
-                                @{
-                                    @foreach (var item in Model.Produto.Imagem!.ToList())
-                                    {
-                                        if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
-                                        {
-                                            <img src="@item.ArquivoImagem" class="ImagemProduto"  />
-                                        }
-                                    }
+                    <p> Descrição: @Model.Produto.Descricao </p>
+                    <p> Preço: @Model.Produto.Preco </p>
+                    <p> Estoque: @Model.Produto.QuantEstoque </p>
+                    <div class="col-md-12 imagens">
+                        @{
+                            @foreach (var item in Model.Produto.Imagem!.ToList())
+                            {
+                                if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
+                                {
+                                    <img src="@item.ArquivoImagem" class="ImagemProduto" />
                                 }
-                            </div>
+                            }
+                        }
+                    </div>
                 </div>
                 <div class="col-md-6 imagem">
-                <img src="@Model.Produto.Imagem!.First().ArquivoImagem" class="ImagemProduto"  />
+                    <img src="@Model.Produto.Imagem!.First().ArquivoImagem" class="ImagemProduto" />
                 </div>
-                
+
             </div>
 
         }
-        else if(Model.ImagemContent != null)
-        {  
+        else if (Model.ImagemContent != null)
+        {
             <center>
-            <img class="ImagemContent" src="@Model.ImagemContent" >
+                <img class="ImagemContent" src="@Model.ImagemContent">
 
-        </center>         
+            </center>
         }
-        else if(html!.Contains("iframe"))
-        {           
+        else if (html!.Contains("iframe"))
+        {
 
-            <div id="descricao" ></div>  
+            <div id="descricao"></div>
             <center>
-            <div id="player" ></div>      
+                <div id="player"></div>
 
-            </center> 
+            </center>
         }
         else
         {
-                @markup
+            @markup
         }
 
-    <!-- ProdutoContent -->
-          
+        if (Model.Produto != null)
+        {
+            <a href="/carrinho/@Model.Produto.Id/@capitulo/@indice/@dominio/@compartilhante/@compartilhante2">
+                Adicionar ao carrinho
+            </a>
+        }
+
+        <!-- ProdutoContent -->
         if (Model.Story.Comentario
         && Model.SubStory != null)
         {
-        for (var i = 1; i <= classificacoes!.Length; i++)
+            for (var i = 1; i <= classificacoes!.Length; i++)
             {
-            <p>@(i)º classificação: @classificacoes![i - 1] </p>
+                <p>@(i)º classificação: @classificacoes![i - 1] </p>
 
             }
         }
@@ -305,9 +301,9 @@ else
             <p>Comentário não classificado </p>
 
         }
-     
-     
-      
+
+
+
         if (Model.Story.Comentario
         && Model.Comentario != 0)
         {
@@ -318,6 +314,16 @@ else
             <p>Apenas um comentário </p>
 
         }
+    }
+    else
+    {
+        <center>
+            <a href="#" onclick="@acessarPasta">
+                <h3> Pasta @Model2!.Nome </h3>
+            </a>
+        </center>       
+    }
+
      
 
     <div id="PaginacaoConteudo" class="Paginacao">
@@ -336,6 +342,25 @@ else
 
                     Automático
                 </h3>
+
+                @if (substory == null && outroHorizonte == 0 && quantidadeFiltros > 0)
+                {
+                    <a href="#" onclick="@acessarHorizontePastas">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                            <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
+                        </svg>
+                    </a>
+                }
+                else @if (substory == null && outroHorizonte == 1 && quantidadeFiltros > 0)
+                {
+                    <a href="#" onclick="@acessarHorizonteVersos">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                            <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
+                        </svg>
+                    </a>
+                }
+
+
                 @{
                     if (Model.Story.Nome == "Padrao")
                     {
@@ -343,17 +368,35 @@ else
                     }
                     else
                     {
-                        <span class="TextoInformativo">Versiculo @indice de @quantidadePaginas</span>
+                        if(outroHorizonte == 0)
+                        {
+                            <span class="TextoInformativo">Versiculo @indice de @quantidadePaginas</span>
+                        }
+                        else
+                        {
+                            <span class="TextoInformativo">Pasta @indice de @quantidadeFiltros</span>
+                        }
+
                     }
                 }
             </div>
-        
-            
-                      <div class="DivPagina">            
+
+
+            <div class="DivPagina">            
                 @{
+                    var quantItens = 0;
+                    if(outroHorizonte == 0)
+                    {
+                        quantItens = quantidadePaginas;
+                    }
+                    else
+                    {
+                        quantItens = quantidadeFiltros;
+                    }
+
                     if(substory == null)
                     {
-                        for (var indice = 1; indice <= quantidadePaginas; indice++)
+                        for (var indice = 1; indice <= quantItens; indice++)
                         {
                             <div class="DivPag" id="DivPagina@(indice)">
                                 <span class="indices"><b>@indice</b> </span>

@@ -196,6 +196,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRG93bmxvYWRDYXBpdHVsby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ecommerce/Cadastro.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXENhZGFzdHJvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ecommerce/Carrinho.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXENhcnJpbmhvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ecommerce/Resumo.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXFJlc3Vtby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

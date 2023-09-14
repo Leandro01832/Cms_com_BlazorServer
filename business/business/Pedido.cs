@@ -1,3 +1,4 @@
+using business.business;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,12 +11,15 @@ namespace business
         {
 
         }       
-        public Pedido(string clienteId)
+        public Pedido(long clienteId)
         {
             ClienteId = clienteId;
         }
-        public List<ItemPedido> ItensPedido { get; private set; } = new List<ItemPedido>();  
+        public List<ItemPedido> Itens { get; private set; } = new List<ItemPedido>();
+        [ForeignKey("ClienteId")]
+        public virtual Cliente Cliente { get; set; }
         [Required]
-        public string? ClienteId { get; set; }
+        public long ClienteId { get; set; }
+
     }
 }

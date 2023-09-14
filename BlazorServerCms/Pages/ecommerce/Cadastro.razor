@@ -1,0 +1,102 @@
+﻿@page "/cadastro/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}"
+
+<h3>Cadastro</h3>
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    
+    <input type="hidden" value="@exampleModel.Id" />
+    <input type="hidden" value="@exampleModel.ClienteId" />
+
+    <p>
+        <label>First name:</label>
+        <InputText id="first" @bind-Value="exampleModel.Cliente.FirstName" />
+    </p>
+
+    <p>
+        <label>Last name:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.LastName" />
+    </p>
+
+    <p>
+        <label>Seu melhor Email:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.UserName" />
+    </p>
+
+    <p>
+        <label>CPF:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Cpf" />
+    </p>
+
+    <p>
+        <label>Fone:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Telefone.Fone" />
+    </p>
+
+    <p>
+        <label>CEP:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Endereco.Cep" />
+    </p>
+
+    <p>
+        <label>Estado:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Endereco.Estado" />
+    </p>
+
+    <p>
+        <label>Cidade:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Endereco.Cidade" />
+    </p>
+
+    <p>
+        <label>Bairro:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Endereco.Bairro" />
+    </p>
+
+    <p>
+        <label>Rua:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Endereco.Rua" />
+    </p>
+
+    <p>
+        <label>Numero:</label>
+        <InputNumber id="last" @bind-Value="exampleModel.Cliente.Endereco.Numero" />
+    </p>
+
+    <p>
+        <label>Complemento:</label>
+        <InputText id="last" @bind-Value="exampleModel.Cliente.Endereco.Complemento" />
+    </p>
+
+    <div class="form-group">
+        <a href="/renderizar/@capitulo/@verso/1/11/1/@dominio/@compartilhante/@compartilhante2">
+            Continuar comprando
+        </a>
+    </div>
+    
+
+    <button type="submit" class="btn btn-success loader">Finalizar compra</button>
+</EditForm>
+
+
+
+<div id="loading"><img src="~/arquivos_imagens/loader.gif" /></div>
+
+@code
+{
+
+    [Parameter] public int? capitulo { get; set; }
+    [Parameter] public int? verso { get; set; }
+    [Parameter] public string? dominio { get; set; }
+    [Parameter] public string? compartilhante { get; set; }
+    [Parameter] public string? compartilhante2 { get; set; }
+
+    private Pedido exampleModel;
+
+    private async void HandleSubmit()
+    {
+        
+    }
+
+}
