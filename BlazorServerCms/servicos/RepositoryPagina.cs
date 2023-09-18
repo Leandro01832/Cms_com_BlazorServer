@@ -17,6 +17,11 @@ namespace BlazorServerCms.servicos
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
         public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
+        public Random random = new Random();
+        public List<Pagina>? paginas { get; set; }
+        public bool aguarde { get; set; } = false;
+        public int diaCupom = 0;
+        public string cupomDesconto = "";
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
@@ -69,10 +74,7 @@ namespace BlazorServerCms.servicos
         public  string textDefault {  get  { return System.IO.File.ReadAllText(path + Configuration.GetConnectionString("path")); } }
         //140 linhas
 
-        public List<Pagina>? paginas { get; set; }
-
-
-        public bool aguarde { get; set; } = false;        
+        
 
         public string buscarDominio()
         {
@@ -83,6 +85,12 @@ namespace BlazorServerCms.servicos
         public string buscarAdmin()
         {
             var dominio = Configuration.GetConnectionString("admin");
+            return dominio;
+        }
+
+        public string buscarEcommerce()
+        {
+            var dominio = Configuration.GetConnectionString("ecommerce");
             return dominio;
         }
 

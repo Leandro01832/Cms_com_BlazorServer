@@ -279,7 +279,7 @@ else
             @markup
         }
 
-        if (Model.Produto != null)
+        if (Model.Produto != null && repositoryPagina!.buscarEcommerce() == "yes")
         {
             <a href="/carrinho/@Model.Produto.Id/@capitulo/@indice/@dominio/@compartilhante/@compartilhante2">
                 Adicionar ao carrinho
@@ -321,6 +321,8 @@ else
             <a href="#" onclick="@acessarPasta">
                 <h3> Pasta @Model2!.Nome </h3>
             </a>
+
+            Camada nº @buscarCamada(Model2)
         </center>       
     }
 

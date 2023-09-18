@@ -1,5 +1,7 @@
-﻿@page "/cadastro/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}"
-
+﻿@page "/cadastro/{codigo:long}/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}"
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigation
+@attribute [Authorize]
 <h3>Cadastro</h3>
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
@@ -7,7 +9,7 @@
     <ValidationSummary />
     
     <input type="hidden" value="@exampleModel.Id" />
-    <input type="hidden" value="@exampleModel.ClienteId" />
+    <!-- <input type="hidden" value="@exampleModel.ClienteId" />-->
 
     <p>
         <label>First name:</label>
@@ -91,12 +93,48 @@
     [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
     [Parameter] public string? compartilhante2 { get; set; }
+    [Parameter] public long? codigo { get; set; }
 
-    private Pedido exampleModel;
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+    private Pedido? exampleModel;
 
     private async void HandleSubmit()
     {
-        
+        var urlPedido = "http://localhost:53443/Home/RetornaPedido/" + exampleModel!.Id.ToString();
+        Context.Entry(exampleModel.Cliente).State = EntityState.Modified;
+        Context.Entry(exampleModel.Cliente.Endereco).State = EntityState.Modified;
+        Context.Entry(exampleModel.Cliente.Telefone).State = EntityState.Modified;
+        await Context.SaveChangesAsync();
+
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        //IdentityMessage msg = new IdentityMessage
+        //    {
+        //        Body = "<p style='color:blue; background-color:yellow;'>" +
+        //                    $" N° Pedido - {exampleModel.Id.ToString()} <a href='{urlPedido}'> visualizar pedido <a/>." +
+        //                $" Agradecemos pela sua preferência. <p/>" +
+        //                "<p style='color:red; background-color:yellow;'> Volte sempre. Assinado Cida Modas sz sz sz sz <p/>" +
+        //                "<img src='https://cdn.ecvol.com/s/loja.anatuori.com/produtos/ligia-vestido-festa-longo-evase-ombro-a-ombro-com-alcas-saia-plissada-madrinha-casamento-formatura-cor-marsala/m/0.jpg?v=1' />",
+        //        Subject = "Pedido confirmado.",
+        //        Destination = user.Identity!.Name
+        //    };
+
+            navigation.NavigateTo("/resumo");
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Context = db.CreateDbContext(null);
+        exampleModel = await Context.Pedido!
+        .Include(p => p.Cliente)
+        .ThenInclude(p => p.Endereco)
+        .Include(p => p.Cliente)
+        .ThenInclude(p => p.Telefone)
+        .FirstOrDefaultAsync(p => p.Id == codigo);
     }
 
 }

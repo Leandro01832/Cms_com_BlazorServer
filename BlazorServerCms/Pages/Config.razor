@@ -2,11 +2,14 @@
 @attribute [Authorize(Roles = "Admin")]
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
+@inject HttpClient http
 
 @if (Mensagem != null)
 {
     <p>Mensagem</p>
 }
+
+<p>Cupom de desconto: @repositoryPagina.cupomDesconto</p>
 
 <p>Configurações de filtro</p>
 
@@ -62,12 +65,14 @@
     DataForm data = new DataForm();
     string Mensagem;
     List<Story> lista = new List<Story>();
+    List<Livro> livros = new List<Livro>();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+        livros = await repositoryPagina.Context.Livro!.ToListAsync();
         lista = await Context.Story!
            .Where(str => str.Nome != "Padrao" && !str.Comentario).ToListAsync();
 
@@ -77,6 +82,26 @@
 
         }
         data.StoryId = lista.First().Id;
+
+            var num1 = repositoryPagina.random.Next(0, 9);
+            var num2 = repositoryPagina.random.Next(0, 9);
+            var num3 = repositoryPagina.random.Next(0, 9);
+            var num4 = repositoryPagina.random.Next(0, 9);
+            var num5 = repositoryPagina.random.Next(0, 9);
+            var num6 = repositoryPagina.random.Next(0, 9);
+            var cupom = $"{num1}{num2}{num3}{num4}{num5}{num6}";
+
+        if(repositoryPagina.diaCupom != DateTime.Now.Day)
+        {        
+            repositoryPagina.cupomDesconto = cupom;
+            foreach (var item in livros)
+                await http.GetAsync($"{item.url}/api/pareamento?email={repositoryPagina.buscarAdmin()}&cupom={cupom}");
+        }
+        
+       // if (repositoryPagina.diaCupom != DateTime.Now.Day)
+       //     await http.GetAsync($"https://localhost:7224/api/pareamento?email={repositoryPagina.buscarAdmin()}&cupom={cupom}");
+
+
     }
 
     private async void HandleSubmit()

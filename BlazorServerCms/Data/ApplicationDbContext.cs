@@ -24,6 +24,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Cliente> Cliente { get; set; }
         public DbSet<UserBook> UserBook { get; set; }
         public DbSet<Classificacao> Classificacao { get; set; }
         public DbSet<savedFolder> savedFolder { get; set; }

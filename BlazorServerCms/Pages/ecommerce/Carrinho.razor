@@ -1,5 +1,6 @@
 ﻿@page "/carrinho/{codigo:long}/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}"
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
 <h3>Carrinho</h3>
 
 <h3>Meu Carrinho</h3>
@@ -10,7 +11,7 @@
     <div class="col-md-12">
         <div class="pull-right">
             <a href="/renderizar/@capitulo/@verso/1/11/1/@dominio/@compartilhante/compartilhante2">Adicionar produtos</a>
-            <a href="/cadastro/@capitulo/@verso/@dominio/@compartilhante/@compartilhante2">Preencher Cadastro</a>
+            <a href="/cadastro/@ped!.Id/@capitulo/@verso/@dominio/@compartilhante/@compartilhante2">Preencher Cadastro</a>
 
         </div>
     </div>
@@ -50,16 +51,16 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <button class="btn btn-default"
-                                    onclick="@((EventCallback e) => clickDecremento(e, item.Produto!))">
+                                    onclick="@((ChangeEventArgs e) => clickDecremento(e, item))">
                                 <span class="glyphicon-minus"></span>
                             </button>
                         </span>
-                        <input type="text" value="@(item.Quantidade)"
+                        <input type="number" @bind="item.Quantidade"
                                class="form-control text-center"
-                               onblur="@((EventCallback e) => updateQuantidade(e, item.Produto! ))" />
+                               onblur="@((ChangeEventArgs e) => updateQuantidade(e, item ))" />
                         <span class="input-group-btn">
                             <button class="btn btn-default"
-                                    onclick="@((EventCallback e) => clickIncremento(e, item.Produto! ))">
+                                    onclick="@((ChangeEventArgs e) => clickIncremento(e, item ))">
                                 <span class="glyphicon-plus"></span>
                             </button>
                         </span>
@@ -85,7 +86,7 @@
             </div>
             <div class="col-md-2">
                 Total: R$ <span class="pull-right" total>
-                   
+                    @(Model.Total)
                 </span>
             </div>
         </div>
@@ -96,7 +97,7 @@
     <div class="col-md-12">
         <div class="pull-right">
             <a href="/renderizar/@capitulo/@verso/1/11/1/@dominio/@compartilhante/compartilhante2">Adicionar produtos</a>
-            <a href="/cadastro/@capitulo/@verso/@dominio/@compartilhante/@compartilhante2">Preencher Cadastro</a>
+            <a href="/cadastro/@ped!.Id/@capitulo/@verso/@dominio/@compartilhante/@compartilhante2">Preencher Cadastro</a>
         </div>
     </div>
 </div>
@@ -111,29 +112,93 @@
     [Parameter] public string? compartilhante2 { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private Pedido Model;
+    private CarrinhoViewModel Model;
+    private Pedido? ped;
 
     protected override async Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        Model = await Context.Pedido!
-        .Include(p => p.Itens)
-        .FirstAsync(p => p.Id == codigo);
+
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+        Cliente cli = Context.Cliente.First(c => c.UserName == user.Identity!.Name);
+
+         ped = await Context.Pedido!.LastOrDefaultAsync(c => c.ClienteId == cli.Id && c.Status == null);
+
+        if(ped == null)
+        {
+            ped = new Pedido(cli.Id);
+            Context.Add(ped);
+            Context.SaveChanges();
+        }
+
+        var produto = await
+                            Context.Set<Produto>()
+                            .Where(p => p.Id == codigo)
+                            .SingleOrDefaultAsync();
+
+        if (produto == null)
+        {
+            throw new ArgumentException("Produto não encontrado");
+        }
+
+
+        var itemPedido = await
+                            Context.Set<ItemPedido>()
+                            .Where(i => i.Produto.Id == codigo
+                                    && i.Pedido.Id == ped.Id)
+                            .SingleOrDefaultAsync();
+
+        if (itemPedido == null)
+        {
+            itemPedido = new ItemPedido(ped, produto, 1, produto.Preco);
+            Context.Set<ItemPedido>().Add(itemPedido);
+            await Context.SaveChangesAsync();
+        }
+        List<ItemPedido> itens = ped.Itens;
+        Model = new CarrinhoViewModel(itens);
+
     }
 
-    private void clickIncremento(EventCallback e, Produto prod)
+    private void clickIncremento(ChangeEventArgs e, ItemPedido item)
     {
-        
+        atualizar(item.Id, e);
     }
 
-    private void clickDecremento(EventCallback e, Produto prod)
+    private void clickDecremento(ChangeEventArgs e, ItemPedido item)
     {
-
+        atualizar(item.Id, e);
     }
 
-    private void updateQuantidade(EventCallback e, Produto prod)
+    private void updateQuantidade(ChangeEventArgs e, ItemPedido item)
     {
+        atualizar(item.Id, e);
+    }
 
+    private async void atualizar(long id, ChangeEventArgs e)
+    {
+        var item =  await Context.Set<ItemPedido>()
+                 .Where(ip => ip.Id == id)
+                 .SingleOrDefaultAsync();
+
+        if(item != null)
+        {
+            item.AtualizaQuantidade(int.Parse(e.Value.ToString()));
+
+            if(item.Quantidade == 0)
+            {
+                Context.Set<ItemPedido>().Remove(item);
+            }
+
+            await Context.SaveChangesAsync();
+
+           var ped = await  Context.Set<Pedido>().Include(i => i.Itens)
+                           .Where(i => i.Id == item.Pedido!.Id)
+                           .SingleOrDefaultAsync();
+
+            Model = new CarrinhoViewModel(ped.Itens);
+        }
     }
 
 }

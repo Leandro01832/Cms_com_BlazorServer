@@ -8,7 +8,7 @@ namespace business
     public class Telefone : BaseModel
     {
         [Key, ForeignKey("Cliente")]
-        public new int Id { get; set; }
+        public new long Id { get; set; }
         [Required(ErrorMessage = "DDD é obrigatório")]
         public string? DDD_Celular { get; set; }
         [Required(ErrorMessage = "Celular é obrigatório")]

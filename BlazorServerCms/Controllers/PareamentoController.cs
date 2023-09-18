@@ -14,23 +14,24 @@ namespace Blazor_Catalogo.Server.Controllers
     [ApiController]
     public class PareamentoController : ControllerBase
     {
-        public PareamentServices Servico { get; }
+        public ApplicationDbContext Context { get; }
 
-        public PareamentoController(PareamentServices servico)
+        public PareamentoController( ApplicationDbContext context)
         {
-            Servico = servico;
+            Context = context;
         }
 
         [HttpGet]
-        public void Get([FromQuery] string dominio, int capitulo, int indiceFiltro, int preferencia)
+        public async void Get([FromQuery] string email, string cupom)
         {
+            var comp = await Context.Compartilhante.FirstOrDefaultAsync(u => u.Admin == email);
 
-            Servico.parearDominio = dominio;
-            Servico.parearCapitulo = capitulo;
-            Servico.parearIndice = indiceFiltro;
-            Servico.parearPreferencia = preferencia;
+            if(comp != null)
+            {                
+                comp.CupomDesconto = cupom;
+                Context.Update(comp);
+               await  Context.SaveChangesAsync();
+            }            
         }
-
-       
     }
 }

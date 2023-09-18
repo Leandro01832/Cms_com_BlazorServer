@@ -11,7 +11,7 @@ namespace business.business
     public class Endereco : BaseModel
     {
         [Key, ForeignKey("Cliente")]
-        public new int Id { get; set; }
+        public new long Id { get; set; }
         public string Estado { get; set; }
         public string Cidade { get; set; }
         public string Bairro { get; set; }

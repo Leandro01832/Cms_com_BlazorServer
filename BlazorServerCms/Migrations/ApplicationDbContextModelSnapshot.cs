@@ -62,6 +62,72 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Classificacao");
                 });
 
+            modelBuilder.Entity("business.business.Cliente", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cliente");
+                });
+
+            modelBuilder.Entity("business.business.Endereco", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Bairro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cep")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Complemento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Numero")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Rua")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Endereco");
+                });
+
             modelBuilder.Entity("business.business.Rota", b =>
                 {
                     b.Property<long>("Id")
@@ -161,6 +227,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<int>("Comissao")
                         .HasColumnType("int");
+
+                    b.Property<string>("CupomDesconto")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
@@ -585,11 +654,15 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<string>("ClienteId")
-                        .IsRequired()
+                    b.Property<long>("ClienteId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Pedido");
                 });
@@ -619,16 +692,9 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("business.Telefone", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
                     b.Property<string>("Celular")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClienteId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -875,6 +941,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Pagina");
                 });
 
+            modelBuilder.Entity("business.business.Endereco", b =>
+                {
+                    b.HasOne("business.business.Cliente", "Cliente")
+                        .WithOne("Endereco")
+                        .HasForeignKey("business.business.Endereco", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+                });
+
             modelBuilder.Entity("business.business.savedFolder", b =>
                 {
                     b.HasOne("business.Filtro", "Filtro")
@@ -1093,7 +1170,7 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("business.ItemPedido", b =>
                 {
                     b.HasOne("business.Pedido", "Pedido")
-                        .WithMany("ItensPedido")
+                        .WithMany("Itens")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1174,6 +1251,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("SubSubGrupo");
                 });
 
+            modelBuilder.Entity("business.Pedido", b =>
+                {
+                    b.HasOne("business.business.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+                });
+
             modelBuilder.Entity("business.Produto", b =>
                 {
                     b.HasOne("business.Pagina", "Pagina")
@@ -1183,6 +1271,17 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("Pagina");
+                });
+
+            modelBuilder.Entity("business.Telefone", b =>
+                {
+                    b.HasOne("business.business.Cliente", "Cliente")
+                        .WithOne("Telefone")
+                        .HasForeignKey("business.Telefone", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1233,6 +1332,15 @@ namespace BlazorServerCms.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("business.business.Cliente", b =>
+                {
+                    b.Navigation("Endereco")
+                        .IsRequired();
+
+                    b.Navigation("Telefone")
                         .IsRequired();
                 });
 
@@ -1338,7 +1446,7 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Pedido", b =>
                 {
-                    b.Navigation("ItensPedido");
+                    b.Navigation("Itens");
                 });
 
             modelBuilder.Entity("business.Produto", b =>

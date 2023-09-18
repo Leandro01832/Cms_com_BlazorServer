@@ -20,6 +20,7 @@ namespace business
         public virtual Cliente Cliente { get; set; }
         [Required]
         public long ClienteId { get; set; }
+        public string? Status { get; set; }
 
     }
 }
