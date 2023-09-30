@@ -1,17 +1,17 @@
-﻿@page "/configuracoes/{capitulo:int}/{verso:int}/{filtro:int}/{preferencia:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+﻿@page "/configuracoes"
 @layout MeuLayout
 @inject IJSRuntime js
 @inject RepositoryPagina repositoryPagina
 <h3>Configurações</h3>
 
 
-<a href="/renderizar/@capitulo/@verso/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/@Convert.ToInt32(pref)/@p1/@p2/@p3/@p4/p5/@p6/@p7/@p8/@p9/@p10">
-    Voltar
+<a href="/renderizar/0/1/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/0/@Convert.ToInt32(pref)/dominio/comp/comp2">
+    Salvar
 </a>
 
 <p>
     <label>Time:</label>
-    <input type="number" placeholder="digita o nome" @bind-value="timeproduto" @bind-value:event="oninput"
+    <input type="number"  @bind-value="timeproduto" @bind-value:event="oninput"
            min="4" id="inputime" />
 </p>
 
@@ -21,12 +21,12 @@
 </p>
 
 <p>
-    @if(preferencia == 1)
+    @if(preferencia == 0)
     {
         <input  type="checkbox" @bind="pref"  />
+         <label>Somente preferências</label>
     }
     
-    <label>Somente preferências</label>
 </p>
 
 <p>
@@ -53,29 +53,31 @@
 
 @code {
 
-    [Parameter] public int capitulo { get; set; }
-    [Parameter] public int preferencia { get; set; }
-    [Parameter] public int verso { get; set; }
-    [Parameter] public int filtro { get; set; }
-    [Parameter] public int? p1 { get; set; } = 0;
-    [Parameter] public int? p2 { get; set; } = 0;
-    [Parameter] public int? p3 { get; set; } = 0;
-    [Parameter] public int? p4 { get; set; } = 0;
-    [Parameter] public int? p5 { get; set; } = 0;
-    [Parameter] public int? p6 { get; set; } = 0;
-    [Parameter] public int? p7 { get; set; } = 0;
-    [Parameter] public int? p8 { get; set; } = 0;
-    [Parameter] public int? p9 { get; set; } = 0;
-    [Parameter] public int? p10 { get; set; } = 0;
+    public int capitulo { get; set; }
+    public int preferencia { get; set; }
+    public int verso { get; set; }
+    public int filtro { get; set; }
+    public int? p1 { get; set; } = 0;
+    public int? p2 { get; set; } = 0;
+    public int? p3 { get; set; } = 0;
+    public int? p4 { get; set; } = 0;
+    public int? p5 { get; set; } = 0;
+    public int? p6 { get; set; } = 0;
+    public int? p7 { get; set; } = 0;
+    public int? p8 { get; set; } = 0;
+    public int? p9 { get; set; } = 0;
+    public int? p10 { get; set; } = 0;
+    public string? dominio { get; set; } 
+    public string? compartilhante { get; set; } 
+    public string? compartilhante2 { get; set; } 
     public int timeproduto { get; set; } = 11;
     public bool listaCompleta { get; set; } = true;
-    public bool pref { get; set; }
+    public bool pref { get; set; } = false;
     public bool auto { get; set; } = true;
     private string link = "";
 
     protected override void OnInitialized()
     {
-        int converter = int.Parse(listaCompleta.ToString());
     }
 
     private void removePreferencia()

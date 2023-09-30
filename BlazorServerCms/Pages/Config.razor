@@ -72,7 +72,7 @@
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        livros = await repositoryPagina.Context.Livro!.ToListAsync();
+        livros = await Context.Livro!.ToListAsync();
         lista = await Context.Story!
            .Where(str => str.Nome != "Padrao" && !str.Comentario).ToListAsync();
 

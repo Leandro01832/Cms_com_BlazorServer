@@ -213,7 +213,7 @@ namespace business
         
         public string AlignItems { get { return alignItems; } set { alignItems = value; } }
 
-        public string ContentUser { get; set; }
+        public string? ContentUser { get; set; }
 
         [NotMapped]
         public string Conteudo

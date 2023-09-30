@@ -563,7 +563,7 @@ namespace Models
                     }
                     else
                     {
-                        if (item.Id > filtro)
+                        if (item.Id == filtro)
                         {
                             condicao = true;
                             result = new int[2];

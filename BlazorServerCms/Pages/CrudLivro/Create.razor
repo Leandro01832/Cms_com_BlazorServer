@@ -25,11 +25,18 @@
 
 @code {
     private Livro exampleModel = new();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+    protected override void OnInitialized()
+    {
+        Context = db.CreateDbContext(null);
+    }
 
     private async void HandleSubmit()
     {
-        await repositoryPagina!.Context.AddAsync(exampleModel);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        await Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();
         navigation.NavigateTo("livro");
     }
 }

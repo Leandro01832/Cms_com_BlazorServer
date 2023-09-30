@@ -117,45 +117,48 @@
     public List<CamadaSete> CamadaSete = new List<CamadaSete>();
     public List<CamadaOito> CamadaOito = new List<CamadaOito>();
     public List<CamadaNove> CamadaNove = new List<CamadaNove>();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     [Parameter]public long Id{ get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await repositoryPagina!.Context.CamadaDez!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
-        var camadanove = await repositoryPagina!.Context.CamadaNove!.FirstAsync(l => l.Id == exampleModel.CamadaNoveId);
+        Context = db.CreateDbContext(null);
+        exampleModel = await Context.CamadaDez!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        var camadanove = await Context.CamadaNove!.FirstAsync(l => l.Id == exampleModel.CamadaNoveId);
         CamadaOitoId = camadanove.CamadaOitoId;
-        var camadaoito = await repositoryPagina!.Context.CamadaOito!.FirstAsync(l => l.Id == CamadaOitoId);
+        var camadaoito = await Context.CamadaOito!.FirstAsync(l => l.Id == CamadaOitoId);
         CamadaSeteId = camadaoito.CamadaSeteId;
-        var camadasete = await repositoryPagina!.Context.CamadaSete!.FirstAsync(l => l.Id == CamadaSeteId);
+        var camadasete = await Context.CamadaSete!.FirstAsync(l => l.Id == CamadaSeteId);
         CamadaSeisId = camadasete.CamadaSeisId;
-        var camadaseis = await repositoryPagina!.Context.CamadaSeis!.FirstAsync(l => l.Id == CamadaSeisId);
+        var camadaseis = await Context.CamadaSeis!.FirstAsync(l => l.Id == CamadaSeisId);
         SubSubGrupoId = camadaseis.SubSubGrupoId;
-        var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == SubSubGrupoId);
+        var subsubgrupo = await Context.SubSubGrupo!.FirstAsync(l => l.Id == SubSubGrupoId);
         SubGrupoId = subsubgrupo.SubGrupoId;
-        var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == SubGrupoId);
+        var subgrupo = await Context.SubGrupo!.FirstAsync(l => l.Id == SubGrupoId);
         GrupoId = subgrupo.GrupoId;
-        var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == GrupoId);
+        var grupo = await Context.Grupo!.FirstAsync(l => l.Id == GrupoId);
         SubStoryId = grupo.SubStoryId;
-        lista = await repositoryPagina!.Context.Story!
+        lista = await Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         StoryId = lista.First().Id;
-        SubStory = await repositoryPagina!.Context.SubStory!.ToListAsync();
-        Grupo = await repositoryPagina!.Context.Grupo!.ToListAsync();
-        SubGrupo = await repositoryPagina!.Context.SubGrupo!.ToListAsync();
-        SubSubGrupo = await repositoryPagina!.Context.SubSubGrupo!.ToListAsync();
-        CamadaSeis = await repositoryPagina!.Context.CamadaSeis!.ToListAsync();
-        CamadaSete = await repositoryPagina!.Context.CamadaSete!.ToListAsync();
-        CamadaOito = await repositoryPagina!.Context.CamadaOito!.ToListAsync();
-        CamadaNove = await repositoryPagina!.Context.CamadaNove!.ToListAsync();
+        SubStory = await Context.SubStory!.ToListAsync();
+        Grupo = await Context.Grupo!.ToListAsync();
+        SubGrupo = await Context.SubGrupo!.ToListAsync();
+        SubSubGrupo = await Context.SubSubGrupo!.ToListAsync();
+        CamadaSeis = await Context.CamadaSeis!.ToListAsync();
+        CamadaSete = await Context.CamadaSete!.ToListAsync();
+        CamadaOito = await Context.CamadaOito!.ToListAsync();
+        CamadaNove = await Context.CamadaNove!.ToListAsync();
     }
 
     private async void HandleSubmit()
     {
         exampleModel.Filtro!.Nome = exampleModel.Nome;
-        repositoryPagina!.Context.Update(exampleModel);
-        repositoryPagina!.Context.Update(exampleModel.Filtro);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        Context.Update(exampleModel);
+        Context.Update(exampleModel.Filtro);
+        await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadadez");
         // Process the form
     }

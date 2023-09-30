@@ -28,6 +28,22 @@
         </select>
     </p>
     <p>
+        <label>Camada:</label>
+        <select  onchange="@((ChangeEventArgs e) => alterarCamada(e))" >
+           
+                <option value="camada1" >Camada 1</option>
+                <option value="camada2" >Camada 2</option>
+                <option value="camada3" >Camada 3</option>
+                <option value="camada4" >Camada 4</option>
+                <option value="camada5" >Camada 5</option>
+                <option value="camada6" >Camada 6</option>
+                <option value="camada7" >Camada 7</option>
+                <option value="camada8" >Camada 8</option>
+                <option value="camada9">Camada 9</option>
+            
+        </select>
+    </p>
+    <p>
         <label>Pasta (Opcional):</label>
         <select @bind="pasta">
             @if(exampleModel.StoryId != 0)
@@ -61,20 +77,26 @@
 
 @code {
     private Pagina? exampleModel;
-    public int pasta { get; set; } = 0;
+    private int pasta { get; set; } = 0;
+    private string camada { get; set; }
+
 
     private List<Story> lista = new List<Story>();
     public List<Filtro> Filtro = new List<Filtro>();
 
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         Pagina.entity = true;
         exampleModel = new Pagina();
         Pagina.entity = false;
-        lista = await repositoryPagina!.Context.Story!
+        lista = await Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         exampleModel.StoryId = lista.First().Id;
-        Filtro = await repositoryPagina!.Context.Filtro!.Include(f => f.Story)
+        Filtro = await Context.Filtro!.Include(f => f.Story)
 
         .OrderBy(f => f.CamadaDezId)
         .OrderBy(f => f.CamadaNoveId)
@@ -96,9 +118,10 @@
             setPastas(fil);
         }      
 
-        await repositoryPagina!.Context.AddAsync(exampleModel);
-        await repositoryPagina!.Context.SaveChangesAsync();
-        navigation.NavigateTo("pagina");
+        await Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();
+        repositoryPagina.paginas.Add(exampleModel);
+        navigation.NavigateTo("crud/pagina/1");
     }
 
     protected async void setPastas(Filtro Model)
@@ -110,110 +133,118 @@
 
         if (Model.GrupoId != null)
         {
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == Model.GrupoId);
+            exampleModel.GrupoId = grupo.Id;
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
 
         if (Model.SubGrupoId != null)
         {
-            var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
+            var subgrupo =  Context.SubGrupo!.First(l => l.Id == Model.SubGrupoId);
+            exampleModel.SubGrupoId = subgrupo.Id;
             exampleModel.GrupoId = subgrupo.GrupoId;
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == exampleModel.GrupoId);
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
 
         if (Model.SubSubGrupoId != null)
         {
-            var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
+            var subsubgrupo =  Context.SubSubGrupo!.First(l => l.Id == Model.SubSubGrupoId);
+            exampleModel.SubSubGrupoId = subsubgrupo.Id;
             exampleModel.SubGrupoId = subsubgrupo.SubGrupoId;
-            var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
+            var subgrupo =  Context.SubGrupo!.First(l => l.Id == exampleModel.SubGrupoId);
             exampleModel.GrupoId = subgrupo.GrupoId;
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == exampleModel.GrupoId);
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
 
         if (Model.CamadaSeisId != null)
         {
-            var camadaseis = await repositoryPagina!.Context.CamadaSeis!.FirstAsync(l => l.Id == exampleModel.CamadaSeisId);
+            var camadaseis =  Context.CamadaSeis!.First(l => l.Id == Model.CamadaSeisId);
+            exampleModel.CamadaSeisId = camadaseis.Id;
             exampleModel.SubSubGrupoId = camadaseis.SubSubGrupoId;
-            var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
+            var subsubgrupo =  Context.SubSubGrupo!.First(l => l.Id == exampleModel.SubSubGrupoId);
             exampleModel.SubGrupoId = subsubgrupo.SubGrupoId;
-            var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
+            var subgrupo =  Context.SubGrupo!.First(l => l.Id == exampleModel.SubGrupoId);
             exampleModel.GrupoId = subgrupo.GrupoId;
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == exampleModel.GrupoId);
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
 
         if (Model.CamadaSeteId != null)
         {
-            var camadasete = await repositoryPagina!.Context.CamadaSete!.FirstAsync(l => l.Id == exampleModel.CamadaSeteId);
+            var camadasete =  Context.CamadaSete!.First(l => l.Id == Model.CamadaSeteId);
+            exampleModel.CamadaSeteId = camadasete.Id;
             exampleModel.CamadaSeisId = camadasete.CamadaSeisId;
-            var camadaseis = await repositoryPagina!.Context.CamadaSeis!.FirstAsync(l => l.Id == exampleModel.CamadaSeisId);
+            var camadaseis =  Context.CamadaSeis!.First(l => l.Id == exampleModel.CamadaSeisId);
             exampleModel.SubSubGrupoId = camadaseis.SubSubGrupoId;
-            var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
+            var subsubgrupo =  Context.SubSubGrupo!.First(l => l.Id == exampleModel.SubSubGrupoId);
             exampleModel.SubGrupoId = subsubgrupo.SubGrupoId;
-            var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
+            var subgrupo =  Context.SubGrupo!.First(l => l.Id == exampleModel.SubGrupoId);
             exampleModel.GrupoId = subgrupo.GrupoId;
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == exampleModel.GrupoId);
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
 
         if (Model.CamadaOitoId != null)
         {
-            var camadaoito = await repositoryPagina!.Context.CamadaOito!.FirstAsync(l => l.Id == exampleModel.CamadaOitoId);
+            var camadaoito =  Context.CamadaOito!.First(l => l.Id == Model.CamadaOitoId);
+            exampleModel.CamadaOitoId = camadaoito.Id;
             exampleModel.CamadaSeteId = camadaoito.CamadaSeteId;
-            var camadasete = await repositoryPagina!.Context.CamadaSete!.FirstAsync(l => l.Id == exampleModel.CamadaSeteId);
+            var camadasete =  Context.CamadaSete!.First(l => l.Id == exampleModel.CamadaSeteId);
             exampleModel.CamadaSeisId = camadasete.CamadaSeisId;
-            var camadaseis = await repositoryPagina!.Context.CamadaSeis!.FirstAsync(l => l.Id == exampleModel.CamadaSeisId);
+            var camadaseis =  Context.CamadaSeis!.First(l => l.Id == exampleModel.CamadaSeisId);
             exampleModel.SubSubGrupoId = camadaseis.SubSubGrupoId;
-            var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
+            var subsubgrupo =  Context.SubSubGrupo!.First(l => l.Id == exampleModel.SubSubGrupoId);
             exampleModel.SubGrupoId = subsubgrupo.SubGrupoId;
-            var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
+            var subgrupo =  Context.SubGrupo!.First(l => l.Id == exampleModel.SubGrupoId);
             exampleModel.GrupoId = subgrupo.GrupoId;
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == exampleModel.GrupoId);
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
 
         if (Model.CamadaNoveId != null)
         {
-            var camadanove = await repositoryPagina!.Context.CamadaNove!.FirstAsync(l => l.Id == exampleModel.CamadaNoveId);
+            var camadanove =  Context.CamadaNove!.First(l => l.Id == Model.CamadaNoveId);
+            exampleModel.CamadaNoveId = camadanove.Id;
             exampleModel.CamadaOitoId = camadanove.CamadaOitoId;
-            var camadaoito = await repositoryPagina!.Context.CamadaOito!.FirstAsync(l => l.Id == exampleModel.CamadaOitoId);
+            var camadaoito =  Context.CamadaOito!.First(l => l.Id == exampleModel.CamadaOitoId);
             exampleModel.CamadaSeteId = camadaoito.CamadaSeteId;
-            var camadasete = await repositoryPagina!.Context.CamadaSete!.FirstAsync(l => l.Id == exampleModel.CamadaSeteId);
+            var camadasete =  Context.CamadaSete!.First(l => l.Id == exampleModel.CamadaSeteId);
             exampleModel.CamadaSeisId = camadasete.CamadaSeisId;
-            var camadaseis = await repositoryPagina!.Context.CamadaSeis!.FirstAsync(l => l.Id == exampleModel.CamadaSeisId);
+            var camadaseis =  Context.CamadaSeis!.First(l => l.Id == exampleModel.CamadaSeisId);
             exampleModel.SubSubGrupoId = camadaseis.SubSubGrupoId;
-            var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
+            var subsubgrupo =  Context.SubSubGrupo!.First(l => l.Id == exampleModel.SubSubGrupoId);
             exampleModel.SubGrupoId = subsubgrupo.SubGrupoId;
-            var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
+            var subgrupo =  Context.SubGrupo!.First(l => l.Id == exampleModel.SubGrupoId);
             exampleModel.GrupoId = subgrupo.GrupoId;
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == exampleModel.GrupoId);
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
 
         if (Model.CamadaDezId != null)
         {
-            var camadadez = await repositoryPagina!.Context.CamadaDez!.FirstAsync(l => l.Id == exampleModel.CamadaDezId);
+            var camadadez =  Context.CamadaDez!.First(l => l.Id == Model.CamadaDezId);
+            exampleModel.CamadaDezId = camadadez.Id;
             exampleModel.CamadaNoveId = camadadez.CamadaNoveId;
-            var camadanove = await repositoryPagina!.Context.CamadaNove!.FirstAsync(l => l.Id == exampleModel.CamadaNoveId);
+            var camadanove =  Context.CamadaNove!.First(l => l.Id == exampleModel.CamadaNoveId);
             exampleModel.CamadaOitoId = camadanove.CamadaOitoId;
-            var camadaoito = await repositoryPagina!.Context.CamadaOito!.FirstAsync(l => l.Id == exampleModel.CamadaOitoId);
+            var camadaoito =  Context.CamadaOito!.First(l => l.Id == exampleModel.CamadaOitoId);
             exampleModel.CamadaSeteId = camadaoito.CamadaSeteId;
-            var camadasete = await repositoryPagina!.Context.CamadaSete!.FirstAsync(l => l.Id == exampleModel.CamadaSeteId);
+            var camadasete =  Context.CamadaSete!.First(l => l.Id == exampleModel.CamadaSeteId);
             exampleModel.CamadaSeisId = camadasete.CamadaSeisId;
-            var camadaseis = await repositoryPagina!.Context.CamadaSeis!.FirstAsync(l => l.Id == exampleModel.CamadaSeisId);
+            var camadaseis =  Context.CamadaSeis!.First(l => l.Id == exampleModel.CamadaSeisId);
             exampleModel.SubSubGrupoId = camadaseis.SubSubGrupoId;
-            var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
+            var subsubgrupo =  Context.SubSubGrupo!.First(l => l.Id == exampleModel.SubSubGrupoId);
             exampleModel.SubGrupoId = subsubgrupo.SubGrupoId;
-            var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
+            var subgrupo =  Context.SubGrupo!.First(l => l.Id == exampleModel.SubGrupoId);
             exampleModel.GrupoId = subgrupo.GrupoId;
-            var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == exampleModel.GrupoId);
+            var grupo =  Context.Grupo!.First(l => l.Id == exampleModel.GrupoId);
             exampleModel.SubStoryId = grupo.SubStoryId;
         }
     }
 
-    protected string GetCamada(Filtro Model)
+    private string GetCamada(Filtro Model)
     {
         string result = "";
         if (Model.SubStoryId != null)
@@ -261,5 +292,42 @@
             result += "camada 9";
         }
         return result;
+    }
+
+    private async void alterarCamada(ChangeEventArgs e)
+    {
+        if (e.Value.ToString() == "camada1")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.SubStoryId != null).ToList();
+        else if (e.Value.ToString() == "camada2")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.GrupoId != null).ToList();
+        else if (e.Value.ToString() == "camada3")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.SubGrupoId != null).ToList();
+        else if (e.Value.ToString() == "camada4")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.SubSubGrupoId != null).ToList();
+        else if (e.Value.ToString() == "camada5")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.CamadaSeisId != null).ToList();
+        else if (e.Value.ToString() == "camada6")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.CamadaSeteId != null).ToList();
+        else if (e.Value.ToString() == "camada7")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.CamadaOitoId != null).ToList();
+        else if (e.Value.ToString() == "camada8")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.CamadaNoveId != null).ToList();
+        else if (e.Value.ToString() == "camada9")
+            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f.CamadaDezId != null).ToList();
+
+            if(Filtro.Count == 0)
+            Filtro = Context.Filtro.Include(f => f.Story).ToList();
+
+            Filtro = Filtro
+                .OrderBy(f => f.CamadaDezId)
+            .OrderBy(f => f.CamadaNoveId)
+            .OrderBy(f => f.CamadaOitoId)
+            .OrderBy(f => f.CamadaSeteId)
+            .OrderBy(f => f.CamadaSeisId)
+            .OrderBy(f => f.SubSubGrupoId)
+            .OrderBy(f => f.SubGrupoId)
+            .OrderBy(f => f.GrupoId)
+            .OrderBy(f => f.SubStoryId)
+            .ToList();
     }
 }

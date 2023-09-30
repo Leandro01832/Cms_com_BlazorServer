@@ -20,13 +20,20 @@
 
 @code {
     private Story exampleModel = new();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+    protected override void OnInitialized()
+    {
+        Context = db.CreateDbContext(null);
+    }
 
     private async void HandleSubmit()
     {
-        var list = await repositoryPagina!.Context.Story!.Where(p => p.Nome != "Padrao").ToListAsync();
+        var list = await Context.Story!.Where(p => p.Nome != "Padrao").ToListAsync();
         exampleModel.PaginaPadraoLink = list.Count + 1;
-        await repositoryPagina!.Context.AddAsync(exampleModel);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        await Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();
 
         var conteudo = "<p> <h1> Seja bem vindo a Story " + exampleModel.Nome + "</h1> </p>";
 
@@ -50,8 +57,8 @@
                 };
         Pagina.entity = false;
 
-        await repositoryPagina!.Context.AddAsync(pag);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        await Context.AddAsync(pag);
+        await Context.SaveChangesAsync();
         navigation.NavigateTo("story");
     }
 }

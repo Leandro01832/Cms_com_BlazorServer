@@ -11,24 +11,20 @@ namespace BlazorServerCms.Pages.CrudLivro
     {
         [Inject] public RepositoryPagina? repositoryPagina { get; set; }
 
-       protected  Livro[] livros { get; set; }
+        private DemoContextFactory db = new DemoContextFactory();
+        private ApplicationDbContext Context;
 
         protected override async Task OnInitializedAsync()
         {
-            await CarregaLivros();
+            Context = db.CreateDbContext(null);
         }
 
-        async Task CarregaLivros()
-        {
-            livros = await repositoryPagina!.Context.Livro!.ToArrayAsync();
-        }
 
         protected async void DeletarLivro(long Id)
         {
-            var livro = await repositoryPagina!.Context.Livro!.FirstAsync(l => l.Id == Id);
-            repositoryPagina!.Context.Remove(livro);
-            await repositoryPagina!.Context.SaveChangesAsync();
-            await CarregaLivros();
+            var livro = await Context.Livro!.FirstAsync(l => l.Id == Id);
+            Context.Remove(livro);
+            await Context.SaveChangesAsync();
             //confirma.Exibir();
             //codigoCategoria = categoriaId;
         }

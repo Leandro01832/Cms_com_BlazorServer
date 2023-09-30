@@ -192,6 +192,246 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("UserBook");
                 });
 
+            modelBuilder.Entity("business.business.UserBook1", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook1");
+                });
+
+            modelBuilder.Entity("business.business.UserBook10", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook10");
+                });
+
+            modelBuilder.Entity("business.business.UserBook2", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook2");
+                });
+
+            modelBuilder.Entity("business.business.UserBook3", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook3");
+                });
+
+            modelBuilder.Entity("business.business.UserBook4", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook4");
+                });
+
+            modelBuilder.Entity("business.business.UserBook5", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook5");
+                });
+
+            modelBuilder.Entity("business.business.UserBook6", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook6");
+                });
+
+            modelBuilder.Entity("business.business.UserBook7", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook7");
+                });
+
+            modelBuilder.Entity("business.business.UserBook8", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook8");
+                });
+
+            modelBuilder.Entity("business.business.UserBook9", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserBook9");
+                });
+
             modelBuilder.Entity("business.Comentario", b =>
                 {
                     b.Property<long>("Id")
@@ -589,7 +829,6 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContentUser")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Data")
@@ -964,6 +1203,116 @@ namespace BlazorServerCms.Migrations
                 });
 
             modelBuilder.Entity("business.business.UserBook", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook1", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook10", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook2", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook3", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook4", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook5", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook6", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook7", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook8", b =>
+                {
+                    b.HasOne("business.Livro", "Livro")
+                        .WithMany()
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+                });
+
+            modelBuilder.Entity("business.business.UserBook9", b =>
                 {
                     b.HasOne("business.Livro", "Livro")
                         .WithMany()

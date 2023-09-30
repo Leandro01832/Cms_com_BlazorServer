@@ -36,10 +36,13 @@
     Livro livro = new Livro();
     List<Livro> livros = new List<Livro>();
     public string? Url { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnInitializedAsync()
     {
-        livros = await repositoryPagina!.Context.Livro!.ToListAsync();
+        Context = db.CreateDbContext(null);
+        livros = await Context.Livro!.ToListAsync();
     }
 
 
@@ -50,10 +53,10 @@
         var user = authState.User;
 
 
-        var liv = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.url == livro.url);
+        var liv = await Context.Livro!.FirstOrDefaultAsync(l => l.url == livro.url);
         liv.Capitulo = livro.Capitulo;
 
-        var userBook = await repositoryPagina!.Context.UserBook.FirstOrDefaultAsync(u => u.user == user.Identity!.Name);
+        var userBook = await Context.UserBook.FirstOrDefaultAsync(u => u.user == user.Identity!.Name);
         if(userBook == null)
         {
             userBook = new business.business.UserBook
@@ -62,15 +65,85 @@
                     user = user.Identity!.Name,
                     Capitulo = liv.Capitulo
             };
-            await repositoryPagina!.Context.AddAsync(userBook);
-            await repositoryPagina!.Context.SaveChangesAsync();
+            var userBook1 = new business.business.UserBook1
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+           var userBook2 = new business.business.UserBook2
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+            var userBook3 = new business.business.UserBook3
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+                var userBook4 = new business.business.UserBook4
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+                var userBook5 = new business.business.UserBook5
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+                var userBook6 = new business.business.UserBook6
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+                var userBook7 = new business.business.UserBook7
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+                var userBook8 = new business.business.UserBook8
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+            var userBook9 = new business.business.UserBook9
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+            var userBook10 = new business.business.UserBook10
+                {
+                    LivroId = liv.Id,
+                    user = user.Identity!.Name,
+                    Capitulo = liv.Capitulo
+                };
+            await Context.AddAsync(userBook);
+            await Context.AddAsync(userBook1);
+            await Context.AddAsync(userBook2);
+            await Context.AddAsync(userBook3);
+            await Context.AddAsync(userBook4);
+            await Context.AddAsync(userBook5);
+            await Context.AddAsync(userBook6);
+            await Context.AddAsync(userBook7);
+            await Context.AddAsync(userBook8);
+            await Context.AddAsync(userBook9);
+            await Context.AddAsync(userBook10);
+            await Context.SaveChangesAsync();
         }
         else
         {
             userBook.LivroId = liv.Id;
             userBook.Capitulo = liv.Capitulo;
-            repositoryPagina!.Context.Update(userBook);
-            await repositoryPagina!.Context.SaveChangesAsync();
+            Context.Update(userBook);
+            await Context.SaveChangesAsync();
         }
         navigation.NavigateTo("/");
     }

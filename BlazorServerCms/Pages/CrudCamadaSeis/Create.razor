@@ -73,16 +73,19 @@
     public List<Grupo> Grupo = new List<Grupo>();
     public List<SubGrupo> SubGrupo = new List<SubGrupo>();
     public List<SubSubGrupo> SubSubGrupo = new List<SubSubGrupo>();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnInitializedAsync()
     {
-        lista = await repositoryPagina.Context.Story!
+        Context = db.CreateDbContext(null);
+        lista = await Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         StoryId = lista.First().Id;
-        SubStory = await repositoryPagina.Context.SubStory!.ToListAsync();
-        Grupo = await repositoryPagina.Context.Grupo!.ToListAsync();
-        SubGrupo = await repositoryPagina.Context.SubGrupo!.ToListAsync();
-        SubSubGrupo = await repositoryPagina.Context.SubSubGrupo!.ToListAsync();
+        SubStory = await Context.SubStory!.ToListAsync();
+        Grupo = await Context.Grupo!.ToListAsync();
+        SubGrupo = await Context.SubGrupo!.ToListAsync();
+        SubSubGrupo = await Context.SubSubGrupo!.ToListAsync();
     }
 
     private async void HandleSubmit()
@@ -94,11 +97,11 @@
                 StoryId = StoryId,
                 Rotas = exampleModel.Nome + ", "
             };
-        await repositoryPagina.Context.AddAsync(filtro);
-        await repositoryPagina.Context.SaveChangesAsync();
+        await Context.AddAsync(filtro);
+        await Context.SaveChangesAsync();
         filtro.CamadaSeisId = filtro.Id;
-        repositoryPagina!.Context.Update(filtro);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        Context.Update(filtro);
+        await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadaseis");
     }
 }

@@ -1,0 +1,14 @@
+﻿@inject IJSRuntime? js
+
+<a  onclick="@VoltarPage" class="btn btn-dark" >
+    Voltar
+</a>
+
+@code {
+
+    private async void VoltarPage()
+    {
+        await js!.InvokeVoidAsync("history.back");
+    }
+
+}

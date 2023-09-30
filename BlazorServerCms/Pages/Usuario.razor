@@ -93,35 +93,86 @@ for(var i = 1; i <= caps.Length; i++)
 
         if (pasta1 != null)
         {
-            int? pastaAcessada = null;
-            livroCompartilhado = await Context.UserBook.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            Livro[] livros = null;
+            int[] caps = null;
+            int[] pastas = null;
+            UserBook1? livroCompartilhado = await Context.UserBook1.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado != null) { livros = new Livro[1]; caps = new int[1]; }
+            UserBook2? livroCompartilhado2 = await Context.UserBook2.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado2 != null) { livros = new Livro[2]; caps = new int[2]; }
+            UserBook3? livroCompartilhado3 = await Context.UserBook3.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado3 != null) { livros = new Livro[3]; caps = new int[3]; }
+            UserBook4? livroCompartilhado4 = await Context.UserBook4.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado4 != null) { livros = new Livro[4]; caps = new int[4]; }
+            UserBook5? livroCompartilhado5 = await Context.UserBook5.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado5 != null) { livros = new Livro[5]; caps = new int[5]; }
+            UserBook6? livroCompartilhado6 = await Context.UserBook6.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado6 != null) { livros = new Livro[6]; caps = new int[6]; }
+            UserBook7? livroCompartilhado7 = await Context.UserBook7.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado7 != null) { livros = new Livro[7]; caps = new int[7]; }
+            UserBook8? livroCompartilhado8 = await Context.UserBook8.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado8 != null) { livros = new Livro[8]; caps = new int[8]; }
+            UserBook9? livroCompartilhado9 = await Context.UserBook9.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado9 != null) { livros = new Livro[9]; caps = new int[9]; }
+            UserBook10? livroCompartilhado10 = await Context.UserBook10.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+            if (livroCompartilhado10 != null) { livros = new Livro[10]; caps = new int[10]; }
+            if (livroCompartilhado != null) livros[0] = livroCompartilhado.Livro!;
+            if (livroCompartilhado2 != null) livros[1] = livroCompartilhado2.Livro!;
+            if (livroCompartilhado3 != null) livros[2] = livroCompartilhado3.Livro!;
+            if (livroCompartilhado4 != null) livros[3] = livroCompartilhado4.Livro!;
+            if (livroCompartilhado5 != null) livros[4] = livroCompartilhado5.Livro!;
+            if (livroCompartilhado6 != null) livros[5] = livroCompartilhado6.Livro!;
+            if (livroCompartilhado7 != null) livros[6] = livroCompartilhado7.Livro!;
+            if (livroCompartilhado8 != null) livros[7] = livroCompartilhado8.Livro!;
+            if (livroCompartilhado9 != null) livros[8] = livroCompartilhado9.Livro!;
+            if (livroCompartilhado10 != null) livros[9] = livroCompartilhado10.Livro!;
+            if (livroCompartilhado != null) caps[0] = livroCompartilhado.Capitulo;
+            if (livroCompartilhado2 != null) caps[1] = livroCompartilhado2.Capitulo;
+            if (livroCompartilhado3 != null) caps[2] = livroCompartilhado3.Capitulo;
+            if (livroCompartilhado4 != null) caps[3] = livroCompartilhado4.Capitulo;
+            if (livroCompartilhado5 != null) caps[4] = livroCompartilhado5.Capitulo;
+            if (livroCompartilhado6 != null) caps[5] = livroCompartilhado6.Capitulo;
+            if (livroCompartilhado7 != null) caps[6] = livroCompartilhado7.Capitulo;
+            if (livroCompartilhado8 != null) caps[7] = livroCompartilhado8.Capitulo;
+            if (livroCompartilhado9 != null) caps[8] = livroCompartilhado9.Capitulo;
+            if (livroCompartilhado10 != null) caps[9] = livroCompartilhado10.Capitulo;
+            if (pasta1 != null) pastas = new int[1];
+            if (pasta2 != null) pastas = new int[2];
+            if (pasta3 != null) pastas = new int[3];
+            if (pasta4 != null) pastas = new int[4];
+            if (pasta5 != null) pastas = new int[5];
+            if (pasta6 != null) pastas = new int[6];
+            if (pasta7 != null) pastas = new int[7];
+            if (pasta8 != null) pastas = new int[8];
+            if (pasta9 != null) pastas = new int[9];
+            if (pasta10 != null) pastas = new int[10];
+            if (pasta10 != null) pastas[9] = (int)pasta10!;
+            if (pasta9 != null) pastas[8] = (int)pasta9!;
+            if (pasta8 != null) pastas[7] = (int)pasta8!;
+            if (pasta7 != null) pastas[6] = (int)pasta7!;
+            if (pasta6 != null) pastas[5] = (int)pasta6!;
+            if (pasta5 != null) pastas[4] = (int)pasta5!;
+            if (pasta4 != null) pastas[3] = (int)pasta4!;
+            if (pasta3 != null) pastas[2] = (int)pasta3!;
+            if (pasta2 != null) pastas[1] = (int)pasta2!;
+            if (pasta1 != null) pastas[0] = (int)pasta1!;
 
-            if (pastaAcessada != null && pastaAcessada != 0 && livroCompartilhado != null)
+
+
+            if (livroCompartilhado != null)
             {
                 string url = "";
-                
-                if (pasta10 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
-                else if (pasta9 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}";
-                else if (pasta8 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}";
-                else if (pasta7 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}";
-                else if (pasta6 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}";
-                else if (pasta5 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}";
-                else if (pasta4 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}/{pasta4}";
-                else if (pasta3 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}/{pasta3}";
-                else if (pasta2 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}/{pasta2}";
-                else if (pasta1 != null)
-                    url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pasta1}/{user}/0/{pasta1}";
-                
-                await js!.InvokeAsync<object>("AcessarSites", url);
+                for (var i = 0; i < pastas.Length; i++)
+                {
+                    if (livros.Length <= pastas.Length && i <= livros.Length)
+                    {
+                        url = $"{livros[i].url}/filtro/{caps[i]}/{pastas[i]}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0";
+                        await js!.InvokeAsync<object>("AcessarSites", url);
+                    }
+
+                }
+
+
             }
         }
     }

@@ -24,6 +24,7 @@ p {
 }
 
 
+
 #comentario {
     display: none;
 }
@@ -129,6 +130,12 @@ Informativo {
 .navegacao {
     display: flex;
     justify-content: space-around;
+    width: 100%;
+}
+
+#pesquisas {
+    display: flex;
+    justify-content:start;
     width: 100%;
 }
 

@@ -52,12 +52,15 @@
     List<Story> lista = new List<Story>();
     List<Livro> livros = new List<Livro>();
     public string? Url { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
 
     protected override async Task OnInitializedAsync()
     {
-        livros = await repositoryPagina!.Context.Livro!.ToListAsync();
-        lista = await repositoryPagina!.Context.Story!
+        Context = db.CreateDbContext(null);
+        livros = await Context.Livro!.ToListAsync();
+        lista = await Context.Story!
            .Where(str => str.Nome != "Padrao" && !str.Comentario).ToListAsync();
 
         if (lista.Count == 0)
@@ -82,13 +85,13 @@
         var codigoHtml = "teste";
         var conteudoHtml = "";       
 
-        Story destino = await repositoryPagina.Context.Story!
+        Story destino = await Context.Story!
            .Include(dest => dest.Pagina!)
            .ThenInclude(dest => dest.Produto)
            .FirstAsync(dest => dest.Id == data.Capitulo);
         Pagina pagina = null;
 
-        var Story = await repositoryPagina.Context.Story!.FirstAsync(st => st.Nome == "Padrao");
+        var Story = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
 
         while (!codigoHtml.Contains("<h1>Pagina não encontrada</h1>") && html != null)
         {
@@ -98,15 +101,15 @@
             conteudoHtml = arr2[1];
 
             
-                pagina = await repositoryPagina.Context.Pagina!.Include(pa => pa.Story).Skip(verso -1)
+                pagina = await Context.Pagina!.Include(pa => pa.Story).Skip(verso -1)
                .FirstOrDefaultAsync(pa => pa.Produto == null && pa.StoryId == data.Capitulo);
                 if (pagina == null)
                     break;
 
                 pagina.Content = conteudoHtml;
 
-                repositoryPagina.Context.Update(pagina);
-                repositoryPagina.Context.SaveChanges();
+                Context.Update(pagina);
+                Context.SaveChanges();
             
 
             verso++;

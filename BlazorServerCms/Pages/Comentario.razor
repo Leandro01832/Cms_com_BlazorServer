@@ -1,9 +1,12 @@
 ﻿@page "/comentario/{capitulo:int}/{verso:int}"
 @inject RepositoryPagina? repositoryPagina
+@inject NavigationManager? navigation
 @layout MeuLayout
 
 
 <h3>Comentar</h3>
+
+<BackPage></BackPage>
 
 @{
     if (MensagemComentario != null)
@@ -17,14 +20,9 @@
 
 }
 
-@if(capitulo == 0)
-{
-    <a href="/renderizar/@capitulo/@verso/1/11/1">Voltar</a>
-}
-else
-{
-    <a href="/">Voltar</a>
-}
+
+
+
 
 
 
@@ -46,16 +44,21 @@ else
     protected string? MensagemComentario = null;
     Pagina exampleModel = new Pagina();
     Pagina Model = new Pagina();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
+   
 
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
+
         if(capitulo != 0)
         {
             var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
             Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
             List<business.Comentario> listaComentarios =
-            await repositoryPagina!.Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
+            await Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
                            .OrderBy(c => c.Id)
                            .ToListAsync();
             comentarios = new List<MarkupString>();
@@ -71,12 +74,13 @@ else
                 comentarios.Add(comentario);
             }
         }
+
     }
 
     protected async void FazerComentario()
     {
-        var Quant = await repositoryPagina.Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
-        var comenta = await repositoryPagina.Context.Story!.Include(st => st.Pagina)
+        var Quant = await Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
+        var comenta = await Context.Story!.Include(st => st.Pagina)
         .Where(st => st.Comentario)
         .OrderBy(st => st.Id)
         .ToListAsync();
@@ -91,10 +95,10 @@ else
                     PaginaPadraoLink = Quant.Count + 1
 
                 };
-            repositoryPagina.Context.Add(Story);
-            repositoryPagina.Context.SaveChanges();
+            Context.Add(Story);
+            Context.SaveChanges();
 
-            var str = await repositoryPagina.Context.Story!.FirstAsync(st => st.Nome == "Padrao");
+            var str = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
 
             Pagina.entity = true;
             var p = new Pagina()
@@ -105,8 +109,8 @@ else
                 };
             Pagina.entity = false;
 
-            repositoryPagina.Context.Add(p);
-            repositoryPagina.Context.SaveChanges();
+            Context.Add(p);
+            Context.SaveChanges();
             p.Story!.Quantidade++;
         }
 
@@ -120,8 +124,8 @@ else
             };
         Pagina.entity = false;
 
-        repositoryPagina.Context.Add(pagina);
-        repositoryPagina.Context.SaveChanges();
+        Context.Add(pagina);
+        Context.SaveChanges();
         pagina.Story.QuantComentario++;
 
         if(repositoryPagina.paginas != null)
@@ -135,9 +139,15 @@ else
                     Capitulo = Story.PaginaPadraoLink,
                     Verso = Story.Pagina!.ToList().Count
                 };
-            repositoryPagina.Context.Add(comentar);
-            repositoryPagina.Context.SaveChanges();
+            Context.Add(comentar);
+            Context.SaveChanges();
         }
         MensagemComentario = $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}";
+        if (capitulo != 0)
+            navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/0/11/1/1/dominio/comp/comp2");
+
     }
+
+  
+
 }

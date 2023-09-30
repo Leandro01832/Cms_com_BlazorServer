@@ -57,6 +57,8 @@
     List<Pagina> Model = new List<Pagina>();
     [Parameter] public int indiceFiltro{ get; set; }
     [Parameter] public int capitulo { get; set; } = 1;
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override void OnParametersSet()
     {
@@ -71,10 +73,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         indiceFiltro = 0;
         capitulo = 1;
         if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
-            filtros = await repositoryPagina.Context.Filtro!
+            filtros = await Context.Filtro!
             .Include(f => f.Story)
         .OrderBy(f => f.StoryId)
         .OrderBy(f => f.Id)

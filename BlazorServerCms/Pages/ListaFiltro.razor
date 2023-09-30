@@ -1,14 +1,4 @@
 ﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
-@page "/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/{ordenar}/{pagina:int}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{user}/{indicePasta:int}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
 @page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 
 @inject RepositoryPagina repositoryPagina
@@ -253,18 +243,7 @@
     Filtro filtro = new Filtro();
     List<Pagina> Model = new List<Pagina>();
     List<Pagina>? lista { get; set; }
-    [Parameter] public string? user { get; set; }
-    [Parameter] public int? indicePasta { get; set; }
-    [Parameter] public int? pasta1 { get; set; }
-    [Parameter] public int? pasta2 { get; set; }
-    [Parameter] public int? pasta3 { get; set; }
-    [Parameter] public int? pasta4 { get; set; }
-    [Parameter] public int? pasta5 { get; set; }
-    [Parameter] public int? pasta6 { get; set; }
-    [Parameter] public int? pasta7 { get; set; }
-    [Parameter] public int? pasta8 { get; set; }
-    [Parameter] public int? pasta9 { get; set; }
-    [Parameter] public int? pasta10 { get; set; }
+    
 
     [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
@@ -304,48 +283,6 @@
             Console.WriteLine(ex.Message);
         }
         StartTimer();
-
-        if(indicePasta != null & pasta1 != null && user != null )
-        {
-            int? pastaAcessada = null;
-            UserBook? livroCompartilhado = await Context.UserBook.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
-            if (indicePasta == 0) pastaAcessada = pasta1;
-            if (indicePasta == 1) pastaAcessada = pasta2;
-            if (indicePasta == 2) pastaAcessada = pasta3;
-            if (indicePasta == 3) pastaAcessada = pasta4;
-            if (indicePasta == 4) pastaAcessada = pasta5;
-            if (indicePasta == 5) pastaAcessada = pasta6;
-            if (indicePasta == 6) pastaAcessada = pasta7;
-            if (indicePasta == 7) pastaAcessada = pasta8;
-            if (indicePasta == 8) pastaAcessada = pasta9;
-            if (indicePasta == 9) pastaAcessada = pasta10;
-
-            if (pastaAcessada != null && livroCompartilhado != null && indicePasta < 10)
-            {
-                string url = $"{livroCompartilhado!.Livro!.url}/lista-filtro/{dominio}/{compartilhante}/{compartilhante2}/teste/1/1/11/30/{livroCompartilhado!.Capitulo}/{pastaAcessada}/{user}/{indicePasta + 1}/{pasta1}/{pasta2}/{pasta3}/{pasta4}/{pasta5}/{pasta6}/{pasta7}/{pasta8}/{pasta9}/{pasta10}";
-                await js!.InvokeAsync<object>("AcessarSites", url);
-            }
-
-            if (dominio != repositoryPagina.buscarDominio())
-            {
-                var domi = await Context.Compartilhante!.FirstOrDefaultAsync(l => l.Livro == dominio);
-                if (domi == null)
-                {
-                    var compartilhant = new business.Compartilhante
-                        {
-                            Livro = dominio,
-                            Admin = compartilhante,
-                            Data = DateTime.Now,
-                            Comissao = 5
-                            // ComissaoParaUser = 0.25 * Comissao,
-                            // Desconto = 0.5 * Comissao
-                        };
-                    await Context.AddAsync(compartilhant);
-                    await Context.SaveChangesAsync();
-                }
-            }
-        }
-
 
     }
 

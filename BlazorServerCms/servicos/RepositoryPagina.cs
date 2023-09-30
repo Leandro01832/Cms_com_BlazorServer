@@ -16,7 +16,6 @@ namespace BlazorServerCms.servicos
     {
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
-        public ApplicationDbContext Context = new ApplicationDbContext(ApplicationDbContext._connectionString);
         public Random random = new Random();
         public List<Pagina>? paginas { get; set; }
         public bool aguarde { get; set; } = false;
@@ -139,7 +138,9 @@ namespace BlazorServerCms.servicos
 
         public IIncludableQueryable<Pagina, List<Pagina>> includes()
         {
-            return Context.Pagina!
+             DemoContextFactory db = new DemoContextFactory();
+         ApplicationDbContext Contexto = db.CreateDbContext(null);
+            return Contexto.Pagina!
              .Include(p => p.Produto)
              .ThenInclude(p => p!.Imagem)
              .Include(p => p.Produto)

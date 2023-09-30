@@ -72,33 +72,36 @@
     public List<Grupo> Grupo = new List<Grupo>();
     public List<SubGrupo> SubGrupo = new List<SubGrupo>();
     public List<SubSubGrupo> SubSubGrupo = new List<SubSubGrupo>();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     [Parameter]public long Id{ get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await repositoryPagina!.Context.CamadaSeis!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
-        var subsubgrupo = await repositoryPagina!.Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
+        Context = db.CreateDbContext(null);
+        exampleModel = await Context.CamadaSeis!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        var subsubgrupo = await Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
         SubGrupoId = subsubgrupo.SubGrupoId;
-        var subgrupo = await repositoryPagina!.Context.SubGrupo!.FirstAsync(l => l.Id == SubGrupoId);
+        var subgrupo = await Context.SubGrupo!.FirstAsync(l => l.Id == SubGrupoId);
         GrupoId = subgrupo.GrupoId;
-        var grupo = await repositoryPagina!.Context.Grupo!.FirstAsync(l => l.Id == GrupoId);
+        var grupo = await Context.Grupo!.FirstAsync(l => l.Id == GrupoId);
         SubStoryId = grupo.SubStoryId;
-        lista = await repositoryPagina!.Context.Story!
+        lista = await Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         StoryId = lista.First().Id;
-        SubStory = await repositoryPagina!.Context.SubStory!.ToListAsync();
-        Grupo = await repositoryPagina!.Context.Grupo!.ToListAsync();
-        SubGrupo = await repositoryPagina!.Context.SubGrupo!.ToListAsync();
-        SubSubGrupo = await repositoryPagina!.Context.SubSubGrupo!.ToListAsync();
+        SubStory = await Context.SubStory!.ToListAsync();
+        Grupo = await Context.Grupo!.ToListAsync();
+        SubGrupo = await Context.SubGrupo!.ToListAsync();
+        SubSubGrupo = await Context.SubSubGrupo!.ToListAsync();
     }
 
     private async void HandleSubmit()
     {
         exampleModel.Filtro!.Nome = exampleModel.Nome;
-        repositoryPagina!.Context.Update(exampleModel);
-        repositoryPagina!.Context.Update(exampleModel.Filtro);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        Context.Update(exampleModel);
+        Context.Update(exampleModel.Filtro);
+        await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadaseis");
         // Process the form
     }

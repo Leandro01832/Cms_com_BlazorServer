@@ -597,6 +597,7 @@ p[b-k8aihg5em2] {
 }
 
 
+
 #comentario[b-k8aihg5em2] {
     display: none;
 }
@@ -702,6 +703,12 @@ Informativo[b-k8aihg5em2] {
 .navegacao[b-k8aihg5em2] {
     display: flex;
     justify-content: space-around;
+    width: 100%;
+}
+
+#pesquisas[b-k8aihg5em2] {
+    display: flex;
+    justify-content:start;
     width: 100%;
 }
 

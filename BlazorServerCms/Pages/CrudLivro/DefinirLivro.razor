@@ -35,32 +35,35 @@
     Livro livro = new Livro();
     List<Livro> livros = new List<Livro>();
     public string? Url { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnInitializedAsync()
     {
-        livros = await repositoryPagina!.Context.Livro!.ToListAsync();
+         Context = db.CreateDbContext(null);
+        livros = await Context.Livro!.ToListAsync();
     }
 
 
     private async void HandleSubmit()
     {
-        var liv = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.url == livro.url);
+        var liv = await Context.Livro!.FirstOrDefaultAsync(l => l.url == livro.url);
         if(liv != null && livro.Capitulo != 0)
         {
-            while (await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando) != null)
+            while (await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando) != null)
             {
-                var l = await repositoryPagina!.Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+                var l = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
                 if(l != null)
                 {
                     l.Compartilhando = false;
-                    repositoryPagina!.Context.Update(l);
-                    await repositoryPagina!.Context.SaveChangesAsync();
+                    Context.Update(l);
+                    await Context.SaveChangesAsync();
                 }                
             }
             liv.Compartilhando = true;
             liv.Capitulo = livro.Capitulo;
-            repositoryPagina!.Context.Update(liv);
-            await repositoryPagina!.Context.SaveChangesAsync();
+            Context.Update(liv);
+            await Context.SaveChangesAsync();
         }        
         navigation.NavigateTo("livro");
     }

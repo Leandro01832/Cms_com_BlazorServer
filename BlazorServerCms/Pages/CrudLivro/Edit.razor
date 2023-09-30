@@ -26,16 +26,19 @@
     private Livro exampleModel = new();
 
     [Parameter]public long Id{ get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await repositoryPagina!.Context.Livro!.FirstAsync(l => l.Id == Id);
+        Context = db.CreateDbContext(null);
+        exampleModel = await Context.Livro!.FirstAsync(l => l.Id == Id);
     }
 
     private async void HandleSubmit()
     {
-        repositoryPagina!.Context.Update(exampleModel);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        Context.Update(exampleModel);
+        await Context.SaveChangesAsync();
         navigation.NavigateTo("livro");
         // Process the form
     }

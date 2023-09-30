@@ -15,19 +15,22 @@
 </EditForm>
 
 @code {
-    private Story exampleModel = new();    
+    private Story exampleModel = new();   
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     [Parameter]public long Id{ get; set; }
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await repositoryPagina!.Context.Story!.FirstAsync(l => l.Id == Id);
+        Context = db.CreateDbContext(null);
+        exampleModel = await Context.Story!.FirstAsync(l => l.Id == Id);
     }
 
     private async void HandleSubmit()
     {
-        repositoryPagina!.Context.Update(exampleModel);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        Context.Update(exampleModel);
+        await Context.SaveChangesAsync();
         navigation.NavigateTo("story");
         // Process the form
     }

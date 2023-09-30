@@ -24,8 +24,18 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<UserBook> UserBook     { get; set; }
+        public DbSet<UserBook1> UserBook1 { get; set; }
+        public DbSet<UserBook2> UserBook2   { get; set; }
+        public DbSet<UserBook3> UserBook3   { get; set; }
+        public DbSet<UserBook4> UserBook4   { get; set; }
+        public DbSet<UserBook5> UserBook5   { get; set; }
+        public DbSet<UserBook6> UserBook6   { get; set; }
+        public DbSet<UserBook7> UserBook7   { get; set; }
+        public DbSet<UserBook8> UserBook8   { get; set; }
+        public DbSet<UserBook9> UserBook9   { get; set; }
+        public DbSet<UserBook10> UserBook10 { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
-        public DbSet<UserBook> UserBook { get; set; }
         public DbSet<Classificacao> Classificacao { get; set; }
         public DbSet<savedFolder> savedFolder { get; set; }
         public DbSet<Rota>? Rota { get; set; }

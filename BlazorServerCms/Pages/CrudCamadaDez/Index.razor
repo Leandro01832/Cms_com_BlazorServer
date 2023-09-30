@@ -43,6 +43,8 @@ else
 
     protected CamadaDez[] camadas { get; set; }
     [Parameter] public int pagina { get; set; } = 1;
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -51,12 +53,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         await CarregaCamadas(pagina);
     }
 
     async Task CarregaCamadas(int pag)
     {
-        camadas = await repositoryPagina!.Context.CamadaDez!
+        camadas = await Context.CamadaDez!
         .OrderBy(p => p.Id)
                .Skip((pag - 1) * 10)
                .Take(10)
@@ -65,9 +68,9 @@ else
 
     protected async void DeletarCamada(long Id)
     {
-        var camada = await repositoryPagina!.Context.CamadaDez!.FirstAsync(l => l.Id == Id);
-        repositoryPagina!.Context.Remove(camada);
-        await repositoryPagina!.Context.SaveChangesAsync();
+        var camada = await Context.CamadaDez!.FirstAsync(l => l.Id == Id);
+        Context.Remove(camada);
+        await Context.SaveChangesAsync();
         await CarregaCamadas(1);
     }
 
