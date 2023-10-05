@@ -11,7 +11,7 @@ namespace business.Group
         [Key, ForeignKey("Filtro")]
         public new Int64 Id { get; set; }
         public string? Nome { get; set; }
-        public virtual List<Pagina>? Pagina { get; set; }
+        public virtual List<Pagina> Pagina { get; set; }
         public virtual List<CamadaDez>? CamadaDez { get; set; }
          public Int64 CamadaOitoId { get; set; }
         public virtual CamadaOito? CamadaOito { get; set; }

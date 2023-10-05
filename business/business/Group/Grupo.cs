@@ -11,7 +11,7 @@ namespace business.Group
             [Key, ForeignKey("Filtro")]
              public new Int64 Id { get; set; }
         public string? Nome { get; set; }
-        public virtual List<Pagina>? Pagina { get; set; }
+        public virtual List<Pagina> Pagina { get; set; }
              public virtual List<SubGrupo>? SubGrupo { get; set; }
             [Range(1, 1000000, ErrorMessage ="Informe uma sub-story")]
             public Int64 SubStoryId { get; set; }

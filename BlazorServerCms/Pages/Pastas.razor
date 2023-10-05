@@ -21,7 +21,7 @@
             var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
             <p>
             pasta @pastas[i] - @namePastas[i]
-                <a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{capitulo}/{pastas[i]}/dominio/comp/comp2/0/0/0/0/0/0/0/0/0/0"))" class="btn btn-primary">Acessar</a>
+                <a href="/renderizar/@capitulo/@pastas[i]/0/11/1/1/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
                 <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                     @if (condicao != null)
                     {
@@ -61,7 +61,7 @@
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
+        var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).OrderBy(p => p.Id).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
         saved = await Context.savedFolder.ToListAsync();
     }

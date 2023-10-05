@@ -3,10 +3,11 @@
 @inject RepositoryPagina repositoryPagina
 @inject BlazorTimer Timer
 @inject NavigationManager navigation
+@inject IJSRuntime? js
 <h3>Vitrine</h3>
 <PageTitle>Vitrine</PageTitle>
 
-@if(filtros.Count > 0)
+@if(filtrosPorCap.Count > 0)
 {
     <p>Capitulo @retornarCap(filtrosPorCap[indiceFiltro])</p>
     <p>Pasta @retornarPasta(filtrosPorCap[indiceFiltro]) - <header>@filtrosPorCap[indiceFiltro].Nome</header> </p>
@@ -52,24 +53,29 @@
 }
 
 @code {
-    List<Filtro> filtros = new List<Filtro>();
     List<Filtro> filtrosPorCap = new List<Filtro>();
     List<Pagina> Model = new List<Pagina>();
-    [Parameter] public int indiceFiltro{ get; set; }
+    [Parameter] public int indiceFiltro { get; set; } = 1;
     [Parameter] public int capitulo { get; set; } = 1;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
-    protected override void OnParametersSet()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        filtrosPorCap = filtros
-        .Where(f => f.Story!.PaginaPadraoLink == capitulo)
-        .ToList();
-
-        if (indiceFiltro >= filtrosPorCap.Count)
-            indiceFiltro = 0;
-        VerificarFiltro(filtrosPorCap[indiceFiltro]);
+        if (firstRender)
+        {
+            try
+            {
+                await js!.InvokeAsync<object>("FullScreen", "1");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
+
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,11 +83,14 @@
         indiceFiltro = 0;
         capitulo = 1;
         if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
-            filtros = await Context.Filtro!
-            .Include(f => f.Story)
-        .OrderBy(f => f.StoryId)
-        .OrderBy(f => f.Id)
-        .ToListAsync();        
+              
+        filtrosPorCap = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo)
+                   .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
+        
+
+        if (indiceFiltro >= filtrosPorCap.Count)
+            indiceFiltro = 0;
+        VerificarFiltro(filtrosPorCap[indiceFiltro]);
     }
 
     private int retornarCap(Filtro fil)
