@@ -4,8 +4,11 @@
 @inject BlazorTimer Timer
 @inject NavigationManager navigation
 @inject IJSRuntime? js
+@layout MeuLayout
 <h3>Vitrine</h3>
 <PageTitle>Vitrine</PageTitle>
+
+<p>O livro é @repositoryPagina.buscarDominio()</p>
 
 @if(filtrosPorCap.Count > 0)
 {
@@ -75,18 +78,20 @@
         }
     }
 
-    
+    protected override void OnParametersSet()
+    {
+        StartTimer();
+    }
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
         indiceFiltro = 0;
         capitulo = 1;
-        if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
-              
-        filtrosPorCap = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo)
+
+        filtrosPorCap = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo )
                    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
-        
+
 
         if (indiceFiltro >= filtrosPorCap.Count)
             indiceFiltro = 0;
@@ -105,10 +110,10 @@
         return filtros!.IndexOf(f) + 1;
     }
 
-    private void VerificarFiltro(Filtro fil)
+    private async void VerificarFiltro(Filtro fil)
     {
         if(fil.CamadaDezId != null)
-        Model = repositoryPagina.paginas!.First(p => p.CamadaDezId == fil.CamadaDezId).CamadaDez!.Pagina!;        
+            Model = repositoryPagina.paginas!.First(p => p.CamadaDezId == fil.CamadaDezId).CamadaDez!.Pagina!;        
         else if (fil.CamadaNoveId != null)
             Model = repositoryPagina.paginas!.First(p => p.CamadaNoveId == fil.CamadaNoveId).CamadaNove!.Pagina!;
         else if (fil.CamadaOitoId != null)
@@ -126,6 +131,15 @@
         else if (fil.SubStoryId != null)
             Model = repositoryPagina.paginas!.First(p => p.SubStoryId == fil.SubStoryId).SubStory!.Pagina!;
 
+        List<Pagina> lista = new List<Pagina>();
+        foreach(var item in Model)
+        {
+            var p = Context.Pagina!.Include(p => p.Produto).First(p => p.Id == item.Id);
+            lista.Add(p);
+        }
+
+        Model = lista.Where(p => p.Produto != null).OrderBy(p => p.Id).ToList();
+
     }
 
 
@@ -138,7 +152,7 @@
 
     private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {    
-        if (indiceFiltro + 1 >= filtrosPorCap.Count)
+        if (indiceFiltro + 1 > filtrosPorCap.Count)
         navigation.NavigateTo($"/vitrine/{capitulo + 1}/1");
         else
             navigation.NavigateTo($"/vitrine/{capitulo}/{indiceFiltro + 1}");

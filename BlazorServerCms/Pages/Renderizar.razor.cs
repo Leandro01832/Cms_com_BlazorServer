@@ -48,6 +48,7 @@ namespace BlazorCms.Client.Pages
         protected int quantidadeLista { get; set; }
         protected int anterior { get; set; }
         protected int proximo { get; set; }
+        protected long ultimaPasta { get; set; }
 
         [Parameter] public int indiceLivro { get; set; } = 0;
 
@@ -188,8 +189,6 @@ namespace BlazorCms.Client.Pages
             proximo = indice + 1;
             anterior = indice - 1;
 
-
-
             if (filtrar == null && substory == null)
             {        
                 
@@ -203,6 +202,26 @@ namespace BlazorCms.Client.Pages
                               
                 if(outroHorizonte == 1)
                  Model2 = filtros.Skip((int)indice - 1).FirstOrDefault();
+
+                if(Model != null)
+                {
+                    long id_ultimo = 0;
+                    if (Model.CamadaDezId != null) id_ultimo = (long) Model.CamadaDezId;
+                    else if (Model.CamadaNoveId != null) id_ultimo = (long)Model.CamadaNoveId;
+                    else if (Model.CamadaOitoId != null) id_ultimo = (long)Model.CamadaOitoId;
+                    else if (Model.CamadaSeteId != null) id_ultimo = (long)Model.CamadaSeteId;
+                    else if (Model.CamadaSeisId != null) id_ultimo = (long)Model.CamadaSeisId;
+                    else if (Model.SubSubGrupoId != null) id_ultimo = (long)Model.SubSubGrupoId;
+                    else if (Model.SubGrupoId != null) id_ultimo = (long)Model.SubGrupoId;
+                    else if (Model.GrupoId != null) id_ultimo = (long)Model.GrupoId;
+                    else if (Model.SubStoryId != null) id_ultimo = (long)Model.SubStoryId;
+                    if(id_ultimo != 0)
+                    {
+                        var fil = filtros.First(f => f.Id == id_ultimo);
+                        ultimaPasta = filtros.IndexOf(fil) + 1;
+                    }
+                    else ultimaPasta = 0;
+                }
                 
 
                 if (Model == null && Model2 == null)
@@ -606,6 +625,26 @@ namespace BlazorCms.Client.Pages
                     markup = new MarkupString(html);
                     proximo = indice + 1;
                     anterior = indice - 1;
+
+                    if (Model != null)
+                    {
+                        long id_ultimo = 0;
+                        if (Model.CamadaDezId != null) id_ultimo = (long)Model.CamadaDezId;
+                        else if (Model.CamadaNoveId != null) id_ultimo = (long)Model.CamadaNoveId;
+                        else if (Model.CamadaOitoId != null) id_ultimo = (long)Model.CamadaOitoId;
+                        else if (Model.CamadaSeteId != null) id_ultimo = (long)Model.CamadaSeteId;
+                        else if (Model.CamadaSeisId != null) id_ultimo = (long)Model.CamadaSeisId;
+                        else if (Model.SubSubGrupoId != null) id_ultimo = (long)Model.SubSubGrupoId;
+                        else if (Model.SubGrupoId != null) id_ultimo = (long)Model.SubGrupoId;
+                        else if (Model.GrupoId != null) id_ultimo = (long)Model.GrupoId;
+                        else if (Model.SubStoryId != null) id_ultimo = (long)Model.SubStoryId;
+                        if (id_ultimo != 0)
+                        {
+                            var fil = filtros.First(f => f.Id == id_ultimo);
+                            ultimaPasta = filtros.IndexOf(fil) + 1;
+                        }
+                        else ultimaPasta = 0;
+                    }
 
                     Filtro Filtro = null;
                     if (group8 != null)
@@ -1186,7 +1225,42 @@ namespace BlazorCms.Client.Pages
                 await js!.InvokeAsync<object>("DarAlert", $"versiculo {p10} foi marcado como 10º preferência");
             }
             else            
-            await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 preferências");            
+            await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 preferências");
+
+            if(camadadez != null)
+            navigation!
+                    .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            else if (camadanove != null)
+                navigation!
+                        .NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else  if (camadaoito != null)
+                navigation!
+                        .NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (camadasete != null)
+                navigation!
+                        .NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (camadaseis != null)
+                navigation!
+                        .NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+               
+            else if (subsubgrupo != null)
+                navigation!
+                        .NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (subgrupo != null)
+                navigation!
+                        .NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (grupo != null)
+                navigation!
+                        .NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (substory != null)
+                navigation!
+                        .NavigateTo($"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         }
 
         protected async void acessarPasta()
