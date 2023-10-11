@@ -17,8 +17,7 @@ else
     <thead>
         <tr>
             <th>Nome</th>
-            <th>Edita</th>
-            <th>Deleta</th>
+            <th>Editar</th>
         </tr>
     </thead>
     <tbody>
@@ -27,8 +26,6 @@ else
             <tr>
                 <td>@camada.Nome</td>
                 <td><a class="btn btn-primary" href="camadasete/edit/@camada.Id">Editar</a> </td>
-                <td><a class="btn btn-danger" @onclick="(()=> DeletarCamada(camada.Id))">Deletar</a> </td>
-                @*<td><a href='/deletealuno/@categoria.CategoriaId'>Deletar</a></td>*@
             </tr>
         }
     </tbody>
@@ -65,14 +62,6 @@ else
                .Skip((pag - 1) * 10)
                .Take(10)
         .ToArrayAsync();
-    }
-
-    protected async void DeletarCamada(long Id)
-    {
-        var camada = await Context.CamadaSete!.FirstAsync(l => l.Id == Id);
-        Context.Remove(camada);
-        await Context.SaveChangesAsync();
-        await CarregaCamadas(1);
     }
 
     private void acessarPagina(ChangeEventArgs e)

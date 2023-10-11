@@ -65,7 +65,7 @@
 </p>
     
  <div class="container">
-     <input type="text" @bind="Query"  placeholder="Nº do capitulo ou pesquisar" />
+     <input type="text" @bind="Query"  placeholder="Nº do capitulo ou pesquisar"  />
     <a id="acessoPaginaComInput2" href="#" onclick="@buscar"
        class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -76,17 +76,21 @@
 
 @if(filtros!.Count > 0)
 {
-    <div>
-        <table>
+    <div style="position:absolute; background-color:aliceblue;">
+        <table cellspacing="10" border="1" cellpadding="10" >
             <tr>
                 <th>Capitulo</th>
-                <th>Resultado</th>
+                <th>Pasta</th>
+                <th>Nome</th>
                 <th></th>
             </tr>
             @foreach (var item in filtros!)
             {
+                var fil = repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.Filtro;
+                var f = fil!.First(fi => fi.Id == item.Id);
                 <tr>
                     <td>Capitulo @repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.PaginaPadraoLink </td>
+                    <td>Pasta @(fil!.IndexOf(f) + 1) </td>
                     <td>@item.Nome</td>
                     <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
                 </tr>
@@ -95,7 +99,7 @@
         </table>
     </div>
 }
-<img src="/story.jpg" width="500" />
+<img src="/story.jpg" width="650" />
 
 <a href="/comentario/0/1" style="background-color:rgb(208, 146, 61); font-size:large;color:rgb(95, 56, 23);">
         Compartilhe seu comentário
@@ -141,6 +145,8 @@
     private int users = 0;
 
     private string erro1 = "Voce ainda não esta compartilhando nenhum livro";
+
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -231,76 +237,80 @@
             else if (p1 != null)
                 navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/0/0/0/0/0/0/0/0/0");
         }
-        else if (p10 != null)
+        else if (repositoryPagina.paginas! != null && repositoryPagina.paginas!.FirstOrDefault(p => p.Produto != null) != null )
         {
+            if (p10 != null)
+            {
 
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-            else
-                Mensagem = erro1;
-        }
-        else if (p9 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p8 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p7 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p6 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p5 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p4 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p3 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p2 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/0/0/0/0/0/0/0/0");
-            else
-                Mensagem = erro1;
-        }
-        else if (p1 != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/0/0/0/0/0/0/0/0/0");
-            else
-                Mensagem = erro1;
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p9 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p8 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p7 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p6 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p5 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p4 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p3 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p2 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/{p2}/0/0/0/0/0/0/0/0");
+                else
+                    Mensagem = erro1;
+            }
+            else if (p1 != null)
+            {
+                if (livro != null)
+                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/0/0/0/0/0/0/0/0/0");
+                else
+                    Mensagem = erro1;
+            }
+
         }
         else if (pasta1 != null)
         {
@@ -380,14 +390,14 @@
                         url = $"{livros[i].url}/filtro/{caps[i]}/pasta-{pastas[i]}/0/{i + 1}/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0";
                         await js!.InvokeAsync<object>("AcessarSites", url);
                     }                 
-                    
+
                 }
-                
+
 
             }
         }
 
-       
+
     }
 
     private void Acessar(Filtro item)
@@ -396,7 +406,9 @@
         var filtros = repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.Filtro;
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
-        navigation.NavigateTo($"/filtro/{cap}/pasta-{indiceFiltro}/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+        dominio = repositoryPagina.buscarDominio();
+        compartilhante = repositoryPagina.buscarAdmin();
+        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/1/0/0/{dominio}/{compartilhante}/user");
     }
 
     private async void buscar()
@@ -414,6 +426,7 @@
                 .Include(f => f.Story)
                 .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower())).ToListAsync();
 
+
                 if(filtros.Count == 0)
                 {
                     var rota = new Rota
@@ -421,13 +434,16 @@
                             Nome = Query,
                             Registrado = false
                         };
-                        Context.Add(rota);
-                        await Context.SaveChangesAsync();
+                    Context.Add(rota);
+                    await Context.SaveChangesAsync();
                 }
+            }
+            else if (string.IsNullOrEmpty(Query))
+            {
+                filtros = new List<Filtro>();
             }
             cap = 1;
         }
     }
 
-   
 }

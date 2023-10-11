@@ -129,10 +129,15 @@
         {
             var fil = Filtro.First(f => f.Id == pasta);
             setPastas(fil);
-        } 
+        }
 
-        Context.Update(exampleModel);
-        await Context.SaveChangesAsync();
+        if (repositoryPagina.paginas != null)
+        {
+            Context.Update(exampleModel);
+            await Context.SaveChangesAsync();
+            repositoryPagina.paginas.Remove(repositoryPagina.paginas.First(p => p.Id == exampleModel.Id));
+            repositoryPagina.paginas.Add(exampleModel);
+        }
         navigation.NavigateTo("crud/pagina/1");
         // Process the form
     }

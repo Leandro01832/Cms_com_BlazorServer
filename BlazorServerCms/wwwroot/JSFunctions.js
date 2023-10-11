@@ -174,5 +174,9 @@ window.AcessarSites = (url) => {
     window.open(url, '_blank');
 }
 
+window.sairFullScreen = (url) => {
+    document.exitFullscreen();
+}
+
 
 

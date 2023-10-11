@@ -40,25 +40,62 @@
         Pagina pag = null;
         Pagina.entity = true;
         if(exampleModel.Produto)
-        pag = new Pagina()
+            pag = new Pagina()
             {
                 Data = DateTime.Now,
                 Titulo = "Story - " + exampleModel.Nome,
                 StoryId = exampleModel.Id,
-                Content = conteudo
+                Content = conteudo,
+                    Classificacao = new Classificacao()
             };
-            else
+        else
             pag = new Pagina()
                 {
                     Data = DateTime.Now,
                     Titulo = "Story - " + exampleModel.Nome,
                     StoryId = exampleModel.Id,
-                    ContentUser = conteudo
+                    ContentUser = conteudo,
+                    Classificacao = new Classificacao()
                 };
         Pagina.entity = false;
+        if (repositoryPagina.paginas != null)
+        {
+             Context.Add(pag);
+             Context.SaveChanges();
+            repositoryPagina.paginas.Add(pag);            
+        }
 
-        await Context.AddAsync(pag);
-        await Context.SaveChangesAsync();
-        navigation.NavigateTo("story");
+        var Story = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
+
+        var pagina = new Pagina()
+            {
+                Data = DateTime.Now,
+                Titulo = "Story - " + exampleModel.Nome,
+                StoryId = Story.Id,
+                SubStoryId = null,
+                GrupoId = null,
+                SubGrupoId = null,
+                SubSubGrupoId = null,
+                Content = "<a href='#' id='LinkPadrao'> <h1> Story " + exampleModel.Nome + "</h1> </a>",
+                Classificacao = new Classificacao()
+            };
+
+        try
+        {
+            if (repositoryPagina.paginas != null)
+            {
+                Context.Add(pagina);
+                Context.SaveChanges();
+                repositoryPagina.paginas.Add(pagina);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+
+
+        navigation.NavigateTo("/crud/story/1");
     }
 }

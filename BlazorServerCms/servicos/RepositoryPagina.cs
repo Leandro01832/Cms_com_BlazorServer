@@ -38,7 +38,7 @@ namespace BlazorServerCms.servicos
             var _TotalRegistros = 0;
             try
             {
-                using (con = new SqlConnection(""))
+                using (con = new SqlConnection(ApplicationDbContext._connectionString))
                 {
                     cmd = new SqlCommand($"SELECT COUNT(*) FROM Pagina", con);
                     con.Open();
@@ -46,7 +46,7 @@ namespace BlazorServerCms.servicos
                     con.Close();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _TotalRegistros = 0;
             }

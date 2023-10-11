@@ -47,7 +47,7 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
-   
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -124,12 +124,13 @@
             };
         Pagina.entity = false;
 
-        Context.Add(pagina);
-        Context.SaveChanges();
-        pagina.Story.QuantComentario++;
-
-        if(repositoryPagina.paginas != null)
-            repositoryPagina.paginas!.Add(pagina);
+        if (repositoryPagina.paginas != null)
+        {
+            Context.Add(pagina);
+            Context.SaveChanges();
+            pagina.Story.QuantComentario++;
+            repositoryPagina.paginas.Add(pagina);
+        }
 
         if (capitulo != 0)
         {
@@ -144,7 +145,7 @@
         }
         MensagemComentario = $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}";
         if (capitulo != 0)
-            navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/0/11/1/1/dominio/comp/comp2");
+            navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/0/11/1/0/0/0/dominio/comp/comp2");
 
     }
 

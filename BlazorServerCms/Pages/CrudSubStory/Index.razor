@@ -20,8 +20,7 @@ else
     <thead>
         <tr>
             <th>Nome</th>
-            <th>Edita</th>
-            <th>Deleta</th>
+            <th>Editar</th>
         </tr>
     </thead>
     <tbody>
@@ -30,7 +29,6 @@ else
             <tr>
                 <td>@camada.Nome</td>
                 <td><a class="btn btn-primary" href="substory/edit/@camada.Id">Editar</a> </td>
-                <td><a class="btn btn-danger" @onclick="(()=> DeletarCamada(camada.Id))">Deletar</a> </td>
                
             </tr>
         }
@@ -70,13 +68,7 @@ else
         .ToArrayAsync();
     }
 
-    protected async void DeletarCamada(long Id)
-    {
-        var camada = await Context.SubStory!.FirstAsync(l => l.Id == Id);
-        Context.Remove(camada);
-        await Context.SaveChangesAsync();
-        await CarregaCamadas(1);
-    }
+    
 
     private void acessarPagina(ChangeEventArgs e)
     {

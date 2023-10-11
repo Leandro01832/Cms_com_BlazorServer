@@ -1,0 +1,91 @@
+﻿@page "/user-book/livros-compartilhados/{user}"
+
+<h3>Livros</h3>
+
+@if (livroCompartilhado != null)
+{
+    <p>Livro 1: @livroCompartilhado.Livro!.url capitulo: @livroCompartilhado.Capitulo </p>    
+
+    @if (livroCompartilhado2 != null)
+    {
+        <p>Livro 2: @livroCompartilhado2.Livro!.url capitulo: @livroCompartilhado2.Capitulo </p>
+    }
+    
+    @if (livroCompartilhado3 != null)
+    {
+        <p>Livro 3: @livroCompartilhado3.Livro!.url capitulo: @livroCompartilhado3.Capitulo </p>
+    }
+    
+    @if (livroCompartilhado4 != null)
+    {
+        <p>Livro 4: @livroCompartilhado4!.Livro!.url capitulo: @livroCompartilhado4.Capitulo </p>
+    }
+    
+    @if (livroCompartilhado5 != null)
+    {
+        <p>Livro 5: @livroCompartilhado5!.Livro!.url capitulo: @livroCompartilhado5.Capitulo </p>
+    }
+
+    @if (livroCompartilhado6 != null)
+    {
+        <p>Livro 6: @livroCompartilhado6!.Livro!.url capitulo: @livroCompartilhado6.Capitulo </p>
+    }
+
+    @if (livroCompartilhado7 != null)
+    {
+        <p>Livro 7: @livroCompartilhado7!.Livro!.url capitulo: @livroCompartilhado7.Capitulo </p>
+    }
+
+    @if (livroCompartilhado8 != null)
+    {
+        <p>Livro 8: @livroCompartilhado8!.Livro!.url capitulo: @livroCompartilhado8.Capitulo </p>
+    }
+
+    @if (livroCompartilhado9 != null)
+    {
+        <p>Livro 9: @livroCompartilhado9!.Livro!.url capitulo: @livroCompartilhado9.Capitulo </p>
+    }
+
+    @if (livroCompartilhado10 != null)
+    {
+        <p>Livro 10: @livroCompartilhado10!.Livro!.url capitulo: @livroCompartilhado10.Capitulo </p>
+    }
+}
+
+    
+
+
+@code {
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+    UserBook1? livroCompartilhado    = null;
+    UserBook2? livroCompartilhado2   = null;
+    UserBook3? livroCompartilhado3   = null;
+    UserBook4? livroCompartilhado4   = null;
+    UserBook5? livroCompartilhado5   = null;
+    UserBook6? livroCompartilhado6   = null;
+    UserBook7? livroCompartilhado7   = null;
+    UserBook8? livroCompartilhado8   = null;
+    UserBook9? livroCompartilhado9   = null;
+    UserBook10? livroCompartilhado10 = null;
+
+    [Parameter] public string user { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);
+
+        livroCompartilhado   = await Context.UserBook1.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);       
+        livroCompartilhado2  = await Context.UserBook2.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);       
+        livroCompartilhado3  = await Context.UserBook3.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);        
+        livroCompartilhado4  = await Context.UserBook4.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);       
+        livroCompartilhado5  = await Context.UserBook5.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);       
+        livroCompartilhado6  = await Context.UserBook6.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);        
+        livroCompartilhado7  = await Context.UserBook7.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);       
+        livroCompartilhado8  = await Context.UserBook8.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);       
+        livroCompartilhado9  = await Context.UserBook9.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user ==  user);      
+        livroCompartilhado10 = await Context.UserBook10.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == user);
+    }
+
+}

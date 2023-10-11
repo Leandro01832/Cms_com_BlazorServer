@@ -1,5 +1,4 @@
-﻿@page "/vitrine/{capitulo:int}/{indiceFiltro:int}"
-@attribute [Authorize(Roles = "Admin")]
+﻿@page "/vitrine/{capitulo:int}/{indiceFiltro:int}/{auto:int}"
 @inject RepositoryPagina repositoryPagina
 @inject BlazorTimer Timer
 @inject NavigationManager navigation
@@ -9,11 +8,21 @@
 <PageTitle>Vitrine</PageTitle>
 
 <p>O livro é @repositoryPagina.buscarDominio()</p>
+<a href="/" onclick="@(() => voltarHome())"  class="btn btn-primary">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
+    </svg>
+
+</a>
+<a href="/vitrine/@capitulo/@indiceFiltro/0" class="btn btn-primary">
+    desabilitar automatico
+
+</a>
 
 @if(filtrosPorCap.Count > 0)
 {
-    <p>Capitulo @retornarCap(filtrosPorCap[indiceFiltro])</p>
-    <p>Pasta @retornarPasta(filtrosPorCap[indiceFiltro]) - <header>@filtrosPorCap[indiceFiltro].Nome</header> </p>
+    <p>Capitulo @retornarCap(filtrosPorCap[indiceFiltro]) -
+    Pasta @retornarPasta(filtrosPorCap[indiceFiltro]) - @filtrosPorCap[indiceFiltro].Nome </p>
     <div class="container">        
             @{
                       
@@ -58,25 +67,13 @@
 @code {
     List<Filtro> filtrosPorCap = new List<Filtro>();
     List<Pagina> Model = new List<Pagina>();
-    [Parameter] public int indiceFiltro { get; set; } = 1;
-    [Parameter] public int capitulo { get; set; } = 1;
+    [Parameter] public int indiceFiltro { get; set; }
+    [Parameter] public int capitulo { get; set; }
+    [Parameter] public int auto { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                await js!.InvokeAsync<object>("FullScreen", "1");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-    }
+    
 
     protected override void OnParametersSet()
     {
@@ -145,19 +142,35 @@
 
     private void StartTimer()
     {
-            Timer!.SetTimer(30000);
-            Timer._timer!.Elapsed += _timer_Elapsed;
-            Console.WriteLine("Timer Started.");
+        Timer!.SetTimer(30000);
+        Timer._timer!.Elapsed += _timer_Elapsed;
+        Console.WriteLine("Timer Started.");
     }
 
     private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-    {    
-        if (indiceFiltro + 1 > filtrosPorCap.Count)
-        navigation.NavigateTo($"/vitrine/{capitulo + 1}/1");
-        else
-            navigation.NavigateTo($"/vitrine/{capitulo}/{indiceFiltro + 1}");
+    {
+        try
+        {
+            if(auto == 1)
+            {
+                if (indiceFiltro + 1 > filtrosPorCap.Count)
+                    navigation.NavigateTo($"/vitrine/{capitulo + 1}/0/1");
+                else
+                    navigation.NavigateTo($"/vitrine/{capitulo}/{indiceFiltro + 1}/1");                
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Erro: " + ex.Message);
+        }
         Console.WriteLine("Timer Elapsed.");
         Timer!._timer!.Elapsed -= _timer_Elapsed;
+    }
+
+    private void voltarHome()
+    {
+        navigation.NavigateTo($"/vitrine/{capitulo}/{indiceFiltro}/0");
+        navigation.NavigateTo($"/");
     }
 
 }

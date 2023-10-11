@@ -10,6 +10,7 @@ namespace BlazorServerCms.Pages.CrudLivro
     public class IndexCamdaDezBase : ComponentBase
     {
         [Inject] public RepositoryPagina? repositoryPagina { get; set; }
+        [Inject] public NavigationManager navigation { get; set; }
 
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
@@ -25,8 +26,7 @@ namespace BlazorServerCms.Pages.CrudLivro
             var livro = await Context.Livro!.FirstAsync(l => l.Id == Id);
             Context.Remove(livro);
             await Context.SaveChangesAsync();
-            //confirma.Exibir();
-            //codigoCategoria = categoriaId;
+            navigation.NavigateTo($"/crud/livro/1");
         }
     }
 }

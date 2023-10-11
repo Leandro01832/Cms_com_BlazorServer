@@ -18,18 +18,20 @@ else
         <tr>
             <th>Nome</th>
             <th>Edita</th>
-            <th>Deleta</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var camada in camadas)
         {
-            <tr>
-                <td>@camada.Nome</td>
-                <td><a class="btn btn-primary" href="story/edit/@camada.Id">Editar</a> </td>
-                <td><a class="btn btn-danger" @onclick="(()=> DeletarCamada(camada.Id))">Deletar</a> </td>
+                if (camada.Nome != "Padrao")
+                {
+                        <tr>
+                        <td>@camada.Nome</td>
+                        <td><a class="btn btn-primary" href="story/edit/@camada.Id">Editar</a> </td>
                
-            </tr>
+                    </tr>
+                    
+                }
         }
     </tbody>
 </table>
@@ -37,7 +39,7 @@ else
 <div>
     <label>Lista:</label>
     <input type="number" onchange="@acessarPagina" min="1" />
-    <a class="btn btn-success" href="story/create">Nova pagina</a>
+    <a class="btn btn-success" href="story/create">Nova Story</a>
 </div>
 
 @code {

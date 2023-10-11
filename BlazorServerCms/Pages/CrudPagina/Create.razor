@@ -118,9 +118,12 @@
             setPastas(fil);
         }      
 
-        await Context.AddAsync(exampleModel);
-        await Context.SaveChangesAsync();
-        repositoryPagina.paginas.Add(exampleModel);
+        if (repositoryPagina.paginas != null)
+        {
+            await Context.AddAsync(exampleModel);
+            await Context.SaveChangesAsync();
+            repositoryPagina.paginas.Add(exampleModel);            
+        }
         navigation.NavigateTo("crud/pagina/1");
     }
 
