@@ -55,11 +55,14 @@
 {
     <h3>@MensagemSistema</h3>    
 }   
+<div>
 
-<p style="font-family: 'League Script', cursive; font-size:large;">
-    A beleza da vida se multiplica cada vez Que a gente partilha com alguém que a gente ama.
-    Se você quiser multiplicar a vida Você precisa dividí-la.
-</p>
+    <p style="font-family: 'League Script', cursive; font-size:large;">
+        A beleza da vida se multiplica cada vez Que a gente partilha com alguém que a gente ama.
+        Se você quiser multiplicar a vida Você precisa dividí-la.
+    </p>
+
+</div>
 <p>
     Usuarios inscritos: @users
 </p>
@@ -86,10 +89,11 @@
             </tr>
             @foreach (var item in filtros!)
             {
-                var fil = repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.Filtro;
+                var fil = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
+                .First(p => p.StoryId == item.StoryId).Story!.Filtro;
                 var f = fil!.First(fi => fi.Id == item.Id);
                 <tr>
-                    <td>Capitulo @repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.PaginaPadraoLink </td>
+                    <td>Capitulo @Context.Pagina!.Include(p => p.Story).First(p => p.StoryId == item.StoryId).Story!.PaginaPadraoLink </td>
                     <td>Pasta @(fil!.IndexOf(f) + 1) </td>
                     <td>@item.Nome</td>
                     <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
@@ -99,7 +103,7 @@
         </table>
     </div>
 }
-<img src="/story.jpg" width="650" />
+<img src="/story.jpg" style="width:60%" />
 
 <a href="/comentario/0/1" style="background-color:rgb(208, 146, 61); font-size:large;color:rgb(95, 56, 23);">
         Compartilhe seu comentário
@@ -193,24 +197,24 @@
 
         if (capitulo != null && indice != null && indice.Contains("verso"))
         {
-            navigation.NavigateTo($"/renderizar/{capitulo}/{indice.Replace("verso-", "")}/1/11/1/{dominio}/{compartilhante}/{compartilhante2}");
+            navigation.NavigateTo($"/renderizar/{capitulo}/{indice.Replace("verso-", "")}/1/11/1/0/0/0/0/{dominio}/{compartilhante}/{compartilhante2}");
         }
         else if (capitulo != null && filtrar != null)
         {
-            navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0/1");
+            navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0/1");
         }        
         else if (indice != null)
         { 
             var number = Regex.Match(indice, @"d+").Value;
             if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.Capitulo}/{number}/1/11/1/{dominio}/{compartilhante}/{compartilhante2}");
+                navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.Capitulo}/{number}/1/11/1/0/0/0/0/{dominio}/{compartilhante}/{compartilhante2}");
             else
                 Mensagem = erro1;
         }
         else if (filtrar != null)
         {
             if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.Capitulo}/pasta-{filtrar}/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.Capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
             else
                 Mensagem = erro1;
         }
@@ -237,7 +241,7 @@
             else if (p1 != null)
                 navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{filtrar}/{p1}/0/0/0/0/0/0/0/0/0");
         }
-        else if (repositoryPagina.paginas! != null && repositoryPagina.paginas!.FirstOrDefault(p => p.Produto != null) != null )
+        else if (Context.Pagina!.Include(p => p.Produto).FirstOrDefault(p => p.Produto != null) != null)
         {
             if (p10 != null)
             {
@@ -387,7 +391,7 @@
                 {
                     if (livros.Length <= pastas.Length && i <= livros.Length)
                     {
-                        url = $"{livros[i].url}/filtro/{caps[i]}/pasta-{pastas[i]}/0/{i + 1}/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0";
+                        url = $"{livros[i].url}/filtro/{caps[i]}/pasta-{pastas[i]}/0/{i + 1}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0";
                         await js!.InvokeAsync<object>("AcessarSites", url);
                     }                 
 
@@ -402,13 +406,13 @@
 
     private void Acessar(Filtro item)
     {
-        var cap = repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.PaginaPadraoLink;
-        var filtros = repositoryPagina.paginas!.First(p => p.StoryId == item.StoryId).Story!.Filtro;
+        var cap = Context.Pagina!.Include(p => p.Story).First(p => p.StoryId == item.StoryId).Story!.PaginaPadraoLink;
+        var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro).First(p => p.StoryId == item.StoryId).Story!.Filtro;
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
         dominio = repositoryPagina.buscarDominio();
         compartilhante = repositoryPagina.buscarAdmin();
-        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/1/0/0/{dominio}/{compartilhante}/user");
+        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}/user");
     }
 
     private async void buscar()
@@ -416,11 +420,11 @@
         try
         {
             cap = int.Parse(Query!);
-            navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/{dominio}/{compartilhante}/{compartilhante2}");
+            navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/1/0/0/0/{dominio}/{compartilhante}/{compartilhante2}");
         }
         catch(Exception ex)
         {
-            if (!string.IsNullOrEmpty(Query) && repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
+            if (!string.IsNullOrEmpty(Query))
             {
                 filtros = await Context.Filtro!
                 .Include(f => f.Story)

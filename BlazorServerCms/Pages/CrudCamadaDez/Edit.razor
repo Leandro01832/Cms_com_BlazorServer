@@ -12,7 +12,7 @@
     </p>
     <p>
         <label>Story:</label>
-        <select @bind="StoryId">
+        <select @bind="exampleModel.StoryId">
             @foreach (var item in lista)
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
@@ -22,7 +22,7 @@
     <p>
         <label>Sub-Story:</label>
         <select @bind="SubStoryId">
-            @foreach (var item in SubStory!.Where(sub => sub.StoryId == StoryId))
+            @foreach (var item in Context.SubStory!.Where(sub => sub.StoryId == StoryId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -31,7 +31,7 @@
     <p>
         <label>Grupo:</label>
         <select @bind="GrupoId">
-            @foreach (var item in Grupo!.Where(sub => sub.SubStoryId == SubStoryId))
+            @foreach (var item in Context.Grupo!.Where(sub => sub.SubStoryId == SubStoryId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -40,7 +40,7 @@
     <p>
         <label>Sub-Grupo:</label>
         <select @bind="SubGrupoId">
-            @foreach (var item in SubGrupo!.Where(sub => sub.GrupoId == GrupoId))
+            @foreach (var item in Context.SubGrupo!.Where(sub => sub.GrupoId == GrupoId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -49,7 +49,7 @@
     <p>
         <label>Sub-Sub-Grupo:</label>
         <select @bind="SubSubGrupoId">
-            @foreach (var item in SubSubGrupo!.Where(sub => sub.SubGrupoId == SubGrupoId))
+            @foreach (var item in Context.SubSubGrupo!.Where(sub => sub.SubGrupoId == SubGrupoId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -58,7 +58,7 @@
     <p>
         <label>Camada Seis:</label>
         <select @bind="CamadaSeisId">
-            @foreach (var item in CamadaSeis!.Where(sub => sub.SubSubGrupoId == SubSubGrupoId))
+            @foreach (var item in Context.CamadaSeis!.Where(sub => sub.SubSubGrupoId == SubSubGrupoId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -67,7 +67,7 @@
     <p>
         <label>Camada Sete:</label>
         <select @bind="CamadaSeteId">
-            @foreach (var item in CamadaSete!.Where(sub => sub.CamadaSeisId == CamadaSeisId))
+            @foreach (var item in Context.CamadaSete!.Where(sub => sub.CamadaSeisId == CamadaSeisId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -76,7 +76,7 @@
     <p>
         <label>Camada Oito:</label>
         <select @bind="CamadaOitoId">
-            @foreach (var item in CamadaOito!.Where(sub => sub.CamadaSeteId == CamadaSeteId))
+            @foreach (var item in Context.CamadaOito!.Where(sub => sub.CamadaSeteId == CamadaSeteId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -85,7 +85,7 @@
     <p>
         <label>Camada Nove:</label>
         <select @bind="exampleModel.CamadaNoveId">
-            @foreach (var item in CamadaNove!.Where(sub => sub.CamadaOitoId == CamadaOitoId))
+            @foreach (var item in Context.CamadaNove!.Where(sub => sub.CamadaOitoId == CamadaOitoId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -125,7 +125,7 @@
     protected async override Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        exampleModel = await Context.CamadaDez!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        exampleModel = await Context.CamadaDez!.FirstAsync(l => l.Id == Id);
         var camadanove = await Context.CamadaNove!.FirstAsync(l => l.Id == exampleModel.CamadaNoveId);
         CamadaOitoId = camadanove.CamadaOitoId;
         var camadaoito = await Context.CamadaOito!.FirstAsync(l => l.Id == CamadaOitoId);
@@ -155,9 +155,7 @@
 
     private async void HandleSubmit()
     {
-        exampleModel.Filtro!.Nome = exampleModel.Nome;
         Context.Update(exampleModel);
-        Context.Update(exampleModel.Filtro);
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadadez");
         // Process the form

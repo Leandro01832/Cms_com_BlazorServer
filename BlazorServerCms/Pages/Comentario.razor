@@ -1,6 +1,7 @@
 ﻿@page "/comentario/{capitulo:int}/{verso:int}"
 @inject RepositoryPagina? repositoryPagina
 @inject NavigationManager? navigation
+@inject IJSRuntime? js
 @layout MeuLayout
 
 
@@ -55,7 +56,8 @@
 
         if(capitulo != 0)
         {
-            var lst = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
+            var lst = Context.Pagina!.Include(p => p.Story)
+            .Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
             Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
             List<business.Comentario> listaComentarios =
             await Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
@@ -65,7 +67,8 @@
 
             foreach (var item in listaComentarios)
             {
-                var p = repositoryPagina.paginas!.Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
+                var p = Context.Pagina!.Include(p => p.Story)
+                .Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
                 .OrderBy(pa => pa.Id)
                 .Skip(item.Verso - 1).First();
                 var html = await repositoryPagina
@@ -124,13 +127,10 @@
             };
         Pagina.entity = false;
 
-        if (repositoryPagina.paginas != null)
-        {
             Context.Add(pagina);
             Context.SaveChanges();
             pagina.Story.QuantComentario++;
-            repositoryPagina.paginas.Add(pagina);
-        }
+        
 
         if (capitulo != 0)
         {
@@ -142,10 +142,11 @@
                 };
             Context.Add(comentar);
             Context.SaveChanges();
+            await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}");
+            await js!.InvokeVoidAsync("history.back");
         }
-        MensagemComentario = $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}";
-        if (capitulo != 0)
-            navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/0/11/1/0/0/0/dominio/comp/comp2");
+            await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!!");
+            await js!.InvokeVoidAsync("history.back");
 
     }
 

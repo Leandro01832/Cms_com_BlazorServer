@@ -12,7 +12,7 @@
     </p>
     <p>
         <label>Story:</label>
-        <select @bind="StoryId">
+        <select @bind="exampleModel.StoryId">
             @foreach (var item in lista)
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
@@ -111,9 +111,7 @@
 
     private async void HandleSubmit()
     {
-        exampleModel.Filtro!.Nome = exampleModel.Nome;
         Context.Update(exampleModel);
-        Context.Update(exampleModel.Filtro);
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadasete");
         // Process the form

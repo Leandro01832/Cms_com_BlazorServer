@@ -11,7 +11,7 @@
     </p>
     <p>
         <label>Story:</label>
-        <select @bind="StoryId">
+        <select @bind="exampleModel.StoryId">
             @foreach (var item in lista)
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
@@ -186,7 +186,7 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        exampleModel = await context.CamadaNove!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        exampleModel = await context.CamadaNove!.FirstAsync(l => l.Id == Id);
         var camadaoito = await context.CamadaOito!.FirstAsync(l => l.Id == exampleModel.CamadaOitoId);
         CamadaSeteId = camadaoito.CamadaSeteId;
         var camadasete = await context.CamadaSete!.FirstAsync(l => l.Id == CamadaSeteId);
@@ -213,9 +213,7 @@
 
     private async void HandleSubmit()
     {
-        exampleModel.Filtro!.Nome = exampleModel.Nome;
         context.Update(exampleModel);
-        context.Update(exampleModel.Filtro);
         await context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadanove");
         // Process the form

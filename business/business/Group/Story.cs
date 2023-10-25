@@ -13,7 +13,6 @@ namespace business.Group
         private int quantComentario = 0;
 
         public virtual List<Filtro>? Filtro { get; set; }
-        public virtual List<SubStory>? SubStory { get; set; }
 
         public bool Comentario { get; set; }
         public bool Produto { get; set; }

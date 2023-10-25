@@ -30,7 +30,7 @@
                 {
                     if (Model!.ToList().IndexOf(item) != 0)
                     {
-                        var paginaItem = repositoryPagina.paginas!.First(p => p.Id == item.Id);
+                    var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
                         var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
                         var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
                         var identifica = paginaItem.Id;
@@ -86,7 +86,12 @@
         indiceFiltro = 0;
         capitulo = 1;
 
-        filtrosPorCap = repositoryPagina!.paginas!.Where(p => p.Story!.PaginaPadraoLink == capitulo )
+        filtrosPorCap = Context.Pagina!
+        .Include(p => p.Story)
+        .ThenInclude(p => p.Filtro)!
+        .ThenInclude(p => p.Pagina)!
+        .ThenInclude(p => p.Pagina)
+        .Where(p => p.Story!.PaginaPadraoLink == capitulo)
                    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
 
 
@@ -97,36 +102,21 @@
 
     private int retornarCap(Filtro fil)
     {
-        return repositoryPagina.paginas!.First(p => p.StoryId == fil.StoryId).Story!.PaginaPadraoLink;
+        return Context.Pagina!.Include(p => p.Story)
+        .First(p => p.StoryId == fil.StoryId).Story!.PaginaPadraoLink;
     }
 
     private int retornarPasta(Filtro fil)
     {
-        var filtros = repositoryPagina.paginas!.First(p => p.StoryId == fil.StoryId).Story!.Filtro;
+        var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
+        .First(p => p.StoryId == fil.StoryId).Story!.Filtro;
         var f = filtros!.First(fi => fi.Id == fil.Id);
         return filtros!.IndexOf(f) + 1;
     }
 
     private async void VerificarFiltro(Filtro fil)
     {
-        if(fil.CamadaDezId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaDezId == fil.CamadaDezId).CamadaDez!.Pagina!;        
-        else if (fil.CamadaNoveId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaNoveId == fil.CamadaNoveId).CamadaNove!.Pagina!;
-        else if (fil.CamadaOitoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaOitoId == fil.CamadaOitoId).CamadaOito!.Pagina!;
-        else if (fil.CamadaSeteId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaSeteId == fil.CamadaSeteId).CamadaSete!.Pagina!;
-        else if (fil.CamadaSeisId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaSeisId == fil.CamadaSeisId).CamadaSeis!.Pagina!;
-        else if (fil.SubSubGrupoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.SubSubGrupoId == fil.SubSubGrupoId).SubSubGrupo!.Pagina!;
-        else if (fil.SubGrupoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.SubGrupoId == fil.SubGrupoId).SubGrupo!.Pagina!;
-        else if (fil.GrupoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.GrupoId == fil.GrupoId).Grupo!.Pagina!;
-        else if (fil.SubStoryId != null)
-            Model = repositoryPagina.paginas!.First(p => p.SubStoryId == fil.SubStoryId).SubStory!.Pagina!;
+        Model = fil.Pagina!.Select(f => f.Pagina).ToList()!;
 
         List<Pagina> lista = new List<Pagina>();
         foreach(var item in Model)

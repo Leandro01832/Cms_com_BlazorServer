@@ -128,6 +128,27 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Endereco");
                 });
 
+            modelBuilder.Entity("business.business.FiltroPagina", b =>
+                {
+                    b.Property<long>("FiltroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PaginaId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("QuantidadePorType")
+                        .HasColumnType("int");
+
+                    b.HasKey("FiltroId", "PaginaId");
+
+                    b.HasIndex("PaginaId");
+
+                    b.ToTable("FiltroPagina");
+                });
+
             modelBuilder.Entity("business.business.Rota", b =>
                 {
                     b.Property<long>("Id")
@@ -490,23 +511,9 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long?>("CamadaDezId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaNoveId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaOitoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaSeisId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaSeteId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("GrupoId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
@@ -517,128 +524,13 @@ namespace BlazorServerCms.Migrations
                     b.Property<long>("StoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("SubGrupoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SubStoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SubSubGrupoId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("StoryId");
 
                     b.ToTable("Filtro");
-                });
 
-            modelBuilder.Entity("business.Group.CamadaDez", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CamadaNoveId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CamadaNoveId");
-
-                    b.ToTable("CamadaDez");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaNove", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CamadaOitoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CamadaOitoId");
-
-                    b.ToTable("CamadaNove");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaOito", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CamadaSeteId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CamadaSeteId");
-
-                    b.ToTable("CamadaOito");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSeis", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("SubSubGrupoId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubSubGrupoId");
-
-                    b.ToTable("CamadaSeis");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSete", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CamadaSeisId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CamadaSeisId");
-
-                    b.ToTable("CamadaSete");
-                });
-
-            modelBuilder.Entity("business.Group.Grupo", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("SubStoryId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubStoryId");
-
-                    b.ToTable("Grupo");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Filtro");
                 });
 
             modelBuilder.Entity("business.Group.Story", b =>
@@ -664,60 +556,6 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Story");
-                });
-
-            modelBuilder.Entity("business.Group.SubGrupo", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("GrupoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GrupoId");
-
-                    b.ToTable("SubGrupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubStory", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("StoryId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StoryId");
-
-                    b.ToTable("SubStory");
-                });
-
-            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("SubGrupoId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubGrupoId");
-
-                    b.ToTable("SubSubGrupo");
                 });
 
             modelBuilder.Entity("business.ImagemProduto", b =>
@@ -803,25 +641,6 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<string>("AlignItems")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("CamadaDezId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaNoveId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaOitoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaSeisId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CamadaSeteId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("Comentario")
                         .HasColumnType("bigint");
 
@@ -834,26 +653,10 @@ namespace BlazorServerCms.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FlexDirection")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("GrupoId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("ImagemContent")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("StoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SubGrupoId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SubStoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SubSubGrupoId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Titulo")
@@ -862,25 +665,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CamadaDezId");
-
-                    b.HasIndex("CamadaNoveId");
-
-                    b.HasIndex("CamadaOitoId");
-
-                    b.HasIndex("CamadaSeisId");
-
-                    b.HasIndex("CamadaSeteId");
-
-                    b.HasIndex("GrupoId");
-
                     b.HasIndex("StoryId");
-
-                    b.HasIndex("SubGrupoId");
-
-                    b.HasIndex("SubStoryId");
-
-                    b.HasIndex("SubSubGrupoId");
 
                     b.ToTable("Pagina");
                 });
@@ -1169,6 +954,109 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("business.Group.CamadaDez", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("CamadaNoveId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("CamadaNoveId");
+
+                    b.HasDiscriminator().HasValue("CamadaDez");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaNove", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("CamadaOitoId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("CamadaOitoId");
+
+                    b.HasDiscriminator().HasValue("CamadaNove");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaOito", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("CamadaSeteId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("CamadaSeteId");
+
+                    b.HasDiscriminator().HasValue("CamadaOito");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaSeis", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("SubSubGrupoId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("SubSubGrupoId");
+
+                    b.HasDiscriminator().HasValue("CamadaSeis");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaSete", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("CamadaSeisId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("CamadaSeisId");
+
+                    b.HasDiscriminator().HasValue("CamadaSete");
+                });
+
+            modelBuilder.Entity("business.Group.Grupo", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("SubStoryId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("SubStoryId");
+
+                    b.HasDiscriminator().HasValue("Grupo");
+                });
+
+            modelBuilder.Entity("business.Group.SubGrupo", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("GrupoId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("GrupoId");
+
+                    b.HasDiscriminator().HasValue("SubGrupo");
+                });
+
+            modelBuilder.Entity("business.Group.SubStory", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.HasDiscriminator().HasValue("SubStory");
+                });
+
+            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
+                {
+                    b.HasBaseType("business.Filtro");
+
+                    b.Property<long>("SubGrupoId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("SubGrupoId");
+
+                    b.HasDiscriminator().HasValue("SubSubGrupo");
+                });
+
             modelBuilder.Entity("business.business.Classificacao", b =>
                 {
                     b.HasOne("business.Pagina", "Pagina")
@@ -1189,6 +1077,25 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("business.business.FiltroPagina", b =>
+                {
+                    b.HasOne("business.Filtro", "Filtro")
+                        .WithMany("Pagina")
+                        .HasForeignKey("FiltroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.Pagina", "Pagina")
+                        .WithMany("Filtro")
+                        .HasForeignKey("PaginaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filtro");
+
+                    b.Navigation("Pagina");
                 });
 
             modelBuilder.Entity("business.business.savedFolder", b =>
@@ -1334,177 +1241,6 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Story");
                 });
 
-            modelBuilder.Entity("business.Group.CamadaDez", b =>
-                {
-                    b.HasOne("business.Group.CamadaNove", "CamadaNove")
-                        .WithMany("CamadaDez")
-                        .HasForeignKey("CamadaNoveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("CamadaDez")
-                        .HasForeignKey("business.Group.CamadaDez", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CamadaNove");
-
-                    b.Navigation("Filtro");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaNove", b =>
-                {
-                    b.HasOne("business.Group.CamadaOito", "CamadaOito")
-                        .WithMany("CamadaNove")
-                        .HasForeignKey("CamadaOitoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("CamadaNove")
-                        .HasForeignKey("business.Group.CamadaNove", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CamadaOito");
-
-                    b.Navigation("Filtro");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaOito", b =>
-                {
-                    b.HasOne("business.Group.CamadaSete", "CamadaSete")
-                        .WithMany("CamadaOito")
-                        .HasForeignKey("CamadaSeteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("CamadaOito")
-                        .HasForeignKey("business.Group.CamadaOito", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CamadaSete");
-
-                    b.Navigation("Filtro");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSeis", b =>
-                {
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("CamadaSeis")
-                        .HasForeignKey("business.Group.CamadaSeis", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Group.SubSubGrupo", "SubSubGrupo")
-                        .WithMany("CamadaSeis")
-                        .HasForeignKey("SubSubGrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Filtro");
-
-                    b.Navigation("SubSubGrupo");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSete", b =>
-                {
-                    b.HasOne("business.Group.CamadaSeis", "CamadaSeis")
-                        .WithMany("CamadaSete")
-                        .HasForeignKey("CamadaSeisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("CamadaSete")
-                        .HasForeignKey("business.Group.CamadaSete", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CamadaSeis");
-
-                    b.Navigation("Filtro");
-                });
-
-            modelBuilder.Entity("business.Group.Grupo", b =>
-                {
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("Grupo")
-                        .HasForeignKey("business.Group.Grupo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Group.SubStory", "SubStory")
-                        .WithMany("Grupo")
-                        .HasForeignKey("SubStoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Filtro");
-
-                    b.Navigation("SubStory");
-                });
-
-            modelBuilder.Entity("business.Group.SubGrupo", b =>
-                {
-                    b.HasOne("business.Group.Grupo", "Grupo")
-                        .WithMany("SubGrupo")
-                        .HasForeignKey("GrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("Subgrupo")
-                        .HasForeignKey("business.Group.SubGrupo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Filtro");
-
-                    b.Navigation("Grupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubStory", b =>
-                {
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("SubStory")
-                        .HasForeignKey("business.Group.SubStory", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Group.Story", "Story")
-                        .WithMany("SubStory")
-                        .HasForeignKey("StoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Filtro");
-
-                    b.Navigation("Story");
-                });
-
-            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
-                {
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("SubSubGrupo")
-                        .HasForeignKey("business.Group.SubSubGrupo", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("business.Group.SubGrupo", "SubGrupo")
-                        .WithMany("SubSubGrupo")
-                        .HasForeignKey("SubGrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Filtro");
-
-                    b.Navigation("SubGrupo");
-                });
-
             modelBuilder.Entity("business.ImagemProduto", b =>
                 {
                     b.HasOne("business.Produto", "Produto")
@@ -1537,67 +1273,13 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Pagina", b =>
                 {
-                    b.HasOne("business.Group.CamadaDez", "CamadaDez")
-                        .WithMany("Pagina")
-                        .HasForeignKey("CamadaDezId");
-
-                    b.HasOne("business.Group.CamadaNove", "CamadaNove")
-                        .WithMany("Pagina")
-                        .HasForeignKey("CamadaNoveId");
-
-                    b.HasOne("business.Group.CamadaOito", "CamadaOito")
-                        .WithMany("Pagina")
-                        .HasForeignKey("CamadaOitoId");
-
-                    b.HasOne("business.Group.CamadaSeis", "CamadaSeis")
-                        .WithMany("Pagina")
-                        .HasForeignKey("CamadaSeisId");
-
-                    b.HasOne("business.Group.CamadaSete", "CamadaSete")
-                        .WithMany("Pagina")
-                        .HasForeignKey("CamadaSeteId");
-
-                    b.HasOne("business.Group.Grupo", "Grupo")
-                        .WithMany("Pagina")
-                        .HasForeignKey("GrupoId");
-
                     b.HasOne("business.Group.Story", "Story")
                         .WithMany("Pagina")
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("business.Group.SubGrupo", "SubGrupo")
-                        .WithMany("Pagina")
-                        .HasForeignKey("SubGrupoId");
-
-                    b.HasOne("business.Group.SubStory", "SubStory")
-                        .WithMany("Pagina")
-                        .HasForeignKey("SubStoryId");
-
-                    b.HasOne("business.Group.SubSubGrupo", "SubSubGrupo")
-                        .WithMany("Pagina")
-                        .HasForeignKey("SubSubGrupoId");
-
-                    b.Navigation("CamadaDez");
-
-                    b.Navigation("CamadaNove");
-
-                    b.Navigation("CamadaOito");
-
-                    b.Navigation("CamadaSeis");
-
-                    b.Navigation("CamadaSete");
-
-                    b.Navigation("Grupo");
-
                     b.Navigation("Story");
-
-                    b.Navigation("SubGrupo");
-
-                    b.Navigation("SubStory");
-
-                    b.Navigation("SubSubGrupo");
                 });
 
             modelBuilder.Entity("business.Pedido", b =>
@@ -1684,6 +1366,94 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("business.Group.CamadaDez", b =>
+                {
+                    b.HasOne("business.Group.CamadaNove", "CamadaNove")
+                        .WithMany("CamadaDez")
+                        .HasForeignKey("CamadaNoveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CamadaNove");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaNove", b =>
+                {
+                    b.HasOne("business.Group.CamadaOito", "CamadaOito")
+                        .WithMany("CamadaNove")
+                        .HasForeignKey("CamadaOitoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CamadaOito");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaOito", b =>
+                {
+                    b.HasOne("business.Group.CamadaSete", "CamadaSete")
+                        .WithMany("CamadaOito")
+                        .HasForeignKey("CamadaSeteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CamadaSete");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaSeis", b =>
+                {
+                    b.HasOne("business.Group.SubSubGrupo", "SubSubGrupo")
+                        .WithMany("CamadaSeis")
+                        .HasForeignKey("SubSubGrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubSubGrupo");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaSete", b =>
+                {
+                    b.HasOne("business.Group.CamadaSeis", "CamadaSeis")
+                        .WithMany("CamadaSete")
+                        .HasForeignKey("CamadaSeisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CamadaSeis");
+                });
+
+            modelBuilder.Entity("business.Group.Grupo", b =>
+                {
+                    b.HasOne("business.Group.SubStory", "SubStory")
+                        .WithMany("Grupo")
+                        .HasForeignKey("SubStoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubStory");
+                });
+
+            modelBuilder.Entity("business.Group.SubGrupo", b =>
+                {
+                    b.HasOne("business.Group.Grupo", "Grupo")
+                        .WithMany("SubGrupo")
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grupo");
+                });
+
+            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
+                {
+                    b.HasOne("business.Group.SubGrupo", "SubGrupo")
+                        .WithMany("SubSubGrupo")
+                        .HasForeignKey("SubGrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubGrupo");
+                });
+
             modelBuilder.Entity("business.business.Cliente", b =>
                 {
                     b.Navigation("Endereco")
@@ -1695,65 +1465,9 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
-                    b.Navigation("CamadaDez");
-
-                    b.Navigation("CamadaNove");
-
-                    b.Navigation("CamadaOito");
-
-                    b.Navigation("CamadaSeis");
-
-                    b.Navigation("CamadaSete");
-
-                    b.Navigation("Grupo");
-
-                    b.Navigation("SubStory");
-
-                    b.Navigation("SubSubGrupo");
-
-                    b.Navigation("Subgrupo");
+                    b.Navigation("Pagina");
 
                     b.Navigation("savedFolder");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaDez", b =>
-                {
-                    b.Navigation("Pagina");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaNove", b =>
-                {
-                    b.Navigation("CamadaDez");
-
-                    b.Navigation("Pagina");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaOito", b =>
-                {
-                    b.Navigation("CamadaNove");
-
-                    b.Navigation("Pagina");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSeis", b =>
-                {
-                    b.Navigation("CamadaSete");
-
-                    b.Navigation("Pagina");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSete", b =>
-                {
-                    b.Navigation("CamadaOito");
-
-                    b.Navigation("Pagina");
-                });
-
-            modelBuilder.Entity("business.Group.Grupo", b =>
-                {
-                    b.Navigation("Pagina");
-
-                    b.Navigation("SubGrupo");
                 });
 
             modelBuilder.Entity("business.Group.Story", b =>
@@ -1761,34 +1475,13 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Filtro");
 
                     b.Navigation("Pagina");
-
-                    b.Navigation("SubStory");
-                });
-
-            modelBuilder.Entity("business.Group.SubGrupo", b =>
-                {
-                    b.Navigation("Pagina");
-
-                    b.Navigation("SubSubGrupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubStory", b =>
-                {
-                    b.Navigation("Grupo");
-
-                    b.Navigation("Pagina");
-                });
-
-            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
-                {
-                    b.Navigation("CamadaSeis");
-
-                    b.Navigation("Pagina");
                 });
 
             modelBuilder.Entity("business.Pagina", b =>
                 {
                     b.Navigation("Classificacao");
+
+                    b.Navigation("Filtro");
 
                     b.Navigation("Produto");
                 });
@@ -1803,6 +1496,46 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Imagem");
 
                     b.Navigation("Itens");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaNove", b =>
+                {
+                    b.Navigation("CamadaDez");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaOito", b =>
+                {
+                    b.Navigation("CamadaNove");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaSeis", b =>
+                {
+                    b.Navigation("CamadaSete");
+                });
+
+            modelBuilder.Entity("business.Group.CamadaSete", b =>
+                {
+                    b.Navigation("CamadaOito");
+                });
+
+            modelBuilder.Entity("business.Group.Grupo", b =>
+                {
+                    b.Navigation("SubGrupo");
+                });
+
+            modelBuilder.Entity("business.Group.SubGrupo", b =>
+                {
+                    b.Navigation("SubSubGrupo");
+                });
+
+            modelBuilder.Entity("business.Group.SubStory", b =>
+                {
+                    b.Navigation("Grupo");
+                });
+
+            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
+                {
+                    b.Navigation("CamadaSeis");
                 });
 #pragma warning restore 612, 618
         }

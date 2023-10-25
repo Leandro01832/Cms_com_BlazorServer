@@ -1,5 +1,7 @@
 ﻿using BlazorServerCms.Data;
 using business;
+using business.business;
+using business.Group;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -17,7 +19,7 @@ namespace BlazorServerCms.servicos
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
         public Random random = new Random();
-        public List<Pagina>? paginas { get; set; }
+        public List<Pagina>? paginas = new List<Pagina>();
         public bool aguarde { get; set; } = false;
         public int diaCupom = 0;
         public string cupomDesconto = "";
@@ -31,27 +33,6 @@ namespace BlazorServerCms.servicos
        static string path = Directory.GetCurrentDirectory();
          
 
-        public int buscarCount()
-        {
-            SqlConnection con;
-            SqlCommand cmd;
-            var _TotalRegistros = 0;
-            try
-            {
-                using (con = new SqlConnection(ApplicationDbContext._connectionString))
-                {
-                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Pagina", con);
-                    con.Open();
-                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);
-                    con.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                _TotalRegistros = 0;
-            }
-            return _TotalRegistros;
-        }
 
         public  async Task<string> Verificar(string url)
         {
@@ -119,55 +100,25 @@ namespace BlazorServerCms.servicos
             new StringReader(TextoHtml));
             
             return html.ToString();
-        }        
-
-        public async Task<List<Pagina>> buscarCapitulo( int capitulo)
-        {
-            return await includes()
-            .Where(p => p.Story!.PaginaPadraoLink == capitulo).ToListAsync();
         }
 
-        public async Task buscarCapitulos()
+        public IIncludableQueryable<Pagina, Pagina> includes()
         {
-            var lista = await includes()
-            .ToListAsync();
-
-            paginas!.Clear();
-            paginas.AddRange(lista);
-        }
-
-        public IIncludableQueryable<Pagina, List<Pagina>> includes()
-        {
-             DemoContextFactory db = new DemoContextFactory();
-         ApplicationDbContext Contexto = db.CreateDbContext(null);
+            DemoContextFactory db = new DemoContextFactory();
+            ApplicationDbContext Contexto = db.CreateDbContext(null);
             return Contexto.Pagina!
              .Include(p => p.Produto)
              .ThenInclude(p => p!.Imagem)
-             .Include(p => p.Produto)
-             .ThenInclude(p => p!.Itens)
+             .Include(p => p.Filtro)!
+             .ThenInclude(b => b!.Filtro)!
              .Include(p => p.Story)
-             .ThenInclude(b => b!.Pagina)
-             .Include(p => p.Story)
-             .ThenInclude(b => b!.Filtro)
-
-             .Include(b => b.SubStory).ThenInclude(b => b!.Pagina)
-             .Include(b => b.SubStory).ThenInclude(b => b!.Grupo)
-             .Include(b => b!.Grupo).ThenInclude(b => b!.Pagina)
-             .Include(b => b!.Grupo).ThenInclude(b => b!.SubGrupo)
-             .Include(b => b!.SubGrupo).ThenInclude(b => b!.Pagina)
-             .Include(b => b!.SubGrupo).ThenInclude(b => b!.SubSubGrupo)
-             .Include(b => b!.SubSubGrupo).ThenInclude(b => b!.Pagina)
-             .Include(b => b!.SubSubGrupo).ThenInclude(b => b!.CamadaSeis)
-             .Include(b => b!.CamadaSeis).ThenInclude(b => b!.Pagina)
-             .Include(b => b!.CamadaSeis).ThenInclude(b => b!.CamadaSete)
-             .Include(b => b!.CamadaSete).ThenInclude(b => b!.Pagina)
-             .Include(b => b!.CamadaSete).ThenInclude(b => b!.CamadaOito)
-             .Include(b => b!.CamadaOito).ThenInclude(b => b!.Pagina)
-             .Include(b => b!.CamadaOito).ThenInclude(b => b!.CamadaNove)
-             .Include(b => b!.CamadaNove).ThenInclude(b => b!.Pagina)
-             .Include(b => b!.CamadaNove).ThenInclude(b => b!.CamadaDez)
-             .Include(b => b!.CamadaDez).ThenInclude(b => b!.Pagina)!;
+             .ThenInclude(b => b!.Filtro)!
+             .ThenInclude(b => b!.Pagina)!
+             .ThenInclude(b => b!.Pagina)!;
         }
+        
+        
+
     }
 
 }

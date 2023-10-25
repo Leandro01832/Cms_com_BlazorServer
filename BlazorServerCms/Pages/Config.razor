@@ -160,8 +160,6 @@
         if (pag != null)
             Mensagem = ObterMensagem(pag.StoryId);
 
-        if (repositoryPagina.paginas! != null)
-        repositoryPagina.paginas!.RemoveAll(p => p.Story!.PaginaPadraoLink == cap);
         
         if (pag != null)
         navigation.NavigateTo($"/mensagem/{Mensagem}");

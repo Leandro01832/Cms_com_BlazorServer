@@ -80,7 +80,7 @@
     protected async override Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        exampleModel = await Context.CamadaSeis!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        exampleModel = await Context.CamadaSeis!.FirstAsync(l => l.Id == Id);
         var subsubgrupo = await Context.SubSubGrupo!.FirstAsync(l => l.Id == exampleModel.SubSubGrupoId);
         SubGrupoId = subsubgrupo.SubGrupoId;
         var subgrupo = await Context.SubGrupo!.FirstAsync(l => l.Id == SubGrupoId);
@@ -98,9 +98,7 @@
 
     private async void HandleSubmit()
     {
-        exampleModel.Filtro!.Nome = exampleModel.Nome;
         Context.Update(exampleModel);
-        Context.Update(exampleModel.Filtro);
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadaseis");
         // Process the form

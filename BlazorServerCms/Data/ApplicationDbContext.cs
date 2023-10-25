@@ -8,7 +8,7 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public static string _connectionString = "Data Source=DESKTOP-7TI5J9C\\SQLEXPRESS;Initial Catalog=BlazorCms;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False";
+        public static string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=instagleo;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
         public ApplicationDbContext(string connectionString)
         {
@@ -24,6 +24,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<FiltroPagina> FiltroPagina { get; set; }
         public DbSet<UserBook> UserBook     { get; set; }
         public DbSet<UserBook1> UserBook1 { get; set; }
         public DbSet<UserBook2> UserBook2   { get; set; }
@@ -65,6 +66,8 @@ namespace BlazorServerCms.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<FiltroPagina>()
+          .HasKey(p => new { p.FiltroId, p.PaginaId });
 
         }
     }

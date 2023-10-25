@@ -160,7 +160,7 @@
         {
             if (Model!.ToList().IndexOf(item) != 0)
             {
-                var paginaItem = repositoryPagina.paginas!.First(p => p.Id == item.Id);
+                var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
                 var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
                 var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
                 var identifica = paginaItem.Id;
@@ -243,7 +243,7 @@
     Filtro filtro = new Filtro();
     List<Pagina> Model = new List<Pagina>();
     List<Pagina>? lista { get; set; }
-    
+
 
     [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
@@ -289,42 +289,24 @@
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        if (repositoryPagina.paginas!.Count == repositoryPagina.buscarCount())
-        {
-            var filtros = await Context.Filtro!
-            .Include(f => f.Story)
-             .Where(f => f.Story.PaginaPadraoLink == Capitulo)
-         .OrderBy(f => f.StoryId)
-         .OrderBy(f => f.Id)
-         .ToListAsync();
+        var filtros = await Context.Filtro!
+        .Include(f => f.Pagina)!
+        .ThenInclude(f => f.Pagina)
+        .Include(f => f.Story)
+         .Where(f => f.Story.PaginaPadraoLink == Capitulo)
+     .OrderBy(f => f.StoryId)
+     .OrderBy(f => f.Id)
+     .ToListAsync();
 
-            filtro = filtros[indiceFiltro];
-            VerificarFiltro(filtro);
-        }
+        filtro = filtros[indiceFiltro];
+        VerificarFiltro(filtro);
+
 
     }
 
     private void VerificarFiltro(Filtro fil)
     {
-        if (fil.CamadaDezId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaDezId == fil.CamadaDezId).CamadaDez!.Pagina!;
-        else if (fil.CamadaNoveId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaNoveId == fil.CamadaNoveId).CamadaNove!.Pagina!;
-        else if (fil.CamadaOitoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaOitoId == fil.CamadaOitoId).CamadaOito!.Pagina!;
-        else if (fil.CamadaSeteId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaSeteId == fil.CamadaSeteId).CamadaSete!.Pagina!;
-        else if (fil.CamadaSeisId != null)
-            Model = repositoryPagina.paginas!.First(p => p.CamadaSeisId == fil.CamadaSeisId).CamadaSeis!.Pagina!;
-        else if (fil.SubSubGrupoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.SubSubGrupoId == fil.SubSubGrupoId).SubSubGrupo!.Pagina!;
-        else if (fil.SubGrupoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.SubGrupoId == fil.SubGrupoId).SubGrupo!.Pagina!;
-        else if (fil.GrupoId != null)
-            Model = repositoryPagina.paginas!.First(p => p.GrupoId == fil.GrupoId).Grupo!.Pagina!;
-        else if (fil.SubStoryId != null)
-            Model = repositoryPagina.paginas!.First(p => p.SubStoryId == fil.SubStoryId).SubStory!.Pagina!;
-
+            Model = fil.Pagina!.Select(f => f.Pagina).ToList()!;
     }
 
 
@@ -454,7 +436,7 @@
     {
         await js!.InvokeAsync<object>("CopiarLink", "1");
         
-            var page = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+        var page = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p1 - 1).FirstOrDefault()!.Classificacao;
             var prefe = Context.Classificacao.First(cl => cl.Id == page!.Id);
             prefe.preferencia1++;
@@ -463,7 +445,7 @@
         
         if (p2 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p2 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia2++;
@@ -472,7 +454,7 @@
         }
         if (p3 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p3 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia3++;
@@ -481,7 +463,7 @@
         }
         if (p4 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p4 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia4++;
@@ -490,7 +472,7 @@
         }
         if (p5 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p5 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia5++;
@@ -499,7 +481,7 @@
         }
         if (p6 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p6 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia6++;
@@ -508,7 +490,7 @@
         }
         if (p7 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p7 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia7++;
@@ -517,7 +499,7 @@
         }
         if (p8 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p8 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia8++;
@@ -526,7 +508,7 @@
         }
         if (p9 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p9 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia9++;
@@ -535,7 +517,7 @@
         }
         if (p10 != 0)
         {
-            var pag = repositoryPagina.paginas!.Where(p => p.Story!.PaginaPadraoLink == Capitulo)
+            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
             .OrderBy(p => p.Id).Skip(p10 - 1).FirstOrDefault()!.Classificacao;
             var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
             pref.preferencia10++;

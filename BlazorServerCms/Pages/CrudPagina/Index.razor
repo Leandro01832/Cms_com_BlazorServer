@@ -70,7 +70,13 @@ else
     protected async void DeletarCamada(long Id)
     {
         var camada = await Context.Pagina!.FirstAsync(l => l.Id == Id);
-        Context.Remove(camada);
+        var filtros = await Context.FiltroPagina.Where(fp => fp.PaginaId == camada.Id).ToListAsync();
+        foreach(var item in filtros)
+            Context.Remove(item);
+        await Context.SaveChangesAsync();
+        camada.ContentUser = null;
+        camada.Content = null;
+        Context.Update(camada);
         await Context.SaveChangesAsync();
         await CarregaCamadas(1);
     }

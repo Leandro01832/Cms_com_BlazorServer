@@ -42,20 +42,9 @@
 
     private async void HandleSubmit()
     {
-        var filtro = new Filtro
-            {
-                SubStory = exampleModel,
-                Nome = exampleModel.Nome,
-                StoryId = exampleModel.StoryId,
-                Rotas = exampleModel.Nome + ", "
-            };
-
-        await Context.AddAsync(filtro);
+        await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
-        filtro.SubStoryId = filtro.Id;
-        Context.Update(filtro);
-        await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/substory");
+        navigation.NavigateTo("crud/substory/1");
     }
 
     private async void ExecutarChange(string e)

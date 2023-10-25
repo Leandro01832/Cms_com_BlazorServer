@@ -12,7 +12,7 @@
     </p>
     <p>
         <label>Story:</label>
-        <select @bind="StoryId">
+        <select @bind="exampleModel.StoryId">
             @foreach (var item in lista)
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
@@ -65,19 +65,8 @@
 
     private async void HandleSubmit()
     {
-        var filtro = new Filtro
-            {
-                Subgrupo = exampleModel,
-                Nome = exampleModel.Nome,
-                StoryId = StoryId,
-                Rotas = exampleModel.Nome + ", ",
-                  
-            };
-        await Context.AddAsync(filtro);
+        await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
-        filtro.SubGrupoId = filtro.Id;
-        Context.Update(filtro);
-        await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/subgrupo");
+        navigation.NavigateTo("crud/subgrupo/1");
     }
 }

@@ -12,7 +12,7 @@
     </p>
     <p>
         <label>Story:</label>
-        <select @bind="StoryId">
+        <select @bind="exampleModel.StoryId">
             @foreach (var item in lista)
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
@@ -67,7 +67,7 @@
     protected async override Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        exampleModel = await Context.SubSubGrupo!.Include(l => l.Filtro).FirstAsync(l => l.Id == Id);
+        exampleModel = await Context.SubSubGrupo!.FirstAsync(l => l.Id == Id);
         var subgrupo = await Context.SubGrupo!.FirstAsync(l => l.Id == exampleModel.SubGrupoId);
         GrupoId = subgrupo.GrupoId;
         var grupo = await Context.Grupo!.FirstAsync(l => l.Id == GrupoId);
@@ -82,9 +82,7 @@
 
     private async void HandleSubmit()
     {
-        exampleModel.Filtro!.Nome = exampleModel.Nome;
         Context.Update(exampleModel);
-        Context.Update(exampleModel.Filtro);
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/subsubgrupo");
         // Process the form
