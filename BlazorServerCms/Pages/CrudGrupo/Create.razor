@@ -36,7 +36,7 @@
 @code {
     private Grupo exampleModel = new();
     private List<Story> lista = new List<Story>();
-    public List<Filtro> SubStory = new List<Filtro>();
+    public List<SubStory> SubStory = new List<SubStory>();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
@@ -45,7 +45,8 @@
         Context = db.CreateDbContext(null);
         lista = await Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
-        SubStory = await Context.Filtro!.ToListAsync();
+        SubStory = await Context.SubStory!.ToListAsync();
+        exampleModel.StoryId = lista.First().Id;
     }
 
     private async void HandleSubmit()

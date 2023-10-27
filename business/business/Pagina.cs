@@ -62,73 +62,78 @@ namespace business
         {
             if (this.Filtro == null) this.Filtro = new List<FiltroPagina>();
 
-            if (fil is SubStory)
-                this.Filtro!.Add(new FiltroPagina { Filtro = fil, Pagina = this,
-                 QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubStory).ToList().Count + 1  }) ;
+            if(this.Filtro.FirstOrDefault(f => f.FiltroId == fil.Id) == null)
+            {
+                if (fil is SubStory)
+                    this.Filtro!.Add(new FiltroPagina { Filtro = fil, Pagina = this,
+                     QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubStory).ToList().Count + 1  }) ;
 
-            if (fil is Grupo)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is Grupo).ToList().Count + 1
-                });
+                if (fil is Grupo)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is Grupo).ToList().Count + 1
+                    });
             
-            if (fil is SubGrupo)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubGrupo).ToList().Count + 1
-                });
+                if (fil is SubGrupo)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubGrupo).ToList().Count + 1
+                    });
             
-            if (fil is SubSubGrupo)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubSubGrupo).ToList().Count + 1
-                });
+                if (fil is SubSubGrupo)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubSubGrupo).ToList().Count + 1
+                    });
             
-            if (fil is CamadaSeis)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaSeis).ToList().Count + 1
-                });
+                if (fil is CamadaSeis)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaSeis).ToList().Count + 1
+                    });
             
-            if (fil is CamadaSete)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaSete).ToList().Count + 1
-                });
+                if (fil is CamadaSete)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaSete).ToList().Count + 1
+                    });
             
-            if (fil is CamadaOito)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaOito).ToList().Count + 1
-                });
+                if (fil is CamadaOito)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaOito).ToList().Count + 1
+                    });
             
-            if (fil is CamadaNove)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaNove).ToList().Count + 1
-                });
+                if (fil is CamadaNove)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaNove).ToList().Count + 1
+                    });
             
-            if (fil is CamadaDez)
-                this.Filtro!.Add(new FiltroPagina
-                {
-                    Filtro = fil,
-                    Pagina = this,
-                    QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaDez).ToList().Count + 1
-                });
+                if (fil is CamadaDez)
+                    this.Filtro!.Add(new FiltroPagina
+                    {
+                        Filtro = fil,
+                        Pagina = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaDez).ToList().Count + 1
+                    });
+
+            }
+
 
         }
     }

@@ -132,46 +132,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro1.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvMS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro10.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvMTAucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro2.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvMi5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro3.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvMy5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro4.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvNC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro5.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvNS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro6.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvNi5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro7.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvNy5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro8.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvOC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Livro9.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXExpdnJvOS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudPagina/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFBhZ2luYVxDcmVhdGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -336,16 +296,52 @@ build_metadata.AdditionalFiles.CssScope = b-mnex5vseq6
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-hzn4tv4b19
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/Account/LogOut.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dPdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/_Host.cshtml]
@@ -358,4 +354,8 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

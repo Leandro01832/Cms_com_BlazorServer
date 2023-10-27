@@ -1086,7 +1086,7 @@ namespace BlazorCms.Client.Pages
             int calculo = 0;
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
-                ApiKey = "AIzaSyASZ_6t6HGmvxJ0R2XGIVWU8NOL1qZ9DE8",
+                ApiKey = "",
                 ApplicationName = this.GetType().ToString()
             });
             var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");

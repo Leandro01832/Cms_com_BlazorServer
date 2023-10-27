@@ -1,15 +1,6 @@
 ﻿@page "/"
 @page "/info/{dominio}/{compartilhante}/{compartilhante2}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}"
-@page "/acesso-pastas/{dominio}/{compartilhante}/{compartilhante2}/{pasta1:int}/{pasta2:int}/{pasta3:int}/{pasta4:int}/{pasta5:int}/{pasta6:int}/{pasta7:int}/{pasta8:int}/{pasta9:int}/{pasta10:int}"
+@page "/instante/{instante:int}"
 @page "/{capitulo:int}/{filtrar:int}"
 @page "/{capitulo:int}/{indice}"
 @page "/acesso/{indice}"
@@ -45,7 +36,17 @@
 @inject UserManager<IdentityUser> userManager
 @inject IJSRuntime js
 
-<PageTitle>Instagleo</PageTitle>
+@if(instante != null)
+{
+    <PageTitle>Instante @instante </PageTitle>
+
+}
+else
+{
+    <PageTitle>Instagleo</PageTitle>
+    
+}
+
 
 <h3>@Mensagem</h3>
 
@@ -111,16 +112,7 @@
 
 
 @code{
-    [Parameter] public int? pasta1 { get; set; }
-    [Parameter] public int? pasta2 { get; set; }
-    [Parameter] public int? pasta3 { get; set; }
-    [Parameter] public int? pasta4 { get; set; }
-    [Parameter] public int? pasta5 { get; set; }
-    [Parameter] public int? pasta6 { get; set; }
-    [Parameter] public int? pasta7 { get; set; }
-    [Parameter] public int? pasta8 { get; set; }
-    [Parameter] public int? pasta9 { get; set; }
-    [Parameter] public int? pasta10 { get; set; }
+    [Parameter] public int? instante { get; set; }
 
 
     [Parameter] public int? capitulo { get; set; }
@@ -316,84 +308,26 @@
             }
 
         }
-        else if (pasta1 != null)
+        else if (instante != null)
         {
-            Livro[] livros = null;
-            int[] caps = null;
-            int[] pastas = null;
-            UserBook1? livroCompartilhado = await Context.UserBook1.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado != null) { livros = new Livro[1]; caps = new int[1]; }
-            UserBook2? livroCompartilhado2 = await Context.UserBook2.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado2 != null) { livros = new Livro[2]; caps = new int[2]; }
-            UserBook3? livroCompartilhado3 = await Context.UserBook3.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado3 != null) { livros = new Livro[3]; caps = new int[3]; }
-            UserBook4? livroCompartilhado4 = await Context.UserBook4.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado4 != null) { livros = new Livro[4]; caps = new int[4]; }
-            UserBook5? livroCompartilhado5 = await Context.UserBook5.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado5 != null) { livros = new Livro[5]; caps = new int[5]; }
-            UserBook6? livroCompartilhado6 = await Context.UserBook6.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado6 != null) { livros = new Livro[6]; caps = new int[6]; }
-            UserBook7? livroCompartilhado7 = await Context.UserBook7.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado7 != null) { livros = new Livro[7]; caps = new int[7]; }
-            UserBook8? livroCompartilhado8 = await Context.UserBook8.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado8 != null) { livros = new Livro[8]; caps = new int[8]; }
-            UserBook9? livroCompartilhado9 = await Context.UserBook9.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado9 != null) { livros = new Livro[9]; caps = new int[9]; }
-            UserBook10? livroCompartilhado10 = await Context.UserBook10.Include(u => u.Livro).FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin());
-            if (livroCompartilhado10 != null) { livros = new Livro[10]; caps = new int[10]; }
-            if (livroCompartilhado != null)   livros[0] = livroCompartilhado.Livro!;
-            if (livroCompartilhado2 != null)  livros[1] = livroCompartilhado2.Livro!;
-            if (livroCompartilhado3 != null)  livros[2] = livroCompartilhado3.Livro!;
-            if (livroCompartilhado4 != null)  livros[3] = livroCompartilhado4.Livro!;
-            if (livroCompartilhado5 != null)  livros[4] = livroCompartilhado5.Livro!;
-            if (livroCompartilhado6 != null)  livros[5] = livroCompartilhado6.Livro!;
-            if (livroCompartilhado7 != null)  livros[6] = livroCompartilhado7.Livro!;
-            if (livroCompartilhado8 != null)  livros[7] = livroCompartilhado8.Livro!;
-            if (livroCompartilhado9 != null)  livros[8] = livroCompartilhado9.Livro!;
-            if (livroCompartilhado10 != null) livros[9] = livroCompartilhado10.Livro!;
-            if (livroCompartilhado != null)   caps[0] =  livroCompartilhado.Capitulo;
-            if (livroCompartilhado2 != null)  caps[1] = livroCompartilhado2.Capitulo;
-            if (livroCompartilhado3 != null)  caps[2] = livroCompartilhado3.Capitulo;
-            if (livroCompartilhado4 != null)  caps[3] = livroCompartilhado4.Capitulo;
-            if (livroCompartilhado5 != null)  caps[4] = livroCompartilhado5.Capitulo;
-            if (livroCompartilhado6 != null)  caps[5] = livroCompartilhado6.Capitulo;
-            if (livroCompartilhado7 != null)  caps[6] = livroCompartilhado7.Capitulo;
-            if (livroCompartilhado8 != null)  caps[7] = livroCompartilhado8.Capitulo;
-            if (livroCompartilhado9 != null)  caps[8] = livroCompartilhado9.Capitulo;
-            if (livroCompartilhado10 != null) caps[9] = livroCompartilhado10.Capitulo;
-            if (pasta1 != null) pastas = new int[1];
-            if (pasta2 != null) pastas = new int[2];
-            if (pasta3 != null) pastas = new int[3];
-            if (pasta4 != null) pastas = new int[4];
-            if (pasta5 != null) pastas = new int[5];
-            if (pasta6 != null) pastas = new int[6];
-            if (pasta7 != null) pastas = new int[7];
-            if (pasta8 != null) pastas = new int[8];
-            if (pasta9 != null) pastas = new int[9];
-            if (pasta10 != null) pastas = new int[10];
-            if (pasta10 != null) pastas[9] = (int) pasta10!;
-            if (pasta9 != null)  pastas[8] = (int) pasta9!;
-            if (pasta8 != null)  pastas[7] = (int) pasta8!;
-            if (pasta7 != null)  pastas[6] = (int) pasta7!;
-            if (pasta6 != null)  pastas[5] = (int) pasta6!;
-            if (pasta5 != null)  pastas[4] = (int) pasta5!;
-            if (pasta4 != null)  pastas[3] = (int) pasta4!;
-            if (pasta3 != null)  pastas[2] = (int) pasta3!;
-            if (pasta2 != null)  pastas[1] = (int) pasta2!;
-            if (pasta1 != null)  pastas[0] = (int) pasta1!;
+            List<InstanteUser>? instantes = await Context.InstanteUser.Include(i => i.Livros)
+            .Where(i => i.Livros.FirstOrDefault(l => l.user == repositoryPagina.buscarAdmin()) != null)
+            .OrderBy(l => l.Id).ToListAsync();
+
+            var objInstante = instantes.Skip((int)instante - 1).FirstOrDefault();
 
 
-
-            if ( livroCompartilhado != null)
+            if (objInstante != null)
             {
+                List<LivroUser> livros = objInstante.Livros.OrderBy(l => l.Id).ToList();
                 string url = "";
-                for(var i = 0; i < pastas.Length; i++)
+                for (var i = 0; i < livros.Count; i++)
                 {
-                    if (livros.Length <= pastas.Length && i <= livros.Length)
-                    {
-                        url = $"{livros[i].url}/filtro/{caps[i]}/pasta-{pastas[i]}/0/{i + 1}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0";
-                        await js!.InvokeAsync<object>("AcessarSites", url);
-                    }                 
+                    if (livros[i].IsBook)
+                    url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/0/0/0/0/0/0/0/0/0/0";
+                   else
+                    url = $"{livros[i].UrlNoBook}";
+                    await js!.InvokeAsync<object>("AcessarSites", url);
 
                 }
 

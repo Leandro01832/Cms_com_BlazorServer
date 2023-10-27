@@ -105,6 +105,7 @@
 
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
+        exampleModel = Context.Pagina!.Include(p => p.Filtro).First(f => f.Id == exampleModel!.Id);
         if(pasta != 0)
         {
             var fil = Filtro.First(f => f.Id == pasta);
@@ -239,6 +240,7 @@
             var SubStory = Context.SubStory!.First(l => l.Id == grupo.SubStoryId);
             exampleModel!.IncluiFiltro(SubStory);
         }
+        Context.SaveChanges();
     }
 
     private string GetCamada(Filtro Model)

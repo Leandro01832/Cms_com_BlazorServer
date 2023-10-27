@@ -1,4 +1,4 @@
-﻿using BlazorServerCms.Areas.Identity;
+using BlazorServerCms.Areas.Identity;
 using BlazorServerCms.Data;
 using business.Group;
 using business;
@@ -83,18 +83,50 @@ using (var scope = app.Services.CreateScope())
             result = await roleManager.CreateAsync(new IdentityRole(namesRole));
         }
     }    
-        var user = new IdentityUser { UserName = email, EmailConfirmed = true };
+        var user = new IdentityUser { UserName = "leandro01832", Email = email, EmailConfirmed = true };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
     }
 
-    if (!await contexto!.Set<Pagina>().Where(str => str.StoryId == 2).AnyAsync())
+    if (!await contexto!.Set<Story>().AnyAsync())
     {
+        var padrao = new Story
+        {
+            PaginaPadraoLink = 0,
+            Comentario = false,
+            Nome = "Padrao"
+        };
+        var str = new Story
+        {
+            PaginaPadraoLink = 1,
+            Comentario = false,
+            Nome = "seres vivos"
+        };
+        contexto.Add(padrao);
+        contexto.Add(str);
+        contexto.SaveChanges();
+
+        var pagPadrao = new Pagina
+        {
+            Classificacao = new Classificacao(),
+            Comentario = 0,
+            ContentUser = "<a href=''#'' id=''LinkPadrao''> <h1> Story seres vivos</h1> </a>",
+            Content = null,
+            Data = DateTime.Now,
+            ImagemContent = null,
+            StoryId = 1,
+            Titulo = "capitulos"
+        };
+        contexto.Add(pagPadrao);
+        contexto.SaveChanges();
+        var p = await repositoryPagina.includes().FirstAsync(pa => pa.Id == pagPadrao.Id);
+        repositoryPagina.paginas.Add(p);
+
         Pagina[] pages = new Pagina[99];
         foreach(var item in contexto.Story!.Include(str => str.Pagina).First(str => str.Id == 1).Pagina!.ToList())
         {
-            var p = await repositoryPagina.includes().FirstAsync(pa => pa.Id == item.Id);
-            repositoryPagina.paginas.Add(p);
+            var p1 = await repositoryPagina.includes().FirstAsync(pa => pa.Id == item.Id);
+            repositoryPagina.paginas.Add(p1);
         }
         for (var i = 1; i<= 99; i++)
         {
@@ -709,8 +741,8 @@ using (var scope = app.Services.CreateScope())
 
             contexto.Add(pages[i - 1]); 
             contexto.SaveChanges();
-            var p = await repositoryPagina.includes().FirstAsync(pa => pa.Id == pages[i - 1].Id);
-            repositoryPagina.paginas.Add(p);
+            var p2 = await repositoryPagina.includes().FirstAsync(pa => pa.Id == pages[i - 1].Id);
+            repositoryPagina.paginas.Add(p2);
         }
 
 
