@@ -217,6 +217,59 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("FiltroPagina");
                 });
 
+            modelBuilder.Entity("business.business.PageLiked", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int?>("camadaDez")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("camadaNove")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("camadaOito")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("camadaSeis")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("camadaSete")
+                        .HasColumnType("int");
+
+                    b.Property<int>("capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("grupo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("indice")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("subgrupo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("substory")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("subsubgrupo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("user")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("verso")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PageLiked");
+                });
+
             modelBuilder.Entity("business.business.Rota", b =>
                 {
                     b.Property<long>("Id")
@@ -517,25 +570,6 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Telefone");
-                });
-
-            modelBuilder.Entity("business.VideoIncorporado", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("ArquivoVideoIncorporado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Tamanho")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VideoIncorporado");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

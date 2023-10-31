@@ -1,0 +1,1284 @@
+USE [instagleo]
+GO
+INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'b952a438-61f1-40b3-8fbb-19f08753fff9', N'Admin', N'ADMIN', N'87db5d27-cdcf-4039-ae86-d0dfed810659')
+GO
+INSERT [dbo].[AspNetUsers] ([Id], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'f8ee934a-ae6d-4186-a504-f67d0735db0d', N'leandro01832', N'LEANDRO01832', N'leandroleanleo@gmail.com', N'LEANDROLEANLEO@GMAIL.COM', 1, N'AQAAAAEAACcQAAAAEFDTc6/Y6A234h3uLMKkuy5HB5H01hooKdxEaCSplJIRS9wyPZLLPTYslYf/PeqydA==', N'K4CWCZGMGOOSX5M54WPVZDJF4QCWFH4U', N'd1cbe924-7514-4070-8e0b-fd62e08dac1b', NULL, 0, 0, NULL, 1, 0)
+GO
+INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'f8ee934a-ae6d-4186-a504-f67d0735db0d', N'b952a438-61f1-40b3-8fbb-19f08753fff9')
+GO
+SET IDENTITY_INSERT [dbo].[Story] ON 
+
+GO
+INSERT [dbo].[Story] ([Id], [Comentario], [Produto], [Nome], [PaginaPadraoLink]) VALUES (1, 0, 0, N'Padrao', 0)
+GO
+INSERT [dbo].[Story] ([Id], [Comentario], [Produto], [Nome], [PaginaPadraoLink]) VALUES (2, 0, 0, N'seres vivos', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Story] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Filtro] ON 
+
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (1, N'animais', NULL, 2, N'SubStory', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (2, N'plantas', NULL, 2, N'SubStory', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (3, N'fungos', NULL, 2, N'SubStory', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (4, N'vertebrados', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (5, N'artropodes', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (6, N'moluscos', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (7, N'equínoderma', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (8, N'vermes', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (9, N'Cnidário', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10, N'Anelídeos', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (11, N'Porífera', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (12, N'Angiosperma', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (13, N'Gimosperma', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (14, N'Pteridófitas', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (15, N'Briófitas', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (16, N'algas', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 2, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (17, N'Líquens', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (18, N'Cogumelos', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (19, N'Mofos', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (20, N'Leveduras', NULL, 2, N'Grupo', NULL, NULL, NULL, NULL, NULL, 3, NULL, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (24, N'Myxiniformes', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 4, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (25, N'Petromyzontiformes', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 4, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (26, N'gnathostomata', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 4, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (27, N'Quelicerados', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (28, N'Miriápodes', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (29, N'Crustáceos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (30, N'Insetos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (31, N'Polyplacophora', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (32, N'Aplacophora', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (33, N'Gastropoda', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (34, N'Bivalvia', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (35, N'Scaphopoda', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (36, N'Cephalopoda', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (37, N'Asteroidea', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 7, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (38, N'Ophiuroidea', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 7, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (39, N'Echinoidea', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 7, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (40, N'Holothuroidea', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 7, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (41, N'Crinoidea', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 7, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (42, N'Platelmintos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 8, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (43, N'Nematelmintos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 8, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (44, N'Anelídeos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 8, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (45, N'Hydrozoa', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 9, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (46, N'Scyphozoa', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 9, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (47, N'Calcarea', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 11, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (48, N'Hexactinellida', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 11, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (49, N'Demospongiae', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 11, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (51, N'Monocotiledôneas', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 12, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (52, N'Eudicotiledôneas', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 12, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (53, N'Coniferophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 13, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (54, N'Cycadophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 13, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (55, N'Ginkgophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 13, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (56, N'Gnetophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 13, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (57, N'Lycopodiophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 14, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (58, N'monilophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 14, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (59, N'Marchantiophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 15, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (60, N'Bryophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 15, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (61, N'Anthocerophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 15, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (62, N'Chrysophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 16, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (63, N'Dinophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 16, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (64, N'Euglenophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 16, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (65, N'Chlorophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 16, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (66, N'Phaeophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 16, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (67, N'Rhodophyta', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 16, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (68, N'Fitoplâncton', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 16, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (69, N'Crostoso', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 17, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (70, N'fruticoso', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 17, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (71, N'Folioso', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 17, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (72, N'Quitrídios', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 18, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (73, N'Zigomicetos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 18, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (74, N'Glomeromicetos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 18, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (75, N'Ascomicetos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 18, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (76, N'Basidiomicetos', NULL, 2, N'SubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, 18, NULL)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (78, N'Peixes', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 26)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10010, N'Anfíbios', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 26)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10011, N'Répteis', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 26)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10012, N'Aves', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 26)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10013, N'Mamíferos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 26)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10014, N'Lampreias', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 25)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10015, N'Peixes-bruxa', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 24)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10016, N'Aranhas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 27)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10017, N'Escorpiões', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 27)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10018, N'Carrapatos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 27)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10019, N'quilópodes', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 28)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10020, N'Diplópodes', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 28)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10021, N'Caranguejos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 28)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10022, N'Lagostas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 28)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10023, N'Tatuzinho-de-jardim', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 28)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10024, N'Camarões', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 28)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10025, N'Besouros', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10026, N'Abelhas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10027, N'Vespas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10028, N'Cupins', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10029, N'formigas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10030, N'borboletas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10031, N'mariposas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10032, N'Moscas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10033, N'Mosquitos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10034, N'Percevejos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10035, N'Cigarras', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10036, N'Pulgões', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10037, N'Gafanhotos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10038, N'Grilos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10039, N'Libélulas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10040, N'Traças-dos-livros', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10041, N'Orquídeas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10042, N'Lírios', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10043, N'Gramas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10044, N'Coqueiros', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10045, N'bananeiras', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10046, N'Margaridas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10047, N'Rosáceas', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 51)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10048, N'Pinheiros', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10049, N'Ciprestes', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10050, N'Zimbro', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10051, N'Cedros', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10052, N'Laríceos', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10053, N'Araucárias', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10054, N'Araucárias', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+INSERT [dbo].[Filtro] ([Id], [Nome], [Rotas], [StoryId], [Discriminator], [CamadaNoveId], [CamadaOitoId], [CamadaSeteId], [SubSubGrupoId], [CamadaSeisId], [SubStoryId], [GrupoId], [SubGrupoId]) VALUES (10055, N'Palmeiras', NULL, 2, N'SubSubGrupo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 53)
+GO
+SET IDENTITY_INSERT [dbo].[Filtro] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Pagina] ON 
+
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (1, CAST(N'2023-10-28 16:49:09.2422233' AS DateTime2), 1, N'capitulos', 0, NULL, NULL, N'<a href=''''#'''' id=''''LinkPadrao''''> <h1> Story seres vivos</h1> </a>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (2, CAST(N'2023-10-28 16:49:09.7802291' AS DateTime2), 2, N'pagina 1', 0, NULL, NULL, N'<p> <h1> Seja bem vindo a Story seres vivos</h1> </p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (3, CAST(N'2023-10-28 16:49:09.9130059' AS DateTime2), 2, N'pagina 2', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ENCONTRANDO UM GIGANTE NA NATUREZA, A BALEIA CINZENTA! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/r_eLOG096sE" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (4, CAST(N'2023-10-28 16:49:09.9241032' AS DateTime2), 2, N'pagina 3', 0, NULL, NULL, N'<p>A&nbsp;<strong>baleia-cinzenta</strong>&nbsp;(<em>Eschrichtius robustus</em>) &eacute; um&nbsp;<a class="mw-redirect" title="Mam&iacute;fero" href="https://pt.wikipedia.org/wiki/Mam%C3%ADfero">mam&iacute;fero</a>&nbsp;<a class="mw-redirect" title="Cet&aacute;ceo" href="https://pt.wikipedia.org/wiki/Cet%C3%A1ceo">cet&aacute;ceo</a>&nbsp;da fam&iacute;lia dos&nbsp;<a class="mw-redirect" title="Eschrichtiidae" href="https://pt.wikipedia.org/wiki/Eschrichtiidae">escrict&iacute;deos</a>. &Eacute; a &uacute;nica esp&eacute;cie viva em seu g&ecirc;nero e fam&iacute;lia, mas uma esp&eacute;cie extinta foi descoberta e colocada no g&ecirc;nero em 2017, a&nbsp;<a class="new" title="Baleia Akishima (p&aacute;gina n&atilde;o existe)" href="https://pt.wikipedia.org/w/index.php?title=Baleia_Akishima&amp;action=edit&amp;redlink=1">Baleia Akishima</a>.<sup id="cite_ref-N&atilde;o_nomeado-20230316141054_2-0" class="reference"><a href="https://pt.wikipedia.org/wiki/Baleia-cinzenta#cite_note-N%C3%A3o_nomeado-20230316141054-2">[2]</a></sup></p>
+<h2><span id="Descri.C3.A7.C3.A3o"></span><span id="Descri&ccedil;&atilde;o" class="mw-headline">Descri&ccedil;&atilde;o</span></h2>
+<figure class="mw-halign-left"><a class="mw-file-description" href="https://pt.wikipedia.org/wiki/Ficheiro:Eschrichtius_robustus_01-cropped.jpg"><img class="mw-file-element" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Eschrichtius_robustus_01-cropped.jpg/210px-Eschrichtius_robustus_01-cropped.jpg" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Eschrichtius_robustus_01-cropped.jpg/315px-Eschrichtius_robustus_01-cropped.jpg 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Eschrichtius_robustus_01-cropped.jpg/420px-Eschrichtius_robustus_01-cropped.jpg 2x" width="210" height="133" data-file-width="800" data-file-height="508" /></a>
+<figcaption>Uma baleia-cinzenta&nbsp;<a title="Comportamento de superf&iacute;cie dos cet&aacute;ceos" href="https://pt.wikipedia.org/wiki/Comportamento_de_superf%C3%ADcie_dos_cet%C3%A1ceos">saltando</a>.</figcaption>
+</figure>
+<p>Os indiv&iacute;duos j&aacute; foram chamados de &ldquo;peixes do diabo&rdquo; porque s&atilde;o muito resistentes e brigam quando ca&ccedil;ados. Esse nome entretanto est&aacute; biologicamente incorreto, pois as baleias n&atilde;o s&atilde;o peixes.<sup id="cite_ref-3" class="reference"><a href="https://pt.wikipedia.org/wiki/Baleia-cinzenta#cite_note-3">[3]</a></sup>&nbsp;Seu tamanho pode atingir cerca de 15 metros de comprimento e pesar cerca de 35 toneladas. Sua alimenta&ccedil;&atilde;o &eacute; a base de anf&iacute;podos (pequenos crust&aacute;ceos que vivem na &aacute;gua ou pr&oacute;ximo, incluindo pulgas de areia e piolhos de baleia), krill, pl&acirc;ncton e moluscos. Ao contr&aacute;rio de outros cet&aacute;ceos, a baleia-cinzenta tende a alimentar-se junto ao fundo do mar, onde agita a &aacute;gua para levantar material do fundo de onde consegue filtrar os seus alimentos. A distribui&ccedil;&atilde;o atual e contida ao Oceano&nbsp;<a title="Oceano Pac&iacute;fico" href="https://pt.wikipedia.org/wiki/Oceano_Pac%C3%ADfico">pac&iacute;fico</a>. A baleia-cinzenta tamb&eacute;m ocorre em &aacute;guas litorais desde o mar de Okhotsk at&eacute; a Coreia do Sul e Jap&atilde;o e desde os mares de Chukchi e de Beaufort no golfo do M&eacute;xico.</p>
+<p>O recorde de cerca de maior dist&acirc;ncia percorrida por um vertebrado marinho j&aacute; registrada pertence a uma baleia-cinzenta que que nadou 26,8 mil quil&ocirc;metros. O cet&aacute;ceo em quest&atilde;o &eacute; um macho de 12 metros de comprimento avistado pr&oacute;ximo &agrave;&nbsp;<a title="Nam&iacute;bia" href="https://pt.wikipedia.org/wiki/Nam%C3%ADbia">Nam&iacute;bia</a>&nbsp;em 2013. Ele tamb&eacute;m &eacute; a primeira e &uacute;nica baleia-cinzenta a ser registrada no&nbsp;<a title="Hemisf&eacute;rio sul" href="https://pt.wikipedia.org/wiki/Hemisf%C3%A9rio_sul">Hemisf&eacute;rio Sul</a>.<sup id="cite_ref-4" class="reference"><a href="https://pt.wikipedia.org/wiki/Baleia-cinzenta#cite_note-4">[4]</a></sup></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (5, CAST(N'2023-10-28 16:49:09.9393695' AS DateTime2), 2, N'pagina 4', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://static.nationalgeographicbrasil.com/files/styles/image_3200/public/w7rx5g.webp?w=1450&amp;h=816" alt="" width="320" height="180" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (6, CAST(N'2023-10-28 16:49:09.9485459' AS DateTime2), 2, N'pagina 5', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="AS CINCO BALEIAS MAIS INCR&Iacute;VEIS QUE EU J&Aacute; ENCONTREI! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/ui70_rhmGtM" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (7, CAST(N'2023-10-28 16:49:09.9569107' AS DateTime2), 2, N'pagina 6', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="UMA ON&Ccedil;A-PINTADA SELVAGEM INVADIU O INSTITUTO! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/c6zPTqvDDN8" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (8, CAST(N'2023-10-28 16:49:09.9644994' AS DateTime2), 2, N'pagina 7', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="OS R&Eacute;PTEIS DA MATA ATL&Acirc;NTICA! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/1zueHDxHJWA" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (9, CAST(N'2023-10-28 16:49:09.9729506' AS DateTime2), 2, N'pagina 8', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="UMA SUCURI PRETA GIGANTE! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/-2PjgVtX_bs" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (10, CAST(N'2023-10-28 16:49:09.9812147' AS DateTime2), 2, N'pagina 9', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="UM ANIMAL COM MAIS DE 300 MILH&Otilde;ES DE ANOS DE EVOLU&Ccedil;&Atilde;O! | BRASIL BIOMAS" src="https://www.youtube.com/embed/zKcPVi43gqo" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (11, CAST(N'2023-10-28 16:49:09.9887961' AS DateTime2), 2, N'pagina 10', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn.ambientes.ambientebrasil.com.br/wp-content/uploads/2020/11/jacare-2645898_1280.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (12, CAST(N'2023-10-28 16:49:09.9967263' AS DateTime2), 2, N'pagina 11', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="UMA CACATUA MUITO LOUCA,  UM TUCANO RESMUNG&Atilde;O E A ARARA AZUL MAIS FOFA DO MUNDO | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/KBDUODeW5vI" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (13, CAST(N'2023-10-28 16:49:10.0050120' AS DateTime2), 2, N'pagina 12', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://s2-g1.glbimg.com/FR6jrT4gKQuTXit78yN94mCkhes=/0x0:1900x1461/1008x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2019/1/g/BjKNYuSBeVn9zupTRamA/araraazul.jpg" alt="" width="320" height="246" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (14, CAST(N'2023-10-28 16:49:10.0132447' AS DateTime2), 2, N'pagina 13', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="http://www.fiocruz.br/biosseguranca/Bis/infantil/araraazul.jpg" alt="" width="320" height="258" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (15, CAST(N'2023-10-28 16:49:10.0205225' AS DateTime2), 2, N'pagina 14', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="OS 5 INSETOS MAIS PERIGOSOS DO MUNDO! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/ZpKZpv7XGsY" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (16, CAST(N'2023-10-28 16:49:10.0325933' AS DateTime2), 2, N'pagina 15', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="&quot;Explorando a Eleg&acirc;ncia Natural: Conhe&ccedil;a a Fascinante Palmeira Azul de Madagascar 🌴💙" src="https://www.youtube.com/embed/9-EOAxUcwiA" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (17, CAST(N'2023-10-28 16:49:10.0431470' AS DateTime2), 2, N'pagina 16', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://blog.cobasi.com.br/wp-content/webpc-passthru.php?src=https://blog.cobasi.com.br/wp-content/uploads/2020/07/Tipos-de-orqui%CC%81deas-Phalaenopsis.png&amp;nocache=1" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (18, CAST(N'2023-10-28 16:49:10.0517196' AS DateTime2), 2, N'pagina 17', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://images.tcdn.com.br/img/img_prod/660625/orquidea_cattleya_blc_durigan_big_spots_adulta_1113_1_8900f911dbede8793c3bf2dc131fb647.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (19, CAST(N'2023-10-28 16:49:10.0599893' AS DateTime2), 2, N'pagina 18', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://static.giulianaflores.com.br/images/product/27330gg.jpg?ims=405x405" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (20, CAST(N'2023-10-28 16:49:10.0677629' AS DateTime2), 2, N'pagina 19', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://s2.glbimg.com/7dJjXrhNzxwRW4jboPSWiEuZZ5Q=/620x620/smart/e.glbimg.com/og/ed/f/original/2022/07/22/orquidea-cymbidium-como-cuidar-e-cultivar-5.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (21, CAST(N'2023-10-28 16:49:10.0759632' AS DateTime2), 2, N'pagina 20', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://weflores.com/wp-content/uploads/Orqu%C3%ADdea-phalaenopsis-cascata-pink-em-vaso-riscatto.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (22, CAST(N'2023-10-28 16:49:10.0834196' AS DateTime2), 2, N'pagina 21', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://http2.mlstatic.com/D_NQ_NP_774145-MLB41462303073_042020-O.webp" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (23, CAST(N'2023-10-28 16:49:10.0925511' AS DateTime2), 2, N'pagina 22', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://http2.mlstatic.com/D_NQ_NP_2X_951320-MLB48602367585_122021-F.webp" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (24, CAST(N'2023-10-28 16:49:10.1017427' AS DateTime2), 2, N'pagina 23', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://static.mundoeducacao.uol.com.br/mundoeducacao/conteudo_legenda/c4f684947cd4a982e58416940e5ea7c1.jpg" alt="" width="320" height="214" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (25, CAST(N'2023-10-28 16:49:10.1121872' AS DateTime2), 2, N'pagina 24', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.tgservices.com.br/wp-content/uploads/2021/10/26-10-2021.jpg" alt="" width="320" height="200" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (26, CAST(N'2023-10-28 16:49:10.1202552' AS DateTime2), 2, N'pagina 25', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://emsinapse.files.wordpress.com/2021/09/louva-deus-653x330-1.jpg" alt="" width="320" height="162" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (27, CAST(N'2023-10-28 16:49:10.1276799' AS DateTime2), 2, N'pagina 26', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://scontent.fiza4-1.fna.fbcdn.net/v/t1.18169-9/13331074_1813075485589893_2720588748137086315_n.jpg?_nc_cat=105&amp;ccb=1-7&amp;_nc_sid=c2f564&amp;_nc_ohc=6qQPmnz-0eoAX_AD6-E&amp;_nc_ht=scontent.fiza4-1.fna&amp;oh=00_AfAr5C_St05ZZed7c2yob_t7fyErJvBeAtK_ENelgSj10A&amp;oe=6554A8E9" alt="" width="320" height="193" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (28, CAST(N'2023-10-28 16:49:10.1362770' AS DateTime2), 2, N'pagina 27', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://integralismo.org.br/wp-content/uploads/2019/05/9222c546c490561f6c8f63e6d35ffad8.jpg" alt="" width="320" height="240" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (29, CAST(N'2023-10-28 16:49:10.1440337' AS DateTime2), 2, N'pagina 28', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://static.biologianet.com/2020/05/onca-pintada.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (30, CAST(N'2023-10-28 16:49:10.1518395' AS DateTime2), 2, N'pagina 29', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://portalamazonia.com/images/p/24827/Foto_1_WWF_AFP.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (31, CAST(N'2023-10-28 16:49:10.1594266' AS DateTime2), 2, N'pagina 30', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.aqualovers.pt/images/42/amphiprion-ocellaris_large.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (32, CAST(N'2023-10-28 16:49:10.1684614' AS DateTime2), 2, N'pagina 31', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://static.mundoeducacao.uol.com.br/mundoeducacao/2022/05/peixe-leao.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (33, CAST(N'2023-10-28 16:49:10.1766224' AS DateTime2), 2, N'pagina 32', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://euamomeusanimais.com.br/wp-content/uploads/2013/10/Cavalo-Marinho-800x500.jpg" alt="" width="320" height="200" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (34, CAST(N'2023-10-28 16:49:10.1863429' AS DateTime2), 2, N'pagina 33', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="HIPPOCAMPUS, UM PEIXE MITOL&Oacute;GICO! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/_qRM-gmgMXY" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (35, CAST(N'2023-10-28 16:49:10.1943597' AS DateTime2), 2, N'pagina 34', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="VOC&Ecirc; J&Aacute; NADOU COM CARPAS? | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/tIafILj-GEs" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (36, CAST(N'2023-10-28 16:49:10.2020649' AS DateTime2), 2, N'pagina 35', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="A ON&Ccedil;A-PRETA | QUE BICHO &Eacute; ESSE? | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/_TOKrAiFw-Q" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (37, CAST(N'2023-10-28 16:49:10.2097840' AS DateTime2), 2, N'pagina 36', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://s2-g1.glbimg.com/_X7Js0_sNHtd1FWxqDlMTzjvXL8=/0x0:5026x3351/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2018/B/q/nPhGJKROiGDvdNNsvxIw/mg-4968.jpg" alt="" width="320" height="213" /></p>
+<div>
+<p>Conhecidas por on&ccedil;a-preta ou ''pantera negra'', as on&ccedil;as-pintadas com pelagem escura possuem essa caracter&iacute;stica marcante gra&ccedil;as a uma muta&ccedil;&atilde;o gen&eacute;tica, que as tornam felinos mel&acirc;nicos. "<span class="highlight highlighted">O melanismo &eacute; uma muta&ccedil;&atilde;o que eleva a produ&ccedil;&atilde;o de melanina -&nbsp;</span><span class="highlight highlighted"><em>prote&iacute;na presente no corpo respons&aacute;vel pela pigmenta&ccedil;&atilde;o preta</em></span><span class="highlight highlighted">.</span>&nbsp;Com isso, os indiv&iacute;duos apresentam cor predominantemente escura na superf&iacute;cie do corpo (seja pele, pelagem ou plumagem) em rela&ccedil;&atilde;o ao padr&atilde;o de cor t&iacute;pico da esp&eacute;cie", explica o bi&oacute;logo e coordenador cient&iacute;fico do On&ccedil;afari, Eduardo Fragoso.</p>
+</div>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (38, CAST(N'2023-10-28 16:49:10.2196588' AS DateTime2), 2, N'pagina 37', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ALIMENTANDO UMA ON&Ccedil;A-PINTADA BEB&Ecirc;! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/adSepe5UEVY" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (39, CAST(N'2023-10-28 16:49:10.2294139' AS DateTime2), 2, N'pagina 38', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i0.wp.com/oeco.org.br/wp-content/uploads/2021/10/SAPO.jpg?w=1920&amp;ssl=1" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (40, CAST(N'2023-10-28 16:49:10.2403509' AS DateTime2), 2, N'pagina 39', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://s4.static.brasilescola.uol.com.br/be/2020/10/sapos.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (41, CAST(N'2023-10-28 16:49:10.2501779' AS DateTime2), 2, N'pagina 40', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.anfibiosdasaraucarias.com.br/assets/img/anfibios/boana-cf-curupi-jonas-toscan.jpg" alt="" width="320" height="240" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (42, CAST(N'2023-10-28 16:49:10.2581832' AS DateTime2), 2, N'pagina 41', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="A ARANHA COMEDORA DA P&Aacute;SSAROS! | RICHARD RASMUSSEN" src="https://www.youtube.com/embed/BHdyUaVz3Os" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (43, CAST(N'2023-10-28 16:49:10.2657045' AS DateTime2), 2, N'pagina 42', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.infoescola.com/wp-content/uploads/2014/01/DSC09768.jpg" alt="" width="320" height="256" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (44, CAST(N'2023-10-28 16:49:10.2735910' AS DateTime2), 2, N'pagina 43', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://mid.curitiba.pr.gov.br/2021/capa/00308006.jpg" alt="" width="320" height="180" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (45, CAST(N'2023-10-28 16:49:10.2834499' AS DateTime2), 2, N'pagina 44', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://kelldrin.com.br/wp-content/uploads/2020/11/Aranha-Viuva-negra.jpg" alt="" width="320" height="209" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (46, CAST(N'2023-10-28 16:49:10.2920176' AS DateTime2), 2, N'pagina 45', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://p2.trrsf.com/image/fget/cf/774/0/images.terra.com/2023/08/09/meet-the-persian-gold-qe4bp4ahj48o.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (47, CAST(N'2023-10-28 16:49:10.2998275' AS DateTime2), 2, N'pagina 46', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.coisasdaroca.com/wp-content/uploads/2023/05/Aranha-da-areia.jpg" alt="" width="320" height="173" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (48, CAST(N'2023-10-28 16:49:10.3087388' AS DateTime2), 2, N'pagina 47', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://p2.trrsf.com/image/fget/cf/774/0/images.terra.com/2018/09/24/lirios-brancos-foto-independent-agriculture.jpg" alt="" width="320" height="240" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (49, CAST(N'2023-10-28 16:49:10.3166088' AS DateTime2), 2, N'pagina 48', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdnm.westwing.com.br/glossary/uploads/br/2022/11/18183507/L%C3%ADrio-Amarelo-Pixabay.jpg" alt="" width="320" height="205" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (50, CAST(N'2023-10-28 16:49:10.3252652' AS DateTime2), 2, N'pagina 49', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia8034/producao-de-lirios-propagacao-plantio-adubacao-e-cultivo-cpt.jpg" alt="" width="320" height="240" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (51, CAST(N'2023-10-28 16:49:10.3338106' AS DateTime2), 2, N'pagina 50', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://static.giulianaflores.com.br/images/product/24621gg.jpg?ims=405x405" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (52, CAST(N'2023-10-28 16:49:10.3422002' AS DateTime2), 2, N'pagina 51', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.cameliadecor.com.br/upload/produto/imagem/l-rio-rosa-nude-3.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (53, CAST(N'2023-10-28 16:49:10.3512678' AS DateTime2), 2, N'pagina 52', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://62530.cdn.lojaquevende.com.br/static/62530/sku/plantas-ornamentais-lirio-laranja--p-1610131042637.png" alt="" width="320" height="248" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (54, CAST(N'2023-10-28 16:49:10.3595484' AS DateTime2), 2, N'pagina 53', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://images.tcdn.com.br/img/img_prod/799330/lirio_asiatico_brindisi_1239_1_20200525104549.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (55, CAST(N'2023-10-28 16:49:10.3677589' AS DateTime2), 2, N'pagina 54', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdnm.westwing.com.br/glossary/uploads/br/2023/08/11191434/lirio-azul.png" alt="" width="320" height="205" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (56, CAST(N'2023-10-28 16:49:10.3778109' AS DateTime2), 2, N'pagina 55', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://florasantaclara.com.br/wp-content/uploads/2022/12/4-motivos-para-presentear-com-um-buque-de-lirio.jpg" alt="" width="320" height="214" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (57, CAST(N'2023-10-28 16:49:10.3865802' AS DateTime2), 2, N'pagina 56', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_600,h_600/https://lucianagonzalez.com.br/wp-content/uploads/2019/11/LIRIO-LARANJA-2019.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (58, CAST(N'2023-10-28 16:49:10.3943876' AS DateTime2), 2, N'pagina 57', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cdn.leroymerlin.com.br/products/lirio_pote_12_89203324_0001_600x600.jpg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (59, CAST(N'2023-10-28 16:49:10.4402433' AS DateTime2), 2, N'pagina 58', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="http://www.portal.zoo.bio.br/local/cache-vignettes/L560xH421/red_crab-001-1c7b2.jpg?1638638127" alt="" width="320" height="241" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (60, CAST(N'2023-10-28 16:49:10.4629761' AS DateTime2), 2, N'pagina 59', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://media.gazetadopovo.com.br/vozes/2015/12/caranguejo-ar-b3f23706.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (61, CAST(N'2023-10-28 16:49:10.4771001' AS DateTime2), 2, N'pagina 60', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://s2-umsoplaneta.glbimg.com/Ly-PEzWE8Kp3uMHDMymuuu2gUEE=/0x0:1280x853/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_7d5b9b5029304d27b7ef8a7f28b4d70f/internal_photos/bs/2021/o/V/OV4Z0rSmSmgC0VUv8KsA/whatsapp-image-2021-08-31-at-09.56.21.jpeg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (62, CAST(N'2023-10-28 16:49:10.4855405' AS DateTime2), 2, N'pagina 61', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://istoedinheiro.com.br/wp-content/uploads/sites/17/2019/11/3_din1147_cobica3.jpg?x46096" alt="" width="320" height="180" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (63, CAST(N'2023-10-28 16:49:10.4950546' AS DateTime2), 2, N'pagina 62', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://diariodonordeste.verdesmares.com.br/image/contentid/policy:1.3158270:1636583887/Pesca-de-lagosta-em-Icapui.jpeg?f=default&amp;$p$f=8500fd8" alt="" width="320" height="240" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (64, CAST(N'2023-10-28 16:49:10.5041492' AS DateTime2), 2, N'pagina 63', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://acdn.mitiendanube.com/stores/001/498/336/products/a5b41115-d59a-47da-827c-b60e0fd46ff41-c91c369b9d6ca8ec0716617909870220-640-0.webp" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (65, CAST(N'2023-10-28 16:49:10.5130007' AS DateTime2), 2, N'pagina 64', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://conexaoplaneta.com.br/wp-content/uploads/2021/11/lagosta-algodao-doce-conexao-planeta.jpg" alt="" width="320" height="180" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (66, CAST(N'2023-10-28 16:49:10.5201923' AS DateTime2), 2, N'pagina 65', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.coisasdaroca.com/wp-content/uploads/2020/12/tatu-2-2048x1552.jpg" alt="" width="320" height="243" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (67, CAST(N'2023-10-28 16:49:10.5283105' AS DateTime2), 2, N'pagina 66', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://scontent.fiza4-1.fna.fbcdn.net/v/t1.6435-9/191660497_4068354933210851_7224002615706470838_n.jpg?_nc_cat=108&amp;ccb=1-7&amp;_nc_sid=7f8c78&amp;_nc_ohc=9zDHo-kI-FwAX_ckcd5&amp;_nc_ht=scontent.fiza4-1.fna&amp;oh=00_AfD6HxStz5_WMVhSlf-TMTfIMq8QdxZZSZVwP_y5UFgPPQ&amp;oe=65567A83" alt="" width="320" height="143" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (68, CAST(N'2023-10-28 16:49:10.5356037' AS DateTime2), 2, N'pagina 67', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="VOC&Ecirc; PEGARIA EM UMA ARANHA? #shorts" src="https://www.youtube.com/embed/rlrXdcG-69U" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (69, CAST(N'2023-10-28 16:49:10.5441650' AS DateTime2), 2, N'pagina 68', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="A DORY EXISTE DE VERDADE? #shorts" src="https://www.youtube.com/embed/db-qqVLT3L8" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (70, CAST(N'2023-10-28 16:49:10.5526568' AS DateTime2), 2, N'pagina 69', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="QUAL A DIFEREN&Ccedil;A ENTRE O SHIH-TZU E O LHASA APSO?  #shorts" src="https://www.youtube.com/embed/SHNFZwva838" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (71, CAST(N'2023-10-28 16:49:10.5605961' AS DateTime2), 2, N'pagina 70', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ESSE &Eacute; O ANIMAL MAIS FORTE DO MUNDO? #shorts" src="https://www.youtube.com/embed/scmu9XHAkds" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (72, CAST(N'2023-10-28 16:49:10.5684888' AS DateTime2), 2, N'pagina 71', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="DOBERMAN OU CANE CORSO, QUAL O MELHOR? #shorts" src="https://www.youtube.com/embed/h-4aKF2ZoPQ" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (73, CAST(N'2023-10-28 16:49:10.5757245' AS DateTime2), 2, N'pagina 72', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="PEIXE VOADOR! #shorts" src="https://www.youtube.com/embed/x2V6x46ww2k" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (74, CAST(N'2023-10-28 16:49:10.5840306' AS DateTime2), 2, N'pagina 73', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="O PORCO DO CERRADO! #shorts" src="https://www.youtube.com/embed/k5aSVQDMwcw" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (75, CAST(N'2023-10-28 16:49:10.5915829' AS DateTime2), 2, N'pagina 74', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="VOC&Ecirc; CONHECE A ARAPONGA? #shorts" src="https://www.youtube.com/embed/6Cs3u8JsilM" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (76, CAST(N'2023-10-28 16:49:10.5993991' AS DateTime2), 2, N'pagina 75', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ESSE &Eacute; O CAVALO DOS CIGANOS! #shorts" src="https://www.youtube.com/embed/8da8cTfGwfw" width="390" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (77, CAST(N'2023-10-28 16:49:10.6098299' AS DateTime2), 2, N'pagina 76', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="GALAPAGOS, A ILHA DAS TARTARUGAS GIGANTES!" src="https://www.youtube.com/embed/U-hYSQUpEoY" width="320" height="560" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (78, CAST(N'2023-10-28 16:49:10.6196503' AS DateTime2), 2, N'pagina 77', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ESSE &Eacute; O PEIXE VAMPIRO! #shorts" src="https://www.youtube.com/embed/cKH889QYCec" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (79, CAST(N'2023-10-28 16:49:10.6275414' AS DateTime2), 2, N'pagina 78', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ESSE &Eacute; O PINGUIM DE MAGALH&Atilde;ES! #shorts" src="https://www.youtube.com/embed/vefNdtakmUQ" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (80, CAST(N'2023-10-28 16:49:10.6350435' AS DateTime2), 2, N'pagina 79', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="O MAIOR PEIXE DE &Aacute;GUA DOCE DO PLANETA! #shorts" src="https://www.youtube.com/embed/AgwP8pqqU5Q" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (81, CAST(N'2023-10-28 16:49:10.6436858' AS DateTime2), 2, N'pagina 80', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="VOC&Ecirc; CONHECE A JANDAIA MINEIRA? #shorts" src="https://www.youtube.com/embed/F-DCatGERFk" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (82, CAST(N'2023-10-28 16:49:10.6529073' AS DateTime2), 2, N'pagina 81', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="Esse &eacute; o maior escorpi&atilde;o que j&aacute; vi no Brasil! #shorts" src="https://www.youtube.com/embed/8I0kCYmq86Y" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (83, CAST(N'2023-10-28 16:49:10.6617048' AS DateTime2), 2, N'pagina 82', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="VOC&Ecirc; CONHECE O PACMAN? #shorts" src="https://www.youtube.com/embed/QP_tDLkkNho" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (84, CAST(N'2023-10-28 16:49:10.6695037' AS DateTime2), 2, N'pagina 83', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="A TRUTA ARCO-&Iacute;RIS! #shorts" src="https://www.youtube.com/embed/-zE0QRTOnMA" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (85, CAST(N'2023-10-28 16:49:10.6824155' AS DateTime2), 2, N'pagina 84', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ISSO PODE ACABAR COM A SUA TARTARUGA DE ESTIMA&Ccedil;&Atilde;O! #shorts" src="https://www.youtube.com/embed/O-NWYzySs_o" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (86, CAST(N'2023-10-28 16:49:10.6939401' AS DateTime2), 2, N'pagina 85', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="Voc&ecirc; conhece o Tatu Galinha? #shorts" src="https://www.youtube.com/embed/K6KiUU3hKkU" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (87, CAST(N'2023-10-28 16:49:10.7030551' AS DateTime2), 2, N'pagina 86', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="A COBRA DE VIDRO! #shorts" src="https://www.youtube.com/embed/DdLowoeRo6k" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (88, CAST(N'2023-10-28 16:49:10.7108881' AS DateTime2), 2, N'pagina 87', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="ESSE ANIMAL ESTAVA EXTINTO! #shorts" src="https://www.youtube.com/embed/kgLPSJjoHJ4" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (89, CAST(N'2023-10-28 16:49:10.7200851' AS DateTime2), 2, N'pagina 88', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="A CRIA&Ccedil;&Atilde;O DE CAMAR&Atilde;O GIGANTE! #shorts" src="https://www.youtube.com/embed/qFQUA2ZSviU" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (90, CAST(N'2023-10-28 16:49:10.7284275' AS DateTime2), 2, N'pagina 89', 0, NULL, NULL, N'<p style="text-align: center;"><iframe title="A RA&Ccedil;A DE CAVALOS MAIS RARA DO BRASIL! #shorts" src="https://www.youtube.com/embed/vhVrhi7Sek8" width="389" height="692" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (91, CAST(N'2023-10-28 16:49:10.7372792' AS DateTime2), 2, N'pagina 90', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://blog.7mboots.com.br/wp-content/webp-express/webp-images/uploads/2020/06/the-black-horse-of-the-frisian-breed-walks-in-the-P77UURU_Easy-Resize.com_.jpg.webp" alt="" width="320" height="218" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (92, CAST(N'2023-10-28 16:49:10.7477652' AS DateTime2), 2, N'pagina 91', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.lancerural.com.br/wp-content/uploads/2017/03/Puro-sangue-%C3%A1rabe.jpg" alt="" width="320" height="240" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (93, CAST(N'2023-10-28 16:49:10.7571827' AS DateTime2), 2, N'pagina 92', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://cavalus.com.br/wp-content/uploads/2020/11/O-cavalo-andaluz-e-uma-das-racas-mais-antigas-do-mundo-pinterest.jpg" alt="" width="320" height="180" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (94, CAST(N'2023-10-28 16:49:10.7661586' AS DateTime2), 2, N'pagina 93', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://static.todamateria.com.br/upload/ca/va/cavaloraca-cke.jpg?auto_optimize=low" alt="" width="320" height="252" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (95, CAST(N'2023-10-28 16:49:10.7748782' AS DateTime2), 2, N'pagina 94', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://blogs.canalrural.com.br/coisasdocampo/wp-content/uploads/sites/11/2016/08/13559049_1165091073532073_444411928186702723_o.jpg" alt="" width="320" height="235" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (96, CAST(N'2023-10-28 16:49:10.8500091' AS DateTime2), 2, N'pagina 95', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://s2.glbimg.com/H46NBKxhNFL6r8fuzit9trFoHAw=/smart/e.glbimg.com/og/ed/f/original/2020/06/30/whatsapp_image_2020-06-30_at_12.04.08.jpeg" alt="" width="320" height="320" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (97, CAST(N'2023-10-28 16:49:10.8582498' AS DateTime2), 2, N'pagina 96', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://animalbusiness.com.br/wp-content/uploads/2020/11/cavalo.jpg" alt="" width="320" height="234" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (98, CAST(N'2023-10-28 16:49:10.8666489' AS DateTime2), 2, N'pagina 97', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://www.petz.com.br/blog/wp-content/uploads/2022/10/como-os-peixes-se-locomovem-final.jpg" alt="" width="320" height="215" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (99, CAST(N'2023-10-28 16:49:10.8755078' AS DateTime2), 2, N'pagina 98', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://p2.trrsf.com/image/fget/cf/774/0/images.terra.com/2014/12/04/peixes1.jpg" alt="" width="320" height="213" /></p>')
+GO
+INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemContent], [Content], [ContentUser]) VALUES (100, CAST(N'2023-10-28 16:49:10.8857098' AS DateTime2), 2, N'pagina 99', 0, NULL, NULL, N'<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://oregional.net/wp-content/uploads/2022/11/Peixe-Palhaco.jpg" alt="" width="320" height="320" /></p>')
+GO
+SET IDENTITY_INSERT [dbo].[Pagina] OFF
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (15, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (26, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (27, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (28, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (63, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (64, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (65, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 1, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 2, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 4, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (15, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (26, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (27, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (28, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (63, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (64, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (65, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 5, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 12, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 13, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 26, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 27, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 27, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 27, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 27, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 27, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 27, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 27, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 28, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 28, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 28, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 28, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 28, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (63, 29, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (64, 29, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (65, 29, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (15, 30, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 30, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 30, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (26, 30, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (27, 30, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (28, 30, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 51, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 53, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 78, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 10010, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 10010, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 10010, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 10011, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 10011, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 10011, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 10011, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 10011, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 10012, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 10012, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 10012, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 10012, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 10012, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 10013, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 10016, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 10016, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 10016, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 10016, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 10016, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 10016, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 10016, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 10021, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 10021, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 10021, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 10021, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 10024, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 10025, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 10025, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 10041, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 10041, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 10041, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 10041, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 10041, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 10042, 0, 1)
+GO
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 10055, 0, 1)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (53, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (57, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (65, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (66, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (69, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (71, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (74, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (76, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (79, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (81, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (82, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (86, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (87, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (92, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (93, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (95, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (96, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (98, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231023175733_Inicio', N'6.0.23')
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231025190229_QuantidadePorType', N'6.0.23')
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231026194118_livros', N'6.0.23')
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231027132619_instante', N'6.0.23')
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231028174441_pageLiked', N'6.0.23')
+GO
+SET IDENTITY_INSERT [dbo].[Compartilhante] ON 
+
+GO
+INSERT [dbo].[Compartilhante] ([Id], [Data], [Livro], [Admin], [Comissao], [CupomDesconto]) VALUES (1, CAST(N'2023-10-29 15:43:06.2845357' AS DateTime2), N'dominio', N'comp', 5, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Compartilhante] OFF
+GO
+SET IDENTITY_INSERT [dbo].[PageLiked] ON 
+
+GO
+INSERT [dbo].[PageLiked] ([Id], [user], [capitulo], [indice], [verso], [substory], [grupo], [subgrupo], [subsubgrupo], [camadaSeis], [camadaSete], [camadaOito], [camadaNove], [camadaDez]) VALUES (1, N'leandro01832', 1, 1, 2, 1, 1, 1, 5, NULL, NULL, NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[PageLiked] OFF
+GO

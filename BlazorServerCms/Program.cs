@@ -22,7 +22,7 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)

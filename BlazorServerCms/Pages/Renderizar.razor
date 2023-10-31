@@ -48,7 +48,7 @@ else
                         <PageTitle>@nameStory</PageTitle>
                         <header>Story: @nameStory</header>
                         <span class="capitulos">
-                                <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{capitulo}/0/{timeproduto}/{lista}/0/{preferencia}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
+                                <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{capitulo}/0/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
                                 Capítulo @capitulo
                             </a>
                             </span>
@@ -69,7 +69,7 @@ else
                           Capítulo @capitulo                            
                         </span>
                         <span class="versos">
-                                <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{capitulo}/{indice}/1/{timeproduto}/{lista}/0/{preferencia}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
+                                <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{capitulo}/{vers}/1/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
                                 Versiculo @vers
                             </a>
                         </span>
@@ -78,52 +78,58 @@ else
                 }
                 else
                 {
-                    <PageTitle>Capítulos</PageTitle>
-                }
-            }            
-        </div>        
-
-        <div id="pesquisas" >
-           
-            @{
-                if (substory == null)
-                {
-                    if (capitulo == 0)
-                    {
-                        <span class="ms-3">Cap.</span>
+                        <PageTitle>Capítulos</PageTitle>
                     }
-                    else
-                    {
-                        if(outroHorizonte == 0)
+                }            
+            </div>        
+
+            <div id="pesquisas" >
+
+                @{
+                   
+                        if (capitulo == 0)
                         {
-                            <span class="ms-3">Vers.</span>
+                            <span class="ms-3">Cap.</span>
                         }
                         else
                         {
-                                <span class="ms-3">Pasta</span>
+                            if (outroHorizonte == 0)
+                            {
+                                <span class="ms-3">Vers.</span>
+                            }
+                            else
+                            {
+                            <span class="ms-3">Pasta</span>
                             }
                         }
-                        if (substory == null)
-                        {
-                            <input type="number" placeholder="digita o nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                            id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
-                            <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
-                               class="btn btn-primary ms-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                </svg>
-                            </a>
-                        }
 
-                    }
-                    else if (substory != null)
+                    if(substory == null)
                     {
-                        <input type="number" placeholder="O nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                               id="NumeroPaginaAcesso2" />
+                        <input type="number" placeholder="digita o nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
+                                id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                                <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
+                                   class="btn btn-primary ms-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                        </a>
                     }
-                else
-                 if (substory != null && list.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().First().Content != null &&
-                list.Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().First().ContentUser == null)
+                    else
+                    {
+                        <input type="number" placeholder="digita o nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
+                               id="NumeroPaginaAcesso2" min="1" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                        <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
+                           class="btn btn-primary ms-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </a>
+                    }
+
+
+                    
+                
+                 if (substory != null && list!= null && list.First().Content != null && list.First().ContentUser == null)
                 {
                     <a href="#" class="btn btn-dark" onclick="@listarPasta">
                         Listar pasta @indice_Filtro
@@ -174,9 +180,50 @@ else
                     <a href="#" class="btn btn-dark" onclick="@(() => marcarPreferencia((int)vers!))">
                     Marcar
                 </a>
-            }           
-            
-        </div>
+            }
+
+            <div>
+
+                @if (!liked)
+                {
+                    if (indice_Filtro == ultimaPasta && user.Identity!.IsAuthenticated)
+                    {
+                        <a href="#" onclick="@DarUmLike">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                        </svg>
+                        </a>                         
+                    }
+                    else
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                        </svg>
+                        
+                    }
+                        
+                }
+                else @if (indice_Filtro == ultimaPasta && user.Identity!.IsAuthenticated && liked)
+                {
+                    if (indice_Filtro == ultimaPasta && user.Identity!.IsAuthenticated && substory != null)
+                    {
+                        <a href="#" onclick="@Unlike">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                            </svg>
+                        </a>
+                    }
+                    else
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                        </svg>
+                        
+                    }
+                }
+                @quantLiked
+            </div>
+            </div>
 
     
 
@@ -306,7 +353,7 @@ else
 
             </center>
         }
-        else if (html!.Contains("iframe"))
+        else if (html!.Contains("iframe") && list != null && list.First().Content != null)
         {
 
             <div id="descricao"></div>

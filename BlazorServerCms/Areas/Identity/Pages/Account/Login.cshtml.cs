@@ -22,11 +22,13 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
 
         private readonly ILogger<LoginModel> _logger;
+        public UserManager<IdentityUser> UserManager { get; }
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            UserManager = userManager;
         }
 
         /// <summary>
@@ -114,7 +116,12 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                
+
+                var user = await UserManager.FindByEmailAsync(Input.Email);
+                if (user != null)
+                    Input.Email = user.UserName;
+
+
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {

@@ -107,21 +107,24 @@
     protected async override Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        exampleModel = await Context.Pagina!.Include(l => l.Story).FirstAsync(l => l.Id == Id);
+        exampleModel = await Context.Pagina!
+        .Include(f => f.Filtro)
+        .ThenInclude(f => f.Filtro)
+        .Include(l => l.Story).FirstAsync(l => l.Id == Id);
         lista = await Context.Story!
            .Where(str => str.Nome != "Padrao").ToListAsync();
         exampleModel.StoryId = lista.First().Id;
         Filtro = await Context.Filtro!.ToListAsync();
 
-        if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaDez  ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaDez  )!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaNove ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaNove )!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaOito ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaOito )!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaSete ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaSete )!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaSeis ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaSeis )!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubSubGrupo) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubSubGrupo)!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubGrupo   ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubGrupo   )!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is Grupo      ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  Grupo      )!.Id;
-        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubStory   ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubStory   )!.Id;
+        if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaDez  ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaDez  )!     .FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaNove ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaNove )!.FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaOito ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaOito )!.FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaSete ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaSete )!.FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is CamadaSeis ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  CamadaSeis )!.FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubSubGrupo) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubSubGrupo)!.FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubGrupo   ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubGrupo   )!.FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is Grupo      ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  Grupo      )!.FiltroId;
+        else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubStory   ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubStory   )!.FiltroId;
     }
 
     private async void HandleSubmit()

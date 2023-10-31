@@ -25,6 +25,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<PageLiked> PageLiked { get; set; }
         public DbSet<InstanteUser> InstanteUser { get; set; }
         public DbSet<InstanteAdmin> InstanteAdmin { get; set; }
         public DbSet<FiltroPagina> FiltroPagina { get; set; }
@@ -44,10 +45,8 @@ namespace BlazorServerCms.Data
         public DbSet<Grupo>? Grupo { get; set; }
         public DbSet<SubStory>? SubStory { get; set; }
         public DbSet<Story>? Story { get; set; }
-
         public DbSet<Telefone>? Telefone { get; set; }
         public DbSet<Livro>? Livro { get; set; }
-        public DbSet<VideoIncorporado>? VideoIncorporado { get; set; }
         public DbSet<Comentario>? Comentario { get; set; }
         public DbSet<CamadaSeis>? CamadaSeis { get; set; }
         public DbSet<CamadaSete>? CamadaSete { get; set; }
