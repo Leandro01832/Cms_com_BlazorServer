@@ -70,8 +70,18 @@ using (var scope = app.Services.CreateScope())
     var password = builder.Configuration.GetConnectionString("Senha");
     var userASP = await userManager.FindByNameAsync(email);
 
-   // await contexto.Database.MigrateAsync();
-    if (userASP == null)
+
+
+    // await contexto.Database.MigrateAsync();
+
+    if (repositoryPagina.paginasCurtidas!.Count == 0)
+    {
+        var pages = await contexto.PageLiked.ToListAsync();
+        repositoryPagina.paginasCurtidas!.AddRange(pages);
+    }
+
+
+        if (userASP == null)
     {
         string[] rolesNames = { "Admin" };
     IdentityResult result;

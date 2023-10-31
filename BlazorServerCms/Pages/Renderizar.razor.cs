@@ -1,4 +1,5 @@
 ﻿using BlazorServerCms.Data;
+using BlazorServerCms.Migrations;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -226,10 +227,7 @@ namespace BlazorCms.Client.Pages
                 {
                     indice = quantidadeLista;
                 }
-
                 Model = list.Skip((int)indice - 1).FirstOrDefault();
-                
-           
 
             if (filtrar == null && substory == null)
             {
@@ -612,17 +610,7 @@ namespace BlazorCms.Client.Pages
                     Model = list.First(p => p.Id == pag2.Id);
                     vers = list.IndexOf(Model) + 1;
 
-                    var quant = await Context.PageLiked
-                        .Where(p => p.capitulo == capitulo
-                        && p.verso == vers).ToListAsync();
                     
-                        var page =  quant.FirstOrDefault(p => p.capitulo == capitulo
-                            && p.verso == vers
-                            && p.user == user.Identity!.Name);
-
-                        if (page != null)
-                            liked = true;
-                    quantLiked = quant.Count;
 
                     quantidadeLista = listaFiltradaComConteudo!.Count;
                     html = await repositoryPagina!.renderizarPagina(Model);
@@ -676,8 +664,21 @@ namespace BlazorCms.Client.Pages
                 {
                     Console.WriteLine(ex.Message);
                 }
-           
 
+            PageLiked p = null;
+            if(substory != null)
+             p = repositoryPagina.paginasCurtidas!.FirstOrDefault(p => p.capitulo == capitulo
+                && p.verso == vers
+                && p.user == user.Identity!.Name)!;
+            else
+                p = repositoryPagina.paginasCurtidas!.FirstOrDefault(p => p.capitulo == capitulo
+                    && p.verso == indice
+                    && p.user == user.Identity!.Name)!;
+
+            if (p != null)
+                liked = true;
+
+            quantLiked = CountComentarios(ApplicationDbContext._connectionString);
 
         }
           
@@ -1607,6 +1608,28 @@ namespace BlazorCms.Client.Pages
             };
              await Context.AddAsync(pageLiked);
             await Context.SaveChangesAsync();
+            repositoryPagina.paginasCurtidas.Add(pageLiked);
+
+            var url = "";
+            if (camadadez != null)
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadanove != null)
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadaoito != null)
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadasete != null)
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadaseis != null)
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (subsubgrupo != null)
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (subgrupo != null)
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (grupo != null)
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (substory != null)
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            navigation!.NavigateTo(url);
         }
         
         protected async Task Unlike()
@@ -1619,7 +1642,54 @@ namespace BlazorCms.Client.Pages
             {
                 Context.Remove(page);
                 await Context.SaveChangesAsync();
+                repositoryPagina.paginasCurtidas.Remove(page);
             }
+            var url = "";
+            if (camadadez != null)
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadanove != null)
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadaoito != null)
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadasete != null)
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadaseis != null)
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (subsubgrupo != null)
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (subgrupo != null)
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (grupo != null)
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (substory != null)
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            navigation!.NavigateTo(url);
+        }
+
+        private int CountComentarios( string conexao)
+        {
+
+            var _TotalRegistros = 0;
+            try
+            {
+                using (var con = new SqlConnection(conexao))
+                {
+                    SqlCommand cmd = null;
+                    if(substory == null)
+                     cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={capitulo} and P.verso={indice}", con);
+                    else
+                     cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={capitulo} and P.verso={vers}", con);
+                    
+                    con.Open();
+                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
+                    con.Close();
+                }
+            }
+            catch (Exception)
+            {
+                _TotalRegistros = 0;
+            }
+            return _TotalRegistros;
         }
     }
 }
