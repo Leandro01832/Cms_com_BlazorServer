@@ -40,6 +40,7 @@ else
         <div>
             
             @{
+                var preferences = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == compartilhante2 && u.capitulo == capitulo && u.pasta == indice_Filtro);
 
                 if (capitulo != 0)
                 {
@@ -76,8 +77,8 @@ else
                     }
                     
                 }
-                else
-                {
+                    else
+                    {
                         <PageTitle>Capítulos</PageTitle>
                     }
                 }            
@@ -183,7 +184,7 @@ else
             }
                 
 
-            @if (substory != null)
+                @if (substory != null && user.Identity!.IsAuthenticated)
             {
                     <a href="#" class="btn btn-dark" onclick="@(() => marcarPreferencia((int)vers!))">
                     Marcar
@@ -252,48 +253,48 @@ else
             </svg>
         </a>
      </div>
-    
-     
+
+        
        
 
                     
-                    @if(vers == p1 && substory != null )
+                    @if(vers == preferences.p1 && substory != null )
                     {
                         <p id="pref">Minha 1º Preferência</p>
                     }
-                    else if (vers == p2 && substory != null)
+                    else if (vers == preferences.p2 && substory != null)
                     {
                     <p id="pref">Minha 2º Preferência</p>
                     }
-                    else if (vers == p3 && substory != null)
+                    else if (vers == preferences.p3 && substory != null)
                     {
                     <p id="pref">Minha 3º Preferência</p>
                     }
-                    else if(vers == p4 && substory != null)
+                    else if(vers == preferences.p4 && substory != null)
                     {
                     <p id="pref">Minha 4º Preferência</p>
                     }
-                    else if (vers == p5 && substory != null)
+                    else if (vers == preferences.p5 && substory != null)
                     {
                         <p id="pref">Minha 5º Preferência</p>
                     }
-                    else if (vers == p6 && substory != null)
+                    else if (vers == preferences.p6 && substory != null)
                     {
                         <p id="pref">Minha 6º Preferência</p>
                     }
-                    else if (vers == p7 && substory != null)
+                    else if (vers == preferences.p7 && substory != null)
                     {
                         <p id="pref">Minha 7º Preferência</p>
                     }
-                    else if (vers == p8 && substory != null)
+                    else if (vers == preferences.p8 && substory != null)
                     {
                         <p id="pref">Minha 8º Preferência</p>
                     }
-                    else if (vers == p9 && substory != null)
+                    else if (vers == preferences.p9 && substory != null)
                     {
                         <p id="pref">Minha 9º Preferência</p>
                     }
-                     else if (vers == p10 && substory != null)
+                    else if (vers == preferences.p10 && substory != null)
                     {
                         <p id="pref">Minha 10º Preferência</p>
                     } 
@@ -444,7 +445,62 @@ else
         </center>       
     }
 
-     
+        @{
+            if (substory != null && user.Identity!.IsAuthenticated && compartilhante2 != null)
+            {
+               
+                var numeros = "";
+
+                if(preferences != null)
+                {
+                    @if (preferences.p1 != 0)
+                    {
+                        numeros += $"{preferences.p1}";
+                    }
+                    else if (preferences.p2 != 0)
+                    {
+                        numeros += $", {preferences.p2}";
+                    }
+                    else if (preferences.p3 != 0)
+                    {
+                        numeros += $", {preferences.p3}";
+                    }
+                    else if (preferences.p4 != 0)
+                    {
+                        numeros += $", {preferences.p4}";
+                    }
+                    else if(preferences.p5 != 0)
+                    {
+                        numeros += $", {preferences.p5}";
+                    }
+                    else if (preferences.p6 != 0)
+                    {
+                        numeros += $", {preferences.p6}";
+                    }
+                    else if (preferences.p7 != 0)
+                    {
+                        numeros += $", {preferences.p7}";
+                    }
+                    else if (preferences.p8 != 0)
+                    {
+                        numeros += $", {preferences.p8}";
+                    }
+                    else if (preferences.p9 != 0)
+                    {
+                        numeros += $", {preferences.p9}";
+                    }
+                    else if (preferences.p10 != 0)
+                    {
+                        numeros += $", {preferences.p10}";
+                    }
+                }
+                if(numeros != "")
+                {
+                    <p> Prefêrencias do compartilhante: @numeros</p>
+                }
+
+            }
+     }
 
     <div id="PaginacaoConteudo" class="Paginacao">
 

@@ -105,10 +105,11 @@ for(var i = 1; i <= caps.Length; i++)
                 string url = "";
                 for (var i = 0; i < livros.Count; i++)
                 {
-                    if(livros[i].IsBook)
-                    url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0";
+                    var preferences = await Context.UserPreferences.FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin() && u.capitulo == livros[i].Capitulo && u.pasta == livros[i].Pasta);
+                    if(preferences != null)
+                        url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
                     else
-                    url = $"{livros[i].UrlNoBook}";
+                    url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0";
                     await js!.InvokeAsync<object>("AcessarSites", url);     
 
                 }

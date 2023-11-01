@@ -11,7 +11,7 @@ namespace business.business.Book
         public long InstanteUserId { get; set; }
         public virtual InstanteUser InstanteUser { get; set; }
         public string? user { get; set; }
-        public int Pasta { get; set; }
+        
 
     }
 }

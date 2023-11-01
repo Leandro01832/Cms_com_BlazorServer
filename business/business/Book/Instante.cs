@@ -8,6 +8,6 @@ namespace business.business.Book
 {
     public class Instante : BaseModel
     {
-        public string Descricao { get; set; }
+        public string? Descricao { get; set; }
     }
 }

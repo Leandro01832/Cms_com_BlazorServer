@@ -678,7 +678,7 @@ namespace BlazorCms.Client.Pages
             if (p != null)
                 liked = true;
 
-            quantLiked = CountComentarios(ApplicationDbContext._connectionString);
+            quantLiked = CountLikes(ApplicationDbContext._connectionString);
 
         }
           
@@ -1225,9 +1225,11 @@ namespace BlazorCms.Client.Pages
        
         protected async void marcarPreferencia(int Versiculo)
         {
+            var p = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
+            UserPreferences preferences = null;
             if (p1 == 0)
             {
-                p1 = Versiculo;
+                p1 = Versiculo;                
                 await js!.InvokeAsync<object>("DarAlert", $"versiculo {p1} foi marcado como 1º preferência");
             }       
                            
@@ -1279,8 +1281,43 @@ namespace BlazorCms.Client.Pages
             else            
             await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 preferências");
 
+                preferences = new UserPreferences
+                {
+                    user = user.Identity!.Name!,
+                    capitulo = capitulo,
+                    pasta = (int)indice_Filtro!,
+                    p1 = (int)p1!,
+                    p2 = (int)p2!,
+                    p3 = (int)p3!,
+                    p4 = (int)p4!,
+                    p5 = (int)p5!,
+                    p6 = (int)p6!,
+                    p7 = (int)p7!,
+                    p8 = (int)p8!,
+                    p9 = (int)p9!,
+                    p10 = (int)p10!
+                };           
+
             if (p10 == 0)
             {
+                if (p != null)
+                {
+                    Context.Add(preferences);
+                    Context.SaveChanges();
+                    repositoryPagina.preferencias.Add(preferences);
+                }
+                else
+                {
+                    p = preferences;
+                    Context.Update(p);
+                    Context.SaveChanges();
+
+                    var preferencia = repositoryPagina.preferencias.FirstOrDefault(pre => pre.Id == p.Id);
+                    repositoryPagina.preferencias.Remove(preferencia);
+                    repositoryPagina.preferencias.Add(p);
+                }
+
+
                 if (camadadez != null)
             navigation!
                     .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
@@ -1666,7 +1703,7 @@ namespace BlazorCms.Client.Pages
             navigation!.NavigateTo(url);
         }
 
-        private int CountComentarios( string conexao)
+        private int CountLikes( string conexao)
         {
 
             var _TotalRegistros = 0;

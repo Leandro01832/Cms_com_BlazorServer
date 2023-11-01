@@ -22,6 +22,7 @@ namespace BlazorServerCms.servicos
         public List<Pagina>? paginas = new List<Pagina>();
         public List<Filtro>? filtros = new List<Filtro>();
         public List<PageLiked>? paginasCurtidas = new List<PageLiked>();
+        public List<UserPreferences>? preferencias = new List<UserPreferences>();
         public bool aguarde { get; set; } = false;
         public int diaCupom = 0;
         public string cupomDesconto = "";

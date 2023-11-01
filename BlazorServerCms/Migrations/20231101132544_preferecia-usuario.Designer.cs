@@ -4,6 +4,7 @@ using BlazorServerCms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231101132544_preferecia-usuario")]
+    partial class prefereciausuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,59 +305,6 @@ namespace BlazorServerCms.Migrations
                     b.HasIndex("FiltroId");
 
                     b.ToTable("savedFolder");
-                });
-
-            modelBuilder.Entity("business.business.UserPreferences", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<int>("capitulo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p10")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p2")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p3")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p4")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p5")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p6")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p7")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p8")
-                        .HasColumnType("int");
-
-                    b.Property<int>("p9")
-                        .HasColumnType("int");
-
-                    b.Property<int>("pasta")
-                        .HasColumnType("int");
-
-                    b.Property<string>("user")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserPreferences");
                 });
 
             modelBuilder.Entity("business.Comentario", b =>

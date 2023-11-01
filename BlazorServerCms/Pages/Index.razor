@@ -310,8 +310,7 @@ else
         }
         else if (instante != null)
         {
-            List<InstanteUser>? instantes = await Context.InstanteUser.Include(i => i.Livros)
-            .Where(i => i.Livros.FirstOrDefault(l => l.user == repositoryPagina.buscarAdmin()) != null)
+            List<InstanteAdmin>? instantes = await Context.InstanteAdmin.Include(i => i.livros)
             .OrderBy(l => l.Id).ToListAsync();
 
             var objInstante = instantes.Skip((int)instante - 1).FirstOrDefault();
@@ -319,12 +318,18 @@ else
 
             if (objInstante != null)
             {
-                List<LivroUser> livros = objInstante.Livros.OrderBy(l => l.Id).ToList();
+                List<LivroAdmin> livros = objInstante.livros.OrderBy(l => l.Id).ToList();
                 string url = "";
                 for (var i = 0; i < livros.Count; i++)
                 {
                     if (livros[i].IsBook)
-                    url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/0/0/0/0/0/0/0/0/0/0";
+                    {
+                        var preferences = await Context.UserPreferences.FirstOrDefaultAsync(u => u.user == repositoryPagina.buscarAdmin() && u.capitulo == livros[i].Capitulo && u.pasta == livros[i].Pasta);
+                        if(preferences != null)
+                            url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
+                        else
+                        url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/0/0/0/0/0/0/0/0/0/0";
+                    }
                    else
                     url = $"{livros[i].UrlNoBook}";
                     await js!.InvokeAsync<object>("AcessarSites", url);
