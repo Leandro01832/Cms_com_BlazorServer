@@ -21,7 +21,7 @@
             var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
             <p>
             pasta @pastas[i] - @namePastas[i]
-                <a href="/renderizar/@capitulo/@pastas[i]/0/11/1/1/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                <a href="/renderizar/@capitulo/@pastas[i]/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
                 <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                     @if (condicao != null)
                     {
@@ -57,14 +57,22 @@
     private ApplicationDbContext Context;
 
     List<savedFolder> saved = new List<savedFolder>();
+    List<Filtro> filtros = new List<Filtro>();
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        var lst = Context.Pagina!.Include(p => p.Story)
+        var lst = Context.Pagina!.Include(p => p.Story).Include(p => p.Filtro)
         .Where(p => p.Story!.PaginaPadraoLink == capitulo).OrderBy(p => p.Id).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
         saved = await Context.savedFolder.ToListAsync();
+
+        filtros = Context.Pagina!
+        .Include(p => p.Filtro)!
+        .ThenInclude(p => p.Filtro)
+        .Include(p => p.Story)
+        .ThenInclude(p => p.Filtro)
+                        .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
     }
 
     protected void getPastas()
@@ -72,76 +80,74 @@
         for (var i = 0; i < pastas.Length; i++)
             pastas[i] = 0;
 
-        var filtros = Context.Pagina!
-        .Include(p => p.Filtro)!
-        .ThenInclude(p => p.Filtro)
-        .Include(p => p.Story)
-        .ThenInclude(p => p.Filtro)
-                        .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
 
-        foreach(var item in Model.Filtro!)
-        if (item.Filtro is SubStory)
+        if (Model.Filtro != null)
         {
-            var fil = filtros.First(f => f.Id == item.Filtro.Id);
-            namePastas[0] = fil.Nome!;
-            pastas[0] = filtros.IndexOf(fil) + 1;
+            foreach (var item in Model.Filtro)
+                if (item.Filtro is SubStory)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[0] = fil.Nome!;
+                    pastas[0] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                   if (item.Filtro is Grupo)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[1] = fil.Nome!;
+                    pastas[1] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                    if (item.Filtro is SubGrupo)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[2] = fil.Nome!;
+                    pastas[2] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                    if (item.Filtro is SubSubGrupo)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[3] = fil.Nome!;
+                    pastas[3] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                    if (item.Filtro is SubStory)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[4] = fil.Nome!;
+                    pastas[4] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                    if (item.Filtro is SubStory)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[5] = fil.Nome!;
+                    pastas[5] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                    if (item.Filtro is SubStory)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[6] = fil.Nome!;
+                    pastas[6] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                    if (item.Filtro is SubStory)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[7] = fil.Nome!;
+                    pastas[7] = filtros.IndexOf(fil) + 1;
+                }
+                else
+                    if (item.Filtro is SubStory)
+                {
+                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    namePastas[8] = fil.Nome!;
+                    pastas[8] = filtros.IndexOf(fil) + 1;
+                }
         }
-        else
-           if (item.Filtro is Grupo)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[1] = fil.Nome!;
-                pastas[1] = filtros.IndexOf(fil) + 1;
-            }
-        else
-            if (item.Filtro is SubGrupo)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[2] = fil.Nome!;
-                pastas[2] = filtros.IndexOf(fil) + 1;
-            }
-            else
-            if (item.Filtro is SubSubGrupo)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[3] = fil.Nome!;
-                pastas[3] = filtros.IndexOf(fil) + 1;
-            }
-            else
-            if (item.Filtro is SubStory)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[4] = fil.Nome!;
-                pastas[4] = filtros.IndexOf(fil) + 1;
-            }
-            else
-            if (item.Filtro is SubStory)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[5] = fil.Nome!;
-                pastas[5] = filtros.IndexOf(fil) + 1;
-            }
-            else
-            if (item.Filtro is SubStory)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[6] = fil.Nome!;
-                pastas[6] = filtros.IndexOf(fil) + 1;
-            }
-            else
-            if (item.Filtro is SubStory)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[7] = fil.Nome!;
-                pastas[7] = filtros.IndexOf(fil) + 1;
-            }
-            else
-            if (item.Filtro is SubStory)
-            {
-                var fil = filtros.First(f => f.Id == item.Filtro.Id);
-                namePastas[8] = fil.Nome!;
-                pastas[8] = filtros.IndexOf(fil) + 1;
-            }
+       
     }
 
     private async Task GetClaimsPrincipalData(Filtro fil)

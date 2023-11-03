@@ -32,22 +32,24 @@
 }
 else
 {
-
     <div id="renderizar">
+
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     
-        <div>
+            <div id="pesquisas">
             
             @{
-                var preferences = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == compartilhante2 && u.capitulo == capitulo && u.pasta == indice_Filtro);
+                
 
                 if (capitulo != 0)
                 {
                     if(substory == null)
                     {
                         <PageTitle>@nameStory</PageTitle>
+                            <div class="capHeader"> 
                         <header>Story: @nameStory</header>
+                            </div>
                         <span class="capitulos">
                                 <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{capitulo}/0/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
                                 Capítulo @capitulo
@@ -65,15 +67,20 @@ else
                                 <PageTitle> Livro @indiceLivro - @nameGroup</PageTitle>
                                 
                             }
-                            <header>@nameGroup</header>
-                        <span class="capitulos">
-                          Capítulo @capitulo                            
-                        </span>
-                        <span class="versos">
-                                <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{capitulo}/{vers}/1/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
-                                Versiculo @vers
-                            </a>
-                        </span>
+                            <div class="capHeader">
+                            <p class="capitulos"> <header>@nameGroup</header></p>
+                            </div>
+                           
+                            <div class="capSubstory">
+                                <span class="capitulos">
+                                  Capítulo @capitulo                            
+                                </span>
+                                <span class="versos">
+                                        <a href="#" onclick="@(() => navigation!.NavigateTo($"/Renderizar/{capitulo}/{vers}/1/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
+                                        Versiculo @vers
+                                    </a>
+                                </span>
+                            </div>
                     }
                     
                 }
@@ -81,65 +88,67 @@ else
                     {
                         <PageTitle>Capítulos</PageTitle>
                     }
-                }            
-            </div>        
 
-            <div id="pesquisas" >
+                    <div>
 
-                @{
-                   
-                        if (capitulo == 0)
+                        @if (capitulo == 0)
                         {
-                            <span class="ms-3">Cap.</span>
+                        <span class="ms-3">Cap.</span>
                         }
                         else
                         {
-                            if (outroHorizonte == 0)
+                            if (outroHorizonte == 0 && substory == null)
                             {
-                                <span class="ms-3">Vers.</span>
+                            <span class="ms-3">Vers.</span>
                             }
-                            else
+                            else if (outroHorizonte == 1)
                             {
                             <span class="ms-3">Pasta</span>
                             }
                         }
 
-                    if(substory == null)
-                    {
+                        @if (substory == null)
+                        {
                         <input type="number" placeholder="digita o nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                                id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
-                                <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
-                                   class="btn btn-primary ms-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                    </svg>
-                        </a>
-                    }
-                    else
-                    {
-                        <input type="number" placeholder="verso" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                               id="NumeroPaginaAcesso2" min="1" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                               id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                               <center>
                         <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
                            class="btn btn-primary ms-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                             </svg>
                         </a>
-                    }
-
+                               </center>
+                        }
+                        else
+                        {
+                        <input type="number" placeholder="verso" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
+                               id="NumeroPaginaAcesso2" min="1" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                               <center>
+                        <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
+                           class="btn btn-primary ms-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </a>
+                               </center>
+                        }
+                    
+                    </div>
 
                     
-                
-                 if (substory != null && list!= null && list.First().Content != null && list.First().ContentUser == null)
-                {
-                    <a href="#" class="btn btn-dark" onclick="@listarPasta">
-                        Listar pasta @indice_Filtro
-                    </a>
-                }
-            }
 
-            
-        </div>
+                    if (substory != null && list != null && list.First().Content != null && list.First().ContentUser == null)
+                    {
+                        <a href="#" class="btn btn-dark" onclick="@listarPasta">
+                            Listar pasta @indice_Filtro
+                        </a>
+                    }
+                }   
+                
+
+            </div>    
+
 
         <div class="navegacao">
 
@@ -148,7 +157,6 @@ else
                     <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
                 </svg>
             </a>
-            <br />
 
             @if (nameStory != "Padrao" && outroHorizonte == 0)
             {
@@ -163,20 +171,34 @@ else
 
                 @if (outroHorizonte == 0 && nameStory != "Padrao" && ultimaPasta != 0)
             {
-                <div>
-                    <a href="/pastas/@capitulo/@indice/@dominio/@compartilhante/@compartilhante2" class="btn btn-dark" onclick="@(() => desligarAuto())" >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
-                        <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
-                    </svg>
-                </a> 
-
-                        @if (indice_Filtro == ultimaPasta)
+                    <div>
+                        @if (Model!.Filtro != null && Model.Filtro.FirstOrDefault(f => f.QuantidadePorType > 1) != null)
                         {
-                            <span>Pasta @ultimaPasta</span>
+                            <a href="/pastas/@capitulo/@vers/@dominio/@compartilhante/@compartilhante2" class="btn btn-dark" onclick="@(() => desligarAuto())">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                                    <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
+                                </svg>
+                            </a>
                         }
                         else
                         {
-                            <a href="/renderizar/@capitulo/@ultimaPasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2"> Pasta @ultimaPasta </a>
+                            <a href="/pastas/@capitulo/@vers/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary" onclick="@(() => desligarAuto())">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                                    <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
+                                </svg>
+                            </a>
+                        }
+                       
+
+                        @if (indice_Filtro == ultimaPasta)
+                        {
+                            <span> @ultimaPasta</span>
+                        }
+                        else
+                        {
+                            <a href="/renderizar/@capitulo/@ultimaPasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2"> 
+                                @ultimaPasta
+                            </a>
                         }
 
 
@@ -186,115 +208,111 @@ else
 
                 @if (substory != null && user.Identity!.IsAuthenticated)
             {
+                <div>
+
                     <a href="#" class="btn btn-dark" onclick="@(() => marcarPreferencia((int)vers!))">
                     Marcar
                 </a>
+                <a href="#" class="btn btn-dark" onclick="@(() => desmarcar())">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                        </svg>
+                </a>
+                </div>
             }
 
-            <div>
+                    @if (capitulo != 0 && outroHorizonte == 0)
+                    {
+                    <div>
 
-                @if (!liked)
-                {
-                    if (indice_Filtro == ultimaPasta && user.Identity!.IsAuthenticated)
-                    {
-                        <a href="#" onclick="@DarUmLike">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                        </svg>
-                        </a>                         
+
+                        @if (!liked)
+                        {
+                            if (indice_Filtro == ultimaPasta && user.Identity!.IsAuthenticated)
+                            {
+                                <a href="#" onclick="@DarUmLike">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                    </svg>
+                                </a>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                </svg>
+
+                            }
+
+                        }
+                        else
+                        {
+                            if (indice_Filtro == ultimaPasta && user.Identity!.IsAuthenticated)
+                            {
+                                <a href="#" onclick="@Unlike">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                    </svg>
+                                </a>
+                            }
+                            else
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                </svg>
+
+                            }
+                        }
+                        @quantLiked
+                    </div>
                     }
-                    else
-                    {
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                        </svg>
-                        
-                    }
-                        
-                }
-                else 
-                {
-                    if (indice_Filtro == ultimaPasta && user.Identity!.IsAuthenticated )
-                    {
-                        <a href="#" onclick="@Unlike">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                            </svg>
-                        </a>
-                    }
-                    else
-                    {
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                        </svg>
-                        
-                    }
-                }
-                @quantLiked
-            </div>
+           
             </div>
 
     
 
      </nav>
 
-     <div class="blocoLoader2" >
-        <a href="#" onclick="@buscarAnterior" class="esquerda">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-            </svg>
-        </a>
-
-        <a href="#" onclick="@buscarProximo" class="direita">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
-                <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
-            </svg>
-        </a>
-     </div>
-
-        
-       
-
-                    
-                    @if(vers == preferences.p1 && substory != null )
+  
+     <div id="render">
+                    @if(preferences != null && vers == preferences.p1 && substory != null )
                     {
                         <p id="pref">Minha 1º Preferência</p>
                     }
-                    else if (vers == preferences.p2 && substory != null)
+                    else if (preferences != null && vers == preferences.p2 && substory != null)
                     {
                     <p id="pref">Minha 2º Preferência</p>
                     }
-                    else if (vers == preferences.p3 && substory != null)
+                    else if (preferences != null && vers == preferences.p3 && substory != null)
                     {
                     <p id="pref">Minha 3º Preferência</p>
                     }
-                    else if(vers == preferences.p4 && substory != null)
+                    else if(preferences != null && vers == preferences.p4 && substory != null)
                     {
                     <p id="pref">Minha 4º Preferência</p>
                     }
-                    else if (vers == preferences.p5 && substory != null)
+                    else if (preferences != null && vers == preferences.p5 && substory != null)
                     {
                         <p id="pref">Minha 5º Preferência</p>
                     }
-                    else if (vers == preferences.p6 && substory != null)
+                    else if (preferences != null && vers == preferences.p6 && substory != null)
                     {
                         <p id="pref">Minha 6º Preferência</p>
                     }
-                    else if (vers == preferences.p7 && substory != null)
+                    else if (preferences != null && vers == preferences.p7 && substory != null)
                     {
                         <p id="pref">Minha 7º Preferência</p>
                     }
-                    else if (vers == preferences.p8 && substory != null)
+                    else if (preferences != null && vers == preferences.p8 && substory != null)
                     {
                         <p id="pref">Minha 8º Preferência</p>
                     }
-                    else if (vers == preferences.p9 && substory != null)
+                    else if (preferences != null && vers == preferences.p9 && substory != null)
                     {
                         <p id="pref">Minha 9º Preferência</p>
                     }
-                    else if (vers == preferences.p10 && substory != null)
+                    else if (preferences != null && vers == preferences.p10 && substory != null)
                     {
                         <p id="pref">Minha 10º Preferência</p>
                     } 
@@ -502,6 +520,23 @@ else
             }
      }
 
+   
+</div>
+      
+    <a class="carousel-control-prev btn btn-dark" onclick="@buscarAnterior">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                    <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                </svg>
+            </a>
+        
+     <a class="carousel-control-next btn btn-dark" onclick="@buscarProximo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
+                    <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+            </a>
+
     <div id="PaginacaoConteudo" class="Paginacao">
 
         <center>
@@ -559,7 +594,7 @@ else
             </div>
 
 
-            <div class="DivPagina">            
+            <div class="DivPagina" style="background-color:white;" >            
                 @{
                     
 
@@ -568,10 +603,12 @@ else
                         for (var indice = 1; indice <= quantidadeLista; indice++)
                         {
                             <div class="DivPag" id="DivPagina@(indice)">
+                                <div>
                                 <span class="indices"><b>@indice</b> </span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="30" fill="currentColor" class="barra bi bi-dash-lg" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z" />
-                                </svg>
+                                </div>
+                                <div class="barra">
+                                -
+                                </div>
                             </div>
                         }
                     }
@@ -580,18 +617,19 @@ else
                         for (var i = 1; i <= quantidadeLista; i++)
                         {
                             <div class="DivPag" id="DivPagina@(indice)">
-                            @if(i == indice)
-                            {
-                                <span class="indices"> @vers</span>
-                            }
-                            else
-                            {
-                                    <span class="indices"> </span>
-                            }
-                                
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="30" fill="currentColor" class="barra bi bi-dash-lg" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z" />
-                                </svg>
+                                 <div>
+                                    @if(i == indice)
+                                    {
+                                        <span class="indices"> @vers</span>
+                                    }
+                                    else
+                                    {
+                                            <span class="indices"> </span>
+                                    }
+                                 </div>
+                                <div class="barra">
+                                -
+                                </div>
                             </div>
                         }
                     }
@@ -607,6 +645,5 @@ else
 
     </div>
    
-</div>
-
+    </div>
 }

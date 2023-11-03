@@ -8,8 +8,6 @@
     display : flex;
 }
 
-
-
 span[b-k8aihg5em2] {
     background-color: white;
 }
@@ -73,7 +71,8 @@ p[b-k8aihg5em2] {
 }
 
 .barra[b-k8aihg5em2] {
-    font-size: 2rem;
+    height: 5px;
+    background-color: black;
 }
 
 
@@ -82,9 +81,9 @@ p[b-k8aihg5em2] {
 .Paginacao[b-k8aihg5em2] {
     position: fixed;
     bottom: 1%;
+    right: 2%;
     width: 100%;
     height: 120px;
-    background-color: transparent;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -100,7 +99,7 @@ Informativo[b-k8aihg5em2] {
 
 
 .DivPagina[b-k8aihg5em2] {
-    height: 50px;
+    height: 40px;
     opacity: 0.90;
     margin: 6px;
     display: flex;
@@ -111,13 +110,13 @@ Informativo[b-k8aihg5em2] {
 
 .DivPag[b-k8aihg5em2] {
     width: 35px;
-    height: 30px;
+    height: 20px;
     opacity: 0.90;
     margin: 6px;
     display: flex;
     border-radius: 30px;
     flex-direction: column;
-    background-color:black;
+    background-color:white;
 }
 
 
@@ -125,8 +124,6 @@ Informativo[b-k8aihg5em2] {
 .navbar[b-k8aihg5em2] {
     width: 100%;
     background-color: transparent;
-    display: flex;
-    justify-content: space-around;
 }
 
 .navegacao[b-k8aihg5em2] {
@@ -137,8 +134,9 @@ Informativo[b-k8aihg5em2] {
 
 #pesquisas[b-k8aihg5em2] {
     display: flex;
-    justify-content:start;
+    justify-content:space-between;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .progressbar[b-k8aihg5em2] {
@@ -156,24 +154,29 @@ Informativo[b-k8aihg5em2] {
         width: 1%;
     }
 
+.carousel-control-prev[b-k8aihg5em2]{
+    height: 50%;
+    top: 25%;
+    background-color: black;
+    
+}
+
+.carousel-control-next[b-k8aihg5em2] {
+    height: 50%;
+    top: 25%;
+    background-color: black; 
+}
+
+.capSubstory[b-k8aihg5em2]{
+    width: 90px;
+}
+
+.capHeader[b-k8aihg5em2] {
+    flex-grow: 3;
+}
+
 
 @media (max-width: 550px) and (min-width: 50px) {
-
-    .blocoLoader2[b-k8aihg5em2] {
-        display: flex !important;
-        z-index: 40000 !important;
-        flex-wrap: wrap;
-        flex-direction: row;
-        position:absolute;
-        top: 50%;
-    }
-
-    .direita[b-k8aihg5em2]{
-        margin-left: 300px;
-    }
-
-   
-
     #Livro[b-k8aihg5em2] {
         font-size: 1.5rem !important;
     }
@@ -182,9 +185,7 @@ Informativo[b-k8aihg5em2] {
         font-size: 1rem !important;
     }
 
-    .barra[b-k8aihg5em2] {
-        font-size: 1rem !important;
-    }
+   
 
    
 
@@ -192,19 +193,13 @@ Informativo[b-k8aihg5em2] {
         font-size: 0.8rem !important;
     }
 
+
     .DivPag[b-k8aihg5em2] {
         width: 16px !important;
-        height: 8px !important;
         margin: 4px !important;
+        padding: 0;
     }
 
-    #voltar[b-k8aihg5em2] {
-        display: none;
-    }
-
-    #avancar[b-k8aihg5em2] {
-        display: none;
-    }
 
     .content[b-k8aihg5em2] {
         width: 100% !important;

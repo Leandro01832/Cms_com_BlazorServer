@@ -111,15 +111,14 @@ window.MarcarIndice = (id) => {
          scrolando = 43;
     }
     else  {
-        tamanho = 42;
-        scrolando = 50;
+        tamanho = 14;
+        scrolando = 28;
     }
     var indice = parseInt(id);
     var r = parseInt(indice / tamanho);
     if(r  > 0)
         var calculo = (scrolando * r);
     
-    console.log(largura);
 
     document.getElementById("DivPagina" + id).style.color = "red";
     document.getElementsByClassName("DivPagina")[0].scrollBy(0, -2000);

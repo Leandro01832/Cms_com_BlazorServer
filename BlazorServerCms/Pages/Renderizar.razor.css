@@ -8,8 +8,6 @@
     display : flex;
 }
 
-
-
 span {
     background-color: white;
 }
@@ -73,7 +71,8 @@ p {
 }
 
 .barra {
-    font-size: 2rem;
+    height: 5px;
+    background-color: black;
 }
 
 
@@ -82,9 +81,9 @@ p {
 .Paginacao {
     position: fixed;
     bottom: 1%;
+    right: 1%;
     width: 100%;
     height: 120px;
-    background-color: transparent;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -100,7 +99,7 @@ Informativo {
 
 
 .DivPagina {
-    height: 50px;
+    height: 40px;
     opacity: 0.90;
     margin: 6px;
     display: flex;
@@ -111,13 +110,13 @@ Informativo {
 
 .DivPag {
     width: 35px;
-    height: 30px;
+    height: 20px;
     opacity: 0.90;
     margin: 6px;
     display: flex;
     border-radius: 30px;
     flex-direction: column;
-    background-color:black;
+    background-color:white;
 }
 
 
@@ -125,8 +124,6 @@ Informativo {
 .navbar {
     width: 100%;
     background-color: transparent;
-    display: flex;
-    justify-content: space-around;
 }
 
 .navegacao {
@@ -137,8 +134,9 @@ Informativo {
 
 #pesquisas {
     display: flex;
-    justify-content:start;
+    justify-content:space-between;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .progressbar {
@@ -156,24 +154,29 @@ Informativo {
         width: 1%;
     }
 
+.carousel-control-prev{
+    height: 50%;
+    top: 25%;
+    background-color: black;
+    
+}
+
+.carousel-control-next {
+    height: 50%;
+    top: 25%;
+    background-color: black; 
+}
+
+.capSubstory{
+    width: 90px;
+}
+
+.capHeader {
+    flex-grow: 3;
+}
+
 
 @media (max-width: 550px) and (min-width: 50px) {
-
-    .blocoLoader2 {
-        display: flex !important;
-        z-index: 40000 !important;
-        flex-wrap: wrap;
-        flex-direction: row;
-        position:absolute;
-        top: 50%;
-    }
-
-    .direita{
-        margin-left: 300px;
-    }
-
-   
-
     #Livro {
         font-size: 1.5rem !important;
     }
@@ -182,9 +185,7 @@ Informativo {
         font-size: 1rem !important;
     }
 
-    .barra {
-        font-size: 1rem !important;
-    }
+   
 
    
 
@@ -192,19 +193,13 @@ Informativo {
         font-size: 0.8rem !important;
     }
 
+
     .DivPag {
         width: 16px !important;
-        height: 8px !important;
         margin: 4px !important;
+        padding: 0;
     }
 
-    #voltar {
-        display: none;
-    }
-
-    #avancar {
-        display: none;
-    }
 
     .content {
         width: 100% !important;
