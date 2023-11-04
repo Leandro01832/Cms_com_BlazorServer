@@ -60,6 +60,8 @@ namespace BlazorCms.Client.Pages
         protected int quantidadeLista { get; set; }
         protected int anterior { get; set; }
         protected int proximo { get; set; }
+        protected int prefCapitulo { get; set; }
+        protected int prefPasta { get; set; }
         protected long ultimaPasta { get; set; }
         protected List<Pagina> list = null;
 
@@ -105,9 +107,15 @@ namespace BlazorCms.Client.Pages
                 && capitulo > stories!.Last().PaginaPadraoLink)            
                 capitulo = 1;
 
-           preferences = repositoryPagina!.preferencias!
-           .FirstOrDefault(u => u.user == compartilhante2 && u.capitulo == capitulo &&
-           u.pasta == indice_Filtro)!;
+                if(prefCapitulo != capitulo && substory != null || prefPasta != indice_Filtro && substory != null)
+            {
+
+                   preferences = repositoryPagina!.preferencias!
+                   .FirstOrDefault(u => u.user == compartilhante2 && u.capitulo == capitulo &&
+                   u.pasta == indice_Filtro)!;
+                prefCapitulo = capitulo;
+                prefPasta = (int) indice_Filtro!;
+            }
 
             await renderizar();
 
@@ -1205,7 +1213,7 @@ namespace BlazorCms.Client.Pages
             int calculo = 0;
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
-                ApiKey = "",
+                ApiKey = "AIzaSyASZ_6t6HGmvxJ0R2XGIVWU8NOL1qZ9DE8",
                 ApplicationName = this.GetType().ToString()
             });
             var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
