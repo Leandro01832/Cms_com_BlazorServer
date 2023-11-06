@@ -112,6 +112,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEdydXBvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudInstante/Add.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEluc3RhbnRlXEFkZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudInstante/Create.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEluc3RhbnRlXENyZWF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudInstante/Edit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEluc3RhbnRlXEVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudInstante/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEluc3RhbnRlXEluZGV4LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

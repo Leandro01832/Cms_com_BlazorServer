@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace business.business
 {
-    public class FiltroPagina : BaseModel
+    public class FiltroPagina
     {
         public int QuantidadePorType { get; set; }
         public long PaginaId { get; set; }

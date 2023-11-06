@@ -109,8 +109,8 @@ else
 
                         @if (substory == null)
                         {
-                        <input type="number" placeholder="digita o nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                               id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                        <input type="text" placeholder="digita o nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
+                               id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
                                <center>
                         <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
                            class="btn btn-primary ms-1">
@@ -122,8 +122,8 @@ else
                         }
                         else
                         {
-                        <input type="number" placeholder="verso" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                               id="NumeroPaginaAcesso2" min="1" onchange="@((ChangeEventArgs e) => opcional = int.Parse(e.Value!.ToString()!))" />
+                            <input type="text" placeholder="verso" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
+                               id="NumeroPaginaAcesso2" min="1" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
                                <center>
                         <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
                            class="btn btn-primary ms-1">
@@ -274,7 +274,20 @@ else
 
      </nav>
 
-  
+
+        @if (usuarios!.Count > 0)
+        {
+            <div style="position:absolute; background-color:aliceblue;">
+                
+                    @foreach (var item in usuarios!)
+                    {
+                       <a href="#" onclick="@(() => acessarPreferenciasUsuario(item))" >
+                           Usuario @item - acessar preferências
+                       </a>
+                    }
+            </div>
+        }
+
      <div id="render">
                     @if(preferences != null && vers == preferences.p1 && substory != null )
                     {

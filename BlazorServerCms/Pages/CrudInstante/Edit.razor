@@ -1,0 +1,50 @@
+﻿@page "/livro/edit/{Id:long}"
+@inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Descrição:</label>
+        <InputText id="descricao" @bind-Value="exampleModel.Descricao" />
+        </p>
+    <button type="submit">Alterar</button>
+</EditForm>
+
+@code {
+    private Instante exampleModel = new();
+
+    [Parameter]public long Id{ get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private string descricao;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        Context = db.CreateDbContext(null);
+        var authState = await AuthenticationStateProvider
+           .GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity!.Name == repositoryPagina.buscarAdmin())
+        {
+        exampleModel = await Context.InstanteAdmin!.FirstAsync(l => l.Id == Id);
+        }
+        else
+        {
+        exampleModel = await Context.InstanteUser!.FirstAsync(l => l.Id == Id);
+
+        }
+    }
+
+    private async void HandleSubmit()
+    {
+        Context.Update(exampleModel);
+        await Context.SaveChangesAsync();
+        navigation.NavigateTo("/crud/instante/1");
+        // Process the form
+    }
+}
+

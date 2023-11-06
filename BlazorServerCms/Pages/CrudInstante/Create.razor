@@ -1,0 +1,51 @@
+﻿@page "/instante/create"
+@inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Descricao:</label>
+        <InputText id="url" @bind-Value="descricao" />
+    </p>
+   
+   
+
+    <button type="submit">Adicionar</button>
+</EditForm>
+
+@code {
+    private Instante exampleModel;
+    private string descricao;
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+    protected override void OnInitialized()
+    {
+        Context = db.CreateDbContext(null);
+    }
+
+    private async void HandleSubmit()
+    {
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity!.Name == repositoryPagina.buscarAdmin())
+        {
+            exampleModel = new InstanteAdmin();
+            exampleModel.Descricao = descricao;
+        }
+        else
+        {
+            exampleModel = new InstanteUser();
+            exampleModel.Descricao = descricao;
+            
+        }
+        await Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();
+        navigation.NavigateTo("/crud/instante/1");
+    }
+}

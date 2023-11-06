@@ -177,6 +177,15 @@ Informativo {
 
 
 @media (max-width: 550px) and (min-width: 50px) {
+
+    .carousel-control-next{
+        width: 10%;
+    }
+
+    .carousel-control-prev {
+        width: 10%;    
+    }
+
     #Livro {
         font-size: 1.5rem !important;
     }
