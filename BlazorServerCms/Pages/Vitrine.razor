@@ -3,6 +3,7 @@
 @inject BlazorTimer Timer
 @inject NavigationManager navigation
 @inject IJSRuntime? js
+@attribute [Authorize(Roles = "Admin")]
 @layout MeuLayout
 <h3>Vitrine</h3>
 <PageTitle>Vitrine</PageTitle>
@@ -132,8 +133,8 @@
 
     private void StartTimer()
     {
-        Timer!.SetTimer(30000);
-        Timer._timer!.Elapsed += _timer_Elapsed;
+        Timer!.SetTimerVitrine(30000);
+        Timer._timerVitrine!.Elapsed += _timer_Elapsed;
         Console.WriteLine("Timer Started.");
     }
 
@@ -154,7 +155,7 @@
             Console.WriteLine("Erro: " + ex.Message);
         }
         Console.WriteLine("Timer Elapsed.");
-        Timer!._timer!.Elapsed -= _timer_Elapsed;
+        Timer!._timerVitrine!.Elapsed -= _timer_Elapsed;
     }
 
     private void voltarHome()

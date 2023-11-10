@@ -90,63 +90,63 @@
             foreach (var item in Model.Filtro)
                 if (item.Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[0] = fil.Nome!;
                     pastas[0] = filtros.IndexOf(fil) + 1;
                 }
                 else
                    if (item.Filtro is Grupo)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[1] = fil.Nome!;
                     pastas[1] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (item.Filtro is SubGrupo)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[2] = fil.Nome!;
                     pastas[2] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (item.Filtro is SubSubGrupo)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[3] = fil.Nome!;
                     pastas[3] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (item.Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[4] = fil.Nome!;
                     pastas[4] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (item.Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[5] = fil.Nome!;
                     pastas[5] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (item.Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[6] = fil.Nome!;
                     pastas[6] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (item.Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[7] = fil.Nome!;
                     pastas[7] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (item.Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == item.Filtro.Id);
+                    var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[8] = fil.Nome!;
                     pastas[8] = filtros.IndexOf(fil) + 1;
                 }
@@ -157,63 +157,63 @@
             for (var i = 0; i < Model.Filtro.OrderBy(f => f.QuantidadePorType).ToList().Count; i++)
                 if (Model.Filtro[i].Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                    if (Model.Filtro[i].Filtro is Grupo)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubGrupo)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubSubGrupo)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubStory)
                 {
-                    var fil = filtros.First(f => f.Id == Model.Filtro[i].Filtro.Id);
+                    var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
                 }

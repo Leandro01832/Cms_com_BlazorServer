@@ -79,6 +79,12 @@ using (var scope = app.Services.CreateScope())
         var pages = await contexto.PageLiked.ToListAsync();
         repositoryPagina.paginasCurtidas!.AddRange(pages);
     }
+    
+    if (repositoryPagina.preferencias!.Count == 0)
+    {
+        var pages = await contexto.UserPreferences.ToListAsync();
+        repositoryPagina.preferencias!.AddRange(pages);
+    }
 
 
         if (userASP == null)

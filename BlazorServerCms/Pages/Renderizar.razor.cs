@@ -42,7 +42,7 @@ namespace BlazorCms.Client.Pages
         protected ClaimsPrincipal user;
         protected List<Story>? stories;
         protected List<Pagina>? listaFiltradaComConteudo = null;
-        protected List<string>? usuarios = new List<string>();
+        protected List<UserPreferences>? usuarios = new List<UserPreferences>();
         protected Pagina? Model;
         protected Filtro? Model2;
         protected string[]? classificacoes = null;
@@ -109,6 +109,8 @@ namespace BlazorCms.Client.Pages
                 && capitulo > stories!.Last().PaginaPadraoLink)            
                 capitulo = 1;
 
+            await renderizar();
+
                 if(prefCapitulo != capitulo && substory != null || prefPasta != indice_Filtro && substory != null ||
                 prefCompartilhante != compartilhante2 && substory != null)
             {
@@ -116,12 +118,13 @@ namespace BlazorCms.Client.Pages
                    preferences = repositoryPagina!.preferencias!
                    .FirstOrDefault(u => u.user == compartilhante2 && u.capitulo == capitulo &&
                    u.pasta == indice_Filtro)!;
-                prefCapitulo = capitulo;
-                prefPasta = (int) indice_Filtro!;
-                prefCompartilhante = compartilhante2!;
+                if(indice_Filtro != null)
+                {
+                    prefCapitulo = capitulo;
+                    prefPasta = (int) indice_Filtro!;
+                    prefCompartilhante = compartilhante2!;
+                }
             }
-
-            await renderizar();
 
             if (Context.Pagina!.Include(p => p.Story)
                 .Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count > 0
@@ -240,10 +243,7 @@ namespace BlazorCms.Client.Pages
                 if (filtros != null && filtros.Count > 0 && outroHorizonte == 1)
                     quantidadeLista = quantidadeFiltros;
 
-                if(retroceder == 1)
-                {
-                    indice = quantidadeLista;
-                }
+                
                 Model = list.Skip((int)indice - 1).FirstOrDefault();
 
             if (filtrar == null && substory == null)
@@ -599,6 +599,11 @@ namespace BlazorCms.Client.Pages
 
                     if (preferencia == 1) listaFiltradaComConteudo = retornarListaPreferencial();
 
+                    if (retroceder == 1)
+                    {
+                        indice = listaFiltradaComConteudo!.Count;
+                    }
+
                     Pagina pag2 = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
                         Filtro Filtro = null;
                     if (group8 != null)
@@ -634,6 +639,8 @@ namespace BlazorCms.Client.Pages
                     markup = new MarkupString(html);
                     proximo = indice + 1;
                     anterior = indice - 1;
+
+                    
 
                     if (Model != null)
                     {
@@ -901,8 +908,551 @@ namespace BlazorCms.Client.Pages
             Timer!._timer!.Elapsed -= _timer_Elapsed;
         }
 
+        protected void TeclaPressionada(KeyboardEventArgs args)
+        {
+            
+            if (substory == null)
+            {
+                
+                if (args.Key == "Enter" && capitulo == 0)
+                {
+                    navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                }
+                else if (args.Key == "Enter")
+                {
+                    navigation!.NavigateTo($"/Renderizar/0/{capitulo}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                }
+            }
+            else if (args.Key == "Enter")
+            {
+                navegarSubgrupos(true);
+            }
+
+        }
+
+        protected void Casinha()
+        {
+            auto = 0;
+            navigation!.NavigateTo($"/info/{dominio}/{compartilhante}/{compartilhante2}");
+        }
+
+        protected async void Pesquisar()
+        {
+            bool condicao = false;
+            try
+            {
+                var n = int.Parse(opcional);
+                auto = 0;
+                condicao = true;
+
+            }
+            catch(Exception ex)
+            {
+                condicao = false;
+            }
+           
+                if(substory == null && condicao)
+                {
+                    var url = $"/Renderizar/{capitulo}/{opcional}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}";
+                    navigation!.NavigateTo(url);
+
+                }
+                else if (condicao)
+            {
+                    int indiceListaFiltrada = 0;
+                    foreach(var item in listaFiltradaComConteudo!)
+                    {
+                        var p = list.First(p => p.Id == item.Id);
+                        if( int.Parse(opcional) == list.IndexOf(p) + 1)
+                        {
+                            indiceListaFiltrada = listaFiltradaComConteudo.IndexOf(item) + 1;
+                            break;
+                        }
+                    }
+
+                    if(indiceListaFiltrada == 0)
+                    {
+                        indiceListaFiltrada = indice;
+                        await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo");
+                    }                
+                
+                        var url = "";
+                        if(camadadez != null)
+                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                      else  if(camadanove != null)
+                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        else if (camadaoito != null)
+                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        else if (camadasete != null)
+                            url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        else if (camadaseis != null)
+                            url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        else if (subsubgrupo != null)
+                            url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        else if (subgrupo != null)
+                            url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        else if (grupo != null)
+                            url = $"/grupo/{capitulo}/{substory}/{grupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        else if (substory != null)
+                            url = $"/substory/{capitulo}/{substory}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        navigation!.NavigateTo(url);                
+                }
+                   
+        }
+
+        protected void habilitarAuto()
+        {
+            Timer!.SetTimerAuto();
+            Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
+
+            var url = "";
+            if (camadadez != null)
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadanove != null)
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadaoito != null)
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadasete != null)
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (camadaseis != null)
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (subsubgrupo != null)
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (subgrupo != null)
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (grupo != null)
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else if (substory != null)
+                url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+            else
+            url = $"/Renderizar/{capitulo}/{indice}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}";
+            navigation!.NavigateTo(url);
+        }
+
+        protected void desabilitarAuto()
+        {
+            if(Timer!.desligarAuto != null)
+            {
+                Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
+                Timer!.desligarAuto!.Enabled = false;
+                Timer.desligarAuto.Dispose();
+                auto = 0;
+            }            
+        }
+
+        protected async void FazerComentario()
+        {
+            if (auto == 1)
+                desabilitarAuto();
+            navigation!.NavigateTo($"/comentario/{capitulo}/{indice}");
+        }
+
+        private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (auto == 1)
+                auto = 0;
+
+            Console.WriteLine("Timer Elapsed auto.");
+            Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
+            Timer.desligarAuto.Dispose();
+            navigation!.NavigateTo("/");
+        }
+
+        private async Task<int> GetYouTubeVideo(string id_video)
+        {
+            int calculo = 0;
+            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = "",
+                ApplicationName = this.GetType().ToString()
+            });
+            var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
+            searchListRequest.Id = id_video;
+            var search = await searchListRequest.ExecuteAsync();
+            var duration = search.Items[0].ContentDetails.Duration;
+            if (duration.Contains("M"))
+            {
+                duration = duration.Replace("PT", "");
+                var minutos = int.Parse(duration.Split('M')[0]);
+                var segundos = int.Parse(duration.Replace(minutos.ToString() + "M", "").Replace("S", ""));
+                var minutosEmMileSegundos = minutos * 60 * 1000;
+                var segundosEmMileSegundos = segundos * 1000;
+                calculo = minutosEmMileSegundos + segundosEmMileSegundos;
+            }
+            else
+                calculo = int.Parse(duration.Replace("PT", "").Replace("S", "")) * 1000;
+
+
+            return calculo;
+        }        
+       
+        protected async void marcarPreferencia(int Versiculo)
+        {
+            auto = 0;
+            var p = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
+            UserPreferences preferences = null;
+            if (p1 == 0)
+            {
+                p1 = Versiculo;                
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p1} foi marcado como 1º preferência");
+            }       
+                           
+            else if (p2 == 0)
+            {
+                p2 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p2} foi marcado como 2º preferência");
+            }
+            else if (p3 == 0)
+            {
+                p3 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p3} foi marcado como 3º preferência");
+            }
+            else if (p4 == 0)
+            {
+                p4 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p4} foi marcado como 4º preferência");
+            }
+            else if (p5 == 0)
+            {
+                p5 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p5} foi marcado como 5º preferência");
+            }
+            else if (p6 == 0)
+            {
+                p6 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p6} foi marcado como 6º preferência");
+            }
+            else if (p7 == 0)
+            {
+                p7 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p7} foi marcado como 7º preferência");
+            }
+            else if (p8 == 0)
+            {
+                p8 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p8} foi marcado como 8º preferência");
+            }
+            else if (p9 == 0)
+            {
+                p9 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p9} foi marcado como 9º preferência");
+            }
+            else if (p10 == 0)
+            {
+                p10 = Versiculo;
+                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p10} foi marcado como 10º preferência");
+            }
+            else            
+            await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 preferências");
+
+                preferences = new UserPreferences
+                {
+                    user = user.Identity!.Name!,
+                    capitulo = capitulo,
+                    pasta = (int)indice_Filtro!,
+                    p1 = (int)p1!,
+                    p2 = (int)p2!,
+                    p3 = (int)p3!,
+                    p4 = (int)p4!,
+                    p5 = (int)p5!,
+                    p6 = (int)p6!,
+                    p7 = (int)p7!,
+                    p8 = (int)p8!,
+                    p9 = (int)p9!,
+                    p10 = (int)p10!
+                };           
+
+            if (p10 == 0)
+            {
+                if (p != null)
+                {
+                    Context.Add(preferences);
+                    Context.SaveChanges();
+                    repositoryPagina.preferencias.Add(preferences);
+                }
+                else
+                {
+                    p = preferences;
+                    Context.Update(p);
+                    Context.SaveChanges();
+
+                    var preferencia = repositoryPagina.preferencias.FirstOrDefault(pre => pre.Id == p.Id);
+                    repositoryPagina.preferencias.Remove(preferencia);
+                    repositoryPagina.preferencias.Add(p);
+                }
+
+
+                if (camadadez != null)
+            navigation!
+                    .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            else if (camadanove != null)
+                navigation!
+                        .NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else  if (camadaoito != null)
+                navigation!
+                        .NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (camadasete != null)
+                navigation!
+                        .NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (camadaseis != null)
+                navigation!
+                        .NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+               
+            else if (subsubgrupo != null)
+                navigation!
+                        .NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (subgrupo != null)
+                navigation!
+                        .NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (grupo != null)
+                navigation!
+                        .NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            else if (substory != null)
+                navigation!
+                        .NavigateTo($"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+
+            }
+
+        }
+
+        protected async void desmarcar()
+        {
+            auto = 0;
+            var p = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
+            var p2 = Context.UserPreferences.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
+            if(p2 != null && p2.user == user.Identity!.Name)
+            {
+                p.p1 = 0; p.p2 = 0; p.p3 = 0; p.p4 = 0; p.p5 = 0;
+                p.p6 = 0; p.p7 = 0; p.p8 = 0; p.p9 = 0; p.p10 = 0;
+                p2.p1 = 0; p2.p2 = 0; p2.p3 = 0; p2.p4 = 0; p2.p5 = 0;
+                p2.p6 = 0; p2.p7 = 0; p2.p8 = 0; p2.p9 = 0; p2.p10 = 0;
+                Context.Update(p2);
+                Context.SaveChanges();
+            }
+
+            if (camadadez != null)
+                    navigation!
+                            .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                else if (camadanove != null)
+                    navigation!
+                            .NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+                else if (camadaoito != null)
+                    navigation!
+                            .NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+                else if (camadasete != null)
+                    navigation!
+                            .NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+                else if (camadaseis != null)
+                    navigation!
+                            .NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+                else if (subsubgrupo != null)
+                    navigation!
+                            .NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+                else if (subgrupo != null)
+                    navigation!
+                            .NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+                else if (grupo != null)
+                    navigation!
+                            .NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+                else if (substory != null)
+                    navigation!
+                            .NavigateTo($"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+          
+        }
+
+        protected async void acessarPasta()
+        {
+                indice_Filtro = indice;
+
+            if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
+            {
+                await js!.InvokeAsync<object>("DarAlert", $"Esta pasta não possui versiculos");
+                navigation!.NavigateTo($"/renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+            }
+            else
+            {
+                if (auto == 1)
+                    desabilitarAuto();
+                navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{indice_Filtro}/{preferencia}/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+
+            }
+
+        }
+        protected void listarPasta()
+        {
+            
+            int tamanho = 0;
+
+            if (listaFiltradaComConteudo!.FirstOrDefault(p => p.ContentUser != null) != null)
+                tamanho = 5;
+            else
+                tamanho = 20;
+
+            if (auto == 1)
+                desabilitarAuto();
+            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/{tamanho}/{capitulo}/{indice_Filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+        }
+
+        protected void acessarHorizontePastas()
+        {
+            if (auto == 1)
+                desabilitarAuto();
+            outroHorizonte = 1;
+            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+        }
+
+        protected void acessarHorizonteVersos()
+        {
+            if (auto == 1)
+                desabilitarAuto();
+            outroHorizonte = 0;
+            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+        }
+           
+        protected int buscarCamada(Filtro fil)
+        {
+            if (fil is SubStory)
+                return 1;
+          else  if (fil is Grupo)
+               return 2;
+          else  if (fil is SubGrupo)
+               return 3;
+          else  if (fil is SubSubGrupo)
+               return 4;
+          else  if (fil is CamadaSeis)
+               return 5;
+          else  if (fil is CamadaSete)
+               return 6;
+          else  if (fil is CamadaOito)
+                return 7;
+          else  if (fil is CamadaNove)
+                return 8;
+          else  if (fil is CamadaDez)
+                return 9;
+
+            return 0;
+        }    
+   
+        protected int? buscarPastaFiltrada(int camada)
+        {
+            long? IdGrupo = 0;
+            Pagina  pag = repositoryPagina!.paginas!
+                    .FirstOrDefault(p =>  p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
+
+            if (pag != null)
+            {
+                Filtro  fil = pag.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id)!.Filtro!;
+
+                if (camada != 0)
+                {
+                    Filtro fl = null;
+                    var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
+                        .Where(p => p.Story!.PaginaPadraoLink == capitulo)
+                       .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
+                    if(fil is SubStory)
+                    {
+                        SubStory gr = (SubStory)fil;
+                        fl = filtros!.First(f => f.Id == gr.Id);
+                    }
+                    if(fil is Grupo)
+                    {
+                        Grupo gr = (Grupo)fil;
+                        fl = filtros!.First(f => f.Id == gr.SubStoryId);
+                    }
+                    if(fil is SubGrupo)
+                    {
+                        SubGrupo gr = (SubGrupo)fil;
+                        fl = filtros!.First(f => f.Id == gr.GrupoId);
+                    }
+                    if(fil is SubSubGrupo)
+                    {
+                        SubSubGrupo gr = (SubSubGrupo)fil;
+                        fl = filtros!.First(f => f.Id == gr.SubGrupoId);
+                    }
+                    if(fil is CamadaSeis)
+                    {
+                        CamadaSeis gr = (CamadaSeis)fil;
+                        fl = filtros!.First(f => f.Id == gr.SubSubGrupoId);
+                    }
+                    if(fil is CamadaSete)
+                    {
+                        CamadaSete gr = (CamadaSete)fil;
+                        fl = filtros!.First(f => f.Id == gr.CamadaSeisId);
+                    }
+                    if(fil is CamadaOito)
+                    {
+                        CamadaOito gr = (CamadaOito)fil;
+                        fl = filtros!.First(f => f.Id == gr.CamadaSeteId);
+                    }
+                    if(fil is CamadaNove)
+                    {
+                        CamadaNove gr = (CamadaNove)fil;
+                        fl = filtros!.First(f => f.Id == gr.CamadaOitoId);
+                    }
+                    if(fil is CamadaDez)
+                    {
+                        CamadaDez gr = (CamadaDez)fil;
+                        fl = filtros!.First(f => f.Id == gr.CamadaNoveId);
+                    }
+                    var pasta = filtros!.IndexOf(fl) + 1;
+
+                    return pasta;
+                }
+                return 0;                
+            }
+            else
+                return null;            
+        }
+   
+        protected void buscarProximo()
+        {
+            auto = 0;
+            if (proximo <= quantidadeLista)
+            {
+                if (camadadez != null)
+                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (camadanove != null)
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (camadaoito != null)
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (camadasete != null)
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (camadaseis != null)
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (subsubgrupo != null)
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (subgrupo != null)
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (grupo != null)
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else if (substory != null)
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                else
+                    navigation!.NavigateTo($"/Renderizar/{capitulo}/{proximo}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+            }
+            else if(substory != null)
+                navegarSubgrupos(false);
+            else
+                navigation!.NavigateTo($"/Renderizar/{capitulo + 1}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+
+
+        }
         private void navegarSubgrupos(bool somenteSubgrupos)
-        {         
+        {
+            if (somenteSubgrupos) auto = 0;
             if (camadadez != null)
             {
                 if(indice >= quantidadeLista || somenteSubgrupos)
@@ -1074,614 +1624,93 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        protected void TeclaPressionada(KeyboardEventArgs args)
-        {
-            
-            if (substory == null)
-            {
-                
-                if (args.Key == "Enter" && capitulo == 0)
-                {
-                    navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
-                }
-                else if (args.Key == "Enter")
-                {
-                    navigation!.NavigateTo($"/Renderizar/0/{capitulo}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
-                }
-            }
-            else if (args.Key == "Enter")
-            {
-                navegarSubgrupos(true);
-            }
-
-        }
-
-        protected void Casinha()
-        {
-            auto = 0;
-            navigation!.NavigateTo($"/info/{dominio}/{compartilhante}/{compartilhante2}");
-        }
-
-        protected async void Pesquisar()
-        {
-            try
-            {
-                var num = int.Parse(opcional);
-                auto = 0;  
-                if(substory == null)
-                {
-                    var url = $"/Renderizar/{capitulo}/{opcional}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}";
-                    navigation!.NavigateTo(url);
-
-                }
-                else
-                {
-                    int indiceListaFiltrada = 0;
-                    foreach(var item in listaFiltradaComConteudo!)
-                    {
-                        var p = list.First(p => p.Id == item.Id);
-                        if( int.Parse(opcional) == list.IndexOf(p) + 1)
-                        {
-                            indiceListaFiltrada = listaFiltradaComConteudo.IndexOf(item) + 1;
-                            break;
-                        }
-                    }
-
-                    if(indiceListaFiltrada == 0)
-                    {
-                        indiceListaFiltrada = indice;
-                        await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo");
-                    }                
-                
-                        var url = "";
-                        if(camadadez != null)
-                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                      else  if(camadanove != null)
-                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (camadaoito != null)
-                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (camadasete != null)
-                            url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (camadaseis != null)
-                            url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (subsubgrupo != null)
-                            url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (subgrupo != null)
-                            url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (grupo != null)
-                            url = $"/grupo/{capitulo}/{substory}/{grupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (substory != null)
-                            url = $"/substory/{capitulo}/{substory}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        navigation!.NavigateTo(url);                
-                }
-            }
-            catch(Exception ex)
-            {
-                var users = repositoryPagina!.preferencias.Where(p => p.pasta == indice_Filtro &&
-                p.capitulo == capitulo &&
-                p.user.Contains(opcional)).ToList();
-            }
-
-
-        }
-
-        protected void habilitarAuto()
-        {
-            Timer!.SetTimerAuto();
-            Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
-
-            var url = "";
-            if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-            else
-            url = $"/Renderizar/{capitulo}/{indice}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}";
-            navigation!.NavigateTo(url);
-        }
-
-        protected void desabilitarAuto()
-        {
-            if(Timer!.desligarAuto != null)
-            {
-                Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
-                Timer!.desligarAuto!.Enabled = false;
-                Timer.desligarAuto.Dispose();
-                auto = 0;
-            }            
-        }
-
-        protected async void FazerComentario()
-        {
-            if (auto == 1)
-                desabilitarAuto();
-            navigation!.NavigateTo($"/comentario/{capitulo}/{indice}");
-        }
-
-        private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (auto == 1)
-                auto = 0;
-
-            Console.WriteLine("Timer Elapsed auto.");
-            Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
-            Timer.desligarAuto.Dispose();
-            navigation!.NavigateTo("/");
-        }
-
-        private async Task<int> GetYouTubeVideo(string id_video)
-        {
-            int calculo = 0;
-            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
-            {
-                ApiKey = "",
-                ApplicationName = this.GetType().ToString()
-            });
-            var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
-            searchListRequest.Id = id_video;
-            var search = await searchListRequest.ExecuteAsync();
-            var duration = search.Items[0].ContentDetails.Duration;
-            if (duration.Contains("M"))
-            {
-                duration = duration.Replace("PT", "");
-                var minutos = int.Parse(duration.Split('M')[0]);
-                var segundos = int.Parse(duration.Replace(minutos.ToString() + "M", "").Replace("S", ""));
-                var minutosEmMileSegundos = minutos * 60 * 1000;
-                var segundosEmMileSegundos = segundos * 1000;
-                calculo = minutosEmMileSegundos + segundosEmMileSegundos;
-            }
-            else
-                calculo = int.Parse(duration.Replace("PT", "").Replace("S", "")) * 1000;
-
-
-            return calculo;
-        }        
-       
-        protected async void marcarPreferencia(int Versiculo)
-        {
-            var p = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
-            UserPreferences preferences = null;
-            if (p1 == 0)
-            {
-                p1 = Versiculo;                
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p1} foi marcado como 1º preferência");
-            }       
-                           
-            else if (p2 == 0)
-            {
-                p2 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p2} foi marcado como 2º preferência");
-            }
-            else if (p3 == 0)
-            {
-                p3 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p3} foi marcado como 3º preferência");
-            }
-            else if (p4 == 0)
-            {
-                p4 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p4} foi marcado como 4º preferência");
-            }
-            else if (p5 == 0)
-            {
-                p5 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p5} foi marcado como 5º preferência");
-            }
-            else if (p6 == 0)
-            {
-                p6 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p6} foi marcado como 6º preferência");
-            }
-            else if (p7 == 0)
-            {
-                p7 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p7} foi marcado como 7º preferência");
-            }
-            else if (p8 == 0)
-            {
-                p8 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p8} foi marcado como 8º preferência");
-            }
-            else if (p9 == 0)
-            {
-                p9 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p9} foi marcado como 9º preferência");
-            }
-            else if (p10 == 0)
-            {
-                p10 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p10} foi marcado como 10º preferência");
-            }
-            else            
-            await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 preferências");
-
-                preferences = new UserPreferences
-                {
-                    user = user.Identity!.Name!,
-                    capitulo = capitulo,
-                    pasta = (int)indice_Filtro!,
-                    p1 = (int)p1!,
-                    p2 = (int)p2!,
-                    p3 = (int)p3!,
-                    p4 = (int)p4!,
-                    p5 = (int)p5!,
-                    p6 = (int)p6!,
-                    p7 = (int)p7!,
-                    p8 = (int)p8!,
-                    p9 = (int)p9!,
-                    p10 = (int)p10!
-                };           
-
-            if (p10 == 0)
-            {
-                if (p != null)
-                {
-                    Context.Add(preferences);
-                    Context.SaveChanges();
-                    repositoryPagina.preferencias.Add(preferences);
-                }
-                else
-                {
-                    p = preferences;
-                    Context.Update(p);
-                    Context.SaveChanges();
-
-                    var preferencia = repositoryPagina.preferencias.FirstOrDefault(pre => pre.Id == p.Id);
-                    repositoryPagina.preferencias.Remove(preferencia);
-                    repositoryPagina.preferencias.Add(p);
-                }
-
-
-                if (camadadez != null)
-            navigation!
-                    .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-            else if (camadanove != null)
-                navigation!
-                        .NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-
-            else  if (camadaoito != null)
-                navigation!
-                        .NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-
-            else if (camadasete != null)
-                navigation!
-                        .NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-
-            else if (camadaseis != null)
-                navigation!
-                        .NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-               
-            else if (subsubgrupo != null)
-                navigation!
-                        .NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-
-            else if (subgrupo != null)
-                navigation!
-                        .NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-
-            else if (grupo != null)
-                navigation!
-                        .NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-
-            else if (substory != null)
-                navigation!
-                        .NavigateTo($"/substory/{capitulo}/{substory}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-
-            }
-
-        }
-
-        protected async void desmarcar()
-        {
-            var p = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
-            var p2 = Context.UserPreferences.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
-            p.p1 = 0; p.p2 = 0; p.p3 = 0; p.p4 = 0; p.p5 = 0;
-            p.p6 = 0; p.p7 = 0; p.p8 = 0; p.p9 = 0; p.p10 = 0;
-            if(p2 != null && p2.user == user.Identity!.Name)
-            {
-                p2.p1 = 0; p2.p2 = 0; p2.p3 = 0; p2.p4 = 0; p2.p5 = 0;
-                p2.p6 = 0; p2.p7 = 0; p2.p8 = 0; p2.p9 = 0; p2.p10 = 0;
-                Context.Update(p2);
-                Context.SaveChanges();
-            }
-
-            if (camadadez != null)
-                    navigation!
-                            .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-                else if (camadanove != null)
-                    navigation!
-                            .NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-                else if (camadaoito != null)
-                    navigation!
-                            .NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-                else if (camadasete != null)
-                    navigation!
-                            .NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-                else if (camadaseis != null)
-                    navigation!
-                            .NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-                else if (subsubgrupo != null)
-                    navigation!
-                            .NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-                else if (subgrupo != null)
-                    navigation!
-                            .NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-                else if (grupo != null)
-                    navigation!
-                            .NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-                else if (substory != null)
-                    navigation!
-                            .NavigateTo($"/substory/{capitulo}/{substory}/{indice}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-          
-        }
-
-        protected async void acessarPasta()
-        {
-                indice_Filtro = indice;
-
-            if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
-            {
-                await js!.InvokeAsync<object>("DarAlert", $"Esta pasta não possui versiculos");
-                navigation!.NavigateTo($"/renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
-            }
-            else
-            {
-                if (auto == 1)
-                    desabilitarAuto();
-                navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{indice_Filtro}/{preferencia}/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
-
-            }
-
-        }
-        protected void listarPasta()
-        {
-            if (auto == 1)
-                desabilitarAuto();
-            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/20/0/{dominio}/{compartilhante}/{compartilhante2}/{capitulo}/{indice_Filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-        }
-
-        protected void acessarHorizontePastas()
-        {
-            if (auto == 1)
-                desabilitarAuto();
-            outroHorizonte = 1;
-            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
-        }
-
-        protected void acessarHorizonteVersos()
-        {
-            if (auto == 1)
-                desabilitarAuto();
-            outroHorizonte = 0;
-            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
-        }
-           
-        protected int buscarCamada(Filtro fil)
-        {
-            if (fil is SubStory)
-                return 1;
-          else  if (fil is Grupo)
-               return 2;
-          else  if (fil is SubGrupo)
-               return 3;
-          else  if (fil is SubSubGrupo)
-               return 4;
-          else  if (fil is CamadaSeis)
-               return 5;
-          else  if (fil is CamadaSete)
-               return 6;
-          else  if (fil is CamadaOito)
-                return 7;
-          else  if (fil is CamadaNove)
-                return 8;
-          else  if (fil is CamadaDez)
-                return 9;
-
-            return 0;
-        }    
-   
-        protected int? buscarPastaFiltrada(int camada)
-        {
-            long? IdGrupo = 0;
-            Pagina  pag = repositoryPagina!.paginas!
-                    .FirstOrDefault(p =>  p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
-
-            if (pag != null)
-            {
-                Filtro  fil = pag.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id)!.Filtro!;
-
-                if (camada != 0)
-                {
-                    Filtro fl = null;
-                    var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
-                        .Where(p => p.Story!.PaginaPadraoLink == capitulo)
-                       .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
-                    if(fil is SubStory)
-                    {
-                        SubStory gr = (SubStory)fil;
-                        fl = filtros!.First(f => f.Id == gr.Id);
-                    }
-                    if(fil is Grupo)
-                    {
-                        Grupo gr = (Grupo)fil;
-                        fl = filtros!.First(f => f.Id == gr.SubStoryId);
-                    }
-                    if(fil is SubGrupo)
-                    {
-                        SubGrupo gr = (SubGrupo)fil;
-                        fl = filtros!.First(f => f.Id == gr.GrupoId);
-                    }
-                    if(fil is SubSubGrupo)
-                    {
-                        SubSubGrupo gr = (SubSubGrupo)fil;
-                        fl = filtros!.First(f => f.Id == gr.SubGrupoId);
-                    }
-                    if(fil is CamadaSeis)
-                    {
-                        CamadaSeis gr = (CamadaSeis)fil;
-                        fl = filtros!.First(f => f.Id == gr.SubSubGrupoId);
-                    }
-                    if(fil is CamadaSete)
-                    {
-                        CamadaSete gr = (CamadaSete)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaSeisId);
-                    }
-                    if(fil is CamadaOito)
-                    {
-                        CamadaOito gr = (CamadaOito)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaSeteId);
-                    }
-                    if(fil is CamadaNove)
-                    {
-                        CamadaNove gr = (CamadaNove)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaOitoId);
-                    }
-                    if(fil is CamadaDez)
-                    {
-                        CamadaDez gr = (CamadaDez)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaNoveId);
-                    }
-                    var pasta = filtros!.IndexOf(fl) + 1;
-
-                    return pasta;
-                }
-                return 0;                
-            }
-            else
-                return null;            
-        }
-   
-        protected void buscarProximo()
-        {
-            if (proximo <= quantidadeLista)
-            {
-                if (camadadez != null)
-                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (camadanove != null)
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (camadaoito != null)
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (camadasete != null)
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (camadaseis != null)
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (subsubgrupo != null)
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (subgrupo != null)
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (grupo != null)
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else if (substory != null)
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else
-                    navigation!.NavigateTo($"/Renderizar/{capitulo}/{proximo}/0/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
-            }
-            else if(substory != null)
-                navegarSubgrupos(false);
-            else
-                navigation!.NavigateTo($"/Renderizar/{capitulo + 1}/1/0/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
-
-
-        }
-
         protected void buscarAnterior()
         {
-            if(indice == 1 && capitulo != 0)
+            auto = 0;
+            if (indice == 1 && capitulo != 0)
             {
-                if (camadadez != null)
+                if(substory != null)
                 {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!,
-                           grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, camadadez);
+                    voltarSubgrupos();
+                }
 
-                }
+                if (camadadez != null)
+                navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                   
                 else if (camadanove != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!,
-                          grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
-                }
+                navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                   
                 else if (camadaoito != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!,
-                          grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
-                }
+                navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                    
                 else if (camadasete != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!,
-                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
-                }
+                navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                    
                 else if (camadaseis != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!,
-                         grupo, subgrupo, subsubgrupo, camadaseis);
-                }
+                navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                   
                 else if (subsubgrupo != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!,
-                         grupo, subgrupo, subsubgrupo);
-                }
-                else if (subgrupo != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!,
-                         grupo, subgrupo);
-                }
+                navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                    
+                else if (subgrupo != null)                
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");    
+                
                 else if (grupo != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!, grupo);
-                }
+                navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");                    
+                
                 else if (substory != null)
-                {
-                    var arr = Arr.RetornarArray(repositoryPagina.filtros, Model!.Story!, 2, 0, capitulo, (int)substory!);
-                }                
+                navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
                 else
-                    navigation!.NavigateTo($"/Renderizar/{capitulo - 1}/1/0/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}");
+                    navigation!.NavigateTo($"/Renderizar/{capitulo - 1}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{compartilhante2}");
 
             }
-            else if (indice != 1)
+            if (indice != 1)
             {
                 if (camadadez != null)
-                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (camadanove != null)
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (camadaoito != null)
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (camadasete != null)
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (camadaseis != null)
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (subsubgrupo != null)
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (subgrupo != null)
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (grupo != null)
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else if (substory != null)
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{anterior}/0/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
                 else
-                    navigation!.NavigateTo($"/Renderizar/{capitulo}/{anterior}/0/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    navigation!.NavigateTo($"/Renderizar/{capitulo}/{anterior}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
             }
             
 
+        }
+      
+        private void voltarSubgrupos()
+        {
+            if (camadadez != null && camadadez != 1)
+                camadadez = 1;
+            else if (camadanove != null && camadanove != 1)
+                camadanove = 1;
+            else if (camadaoito != null && camadaoito != 1)
+                camadaoito = 1;
+            else if (camadasete != null && camadasete != 1)
+                camadasete = 1;
+            else if (camadaseis != null && camadaseis != 1)
+                camadaseis = 1;
+            else if (subsubgrupo != null && subsubgrupo != 1)
+                subsubgrupo = 1;
+            else if (subgrupo != null && subgrupo != 1)
+                subgrupo = 1;
+            else if (grupo != null && grupo != 1)
+                grupo = 1;
+            else if (substory != null && substory != 1)
+                substory = 1;
         }
     
         protected void desligarAuto()
@@ -1767,32 +1796,74 @@ namespace BlazorCms.Client.Pages
                 url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
             navigation!.NavigateTo(url);
         }
-
-     
-        protected void acessarPreferenciasUsuario(string user)
+             
+        protected void acessarPreferenciasUsuario(string usuario)
         {
+            var pref = repositoryPagina!.preferencias!
+                   .FirstOrDefault(u => u.user == usuario)!;
+            usuarios!.Clear();
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{user}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
             navigation!.NavigateTo(url);
         }
 
+        protected void alterarQuery(ChangeEventArgs e)
+        {
+            opcional = e.Value!.ToString()!;
+
+            try
+            {
+                var num = int.Parse(opcional);
+            }
+            catch(Exception ex)
+            {
+                usuarios = repositoryPagina!.preferencias.Where(p => p.pasta == indice_Filtro &&
+               p.capitulo == capitulo &&
+               p.user.Contains(opcional)).ToList();
+
+                if (string.IsNullOrEmpty(opcional))
+                {
+                    usuarios.Clear();
+                    var url = "";
+                    if (camadadez != null)
+                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (camadanove != null)
+                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (camadaoito != null)
+                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (camadasete != null)
+                        url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (camadaseis != null)
+                        url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (subsubgrupo != null)
+                        url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (subgrupo != null)
+                        url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (grupo != null)
+                        url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    else if (substory != null)
+                        url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                    navigation!.NavigateTo(url);
+                }
+            }
+        }
 
         private int CountLikes( string conexao)
         {
@@ -1819,7 +1890,6 @@ namespace BlazorCms.Client.Pages
             }
             return _TotalRegistros;
         }
-   
-    
+            
     }
 }

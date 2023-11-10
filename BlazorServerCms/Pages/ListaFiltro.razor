@@ -1,8 +1,10 @@
-﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{tempo:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+@page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+
 
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
+@inject AuthenticationStateProvider? AuthenticationStateProvider
 @inject IJSRuntime js
 @inject BlazorTimer Timer
 @layout MeuLayout
@@ -12,7 +14,7 @@
     <p id="livro">livro</p>
     <p id="config">
         <strong>
-            <a href="#" id="configurar" onclick="clicou()">Info e Config</a>
+            <a href="#" id="configurar" onclick="clicou">Info e Config</a>
         </strong>
     </p>
     
@@ -23,14 +25,14 @@
                 if (auto == 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                       onclick="@( () => desabilitar())">
                         Desabilitar automático
                     </a>
                 }
                 else
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                       onclick="@( () => abilitar())">
                         Habilitar automático
                     </a>
                 }
@@ -45,7 +47,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -53,7 +55,7 @@
             }
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 Proxima lista >>>
             </a>
 
@@ -71,44 +73,49 @@
 
         <input type="hidden" value="@auto" id="auto" name="auto">
         <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
             Ordenar por nome
         </a>
         <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
             Ordenar por preço
         </a>
         <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
             Ordenar por capitulo
         </a>
     </div>
+   
+    @if (Model.FirstOrDefault(p => p.Produto != null) != null)
+    {
+        
     <div id="proxima-lista">
         <h3>Tamanho da lista</h3>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/11/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/11/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 10 itens
             </a>
 
         </strong>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/41/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/41/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 40 itens
             </a>
 
         </strong>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/81/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/81/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 80 itens
             </a>
         </strong>
     </div>
+    }
     <div>
-        <label for="tempo"> <strong>Time em segundos (s):</strong> </label>
-        <input type="number" @bind-value="tempo" @bind-value:event="oninput" max="600" min="15">
+        <label for="interval"> <strong>Time em segundos (s):</strong> </label>
+        <input type="number" @bind-value="interval" @bind-value:event="oninput" max="600" min="15">
 
 
         <br />
@@ -118,7 +125,7 @@
 
 </div>
 
-<div id="cabecalho">
+<div id="cabecalho2">
     <div>
         <h4>Logo</h4>
 
@@ -131,16 +138,15 @@
 
 <h3>Lista de Filtro</h3>
 <p>
-    <input type="text" name="texto" id="texto" @bind="link" placeholder="link de preferência" readonly />
-    <button onclick="@copiarTexto" id="botaoTexto">Copiar Link</button>
+   
     <a href="#" class="btn btn-danger"
        onclick="@removePreferencia">
-        Remover Preferência
+        Remover Preferências
     </a>
 </p>
 
  Capitulo @Capitulo
-<a href="#" onclick="@(() => navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/0/0/dominio/comp/comp2/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+<a href="#" onclick="@(() => acessarPasta())">
     Pasta @indiceFiltro
 </a>
 @if(filtro != null)
@@ -150,13 +156,15 @@
 
 <p>Qual sua preferência?</p>
 @{
-    if(Model.Count == 0)
+    if(Model == null || Model.Count == 0)
     {
-        <p>Aguarde um momento...</p>
+        <p>Aguarde um momento... quantidade igual a @Model.Count</p>
     }
     else
     {
-        foreach(var item in Model)
+        if (Model.FirstOrDefault(p => p.Produto != null) != null)
+        {
+            foreach(var item in Model)
         {
             if (Model!.ToList().IndexOf(item) != 0)
             {
@@ -220,10 +228,7 @@
                         <p> Estoque: @item.Produto!.QuantEstoque </p>
                     </div>
                     <div class="caps">
-                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/compartilhante/0" >
-                            Capitulo @Capitulo
-                        </a> <br>
-                        <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/1/11/1/compartilhante/0">
+                            <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/0/11/1/0/0/0/0/dominio/comp/comp2">
                             Versiculo @Versiculo
                         </a>
                     </div>
@@ -235,6 +240,81 @@
                 <a href="#" class="btn btn-primary" onclick="@(() => marcarPreferencia(Versiculo))" >Marcar como preferência</a>
             }
         }
+         
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                if (Model!.ToList().IndexOf(item) != 0)
+                {
+                    var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
+                    var identifica = paginaItem.Id;
+                    List<Pagina> lista = paginaItem.Story!.Pagina!.OrderBy(p => p.Id).ToList();
+                    var Capitulo = paginaItem.Story.PaginaPadraoLink;
+                    var markup = new MarkupString(item.ContentUser);
+
+                    var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
+
+
+
+                    <div class="conteudo" onclick="cancelar()">
+                        @if (preferences != null && Versiculo == preferences.p1)
+                        {
+                            <p id="pref">Minha 1º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p2)
+                        {
+                            <p id="pref">Minha 2º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p3)
+                        {
+                            <p id="pref">Minha 3º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p4)
+                        {
+                            <p id="pref">Minha 4º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p5)
+                        {
+                            <p id="pref">Minha 5º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p6)
+                        {
+                            <p id="pref">Minha 6º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p7)
+                        {
+                            <p id="pref">Minha 7º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p8)
+                        {
+                            <p id="pref">Minha 8º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p9)
+                        {
+                            <p id="pref">Minha 9º Preferência</p>
+                        }
+                        else if (preferences != null && Versiculo == preferences.p10)
+                        {
+                            <p id="pref">Minha 10º Preferência</p>
+                        }
+                        <div class="content" style="width:100%; height:auto;" >
+                            @markup
+                        </div>
+                        <div class="caps" style="background-color:yellow;">  
+                        <center>
+                            <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/0/11/1/0/0/0/0/dominio/comp/comp2">
+                                Versiculo @Versiculo
+                            </a>
+                        </center>
+                        </div>
+
+                    </div>
+                    <a href="#" class="btn btn-primary" onclick="@(() => marcarPreferencia(Versiculo))">Marcar como preferência</a>
+                }
+            }
+        }
     }
 }
 
@@ -242,7 +322,8 @@
 
     Filtro filtro = new Filtro();
     List<Pagina> Model = new List<Pagina>();
-    List<Pagina>? lista { get; set; }
+    List<Filtro>? filtros { get; set; }
+    protected ClaimsPrincipal user;
 
 
     [Parameter] public string? dominio { get; set; }
@@ -265,14 +346,17 @@
     [Parameter] public int p10 { get; set; }
     [Parameter] public int? redirecionar { get; set; }
     [Parameter] public string? ordenar { get; set; }
-    [Parameter] public double tempo { get; set; } = 20;
+    [Parameter] public int interval { get; set; }
     [Parameter] public int? tamanho { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private string link = "";
+    private UserPreferences preferences = null;
 
     protected override async Task OnParametersSetAsync()
     {
+        filtro = filtros[indiceFiltro - 1];
+        VerificarFiltro(filtro);
+
         Model = RetornarLista(pagina, ordenar!, (int)tamanho!);
         try
         {
@@ -283,15 +367,19 @@
             Console.WriteLine(ex.Message);
         }
         StartTimer();
+        preferences = repositoryPagina!.preferencias!
+                   .FirstOrDefault(u => u.user == compartilhante2 && u.capitulo == Capitulo &&
+                   u.pasta == indiceFiltro)!;
 
     }
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        var filtros = await Context.Filtro!
+        filtros = await Context.Filtro!
         .Include(f => f.Pagina)!
         .ThenInclude(f => f.Pagina)
+        .ThenInclude(f => f.Produto)
         .Include(f => f.Story)
          .Where(f => f.Story.PaginaPadraoLink == Capitulo)
      .OrderBy(f => f.StoryId)
@@ -301,51 +389,63 @@
         filtro = filtros[indiceFiltro];
         VerificarFiltro(filtro);
 
+        var authState = await AuthenticationStateProvider
+                .GetAuthenticationStateAsync();
+        user = authState.User;
+
 
     }
 
     private void VerificarFiltro(Filtro fil)
     {
-            Model = fil.Pagina!.Select(f => f.Pagina).ToList()!;
+        Model = fil.Pagina!.Select(f => f.Pagina).ToList()!;
     }
-
-
 
     private List<Pagina> RetornarLista(int numeroPagina, string ordem, int tamanhoPagina)
     {
         List<Pagina>? applicationDbContext = null;
 
-        if (ordem == "preco")
-            applicationDbContext = lista!
-               .OrderBy(p => p.Produto!.Preco)
-               .Skip((numeroPagina - 1) * tamanhoPagina)
-               .Take(tamanhoPagina).ToList();
-        else if(ordem == "descricao")
-            applicationDbContext = lista!
-               .OrderBy(p => p.Produto!.Descricao)
-               .Skip((numeroPagina - 1) * tamanhoPagina)
-               .Take(tamanhoPagina).ToList();
-        else if (ordem == "nome")
-            applicationDbContext = lista!
-               .OrderBy(p => p.Produto!.Nome)
-               .Skip((numeroPagina - 1) * tamanhoPagina)
-               .Take(tamanhoPagina).ToList();
-        else 
-            applicationDbContext = lista!
-               .OrderBy(p => p.Id)
-               .Skip((numeroPagina - 1) * tamanhoPagina)
-               .Take(tamanhoPagina).ToList();
+        @if (Model.FirstOrDefault(p => p.Produto != null) != null)
+        {
+            if (ordem == "preco")
+                applicationDbContext = Model!
+                   .OrderBy(p => p.Produto!.Preco)
+                   .Skip((numeroPagina - 1) * tamanhoPagina)
+                   .Take(tamanhoPagina).ToList();
+            else if(ordem == "descricao")
+                applicationDbContext = Model!
+                   .OrderBy(p => p.Produto!.Descricao)
+                   .Skip((numeroPagina - 1) * tamanhoPagina)
+                   .Take(tamanhoPagina).ToList();
+            else if (ordem == "nome")
+                applicationDbContext = Model!
+                   .OrderBy(p => p.Produto!.Nome)
+                   .Skip((numeroPagina - 1) * tamanhoPagina)
+                   .Take(tamanhoPagina).ToList();
+            else 
+                applicationDbContext = Model!
+                   .OrderBy(p => p.Id)
+                   .Skip((numeroPagina - 1) * tamanhoPagina)
+                   .Take(tamanhoPagina).ToList();            
+        }
+        else
+        {
+            applicationDbContext = Model!
+                   .OrderBy(p => p.Id)
+                   .Skip((numeroPagina - 1) * tamanhoPagina)
+                   .Take(tamanhoPagina).ToList();
+        }
 
         return applicationDbContext;
     }
-
 
     private void StartTimer()
     {
         if (auto == 1)
         {
-            Timer!.SetTimer(tempo!);
-            Timer._timer!.Elapsed += _timer_Elapsed;
+            double t = interval * 1000;
+            Timer!.SetTimerListaFiltro(t);
+            Timer._timerListaFiltro!.Elapsed += _timer_Elapsed;
             Console.WriteLine("Timer Started.");
         }
 
@@ -353,187 +453,145 @@
 
     private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        if (auto == 1 && Model!.ToList().Count == 20)
-            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+        if (auto == 1 && Model!.ToList().Count == tamanho)
+            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         else if (auto == 1)
-            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         else
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/0/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/0/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
 
         Console.WriteLine("Timer Elapsed.");
-        Timer!._timer!.Elapsed -= _timer_Elapsed;
+        Timer!._timerListaFiltro!.Elapsed -= _timer_Elapsed;
     }
 
     private async void marcarPreferencia(int Versiculo)
     {
+        var p = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == Capitulo && u.pasta == indiceFiltro);
+        UserPreferences preferences = null;
         if(p1 == 0)
         {
             p1 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/0/0/0/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/0/0/0/0/0/0/0/0/0");
         }
         else if(p2 == 0)
         {
             p2 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/0/0/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/0/0/0/0/0/0/0/0");
         }
         else if (p3 == 0)
         {
             p3 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
         }
         else if (p4 == 0)
         {
             p4 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
         }
         else if (p5 == 0)
         {
             p5 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
         }
         else if (p6 == 0)
         {
             p6 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
         }
         else if (p7 == 0)
         {
             p7 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
         }
         else if (p8 == 0)
         {
             p8 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
         }
         else if (p9 == 0)
         {
             p9 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
         }
         else if (p10 == 0)
         {
             p10 = Versiculo;
-            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         }
         else
         {
             await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 preferências");
         }
-    }
 
-    private async void copiarTexto()
-    {
-        await js!.InvokeAsync<object>("CopiarLink", "1");
-        
-        var page = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p1 - 1).FirstOrDefault()!.Classificacao;
-            var prefe = Context.Classificacao.First(cl => cl.Id == page!.Id);
-            prefe.preferencia1++;
-            Context.Update(prefe);
-            await Context.SaveChangesAsync();
-        
-        if (p2 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p2 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia2++;
-            Context.Update(pref);
-            await Context.SaveChangesAsync();
-        }
-        if (p3 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p3 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia3++;
-            Context.Update(pref);
-            await Context.SaveChangesAsync();
-        }
-        if (p4 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p4 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia4++;
-            Context.Update(pref);
-            await Context.SaveChangesAsync();
-        }
-        if (p5 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p5 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia5++;
-            Context.Update(pref);
-            await Context.SaveChangesAsync();
-        }
-        if (p6 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p6 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia6++;
-            Context.Update(pref);
-            await Context.SaveChangesAsync();
-        }
-        if (p7 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p7 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia7++;
-            Context.Update(pref);
-            await Context.SaveChangesAsync();
-        }
-        if (p8 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p8 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia8++;
-            Context.Update(pref);
-           await Context.SaveChangesAsync();
-        }
-        if (p9 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p9 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia9++;
-            Context.Update(pref);
-           await Context.SaveChangesAsync();
-        }
-        if (p10 != 0)
-        {
-            var pag = Context.Pagina!.Include(p => p.Story).Where(p => p.Story!.PaginaPadraoLink == Capitulo)
-            .OrderBy(p => p.Id).Skip(p10 - 1).FirstOrDefault()!.Classificacao;
-            var pref = Context.Classificacao.First(cl => cl.Id == pag!.Id);
-            pref.preferencia10++;
-            Context.Update(pref);
-           await Context.SaveChangesAsync();
-        }
-    }
+        preferences = new UserPreferences
+            {
+                user = user.Identity!.Name!,
+                capitulo = Capitulo,
+                pasta = (int)indiceFiltro!,
+                p1 = (int)p1!,
+                p2 = (int)p2!,
+                p3 = (int)p3!,
+                p4 = (int)p4!,
+                p5 = (int)p5!,
+                p6 = (int)p6!,
+                p7 = (int)p7!,
+                p8 = (int)p8!,
+                p9 = (int)p9!,
+                p10 = (int)p10!
+            };
 
-    private async void setarTexto(string texto)
-    {
-        await js!.InvokeAsync<object>("SetarLink", texto);
+        if (p10 == 0)
+        {
+            if (p != null)
+            {
+                Context.Add(preferences);
+                Context.SaveChanges();
+                repositoryPagina.preferencias.Add(preferences);
+            }
+            else
+            {
+                p = preferences;
+                Context.Update(p);
+                Context.SaveChanges();
+
+                var preferencia = repositoryPagina.preferencias.FirstOrDefault(pre => pre.Id == p.Id);
+                repositoryPagina.preferencias.Remove(preferencia);
+                repositoryPagina.preferencias.Add(p);
+            }
+        }
     }
 
     private void removePreferencia()
     {
-        setarTexto("");
-        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{tempo}/{tamanho}/{Capitulo}/{indiceFiltro}/0/0/0/0/0/0/0/0/0/0");
+        var p = repositoryPagina!.preferencias!.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == Capitulo && u.pasta == indiceFiltro);
+        var p2 = Context.UserPreferences.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == Capitulo && u.pasta == indiceFiltro);
+        if (p2 != null && p2.user == user.Identity!.Name)
+        {
+            p.p1 = 0; p.p2 = 0; p.p3 = 0; p.p4 = 0; p.p5 = 0;
+            p.p6 = 0; p.p7 = 0; p.p8 = 0; p.p9 = 0; p.p10 = 0;
+            p2.p1 = 0; p2.p2 = 0; p2.p3 = 0; p2.p4 = 0; p2.p5 = 0;
+            p2.p6 = 0; p2.p7 = 0; p2.p8 = 0; p2.p9 = 0; p2.p10 = 0;
+            Context.Update(p2);
+            Context.SaveChanges();
+        }
+        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/0/0/0/0/0/0/0/0/0/0");
+    }
+
+    private void desabilitar()
+    {
+        auto = 0;
+        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+    }
+
+    private void abilitar()
+    {
+        auto = 1;
+        navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+    }
+
+    private void acessarPasta()
+    {
+        auto = 0;
+        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/0/0/0/dominio/comp/comp2/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
     }
 }
