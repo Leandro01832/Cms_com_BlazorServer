@@ -29,7 +29,7 @@ namespace BlazorServerCms.servicos
 
         public void SetTimerAuto()
         {
-            desligarAuto = new System.Timers.Timer(900000); // 15 min
+            desligarAuto = new System.Timers.Timer(1800000); // 30 min
             desligarAuto.Enabled = true;
         }
     }

@@ -3,6 +3,7 @@ using business;
 using business.business;
 using business.Group;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace BlazorServerCms.servicos
     {
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
+
         public Random random = new Random();
         public List<Pagina>? paginas = new List<Pagina>();
         public List<Filtro>? filtros = new List<Filtro>();

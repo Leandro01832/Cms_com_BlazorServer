@@ -15,6 +15,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
@@ -25,6 +26,7 @@ namespace BlazorCms.Client.Pages
     {
         [Inject] public RepositoryPagina? repositoryPagina { get; set; }
         [Inject] public NavigationManager? navigation { get; set; }
+        [Inject] UserManager<IdentityUser> userManager { get; set; }
         [Inject] HttpClient? Http { get; set; }
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] IJSRuntime? js { get; set; }
@@ -159,8 +161,6 @@ namespace BlazorCms.Client.Pages
                 .GetAuthenticationStateAsync();
             user = authState.User;
 
-            if (compartilhante == null)
-            compartilhante = repositoryPagina!.buscarAdmin();
             if (compartilhante2 == null)
                 compartilhante2 = "user";
             if (dominio == null)
@@ -245,6 +245,20 @@ namespace BlazorCms.Client.Pages
 
                 
                 Model = list.Skip((int)indice - 1).FirstOrDefault();
+
+            if (Model != null && Model.ContentUser != null && Model.ContentUser.Contains("iframe") ||
+                Model != null && Model.Content != null && Model.Content.Contains("iframe"))
+            {
+                var conteudoHtml = "";
+                if (Model.ContentUser != null) conteudoHtml = Model.ContentUser;
+                else conteudoHtml = Model.Content;
+
+                if (!conteudoHtml.Contains("?autoplay="))
+                {
+                    colocarAutoPlay(Model);
+
+                }
+            }
 
             if (filtrar == null && substory == null)
             {
@@ -343,7 +357,7 @@ namespace BlazorCms.Client.Pages
                 {
                     lista = 1;
                     var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
-                    if (livro != null && redirecionar == null)
+                    if (livro != null && redirecionar == null && compartilhante == repositoryPagina.buscarAdmin() )
                         navigation!.NavigateTo($"{livro.url}/filtro/{livro.Capitulo}/{filtrar}/0/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0/1");
 
                     preferencia = 0;
@@ -371,6 +385,7 @@ namespace BlazorCms.Client.Pages
                         arr = Arr.RetornarArray(repositoryPagina.filtros, Model.Story!, 3, (long)fi.Id, capitulo, 1);
                     indice = 1;
                     compartilhante = "dominio";
+                    auto = 0;
                     if (arr.Length == 10)
                     {
                         substory = arr[1];
@@ -842,16 +857,27 @@ namespace BlazorCms.Client.Pages
             {
                 try
                 {
-                    if ( p != null && p.Content != null && p.Content.Contains("iframe") && outroHorizonte == 0)
+                    if ( p != null && p.Content != null && p.Content.Contains("iframe") && outroHorizonte == 0 ||
+                        p != null && p.ContentUser != null && p.ContentUser.Contains("iframe") && outroHorizonte == 0)
                     {
-                        var arr = p.Content.Split("/");
+                        var conteudoHtml = "";
+                        if (p.Content != null) conteudoHtml = p.Content;
+                        else conteudoHtml = p.ContentUser;
+                        var arr = conteudoHtml!.Split("/");
                         var id_video = "";
                         for (var index = 0; index < arr.Length; index++)
                         {
-                            if (arr[index] == "embed")
+                            if (arr[index] == "embed" && conteudoHtml.Contains("?autoplay="))
                             {
                                 var text = arr[index + 1];
                                 var arr2 = text.Split("?");
+                                id_video = arr2[0];
+                                break;
+                            }
+                            else if (arr[index] == "embed")
+                            {
+                                var text = arr[index + 1];
+                                var arr2 = text.Split('"');
                                 id_video = arr2[0];
                                 break;
                             }
@@ -930,9 +956,11 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        protected void Casinha()
+        protected async void Casinha()
         {
             auto = 0;
+            if (compartilhante == null) compartilhante = repositoryPagina!.buscarAdmin();
+            if (compartilhante2 == null) compartilhante2 = repositoryPagina!.buscarAdmin();
             navigation!.NavigateTo($"/info/{dominio}/{compartilhante}/{compartilhante2}");
         }
 
@@ -1044,7 +1072,10 @@ namespace BlazorCms.Client.Pages
         {
             if (auto == 1)
                 desabilitarAuto();
+            if(substory == null)
             navigation!.NavigateTo($"/comentario/{capitulo}/{indice}");
+            else
+            navigation!.NavigateTo($"/comentario/{capitulo}/{vers}");
         }
 
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -1284,8 +1315,6 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                if (auto == 1)
-                    desabilitarAuto();
                 navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{indice_Filtro}/{preferencia}/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
 
             }
@@ -1308,10 +1337,9 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarHorizontePastas()
         {
-            if (auto == 1)
-                desabilitarAuto();
+            auto = 0;
             outroHorizonte = 1;
-            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+            navigation!.NavigateTo($"/renderizar/{capitulo}/1/{auto}/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
         }
 
         protected void acessarHorizonteVersos()
@@ -1891,5 +1919,34 @@ namespace BlazorCms.Client.Pages
             return _TotalRegistros;
         }
             
+        private void colocarAutoPlay(Pagina model)
+        {
+            var conteudoHtml = "";
+            if (model.Content != null) conteudoHtml = model.Content;
+            else conteudoHtml = model.ContentUser;
+            var arr = conteudoHtml!.Split("/");
+            var id_video = "";
+            for (var index = 0; index < arr.Length; index++)
+            {
+                if (arr[index] == "embed")
+                {
+                    var text = arr[index + 1];
+                    var arr2 = text.Split('"');
+                    id_video = arr2[0];
+                    break;
+                }
+            }
+            if (Model.Content != null)
+            {
+                Model.Content = Model.Content.Replace(id_video, id_video + "?autoplay=1");
+                Model.Content = Model.Content.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
+
+            }
+            else if (Model.ContentUser != null) 
+            {
+                Model.ContentUser = Model.ContentUser.Replace(id_video, id_video + "?autoplay=1");
+                Model.ContentUser = Model.ContentUser.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
+            }
+        }
     }
 }

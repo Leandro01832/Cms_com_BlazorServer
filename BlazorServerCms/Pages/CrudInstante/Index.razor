@@ -2,6 +2,7 @@
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<IdentityUser> userManager
 @attribute [Authorize]
 
 @if (camadas == null)
@@ -45,7 +46,7 @@ else
 <div>
     <label>Lista:</label>
     <input type="number" onchange="@acessarPagina" min="1" />
-    <a class="btn btn-success" href="instante/create">Novo instante</a>
+    <a class="btn btn-success" href="instante/create">Nova instante</a>
 </div>
 
 @code {
@@ -70,7 +71,8 @@ else
         var authState = await AuthenticationStateProvider
            .GetAuthenticationStateAsync();
         var user = authState.User;
-        if (user.Identity!.Name == repositoryPagina.buscarAdmin())
+        var ad =  repositoryPagina.buscarAdmin();
+        if (user.Identity!.Name == ad)
         {
             camadas.AddRange(await Context.InstanteAdmin!
         .OrderBy(p => p.Id)

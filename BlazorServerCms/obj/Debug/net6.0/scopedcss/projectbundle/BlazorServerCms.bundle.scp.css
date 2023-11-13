@@ -54,7 +54,7 @@ img[b-622vkbnu9r] {
 
 #livro[b-622vkbnu9r] {
     background-color: chocolate;
-    font-size: large;
+    font-size: 12px;
 }
 
 #automatico a[b-622vkbnu9r] {
@@ -607,6 +607,11 @@ p[b-k8aihg5em2] {
     font-size: large;
 }
 
+#NumeroPaginaAcesso3[b-k8aihg5em2] {
+    width: 120px;
+    font-size: large;
+}
+
 #inputime[b-k8aihg5em2] {
     width: 60px;
     font-size: large;
@@ -631,6 +636,17 @@ p[b-k8aihg5em2] {
 .capitulos[b-k8aihg5em2] {
     font-size: 12px;
     background-color: transparent;
+}
+
+.users[b-k8aihg5em2] {
+    font-size: 12px;
+    position: absolute;
+    background-color: black;
+    margin-left: 10%;
+    margin-top: 5%;
+    padding: 5%;
+    height: 300px;
+    overflow: auto;
 }
 
 .ImagemContent[b-k8aihg5em2] {

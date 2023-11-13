@@ -65,6 +65,17 @@ p {
     background-color: transparent;
 }
 
+.users {
+    font-size: 12px;
+    position: absolute;
+    background-color: black;
+    margin-left: 10%;
+    margin-top: 5%;
+    padding: 5%;
+    height: 300px;
+    overflow: auto;
+}
+
 .ImagemContent {
     height: 600px;
 }

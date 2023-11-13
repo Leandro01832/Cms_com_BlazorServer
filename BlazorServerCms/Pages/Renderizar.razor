@@ -109,8 +109,8 @@ else
 
                         @if (substory == null)
                         {
-                        <input type="text" placeholder="digita o nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                                   id="NumeroPaginaAcesso2" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
+                        <input type="number" placeholder="digita nome" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
+                                   id="NumeroPaginaAcesso3" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
                                <center>
                         <a id="acessoPaginaComInput2" href="#" onclick="@Pesquisar"
                            class="btn btn-primary ms-1">
@@ -122,8 +122,8 @@ else
                         }
                         else
                         {
-                            <input type="text" placeholder="verso ou usuario" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
-                                   id="NumeroPaginaAcesso3" min="1" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
+                            <input type="text" placeholder="verso ou user" @onkeypress="@(e=> TeclaPressionada(e))" @ref="firstInput"
+                                   id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
                                <center>
                         <a id="acessoPaginaComInput2" onclick="@Pesquisar"
                            class="btn btn-primary ms-1">
@@ -206,7 +206,7 @@ else
             }
                 
 
-                @if (substory != null && user.Identity!.IsAuthenticated)
+                @if (substory != null && user.Identity!.IsAuthenticated && indice_Filtro == ultimaPasta)
             {
                 <div>
 
@@ -277,9 +277,8 @@ else
 
         @if (usuarios!.Count > 0)
         {
-            <center>
 
-            <div style="position:absolute; background-color:black;">
+            <div class="users">
                 
                     @foreach (var item in usuarios!)
                     {
@@ -288,47 +287,56 @@ else
                        </a>
                     }
             </div>
-            </center>
         }
 
      <div id="render">
-                    @if(preferences != null && vers == preferences.p1 && substory != null )
+                    @if(preferences != null && vers == preferences.p1 && substory != null  ||
+                     p1 == vers && substory != null)
                     {
                         <p id="pref">Minha 1º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p2 && substory != null)
+                    else if (preferences != null && vers == preferences.p2 && substory != null ||
+                    p2 == vers && substory != null)
                     {
                     <p id="pref">Minha 2º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p3 && substory != null)
+                    else if (preferences != null && vers == preferences.p3 && substory != null ||
+                    p3 == vers && substory != null)
                     {
                     <p id="pref">Minha 3º Preferência</p>
                     }
-                    else if(preferences != null && vers == preferences.p4 && substory != null)
+                    else if (preferences != null && vers == preferences.p4 && substory != null ||
+                    p4 == vers && substory != null)
                     {
                     <p id="pref">Minha 4º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p5 && substory != null)
+                    else if (preferences != null && vers == preferences.p5 && substory != null ||
+                    p5 == vers && substory != null)
                     {
                         <p id="pref">Minha 5º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p6 && substory != null)
+                    else if (preferences != null && vers == preferences.p6 && substory != null ||
+                    p6 == vers && substory != null)
                     {
                         <p id="pref">Minha 6º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p7 && substory != null)
+                    else if (preferences != null && vers == preferences.p7 && substory != null ||
+                    p7 == vers && substory != null)
                     {
                         <p id="pref">Minha 7º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p8 && substory != null)
+                    else if (preferences != null && vers == preferences.p8 && substory != null ||
+                    p8 == vers && substory != null)
                     {
                         <p id="pref">Minha 8º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p9 && substory != null)
+                    else if (preferences != null && vers == preferences.p9 && substory != null ||
+                    p9 == vers && substory != null)
                     {
                         <p id="pref">Minha 9º Preferência</p>
                     }
-                    else if (preferences != null && vers == preferences.p10 && substory != null)
+                    else if (preferences != null && vers == preferences.p10 && substory != null ||
+                    p10 == vers && substory != null)
                     {
                         <p id="pref">Minha 10º Preferência</p>
                     }
@@ -384,7 +392,7 @@ else
                     }
                     if (numeros != "")
                     {
-                        <p> Prefêrencias de @(compartilhante2): <strong>@numeros</strong> </p>
+                        <p> Prefêrencias de @(compartilhante2): <input type="text" value="@numeros" readonly="readonly" />  </p>
                     }
 
                 }

@@ -472,591 +472,591 @@ INSERT [dbo].[Pagina] ([Id], [Data], [StoryId], [Titulo], [Comentario], [ImagemC
 GO
 SET IDENTITY_INSERT [dbo].[Pagina] OFF
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (3, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (4, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (5, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (6, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (7, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (8, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (9, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (10, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (11, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (12, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (13, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (14, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (15, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (15, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (24, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (25, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (26, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (26, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (27, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (27, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (28, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (28, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (29, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (30, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (31, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (32, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (33, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (34, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (35, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (36, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (37, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (38, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (39, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (40, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (41, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (42, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (43, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (44, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (45, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (46, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (47, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (59, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (60, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (61, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (62, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (63, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (63, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (64, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (64, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (65, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (65, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (68, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (69, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (70, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (71, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (72, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (73, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (74, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (75, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (76, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (77, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (78, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 1, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (79, 1, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (16, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (17, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (18, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (19, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (20, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (21, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (22, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (23, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (48, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (49, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (50, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (51, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (52, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (53, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (54, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (55, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (56, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (57, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 2, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (58, 2, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (3, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (4, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (5, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (6, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (7, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (8, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (9, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (10, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (11, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (12, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (13, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (14, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (29, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (30, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (31, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (32, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (33, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (34, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (35, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (36, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (37, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (38, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (39, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (40, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (41, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (69, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (70, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (72, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (73, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (74, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (75, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (76, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (77, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (78, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 4, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (79, 4, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (15, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (15, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (24, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (25, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (26, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (26, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (27, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (27, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (28, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (28, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (42, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (43, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (44, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (45, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (46, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (47, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (59, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (60, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (61, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (62, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (63, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (63, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (64, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (64, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (65, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (65, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (68, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 5, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (71, 5, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (17, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (18, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (19, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (20, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (21, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (22, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (23, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (48, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (49, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (50, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (51, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (52, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (53, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (54, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (55, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (56, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (57, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 12, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (58, 12, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 13, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (16, 13, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (3, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (4, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (5, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (6, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (7, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (8, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (9, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (10, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (11, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (12, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (13, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (14, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (29, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (30, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (31, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (32, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (33, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (34, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (35, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (36, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (37, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (38, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (39, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (40, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (41, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (69, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (70, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (72, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (73, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (74, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (75, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (76, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (77, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (78, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 26, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (79, 26, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 27, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (42, 27, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 27, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (43, 27, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 27, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (44, 27, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 27, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (45, 27, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 27, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (46, 27, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 27, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (47, 27, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 27, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (68, 27, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 28, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (59, 28, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 28, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (60, 28, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 28, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (61, 28, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 28, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (62, 28, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 28, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (71, 28, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (63, 29, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (63, 29, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (64, 29, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (64, 29, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (65, 29, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (65, 29, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (15, 30, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (15, 30, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 30, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (24, 30, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 30, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (25, 30, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (26, 30, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (26, 30, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (27, 30, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (27, 30, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (28, 30, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (28, 30, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (17, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (18, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (19, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (20, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (21, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (22, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (23, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (48, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (49, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (50, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (51, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (52, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (53, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (54, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (55, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (56, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (57, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 51, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (58, 51, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 53, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (16, 53, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (31, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (31, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (32, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (32, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (33, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (33, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (34, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (34, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (35, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (35, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (69, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (69, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (73, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (73, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (78, 78, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (78, 78, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (39, 10010, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (39, 10010, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (40, 10010, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (40, 10010, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (41, 10010, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (41, 10010, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (8, 10011, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (8, 10011, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (9, 10011, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (9, 10011, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (10, 10011, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (10, 10011, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (11, 10011, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (11, 10011, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (77, 10011, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (77, 10011, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (12, 10012, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (12, 10012, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (13, 10012, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (13, 10012, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (14, 10012, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (14, 10012, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (75, 10012, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (75, 10012, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (79, 10012, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (79, 10012, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (3, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (3, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (4, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (4, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (5, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (5, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (6, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (6, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (7, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (7, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (29, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (29, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (30, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (30, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (36, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (36, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (37, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (37, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (38, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (38, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (70, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (70, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (72, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (72, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (74, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (74, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (76, 10013, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (76, 10013, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (42, 10016, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (42, 10016, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (43, 10016, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (43, 10016, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (44, 10016, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (44, 10016, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (45, 10016, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (45, 10016, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (46, 10016, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (46, 10016, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (47, 10016, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (47, 10016, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (68, 10016, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (68, 10016, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (59, 10021, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (59, 10021, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (60, 10021, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (60, 10021, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (61, 10021, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (61, 10021, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (62, 10021, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (62, 10021, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (71, 10024, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (71, 10024, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (24, 10025, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (24, 10025, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (25, 10025, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (25, 10025, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (17, 10041, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (17, 10041, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (18, 10041, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (18, 10041, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (19, 10041, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (19, 10041, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (20, 10041, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (20, 10041, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (21, 10041, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (21, 10041, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (22, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (22, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (23, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (23, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (48, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (48, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (49, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (49, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (50, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (50, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (51, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (51, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (52, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (52, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (53, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (53, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (54, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (54, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (55, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (55, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (56, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (56, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (57, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (57, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (58, 10042, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (58, 10042, 1)
 GO
-INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [Id], [QuantidadePorType]) VALUES (16, 10055, 0, 1)
+INSERT [dbo].[FiltroPagina] ([PaginaId], [FiltroId], [QuantidadePorType]) VALUES (16, 10055, 1)
 GO
 INSERT [dbo].[Classificacao] ([Id], [preferencia1], [preferencia2], [preferencia3], [preferencia4], [preferencia5], [preferencia6], [preferencia7], [preferencia8], [preferencia9], [preferencia10]) VALUES (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 GO
@@ -1268,6 +1268,12 @@ INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N
 GO
 INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231028174441_pageLiked', N'6.0.23')
 GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231101132544_preferecia-usuario', N'6.0.23')
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231101133027_preferecia-usuario2', N'6.0.23')
+GO
+INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231104213757_filtro-pagina', N'6.0.23')
+GO
 SET IDENTITY_INSERT [dbo].[Compartilhante] ON 
 
 GO
@@ -1280,5 +1286,18 @@ SET IDENTITY_INSERT [dbo].[PageLiked] ON
 GO
 INSERT [dbo].[PageLiked] ([Id], [user], [capitulo], [indice], [verso], [substory], [grupo], [subgrupo], [subsubgrupo], [camadaSeis], [camadaSete], [camadaOito], [camadaNove], [camadaDez]) VALUES (1, N'leandro01832', 1, 1, 2, 1, 1, 1, 5, NULL, NULL, NULL, NULL, NULL)
 GO
+INSERT [dbo].[PageLiked] ([Id], [user], [capitulo], [indice], [verso], [substory], [grupo], [subgrupo], [subsubgrupo], [camadaSeis], [camadaSete], [camadaOito], [camadaNove], [camadaDez]) VALUES (2, N'leandro01832', 1, 3, 4, 1, 1, 1, 5, NULL, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[PageLiked] ([Id], [user], [capitulo], [indice], [verso], [substory], [grupo], [subgrupo], [subsubgrupo], [camadaSeis], [camadaSete], [camadaOito], [camadaNove], [camadaDez]) VALUES (3, N'leandro01832', 1, 5, 6, 1, 1, 1, 5, NULL, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[PageLiked] ([Id], [user], [capitulo], [indice], [verso], [substory], [grupo], [subgrupo], [subsubgrupo], [camadaSeis], [camadaSete], [camadaOito], [camadaNove], [camadaDez]) VALUES (4, N'leandro01832', 1, 9, 36, 1, 1, 1, 5, NULL, NULL, NULL, NULL, NULL)
+GO
 SET IDENTITY_INSERT [dbo].[PageLiked] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserPreferences] ON 
+
+GO
+INSERT [dbo].[UserPreferences] ([Id], [user], [capitulo], [pasta], [p1], [p2], [p3], [p4], [p5], [p6], [p7], [p8], [p9], [p10]) VALUES (1, N'leandro01832', 1, 77, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+GO
+SET IDENTITY_INSERT [dbo].[UserPreferences] OFF
 GO

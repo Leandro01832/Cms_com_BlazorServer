@@ -2,6 +2,7 @@
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<IdentityUser> userManager
 @attribute [Authorize]
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
@@ -18,7 +19,7 @@
 </EditForm>
 
 @code {
-    private Instante exampleModel;
+    private Instante exampleModel = new();
     private string descricao;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
@@ -33,7 +34,8 @@
         var authState = await AuthenticationStateProvider
             .GetAuthenticationStateAsync();
         var user = authState.User;
-        if (user.Identity!.Name == repositoryPagina.buscarAdmin())
+        var ad =  repositoryPagina.buscarAdmin();
+        if (user.Identity!.Name == ad)
         {
             exampleModel = new InstanteAdmin();
             exampleModel.Descricao = descricao;
