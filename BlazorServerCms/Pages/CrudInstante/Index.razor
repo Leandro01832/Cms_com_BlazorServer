@@ -24,7 +24,7 @@ else
                 <th>Descrição</th>
                 <th>Nº da instante</th>
             <th>Edita</th>
-            <th>Deleta</th>
+            <th>Adicionar</th>
         </tr>
     </thead>
     <tbody>
@@ -35,7 +35,10 @@ else
                 <td>@instante.Descricao</td>
                 <td>@num</td>
                 <td><a class="btn btn-primary" href="instante/edit/@instante.Id">Editar</a> </td>
-                <td><a class="btn btn-primary" href="instante/add/@instante.Id">Adicionar Livro</a> </td>
+                    @if(instante.livros.Count < 9)
+                    {
+                        <td><a class="btn btn-primary" href="add/@instante.Id">Adicionar Livro</a> </td>                        
+                    }
                
             </tr>
         }
@@ -55,10 +58,7 @@ else
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
-    protected override async Task OnParametersSetAsync()
-    {
-        await CarregaCamadas(pagina);
-    }
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,23 +72,15 @@ else
            .GetAuthenticationStateAsync();
         var user = authState.User;
         var ad =  repositoryPagina.buscarAdmin();
-        if (user.Identity!.Name == ad)
-        {
-            camadas.AddRange(await Context.InstanteAdmin!
-        .OrderBy(p => p.Id)
-               .Skip((pag - 1) * 10)
-               .Take(10)
-        .ToListAsync());
-        }
-        else
-        {
-            camadas.AddRange( await Context.InstanteUser!
-       .OrderBy(p => p.Id)
-              .Skip((pag - 1) * 10)
-              .Take(10)
-       .ToListAsync());
+      
+            camadas.AddRange( await Context.Instante!.Include(i => i.livros)
+                .Where(i => i.livros.FirstOrDefault(l => l.user == user.Identity!.Name) != null)
+                .OrderBy(p => p.Id)
+                .Skip((pag - 1) * 10)
+                .Take(10)
+                .ToListAsync());
 
-        }
+        
     }
 
     private void acessarPagina(ChangeEventArgs e)

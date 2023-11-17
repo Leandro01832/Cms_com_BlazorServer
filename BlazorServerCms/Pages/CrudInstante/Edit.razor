@@ -21,7 +21,6 @@
     [Parameter]public long Id{ get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private string descricao;
 
     protected async override Task OnParametersSetAsync()
     {
@@ -30,15 +29,7 @@
            .GetAuthenticationStateAsync();
         var user = authState.User;
         var ad =  repositoryPagina.buscarAdmin();
-        if (user.Identity!.Name == ad)
-        {
-        exampleModel = await Context.InstanteAdmin!.FirstAsync(l => l.Id == Id);
-        }
-        else
-        {
-        exampleModel = await Context.InstanteUser!.FirstAsync(l => l.Id == Id);
-
-        }
+       
     }
 
     private async void HandleSubmit()

@@ -1,6 +1,5 @@
 ﻿@page "/"
 @page "/info/{dominio}/{compartilhante}/{compartilhante2}"
-@page "/instante/{instante:int}"
 @page "/{capitulo:int}/{filtrar:int}"
 @page "/{capitulo:int}/{indice}"
 @page "/acesso/{indice}"
@@ -36,16 +35,10 @@
 @inject UserManager<IdentityUser> userManager
 @inject IJSRuntime js
 
-@if(instante != null)
-{
-    <PageTitle>Instante @instante </PageTitle>
 
-}
-else
-{
     <PageTitle>Instagleo</PageTitle>
     
-}
+
 
 
 <h3>@Mensagem</h3>
@@ -69,14 +62,32 @@ else
 </p>
     
  <div class="container">
-     <input type="text" @bind="Query"  placeholder="Nº do capitulo ou pesquisar"  />
-    <a id="acessoPaginaComInput2" href="#" onclick="@buscar"
+    <input type="text" placeholder="Usuario" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
+    <br />
+    <input type="text" @bind="Query" placeholder="Nº do capitulo ou pesquisar" />
+    <a id="acessoPaginaComInput2"  onclick="@buscar"
        class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
         </svg>
     </a>     
  </div>
+
+@if (usuarios!.Count > 0)
+{
+
+    <div class="users">
+
+        @foreach (var item in usuarios!)
+        {
+            <p>
+                <a href="@item.UserName">
+                    Usuario @item.UserName
+                </a>
+            </p>
+        }
+    </div>
+}
 
 @if(filtros!.Count > 0)
 {
@@ -113,7 +124,6 @@ else
 
 @code{
 
-    [Parameter] public int? instante { get; set; }
 
 
     [Parameter] public int? capitulo { get; set; }
@@ -134,7 +144,9 @@ else
     [Parameter] public string? compartilhante { get; set; }
     [Parameter] public string? compartilhante2 { get; set; }
     public string? Query { get; set; }
+    public string? Usuario { get; set; }
     List<Filtro>? filtros = new List<Filtro>();
+    List<IdentityUser> usuarios = new List<IdentityUser>();
     int cap = 1;
     string? Mensagem { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
@@ -151,7 +163,7 @@ else
         var quant = await userManager.Users.ToListAsync();
         users = quant.Count;
 
-        var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+        var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.user == repositoryPagina.buscarAdmin());
         if (compartilhante == null)        
             compartilhante = repositoryPagina.buscarAdmin();
         if(dominio == null)
@@ -200,14 +212,14 @@ else
         { 
             var number = Regex.Match(indice, @"d+").Value;
             if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.Capitulo}/{number}/1/11/1/0/0/0/0/{dominio}/{compartilhante}/{compartilhante2}");
+                navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.capitulo}/{number}/1/11/1/0/0/0/0/{dominio}/{compartilhante}/{compartilhante2}");
             else
                 Mensagem = erro1;
         }
         else if (filtrar != null)
         {
             if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.Capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
+                navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0");
             else
                 Mensagem = erro1;
         }
@@ -309,38 +321,6 @@ else
             }
 
         }
-        else if (instante != null)
-        {
-            List<InstanteAdmin>? instantes = await Context.InstanteAdmin.Include(i => i.livros)
-            .OrderBy(l => l.Id).ToListAsync();
-
-            var objInstante = instantes.Skip((int)instante - 1).FirstOrDefault();
-
-
-            if (objInstante != null)
-            {
-                List<LivroAdmin> livros = objInstante.livros.OrderBy(l => l.Id).ToList(); 
-                string url = "";
-                for (var i = 0; i < livros.Count; i++)
-                {
-                    if (livros[i].IsBook)
-                    {
-                        var ad =  repositoryPagina.buscarAdmin();
-                        var preferences = await Context.UserPreferences.FirstOrDefaultAsync(u =>  u.user == ad && u.capitulo == livros[i].Capitulo && u.pasta == livros[i].Pasta);
-                        if(preferences != null)
-                            url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
-                        else
-                        url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/0/0/0/0/0/0/0/0/0/0";
-                    }
-                   else
-                    url = $"{livros[i].UrlNoBook}";
-                    await js!.InvokeAsync<object>("AcessarSites", url);
-
-                }
-
-
-            }
-        }
 
 
     }
@@ -386,9 +366,18 @@ else
             else if (string.IsNullOrEmpty(Query))
             {
                 filtros = new List<Filtro>();
+                //if (string.IsNullOrEmpty(Usuario))
+                //    usuarios.Clear();
+                //else Usuario = "asdfsdf";
             }
             cap = 1;
         }
     }
 
+    private void alterarUser(ChangeEventArgs args)
+    {
+        usuarios = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
+        if (string.IsNullOrEmpty(args.Value!.ToString()!))
+            usuarios.Clear();
+    }
 }

@@ -12,7 +12,7 @@
     }
     else
     {
-        <h3>@livro.url - Capitulo @livro.Capitulo</h3>
+        <h3>@livro.url - Capitulo @livro.capitulo</h3>
         <br />
         <label>preferências separando por ","</label>
         <input type="text" placeholder="informe preferências" onchange="@((ChangeEventArgs e) => separandoVersos(e))" />
@@ -24,7 +24,7 @@
 
         if(nums != null)
         {
-            <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.Capitulo}/pasta-{pasta}/0/0/dominio/{ad}/{ad}/{nums[0]}/{nums[1]}/{nums[2]}/{nums[3]}/{nums[4]}/{nums[5]}/{nums[6]}/{nums[7]}/{nums[8]}/{nums[9]}"))"
+            <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.capitulo}/pasta-{pasta}/0/0/dominio/{ad}/{ad}/{nums[0]}/{nums[1]}/{nums[2]}/{nums[3]}/{nums[4]}/{nums[5]}/{nums[6]}/{nums[7]}/{nums[8]}/{nums[9]}"))"
                class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -34,7 +34,7 @@
         }
         else
         {
-            <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.Capitulo}/pasta-{pasta}/0/0/dominio/{ad}/{ad}/0/0/0/0/0/0/0/0/0/0"))"
+            <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.capitulo}/pasta-{pasta}/0/0/dominio/{ad}/{ad}/0/0/0/0/0/0/0/0/0/0"))"
                class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -53,7 +53,7 @@
     string versos = "";
     int pasta = 1;
     int[] nums = null;
-    Livro livro = new Livro { Capitulo = 1, url = "" };
+    Livro livro = new Livro { capitulo = 1, };
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private string ad;
@@ -62,7 +62,7 @@
     {
         Context = db.CreateDbContext(null);
         ad = repositoryPagina.buscarAdmin();
-        livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
+        livro = await Context.Livro!.FirstOrDefaultAsync(l => l.user == repositoryPagina.buscarAdmin());
         if (livro == null)
             navigation.NavigateTo($"/mensagem/Voce ainda não esta compartilhando nenhum livro");
 

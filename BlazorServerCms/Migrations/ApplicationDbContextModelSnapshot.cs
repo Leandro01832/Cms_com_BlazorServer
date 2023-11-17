@@ -22,7 +22,7 @@ namespace BlazorServerCms.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("business.business.Book.InstanteAdmin", b =>
+            modelBuilder.Entity("business.business.Book.Instante", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,23 +35,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InstanteAdmin");
-                });
-
-            modelBuilder.Entity("business.business.Book.InstanteUser", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("InstanteUser");
+                    b.ToTable("Instante");
                 });
 
             modelBuilder.Entity("business.business.Book.Livro", b =>
@@ -62,27 +46,35 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Capitulo")
-                        .HasColumnType("int");
+                    b.Property<long?>("InstanteId")
+                        .HasColumnType("bigint");
 
-                    b.Property<bool>("Compartilhando")
+                    b.Property<bool>("IsBook")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
+                    b.Property<string>("UrlNoBook")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Pasta")
+                    b.Property<int>("capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("pasta")
                         .HasColumnType("int");
 
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versiculo")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Livro");
+                    b.HasIndex("InstanteId");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Livro");
+                    b.ToTable("Livro");
                 });
 
             modelBuilder.Entity("business.business.Classificacao", b =>
@@ -815,39 +807,6 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("business.business.Book.LivroAdmin", b =>
-                {
-                    b.HasBaseType("business.business.Book.Livro");
-
-                    b.Property<long>("InstanteAdminId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsBook")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UrlNoBook")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("InstanteAdminId");
-
-                    b.HasDiscriminator().HasValue("LivroAdmin");
-                });
-
-            modelBuilder.Entity("business.business.Book.LivroUser", b =>
-                {
-                    b.HasBaseType("business.business.Book.Livro");
-
-                    b.Property<long>("InstanteUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("user")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("InstanteUserId");
-
-                    b.HasDiscriminator().HasValue("LivroUser");
-                });
-
             modelBuilder.Entity("business.Group.CamadaDez", b =>
                 {
                     b.HasBaseType("business.Filtro");
@@ -949,6 +908,15 @@ namespace BlazorServerCms.Migrations
                     b.HasIndex("SubGrupoId");
 
                     b.HasDiscriminator().HasValue("SubSubGrupo");
+                });
+
+            modelBuilder.Entity("business.business.Book.Livro", b =>
+                {
+                    b.HasOne("business.business.Book.Instante", "Instante")
+                        .WithMany("livros")
+                        .HasForeignKey("InstanteId");
+
+                    b.Navigation("Instante");
                 });
 
             modelBuilder.Entity("business.business.Classificacao", b =>
@@ -1139,28 +1107,6 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("business.business.Book.LivroAdmin", b =>
-                {
-                    b.HasOne("business.business.Book.InstanteAdmin", "InstanteAdmin")
-                        .WithMany("livros")
-                        .HasForeignKey("InstanteAdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InstanteAdmin");
-                });
-
-            modelBuilder.Entity("business.business.Book.LivroUser", b =>
-                {
-                    b.HasOne("business.business.Book.InstanteUser", "InstanteUser")
-                        .WithMany("Livros")
-                        .HasForeignKey("InstanteUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InstanteUser");
-                });
-
             modelBuilder.Entity("business.Group.CamadaDez", b =>
                 {
                     b.HasOne("business.Group.CamadaNove", "CamadaNove")
@@ -1249,14 +1195,9 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("SubGrupo");
                 });
 
-            modelBuilder.Entity("business.business.Book.InstanteAdmin", b =>
+            modelBuilder.Entity("business.business.Book.Instante", b =>
                 {
                     b.Navigation("livros");
-                });
-
-            modelBuilder.Entity("business.business.Book.InstanteUser", b =>
-                {
-                    b.Navigation("Livros");
                 });
 
             modelBuilder.Entity("business.business.Cliente", b =>

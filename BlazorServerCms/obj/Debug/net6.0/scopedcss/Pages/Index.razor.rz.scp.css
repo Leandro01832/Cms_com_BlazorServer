@@ -1,0 +1,14 @@
+*[b-ybvjv7whh6] {
+    padding: 0;
+    margin: 0;
+}
+.users[b-ybvjv7whh6] {
+    font-size: 12px;
+    position: absolute;
+    background-color: black;
+    margin-left: 10%;
+    margin-top: 1%;
+    padding: 5%;
+    height: 300px;
+    overflow: auto;
+}

@@ -2,6 +2,8 @@
 @inherits IndexCamdaDezBase
 @attribute [Authorize(Roles = "Admin")]
 
+<p>Livros em instantes: @livroInstante</p>
+
 @if (camadas == null)
 {
 <p><em>Carregando...</em></p>
@@ -15,18 +17,10 @@ else
     <div>
         <a class="btn btn-success" href="livro/create">Novo livro</a>
     </div>
-    <div>
-        <a class="btn btn-dark" href="definir-livro">Definir livro compartilhado</a>
-    </div>
-    <div>
-        <a class="btn btn-dark" href="/user-book/livro1">Definir livros</a>
-    </div>
 <table class="table">
     <thead>
         <tr>
             <th>Livros</th>
-            <th>Capitulo</th>
-                <th>Compartilhando</th>
             <th>Edita</th>
             <th>Deleta</th>
         </tr>
@@ -34,10 +28,11 @@ else
     <tbody>
             @foreach (var livro in camadas)
         {
-            <tr>
-                <td>@livro.url</td>
-                <td>@livro.Capitulo</td>
-                <td><input type="checkbox" checked="@livro.Compartilhando" /></td>
+                var url = "";
+                if (!livro.IsBook) url = livro.UrlNoBook;
+                else url = livro.url;
+                <tr>
+                <td>@url</td>
                 <td><a class="btn btn-primary" href="livro/edit/@livro.Id">Editar</a> </td>
                 <td><a class="btn btn-danger" @onclick="(()=> DeletarLivro(livro.Id))">Deletar</a> </td>
                
@@ -59,6 +54,7 @@ else
     [Parameter] public int pagina { get; set; } = 1;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+    private int livroInstante = 0;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -69,11 +65,13 @@ else
     {
         Context = db.CreateDbContext(null);
         await CarregaCamadas(pagina);
+        var livrosInstantes = await Context.Livro!.Where(l => l.InstanteId != null).ToListAsync();
+        livroInstante = livrosInstantes.Count;
     }
 
     async Task CarregaCamadas(int pag)
     {
-        camadas = await Context.Livro!
+        camadas = await Context.Livro!.Where(l => l.InstanteId == null)
         .OrderBy(p => p.Id)
                .Skip((pag - 1) * 10)
                .Take(10)

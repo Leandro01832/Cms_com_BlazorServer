@@ -5,49 +5,109 @@
 @inject UserManager<IdentityUser> userManager
 @attribute [Authorize]
 
+@*<p>
+    <label>Pesquisar:</label>
+    <input id="url" @bind-value="url" @bind-value:event="oninput" />
+</p>*@
+
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <p>
-        <label>Descricao:</label>
-        <InputText id="url" @bind-Value="descricao" />
+        <label>Descricao da instante:</label>
+        <InputText id="url" @bind-Value="exampleModel.Descricao" />
     </p>
-   
-   
+
+    <select @bind="LivroId">
+        <option value="0">Selecione uma opção</option>
+        @{
+            if (livros.Count > 0)
+                foreach (var item in livros!.Where(sub =>  sub.InstanteId == null && sub.IsBook ||
+                 sub.InstanteId == null && !sub.IsBook &&  user.Identity!.Name == repositoryPagina.buscarAdmin()))
+                {
+                    if (item.IsBook)
+                    {
+                        <option value="@item.Id">@item.url</option>
+
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.UrlNoBook</option>
+                        
+                    }
+                }
+        }
+    </select>
+    <p>
+        <label>Capitulo:</label>
+        <InputNumber id="capitulo" @bind-Value="@capitulo"></InputNumber>
+    </p>
+    <p>
+        <label>Pasta:</label>
+        <InputNumber id="pasta" @bind-Value="@pasta"></InputNumber>
+    </p>
+    
+    <p>
+        <label>Versiculo:</label>
+        <InputNumber id="verso" @bind-Value="@versiculo"></InputNumber>
+    </p>
 
     <button type="submit">Adicionar</button>
 </EditForm>
 
 @code {
     private Instante exampleModel = new();
+    private long LivroId = 0;
+    private int capitulo;
+    private int pasta;
+    private int versiculo;
     private string descricao;
+    List<Livro> livros = new List<Livro>();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+    private ClaimsPrincipal user;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+        livros = await Context.Livro!.ToListAsync();
+        var authState = await AuthenticationStateProvider
+        .GetAuthenticationStateAsync();
+        user = authState.User;
     }
 
     private async void HandleSubmit()
     {
-        var authState = await AuthenticationStateProvider
-            .GetAuthenticationStateAsync();
-        var user = authState.User;
-        var ad =  repositoryPagina.buscarAdmin();
-        if (user.Identity!.Name == ad)
+        if(capitulo > 0 && pasta > 0 && LivroId > 0)
         {
-            exampleModel = new InstanteAdmin();
-            exampleModel.Descricao = descricao;
+
+            var liv = Context.Livro!.FirstOrDefault(l => l.Id == LivroId);
+            if(liv != null)
+            {
+            var ad = repositoryPagina.buscarAdmin();
+
+            await Context.AddAsync(exampleModel);
+            Context.SaveChanges();
+                
+            var livro = new Livro
+                {
+                    user = user.Identity!.Name,
+                    pasta = pasta,
+                    capitulo = capitulo,
+                    versiculo = versiculo,
+                    InstanteId = exampleModel.Id                  
+                };
+            if (liv.IsBook) { livro.url = liv.url; livro.UrlNoBook = null; }
+            else livro.UrlNoBook = liv.UrlNoBook;
+            await Context.AddAsync(livro);
+            Context.SaveChanges();
+            navigation.NavigateTo("/crud/instante/1");
+            }
+
         }
         else
         {
-            exampleModel = new InstanteUser();
-            exampleModel.Descricao = descricao;
             
         }
-        await Context.AddAsync(exampleModel);
-        await Context.SaveChangesAsync();
-        navigation.NavigateTo("/crud/instante/1");
     }
 }

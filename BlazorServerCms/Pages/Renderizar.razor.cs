@@ -1,5 +1,4 @@
 ﻿using BlazorServerCms.Data;
-using BlazorServerCms.Migrations;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -356,9 +355,6 @@ namespace BlazorCms.Client.Pages
                 if (filtrar != null)
                 {
                     lista = 1;
-                    var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
-                    if (livro != null && redirecionar == null && compartilhante == repositoryPagina.buscarAdmin() )
-                        navigation!.NavigateTo($"{livro.url}/filtro/{livro.Capitulo}/{filtrar}/0/0/0/{dominio}/{compartilhante}/{compartilhante2}/0/0/0/0/0/0/0/0/0/0/1");
 
                     preferencia = 0;
                     int[] arr = null;
@@ -384,7 +380,7 @@ namespace BlazorCms.Client.Pages
                     else if (fi is SubStory)
                         arr = Arr.RetornarArray(repositoryPagina.filtros, Model.Story!, 3, (long)fi.Id, capitulo, 1);
                     indice = 1;
-                    compartilhante = "dominio";
+                    if(compartilhante == null) compartilhante = "admin";
                     auto = 0;
                     if (arr.Length == 10)
                     {
@@ -1067,17 +1063,7 @@ namespace BlazorCms.Client.Pages
                 auto = 0;
             }            
         }
-
-        protected async void FazerComentario()
-        {
-            if (auto == 1)
-                desabilitarAuto();
-            if(substory == null)
-            navigation!.NavigateTo($"/comentario/{capitulo}/{indice}");
-            else
-            navigation!.NavigateTo($"/comentario/{capitulo}/{vers}");
-        }
-
+        
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
             if (auto == 1)
@@ -1325,6 +1311,8 @@ namespace BlazorCms.Client.Pages
             
             int tamanho = 0;
 
+            if (compartilhante2 == null) compartilhante2 = "user";
+
             if (listaFiltradaComConteudo!.FirstOrDefault(p => p.ContentUser != null) != null)
                 tamanho = 5;
             else
@@ -1332,7 +1320,7 @@ namespace BlazorCms.Client.Pages
 
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/{tamanho}/{capitulo}/{indice_Filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation!.NavigateTo($"/lista-filtro/1/teste/{compartilhante2}/1/11/{tamanho}/{capitulo}/{indice_Filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         }
 
         protected void acessarHorizontePastas()

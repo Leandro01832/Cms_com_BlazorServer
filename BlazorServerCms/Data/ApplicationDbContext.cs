@@ -27,10 +27,8 @@ namespace BlazorServerCms.Data
 
         public DbSet<UserPreferences> UserPreferences { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
-        public DbSet<InstanteUser> InstanteUser { get; set; }
-        public DbSet<InstanteAdmin> InstanteAdmin { get; set; }
+        public DbSet<Instante> Instante { get; set; }
         public DbSet<FiltroPagina> FiltroPagina { get; set; }
-        public DbSet<LivroUser> LivroUser     { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Classificacao> Classificacao { get; set; }
         public DbSet<savedFolder> savedFolder { get; set; }

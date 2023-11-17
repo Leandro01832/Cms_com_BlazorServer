@@ -1,21 +1,37 @@
 ﻿@page "/{user}"
-@page "/{user}/{instante:int}"
+@page "/{user}/{insta:int}"
 @inject UserManager<IdentityUser> userManager
 @inject RepositoryPagina? repositoryPagina
 @inject IJSRuntime? js 
 @inject NavigationManager navigation
-<h3>Usuario</h3>
+@inject AuthenticationStateProvider? AuthenticationStateProvider
+<h3>Usuario compartilhante @user </h3>
 
-@if (instante != null)
+@if (insta != null && objInstante != null)
 {
-    <PageTitle>Instante @instante </PageTitle>
+    <PageTitle>Instante @insta </PageTitle>
+    <p>Você esta acessando a instante nº @i </p>
+    <p>Descrição da instante: @objInstante.Descricao </p>
 
 }
 else
 {
-    <PageTitle>Usuario</PageTitle>
+    <PageTitle>@user</PageTitle>
 
 }
+
+<p>
+    <label>Informe o nº da instante</label>
+    <input type="number" min="1" @bind="@insta" />
+
+</p>
+<p>
+    <a onclick="@buscarInstante" class="btn btn-dark">Acessar instante</a>
+
+</p>
+
+<br />
+<hr />
 
 @if(livroCompartilhado == null)
 {
@@ -23,12 +39,14 @@ else
 }
 else
 {
-    var preferences = Context.UserPreferences.FirstOrDefault(u => u.user == user && u.capitulo == livroCompartilhado.Capitulo && u.pasta == pasta);
+    <p>Livro: @livroCompartilhado.url </p>
+    <p>Capitulo: @livroCompartilhado.capitulo </p>
+  
     <label>Nº da pasta</label>
-    <input type="text" @bind="pasta" placeholder="Nº da pasta" />
+    <input type="number" @bind="pasta" placeholder="Nº da pasta" />
     if(preferences != null)
     {
-        <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livroCompartilhado.url}/filtro/{livroCompartilhado.Capitulo}/pasta-{pasta}/0/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}"))"
+        <a href="#" onclick="@(() => navigation.NavigateTo($"{livroCompartilhado!.url}/filtro/{livroCompartilhado.capitulo}/pasta-{pasta}/0/0/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}"))"
            class="btn btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -37,7 +55,7 @@ else
     }
     else
     {
-        <a href="#" onclick="@(() => navigation.ToAbsoluteUri($"{livroCompartilhado.url}/filtro/{livroCompartilhado.Capitulo}/pasta-{pasta}/0/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0"))"
+        <a href="#" onclick="@(() => navigation.NavigateTo($"{livroCompartilhado!.url}/filtro/{livroCompartilhado.capitulo}/pasta-{pasta}/0/0/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0"))"
            class="btn btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -45,12 +63,33 @@ else
         </a>
     }
 }
+@if (usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated && livroCompartilhado != null)
+{
+    <p>
+        <a href="/user-book/@livroCompartilhado.Id" class="btn btn-dark">
+            definir livro compartilhado
+        </a>
+    </p>
 
-<p>
-    <a href="/user-book/livros-compartilhados/@user" class="btn btn-dark">
-        Livros Compartilhados
-    </a>
-</p>
+}
+
+<br />
+<hr />
+
+@if(usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated)
+{
+    <p>
+        <a href="/crud/instante/1" class="btn btn-dark">
+            Instantes
+        </a>
+    </p>
+    
+}
+
+<br />
+<hr />
+
+<p>Pastas Salvas</p>
 
 @if(caps != null)
 for(var i = 1; i <= caps.Length; i++)
@@ -77,17 +116,21 @@ for(var i = 1; i <= caps.Length; i++)
 
 @code {
     [Parameter] public string user { get; set; }
-    [Parameter] public int? instante { get; set; }
+    [Parameter] public int? insta { get; set; }
+    public int? i;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private List<Filtro> filtros = new List<Filtro>();
-    private LivroUser? livroCompartilhado = null;
+    private Livro? livroCompartilhado = null;
+    private Instante objInstante = null;
     private int pasta;
+    private ClaimsPrincipal usuario;
+    private UserPreferences preferences = null;
     int[] caps = null;
 
     protected override async Task OnParametersSetAsync()
     {
-        livroCompartilhado = await Context.LivroUser.FirstOrDefaultAsync(u => u.user == user);
+        
 
         var folders = await Context.savedFolder.Where(s => s.user == user).ToListAsync();
         foreach(var item in folders)
@@ -102,34 +145,46 @@ for(var i = 1; i <= caps.Length; i++)
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+        var authState = await AuthenticationStateProvider
+                .GetAuthenticationStateAsync();
+        usuario = authState.User;
+        livroCompartilhado = await Context.Livro!.Where(u => u.user == user).OrderBy(l => l.Id).FirstOrDefaultAsync();
+        if(livroCompartilhado != null)
+         preferences = Context.UserPreferences
+        .FirstOrDefault(u => u.user == user && u.capitulo == livroCompartilhado.capitulo && u.pasta == pasta);
+    }
 
-        if (instante != null)
+    private async void buscarInstante()
+    {
+        List<Instante>? instantes = await Context.Instante.Include(i => i.livros)
+        .Where(l => l.livros.FirstOrDefault(li => li.user == user) != null)
+           .OrderBy(l => l.Id).ToListAsync();
+
+        objInstante = instantes.Skip((int)insta - 1).FirstOrDefault();
+        i = insta;
+
+
+        if (objInstante != null)
         {
-            List<InstanteUser>? instantes = await Context.InstanteUser.Include(i => i.Livros)
-            .Where(i => i.Livros.FirstOrDefault(l => l.user == user) != null)
-            .OrderBy(l => l.Id).ToListAsync();
-
-            var objInstante = instantes.Skip((int)instante - 1).FirstOrDefault();
-
-
-            if (objInstante != null)
+            navigation.NavigateTo($"/{user}/{insta}");
+            List<Livro> livros = objInstante.livros.OrderBy(l => l.Id).ToList();
+            string url = "";
+            for (var i = 0; i < livros.Count; i++)
             {
-                List<LivroUser> livros = objInstante.Livros.OrderBy(l => l.Id).ToList();
-                string url = "";
-                for (var i = 0; i < livros.Count; i++)
-                {
+                
                     var ad = repositoryPagina.buscarAdmin();
-                    var preferences = await Context.UserPreferences.FirstOrDefaultAsync(u => u.user == ad && u.capitulo == livros[i].Capitulo && u.pasta == livros[i].Pasta);
-                    if(preferences != null)
-                        url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{ad}/{user}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
+                    var preferences = await Context.UserPreferences.FirstOrDefaultAsync(u => u.user == ad && u.capitulo == livros[i].capitulo && u.pasta == livros[i].pasta);
+                    if (preferences != null)
+                        url = $"{livros[i].url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
                     else
-                    url = $"{livros[i].url}/filtro/{livros[i].Capitulo}/pasta-{livros[i].Pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{ad}/{user}/0/0/0/0/0/0/0/0/0/0";
-                    await js!.InvokeAsync<object>("AcessarSites", url);     
-
-                }
-
-
+                        url = $"{livros[i].url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0";
+              
+                await js!.InvokeAsync<object>("AcessarSites", url);
             }
+
+
+
         }
     }
+
 }

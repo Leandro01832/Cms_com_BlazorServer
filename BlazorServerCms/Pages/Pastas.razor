@@ -10,8 +10,8 @@
 
 <BackPage></BackPage>
 @{
-    getPastas();
-
+    
+    if(pastas != null)
     for (var i = 0; i < pastas.Length; i++)
         if (pastas[i] != 0 && !numeros.Contains(pastas[i]))
         {
@@ -46,7 +46,7 @@
 
 @code {
     private string? authMessage;
-    protected int[] pastas;
+    protected int[] pastas = null;
     protected string[] namePastas;
     [Parameter] public int capitulo { get; set; }
     [Parameter] public int verso { get; set; }
@@ -68,13 +68,14 @@
         .Where(p => p.Story!.PaginaPadraoLink == capitulo).OrderBy(p => p.Id).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
         saved = await Context.savedFolder.ToListAsync();
-
         filtros = Context.Pagina!
-        .Include(p => p.Filtro)!
-        .ThenInclude(p => p.Filtro)
-        .Include(p => p.Story)
-        .ThenInclude(p => p.Filtro)
-                        .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
+    .Include(p => p.Filtro)!
+    .ThenInclude(p => p.Filtro)
+    .Include(p => p.Story)
+    .ThenInclude(p => p.Filtro)
+                    .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
+
+        getPastas();
     }
 
     protected void getPastas()
@@ -83,6 +84,7 @@
         namePastas = new string[Model.Filtro!.Count];
         for (var i = 0; i < pastas.Length; i++)
             pastas[i] = 0;
+
 
 
         if (Model.Filtro != null && Model.Filtro.FirstOrDefault(f => f.QuantidadePorType > 1) == null)

@@ -9,5 +9,6 @@ namespace business.business.Book
     public class Instante : BaseModel
     {
         public string? Descricao { get; set; }
+        public virtual List<Livro> livros { get; set; }
     }
 }

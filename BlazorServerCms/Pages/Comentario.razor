@@ -127,10 +127,10 @@
             };
         Pagina.entity = false;
 
-            Context.Add(pagina);
-            Context.SaveChanges();
-            pagina.Story.QuantComentario++;
-        
+        Context.Add(pagina);
+        Context.SaveChanges();
+        pagina.Story.QuantComentario++;
+
 
         if (capitulo != 0)
         {
@@ -145,8 +145,12 @@
             await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}");
             await js!.InvokeVoidAsync("history.back");
         }
+        else
+        {
             await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!!");
-            await js!.InvokeVoidAsync("history.back");
+                await js!.InvokeVoidAsync("history.back");
+            
+        }
 
     }
 

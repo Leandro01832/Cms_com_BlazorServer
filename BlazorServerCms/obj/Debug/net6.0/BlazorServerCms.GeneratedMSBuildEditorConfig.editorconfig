@@ -20,8 +20,8 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/AcessoLivro.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNlc3NvTGl2cm8ucmF6b3I=
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/AcessoInstante.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNlc3NvSW5zdGFudGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Admin.razor]
@@ -132,10 +132,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/DefinirLivro.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXERlZmluaXJMaXZyby5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CrudLivro/DefinirLivroUser.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXERlZmluaXJMaXZyb1VzZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -208,10 +204,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN1YkdydXBvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/DownloadCapitulo.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRG93bmxvYWRDYXBpdHVsby5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ecommerce/Cadastro.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXENhZGFzdHJvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -224,16 +216,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXFJlc3Vtby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/LivroCompartilhado.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGl2cm9Db21wYXJ0aWxoYWRvLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Livros.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGl2cm9zLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Pastas.razor]
@@ -284,13 +268,13 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlnLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-dxxtsk4tmq
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ybvjv7whh6
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ListaFiltro.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-622vkbnu9r
-
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Paginacao.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFnaW5hY2FvLnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-brm1o9lvas
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Plataforma.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGxhdGFmb3JtYS5yYXpvcg==

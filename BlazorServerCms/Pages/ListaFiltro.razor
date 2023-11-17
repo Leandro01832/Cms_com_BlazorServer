@@ -1,4 +1,4 @@
-﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
+﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{compartilhante}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 @page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 
 
@@ -54,7 +54,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -62,7 +62,7 @@
             }
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 Proxima lista >>>
             </a>
 
@@ -97,21 +97,21 @@
         <h3>Tamanho da lista</h3>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/11/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/11/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 10 itens
             </a>
 
         </strong>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/41/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/41/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 40 itens
             </a>
 
         </strong>
         <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/81/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/81/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                 80 itens
             </a>
         </strong>
@@ -123,21 +123,21 @@
             <h3>Tamanho da lista</h3>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/6/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/6/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                     5 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/11/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/11/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                     10 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/16/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/16/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}"))">
                     15 itens
                 </a>
             </strong>
@@ -205,46 +205,56 @@
                     else
                     {
                          <div class="produto" onclick="cancelar()">
-                    @if(Versiculo == p1)
-                    {
-                        <p id="pref">Minha 1º Preferência</p>
-                    }
-                    else if(Versiculo == p2)
-                    {
-                    <p id="pref">Minha 2º Preferência</p>
-                    }
-                    else if(Versiculo == p3)
-                    {
-                    <p id="pref">Minha 3º Preferência</p>
-                    }
-                    else if(Versiculo == p4)
-                    {
-                    <p id="pref">Minha 4º Preferência</p>
-                    }
-                    else if (Versiculo == p5)
-                    {
-                        <p id="pref">Minha 5º Preferência</p>
-                    }
-                    else if (Versiculo == p6)
-                    {
-                        <p id="pref">Minha 6º Preferência</p>
-                    }
-                    else if (Versiculo == p7)
-                    {
-                        <p id="pref">Minha 7º Preferência</p>
-                    }
-                    else if (Versiculo == p8)
-                    {
-                        <p id="pref">Minha 8º Preferência</p>
-                    }
-                    else if (Versiculo == p9)
-                    {
-                        <p id="pref">Minha 9º Preferência</p>
-                    }
-                    else if (Versiculo == p10)
-                    {
-                        <p id="pref">Minha 10º Preferência</p>
-                    }
+                            @if (preferences != null && Versiculo == preferences.p1 ||
+                       Versiculo == p1)
+                            {
+                                <p id="pref">Minha 1º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p2 ||
+                            Versiculo == p2)
+                            {
+                                <p id="pref">Minha 2º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p3 ||
+                            Versiculo == p3)
+                            {
+                                <p id="pref">Minha 3º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p4 ||
+                            Versiculo == p4)
+                            {
+                                <p id="pref">Minha 4º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p5 ||
+                            Versiculo == p5)
+                            {
+                                <p id="pref">Minha 5º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p6 ||
+                            Versiculo == p6)
+                            {
+                                <p id="pref">Minha 6º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p7 ||
+                            Versiculo == p7)
+                            {
+                                <p id="pref">Minha 7º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p8 ||
+                            Versiculo == p8)
+                            {
+                                <p id="pref">Minha 8º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p9 ||
+                            Versiculo == p9)
+                            {
+                                <p id="pref">Minha 9º Preferência</p>
+                            }
+                            else if (preferences != null && Versiculo == preferences.p10 ||
+                            Versiculo == p10)
+                            {
+                                <p id="pref">Minha 10º Preferência</p>
+                            }
                     
                     <div class="info">
                         <p> Nome: @item.Produto!.Nome </p>
@@ -289,43 +299,53 @@
 
 
                     <div class="conteudo" onclick="cancelar()">
-                        @if (preferences != null && Versiculo == preferences.p1)
+                        @if (preferences != null && Versiculo == preferences.p1 ||
+                        Versiculo == p1)
                         {
                             <p id="pref">Minha 1º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p2)
+                        else if (preferences != null && Versiculo == preferences.p2 ||
+                        Versiculo == p2)
                         {
                             <p id="pref">Minha 2º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p3)
+                        else if (preferences != null && Versiculo == preferences.p3 ||
+                        Versiculo == p3)
                         {
                             <p id="pref">Minha 3º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p4)
+                        else if (preferences != null && Versiculo == preferences.p4 ||
+                        Versiculo == p4)
                         {
                             <p id="pref">Minha 4º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p5)
+                        else if (preferences != null && Versiculo == preferences.p5 ||
+                        Versiculo == p5)
                         {
                             <p id="pref">Minha 5º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p6)
+                        else if (preferences != null && Versiculo == preferences.p6 ||
+                        Versiculo == p6)
                         {
                             <p id="pref">Minha 6º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p7)
+                        else if (preferences != null && Versiculo == preferences.p7 ||
+                        Versiculo == p7)
                         {
                             <p id="pref">Minha 7º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p8)
+                        else if (preferences != null && Versiculo == preferences.p8 ||
+                        Versiculo == p8)
                         {
                             <p id="pref">Minha 8º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p9)
+                        else if (preferences != null && Versiculo == preferences.p9 ||
+                        Versiculo == p9)
                         {
                             <p id="pref">Minha 9º Preferência</p>
                         }
-                        else if (preferences != null && Versiculo == preferences.p10)
+                        else if (preferences != null && Versiculo == preferences.p10 ||
+                        Versiculo == p10)
                         {
                             <p id="pref">Minha 10º Preferência</p>
                         }
@@ -360,9 +380,7 @@
     protected ClaimsPrincipal user;
 
 
-    [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
-    [Parameter] public string? compartilhante2 { get; set; }
 
     [Parameter] public int auto { get; set; }
     [Parameter] public int pagina { get; set; }
@@ -402,7 +420,7 @@
         }
         StartTimer();
         preferences = repositoryPagina!.preferencias!
-                   .FirstOrDefault(u => u.user == compartilhante2 && u.capitulo == Capitulo &&
+                   .FirstOrDefault(u => u.user == compartilhante && u.capitulo == Capitulo &&
                    u.pasta == indiceFiltro)!;
 
     }
@@ -506,11 +524,11 @@
     private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
         if (auto == 1 && Model!.ToList().Count == tamanho)
-            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         else if (auto == 1)
-            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         else
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/0/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/0/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
 
         Console.WriteLine("Timer Elapsed.");
         Timer!._timerListaFiltro!.Elapsed -= _timer_Elapsed;
@@ -523,52 +541,52 @@
         if(p1 == 0)
         {
             p1 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/0/0/0/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/0/0/0/0/0/0/0/0/0");
         }
         else if(p2 == 0)
         {
             p2 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/0/0/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/0/0/0/0/0/0/0/0");
         }
         else if (p3 == 0)
         {
             p3 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
         }
         else if (p4 == 0)
         {
             p4 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
         }
         else if (p5 == 0)
         {
             p5 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
         }
         else if (p6 == 0)
         {
             p6 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
         }
         else if (p7 == 0)
         {
             p7 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
         }
         else if (p8 == 0)
         {
             p8 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
         }
         else if (p9 == 0)
         {
             p9 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
         }
         else if (p10 == 0)
         {
             p10 = Versiculo;
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
         }
         else
         {
@@ -626,19 +644,19 @@
             Context.Update(p2);
             Context.SaveChanges();
         }
-        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/0/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/0/0/0/0/0/0/0/0/0/0");
+        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/0/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/0/0/0/0/0/0/0/0/0/0");
     }
 
     private void desabilitar()
     {
         auto = 0;
-        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
     }
 
     private void abilitar()
     {
         auto = 1;
-        navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+        navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
     }
 
     private void acessarPasta()

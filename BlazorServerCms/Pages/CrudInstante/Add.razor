@@ -7,52 +7,53 @@
 @inject IJSRuntime js
 <h3>Definir Livro</h3>
 
-<p>
-    <label>Pesquisar:</label>
-    <input id="url" @bind-value="Url" @bind-value:event="oninput" />
-</p>
+
 
 
 <EditForm Model="@livro" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <select @bind="livro.url">
+    <select @bind="LivroId">
         <option value="0">Selecione uma opção</option>
         @{
-            if (Url != null)
-                foreach (var item in livros!.Where(sub => sub.url.Contains(Url)))
+            if (livros.Count > 0)
+                foreach (var item in livros!.Where(sub => sub.InstanteId == null && sub.IsBook ||
+                sub.InstanteId == null && !sub.IsBook && user.Identity!.Name == repositoryPagina.buscarAdmin()))
                 {
-                    <option value="@item.url">@item.url</option>
+                    if (item.IsBook)
+                    {
+                        <option value="@item.Id">@item.url</option>
+
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.UrlNoBook</option>
+
+                    }
                 }
         }
     </select>
-    @if(livro != null && livro is LivroAdmin)
-    {
-        var l = (LivroAdmin)livro;
-        <p>
-            <label>Url No Book:</label>
-            <InputNumber id="url" @bind-Value="@l.UrlNoBook"></InputNumber>
-        </p>
-    }
+    
     <p>
         <label>Capitulo:</label>
-        <InputNumber id="Capitulo" @bind-Value="@livro.Capitulo"></InputNumber>
+        <InputNumber id="Capitulo" @bind-Value="@livro.capitulo"></InputNumber>
     </p>
     <p>
         <label>Pasta:</label>
-        <InputNumber id="Pasta" @bind-Value="@livro.Pasta"></InputNumber>
+        <InputNumber id="Pasta" @bind-Value="@livro.pasta"></InputNumber>
     </p>
     <button type="submit">Definir</button>
 </EditForm>
 
 @code {
-    Livro livro;
+    Livro livro = new Livro();
     List<Livro> livros = new List<Livro>();
-    public string? Url { get; set; }
+    private long LivroId = 0;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     [Parameter] public long Id { get; set; }
     private Instante instante;
+    private ClaimsPrincipal user;
 
     protected override async Task OnInitializedAsync()
     {
@@ -61,55 +62,24 @@
 
         var authState = await AuthenticationStateProvider
            .GetAuthenticationStateAsync();
-        var user = authState.User;
-        if (user.Identity!.Name == repositoryPagina.buscarAdmin())
-        {
-            instante = await Context.InstanteAdmin!.FirstAsync(l => l.Id == Id);
-            livro = new LivroAdmin();
-        }
-        else
-        {
-            instante = await Context.InstanteUser!.FirstAsync(l => l.Id == Id);
-            livro = new LivroUser();
-            var l = (LivroUser)livro;
-            l.user = user.Identity!.Name;
+        user = authState.User;
 
-        }
     }
 
 
     private async void HandleSubmit()
     {
-        var liv = await Context.Livro!.FirstOrDefaultAsync(l => l.url == livro.url);
-        if (liv != null && livro.Capitulo != 0)
+        var liv = await Context.Livro!.FirstOrDefaultAsync(l => l.Id == LivroId);
+        if (liv != null && livro.capitulo > 0 && livro.pasta > 0) 
         {
-            while (await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando) != null)
-            {
-                var l = await Context.Livro!.FirstOrDefaultAsync(l => l.Compartilhando);
-                if (l != null)
-                {
-                    l.Compartilhando = false;
-                    Context.Update(l);
-                    await Context.SaveChangesAsync();
-                }
-            }
-            if(liv is LivroAdmin)
-            {
-                var l = (LivroAdmin)liv;
-                l.InstanteAdminId = instante.Id;
-            } 
-            else
-            if (liv is LivroUser)
-            {
-                var l = (LivroUser)liv;
-                l.InstanteUserId = instante.Id;
-            }
-            liv.Compartilhando = true;
-            liv.Capitulo = livro.Capitulo;
-            Context.Update(liv);
+            livro.user = user.Identity!.Name;
+            livro.InstanteId = Id;
+            if (liv.IsBook) { livro.url = liv.url; livro.UrlNoBook = null; }
+            else livro.UrlNoBook = liv.UrlNoBook;
+            Context.Add(livro);
             await Context.SaveChangesAsync();
+            navigation.NavigateTo("crud/instante/1");
         }
-        navigation.NavigateTo("crud/instante/1");
     }
 
    

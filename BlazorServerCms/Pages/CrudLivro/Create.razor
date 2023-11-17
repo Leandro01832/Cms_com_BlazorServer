@@ -11,12 +11,8 @@
         <InputText id="url" @bind-Value="exampleModel.url" />
     </p>
     <p>
-        <label>Capitulo:</label>
-        <InputNumber id="Capitulo" @bind-Value="exampleModel.Capitulo"></InputNumber>
-    </p>
-    <p>
-        <label>Compartilhando</label>
-        <InputCheckbox id="Compartilhando" @bind-Value="exampleModel.Compartilhando"></InputCheckbox>
+        <label>Url it's not a book:</label>
+        <InputText id="url2" @bind-Value="exampleModel.UrlNoBook" />
     </p>
    
 
@@ -35,8 +31,9 @@
 
     private async void HandleSubmit()
     {
+        if (string.IsNullOrEmpty(exampleModel.UrlNoBook)) exampleModel.UrlNoBook = null;
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
-        navigation.NavigateTo("livro");
+        navigation.NavigateTo("crud/livro/1");
     }
 }

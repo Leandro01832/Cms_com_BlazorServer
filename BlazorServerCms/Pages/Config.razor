@@ -31,7 +31,6 @@
 <p>Configurações de conteudo</p>
 
 <div class="container">
-    <p><a href="config/download-capitulo">Download de capitulo</a> </p>
     <p><a href="/crud/livro/1">livros</a>   </p>
     <p><a href="crud/story/1">Stories</a>   </p>
     <p><a href="crud/pagina/1">Paginas</a>  </p>
@@ -92,17 +91,6 @@
             var num5 = repositoryPagina.random.Next(0, 9);
             var num6 = repositoryPagina.random.Next(0, 9);
             var cupom = $"{num1}{num2}{num3}{num4}{num5}{num6}";
-
-        if(repositoryPagina.diaCupom != DateTime.Now.Day)
-        {        
-            repositoryPagina.cupomDesconto = cupom;
-            foreach (var item in livros)
-                await http.GetAsync($"{item.url}/api/pareamento?email={repositoryPagina.buscarAdmin()}&cupom={cupom}");
-        }
-        
-       // if (repositoryPagina.diaCupom != DateTime.Now.Day)
-       //     await http.GetAsync($"https://localhost:7224/api/pareamento?email={repositoryPagina.buscarAdmin()}&cupom={cupom}");
-
 
     }
 

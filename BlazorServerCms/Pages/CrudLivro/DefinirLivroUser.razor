@@ -1,4 +1,4 @@
-﻿@page "/user-book"
+﻿@page "/user-book/{Id:long}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -6,10 +6,7 @@
 @inject IJSRuntime js
 <h3>Definir Livro</h3>
 
-<p>
-    <label>Pesquisar:</label>
-    <input id="url" @bind-value="Url" @bind-value:event="oninput" />
-</p>
+
 
 
 <EditForm Model="@livro" OnSubmit="@HandleSubmit">
@@ -18,8 +15,9 @@
     <select @bind="livro.url">
         <option value="" >Selecione uma opção</option>
         @{
-            if(Url != null)
-            foreach (var item in livros!.Where(sub => sub.url.Contains(Url)))
+            if (livros.Count > 0)
+                foreach (var item in livros!.Where(sub => sub.InstanteId == null && sub.IsBook ||
+                sub.InstanteId == null && !sub.IsBook && user.Identity!.Name == repositoryPagina.buscarAdmin()))
             {
                 <option value="@item.url">@item.url</option>
             }
@@ -27,80 +25,42 @@
     </select>
     <p>
         <label>Capitulo:</label>
-        <InputNumber id="Capitulo" @bind-Value="@livro.Capitulo"></InputNumber>
+        <InputNumber id="Capitulo" @bind-Value="@livro.capitulo"></InputNumber>
     </p>
     <p>
         <label>Pasta:</label>
-        <InputNumber id="Pasta" @bind-Value="@livro.Pasta"></InputNumber>
+        <InputNumber id="Pasta" @bind-Value="@livro.pasta"></InputNumber>
     </p>
     <button type="submit">Definir</button>
 </EditForm>
 
 @code {
-    LivroUser livro = new LivroUser();
+    Livro livro = new Livro();
+    [Parameter] public long Id { get; set; }
     List<Livro> livros = new List<Livro>();
-    public string? Url { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+    private ClaimsPrincipal user;
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+        livro = await Context.Livro.FirstOrDefaultAsync(l => l.Id == Id);
         livros = await Context.Livro!.ToListAsync();
+        var authState = await AuthenticationStateProvider
+           .GetAuthenticationStateAsync();
+        user = authState.User;
     }
 
 
     private async void HandleSubmit()
     {
-        var authState = await AuthenticationStateProvider
-           .GetAuthenticationStateAsync();
-        var user = authState.User;
-        InstanteUser instante = null;
-        List<InstanteUser>? instantes = await Context.InstanteUser.Include(i => i.Livros)
-            .Where(i => i.Livros.FirstOrDefault(l => l.user == user.Identity!.Name) != null)
-            .OrderBy(l => l.Id).ToListAsync();
-
-        if(!string.IsNullOrEmpty(livro.url) && livro.Pasta != 0 && livro.Capitulo != 0)
+        if(livro.capitulo > 0 && livro.pasta > 0)
         {
-            if(instantes.Count == 0 ||   Context.InstanteUser.Include(i => i.Livros)
-                .Where(i => 
-                i.Livros.FirstOrDefault(l => l.user == user.Identity!.Name) != null).OrderBy(i => i.Id).Last().Livros.Count  < 9)
-            {
-                            if(instantes.Count == 0)
-                            {
-                                instante = new InstanteUser();
-                                await Context.AddAsync(instante);
-                                Context.SaveChanges();
-
-                                livro.user = user.Identity!.Name;
-                                livro.InstanteUserId = instante.Id;
-                                await Context.AddAsync(livro);
-                                await Context.SaveChangesAsync();
-                            }
-                            else
-                            {
-                                instante = Context.InstanteUser.Include(i => i.Livros)
-                                .Where(i => i.Livros.First(l => l.user == user.Identity!.Name) != null).OrderBy(i => i.Id).Last();
-                                livro.user = user.Identity!.Name;
-                                livro.InstanteUserId = instante.Id;
-                                await Context.AddAsync(livro);
-                                await Context.SaveChangesAsync();
-                            }
-            
-                }
-                else
-                {
-                instante = new InstanteUser();
-                await Context.AddAsync(instante);
-                Context.SaveChanges();
-
-                livro.user = user.Identity!.Name;
-                livro.InstanteUserId = instante.Id;
-                await Context.AddAsync(livro);
-                await Context.SaveChangesAsync();
-                }
+            Context.Update(livro);
+            Context.SaveChanges();
+            navigation.NavigateTo("/");            
         }
-        navigation.NavigateTo("/");
     }
 
    async void selecionar(Livro liv)
