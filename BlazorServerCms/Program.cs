@@ -14,8 +14,11 @@ using BlazorServerCms.servicos;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using business.business;
+using System.Collections.Generic;
+using BlazorServerCms.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddSingleton<HttpClient>();
@@ -31,6 +34,22 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+
+builder.Services.AddAuthentication()
+               .AddGoogle(options =>
+               {
+                   IConfigurationSection googleAuthNSection =
+                       config.GetSection("Authentication:Google");
+                   options.ClientId = googleAuthNSection["ClientId"];
+                   options.ClientSecret = googleAuthNSection["ClientSecret"];
+               })
+               .AddFacebook(options =>
+               {
+
+
+               });
+
+
 
 
 var app = builder.Build();
@@ -74,6 +93,47 @@ using (var scope = app.Services.CreateScope())
 
     // await contexto.Database.MigrateAsync();
 
+    if (repositoryPagina.paginas!.Count == 0)
+    {
+        var pages = await contexto.Pagina!
+            .Include(p => p.Produto)
+             .ThenInclude(p => p!.Imagem)
+             .Include(p => p.Filtro)!
+             .ThenInclude(b => b!.Filtro)!
+             .Include(p => p.Story)
+             .ThenInclude(b => b!.Filtro)!
+             .ThenInclude(b => b!.Pagina)!
+             .ThenInclude(b => b!.Pagina)!
+            .ToListAsync();
+        repositoryPagina.paginas!.AddRange(pages);
+    }
+    
+    if (repositoryPagina.filtros!.Count == 0)
+    {
+        var pages = await contexto.Filtro!.ToListAsync();
+        foreach (var item in pages)
+        {
+            if (item is SubStory)
+                repositoryPagina.filtros.Add(await contexto.SubStory.Include(g => g.Grupo).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is Grupo)
+                repositoryPagina.filtros.Add(await contexto.Grupo.Include(g => g.SubGrupo).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is SubGrupo)
+                repositoryPagina.filtros.Add(await contexto.SubGrupo.Include(g => g.SubSubGrupo).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is SubSubGrupo)
+                repositoryPagina.filtros.Add(await contexto.SubSubGrupo.Include(g => g.CamadaSeis).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is CamadaSeis)
+                repositoryPagina.filtros.Add(await contexto.CamadaSeis.Include(g => g.CamadaSete).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is CamadaSete)
+                repositoryPagina.filtros.Add(await contexto.CamadaSete.Include(g => g.CamadaOito).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is CamadaOito)
+                repositoryPagina.filtros.Add(await contexto.CamadaOito.Include(g => g.CamadaNove).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is CamadaNove)
+                repositoryPagina.filtros.Add(await contexto.CamadaNove.Include(g => g.CamadaDez).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+            if (item is CamadaDez)
+                repositoryPagina.filtros.Add(await contexto.CamadaDez.Include(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
+        }
+    }
+    
     if (repositoryPagina.paginasCurtidas!.Count == 0)
     {
         var pages = await contexto.PageLiked.ToListAsync();

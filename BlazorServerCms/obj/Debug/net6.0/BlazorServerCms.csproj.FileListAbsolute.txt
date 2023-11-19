@@ -273,3 +273,5 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\zh-
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\zh-Hans\Humanizer.resources.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\zh-Hant\Humanizer.resources.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Index.razor.rz.scp.css
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Google.dll
