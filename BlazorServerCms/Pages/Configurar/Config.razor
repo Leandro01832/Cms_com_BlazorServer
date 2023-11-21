@@ -1,0 +1,186 @@
+﻿@page "/config"
+@attribute [Authorize(Roles = "Admin")]
+@inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
+@inject HttpClient http
+@inject UserManager<IdentityUser> userManager
+
+@if (Mensagem != null)
+{
+    <p>Mensagem</p>
+}
+
+<p>Cupom de desconto: @repositoryPagina.cupomDesconto</p>
+
+<p>Configurações de filtro</p>
+
+    <div class="container">        
+        <p><a href="/crud/substory/1">sub-stories</a>  </p>
+        <p><a href="/crud/grupo/1">grupos</a>          </p>
+        <p><a href="/crud/subgrupo/1">sub-grupos</a>   </p>
+        <p><a href="/crud/subsubgrupo/1">sub-sub-grupos</a>  </p>
+        <p><a href="/crud/camadaseis/1">camada seis</a></p>
+        <p><a href="/crud/camadasete/1">camada sete</a></p>
+        <p><a href="/crud/camadaoito/1">camada oito</a></p>
+        <p><a href="/crud/camadanove/1">camada nove</a></p>
+        <p><a href="/crud/camadadez/1">camada dez</a>  </p>
+    </div>
+
+<hr />
+
+<p>Configurações de conteudo</p>
+
+<div class="container">
+    <p><a href="/crud/livro/1">livros</a>   </p>
+    <p><a href="crud/story/1">Stories</a>   </p>
+    <p><a href="crud/pagina/1">Paginas</a>  </p>
+    <p><a href="crud/instante/1">Instante</a>  </p>
+    <p><a href="add-permissao">Adicionar permmissão de gerenciador</a>  </p>
+    <p><a href="remove-permissao">Remover permissão de gerenciador</a>  </p>
+</div>
+
+<h3>Upload de videos do youtube do usuario</h3>
+
+<EditForm Model="data" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>Story:</label>
+        <select @bind="data.StoryId">
+
+            @foreach (var item in lista)
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.CapituloComNome</option>
+            }
+        </select>
+    </p>
+
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="data.Usuario" />
+    </p>
+
+    <p><button type="submit">Adicionar videos</button></p>
+</EditForm>
+
+@code {
+
+    DataForm data = new DataForm();
+    string Mensagem;
+    List<Story> lista = new List<Story>();
+    List<Livro> livros = new List<Livro>();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);
+        livros = await Context.Livro!.ToListAsync();
+        lista = await Context.Story!
+           .Where(str => str.Nome != "Padrao" && !str.Comentario).ToListAsync();
+
+        if (lista.Count == 0)
+        {
+            Mensagem = "Crie seu primeiro story!!!";
+
+        }
+        data.StoryId = lista.First().Id;
+
+            var num1 = repositoryPagina.random.Next(0, 9);
+            var num2 = repositoryPagina.random.Next(0, 9);
+            var num3 = repositoryPagina.random.Next(0, 9);
+            var num4 = repositoryPagina.random.Next(0, 9);
+            var num5 = repositoryPagina.random.Next(0, 9);
+            var num6 = repositoryPagina.random.Next(0, 9);
+            var cupom = $"{num1}{num2}{num3}{num4}{num5}{num6}";
+
+    }
+
+    private async void HandleSubmit()
+    {
+        var story = await Context.Story!.FirstAsync(str => str.Id == data.StoryId);
+        var cap = story.PaginaPadraoLink;
+        Pagina pag = null;
+        if (data.Usuario.Contains("@"))
+            data.Usuario.Replace("@", "");
+
+        var url = $"https://www.youtube.com/@{data.Usuario}/shorts";
+
+        var html = await repositoryPagina!.Verificar(url);
+
+        var arr = html.Split('"');
+
+        foreach (var texto in arr)
+        {
+            if (texto.Contains("/shorts/"))
+            {
+                var text = texto.Replace("shorts", "embed");
+                text += "?autoplay=1";
+                if (cap != 0)
+                {
+                    pag = await Context!.Pagina!.Include(pa => pa!.Story!)
+                   .FirstOrDefaultAsync(pa => pa!.Content == null &&
+                   pa!.Produto! == null && pa!.Story!.PaginaPadraoLink == cap);
+                    if (pag == null)
+                        break;
+
+                    pag.Content = $"<iframe width='320' height='560' src='https://www.youtube.com{text}' " +
+                        "frameborder='0' title='video' allow='accelerometer; autoplay; clipboard-write; encrypted-media; " +
+                        "gyroscope; picture-in-picture; web-share' allowfullscreen ></iframe>";
+
+                    Context.Update(pag);
+                    Context.SaveChanges();
+                }
+                else
+                {
+                    pag = await Context.Pagina.Include(pa => pa.Story!)
+                .FirstOrDefaultAsync(pa => pa!.Content == null && pa!.Produto! == null);
+                    if (pag == null)
+                        break;
+
+                    
+                    pag.Content = $"<iframe width='320' height='560' src='https://www.youtube.com{text}' " +
+                        "frameborder='0' title='video' allow='accelerometer; autoplay; clipboard-write; encrypted-media; " +
+                        "gyroscope; picture-in-picture; web-share' allowfullscreen ></iframe>";
+
+                    Context.Update(pag);
+                    Context.SaveChanges();
+                }
+            }
+        }
+
+        if (pag != null)
+            Mensagem = ObterMensagem(pag.StoryId);
+
+        
+        if (pag != null)
+        navigation.NavigateTo($"/mensagem/{Mensagem}");
+        else
+            navigation.NavigateTo("/");
+    }
+
+    private string ObterMensagem(long StoryId)
+    {
+        var story = Context.Story!
+        .Include(str => str.Pagina!)
+        .Include(str => str.Pagina!)
+        .ThenInclude(str => str.Produto)
+        .First(str => str.Id == StoryId);
+
+        bool teste = false;
+        foreach (var item in story.Pagina!)
+            if (item.Content == null && item.Produto == null)
+                teste = true;
+
+        if (teste)
+            return $"Existem paginas sem conteudo no capitulo {story.PaginaPadraoLink}";
+        else
+            return "Story Completo";
+    }
+
+    class DataForm
+    {
+        public long StoryId { get; set; }
+        public string Usuario { get; set; }
+    }
+}

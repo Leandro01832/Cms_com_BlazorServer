@@ -1,17 +1,17 @@
-/* _content/BlazorServerCms/Pages/Config.razor.rz.scp.css */
-*[b-dxxtsk4tmq] {
+/* _content/BlazorServerCms/Pages/Configurar/Config.razor.rz.scp.css */
+*[b-55jojgzw75] {
     padding: 0;
     margin: 0;
 }
 
-.container[b-dxxtsk4tmq] {
+.container[b-55jojgzw75] {
     display: flex;
     flex-direction: row;
     align-content: space-between;
     background-color: rgb(208, 146, 61);
 }
 
- p[b-dxxtsk4tmq]{
+ p[b-55jojgzw75]{
     text-align: center;
     margin-left: 20px;
     font-size: large;
@@ -313,6 +313,52 @@ img[b-622vkbnu9r] {
         margin-left: 3px;
         margin-top: 2px;
     }
+}
+/* _content/BlazorServerCms/Pages/Pastas.razor.rz.scp.css */
+
+
+*[b-jje5gysd6g] {
+    padding: 0;
+    margin: 0;
+}
+
+.container[b-jje5gysd6g] {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.filtragem1[b-jje5gysd6g]
+{
+    margin: 10px;
+    background-color: aliceblue;
+}
+
+.filtragem2[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #808080;
+}
+
+.filtragem3[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #222423;
+}
+
+.filtragem4[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #ff0000;
+}
+
+.filtragem5[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #0094ff;
+}
+
+
+.filtragem6[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #0026ff;
 }
 /* _content/BlazorServerCms/Pages/Plataforma.razor.rz.scp.css */
 /* _content/BlazorServerCms/Pages/Renderizar.razor.rz.scp.css */

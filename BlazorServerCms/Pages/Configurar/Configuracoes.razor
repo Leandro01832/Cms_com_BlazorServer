@@ -1,0 +1,109 @@
+﻿@page "/configuracoes"
+@layout MeuLayout
+@inject IJSRuntime js
+@inject RepositoryPagina repositoryPagina
+<h3>Configurações</h3>
+
+
+<a href="/renderizar/0/1/@Convert.ToInt32(auto)/@timeproduto/@Convert.ToInt32(listaCompleta)/0/@Convert.ToInt32(pref)/0/dominio/comp/comp2">
+    Salvar
+</a>
+
+<p>
+    <label>Time:</label>
+    <input type="number"  @bind-value="timeproduto" @bind-value:event="oninput"
+           min="4" id="inputime" />
+</p>
+
+<p>    
+    <input type="checkbox" @bind="listaCompleta" />
+    <label>Lista completa</label>
+</p>
+
+<p>
+    @if(preferencia == 0)
+    {
+        <input  type="checkbox" @bind="pref"  />
+         <label>Somente preferências</label>
+    }
+    
+</p>
+
+<p>
+    <input type="checkbox" @bind="auto" />
+    <label>automatico</label>
+</p>
+
+@if(filtro != 0)
+{
+    <p>
+        <a href="#" class="btn btn-primary" onclick="@removePreferencia">
+            remover preferências
+        </a>
+    </p>
+
+    <p>
+        <input type="text" name="texto" id="texto" @bind="link" />
+        <a href="#" class="btn btn-primary" onclick="@gerarLink">
+            compartilhar preferências
+        </a>
+    </p>
+}
+
+
+@code {
+
+    public int capitulo { get; set; }
+    public int preferencia { get; set; }
+    public int verso { get; set; }
+    public int filtro { get; set; }
+    public int? p1 { get; set; } = 0;
+    public int? p2 { get; set; } = 0;
+    public int? p3 { get; set; } = 0;
+    public int? p4 { get; set; } = 0;
+    public int? p5 { get; set; } = 0;
+    public int? p6 { get; set; } = 0;
+    public int? p7 { get; set; } = 0;
+    public int? p8 { get; set; } = 0;
+    public int? p9 { get; set; } = 0;
+    public int? p10 { get; set; } = 0;
+    public string? dominio { get; set; } 
+    public string? compartilhante { get; set; } 
+    public string? compartilhante2 { get; set; } 
+    public int timeproduto { get; set; } = 11;
+    public bool listaCompleta { get; set; } = true;
+    public bool pref { get; set; } = false;
+    public bool auto { get; set; } = true;
+    private string link = "";
+
+    protected override void OnInitialized()
+    {
+    }
+
+    private void removePreferencia()
+    {
+        p1 = 0; p2 = 0; p3 = 0; p4 = 0; p5 = 0;
+        p6 = 0; p7 = 0; p8 = 0; p9 = 0; p10 = 0;
+        setarTexto("");
+
+    }
+
+    private void gerarLink()
+    {
+        if(p1 == 0)
+        {
+
+        }
+        else
+        {
+            setarTexto($"https://{repositoryPagina.buscarDominio()}/form/{capitulo}/{filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+        }
+
+        
+    }
+
+    private async void setarTexto(string texto)
+    {
+        await js!.InvokeAsync<object>("SetarLink", texto);
+    }
+}

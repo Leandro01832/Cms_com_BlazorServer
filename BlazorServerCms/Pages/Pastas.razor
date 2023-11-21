@@ -10,43 +10,59 @@
 
 <BackPage></BackPage>
 @{
-    
-    if(pastas != null)
-    for (var i = 0; i < pastas.Length; i++)
-        if (pastas[i] != 0 && !numeros.Contains(pastas[i]))
-        {
-            numeros.Add(pastas[i]);
-            var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
-            .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
-            var fil = filtros.OrderBy(f => f.Id).Skip(pastas[i] - 1).First();
-            var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-            <p>
-            pasta @pastas[i] - @namePastas[i]
-                <a href="/renderizar/@capitulo/@pastas[i]/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
-                <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                    @if (condicao != null)
+    <div class="container">
+    @if(fils != null)
+        for (var i = 0; i < fils.Length; i++)
+            if (pastas[i] != 0 )
+            {
+                var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
+                .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!;
+                var fil = filtros.OrderBy(f => f.Id).Skip(pastas[i] - 1).First();
+                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
+
+                @for(var j = 1; j < 100; j++)
+                {
+                    @if (fils[i].QuantidadePorType == j)
                     {
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                        </svg>
-                        
+                        <div class="filtragem@(j)">
+                        <h3>@(j)º linha de filtragem</h3>
+                            <p>
+                                pasta @pastas[i] - @namePastas[i]
+                                <a href="/renderizar/@capitulo/@pastas[i]/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                                <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
+                                    @if (condicao != null)
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                                        </svg>
+
+                                    }
+                                    else
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                        </svg>
+                                    }
+
+                                </a>
+                            </p>
+
+                        </div>
                     }
-                    else
-                    {
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                        </svg>
-                    }
-                    
-            </a>
-            </p>
-        }
+                }
+
+            
+            }
+
+    </div>
+
 }
 
 
 @code {
     private string? authMessage;
     protected int[] pastas = null;
+    protected FiltroPagina[] fils = null;
     protected string[] namePastas;
     [Parameter] public int capitulo { get; set; }
     [Parameter] public int verso { get; set; }
@@ -59,7 +75,6 @@
 
     List<savedFolder> saved = new List<savedFolder>();
     List<Filtro> filtros = new List<Filtro>();
-    List<int> numeros = new List<int>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -82,6 +97,7 @@
     {
         pastas = new int[Model.Filtro!.Count];
         namePastas = new string[Model.Filtro!.Count];
+        fils = new FiltroPagina[Model.Filtro!.Count];
         for (var i = 0; i < pastas.Length; i++)
             pastas[i] = 0;
 
@@ -95,6 +111,7 @@
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[0] = fil.Nome!;
                     pastas[0] = filtros.IndexOf(fil) + 1;
+                    fils[0] = item;
                 }
                 else
                    if (item.Filtro is Grupo)
@@ -102,6 +119,7 @@
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[1] = fil.Nome!;
                     pastas[1] = filtros.IndexOf(fil) + 1;
+                    fils[1] = item;
                 }
                 else
                     if (item.Filtro is SubGrupo)
@@ -109,6 +127,7 @@
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[2] = fil.Nome!;
                     pastas[2] = filtros.IndexOf(fil) + 1;
+                    fils[2] = item;
                 }
                 else
                     if (item.Filtro is SubSubGrupo)
@@ -116,42 +135,49 @@
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[3] = fil.Nome!;
                     pastas[3] = filtros.IndexOf(fil) + 1;
+                    fils[3] = item;
                 }
                 else
-                    if (item.Filtro is SubStory)
+                    if (item.Filtro is CamadaSeis)
                 {
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[4] = fil.Nome!;
                     pastas[4] = filtros.IndexOf(fil) + 1;
+                    fils[4] = item;
                 }
                 else
-                    if (item.Filtro is SubStory)
+                    if (item.Filtro is CamadaSete)
                 {
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[5] = fil.Nome!;
                     pastas[5] = filtros.IndexOf(fil) + 1;
+                    fils[5] = item;
                 }
                 else
-                    if (item.Filtro is SubStory)
+                    if (item.Filtro is CamadaOito)
                 {
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[6] = fil.Nome!;
                     pastas[6] = filtros.IndexOf(fil) + 1;
+                    fils[6] = item;
                 }
                 else
-                    if (item.Filtro is SubStory)
+                    if (item.Filtro is CamadaNove)
                 {
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[7] = fil.Nome!;
                     pastas[7] = filtros.IndexOf(fil) + 1;
+                    fils[7] = item;
                 }
                 else
-                    if (item.Filtro is SubStory)
+                    if (item.Filtro is CamadaDez)
                 {
                     var fil = filtros.First(f => f.Id == item.FiltroId);
                     namePastas[8] = fil.Nome!;
                     pastas[8] = filtros.IndexOf(fil) + 1;
+                    fils[8] = item;
                 }
+
         }
 
         else if (Model.Filtro != null)
@@ -162,6 +188,7 @@
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
                    if (Model.Filtro[i].Filtro is Grupo)
@@ -169,6 +196,7 @@
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubGrupo)
@@ -176,6 +204,7 @@
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
                     if (Model.Filtro[i].Filtro is SubSubGrupo)
@@ -183,41 +212,47 @@
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
-                    if (Model.Filtro[i].Filtro is SubStory)
+                    if (Model.Filtro[i].Filtro is CamadaSeis)
                 {
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
-                    if (Model.Filtro[i].Filtro is SubStory)
+                    if (Model.Filtro[i].Filtro is CamadaSete)
                 {
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
-                    if (Model.Filtro[i].Filtro is SubStory)
+                    if (Model.Filtro[i].Filtro is CamadaOito)
                 {
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
-                    if (Model.Filtro[i].Filtro is SubStory)
+                    if (Model.Filtro[i].Filtro is CamadaNove)
                 {
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
                 else
-                    if (Model.Filtro[i].Filtro is SubStory)
+                    if (Model.Filtro[i].Filtro is CamadaDez)
                 {
                     var fil = filtros.First(f => f.Id == Model.Filtro[i].FiltroId);
                     namePastas[i] = fil.Nome!;
                     pastas[i] = filtros.IndexOf(fil) + 1;
+                    fils[i] = Model.Filtro[i];
                 }
         }
     }

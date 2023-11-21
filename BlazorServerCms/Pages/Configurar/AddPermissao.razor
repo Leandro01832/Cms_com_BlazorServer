@@ -1,0 +1,36 @@
+﻿@page "/add-permissao"
+@attribute [Authorize(Roles = "Admin")]
+@inject UserManager<IdentityUser> userManager
+<h3>AddPermissao</h3>
+
+<input type="text" placeholder="Usuario" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
+
+@if(usuarios.Count > 0)
+{
+    foreach(var item in usuarios)
+    {
+        <p>
+            @item.UserName -
+            <a onclick="@(() => add(item))">
+                Adicionar permissão de Gerenciador
+            </a>
+        </p>
+    }
+}
+
+@code {
+
+    List<IdentityUser> usuarios = new List<IdentityUser>();
+
+    private void alterarUser(ChangeEventArgs args)
+    {
+        usuarios = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
+        if (string.IsNullOrEmpty(args.Value!.ToString()!))
+            usuarios.Clear();
+    }
+
+    private async void add(IdentityUser user)
+    {
+        await userManager.AddToRoleAsync(user, "Manager");
+    }
+}

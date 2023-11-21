@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LdhJYTpbawakC6q2PObMYejTVh1FibO6WS0utASp6To5o1JFajbgrYPjWiU8266Ifdk8evPCaLHU80ORvy31XQ==",
+  "dgSpecHash": "w8CnCd1OHOiaL0jVquYtzDDTizlLatbYorVs/vpmDoQzfWJ9glwcPEtRI2T5xh5/kXko2O0PX5pQUwFqV1yTFw==",
   "success": true,
   "projectFilePath": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\BlazorServerCms.csproj",
   "expectedPackageFiles": [
@@ -64,7 +64,9 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.facebook\\6.0.0\\microsoft.aspnetcore.authentication.facebook.6.0.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\6.0.0\\microsoft.aspnetcore.authentication.google.6.0.0.nupkg.sha512",
+    "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.microsoftaccount\\6.0.0\\microsoft.aspnetcore.authentication.microsoftaccount.6.0.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\6.0.0\\microsoft.aspnetcore.authentication.openidconnect.6.0.0.nupkg.sha512",
+    "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.twitter\\6.0.0\\microsoft.aspnetcore.authentication.twitter.6.0.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.0\\microsoft.aspnetcore.authorization.6.0.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.authorization.policy\\2.2.0\\microsoft.aspnetcore.authorization.policy.2.2.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.0\\microsoft.aspnetcore.components.6.0.0.nupkg.sha512",

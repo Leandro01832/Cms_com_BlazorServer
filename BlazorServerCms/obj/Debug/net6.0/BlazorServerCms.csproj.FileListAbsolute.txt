@@ -221,7 +221,6 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Goo
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Google.Apis.Core.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Google.Apis.YouTube.v3.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\ListaFiltro.razor.rz.scp.css
-C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Config.razor.rz.scp.css
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\TinyMCE.Blazor.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Plataforma.razor.rz.scp.css
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\af\Humanizer.resources.dll
@@ -275,3 +274,8 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\zh-
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Index.razor.rz.scp.css
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Facebook.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.Twitter.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Configurar\Config.razor.rz.scp.css
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Pastas.razor.rz.scp.css

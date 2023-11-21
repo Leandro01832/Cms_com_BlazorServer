@@ -16,8 +16,7 @@
         <option value="" >Selecione uma opção</option>
         @{
             if (livros.Count > 0)
-                foreach (var item in livros!.Where(sub => sub.InstanteId == null && sub.IsBook ||
-                sub.InstanteId == null && !sub.IsBook && user.Identity!.Name == repositoryPagina.buscarAdmin()))
+                foreach (var item in livros!.Where(sub => sub.InstanteId == null && sub.IsBook))
             {
                 <option value="@item.url">@item.url</option>
             }

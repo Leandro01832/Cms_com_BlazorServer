@@ -23,6 +23,6 @@
     IList<IdentityUser> users;
     protected override async Task OnInitializedAsync()
     {
-         users = await userManager.GetUsersInRoleAsync("Admin");        
+         users = await userManager.GetUsersInRoleAsync("Admin");     
     }
 }

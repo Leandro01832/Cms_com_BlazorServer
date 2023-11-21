@@ -18,7 +18,7 @@
         @{
             if (livros.Count > 0)
                 foreach (var item in livros!.Where(sub => sub.InstanteId == null && sub.IsBook ||
-                sub.InstanteId == null && !sub.IsBook && user.Identity!.Name == repositoryPagina.buscarAdmin()))
+            sub.InstanteId == null && !sub.IsBook && users.FirstOrDefault(u => u.UserName == user.Identity!.Name) != null))
                 {
                     if (item.IsBook)
                     {
@@ -54,6 +54,7 @@
     [Parameter] public long Id { get; set; }
     private Instante instante;
     private ClaimsPrincipal user;
+    IList<IdentityUser> users = new List<IdentityUser>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,7 +64,7 @@
         var authState = await AuthenticationStateProvider
            .GetAuthenticationStateAsync();
         user = authState.User;
-
+        users = await userManager.GetUsersInRoleAsync("Manager");
     }
 
 

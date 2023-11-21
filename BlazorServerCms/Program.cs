@@ -16,6 +16,7 @@ using System.Configuration;
 using business.business;
 using System.Collections.Generic;
 using BlazorServerCms.Pages;
+using Microsoft.AspNetCore.Authentication.Facebook;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -45,8 +46,10 @@ builder.Services.AddAuthentication()
                })
                .AddFacebook(options =>
                {
-
-
+                   IConfigurationSection facebookAuthNSection =
+                       config.GetSection("Authentication:Facebook");
+                   options.AppId = "901844574837459";
+                   options.AppSecret = "44255326eb4d1d9aae788034ffca9dd1";
                });
 
 
@@ -147,9 +150,7 @@ using (var scope = app.Services.CreateScope())
     }
 
 
-        if (userASP == null)
-    {
-        string[] rolesNames = { "Admin" };
+        string[] rolesNames = { "Admin", "Manager" };
     IdentityResult result;
     foreach (var namesRole in rolesNames)
     {
@@ -159,6 +160,8 @@ using (var scope = app.Services.CreateScope())
             result = await roleManager.CreateAsync(new IdentityRole(namesRole));
         }
     }    
+        if (userASP == null)
+    {
         var user = new IdentityUser { UserName = "leandro01832", Email = email, EmailConfirmed = true };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");

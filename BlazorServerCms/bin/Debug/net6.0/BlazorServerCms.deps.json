@@ -9,8 +9,11 @@
       "BlazorServerCms/1.0.0": {
         "dependencies": {
           "Google.Apis.YouTube.v3": "1.61.0.3064",
+          "Microsoft.AspNetCore.Authentication.Facebook": "6.0.0",
           "Microsoft.AspNetCore.Authentication.Google": "6.0.0",
+          "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "6.0.0",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "6.0.0",
+          "Microsoft.AspNetCore.Authentication.Twitter": "6.0.0",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.15",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.23",
           "Microsoft.AspNetCore.Identity.UI": "6.0.23",
@@ -648,9 +651,25 @@
           "Microsoft.Extensions.Options": "6.0.0"
         }
       },
+      "Microsoft.AspNetCore.Authentication.Facebook/6.0.0": {
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.Facebook.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52608"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authentication.Google/6.0.0": {
         "runtime": {
           "lib/net6.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52608"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.MicrosoftAccount/6.0.0": {
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52608"
           }
@@ -662,6 +681,14 @@
         },
         "runtime": {
           "lib/net6.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52608"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Twitter/6.0.0": {
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.Twitter.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52608"
           }
@@ -3270,6 +3297,13 @@
       "path": "microsoft.aspnetcore.authentication.abstractions/2.2.0",
       "hashPath": "microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.Authentication.Facebook/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RR39ZVeXlOTGF9omTnbc4eU30+ou5g8F8H4l4xMtUh5jZowoPL9M6vFc6MgfCWg3n1UW9RvzdgsrO7kq4uMCuA==",
+      "path": "microsoft.aspnetcore.authentication.facebook/6.0.0",
+      "hashPath": "microsoft.aspnetcore.authentication.facebook.6.0.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Authentication.Google/6.0.0": {
       "type": "package",
       "serviceable": true,
@@ -3277,12 +3311,26 @@
       "path": "microsoft.aspnetcore.authentication.google/6.0.0",
       "hashPath": "microsoft.aspnetcore.authentication.google.6.0.0.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.Authentication.MicrosoftAccount/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IJp8rePvnhexRYq0gBNcUTra1Cgz1/HR2vOjbnm7RA57U0UqXNWODhlsEP9ZTtMMon1uZIxRHUpFsr4S5gVmkQ==",
+      "path": "microsoft.aspnetcore.authentication.microsoftaccount/6.0.0",
+      "hashPath": "microsoft.aspnetcore.authentication.microsoftaccount.6.0.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Authentication.OpenIdConnect/6.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-cJxdro36spFzk/K2OFCddM6vZ+yoj6ug8mTFRH3Gdv1Pul/buSuCtfb/FSCp31UmS5S4C1315dU7wX3ErLFuDg==",
       "path": "microsoft.aspnetcore.authentication.openidconnect/6.0.0",
       "hashPath": "microsoft.aspnetcore.authentication.openidconnect.6.0.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Twitter/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8oAzD8LFbhlX9s8M+Vq4kXu77JV53IGCQGKl9aY/CJloLn+RF5gkV9YRK9Kt7nHsc1Jbr7v6dkqqaKkavmOSrA==",
+      "path": "microsoft.aspnetcore.authentication.twitter/6.0.0",
+      "hashPath": "microsoft.aspnetcore.authentication.twitter.6.0.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authorization/6.0.0": {
       "type": "package",

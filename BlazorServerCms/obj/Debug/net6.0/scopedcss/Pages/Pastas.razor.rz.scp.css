@@ -1,0 +1,45 @@
+
+
+*[b-jje5gysd6g] {
+    padding: 0;
+    margin: 0;
+}
+
+.container[b-jje5gysd6g] {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.filtragem1[b-jje5gysd6g]
+{
+    margin: 10px;
+    background-color: aliceblue;
+}
+
+.filtragem2[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #808080;
+}
+
+.filtragem3[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #222423;
+}
+
+.filtragem4[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #ff0000;
+}
+
+.filtragem5[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #0094ff;
+}
+
+
+.filtragem6[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #0026ff;
+}
