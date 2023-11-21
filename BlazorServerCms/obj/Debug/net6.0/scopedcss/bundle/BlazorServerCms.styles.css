@@ -555,8 +555,27 @@ Informativo[b-k8aihg5em2] {
     flex-grow: 3;
 }
 
+.circulo[b-k8aihg5em2] {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    padding: 0.4%;
+}
+
+.circulo2[b-k8aihg5em2] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-color: white;
+}
+
 
 @media (max-width: 550px) and (min-width: 50px) {
+
+    .circulo[b-k8aihg5em2] {
+        padding: 1.5% !important;
+    }
 
     .carousel-control-next[b-k8aihg5em2]{
         width: 10%;
