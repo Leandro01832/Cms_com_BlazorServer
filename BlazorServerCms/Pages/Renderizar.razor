@@ -320,6 +320,19 @@ else
                     {
                        <a href="#" onclick="@(() => acessarPreferenciasUsuario(item.user))" >
                            Usuario @item.user - acessar preferências
+                        <div class="circulop2">
+                            <div class="circulo2p2">
+                                @if (item.UserImage != null)
+                                {
+                                    <img src="ImgUser/usuario-@(item.user)-@(item.UserImage.Image)" class="ImgUser">
+
+                                }
+                                else
+                                {
+                                    <img src="ImgUser/padrao.jpg" class="ImgUser">
+                                }
+                            </div>
+                        </div>
                        </a>
                     }
             </div>
@@ -456,6 +469,11 @@ else
 
                 <div class="circulo">
                   <div class="circulo2">
+                                @if (@stories![indice - 1].Image != null)
+                                {
+                                    <img src="ImgStory/cap.@(stories![indice - 1].PaginaPadraoLink).@(stories![indice - 1].Image)" class="ImgStory">
+                                    
+                                }
                   </div>
                 </div>
             </center>

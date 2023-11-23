@@ -18,6 +18,7 @@ namespace business.Group
         public bool Produto { get; set; }
 
         public string? Nome { get; set; }
+        public string? Image { get; set; }
         public virtual List<Pagina>? Pagina { get; set; }
         public int PaginaPadraoLink
         {

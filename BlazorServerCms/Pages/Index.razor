@@ -81,8 +81,24 @@
         @foreach (var item in usuarios!)
         {
             <p>
-                <a href="@item.UserName">
-                    Usuario @item.UserName
+                <a href="@item.user">
+                    Usuario @item.user
+                    <div class="circulo">
+                        <center>
+
+                        <div class="circulo2">
+                            @if (item.UserImage != null)
+                            {
+                                <img src="ImgUser/usuario-@(item.user)-@(item.UserImage.Image)" class="ImgUser">
+                            }
+                            else
+                            {
+                                <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                            }
+                        </div>
+                        </center>
+                    </div>
                 </a>
             </p>
         }
@@ -146,7 +162,7 @@
     public string? Query { get; set; }
     public string? Usuario { get; set; }
     List<Filtro>? filtros = new List<Filtro>();
-    List<IdentityUser> usuarios = new List<IdentityUser>();
+    List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
     int cap = 1;
     string? Mensagem { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
@@ -373,8 +389,25 @@
 
     private void alterarUser(ChangeEventArgs args)
     {
-        usuarios = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
+        var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
+        foreach(var item in users)
+            if(Context.UserImage.FirstOrDefault(u => u.user == item.UserName) != null)
+            {
+                var us = Context.UserImage.FirstOrDefault(u => u.user == item.UserName);
+                usuarios.Add(new IdentityUserImage { user = us.user, UserImage = us });
+            }
+            else
+            {
+                usuarios.Add(new IdentityUserImage { user = item.UserName, UserImage = null });
+                
+            }
         if (string.IsNullOrEmpty(args.Value!.ToString()!))
             usuarios.Clear();
+    }
+
+    private class IdentityUserImage
+    {
+        public string? user { get; set; }
+        public UserImage UserImage { get; set; }
     }
 }

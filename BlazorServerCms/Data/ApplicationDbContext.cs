@@ -25,6 +25,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<UserImage> UserImage { get; set; }
         public DbSet<UserPreferences> UserPreferences { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
         public DbSet<Instante> Instante { get; set; }

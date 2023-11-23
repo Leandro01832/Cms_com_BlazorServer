@@ -294,6 +294,25 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("savedFolder");
                 });
 
+            modelBuilder.Entity("business.business.UserImage", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserImage");
+                });
+
             modelBuilder.Entity("business.business.UserPreferences", b =>
                 {
                     b.Property<long>("Id")
@@ -437,6 +456,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<bool>("Comentario")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");

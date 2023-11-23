@@ -30,6 +30,42 @@
     padding: 5%;
     height: 300px;
     overflow: auto;
+    border-radius: 10%;
+}
+
+.circulo[b-ybvjv7whh6] {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+.circulo2[b-ybvjv7whh6] {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.ImgUser[b-ybvjv7whh6] {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+@media (max-width: 550px) and (min-width: 50px) {
+
+    .circulo[b-ybvjv7whh6] {
+        padding: 1% !important;
+    }
 }
 /* _content/BlazorServerCms/Pages/ListaFiltro.razor.rz.scp.css */
 *[b-622vkbnu9r] {
@@ -560,22 +596,57 @@ Informativo[b-k8aihg5em2] {
     height: 150px;
     border-radius: 50%;
     background-color: #FF1493;
-    padding: 0.4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .circulo2[b-k8aihg5em2] {
     width: 140px;
     height: 140px;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: white;
+}
+
+.circulop2[b-k8aihg5em2] {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.circulo2p2[b-k8aihg5em2] {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.ImgStory[b-k8aihg5em2] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}
+
+.ImgUser[b-k8aihg5em2] {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 
 @media (max-width: 550px) and (min-width: 50px) {
-
-    .circulo[b-k8aihg5em2] {
-        padding: 1.5% !important;
-    }
 
     .carousel-control-next[b-k8aihg5em2]{
         width: 10%;
@@ -627,6 +698,40 @@ Informativo[b-k8aihg5em2] {
         display: none;
     }
 }
+/* _content/BlazorServerCms/Pages/Usuario.razor.rz.scp.css */
+*[b-xgm24g75ba] {
+    padding: 0;
+    margin: 0;
+}
+
+.circulo[b-xgm24g75ba] {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+.circulo2[b-xgm24g75ba] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.ImgUser[b-xgm24g75ba] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}
+
 /* _content/BlazorServerCms/Shared/MainLayout.razor.rz.scp.css */
 .page[b-ofu5x09pw2] {
     position: relative;

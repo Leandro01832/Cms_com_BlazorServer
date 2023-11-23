@@ -6,6 +6,22 @@
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider? AuthenticationStateProvider
 <h3>Usuario compartilhante @user </h3>
+<a onclick="@(() => navigation.NavigateTo($"/alterarFoto/{user}"))" >
+<div class="circulo">
+    <div class="circulo2">
+        @if (userImage != null)
+        {
+            <img src="ImgUser/usuario-@(user)-@(userImage.Image)" class="ImgUser">
+        }
+        else
+        {
+            <img src="ImgUser/padrao.jpg" class="ImgUser">
+            
+        }
+    </div>
+</div>
+    Alterar foto
+    </a>
 
 @if (insta != null && objInstante != null)
 {
@@ -63,7 +79,7 @@ else
         </a>
     }
 }
-@if (usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated && livroCompartilhado != null)
+@if (usuario != null && usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated && livroCompartilhado != null)
 {
     <p>
         <a href="/user-book/@livroCompartilhado.Id" class="btn btn-dark">
@@ -76,7 +92,7 @@ else
 <br />
 <hr />
 
-@if(usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated)
+@if (usuario != null && usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated)
 {
     <p>
         <a href="/crud/instante/1" class="btn btn-dark">
@@ -125,12 +141,13 @@ for(var i = 1; i <= caps.Length; i++)
     private Instante objInstante = null;
     private int pasta;
     private ClaimsPrincipal usuario;
+    private UserImage userImage = null;
     private UserPreferences preferences = null;
     int[] caps = null;
 
     protected override async Task OnParametersSetAsync()
     {
-        
+
 
         var folders = await Context.savedFolder.Where(s => s.user == user).ToListAsync();
         foreach(var item in folders)
@@ -145,6 +162,7 @@ for(var i = 1; i <= caps.Length; i++)
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+        userImage = await Context.UserImage.FirstOrDefaultAsync(ui => ui.user == user);
         var authState = await AuthenticationStateProvider
                 .GetAuthenticationStateAsync();
         usuario = authState.User;

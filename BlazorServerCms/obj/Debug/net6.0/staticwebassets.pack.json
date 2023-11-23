@@ -13,6 +13,22 @@
       "PackagePath": "staticwebassets\\Arquivotxt\\default.html"
     },
     {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.1.seres-vivos.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.1.seres-vivos.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\ImgStory\\seres-vivos.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\seres-vivos.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\ImgUser\\padrao.jpg",
+      "PackagePath": "staticwebassets\\ImgUser\\padrao.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg",
+      "PackagePath": "staticwebassets\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg"
+    },
+    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "PackagePath": "staticwebassets\\JSFunctions.js"
     },
@@ -67,6 +83,10 @@
     {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\favicon-32x32.png",
+      "PackagePath": "staticwebassets\\favicon-32x32.png"
     },
     {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\favicon.ico",

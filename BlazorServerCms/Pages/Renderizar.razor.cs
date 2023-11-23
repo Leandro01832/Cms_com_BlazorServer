@@ -43,7 +43,7 @@ namespace BlazorCms.Client.Pages
         protected ClaimsPrincipal user;
         protected List<Story>? stories;
         protected List<Pagina>? listaFiltradaComConteudo = null;
-        protected List<UserPreferences>? usuarios = new List<UserPreferences>();
+        protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
         protected Pagina? Model;
         protected Filtro? Model2;
         protected string[]? classificacoes = null;
@@ -105,7 +105,7 @@ namespace BlazorCms.Client.Pages
         protected override async Task OnParametersSetAsync()
         {
 
-                if (Context.Pagina!.Include(p => p.Story)
+            if (Context.Pagina!.Include(p => p.Story)
                 .Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList().Count == 0
                 && capitulo > stories!.Last().PaginaPadraoLink)            
                 capitulo = 1;
@@ -160,6 +160,8 @@ namespace BlazorCms.Client.Pages
                 .GetAuthenticationStateAsync();
             user = authState.User;
 
+            if (compartilhante == null)
+                compartilhante = "admin";
             if (compartilhante2 == null)
                 compartilhante2 = "user";
             if (dominio == null)
@@ -1850,9 +1852,24 @@ namespace BlazorCms.Client.Pages
             }
             catch(Exception ex)
             {
-                usuarios = repositoryPagina!.preferencias.Where(p => p.pasta == indice_Filtro &&
-               p.capitulo == capitulo &&
-               p.user.Contains(opcional)).ToList();
+                
+
+                  var  users = repositoryPagina!.preferencias!.Where(p => p.pasta == indice_Filtro &&
+                   p.capitulo == capitulo &&
+                   p.user.Contains(opcional)).ToList();
+
+                foreach (var item in users)
+                    if (Context.UserImage.FirstOrDefault(u => u.user == item.user) != null)
+                    {
+                        var us = Context.UserImage.FirstOrDefault(u => u.user == item.user);
+                        usuarios.Add(new UserPreferencesImage { user = us.user, UserImage = us });
+                    }
+                    else
+                    {
+                        usuarios.Add(new UserPreferencesImage { user = item.user, UserImage = null });
+
+                    }
+                
 
                 if (string.IsNullOrEmpty(opcional))
                 {
@@ -1936,5 +1953,11 @@ namespace BlazorCms.Client.Pages
                 Model.ContentUser = Model.ContentUser.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
             }
         }
+    }
+
+    public class UserPreferencesImage
+    {
+        public string? user { get; set; }
+        public UserImage UserImage { get; set; }
     }
 }

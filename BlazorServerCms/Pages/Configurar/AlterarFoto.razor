@@ -1,0 +1,68 @@
+﻿@page "/alterarFoto/{user}"
+@inject IWebHostEnvironment Environment
+@inject NavigationManager navigation
+<h3>Alterar Foto</h3>
+
+@if (exampleModel != null)
+{
+    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    
+    <p>
+        <label>Imagem (512 x 512):</label>
+        <InputFile OnChange="@LoadFiles" />
+    </p>
+
+    <button type="submit">Alterar</button>
+</EditForm>
+
+}
+
+@code {
+
+    [Parameter] public string user { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private UserImage exampleModel;
+    private IBrowserFile file = null;
+    private long maxFileSize = 1024 * 800;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Context = db.CreateDbContext(null);
+        exampleModel = await Context.UserImage.FirstOrDefaultAsync(ui => ui.user == user);
+        if (exampleModel == null)
+            exampleModel = new UserImage();
+    }
+
+    private async void HandleSubmit()
+    {
+        if (file != null)
+        {
+            exampleModel.Image = file.Name;
+            if(exampleModel.Id == 0)
+            {
+                exampleModel.user = user;
+                Context.Add(exampleModel);
+                await Context.SaveChangesAsync();
+
+            }
+            else
+            {
+                Context.Update(exampleModel);
+                await Context.SaveChangesAsync();
+            }
+            var path = Path.Combine(Environment.ContentRootPath, "wwwroot", "ImgUser", "usuario-" + exampleModel.user + "-" + file.Name);
+            await using FileStream fs = new(path, FileMode.Create);
+            await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+        }
+        navigation.NavigateTo($"/{user}");
+        // Process the form
+    }
+
+    private void LoadFiles(InputFileChangeEventArgs e)
+    {
+        file = e.File;
+    }
+}

@@ -1,0 +1,33 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+.circulo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+.circulo2 {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.ImgUser {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}
+
