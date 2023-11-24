@@ -12,34 +12,97 @@
     flex-wrap: wrap;
 }
 
+.linha[b-jje5gysd6g]{
+    margin-right: 50px;
+}
+
 .filtragem1[b-jje5gysd6g]
 {
     margin: 10px;
-    background-color: aliceblue;
 }
 
 .filtragem2[b-jje5gysd6g] {
     margin: 10px;
-    background-color: #808080;
 }
 
 .filtragem3[b-jje5gysd6g] {
     margin: 10px;
-    background-color: #222423;
 }
 
 .filtragem4[b-jje5gysd6g] {
     margin: 10px;
-    background-color: #ff0000;
 }
 
 .filtragem5[b-jje5gysd6g] {
     margin: 10px;
-    background-color: #0094ff;
 }
 
 
 .filtragem6[b-jje5gysd6g] {
+    margin: 10px;
+}
+
+.filtragem7[b-jje5gysd6g] {
+    margin: 10px;
+}
+
+.filtragem8[b-jje5gysd6g] {
+    margin: 10px;
+}
+
+.filtragem9[b-jje5gysd6g] {
+    margin: 10px;
+}
+
+.filtragem10[b-jje5gysd6g] {
+    margin: 10px;
+}
+
+
+
+
+
+
+.divs1[b-jje5gysd6g] {
+    background-color: aliceblue;
+}
+
+.divs2[b-jje5gysd6g] {
+    background-color: #808080;
+}
+
+.divs3[b-jje5gysd6g] {
+    background-color: #222423;
+}
+
+.divs4[b-jje5gysd6g] {
+    background-color: #ff0000;
+}
+
+.divs5[b-jje5gysd6g] {
+    background-color: #0094ff;
+}
+
+
+.divs6[b-jje5gysd6g] {
+    background-color: #0026ff;
+}
+
+.divs7[b-jje5gysd6g] {
+    background-color: #0026ff;
+}
+
+.divs8[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #0026ff;
+}
+
+.divs9[b-jje5gysd6g] {
+    margin: 10px;
+    background-color: #0026ff;
+}
+
+.divs10[b-jje5gysd6g] {
     margin: 10px;
     background-color: #0026ff;
 }

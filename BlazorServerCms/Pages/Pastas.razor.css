@@ -12,34 +12,97 @@
     flex-wrap: wrap;
 }
 
+.linha{
+    margin-right: 50px;
+}
+
 .filtragem1
 {
     margin: 10px;
-    background-color: aliceblue;
 }
 
 .filtragem2 {
     margin: 10px;
-    background-color: #808080;
 }
 
 .filtragem3 {
     margin: 10px;
-    background-color: #222423;
 }
 
 .filtragem4 {
     margin: 10px;
-    background-color: #ff0000;
 }
 
 .filtragem5 {
     margin: 10px;
-    background-color: #0094ff;
 }
 
 
 .filtragem6 {
+    margin: 10px;
+}
+
+.filtragem7 {
+    margin: 10px;
+}
+
+.filtragem8 {
+    margin: 10px;
+}
+
+.filtragem9 {
+    margin: 10px;
+}
+
+.filtragem10 {
+    margin: 10px;
+}
+
+
+
+
+
+
+.divs1 {
+    background-color: aliceblue;
+}
+
+.divs2 {
+    background-color: #808080;
+}
+
+.divs3 {
+    background-color: #222423;
+}
+
+.divs4 {
+    background-color: #ff0000;
+}
+
+.divs5 {
+    background-color: #0094ff;
+}
+
+
+.divs6 {
+    background-color: #0026ff;
+}
+
+.divs7 {
+    background-color: #0026ff;
+}
+
+.divs8 {
+    margin: 10px;
+    background-color: #0026ff;
+}
+
+.divs9 {
+    margin: 10px;
+    background-color: #0026ff;
+}
+
+.divs10 {
     margin: 10px;
     background-color: #0026ff;
 }
