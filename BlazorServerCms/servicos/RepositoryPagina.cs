@@ -21,10 +21,7 @@ namespace BlazorServerCms.servicos
         public  HttpClient Http { get; }
 
         public Random random = new Random();
-        public List<Pagina>? paginas = new List<Pagina>();
-        public List<Filtro>? filtros = new List<Filtro>();
-        public List<PageLiked>? paginasCurtidas = new List<PageLiked>();
-        public List<UserPreferences>? preferencias = new List<UserPreferences>();
+
         public bool aguarde { get; set; } = false;
         public int diaCupom = 0;
         public string cupomDesconto = "";
@@ -82,7 +79,7 @@ namespace BlazorServerCms.servicos
 
         public async Task<string> renderizarPagina(Pagina pagina)
         {
-        var text = await Http.GetStringAsync("https://localhost:7224/Arquivotxt/default.html");
+        var text = await Http.GetStringAsync("https://www.instagleo.net.br/Arquivotxt/default.html");
            
             var resultado = renderizar(pagina, text!);
             return resultado;
@@ -107,19 +104,12 @@ namespace BlazorServerCms.servicos
             return html.ToString();
         }
 
-        public IIncludableQueryable<Pagina, Pagina> includes()
+        public IIncludableQueryable<Pagina, Story> includes()
         {
             DemoContextFactory db = new DemoContextFactory();
             ApplicationDbContext Contexto = db.CreateDbContext(null);
             return Contexto.Pagina!
-             .Include(p => p.Produto)
-             .ThenInclude(p => p!.Imagem)
-             .Include(p => p.Filtro)!
-             .ThenInclude(b => b!.Filtro)!
-             .Include(p => p.Story)
-             .ThenInclude(b => b!.Filtro)!
-             .ThenInclude(b => b!.Pagina)!
-             .ThenInclude(b => b!.Pagina)!;
+             .Include(p => p.Story)!;
         }
         
         

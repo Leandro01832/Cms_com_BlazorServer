@@ -1,0 +1,33 @@
+*[b-xgm24g75ba] {
+    padding: 0;
+    margin: 0;
+}
+
+.circulo[b-xgm24g75ba] {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+.circulo2[b-xgm24g75ba] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.ImgUser[b-xgm24g75ba] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}
+

@@ -4,10 +4,20 @@
 @inject IJSRuntime? js
 @layout MeuLayout
 
+<PageTitle>Comentar </PageTitle>
+
+<BackPage></BackPage>
 
 <h3>Comentar</h3>
 
-<BackPage></BackPage>
+<Editor Id="contentextarea"
+            Inline=false
+            CloudChannel="5"
+            Disable=false
+        JsConfSrc="sample"
+        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
+        ClassName="tinymce-wrapper" @bind-Value="exampleModel.ContentUser" />
+    <a href="#" onclick="@FazerComentario" class="btn btn-dark" >Adicionar comentário</a>
 
 @{
     if (MensagemComentario != null)
@@ -27,14 +37,6 @@
 
 
 
-<Editor Id="contentextarea"
-            Inline=false
-            CloudChannel="5"
-            Disable=false
-        JsConfSrc="sample"
-        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
-        ClassName="tinymce-wrapper" @bind-Value="exampleModel.ContentUser" />
-    <a href="#" onclick="@FazerComentario" class="btn btn-dark" >Adicionar comentário</a>
 
 
 
@@ -102,13 +104,14 @@
             Context.SaveChanges();
 
             var str = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
-
+            var count1 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
             Pagina.entity = true;
             var p = new Pagina()
                 {
                     Titulo = "Story - " + str.Nome,
                     StoryId = str.Id,
-                    ContentUser = "<h1> Story " + Story.Nome + "</h1>"
+                    ContentUser = "<h1> Story " + Story.Nome + "</h1>",
+                     Versiculo = count1.Pagina.Count + 1
                 };
             Pagina.entity = false;
 
@@ -116,14 +119,15 @@
             Context.SaveChanges();
             p.Story!.Quantidade++;
         }
-
+        var count2 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
         Pagina.entity = true;
         var pagina = new Pagina()
             {
                 Titulo = "Story - " + Story.Nome,
                 StoryId = Story.Id,
                 Comentario = Model.Id,
-                ContentUser = $"<div> {exampleModel.ContentUser} </div>"
+                ContentUser = $"<div> {exampleModel.ContentUser} </div>",
+                Versiculo = count2.Pagina!.Count + 1
             };
         Pagina.entity = false;
 

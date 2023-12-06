@@ -17,6 +17,9 @@ else
     <thead>
         <tr>
             <th>Titulo</th>
+            <th>Capitulo</th>
+            <th>Versiculo</th>
+            <th>Ultima Pasta</th>
             <th>Edita</th>
             <th>Deleta</th>
         </tr>
@@ -26,6 +29,9 @@ else
         {
             <tr>
                 <td>@camada.Titulo</td>
+                <td>@camada.Story!.PaginaPadraoLink</td>
+                <td>@camada.Versiculo</td>
+                <td>@camada.UltimaPasta</td>
                 <td><a class="btn btn-primary" href="pagina/edit/@camada.Id">Editar</a> </td>
                 <td><a class="btn btn-danger" @onclick="(()=> DeletarCamada(camada.Id))">Deletar</a> </td>
                
@@ -60,7 +66,7 @@ else
 
     async Task CarregaCamadas(int pag)
     {
-        camadas = await Context.Pagina!
+        camadas = await Context.Pagina!.Include(p => p.Story)
         .OrderBy(p => p.Id)
                .Skip((pag - 1) * 10)
                .Take(10)
@@ -88,7 +94,7 @@ else
         ).ToList();
         foreach (var item in preferencias)
         {
-            var p = repositoryPagina.preferencias!.FirstOrDefault(pr => pr.Id == item.Id);
+            var p = Context.UserPreferences.FirstOrDefault(pr => pr.Id == item.Id);
             if(p != null && p.p1 == vers)
             p.p1 = 0;
             if (p != null && p.p2 == vers)

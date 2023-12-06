@@ -8,10 +8,11 @@
     background-color: black;
     margin-left: 10%;
     margin-top: 1%;
-    padding: 5%;
+    padding: 2%;
     height: 300px;
     overflow: auto;
     border-radius: 10%;
+    background-color: rgb(208, 146, 61);
 }
 
 .circulo {

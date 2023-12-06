@@ -557,6 +557,12 @@ namespace BlazorServerCms.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UltimaPasta")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Versiculo")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("StoryId");

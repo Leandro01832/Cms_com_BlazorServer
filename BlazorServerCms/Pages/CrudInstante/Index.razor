@@ -1,29 +1,36 @@
-﻿@page "/crud/instante/{pagina:int}"
+﻿@page "/crud/instante/{usuario}/{pagina:int}"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<IdentityUser> userManager
-@attribute [Authorize]
 
+    <p>
+        <strong>
+        Instantes do usuario <a href="/@usuario">@usuario</a>
+    </strong>
+     </p>
 @if (camadas == null)
 {
 <p><em>Carregando...</em></p>
 }
 else if (camadas.Count == 0)
 {
-<p><em>Não existem instantes cadastrados...</em></p>    
+    <p><em>Não existem instantes...</em></p>
 }
 else
 {
-    <div>
-        <a class="btn btn-success" href="instante/create">Nova instante</a>
-    </div>
+    @if (user.Identity!.IsAuthenticated)
+    {
+        <div>
+            <a class="btn btn-success" href="instante/create">Nova instante</a>
+        </div>        
+    }
 <table class="table">
     <thead>
         <tr>
                 <th>Descrição</th>
                 <th>Nº da instante</th>
-            <th>Edita</th>
+            <th>Editar</th>
             <th>Adicionar</th>
         </tr>
     </thead>
@@ -34,8 +41,12 @@ else
                 <tr>
                 <td>@instante.Descricao</td>
                 <td>@num</td>
-                <td><a class="btn btn-primary" href="instante/edit/@instante.Id">Editar</a> </td>
-                    @if(instante.livros.Count < 9)
+                    @if (user.Identity!.IsAuthenticated && instante.livros.FirstOrDefault(l => l.user == user.Identity!.Name) != null)
+                    {
+                    <td><a class="btn btn-primary" href="instante/edit/@instante.Id">Editar</a> </td>                        
+                    }
+                    @if(instante.livros.Count < 9 && user.Identity!.IsAuthenticated &&
+                   instante.livros.FirstOrDefault(l => l.user == user.Identity!.Name) != null)
                     {
                         <td><a class="btn btn-primary" href="add/@instante.Id">Adicionar Livro</a> </td>                        
                     }
@@ -49,46 +60,50 @@ else
 <div>
     <label>Lista:</label>
     <input type="number" onchange="@acessarPagina" min="1" />
-    <a class="btn btn-success" href="instante/create">Nova instante</a>
+    @if (user.Identity!.IsAuthenticated)
+    {
+        <a class="btn btn-success" href="instante/create">Nova instante</a>        
+    }
 </div>
 
 @code {
     protected List<Instante> camadas = new List<Instante>();
     [Parameter] public int pagina { get; set; } = 1;
+    [Parameter] public string usuario { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+    private ClaimsPrincipal user;
 
-    
+    protected override async Task OnParametersSetAsync()
+    {
+        await CarregaCamadas(pagina);
+    }
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        await CarregaCamadas(pagina);
+        var authState = await AuthenticationStateProvider
+           .GetAuthenticationStateAsync();
+        user = authState.User;
     }
 
     async Task CarregaCamadas(int pag)
     {
-        var authState = await AuthenticationStateProvider
-           .GetAuthenticationStateAsync();
-        var user = authState.User;
-        var ad =  repositoryPagina.buscarAdmin();
-      
-            camadas.AddRange( await Context.Instante!.Include(i => i.livros)
-                .Where(i => i.livros.FirstOrDefault(l => l.user == user.Identity!.Name) != null)
+        camadas.Clear();
+        camadas.AddRange( await Context.Instante!.Include(i => i.livros)
+            .Where(i => i.livros.FirstOrDefault(l => l.user == usuario) != null)
                 .OrderBy(p => p.Id)
                 .Skip((pag - 1) * 10)
                 .Take(10)
-                .ToListAsync());
-
-        
+                .ToListAsync());        
     }
 
     private void acessarPagina(ChangeEventArgs e)
     {
         if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
-            navigation.NavigateTo($"/crud/instante/{e.Value!.ToString()}");
+            navigation.NavigateTo($"/crud/instante/{usuario}/{e.Value!.ToString()}");
         else
-            navigation.NavigateTo($"/crud/instante/1");
+            navigation.NavigateTo($"/crud/instante/{usuario}/1");
     }
 
 }

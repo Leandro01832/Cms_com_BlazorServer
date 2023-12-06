@@ -42,6 +42,10 @@ namespace business
         public string? ImagemContent { get; set; }
 
         public string? Content { get; set; }
+        public string? ContentUser { get; set; }
+
+        public int Versiculo { get; set; }
+        public int UltimaPasta { get; set; }
 
         public virtual Produto? Produto { get; set; }
 
@@ -50,7 +54,6 @@ namespace business
         [NotMapped]
         public string NomeComId { get { return Titulo + " chave - " + Id.ToString(); } }
 
-        public string? ContentUser { get; set; }
 
         [NotMapped]
         public string Conteudo

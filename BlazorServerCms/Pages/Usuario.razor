@@ -5,8 +5,12 @@
 @inject IJSRuntime? js 
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider? AuthenticationStateProvider
-<h3>Usuario compartilhante @user </h3>
-<a onclick="@(() => navigation.NavigateTo($"/alterarFoto/{user}"))" >
+@layout LayoutUsuario
+<h3>Usuario @user </h3> 
+
+<div>
+
+<a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto/{user}"))" >
 <div class="circulo">
     <div class="circulo2">
         @if (userImage != null)
@@ -22,6 +26,12 @@
 </div>
     Alterar foto
     </a>
+</div>
+
+<br />
+<hr />
+
+<div>
 
 @if (insta != null && objInstante != null)
 {
@@ -45,9 +55,13 @@ else
     <a onclick="@buscarInstante" class="btn btn-dark">Acessar instante</a>
 
 </p>
+</div>
 
 <br />
 <hr />
+
+<div>
+
 
 @if(livroCompartilhado == null)
 {
@@ -55,6 +69,7 @@ else
 }
 else
 {
+    <center><strong>Livro Compartilhado</strong> </center>
     <p>Livro: @livroCompartilhado.url </p>
     <p>Capitulo: @livroCompartilhado.capitulo </p>
   
@@ -79,6 +94,13 @@ else
         </a>
     }
 }
+</div>
+
+<br />
+<hr />
+
+<div>
+
 @if (usuario != null && usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated && livroCompartilhado != null)
 {
     <p>
@@ -88,24 +110,29 @@ else
     </p>
 
 }
+</div>
 
 <br />
 <hr />
 
-@if (usuario != null && usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated)
-{
-    <p>
-        <a href="/crud/instante/1" class="btn btn-dark">
+<div>
+
+
+    <center>
+        <a href="/crud/instante/@user/1" class="btn btn-dark">
             Instantes
         </a>
-    </p>
+    </center>
     
-}
+</div>
 
 <br />
 <hr />
 
-<p>Pastas Salvas</p>
+<div>
+
+
+<center><strong>Pastas Salvas</strong> </center>
 
 @if(caps != null)
 for(var i = 1; i <= caps.Length; i++)
@@ -128,6 +155,7 @@ for(var i = 1; i <= caps.Length; i++)
     }
     <hr />
 }
+</div>
 
 
 @code {

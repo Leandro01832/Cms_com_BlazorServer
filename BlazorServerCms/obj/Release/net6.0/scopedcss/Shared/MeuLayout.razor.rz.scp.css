@@ -1,0 +1,68 @@
+*[b-mnex5vseq6] {
+    padding: 0;
+    margin: 0;
+}
+
+span[b-mnex5vseq6] {
+    background-color: white;
+}
+
+h3[b-mnex5vseq6] {
+    background-color: darkgray;
+    opacity: 0.80;
+}
+
+p[b-mnex5vseq6] {
+    background-color: rgb(227, 196, 101);
+}
+
+
+#comentario[b-mnex5vseq6] {
+    display: none;
+}
+
+#NumeroPaginaAcesso2[b-mnex5vseq6] {
+    width: 60px;
+    font-size: large;
+}
+
+.ImagemProduto[b-mnex5vseq6] {
+    width: 100%;
+}
+
+.linksPagina[b-mnex5vseq6] {
+    display: none;
+}
+
+.blocoLoader[b-mnex5vseq6] {
+    width: 100%;
+}
+
+.capitulos[b-mnex5vseq6] {
+    font-size: 12px;
+    background-color: white;
+}
+
+.ImagemContent[b-mnex5vseq6] {
+    height: 600px;
+}
+
+.Paginacao[b-mnex5vseq6] {
+    position: fixed;
+    bottom: 1%;
+    width: 100%;
+}
+
+.indices[b-mnex5vseq6] {
+    font-size: 2rem;
+}
+
+.barra[b-mnex5vseq6] {
+    font-size: 2rem;
+}
+
+.TextoInformativo[b-mnex5vseq6] {
+    background-color: white;
+    opacity: 0.80;
+}
+

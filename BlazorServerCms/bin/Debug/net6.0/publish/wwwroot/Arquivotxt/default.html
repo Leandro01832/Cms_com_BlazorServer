@@ -1,0 +1,23 @@
+<style>
+    img {
+        margin: auto;
+    }
+
+    .blocos 
+    {
+        display: flex;    
+        flex-direction: ${model.Pagina.FlexDirection};    
+        align-items: ${model.Pagina.AlignItems};
+        width: 100%;
+        min-height: 50px;
+        height: auto;
+        background-size: contain;
+        justify-content: center;
+    } 
+</style>
+
+<meta charset='UTF-8'> 
+
+<div id='bloco$model.Pagina.Id' class='blocos' >
+    <div>$model.Pagina.Conteudo</div>   
+</div>

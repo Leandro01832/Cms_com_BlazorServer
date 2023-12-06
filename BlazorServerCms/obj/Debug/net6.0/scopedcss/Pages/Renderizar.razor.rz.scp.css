@@ -22,7 +22,9 @@ p[b-k8aihg5em2] {
 }
 
 
-
+#ultimapasta[b-k8aihg5em2]{
+    margin-left: 15px;
+}
 
 
 #comentario[b-k8aihg5em2] {
@@ -71,9 +73,11 @@ p[b-k8aihg5em2] {
     background-color: black;
     margin-left: 10%;
     margin-top: 5%;
-    padding: 5%;
+    padding: 2%;
     height: 300px;
     overflow: auto;
+    border-radius: 10%;
+    background-color: rgb(208, 146, 61);
 }
 
 .ImagemContent[b-k8aihg5em2] {

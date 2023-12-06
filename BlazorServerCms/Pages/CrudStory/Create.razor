@@ -47,6 +47,7 @@
         var conteudo = "<p> <h1> Seja bem vindo a Story " + exampleModel.Nome + "</h1> </p>";
 
         Pagina pag = null;
+        var count = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == exampleModel.Id);
         Pagina.entity = true;
         if(exampleModel.Produto)
             pag = new Pagina()
@@ -55,7 +56,8 @@
                 Titulo = "Story - " + exampleModel.Nome,
                 StoryId = exampleModel.Id,
                 Content = conteudo,
-                    Classificacao = new Classificacao()
+                    Classificacao = new Classificacao(),
+                    Versiculo = count.Pagina!.Count + 1
             };
         else
             pag = new Pagina()
@@ -64,7 +66,8 @@
                     Titulo = "Story - " + exampleModel.Nome,
                     StoryId = exampleModel.Id,
                     ContentUser = conteudo,
-                    Classificacao = new Classificacao()
+                    Classificacao = new Classificacao(),
+                    Versiculo = count.Pagina!.Count + 1
                 };
         Pagina.entity = false;
 
@@ -72,6 +75,7 @@
         Context.SaveChanges();
 
         var Story = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
+        var count2 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
 
         var pagina = new Pagina()
             {
@@ -79,7 +83,8 @@
                 Titulo = "Story - " + exampleModel.Nome,
                 StoryId = Story.Id,
                 Content = "<a href='#' id='LinkPadrao'> <h1> Story " + exampleModel.Nome + "</h1> </a>",
-                Classificacao = new Classificacao()
+                Classificacao = new Classificacao(),
+                 Versiculo = count2.Pagina!.Count + 1
             };
 
         try

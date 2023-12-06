@@ -1,0 +1,12 @@
+C:\Users\leand\source\repos\BlazorServerCms\business\bin\Release\net6.0\business.deps.json
+C:\Users\leand\source\repos\BlazorServerCms\business\bin\Release\net6.0\business.dll
+C:\Users\leand\source\repos\BlazorServerCms\business\bin\Release\net6.0\business.pdb
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\business.csproj.AssemblyReference.cache
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\business.AssemblyInfoInputs.cache
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\business.AssemblyInfo.cs
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\business.csproj.CoreCompileInputs.cache
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\business.dll
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\refint\business.dll
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\business.pdb
+C:\Users\leand\source\repos\BlazorServerCms\business\obj\Release\net6.0\ref\business.dll

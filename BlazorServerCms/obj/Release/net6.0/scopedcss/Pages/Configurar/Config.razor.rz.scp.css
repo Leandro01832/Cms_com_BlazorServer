@@ -1,0 +1,17 @@
+*[b-55jojgzw75] {
+    padding: 0;
+    margin: 0;
+}
+
+.container[b-55jojgzw75] {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    background-color: rgb(208, 146, 61);
+}
+
+ p[b-55jojgzw75]{
+    text-align: center;
+    margin-left: 20px;
+    font-size: large;
+}

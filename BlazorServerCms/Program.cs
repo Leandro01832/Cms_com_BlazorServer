@@ -17,9 +17,11 @@ using business.business;
 using System.Collections.Generic;
 using BlazorServerCms.Pages;
 using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
+string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 builder.Services.AddSingleton<HttpClient>();
@@ -39,6 +41,8 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddAuthentication()
                .AddGoogle(options =>
                {
+                   options.ClientId = config["Authentication:Google:ClientId"];
+                   options.ClientSecret = config["Authentication:Google:ClientSecret"];
                    IConfigurationSection googleAuthNSection =
                        config.GetSection("Authentication:Google");
                    options.ClientId = googleAuthNSection["ClientId"];
@@ -52,7 +56,7 @@ builder.Services.AddAuthentication()
                    options.AppSecret = "44255326eb4d1d9aae788034ffca9dd1";
                });
 
-
+builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 
 
 var app = builder.Build();
@@ -93,65 +97,9 @@ using (var scope = app.Services.CreateScope())
     var userASP = await userManager.FindByNameAsync(email);
 
 
-
-    // await contexto.Database.MigrateAsync();
-
-    if (repositoryPagina.paginas!.Count == 0)
-    {
-        var pages = await contexto.Pagina!
-            .Include(p => p.Produto)
-             .ThenInclude(p => p!.Imagem)
-             .Include(p => p.Filtro)!
-             .ThenInclude(b => b!.Filtro)!
-             .Include(p => p.Story)
-             .ThenInclude(b => b!.Filtro)!
-             .ThenInclude(b => b!.Pagina)!
-             .ThenInclude(b => b!.Pagina)!
-            .ToListAsync();
-        repositoryPagina.paginas!.AddRange(pages);
-    }
-    
-    if (repositoryPagina.filtros!.Count == 0)
-    {
-        var pages = await contexto.Filtro!.ToListAsync();
-        foreach (var item in pages)
-        {
-            if (item is SubStory)
-                repositoryPagina.filtros.Add(await contexto.SubStory.Include(g => g.Grupo).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is Grupo)
-                repositoryPagina.filtros.Add(await contexto.Grupo.Include(g => g.SubGrupo).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is SubGrupo)
-                repositoryPagina.filtros.Add(await contexto.SubGrupo.Include(g => g.SubSubGrupo).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is SubSubGrupo)
-                repositoryPagina.filtros.Add(await contexto.SubSubGrupo.Include(g => g.CamadaSeis).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is CamadaSeis)
-                repositoryPagina.filtros.Add(await contexto.CamadaSeis.Include(g => g.CamadaSete).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is CamadaSete)
-                repositoryPagina.filtros.Add(await contexto.CamadaSete.Include(g => g.CamadaOito).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is CamadaOito)
-                repositoryPagina.filtros.Add(await contexto.CamadaOito.Include(g => g.CamadaNove).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is CamadaNove)
-                repositoryPagina.filtros.Add(await contexto.CamadaNove.Include(g => g.CamadaDez).ThenInclude(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-            if (item is CamadaDez)
-                repositoryPagina.filtros.Add(await contexto.CamadaDez.Include(g => g.Pagina).FirstAsync(g => g.Id == item.Id));
-        }
-    }
-    
-    if (repositoryPagina.paginasCurtidas!.Count == 0)
-    {
-        var pages = await contexto.PageLiked.ToListAsync();
-        repositoryPagina.paginasCurtidas!.AddRange(pages);
-    }
-    
-    if (repositoryPagina.preferencias!.Count == 0)
-    {
-        var pages = await contexto.UserPreferences.ToListAsync();
-        repositoryPagina.preferencias!.AddRange(pages);
-    }
-
-
         string[] rolesNames = { "Admin", "Manager" };
     IdentityResult result;
+  
     foreach (var namesRole in rolesNames)
     {
         var roleExist = await roleManager.RoleExistsAsync(namesRole);
@@ -160,7 +108,8 @@ using (var scope = app.Services.CreateScope())
             result = await roleManager.CreateAsync(new IdentityRole(namesRole));
         }
     }    
-        if (userASP == null)
+     
+    if (userASP == null)
     {
         var user = new IdentityUser { UserName = "leandro01832", Email = email, EmailConfirmed = true };
         await userManager.CreateAsync(user, password);
@@ -185,6 +134,7 @@ using (var scope = app.Services.CreateScope())
         contexto.Add(str);
         contexto.SaveChanges();
 
+        var count3 = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
         var pagPadrao = new Pagina
         {
             Classificacao = new Classificacao(),
@@ -194,23 +144,22 @@ using (var scope = app.Services.CreateScope())
             Data = DateTime.Now,
             ImagemContent = null,
             StoryId = 1,
-            Titulo = "capitulos"
+            Titulo = "capitulos",
+            Versiculo = count3.Pagina!.Count + 1
         };
         contexto.Add(pagPadrao);
         contexto.SaveChanges();
         var p = await repositoryPagina.includes().FirstAsync(pa => pa.Id == pagPadrao.Id);
-        repositoryPagina.paginas.Add(p);
 
         Pagina[] pages = new Pagina[99];
         foreach(var item in contexto.Story!.Include(str => str.Pagina).First(str => str.Id == 1).Pagina!.ToList())
         {
             var p1 = await repositoryPagina.includes().FirstAsync(pa => pa.Id == item.Id);
-            repositoryPagina.paginas.Add(p1);
         }
         for (var i = 1; i<= 99; i++)
         {
-                var pag = new Pagina();
-
+            var count = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 2);          
+                
                 pages[i - 1] = new Pagina();
                 pages[i - 1].Titulo = "pagina";
                 pages[i - 1].Titulo += $" {i}";
@@ -221,8 +170,9 @@ using (var scope = app.Services.CreateScope())
                 pages[i - 1].ImagemContent = null;
                 pages[i - 1].Comentario = 0;
                 pages[i - 1].StoryId = 2;
+                pages[i - 1].Versiculo = count.Pagina.Count + 1;
 
-            if(i == 1)
+            if (i == 1)
             {
                 pages[i - 1].ContentUser = "<p> <h1> Seja bem vindo a Story seres vivos</h1> </p>";
                 
@@ -821,7 +771,6 @@ using (var scope = app.Services.CreateScope())
             contexto.Add(pages[i - 1]); 
             contexto.SaveChanges();
             var p2 = await repositoryPagina.includes().FirstAsync(pa => pa.Id == pages[i - 1].Id);
-            repositoryPagina.paginas.Add(p2);
         }
 
 
@@ -889,13 +838,16 @@ using (var scope = app.Services.CreateScope())
                 contexto.Add(str);
                 await contexto.SaveChangesAsync();
 
+                var count = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
+
                 var indice0 = new Pagina()
                 {
                     Data = DateTime.Now,
                     Titulo = "Story - " + str.Nome,
                     StoryId = str.Id,
                     Content = "<p> <h1> Seja bem vindo a Story " + str.Nome + "</h1> </p>",
-                    Classificacao = new Classificacao()
+                    Classificacao = new Classificacao(),
+                    Versiculo = count.Pagina.Count + 1
                 };
 
                 contexto.Add(indice0);
@@ -909,6 +861,7 @@ using (var scope = app.Services.CreateScope())
                 }
 
                 var Story = await contexto.Story!.FirstAsync(st => st.Nome == "Padrao");
+                var count2 = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
 
                 var pag = new Pagina()
                 {
@@ -916,7 +869,8 @@ using (var scope = app.Services.CreateScope())
                     Titulo = "Story - " + str.Nome,
                     StoryId = Story.Id,
                     Content = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>",
-                    Classificacao = new Classificacao()
+                    Classificacao = new Classificacao(),
+                    Versiculo = count2.Pagina.Count + 1
                 };
 
                 contexto.Add(pag);
@@ -947,6 +901,7 @@ using (var scope = app.Services.CreateScope())
                     pagina.Classificacao = new Classificacao();
                     pagina.Story = str;
                     pagina.Titulo = name;
+                    pagina.Versiculo = count.Pagina.Count + 1;
                     contexto.Pagina!.Add(pagina);
                     try
                     {
@@ -967,6 +922,7 @@ using (var scope = app.Services.CreateScope())
                             pagi.Story = str;
                             pagi.Titulo = name;
                             pagi.Classificacao = new Classificacao();
+                            pagi.Versiculo = count.Pagina.Count + 1;
                             contexto.Pagina.Add(pagi);
                             try
                             {
@@ -988,9 +944,6 @@ using (var scope = app.Services.CreateScope())
     }
 
 }
-
-
-
 
     app.Run();
 

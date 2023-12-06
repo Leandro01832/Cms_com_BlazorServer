@@ -1,0 +1,16 @@
+
+*[b-q23uvzelni] {
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+.top-row[b-q23uvzelni] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: black;
+}

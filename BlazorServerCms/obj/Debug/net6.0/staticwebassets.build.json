@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oXkcFJAwOVYQkmcDJPE7SKRoVoLJteIHl5Tq3PHw6b8=",
+  "Hash": "ZZGaHXMkilNpmKgO6fqlv4zlw13bQZI+gnaX6nN6vrY=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -1494,6 +1494,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\livro.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Loading.gif",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "Loading.gif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Loading.gif"
     },
     {
       "Identity": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\main.js",

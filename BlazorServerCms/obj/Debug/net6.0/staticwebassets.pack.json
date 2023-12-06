@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\JSFunctions.js"
     },
     {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Loading.gif",
+      "PackagePath": "staticwebassets\\Loading.gif"
+    },
+    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\Tynymce.js",
       "PackagePath": "staticwebassets\\Tynymce.js"
     },

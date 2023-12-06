@@ -13,9 +13,7 @@ img {
     width: 100%;
 }
 
-.container {
-    display: flex;
-}
+
 
 #cabecalho {
     display: none;
@@ -59,12 +57,7 @@ img {
     text-decoration: none;
 }
 
-.container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-}
+
 
 .produto {
     margin-left: 5px;
@@ -123,160 +116,21 @@ img {
         width: 1%;
     }
 
-@media (max-width: 500px) and (min-width: 50px) {
-
-    .produto {
-        width: 160px;
-        margin-left: 3px;
-        margin-top: 2px;
-    }
-}
-
-* {
-    padding: 0;
-    margin: 0;
-}
-
-body {
-    border: solid 4px coral;
-    min-height: 950px;
-    height: auto;
-}
-
-img {
-    width: 100%;
-}
-
-.container {
-    display: flex;
-}
-
-#cabecalho {
-    display: none;
-    justify-content: space-around;
-    border: 3px solid chocolate;
-}
-
-#configuracao {
-    display: flex;
-    justify-content: space-around;
-    border: 3px solid chocolate;
-}
-
-    #configuracao p {
-        border: 3px solid black;
-    }
-
-#livro {
-    background-color: chocolate;
-    font-size: large;
-}
-
-#automatico a {
-    background-color: rgb(255, 255, 255);
-    color: chocolate;
-    font-size: large;
-    text-decoration: none;
-}
-
-#lista a {
-    background-color: rgb(255, 255, 255);
-    color: chocolate;
-    font-size: large;
-    text-decoration: none;
-}
-
-#config a {
-    background-color: rgb(255, 255, 255);
-    color: chocolate;
-    font-size: large;
-    text-decoration: none;
-}
-
 .container {
     display: flex;
     flex-direction: row;
+    overflow: hidden;
     flex-wrap: wrap;
-    align-content: center;
 }
 
-.produto {
-    margin-left: 5px;
-    margin-top: 4px;
-    border: solid 4px coral;
-}
-
-.caps {
-    background-color: rgb(232, 255, 127);
-    font-size: 1.0em;
-}
-
-    .caps strong a {
-        text-align: center;
-        text-decoration: none;
-        border: 3px solid rgb(255, 255, 255);
-        color: rgb(164, 52, 11);
-    }
-
-.info {
-    display: none;
-    overflow: auto;
-    max-height: 90px;
-}
-
-#proxima-lista {
-    align-self: center;
-    text-align: start;
-    margin-right: 10px;
-}
-
-    #proxima-lista strong a {
-        text-decoration: none;
-        border: 2px solid;
-        color: black;
-    }
-
-#ordenacao a {
-    text-decoration: none;
-    border: 2px solid;
-    color: black;
-}
-
-#texto, #botaoTexto {
-    font-size: 25px;
-    border-radius: 10px;
-    border: none;
-    padding: 20px;
-}
-
-#texto {
-    background-color: #d4e8ff;
-    color: #06224a;
-    width: 500px;
-}
-
-    #texto:focus {
-        outline: none;
-    }
-
-#botaoTexto {
-    margin-left: 10px;
-    background-color: #06224a;
-    color: white;
-    text-transform: uppercase;
-    transition: 0.3s;
-}
-
-    #botaoTexto:hover {
-        background-color: #010d1f;
-        transition: 0.3s;
-    }
 
 
 @media (max-width: 500px) and (min-width: 50px) {
+
     .produto {
         width: 160px;
         margin-left: 3px;
         margin-top: 2px;
     }
 }
+

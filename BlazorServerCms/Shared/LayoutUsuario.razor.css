@@ -1,0 +1,16 @@
+﻿
+* {
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+.top-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: black;
+}
