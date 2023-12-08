@@ -2,7 +2,7 @@
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<UserModel> userManager
 @attribute [Authorize]
 
 @*<p>
@@ -66,7 +66,7 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private ClaimsPrincipal user;
-    IList<IdentityUser> users = new List<IdentityUser>();
+    IList<UserModel> users = new List<UserModel>();
 
     protected override async Task OnInitializedAsync()
     {

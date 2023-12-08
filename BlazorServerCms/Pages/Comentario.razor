@@ -106,12 +106,10 @@
             var str = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
             var count1 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
             Pagina.entity = true;
-            var p = new Pagina()
+            var p = new Pagina(count1)
                 {
                     Titulo = "Story - " + str.Nome,
-                    StoryId = str.Id,
-                    ContentUser = "<h1> Story " + Story.Nome + "</h1>",
-                     Versiculo = count1.Pagina.Count + 1
+                    ContentUser = "<h1> Story " + Story.Nome + "</h1>"
                 };
             Pagina.entity = false;
 
@@ -121,13 +119,11 @@
         }
         var count2 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
         Pagina.entity = true;
-        var pagina = new Pagina()
+        var pagina = new Pagina(count2)
             {
                 Titulo = "Story - " + Story.Nome,
-                StoryId = Story.Id,
                 Comentario = Model.Id,
-                ContentUser = $"<div> {exampleModel.ContentUser} </div>",
-                Versiculo = count2.Pagina!.Count + 1
+                ContentUser = $"<div> {exampleModel.ContentUser} </div>"
             };
         Pagina.entity = false;
 

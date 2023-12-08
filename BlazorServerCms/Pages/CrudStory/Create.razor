@@ -50,24 +50,16 @@
         var count = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == exampleModel.Id);
         Pagina.entity = true;
         if(exampleModel.Produto)
-            pag = new Pagina()
+            pag = new Pagina(count)
             {
-                Data = DateTime.Now,
                 Titulo = "Story - " + exampleModel.Nome,
-                StoryId = exampleModel.Id,
-                Content = conteudo,
-                    Classificacao = new Classificacao(),
-                    Versiculo = count.Pagina!.Count + 1
+                Content = conteudo
             };
         else
-            pag = new Pagina()
+            pag = new Pagina(count)
                 {
-                    Data = DateTime.Now,
                     Titulo = "Story - " + exampleModel.Nome,
-                    StoryId = exampleModel.Id,
                     ContentUser = conteudo,
-                    Classificacao = new Classificacao(),
-                    Versiculo = count.Pagina!.Count + 1
                 };
         Pagina.entity = false;
 
@@ -77,14 +69,11 @@
         var Story = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
         var count2 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
 
-        var pagina = new Pagina()
+        var pagina = new Pagina(count2)
             {
-                Data = DateTime.Now,
                 Titulo = "Story - " + exampleModel.Nome,
-                StoryId = Story.Id,
                 Content = "<a href='#' id='LinkPadrao'> <h1> Story " + exampleModel.Nome + "</h1> </a>",
-                Classificacao = new Classificacao(),
-                 Versiculo = count2.Pagina!.Count + 1
+                
             };
 
         try

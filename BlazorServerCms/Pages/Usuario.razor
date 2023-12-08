@@ -1,21 +1,28 @@
 ﻿@page "/{user}"
 @page "/{user}/{insta:int}"
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<UserModel> userManager
 @inject RepositoryPagina? repositoryPagina
 @inject IJSRuntime? js 
 @inject NavigationManager navigation
-@inject AuthenticationStateProvider? AuthenticationStateProvider
 @layout LayoutUsuario
-<h3>Usuario @user </h3> 
+
 
 <div>
+@if(usermodel != null && usermodel.Dominio != null && usermodel.Permissao)
+{
+  <center>
+            <strong><a href="@usermodel.Dominio"> Meu Livro</a></strong>
+        </center> 
+    <br />
+    <br />
+}
 
 <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto/{user}"))" >
 <div class="circulo">
     <div class="circulo2">
-        @if (userImage != null)
+                @if (usermodel != null && usermodel.Image != null)
         {
-            <img src="ImgUser/usuario-@(user)-@(userImage.Image)" class="ImgUser">
+            <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser">
         }
         else
         {
@@ -26,108 +33,17 @@
 </div>
     Alterar foto
     </a>
+
+    <br />
+    <br />
+    <br />
+
+    <a href="#" onclick="@(() => navigation.NavigateTo($"/alterardominio/{user}"))">
+       
+        Alterar dominio
+    </a>
 </div>
 
-<br />
-<hr />
-
-<div>
-
-@if (insta != null && objInstante != null)
-{
-    <PageTitle>Instante @insta </PageTitle>
-    <p>Você esta acessando a instante nº @i </p>
-    <p>Descrição da instante: @objInstante.Descricao </p>
-
-}
-else
-{
-    <PageTitle>@user</PageTitle>
-
-}
-
-<p>
-    <label>Informe o nº da instante</label>
-    <input type="number" min="1" @bind="@insta" />
-
-</p>
-<p>
-    <a onclick="@buscarInstante" class="btn btn-dark">Acessar instante</a>
-
-</p>
-</div>
-
-<br />
-<hr />
-
-<div>
-
-
-@if(livroCompartilhado == null)
-{
-    <h4>Usuario @user não está compartilhando nenhum livro</h4>
-}
-else
-{
-    <center><strong>Livro Compartilhado</strong> </center>
-    <p>Livro: @livroCompartilhado.url </p>
-    <p>Capitulo: @livroCompartilhado.capitulo </p>
-  
-    <label>Nº da pasta</label>
-    <input type="number" @bind="pasta" placeholder="Nº da pasta" />
-    if(preferences != null)
-    {
-        <a href="#" onclick="@(() => navigation.NavigateTo($"{livroCompartilhado!.url}/filtro/{livroCompartilhado.capitulo}/pasta-{pasta}/0/0/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}"))"
-           class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-            </svg>
-        </a>
-    }
-    else
-    {
-        <a href="#" onclick="@(() => navigation.NavigateTo($"{livroCompartilhado!.url}/filtro/{livroCompartilhado.capitulo}/pasta-{pasta}/0/0/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina!.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0"))"
-           class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-            </svg>
-        </a>
-    }
-}
-</div>
-
-<br />
-<hr />
-
-<div>
-
-@if (usuario != null && usuario.Identity!.Name == user && usuario.Identity.IsAuthenticated && livroCompartilhado != null)
-{
-    <p>
-        <a href="/user-book/@livroCompartilhado.Id" class="btn btn-dark">
-            definir livro compartilhado
-        </a>
-    </p>
-
-}
-</div>
-
-<br />
-<hr />
-
-<div>
-
-
-    <center>
-        <a href="/crud/instante/@user/1" class="btn btn-dark">
-            Instantes
-        </a>
-    </center>
-    
-</div>
-
-<br />
-<hr />
 
 <div>
 
@@ -169,8 +85,8 @@ for(var i = 1; i <= caps.Length; i++)
     private Instante objInstante = null;
     private int pasta;
     private ClaimsPrincipal usuario;
-    private UserImage userImage = null;
     private UserPreferences preferences = null;
+    private UserModel usermodel;
     int[] caps = null;
 
     protected override async Task OnParametersSetAsync()
@@ -190,10 +106,7 @@ for(var i = 1; i <= caps.Length; i++)
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        userImage = await Context.UserImage.FirstOrDefaultAsync(ui => ui.user == user);
-        var authState = await AuthenticationStateProvider
-                .GetAuthenticationStateAsync();
-        usuario = authState.User;
+        usermodel = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == user);
         livroCompartilhado = await Context.Livro!.Where(u => u.user == user).OrderBy(l => l.Id).FirstOrDefaultAsync();
         if(livroCompartilhado != null)
          preferences = Context.UserPreferences

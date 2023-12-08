@@ -17,6 +17,14 @@ else
     
 }
 
+<center>
+    <a href="/crud/instante/@repositoryPagina.buscarAdmin()/1" class="btn btn-dark">
+        Instantes
+    </a>
+</center>
+
+<hr />
+
 <p>
     <label>Informe o nº da instante</label>
     <input type="number" min="1" @bind="@insta" />
@@ -62,9 +70,9 @@ else
                 {
                     var preferences = await Context.UserPreferences.FirstOrDefaultAsync(u => u.user == ad && u.capitulo == livros[i].capitulo && u.pasta == livros[i].pasta);
                     if (preferences != null)
-                        url = $"{livros[i]!.url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
+                        url = $"{livros[i]!.url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
                     else
-                        url = $"{livros[i]!.url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{repositoryPagina.buscarAdmin()}/0/0/0/0/0/0/0/0/0/0";
+                        url = $"{livros[i]!.url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/0/0/0/0/0/0/0/0/0/0";
                 }
                 else
                     url = $"{livros[i]!.UrlNoBook}";

@@ -1,6 +1,6 @@
 ﻿@page "/remove-permissao"
 @attribute [Authorize(Roles = "Admin")]
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<UserModel> userManager
 <h3>RemovePermissao</h3>
 
 @foreach(var item in users)
@@ -15,7 +15,7 @@
 
 @code {
 
-    IList<IdentityUser> users = new List<IdentityUser>();
+    IList<UserModel> users = new List<UserModel>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -23,7 +23,7 @@
         users = await userManager.GetUsersInRoleAsync("Manager");
     }
 
-    private async void remove(IdentityUser user)
+    private async void remove(UserModel user)
     {
         await userManager.RemoveFromRoleAsync(user, "Manager");
     }

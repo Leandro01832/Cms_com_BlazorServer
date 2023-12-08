@@ -31,12 +31,12 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserModel>>();
 
 builder.Services.AddAuthentication()
                .AddGoogle(options =>
@@ -91,7 +91,7 @@ using (var scope = app.Services.CreateScope())
     var contexto = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var repositoryPagina = scope.ServiceProvider.GetRequiredService<RepositoryPagina>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
     var email = builder.Configuration.GetConnectionString("Email");
     var password = builder.Configuration.GetConnectionString("Senha");
     var userASP = await userManager.FindByNameAsync(email);
@@ -111,7 +111,7 @@ using (var scope = app.Services.CreateScope())
      
     if (userASP == null)
     {
-        var user = new IdentityUser { UserName = "leandro01832", Email = email, EmailConfirmed = true };
+        var user = new UserModel { UserName = "leandro01832", Email = email, EmailConfirmed = true };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
     }
@@ -135,17 +135,13 @@ using (var scope = app.Services.CreateScope())
         contexto.SaveChanges();
 
         var count3 = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
-        var pagPadrao = new Pagina
+        var pagPadrao = new Pagina(count3)
         {
-            Classificacao = new Classificacao(),
             Comentario = 0,
             ContentUser = "<a href=''#'' id=''LinkPadrao''> <h1> Story seres vivos</h1> </a>",
             Content = null,
-            Data = DateTime.Now,
             ImagemContent = null,
-            StoryId = 1,
             Titulo = "capitulos",
-            Versiculo = count3.Pagina!.Count + 1
         };
         contexto.Add(pagPadrao);
         contexto.SaveChanges();
@@ -160,17 +156,13 @@ using (var scope = app.Services.CreateScope())
         {
             var count = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 2);          
                 
-                pages[i - 1] = new Pagina();
+                pages[i - 1] = new Pagina(count);
                 pages[i - 1].Titulo = "pagina";
                 pages[i - 1].Titulo += $" {i}";
-                pages[i - 1].Data = DateTime.Now;
-                pages[i - 1].Classificacao = new Classificacao();
                 pages[i - 1].Produto = null;
                 pages[i - 1].Content = null;
                 pages[i - 1].ImagemContent = null;
                 pages[i - 1].Comentario = 0;
-                pages[i - 1].StoryId = 2;
-                pages[i - 1].Versiculo = count.Pagina.Count + 1;
 
             if (i == 1)
             {
@@ -840,14 +832,10 @@ using (var scope = app.Services.CreateScope())
 
                 var count = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
 
-                var indice0 = new Pagina()
+                var indice0 = new Pagina(count)
                 {
-                    Data = DateTime.Now,
                     Titulo = "Story - " + str.Nome,
-                    StoryId = str.Id,
-                    Content = "<p> <h1> Seja bem vindo a Story " + str.Nome + "</h1> </p>",
-                    Classificacao = new Classificacao(),
-                    Versiculo = count.Pagina.Count + 1
+                    Content = "<p> <h1> Seja bem vindo a Story " + str.Nome + "</h1> </p>"
                 };
 
                 contexto.Add(indice0);
@@ -863,14 +851,10 @@ using (var scope = app.Services.CreateScope())
                 var Story = await contexto.Story!.FirstAsync(st => st.Nome == "Padrao");
                 var count2 = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
 
-                var pag = new Pagina()
+                var pag = new Pagina(count2)
                 {
-                    Data = DateTime.Now,
                     Titulo = "Story - " + str.Nome,
-                    StoryId = Story.Id,
-                    Content = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>",
-                    Classificacao = new Classificacao(),
-                    Versiculo = count2.Pagina.Count + 1
+                    Content = "<a href='#' id='LinkPadrao'> <h1> Story " + str.Nome + "</h1> </a>"
                 };
 
                 contexto.Add(pag);
@@ -887,7 +871,7 @@ using (var scope = app.Services.CreateScope())
 
                 for (var i = 0; i < livro.ShoppingResults!.Length; i++)
                 {
-                    Pagina pagina = new Pagina();
+                    Pagina pagina = new Pagina(count);
                     pagina.Produto = new Produto
                     {
                         Descricao = livro.ShoppingResults[i].Title,
@@ -898,10 +882,7 @@ using (var scope = app.Services.CreateScope())
                         QuantEstoque = 10,
                          
                     };
-                    pagina.Classificacao = new Classificacao();
-                    pagina.Story = str;
                     pagina.Titulo = name;
-                    pagina.Versiculo = count.Pagina.Count + 1;
                     contexto.Pagina!.Add(pagina);
                     try
                     {
@@ -918,11 +899,8 @@ using (var scope = app.Services.CreateScope())
                     {
                         for (var j = 0; j <= 2; j++)
                         {
-                            Pagina pagi = new Pagina();
-                            pagi.Story = str;
+                            Pagina pagi = new Pagina(count);
                             pagi.Titulo = name;
-                            pagi.Classificacao = new Classificacao();
-                            pagi.Versiculo = count.Pagina.Count + 1;
                             contexto.Pagina.Add(pagi);
                             try
                             {

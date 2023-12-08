@@ -40,12 +40,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBZGRQZXJtaXNzYW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configurar/AlterarDominio.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBbHRlcmFyRG9taW5pby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configurar/AlterarFoto.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBbHRlcmFyRm90by5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configurar/Configuracoes.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxDb25maWd1cmFjb2VzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configurar/PermissaoLivro.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxQZXJtaXNzYW9MaXZyby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configurar/RemovePermissao.razor]
@@ -230,6 +238,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ecommerce/Resumo.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXFJlc3Vtby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ListaFiltro2.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8yLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/LivroCompartilhado.razor]

@@ -1,0 +1,65 @@
+﻿@page "/listafiltro/{capitulo:int}/{dominio}/{compartilhante}"
+@inject NavigationManager navigation
+<h3>Lista de pastas</h3>
+   
+
+
+<div class="container">
+    @if(lista != null)
+    {
+        foreach(var item in lista)
+        {
+            var indice = lista.IndexOf(item) + 1;
+            var condicao = item.Pagina != null && item.Pagina.Count > 0;
+            <center>
+                @if (condicao)
+                {
+                    <a href="/renderizar/@capitulo/@indice/0/11/1/1/0/0/0/@dominio/@compartilhante">
+
+            <div class="item">
+                <img src="/folder.webp" />
+            </div>
+                Pasta @indice
+                    </a>
+                }
+                else
+                {
+                    <div class="item">
+                        <img src="/folder.webp" />
+                    </div>
+        
+                    <p> Pasta @indice</p>
+                    <br />
+                    <p> Não possui versiculos</p>
+                }
+
+
+            </center>
+        }
+    }
+
+    </div>
+
+@code {
+    [Parameter] public int capitulo{ get; set; }
+    [Parameter] public int dominio{ get; set; }
+    [Parameter] public int compartilhante{ get; set; }
+
+    private List<Filtro> lista;
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Context = db.CreateDbContext(null);
+        var str = await Context.Story.Include(s => s.Filtro)!
+        .ThenInclude(s => s.Pagina).FirstAsync(s => s.PaginaPadraoLink == capitulo);
+
+        if (str.Filtro == null || str.Filtro.Count == 0)
+            navigation.NavigateTo("/");
+
+        lista = str.Filtro.OrderBy(f => f.Id).ToList();
+    }
+}

@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using BlazorServerCms.Data;
 @attribute [IgnoreAntiforgeryToken]
-@inject SignInManager<IdentityUser> SignInManager
+@inject SignInManager<UserModel> SignInManager
 @functions {
     public async Task<IActionResult> OnPost()
     {

@@ -1,5 +1,5 @@
 ﻿@page "/admin"
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<UserModel> userManager
 
 <h3>Admin</h3>
 <PageTitle>Admin</PageTitle>
@@ -20,7 +20,7 @@
 }
 
 @code {
-    IList<IdentityUser> users;
+    IList<UserModel> users;
     protected override async Task OnInitializedAsync()
     {
          users = await userManager.GetUsersInRoleAsync("Admin");     

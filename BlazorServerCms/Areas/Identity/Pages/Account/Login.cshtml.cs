@@ -20,12 +20,12 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<UserModel> _signInManager;
 
         private readonly ILogger<LoginModel> _logger;
-        public UserManager<IdentityUser> UserManager { get; }
+        public UserManager<UserModel> UserManager { get; }
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
+        public LoginModel(SignInManager<UserModel> signInManager, ILogger<LoginModel> logger, UserManager<UserModel> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;

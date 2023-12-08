@@ -1,8 +1,8 @@
-﻿@page "/pastas/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}"
+﻿@page "/pastas/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}"
 @inject RepositoryPagina? repositoryPagina 
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<UserModel> userManager
 @layout MeuLayout
 <h3>Pastas do versiculo @verso do capitulo @capitulo</h3>
 
@@ -30,7 +30,7 @@
                     <div class="filtragem1">
                                 <p>
                                         pasta @pasta - @item.Filtro!.Nome
-                                    <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                                    <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                                     <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                                         @if (condicao != null)
                                         {
@@ -74,7 +74,7 @@
                 <div class="filtragem2">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -118,7 +118,7 @@
                 <div class="filtragem3">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -162,7 +162,7 @@
                 <div class="filtragem4">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -206,7 +206,7 @@
                 <div class="filtragem5">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -250,7 +250,7 @@
                 <div class="filtragem6">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -295,7 +295,7 @@
                 <div class="filtragem7">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -340,7 +340,7 @@
                 <div class="filtragem8">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -384,7 +384,7 @@
                 <div class="filtragem9">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -428,7 +428,7 @@
                 <div class="filtragem10">
                     <p>
                         pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante/@compartilhante2" class="btn btn-primary">Acessar</a>
+                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
                         <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
                             @if (condicao != null)
                             {
@@ -467,7 +467,6 @@
     [Parameter] public int verso { get; set; }
     [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
-    [Parameter] public string? compartilhante2 { get; set; }
     public Pagina Model { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;

@@ -1,10 +1,10 @@
-﻿@page "/alterarFoto"
+﻿@page "/alterardominio"
 @inject IWebHostEnvironment Environment
 @inject UserManager<UserModel> userManager
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
-<h3>Alterar Foto</h3>
+<h3>Alterar dominio</h3>
 
 @if (exampleModel != null)
 {
@@ -13,8 +13,8 @@
     <ValidationSummary />
     
     <p>
-        <label>Imagem (512 x 512):</label>
-        <InputFile OnChange="@LoadFiles" />
+        <label>www.</label>
+            <InputText id="Nome" @bind-Value="exampleModel.Dominio"></InputText>
     </p>
 
     <button type="submit">Alterar</button>
@@ -30,36 +30,25 @@
     private IBrowserFile file = null;
     private long maxFileSize = 1024 * 800;
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
         var authState = await AuthenticationStateProvider
-            .GetAuthenticationStateAsync();
+           .GetAuthenticationStateAsync();
         var user = authState.User;
         exampleModel = await userManager.GetUserAsync(user);
-
     }
 
     private async void HandleSubmit()
     {
-        if (file != null)
-        {
-            exampleModel.Image = file.Name;
 
             var result =  await userManager.UpdateAsync(exampleModel);
             if (result.Succeeded)
-            {
-                var path = Path.Combine(Environment.ContentRootPath, "wwwroot", "ImgUser", "usuario-" + exampleModel.UserName + "-" + file.Name);
-                await using FileStream fs = new(path, FileMode.Create);
-                await file.OpenReadStream(maxFileSize).CopyToAsync(fs);                
-                navigation.NavigateTo($"/{exampleModel.UserName}");
+            {               
+            navigation.NavigateTo($"/{exampleModel.UserName}");
             }
-        }
+        
         // Process the form
     }
 
-    private void LoadFiles(InputFileChangeEventArgs e)
-    {
-        file = e.File;
-    }
 }

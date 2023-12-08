@@ -2,7 +2,7 @@
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject UserManager<IdentityUser> userManager
+@inject UserManager<UserModel> userManager
 @attribute [Authorize]
 @inject IJSRuntime js
 <h3>Definir Livro</h3>
@@ -54,7 +54,7 @@
     [Parameter] public long Id { get; set; }
     private Instante instante;
     private ClaimsPrincipal user;
-    IList<IdentityUser> users = new List<IdentityUser>();
+    IList<UserModel> users = new List<UserModel>();
 
     protected override async Task OnInitializedAsync()
     {

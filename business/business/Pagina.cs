@@ -19,8 +19,18 @@ namespace business
                 Classificacao = new Classificacao();
             }
         }
-        
-        
+
+        public Pagina(Story story)
+        {
+                Comentario = null;
+                Data = DateTime.Now;
+                Classificacao = new Classificacao();
+                StoryId = story.Id;
+                Versiculo = story.Pagina.Count + 1;
+            
+        }
+
+
 
         private DateTime data = DateTime.Now;
 
