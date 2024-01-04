@@ -117,7 +117,7 @@ window.MarcarIndice = (id) => {
          scrolando = 32;
     }
     else  {
-        tamanho = 14;
+        tamanho = parseInt((14 * largura) / 360);
         scrolando = 28;
     }
     var indice = parseInt(id);

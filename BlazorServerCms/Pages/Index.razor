@@ -138,9 +138,9 @@
     </a>
 
 
+
+
 @code{
-
-
 
     [Parameter] public int? capitulo { get; set; }
     [Parameter] public int? p1 { get; set; }
@@ -180,7 +180,7 @@
 
         var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.user == repositoryPagina.buscarDominio());
         if (compartilhante == null)        
-            compartilhante = repositoryPagina.buscarAdmin();
+            compartilhante = "comp";
         if(dominio == null)
             dominio = repositoryPagina.buscarDominio();
 
@@ -195,8 +195,6 @@
                         Admin = compartilhante,
                         Data = DateTime.Now,
                         Comissao = 5
-                        // ComissaoParaUser = 0.25 * Comissao,
-                       // Desconto = 0.5 * Comissao
                     };
                 await Context.AddAsync(compartilhant);
                 await Context.SaveChangesAsync();
@@ -341,7 +339,6 @@
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
         dominio = repositoryPagina.buscarDominio();
-        compartilhante = repositoryPagina.buscarAdmin();
         navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}/user");
     }
 
@@ -384,13 +381,13 @@
     {
         var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
         foreach(var item in users)
-            
-                usuarios.Add(new IdentityUserImage { user = item.UserName, UserModel = item });
-           
+
+            usuarios.Add(new IdentityUserImage { user = item.UserName, UserModel = item });
+
         if (string.IsNullOrEmpty(args.Value!.ToString()!))
             usuarios.Clear();
     }
-
+    
     private class IdentityUserImage
     {
         public string? user { get; set; }

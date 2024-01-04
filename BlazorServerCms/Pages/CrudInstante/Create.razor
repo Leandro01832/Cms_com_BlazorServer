@@ -86,7 +86,6 @@
             var liv = Context.Livro!.FirstOrDefault(l => l.Id == LivroId);
             if(liv != null)
             {
-            var ad = repositoryPagina.buscarAdmin();
 
             await Context.AddAsync(exampleModel);
             Context.SaveChanges();

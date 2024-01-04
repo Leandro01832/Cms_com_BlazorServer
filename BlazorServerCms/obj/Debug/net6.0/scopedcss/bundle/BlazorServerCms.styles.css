@@ -34,6 +34,15 @@
     background-color: rgb(208, 146, 61);
 }
 
+#messagesList[b-ybvjv7whh6] {
+    font-size: 18px;
+    padding: 2%;
+    height: 300px;
+    overflow: auto;
+    border-radius: 10%;
+    background-color: rgb(208, 146, 61);
+}
+
 .circulo[b-ybvjv7whh6] {
     width: 50px;
     height: 50px;
@@ -205,6 +214,18 @@ img[b-622vkbnu9r] {
     }
 }
 
+/* _content/BlazorServerCms/Pages/ListaFiltro2.razor.rz.scp.css */
+*[b-92jj3wda8j] {
+    padding: 0;
+    margin: 0;
+}
+
+
+.container[b-92jj3wda8j] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 /* _content/BlazorServerCms/Pages/Pastas.razor.rz.scp.css */
 
 

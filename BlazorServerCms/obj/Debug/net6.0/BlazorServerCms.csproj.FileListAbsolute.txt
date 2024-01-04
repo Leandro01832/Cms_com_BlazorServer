@@ -281,3 +281,4 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\sco
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Pastas.razor.rz.scp.css
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Usuario.razor.rz.scp.css
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Shared\LayoutUsuario.razor.rz.scp.css
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\ListaFiltro2.razor.rz.scp.css

@@ -1,4 +1,4 @@
-﻿@page "/crud/instante/{usuario}/{pagina:int}"
+﻿@page "/crud/instante/{pagina:int}"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -69,7 +69,7 @@ else
 @code {
     protected List<Instante> camadas = new List<Instante>();
     [Parameter] public int pagina { get; set; } = 1;
-    [Parameter] public string usuario { get; set; }
+    private string usuario;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private ClaimsPrincipal user;
@@ -85,6 +85,8 @@ else
         var authState = await AuthenticationStateProvider
            .GetAuthenticationStateAsync();
         user = authState.User;
+        var users = await userManager.GetUsersInRoleAsync("Admin");
+        usuario = users.First().UserName;
     }
 
     async Task CarregaCamadas(int pag)

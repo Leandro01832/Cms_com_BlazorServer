@@ -240,10 +240,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXFJlc3Vtby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ListaFiltro2.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8yLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/LivroCompartilhado.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGl2cm9Db21wYXJ0aWxoYWRvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -295,6 +291,10 @@ build_metadata.AdditionalFiles.CssScope = b-ybvjv7whh6
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ListaFiltro.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-622vkbnu9r
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ListaFiltro2.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8yLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-92jj3wda8j
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Pastas.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFzdGFzLnJhem9y

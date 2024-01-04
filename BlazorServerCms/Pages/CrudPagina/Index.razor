@@ -80,64 +80,7 @@ else
                 .Where(p => p.Story!.PaginaPadraoLink == pagina.Story!.PaginaPadraoLink).OrderBy(f => f.Id).ToList();
         var pag = list.First(l => l.Id == pagina.Id);
         var vers = list.IndexOf(pag) + 1;
-        var preferencias = Context.UserPreferences.Where(p => 
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p1 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p2 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p3 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p4 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p5 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p6 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p7 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p8 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p9 == vers ||
-            p.capitulo == pagina.Story!.PaginaPadraoLink && p.p10 == vers 
-        ).ToList();
-        foreach (var item in preferencias)
-        {
-            var p = Context.UserPreferences.FirstOrDefault(pr => pr.Id == item.Id);
-            if(p != null && p.p1 == vers)
-            p.p1 = 0;
-            if (p != null && p.p2 == vers)
-            p.p2 = 0;
-            if (p != null && p.p3 == vers)
-            p.p3 = 0;
-            if (p != null && p.p4 == vers)
-            p.p4 = 0;
-            if (p != null && p.p5 == vers)
-            p.p5 = 0;
-            if (p != null && p.p6 == vers)
-            p.p6 = 0;
-            if (p != null && p.p7 == vers)
-            p.p7 = 0;
-            if (p != null && p.p8 == vers)
-            p.p8 = 0;
-            if (p != null && p.p9 == vers)
-            p.p9 = 0;
-            if (p != null && p.p10 == vers)
-            p.p10 = 0;
-            if(item.p1 == vers)
-            item.p1 = 0;
-            if(item.p2 == vers)
-            item.p2 = 0;
-            if(item.p3 == vers)
-            item.p3 = 0;
-            if(item.p4 == vers)
-            item.p4 = 0;
-            if(item.p5 == vers)
-            item.p5 = 0;
-            if(item.p6 == vers)
-            item.p6 = 0;
-            if(item.p7 == vers)
-            item.p7 = 0;
-            if(item.p8 == vers)
-            item.p8 = 0;
-            if(item.p9 == vers)
-            item.p9 = 0;
-            if(item.p10 == vers)
-            item.p10 = 0;
-            Context.Update(item);
-        }
-        Context.SaveChanges();
+        
         var filtros = await Context.FiltroPagina.Where(fp => fp.PaginaId == pagina.Id).ToListAsync();
         foreach(var item in filtros)
             Context.Remove(item);

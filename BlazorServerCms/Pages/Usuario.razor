@@ -85,7 +85,7 @@ for(var i = 1; i <= caps.Length; i++)
     private Instante objInstante = null;
     private int pasta;
     private ClaimsPrincipal usuario;
-    private UserPreferences preferences = null;
+    private UserQuestions preferences = null;
     private UserModel usermodel;
     int[] caps = null;
 
@@ -109,41 +109,10 @@ for(var i = 1; i <= caps.Length; i++)
         usermodel = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == user);
         livroCompartilhado = await Context.Livro!.Where(u => u.user == user).OrderBy(l => l.Id).FirstOrDefaultAsync();
         if(livroCompartilhado != null)
-         preferences = Context.UserPreferences
+         preferences = Context.UserQuestions
         .FirstOrDefault(u => u.user == user && u.capitulo == livroCompartilhado.capitulo && u.pasta == pasta);
     }
 
-    private async void buscarInstante()
-    {
-        List<Instante>? instantes = await Context.Instante.Include(i => i.livros)
-        .Where(l => l.livros.FirstOrDefault(li => li.user == user) != null)
-           .OrderBy(l => l.Id).ToListAsync();
-
-        objInstante = instantes.Skip((int)insta - 1).FirstOrDefault();
-        i = insta;
-
-
-        if (objInstante != null)
-        {
-            navigation.NavigateTo($"/{user}/{insta}");
-            List<Livro> livros = objInstante.livros.OrderBy(l => l.Id).ToList();
-            string url = "";
-            for (var i = 0; i < livros.Count; i++)
-            {
-                
-                    var ad = repositoryPagina.buscarAdmin();
-                    var preferences = await Context.UserPreferences.FirstOrDefaultAsync(u => u.user == ad && u.capitulo == livros[i].capitulo && u.pasta == livros[i].pasta);
-                    if (preferences != null)
-                        url = $"{livros[i].url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/{preferences.p1}/{preferences.p2}/{preferences.p3}/{preferences.p4}/{preferences.p5}/{preferences.p6}/{preferences.p7}/{preferences.p8}/{preferences.p9}/{preferences.p10}";
-                    else
-                        url = $"{livros[i].url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/{repositoryPagina.buscarAdmin()}/{user}/0/0/0/0/0/0/0/0/0/0";
-              
-                await js!.InvokeAsync<object>("AcessarSites", url);
-            }
-
-
-
-        }
-    }
+   
 
 }

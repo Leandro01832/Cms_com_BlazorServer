@@ -35,17 +35,16 @@ namespace BlazorCms.Client.Pages
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private List<Pagina> conteudo = new List<Pagina>();
-        private Story story = null;
 
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
         protected string nameGroup = "";
-
-        protected UserPreferences preferences = null;
+        protected UserModel usuario;
+        protected UserQuestions preferences = null;
+        protected Pergunta pergunta = null;
         protected ClaimsPrincipal user;
         protected List<Story>? stories = new List<Story>();
-        protected List<Pagina>? listaFiltradaComConteudo = null;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
@@ -56,21 +55,14 @@ namespace BlazorCms.Client.Pages
 
         protected string? html { get; set; } = "";
         protected string? nameStory { get; set; } = null;
-        protected int? indice_Filtro { get; set; } = null;
-        protected int? vers { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
-        protected int? VersoComentario { get; set; } = null;
-        protected int quantidadePaginas { get; set; }
-        protected int quantidadeFiltros { get; set; } = 0;
-        protected int quantidadeLista { get; set; }
-        protected int anterior { get; set; }
-        protected int proximo { get; set; }
-        protected int prefCapitulo { get; set; }
-        protected int prefPasta { get; set; }
-        protected string prefDominio { get; set; }
+        protected int? VersoComentario { get; set; } = null;        
+        protected int quantidadeLista { get; set; } = 0;
         protected long ultimaPasta { get; set; }
-        protected List<Filtro> filtros = new List<Filtro>();
-        protected bool condicaoFiltro = false;
+         protected bool condicaoFiltro { get; set; } = false;
+               
+        protected int? indice_Filtro { get; set; }        
+        protected int? vers { get; set; }
 
         [Parameter] public int indiceLivro { get; set; } = 0; [Parameter] public int retroceder { get; set; } = 0;
 
@@ -94,16 +86,7 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int outroHorizonte { get; set; }
 
         [Parameter] public string? filtrar { get; set; } = null;
-        [Parameter] public int? p1 { get; set; } = 0;
-        [Parameter] public int? p2 { get; set; } = 0;
-        [Parameter] public int? p3 { get; set; } = 0;
-        [Parameter] public int? p4 { get; set; } = 0;
-        [Parameter] public int? p5 { get; set; } = 0;
-        [Parameter] public int? p6 { get; set; } = 0;
-        [Parameter] public int? p7 { get; set; } = 0;
-        [Parameter] public int? p8 { get; set; } = 0;
-        [Parameter] public int? p9 { get; set; } = 0;
-        [Parameter] public int? p10 { get; set; } = 0;
+        [Parameter] public int question { get; set; } = 0;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -113,35 +96,42 @@ namespace BlazorCms.Client.Pages
 
             await renderizar();
 
-                if(prefCapitulo != capitulo && substory != null || prefPasta != indice_Filtro && substory != null ||
-                prefDominio != dominio && substory != null)
+            bool testeNum = true;
+            try
+            {
+                int num = int.Parse(opcional);
+            }
+            catch(Exception ex)
+            {
+                testeNum = false;
+                opcional = "";
+            }
+
+            if(testeNum)
+            {
+                redirecionarParaVerso(int.Parse(opcional));
+                opcional = "";
+            }
+
+            if (substory != null && preferences == null  ||
+                substory != null && preferences != null && preferences.pasta != indice_Filtro ||
+                substory != null && preferences != null && compartilhante != preferences.user )
             {
 
-                   preferences = Context.UserPreferences
-                   .FirstOrDefault(u => u.user == dominio && u.capitulo == capitulo &&
+                   preferences = Context.UserQuestions.Include(u => u.Pergunta)
+                   .FirstOrDefault(u => u.user == compartilhante && u.capitulo == capitulo &&
                    u.pasta == indice_Filtro)!;
-                if(indice_Filtro != null)
+                
+                if (preferences != null)
                 {
-                    prefCapitulo = capitulo;
-                    prefPasta = (int) indice_Filtro!;
-                    prefDominio = dominio!;
+                    usuario = await userManager.Users.FirstAsync(u => u.UserName == preferences.user);
+                    pergunta = preferences.Pergunta!.OrderBy(p => p.Id).Skip(question - 1).FirstOrDefault()!;
                 }
             }
 
                     if(auto == 1)
                     StartTimer(Model!);
 
-            try
-            {
-                if (indice > quantidadeLista)
-                        await js!.InvokeAsync<object>("MarcarIndice", "1");
-                else
-                        await js!.InvokeAsync<object>("MarcarIndice", $"{indice}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
         }
 
         protected override async Task OnInitializedAsync()
@@ -186,7 +176,24 @@ namespace BlazorCms.Client.Pages
                 .Include(p => p.Filtro)!
                .ThenInclude(p => p.Pagina)!
                .ThenInclude(p => p.Pagina)
-                .OrderBy(st => st.Id).ToListAsync();            
+                .OrderBy(st => st.Id).ToListAsync();
+
+            if (dominio != repositoryPagina.buscarDominio() && dominio != "dominio")
+            {
+                var domi = await Context.Compartilhante!.FirstOrDefaultAsync(l => l.Livro == dominio);
+                if (domi == null)
+                {
+                    var compartilhant = new business.Compartilhante
+                    {
+                        Livro = dominio,
+                        Admin = compartilhante,
+                        Data = DateTime.Now,
+                        Comissao = 5
+                    };
+                    await Context.AddAsync(compartilhant);
+                    await Context.SaveChangesAsync();
+                }
+            }
 
         }
 
@@ -202,7 +209,11 @@ namespace BlazorCms.Client.Pages
             }
 
             ultimaPasta = 0;
-            quantidadeFiltros = 0;
+            var quantidadeFiltros = 0;
+            var quantidadePaginas = 0;
+            List<Pagina> listaFiltradaComConteudo = null;
+            List<Filtro> filtros = new List<Filtro>();
+            Story story = null;
 
             Model =  repositoryPagina.includes()
                     .FirstOrDefault(p => p.Versiculo == indice && p.Story.PaginaPadraoLink == capitulo);
@@ -236,8 +247,8 @@ namespace BlazorCms.Client.Pages
 
                 if (quantidadePaginas == 0 && outroHorizonte == 0)
                 Mensagem = "aguarde um momento...";
-                proximo = indice + 1;
-                anterior = indice - 1;
+               var proximo = indice + 1;
+               var anterior = indice - 1;
 
 
                 if (outroHorizonte == 0)
@@ -277,217 +288,19 @@ namespace BlazorCms.Client.Pages
                 }
 
             }
-          
-            else if (filtrar != null && condicaoFiltro || substory != null && condicaoFiltro)
+            
+            else if (filtrar != null && condicaoFiltro || substory != null && condicaoFiltro )
             { 
                 if (substory != null)
-                {   
-                    Filtro? group = null;
-                    Filtro? group2 = null;
-                    Filtro? group3 = null;
-                    Filtro? group4 = null;
-                    Filtro? group5 = null;
-                    Filtro? group6 = null;
-                    Filtro? group7 = null;
-                    Filtro? group8 = null;
-                    Filtro? group9 = null;
-
-                    group = story!.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)substory! - 1).First();
-                    nameGroup = group!.Nome!;
-                    if (preferencia == 0)
-                    {
-                            var filtropag = story.Filtro!.First(f => f.Id == group.Id);
-                        if (lista == 1 && Model.ContentUser == null)
-                            listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)substory!);
-                        else 
-                        {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                        }
-                    }
-
-                    if (grupo != null)
-                    {
-                        var fil1 = (SubStory)filtros.First(f => f.Id == group.Id);
-                        group2 = fil1.Grupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)grupo! - 1).First();
-                        nameGroup = group2!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro!.First(f => f.Id == group2.Id);
-                            if (lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)grupo!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (subgrupo != null)
-                    {
-                        var fil2 = (Grupo)filtros.First(f => f.Id == group2.Id);
-                        group3 = fil2.SubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)subgrupo! - 1).First();
-                        nameGroup = group3!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro!.First(f => f.Id == group3.Id);
-                            if (lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)subgrupo!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (subsubgrupo != null)
-                    {
-                        var fil3 = (SubGrupo)filtros.First(f => f.Id == group3.Id);
-                        group4 = fil3.SubSubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)subsubgrupo! - 1).First();
-                        nameGroup = group4!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro!.First(f => f.Id == group4.Id);
-                            if ( lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)subsubgrupo!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (camadaseis != null)
-                    {
-                        var fil4 = (SubSubGrupo)filtros.First(f => f.Id == group4.Id);
-                        group5 = fil4.CamadaSeis.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadaseis! - 1).First();
-                        nameGroup = group5!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro!.First(f => f.Id == group5.Id);
-                            if ( lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadaseis!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (camadasete != null)
-                    {
-                        var fil5 = (CamadaSeis)filtros.First(f => f.Id == group5.Id);
-                        group6 = fil5.CamadaSete.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadasete! - 1).First();
-                        nameGroup = group6!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro!.First(f => f.Id == group6.Id);
-                            if ( lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadasete!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (camadaoito != null)
-                    {
-                        var fil6 = (CamadaSete)filtros.First(f => f.Id == group6.Id);
-                        group7 = fil6.CamadaOito.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadaoito! - 1).First();
-                        nameGroup = group7!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro!.First(f => f.Id == group7.Id);
-                            if (lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadaoito!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (camadanove != null)
-                    {
-                        var fil7 = (CamadaOito)filtros.First(f => f.Id == group7.Id);
-                        group8 = fil7.CamadaNove.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadanove! - 1).First();
-                        nameGroup = group8!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro!.First(f => f.Id == group8.Id);
-                            if ( lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadanove!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (camadadez != null)
-                    {
-                        var fil8 = (CamadaNove)filtros.First(f => f.Id == group8.Id);
-                        group9 = fil8.CamadaDez.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadadez! - 1).First();
-                        nameGroup = group9!.Nome!;
-                        if (preferencia == 0)
-                        {
-                                var filtropag = story.Filtro.First(f => f.Id == group.Id);
-                            if (lista == 1 && Model.ContentUser == null)
-                                listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadadez!);
-                            else
-                            {
-                                listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
-                            }
-                        }
-
-                    }
-
-                    if (preferencia == 1) listaFiltradaComConteudo = retornarListaPreferencial();
+                {
+                    listaFiltradaComConteudo = retornarListaFiltrada();
 
                     if (retroceder == 1)
                     {
                         indice = listaFiltradaComConteudo!.Count;
                     }
 
-                    Pagina pag2 = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
-                        Filtro Filtro = null;
-                    if (group8 != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group8!.Id);
-                    else if (group7 != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group7!.Id);
-                    else if (group6 != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group6!.Id);
-                    else if (group5 != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group5!.Id);
-                    else if (group4 != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group4!.Id);
-                    else if (group3 != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group3!.Id);
-                    else if (group2 != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group2!.Id);
-                    else if (group != null)
-                        Filtro = story!.Filtro!.First(f => f.Id == group!.Id);
-                    indice_Filtro = story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
-
-                    if (pag2 == null)
-                    {
-                        navigation.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}");
-                    }
-
-                    vers = pag2.Versiculo;
-                    Model = repositoryPagina.includes()
-                    .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
-
-                    quantidadeLista = listaFiltradaComConteudo!.Count;
-                    proximo = indice + 1;
-                    anterior = indice - 1;
+                    
                 }
 
                 if (filtrar != null)
@@ -671,7 +484,217 @@ namespace BlazorCms.Client.Pages
             quantLiked = CountLikes(ApplicationDbContext._connectionString);
             filtros.Clear();
         }
-          
+
+        private List<Pagina> retornarListaFiltrada()
+        {
+            Story story =  stories!.First(p => p.Id == Model!.StoryId);
+            
+            List<Pagina> listaFiltradaComConteudo = null;
+            Filtro? group = null;
+            Filtro? group2 = null;
+            Filtro? group3 = null;
+            Filtro? group4 = null;
+            Filtro? group5 = null;
+            Filtro? group6 = null;
+            Filtro? group7 = null;
+            Filtro? group8 = null;
+            Filtro? group9 = null;
+             group = story!.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)substory! - 1).First();
+            nameGroup = group!.Nome!;
+            if (preferencia == 0)
+            {
+                var filtropag = story.Filtro!.First(f => f.Id == group.Id);
+                if (lista == 1 && Model.ContentUser == null)
+                    listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)substory!);
+                else
+                {
+                    listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                }
+            }
+
+            if (grupo != null)
+            {
+                var fil1 = (SubStory)story.Filtro.First(f => f.Id == group.Id);
+                group2 = fil1.Grupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)grupo! - 1).First();
+                nameGroup = group2!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro!.First(f => f.Id == group2.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)grupo!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (subgrupo != null)
+            {
+                var fil2 = (Grupo)story.Filtro.First(f => f.Id == group2.Id);
+                group3 = fil2.SubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)subgrupo! - 1).First();
+                nameGroup = group3!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro!.First(f => f.Id == group3.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)subgrupo!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (subsubgrupo != null)
+            {
+                var fil3 = (SubGrupo)story.Filtro.First(f => f.Id == group3.Id);
+                group4 = fil3.SubSubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)subsubgrupo! - 1).First();
+                nameGroup = group4!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro!.First(f => f.Id == group4.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)subsubgrupo!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (camadaseis != null)
+            {
+                var fil4 = (SubSubGrupo)story.Filtro.First(f => f.Id == group4.Id);
+                group5 = fil4.CamadaSeis.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadaseis! - 1).First();
+                nameGroup = group5!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro!.First(f => f.Id == group5.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadaseis!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (camadasete != null)
+            {
+                var fil5 = (CamadaSeis)story.Filtro.First(f => f.Id == group5.Id);
+                group6 = fil5.CamadaSete.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadasete! - 1).First();
+                nameGroup = group6!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro!.First(f => f.Id == group6.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadasete!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (camadaoito != null)
+            {
+                var fil6 = (CamadaSete)story.Filtro.First(f => f.Id == group6.Id);
+                group7 = fil6.CamadaOito.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadaoito! - 1).First();
+                nameGroup = group7!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro!.First(f => f.Id == group7.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadaoito!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (camadanove != null)
+            {
+                var fil7 = (CamadaOito)story.Filtro.First(f => f.Id == group7.Id);
+                group8 = fil7.CamadaNove.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadanove! - 1).First();
+                nameGroup = group8!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro!.First(f => f.Id == group8.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadanove!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (camadadez != null)
+            {
+                var fil8 = (CamadaNove)story.Filtro.First(f => f.Id == group8.Id);
+                group9 = fil8.CamadaDez.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadadez! - 1).First();
+                nameGroup = group9!.Nome!;
+                if (preferencia == 0)
+                {
+                    var filtropag = story.Filtro.First(f => f.Id == group.Id);
+                    if (lista == 1 && Model.ContentUser == null)
+                        listaFiltradaComConteudo = retornarListaComConteudo(filtropag.Pagina!.Select(p => p.Pagina).ToList()!, (int)camadadez!);
+                    else
+                    {
+                        listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                    }
+                }
+
+            }
+
+            if (preferencia == 1) listaFiltradaComConteudo = retornarListaPreferencial();
+
+            Filtro Filtro = null;
+            if (group9 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group9!.Id);
+            if (group8 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group8!.Id);
+            else if (group7 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group7!.Id);
+            else if (group6 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group6!.Id);
+            else if (group5 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group5!.Id);
+            else if (group4 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group4!.Id);
+            else if (group3 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group3!.Id);
+            else if (group2 != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group2!.Id);
+            else if (group != null)
+                Filtro = story!.Filtro!.First(f => f.Id == group!.Id);
+            indice_Filtro = story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
+
+            Pagina pag2 = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+
+            if (pag2 == null)
+            {
+                navigation.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}");
+            }
+
+            vers = pag2.Versiculo;
+            Model = repositoryPagina.includes()
+            .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
+
+            quantidadeLista = listaFiltradaComConteudo!.Count;
+
+            return listaFiltradaComConteudo;
+        }
+
         private List<Pagina> retornarListaComConteudo( List<Pagina> produtos, int grupo)
         {
             int pular = conteudo.Where(p => p.Story.PaginaPadraoLink == capitulo).ToList().Count / grupo;
@@ -698,105 +721,6 @@ namespace BlazorCms.Client.Pages
         private List<Pagina> retornarListaPreferencial()
         {
             List<Pagina> retorno = new List<Pagina>();
-            var list = Context.Pagina!.Include(p => p.Story)
-                .Where(p => p.Story!.PaginaPadraoLink == capitulo)
-                .OrderBy(p => p.Id)
-                .ToList();
-
-            var p = list.First();
-
-            if(p.ContentUser != null)
-            {
-                if (p1 != 0)
-                    retorno.Add(list.Skip((int)(p1 - 1)!).First());
-                if (p2 != 0)
-                    retorno.Add(list.Skip((int)(p2 - 1)!).First());
-                if (p3 != 0)
-                    retorno.Add(list.Skip((int)(p3 - 1)!).First());
-                if (p4 != 0)
-                    retorno.Add(list.Skip((int)(p4 - 1)!).First());
-                if (p5 != 0)
-                    retorno.Add(list.Skip((int)(p5 - 1)!).First());
-                if (p6 != 0)
-                    retorno.Add(list.Skip((int)(p6 - 1)!).First());
-                if (p7 != 0)
-                    retorno.Add(list.Skip((int)(p7 - 1)!).First());
-                if (p8 != 0)
-                    retorno.Add(list.Skip((int)(p8 - 1)!).First());
-                if (p9 != 0)
-                    retorno.Add(list.Skip((int)(p9 - 1)!).First());
-                if (p10 != 0)
-                    retorno.Add(list.Skip((int)(p10 - 1)!).First());
-            }
-            else
-            {
-                List<Pagina> produtos = new List<Pagina>();
-                List<Pagina> conteudo = new List<Pagina>();
-
-                if (p1 != 0 && list.Skip((int)(p1 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p1 - 1)!).First());
-                else if (p1 != 0 && list.Skip((int)(p1 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p1 - 1)!).First());
-
-                if (p2 != 0 && list.Skip((int)(p2 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p2 - 1)!).First());
-                else if (p2 != 0 && list.Skip((int)(p2 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p2 - 1)!).First());
-
-                if (p3 != 0 && list.Skip((int)(p3 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p3 - 1)!).First());
-                else if (p3 != 0 && list.Skip((int)(p3 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p3 - 1)!).First());
-
-                if (p4 != 0 && list.Skip((int)(p4 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p4 - 1)!).First());
-                else if (p4 != 0 && list.Skip((int)(p4 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p4 - 1)!).First());
-
-                if (p5 != 0 && list.Skip((int)(p5 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p5 - 1)!).First());
-                else if (p5 != 0 && list.Skip((int)(p5 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p5 - 1)!).First());
-
-                if (p6 != 0 && list.Skip((int)(p6 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p6 - 1)!).First());
-                else if (p6 != 0 && list.Skip((int)(p6 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p6 - 1)!).First());
-
-                if (p7 != 0 && list.Skip((int)(p7 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p7 - 1)!).First());
-                else if (p7 != 0 && list.Skip((int)(p7 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p7 - 1)!).First());
-
-                if (p8 != 0 && list.Skip((int)(p8 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p8 - 1)!).First());
-                else if (p8 != 0 && list.Skip((int)(p8 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p8 - 1)!).First());
-
-                if (p9 != 0 && list.Skip((int)(p9 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p9 - 1)!).First());
-                else if (p9 != 0 && list.Skip((int)(p9 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p9 - 1)!).First());
-
-                if (p10 != 0 && list.Skip((int)(p10 - 1)!).First().Produto == null)
-                    conteudo.Add(list.Skip((int)(p10 - 1)!).First());
-                else if (p10 != 0 && list.Skip((int)(p10 - 1)!).First().Produto != null)
-                    produtos.Add(list.Skip((int)(p10 - 1)!).First());
-
-                int interacao = 0;
-
-                while (produtos.Skip(interacao * 2).ToList().Count >= 2)
-                {
-                    retorno.AddRange(produtos.Skip(interacao * 2).Take(2).ToList());
-                    if (conteudo.Skip(interacao).FirstOrDefault() != null)
-                        retorno.Add(conteudo.Skip(interacao).First());
-                    interacao++;
-                }
-
-                if (retorno.Count == 0) return produtos;
-                if (!retorno.Contains(produtos.Last()))
-                    retorno.Add(produtos.Last());
-            }
 
             return retorno;
         }
@@ -857,19 +781,27 @@ namespace BlazorCms.Client.Pages
         
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
+            var quant = 0;
+            if (substory == null)
+                quant = CountPaginas(ApplicationDbContext._connectionString);
+            else
+            {
+                var lista = retornarListaFiltrada();
+                quant = lista.Count;
+            }
             if (auto == 1)
             {
                 if (substory == null)
                 {
-                    if (capitulo == 0 && indice >= quantidadeLista)
+                    if (capitulo == 0 && indice >= quant)
                         navigation!.NavigateTo($"/Renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                    
-                    else if (capitulo != 0 && indice >= quantidadeLista && outroHorizonte == 0)
+                    else if (capitulo != 0 && indice >= quant && outroHorizonte == 0)
                         navigation!.NavigateTo($"/Renderizar/{capitulo + 1}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else if (capitulo != 0 && indice >= quantidadeLista && outroHorizonte == 1)
+                    else if (capitulo != 0 && indice >= quant && outroHorizonte == 1)
                         navigation!.NavigateTo($"/Renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/Renderizar/{capitulo}/{proximo}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/Renderizar/{capitulo}/{indice + 1}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
                 else
                 {
@@ -906,8 +838,8 @@ namespace BlazorCms.Client.Pages
         protected async void Casinha()
         {
             auto = 0;
-            if (compartilhante == null) compartilhante = repositoryPagina!.buscarAdmin();
-            if (dominio == null) dominio = repositoryPagina!.buscarAdmin();
+            if (compartilhante == null) compartilhante = "comp";
+            if (dominio == null) dominio = repositoryPagina!.buscarDominio();
             navigation!.NavigateTo($"/info/{dominio}/{compartilhante}");
         }
 
@@ -933,44 +865,10 @@ namespace BlazorCms.Client.Pages
 
                 }
                 else if (condicao)
-            {
-                    int indiceListaFiltrada = 0;
-                    foreach(var item in listaFiltradaComConteudo!)
-                    {
-                        var p = Context.Pagina!.First(p => p.Id == item.Id);
-                        if( int.Parse(opcional) == p.Versiculo)
-                        {
-                            indiceListaFiltrada = listaFiltradaComConteudo.IndexOf(item) + 1;
-                            break;
-                        }
-                    }
+                {
 
-                    if(indiceListaFiltrada == 0)
-                    {
-                        indiceListaFiltrada = indice;
-                        await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo");
-                    }                
-                
-                        var url = "";
-                        if(camadadez != null)
-                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                      else  if(camadanove != null)
-                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (camadaoito != null)
-                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (camadasete != null)
-                            url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (camadaseis != null)
-                            url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (subsubgrupo != null)
-                            url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (subgrupo != null)
-                            url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (grupo != null)
-                            url = $"/grupo/{capitulo}/{substory}/{grupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        else if (substory != null)
-                            url = $"/substory/{capitulo}/{substory}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
-                        navigation!.NavigateTo(url);                
+                redirecionarParaVerso(int.Parse(opcional));
+
                 }
                    
         }
@@ -982,23 +880,23 @@ namespace BlazorCms.Client.Pages
 
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else
             url = $"/Renderizar/{capitulo}/{indice}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}";
             navigation!.NavigateTo(url);
@@ -1058,100 +956,91 @@ namespace BlazorCms.Client.Pages
         {
             if (!user.Identity!.IsAuthenticated)
             {
-                navigation.NavigateTo("/Identity/Account/Login");
-                return;
+                await js!.InvokeAsync<object>("DarAlert", $"Por favor faça login para poder marcar versiculos");
             }
+            else
+            {
+                auto = 0;
+                var p = Context.UserQuestions.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
+                UserQuestions preferences = null;
+                if (pergunta.p1 == 0)
+                {
+                    pergunta.p1 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p1} foi marcado como 1º resposta");
+                }
 
-            auto = 0;
-            var p = Context.UserPreferences.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
-            UserPreferences preferences = null;
-            if (p1 == 0)
-            {
-                p1 = Versiculo;                
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p1} foi marcado como 1º preferência");
-            }       
-                           
-            else if (p2 == 0)
-            {
-                p2 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p2} foi marcado como 2º preferência");
-            }
-            else if (p3 == 0)
-            {
-                p3 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p3} foi marcado como 3º preferência");
-            }
-            else if (p4 == 0)
-            {
-                p4 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p4} foi marcado como 4º preferência");
-            }
-            else if (p5 == 0)
-            {
-                p5 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p5} foi marcado como 5º preferência");
-            }
-            else if (p6 == 0)
-            {
-                p6 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p6} foi marcado como 6º preferência");
-            }
-            else if (p7 == 0)
-            {
-                p7 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p7} foi marcado como 7º preferência");
-            }
-            else if (p8 == 0)
-            {
-                p8 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p8} foi marcado como 8º preferência");
-            }
-            else if (p9 == 0)
-            {
-                p9 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p9} foi marcado como 9º preferência");
-            }
-            else if (p10 == 0)
-            {
-                p10 = Versiculo;
-                await js!.InvokeAsync<object>("DarAlert", $"versiculo {p10} foi marcado como 10º preferência");
-            }
-            else            
-            await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 preferências");
+                else if (pergunta.p2 == 0)
+                {
+                    pergunta.p2 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p2} foi marcado como 2º resposta");
+                }
+                else if (pergunta.p3 == 0)
+                {
+                    pergunta.p3 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p3} foi marcado como 3º resposta");
+                }
+                else if (pergunta.p4 == 0)
+                {
+                    pergunta.p4 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p4} foi marcado como 4º resposta");
+                }
+                else if (pergunta.p5 == 0)
+                {
+                    pergunta.p5 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p5} foi marcado como 5º resposta");
+                }
+                else if (pergunta.p6 == 0)
+                {
+                    pergunta.p6 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p6} foi marcado como 6º resposta");
+                }
+                else if (pergunta.p7 == 0)
+                {
+                    pergunta.p7 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p7} foi marcado como 7º resposta");
+                }
+                else if (pergunta.p8 == 0)
+                {
+                    pergunta.p8 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p8} foi marcado como 8º resposta");
+                }
+                else if (pergunta.p9 == 0)
+                {
+                    pergunta.p9 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p9} foi marcado como 9º resposta");
+                }
+                else if (pergunta.p10 == 0)
+                {
+                    pergunta.p10 = Versiculo;
+                    await js!.InvokeAsync<object>("DarAlert", $"versiculo {pergunta.p10} foi marcado como 10º resposta");
+                }
+                else
+                    await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 respostas");
 
-                preferences = new UserPreferences
+                preferences = new UserQuestions
                 {
                     user = user.Identity!.Name!,
                     capitulo = capitulo,
-                    pasta = (int)indice_Filtro!,
-                    p1 = (int)p1!,
-                    p2 = (int)p2!,
-                    p3 = (int)p3!,
-                    p4 = (int)p4!,
-                    p5 = (int)p5!,
-                    p6 = (int)p6!,
-                    p7 = (int)p7!,
-                    p8 = (int)p8!,
-                    p9 = (int)p9!,
-                    p10 = (int)p10!
-                };           
+                    pasta = (int)indice_Filtro!
+                };
 
-            if (p10 == 0)
-            {
-                if (p != null)
+                if (pergunta.p10 == 0)
                 {
-                    Context.Add(preferences);
-                    Context.SaveChanges();
-                }
-                else
-                {
-                    p = preferences;
-                    Context.Update(p);
-                    Context.SaveChanges();
-                }
+                    if (p != null)
+                    {
+                        Context.Add(preferences);
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
+                        p = preferences;
+                        Context.Update(p);
+                        Context.SaveChanges();
+                    }
 
+                }
             }
-
+                        
         }
 
         protected async void desmarcar()
@@ -1162,11 +1051,9 @@ namespace BlazorCms.Client.Pages
                 return;
             }
             auto = 0;
-            var p2 = Context.UserPreferences.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
+            var p2 = Context.UserQuestions.FirstOrDefault(u => u.user == user.Identity!.Name && u.capitulo == capitulo && u.pasta == indice_Filtro);
             if(p2 != null && p2.user == user.Identity!.Name)
             {
-                p2.p1 = 0; p2.p2 = 0; p2.p3 = 0; p2.p4 = 0; p2.p5 = 0;
-                p2.p6 = 0; p2.p7 = 0; p2.p8 = 0; p2.p9 = 0; p2.p10 = 0;
                 Context.Update(p2);
                 Context.SaveChanges();
                 await js!.InvokeAsync<object>("DarAlert", $"VVersiculos desmarcados com sucesso.");
@@ -1176,7 +1063,7 @@ namespace BlazorCms.Client.Pages
 
         protected async void acessarPasta()
         {
-                indice_Filtro = indice;
+            indice_Filtro = indice;
 
             if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
             {
@@ -1192,19 +1079,19 @@ namespace BlazorCms.Client.Pages
         }
         protected void listarPasta()
         {
-            
+            var lista = retornarListaFiltrada();
             int tamanho = 0;
 
             if (dominio == null) dominio = "dominio";
 
-            if (listaFiltradaComConteudo!.FirstOrDefault(p => p.ContentUser != null) != null)
+            if (lista.FirstOrDefault(p => p.ContentUser != null) != null)
                 tamanho = 5;
             else
                 tamanho = 20;
 
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/{tamanho}/{capitulo}/{indice_Filtro}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/{tamanho}/{capitulo}/{indice_Filtro}/{question}");
         }
 
         protected void acessarHorizontePastas()
@@ -1319,27 +1206,36 @@ namespace BlazorCms.Client.Pages
    
         protected void buscarProximo()
         {
+            var quant = 0;
+            if (substory == null)
+                quant = CountPaginas(ApplicationDbContext._connectionString);
+            else
+            {
+                var lista = retornarListaFiltrada();
+                quant = lista.Count;
+            }
             auto = 0;
-            if (proximo <= quantidadeLista)
+            var proximo = indice + 1;
+            if (proximo <= quant)
             {
                 if (camadadez != null)
-                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadanove != null)
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadaoito != null)
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadasete != null)
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadaseis != null)
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (subsubgrupo != null)
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (subgrupo != null)
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (grupo != null)
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (substory != null)
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else
                     navigation!.NavigateTo($"/Renderizar/{capitulo}/{proximo}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
             }
@@ -1352,12 +1248,23 @@ namespace BlazorCms.Client.Pages
         }
         private void navegarSubgrupos(bool somenteSubgrupos)
         {
+            var quant = 0;
+                Story story = stories!.First(p => p.Id == Model!.StoryId);
+            if (substory == null)
+                quant = CountPaginas(ApplicationDbContext._connectionString);
+            else
+            {
+                var lista = retornarListaFiltrada();
+                quant = lista.Count;
+            }
+
+            var proximo = indice + 1;
             if (somenteSubgrupos) auto = 0;
             if (camadadez != null)
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray( filtros, Model!.Story!, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray( story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, camadadez);
                     if (arr != null)
                         navigation!
@@ -1374,9 +1281,9 @@ namespace BlazorCms.Client.Pages
             }
             else  if (camadanove != null)
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
                     if (arr != null)
                         navigation!
@@ -1393,9 +1300,9 @@ namespace BlazorCms.Client.Pages
             }
             else  if (camadaoito != null)
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
                     if (arr != null)
                         navigation!
@@ -1412,9 +1319,9 @@ namespace BlazorCms.Client.Pages
             }
             else  if (camadasete != null )
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
                     if (arr != null)
                         navigation!
@@ -1431,9 +1338,9 @@ namespace BlazorCms.Client.Pages
             }
             else  if (camadaseis != null)
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis);
                     if (arr != null)
                         navigation!
@@ -1450,9 +1357,9 @@ namespace BlazorCms.Client.Pages
             }
             else  if (subsubgrupo != null)
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo);
                     if (arr != null)
                         navigation!
@@ -1469,9 +1376,9 @@ namespace BlazorCms.Client.Pages
             }
             else if (subgrupo != null)
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo);
                     if (arr != null)
                         navigation!
@@ -1488,9 +1395,9 @@ namespace BlazorCms.Client.Pages
             }
             else if (grupo != null)
             {
-                if(indice >= quantidadeLista || somenteSubgrupos)
+                if(indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory!, grupo);
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!, grupo);
                     if (arr != null)
                         navigation!
                      .NavigateTo($"/grupo/{arr[0]}/{arr[1]}/{arr[2]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0");
@@ -1506,9 +1413,9 @@ namespace BlazorCms.Client.Pages
             }
             else  if (substory != null)
             {
-                if (indice >= quantidadeLista || somenteSubgrupos)
+                if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(filtros, Model!.Story!, 1, 0, capitulo, (int)substory);
+                    var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory);
                     if (arr != null)
                         navigation!
                      .NavigateTo($"/substory/{arr[0]}/{arr[1]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0");
@@ -1566,24 +1473,25 @@ namespace BlazorCms.Client.Pages
             }
             if (indice != 1)
             {
+                var anterior = indice - 1;
                 if (camadadez != null)
-                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadanove != null)
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadaoito != null)
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadasete != null)
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (camadaseis != null)
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (subsubgrupo != null)
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (subgrupo != null)
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (grupo != null)
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else if (substory != null)
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
                 else
                     navigation!.NavigateTo($"/Renderizar/{capitulo}/{anterior}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
             }
@@ -1635,30 +1543,30 @@ namespace BlazorCms.Client.Pages
                  camadaOito = camadaoito,
                  camadaNove = camadanove,
                  camadaDez = camadadez,
-                 verso =(int) vers!
+                 verso =(int)vers!
             };
              await Context.AddAsync(pageLiked);
             await Context.SaveChangesAsync();
 
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             navigation!.NavigateTo(url);
         }
         
@@ -1675,50 +1583,50 @@ namespace BlazorCms.Client.Pages
             }
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
             navigation!.NavigateTo(url);
         }
              
-        protected void acessarPreferenciasUsuario(string usuario)
+        protected async void acessarPreferenciasUsuario(string usu)
         {
-            var pref = Context.UserPreferences
-                   .FirstOrDefault(u => u.user == usuario)!;
+            var pref = Context.UserQuestions
+                   .FirstOrDefault(u => u.user == usu)!;
             usuarios!.Clear();
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{usuario}/{pref.p1}/{pref.p2}/{pref.p3}/{pref.p4}/{pref.p5}/{pref.p6}/{pref.p7}/{pref.p8}/{pref.p9}/{pref.p10}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{pergunta.p1}/{pergunta.p2}/{pergunta.p3}/{pergunta.p4}/{pergunta.p5}/{pergunta.p6}/{pergunta.p7}/{pergunta.p8}/{pergunta.p9}/{pergunta.p10}";
             navigation!.NavigateTo(url);
         }
 
@@ -1734,7 +1642,7 @@ namespace BlazorCms.Client.Pages
             {
                 
 
-                  var  users = Context.UserPreferences.Where(p => p.pasta == indice_Filtro &&
+                  var  users = Context.UserQuestions.Where(p => p.pasta == indice_Filtro &&
                    p.capitulo == capitulo &&
                    p.user.Contains(opcional)).ToList();
 
@@ -1756,23 +1664,23 @@ namespace BlazorCms.Client.Pages
                     usuarios.Clear();
                     var url = "";
                     if (camadadez != null)
-                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (camadanove != null)
-                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (camadaoito != null)
-                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (camadasete != null)
-                        url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (camadaseis != null)
-                        url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (subsubgrupo != null)
-                        url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (subgrupo != null)
-                        url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (grupo != null)
-                        url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     else if (substory != null)
-                        url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}";
+                        url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
                     navigation!.NavigateTo(url);
                 }
             }
@@ -1781,9 +1689,70 @@ namespace BlazorCms.Client.Pages
        protected void acessarVerso()
         {
             indice_Filtro = 0;
-            navigation!.NavigateTo($"/Renderizar/{capitulo}/{vers}/1/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}");
+            navigation!.NavigateTo($"/Renderizar/{capitulo}/{vers}/0/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}");
+            
         }
         
+      protected void redirecionarMarcar()
+        {
+            if (substory == null)
+                opcional = indice.ToString();
+            else
+            {
+                 var lista = retornarListaFiltrada();
+                opcional = vers.ToString();
+            }
+            substory = 1;
+            navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{ultimaPasta}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0");
+            
+            
+        }
+
+        private async void redirecionarParaVerso(int verso)
+        {
+            var list = retornarListaFiltrada();
+            opcional = verso.ToString();
+            int indiceListaFiltrada = 0;
+            foreach (var item in list)
+            {
+                var p = Context.Pagina!.First(p => p.Id == item.Id);
+                if (int.Parse(opcional) == p.Versiculo)
+                {
+                    indiceListaFiltrada = list.IndexOf(item) + 1;
+                    break;
+                }
+            }
+
+            if (indiceListaFiltrada == 0)
+            {
+                indiceListaFiltrada = indice;
+                await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo");
+            }
+            else
+            {
+                var url = "";
+                if (camadadez != null)
+                    url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (camadanove != null)
+                    url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (camadaoito != null)
+                    url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (camadasete != null)
+                    url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (camadaseis != null)
+                    url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (subsubgrupo != null)
+                    url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (subgrupo != null)
+                    url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (grupo != null)
+                    url = $"/grupo/{capitulo}/{substory}/{grupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                else if (substory != null)
+                    url = $"/substory/{capitulo}/{substory}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                navigation!.NavigateTo(url);
+            }
+        }
+
         private int CountLikes( string conexao)
         {
 

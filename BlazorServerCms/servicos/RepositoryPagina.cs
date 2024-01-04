@@ -64,12 +64,6 @@ namespace BlazorServerCms.servicos
             return dominio;
         }
 
-        public string buscarAdmin()
-        {
-            var dominio = Configuration.GetConnectionString("admin");
-            return dominio;
-        }
-
         public string buscarEcommerce()
         {
             var dominio = Configuration.GetConnectionString("ecommerce");
