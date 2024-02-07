@@ -25,7 +25,9 @@ namespace BlazorServerCms.Data
         {
         }
 
-        public DbSet<UserQuestions> UserQuestions { get; set; }
+        public DbSet<highlighter> highlighter { get; set; }
+        public DbSet<Pergunta> Pergunta { get; set; }
+        public DbSet<UserResponse> UserResponse { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
         public DbSet<Instante> Instante { get; set; }
         public DbSet<FiltroPagina> FiltroPagina { get; set; }

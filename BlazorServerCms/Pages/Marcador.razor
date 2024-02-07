@@ -1,0 +1,67 @@
+﻿@page "/marcador/{capitulo:int}/{pasta:int}"
+@inject IJSRuntime? js
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+
+<BackPage></BackPage>
+
+<h3>Marcador</h3>
+
+
+@if (filtro != null)
+{
+
+    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <p>
+            <label>Nome:</label>
+            <InputTextArea id="questao" @bind-Value="exampleModel.Nome" />
+        </p>
+
+
+        <button type="submit">Registrar marcador</button>
+    </EditForm>
+}
+
+
+@code {
+    [Parameter] public int capitulo { get; set; }
+    [Parameter] public int pasta { get; set; }
+
+    private highlighter exampleModel = new();
+
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private ClaimsPrincipal user = null;
+    List<Filtro> filtros = new List<Filtro>();
+
+    Filtro filtro = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);
+        filtros = Context.Pagina!
+    .Include(p => p.Story)
+    .ThenInclude(p => p.Filtro)
+                    .Where(p => p.Story!.PaginaPadraoLink == capitulo)
+                    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
+        filtro = filtros.Skip(pasta - 1).FirstOrDefault()!;
+        var authState = await AuthenticationStateProvider
+           .GetAuthenticationStateAsync();
+        user = authState.User;
+    }
+
+
+    private async void HandleSubmit()
+    {
+        exampleModel.capitulo = capitulo;
+        exampleModel.pasta = pasta;
+        exampleModel.user = user.Identity.Name;
+        await Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();
+        await js!.InvokeAsync<object>("DarAlert", $"Marcador registrado com sucesso!!!");
+    }
+
+
+}

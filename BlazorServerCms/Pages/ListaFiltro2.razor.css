@@ -9,3 +9,39 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+.info1{
+    font-size: 1.2rem;
+}
+
+.item2 {
+    color: black;
+    border: solid 9px;
+    margin: 10px;
+}
+
+.item1 {
+    color: red;
+    border: solid 9px;
+    margin: 10px;
+}
+
+.itemLegenda2 {
+    color: black;
+}
+
+.itemLegenda1 {
+    color: red;
+}
+
+.itemLegenda3 {
+    color: blue;
+}
+
+.legenda {
+    border: solid 3px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

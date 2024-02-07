@@ -85,7 +85,7 @@ for(var i = 1; i <= caps.Length; i++)
     private Instante objInstante = null;
     private int pasta;
     private ClaimsPrincipal usuario;
-    private UserQuestions preferences = null;
+    private UserResponse preferences = null;
     private UserModel usermodel;
     int[] caps = null;
 
@@ -109,7 +109,7 @@ for(var i = 1; i <= caps.Length; i++)
         usermodel = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == user);
         livroCompartilhado = await Context.Livro!.Where(u => u.user == user).OrderBy(l => l.Id).FirstOrDefaultAsync();
         if(livroCompartilhado != null)
-         preferences = Context.UserQuestions
+         preferences = Context.UserResponse
         .FirstOrDefault(u => u.user == user && u.capitulo == livroCompartilhado.capitulo && u.pasta == pasta);
     }
 

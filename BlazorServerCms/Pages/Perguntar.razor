@@ -1,0 +1,59 @@
+﻿@page "/perguntar/{capitulo:int}/{pasta:int}"
+@inject IJSRuntime? js
+
+<BackPage></BackPage>
+
+<h3>Perguntar</h3>
+
+
+@if(filtro != null)
+{
+    <p>Faça uma pergunta sobre @filtro.Nome</p>
+
+    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <p>
+            <label>Pergunta:</label>
+            <InputTextArea id="questao" @bind-Value="exampleModel.Questao" />
+        </p>
+
+
+        <button type="submit">Registrar pergunta</button>
+    </EditForm>
+}
+
+
+@code {
+    [Parameter] public int capitulo { get; set; }
+    [Parameter] public int pasta { get; set; }
+
+    private Pergunta exampleModel = new();
+
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    List<Filtro> filtros = new List<Filtro>();
+    Filtro filtro = null;
+
+    protected override void OnInitialized()
+    {
+        Context = db.CreateDbContext(null);
+        filtros = Context.Pagina!
+    .Include(p => p.Story)
+    .ThenInclude(p => p.Filtro)
+                    .Where(p => p.Story!.PaginaPadraoLink == capitulo)
+                    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
+        filtro = filtros.Skip(pasta - 1).FirstOrDefault()!;
+    }
+
+
+    private async void HandleSubmit()
+    {
+        exampleModel.FiltroId = filtro.Id;
+        await  Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();        
+        await js!.InvokeAsync<object>("DarAlert", $"Pergunta registrada com sucesso!!!");
+    }
+
+
+}

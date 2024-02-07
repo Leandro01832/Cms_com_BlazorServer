@@ -21,6 +21,10 @@ p[b-k8aihg5em2] {
     background-color: rgb(227, 196, 101);
 }
 
+.paragrafo2[b-k8aihg5em2]{
+    background-color:transparent;
+}
+
 
 #ultimapasta[b-k8aihg5em2]{
     margin-left: 15px;
@@ -116,7 +120,12 @@ Informativo[b-k8aihg5em2] {
     display: flex;
 }
 
-
+.marc[b-k8aihg5em2] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
 .DivPagina[b-k8aihg5em2] {
     height: 40px;
@@ -176,15 +185,17 @@ Informativo[b-k8aihg5em2] {
 
 .carousel-control-prev[b-k8aihg5em2]{
     height: 50%;
-    top: 25%;
+    top: 30%;
     background-color: black;
+    position:fixed;
     
 }
 
 .carousel-control-next[b-k8aihg5em2] {
     height: 50%;
-    top: 25%;
-    background-color: black; 
+    top: 30%;
+    background-color: black;
+    position: fixed;
 }
 
 .capSubstory[b-k8aihg5em2]{

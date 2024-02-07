@@ -21,6 +21,10 @@ p {
     background-color: rgb(227, 196, 101);
 }
 
+.paragrafo2{
+    background-color:transparent;
+}
+
 
 #ultimapasta{
     margin-left: 15px;
@@ -116,7 +120,12 @@ Informativo {
     display: flex;
 }
 
-
+.marc {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
 .DivPagina {
     height: 40px;
@@ -176,15 +185,17 @@ Informativo {
 
 .carousel-control-prev{
     height: 50%;
-    top: 25%;
+    top: 30%;
     background-color: black;
+    position:fixed;
     
 }
 
 .carousel-control-next {
     height: 50%;
-    top: 25%;
-    background-color: black; 
+    top: 30%;
+    background-color: black;
+    position: fixed;
 }
 
 .capSubstory{

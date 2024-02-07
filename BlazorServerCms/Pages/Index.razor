@@ -4,27 +4,6 @@
 @page "/{capitulo:int}/{indice}"
 @page "/acesso/{indice}"
 @page "/{filtrar:int}"
-@page "/preferencia/{filtrar:int}/{p1:int}"
-@page "/pref/{filtrar:int}/{p1:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}"
-@page "/pref/{filtrar:int}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}/{p4:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}"
-@page "/form/{Capitulo:int}/{filtrar:int}/{dominio}/{compartilhante}/{p1:int}/{p2:int}/{p3:int}/{p4:int}/{p5:int}/{p6:int}/{p7:int}/{p8:int}/{p9:int}/{p10:int}"
 @page "/mensagem/{MensagemSistema}"
 
 
@@ -143,16 +122,7 @@
 @code{
 
     [Parameter] public int? capitulo { get; set; }
-    [Parameter] public int? p1 { get; set; }
-    [Parameter] public int? p2 { get; set; }
-    [Parameter] public int? p3 { get; set; }
-    [Parameter] public int? p4 { get; set; }
-    [Parameter] public int? p5 { get; set; }
-    [Parameter] public int? p6 { get; set; }
-    [Parameter] public int? p7 { get; set; }
-    [Parameter] public int? p8 { get; set; }
-    [Parameter] public int? p9 { get; set; }
-    [Parameter] public int? p10 { get; set; }
+   
     [Parameter] public string? indice { get; set; }
     [Parameter] public int? filtrar { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
@@ -230,104 +200,6 @@
             else
                 Mensagem = erro1;
         }
-        else if (capitulo != null && p1 != null)
-        {
-            if (p10 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-            else if (p9 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");               
-            else if (p8 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");               
-            else if (p7 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");               
-            else if (p6 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");               
-            else if (p5 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");                
-            else if (p4 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");                
-            else if (p3 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");                
-            else if (p2 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/0/0/0/0/0/0/0/0");                            
-            else if (p1 != null)
-                navigation.NavigateTo($"/formulario/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/0/0/0/0/0/0/0/0/0");
-        }
-        else if (Context.Pagina!.Include(p => p.Produto).FirstOrDefault(p => p.Produto != null) != null)
-        {
-            if (p10 != null)
-            {
-
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/{p10}");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p9 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/{p9}/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p8 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/{p8}/0/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p7 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/{p7}/0/0/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p6 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/{p6}/0/0/0/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p5 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/{p5}/0/0/0/0/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p4 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/{p4}/0/0/0/0/0/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p3 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/{p3}/0/0/0/0/0/0/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p2 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/{p2}/0/0/0/0/0/0/0/0");
-                else
-                    Mensagem = erro1;
-            }
-            else if (p1 != null)
-            {
-                if (livro != null)
-                    navigation.ToAbsoluteUri($"{livro.url}/lista-filtro/1/teste/1/11/20/{dominio}/{compartilhante}/{capitulo}/{filtrar}/{p1}/0/0/0/0/0/0/0/0/0");
-                else
-                    Mensagem = erro1;
-            }
-
-        }
 
 
     }
@@ -347,7 +219,7 @@
         try
         {
             cap = int.Parse(Query!);
-            navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/1/0/0/0/{dominio}/{compartilhante}");
+            navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
         }
         catch(Exception ex)
         {

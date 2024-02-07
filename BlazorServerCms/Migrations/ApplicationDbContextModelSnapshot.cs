@@ -275,6 +275,61 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("FiltroPagina");
                 });
 
+            modelBuilder.Entity("business.business.highlighter", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("pasta")
+                        .HasColumnType("int");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("verso1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso10")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso5")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso6")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso7")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso8")
+                        .HasColumnType("int");
+
+                    b.Property<int>("verso9")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("highlighter");
+                });
+
             modelBuilder.Entity("business.business.PageLiked", b =>
                 {
                     b.Property<long>("Id")
@@ -328,6 +383,30 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("PageLiked");
                 });
 
+            modelBuilder.Entity("business.business.Pergunta", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("FiltroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Questao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponseChatGpt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FiltroId");
+
+                    b.ToTable("Pergunta");
+                });
+
             modelBuilder.Entity("business.business.Rota", b =>
                 {
                     b.Property<long>("Id")
@@ -368,7 +447,7 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("savedFolder");
                 });
 
-            modelBuilder.Entity("business.business.UserPreferences", b =>
+            modelBuilder.Entity("business.business.UserResponse", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -376,40 +455,73 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<int>("Pergunta")
+                        .HasColumnType("int");
+
                     b.Property<int>("capitulo")
                         .HasColumnType("int");
 
-                    b.Property<int>("p1")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR1")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p10")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR10")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p2")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR2")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p3")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR3")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p4")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR4")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p5")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR5")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p6")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR6")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p7")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR7")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p8")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR8")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("p9")
-                        .HasColumnType("int");
+                    b.Property<bool>("exempoloR9")
+                        .HasColumnType("bit");
 
                     b.Property<int>("pasta")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta10")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta5")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta6")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta7")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta8")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta9")
                         .HasColumnType("int");
 
                     b.Property<string>("user")
@@ -418,7 +530,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserPreferences");
+                    b.ToTable("UserResponse");
                 });
 
             modelBuilder.Entity("business.Comentario", b =>
@@ -978,6 +1090,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Pagina");
                 });
 
+            modelBuilder.Entity("business.business.Pergunta", b =>
+                {
+                    b.HasOne("business.Filtro", "Filtro")
+                        .WithMany("Pergunta")
+                        .HasForeignKey("FiltroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filtro");
+                });
+
             modelBuilder.Entity("business.business.savedFolder", b =>
                 {
                     b.HasOne("business.Filtro", "Filtro")
@@ -1230,6 +1353,8 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("business.Filtro", b =>
                 {
                     b.Navigation("Pagina");
+
+                    b.Navigation("Pergunta");
 
                     b.Navigation("savedFolder");
                 });
