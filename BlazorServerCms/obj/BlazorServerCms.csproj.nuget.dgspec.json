@@ -105,6 +105,10 @@
               "target": "Package",
               "version": "[1.2.0, )"
             },
+            "PSC.Blazor.Components.Tours": {
+              "target": "Package",
+              "version": "[1.0.10, )"
+            },
             "TinyMCE.Blazor": {
               "target": "Package",
               "version": "[1.0.4, )"

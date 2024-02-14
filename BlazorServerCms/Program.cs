@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using BlazorServerCms.Pages;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.Google;
+using PSC.Blazor.Components.Tours;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -37,6 +38,8 @@ builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.Require
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserModel>>();
+
+builder.Services.UseTour();
 
 builder.Services.AddAuthentication()
                .AddGoogle(options =>

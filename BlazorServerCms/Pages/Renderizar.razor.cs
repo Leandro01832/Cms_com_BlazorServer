@@ -14,8 +14,10 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using Models;
+using PSC.Blazor.Components.Tours.Services;
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Policy;
@@ -1413,7 +1415,19 @@ namespace BlazorCms.Client.Pages
                 Model.ContentUser = Model.ContentUser.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
             }
         }
-                
+
+        protected async void StartTour()
+        {
+            desabilitarAuto();
+            await TourService.StartTour("FormGuidedTour1");
+        } 
+        
+        protected async void StartTour2()
+        {
+            desabilitarAuto();
+            await TourService.StartTour("FormGuidedTour1");
+        }
+
     }
 
     public class UserPreferencesImage

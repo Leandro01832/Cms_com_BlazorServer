@@ -14,6 +14,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using Models;
+using PSC.Blazor.Components.Tours.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -26,6 +27,7 @@ namespace BlazorCms.Client.Pages
     public partial class RenderizarBase : ComponentBase
     {
         [Inject] public RepositoryPagina? repositoryPagina { get; set; }
+        [Inject] public ITourService TourService { get; set; }
         [Inject] public NavigationManager? navigation { get; set; }
         [Inject] UserManager<UserModel> userManager { get; set; }
         [Inject] HttpClient? Http { get; set; }

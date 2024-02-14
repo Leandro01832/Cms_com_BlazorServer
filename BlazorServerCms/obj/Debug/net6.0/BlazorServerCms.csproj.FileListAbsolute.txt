@@ -282,3 +282,12 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\sco
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Usuario.razor.rz.scp.css
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Shared\LayoutUsuario.razor.rz.scp.css
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\ListaFiltro2.razor.rz.scp.css
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Components.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.JSInterop.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\PSC.Blazor.Components.Tours.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\System.IO.Pipelines.dll

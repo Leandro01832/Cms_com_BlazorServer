@@ -14,8 +14,115 @@
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
     <SourceRoot Include="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\package-lock.json" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\package-lock.json')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>package-lock.json</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\package.json" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\package.json')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>package.json</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\psc_ico.ico" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\psc_ico.ico')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>psc_ico.ico</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\css\fonts\bootstrap-icons.woff" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\css\fonts\bootstrap-icons.woff')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\css\fonts\bootstrap-icons.woff</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\css\fonts\bootstrap-icons.woff2" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\css\fonts\bootstrap-icons.woff2')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\css\fonts\bootstrap-icons.woff2</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\css\styles.css" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\css\styles.css')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\css\styles.css</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropCommon.js" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropCommon.js')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\JsInteropCommon.js</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropCommon.min.js" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropCommon.min.js')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\JsInteropCommon.min.js</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropCommon.ts" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropCommon.ts')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\JsInteropCommon.ts</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropPopper.js" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropPopper.js')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\JsInteropPopper.js</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropPopper.min.js" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropPopper.min.js')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\JsInteropPopper.min.js</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropPopper.ts" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\JsInteropPopper.ts')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\JsInteropPopper.ts</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\vendor.min.js" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\contentFiles\any\net6.0\wwwroot\js\vendor.min.js')">
+      <NuGetPackageId>PSC.Blazor.Components.Tours</NuGetPackageId>
+      <NuGetPackageVersion>1.0.10</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\vendor.min.js</Link>
+    </Content>
+  </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)tinymce.blazor\1.0.4\buildTransitive\TinyMCE.Blazor.props" Condition="Exists('$(NuGetPackageRoot)tinymce.blazor\1.0.4\buildTransitive\TinyMCE.Blazor.props')" />
+    <Import Project="$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\buildTransitive\PSC.Blazor.Components.Tours.props" Condition="Exists('$(NuGetPackageRoot)psc.blazor.components.tours\1.0.10\buildTransitive\PSC.Blazor.Components.Tours.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\6.0.23\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\6.0.23\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design\6.0.23\build\net6.0\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design\6.0.23\build\net6.0\Microsoft.EntityFrameworkCore.Design.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\6.0.23\build\Microsoft.AspNetCore.Identity.UI.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\6.0.23\build\Microsoft.AspNetCore.Identity.UI.props')" />

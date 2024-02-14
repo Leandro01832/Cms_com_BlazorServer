@@ -24,6 +24,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
     <PackageReference Include="NVelocity" Version="1.2.0" />
+    <PackageReference Include="PSC.Blazor.Components.Tours" Version="1.0.10" />
     <PackageReference Include="TinyMCE.Blazor" Version="1.0.4" />
   </ItemGroup>
 

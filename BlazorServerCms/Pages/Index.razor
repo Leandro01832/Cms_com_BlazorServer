@@ -7,16 +7,16 @@
 @page "/mensagem/{MensagemSistema}"
 
 
-
-
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject UserManager<UserModel> userManager
 @inject IJSRuntime js
+@inject ITourService TourService
 
 
     <PageTitle>Instagleo</PageTitle>
     
+<button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
 
 
@@ -28,9 +28,9 @@
 {
     <h3>@MensagemSistema</h3>    
 }   
-<div>
+<div data-first>
 
-    <p style="font-family: 'League Script', cursive; font-size:large;">
+    <p style="font-family: 'League Script', cursive; font-size:large;" >
         A beleza da vida se multiplica cada vez Que a gente partilha com alguém que a gente ama.
         Se você quiser multiplicar a vida Você precisa dividí-la.
     </p>
@@ -43,7 +43,7 @@
  <div class="container">
     <input type="text" placeholder="Usuario" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
     <br />
-    <input type="text" @bind="Query" placeholder="Nº do capitulo ou pesquisar" />
+    <input type="text" @bind="Query" placeholder="Nº do capitulo ou pesquisar" data-2 />
     <a id="acessoPaginaComInput2"  onclick="@buscar"
        class="btn btn-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -116,13 +116,56 @@
         Compartilhe seu comentário
     </a>
 
+<GuidedTour TourId="FormGuidedTour" OverlayEnabled="true">
+    <GuidedTourStep Title="Instagleo" StepName="firstStep" TourStepSequence="1"
+        ElementSelector="[data-first]">
+        <span>Seja Bem-vindo ao nosso sistema de compartilhamento de paginas</span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="acessando stories" StepName="Step2" TourStepSequence="2"
+        ElementSelector="[data-2]">
+        <span>Informe o capitulo 1 e acesse a primeira story</span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Sumario" StepName="Step3" TourStepSequence="3"
+        ElementSelector="[data-3]">
+        <span>No sumário você poderá ver todos os capitulos </span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Instante" StepName="Step4" TourStepSequence="4"
+        ElementSelector="[data-4]">
+        <span>
+            Após acessar os stories poderá usar instantes.
+            É mais uma forma  compartilhar conteudos.
+            Sendo que cada instante poderá ter apenas 9 livros.
+        </span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Plataformas" StepName="Step5" TourStepSequence="5"
+                    ElementSelector="[data-5]">
+        <span>
+          Neste link você terá acesso a todas as plataformas utilizadas pelo administrador.
+        </span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Livro compartilhado" StepName="Step6" TourStepSequence="6"
+                    ElementSelector="[data-6]">
+        <span>
+           No livro compartilhado pode-se definir o livro e o capitulo.
+           Só será necessário informar o versiculo ou a pasta.
+        </span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Configurações" StepName="Step7" TourStepSequence="7"
+                    ElementSelector="[data-7]">
+        <span>
+            Somente o administrador pode acessar.
+           Gerencia todo o sistema criando pastas, paginas e stories.
+        </span>
+    </GuidedTourStep>
+</GuidedTour>
+
 
 
 
 @code{
 
     [Parameter] public int? capitulo { get; set; }
-   
+
     [Parameter] public string? indice { get; set; }
     [Parameter] public int? filtrar { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
@@ -202,7 +245,11 @@
         }
 
 
+
+
     }
+
+ 
 
     private async void Acessar(Filtro item)
     {
@@ -265,4 +312,10 @@
         public string? user { get; set; }
         public UserModel UserModel { get; set; }
     }
+
+    private async Task StartTour()
+    {
+        await TourService.StartTour("FormGuidedTour");
+    }
+
 }

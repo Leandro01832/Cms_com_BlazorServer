@@ -1,6 +1,46 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff",
+      "PackagePath": "staticwebassets\\css\\fonts\\bootstrap-icons.woff"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff2",
+      "PackagePath": "staticwebassets\\css\\fonts\\bootstrap-icons.woff2"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\styles.css",
+      "PackagePath": "staticwebassets\\css\\styles.css"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.js",
+      "PackagePath": "staticwebassets\\js\\JsInteropCommon.js"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.min.js",
+      "PackagePath": "staticwebassets\\js\\JsInteropCommon.min.js"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.ts",
+      "PackagePath": "staticwebassets\\js\\JsInteropCommon.ts"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.js",
+      "PackagePath": "staticwebassets\\js\\JsInteropPopper.js"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.min.js",
+      "PackagePath": "staticwebassets\\js\\JsInteropPopper.min.js"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.ts",
+      "PackagePath": "staticwebassets\\js\\JsInteropPopper.ts"
+    },
+    {
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\vendor.min.js",
+      "PackagePath": "staticwebassets\\js\\vendor.min.js"
+    },
+    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
       "PackagePath": "staticwebassets\\BlazorServerCms.bundle.scp.css"
     },
