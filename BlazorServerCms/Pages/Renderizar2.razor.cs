@@ -39,24 +39,23 @@ namespace BlazorCms.Client.Pages
         private ApplicationDbContext Context;
         private List<Pagina> conteudo = new List<Pagina>();
         private int indiceMarcador;
+        private Story story = null;
 
-        protected string numeros = "";
-        protected bool marcacao = false;
+        
         protected bool exemplo = false;
+        protected int cap = 1;
 
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
         protected string nameGroup = "";
         protected UserModel usuario;
-        protected UserResponse resposta = null;
-        protected Pergunta pergunta = null;
-        protected highlighter marcador = null;
         protected ClaimsPrincipal user;
-        protected List<Story>? stories = new List<Story>();
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
+        protected Pergunta? Model3;
+        protected highlighter? Model4;
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;       
@@ -95,7 +94,8 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int outroHorizonte { get; set; }
 
         [Parameter] public string? filtrar { get; set; } = null;
-        [Parameter] public int question { get; set; } = 1;
+        [Parameter] public string? rotas { get; set; } = null;
+        
 
     }
 }

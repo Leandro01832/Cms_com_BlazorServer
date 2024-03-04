@@ -203,6 +203,13 @@ img[b-622vkbnu9r] {
     flex-wrap: wrap;
 }
 
+.marc[b-622vkbnu9r] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 
 
 @media (max-width: 500px) and (min-width: 50px) {
@@ -398,6 +405,10 @@ p[b-k8aihg5em2] {
 
 .paragrafo2[b-k8aihg5em2]{
     background-color:transparent;
+}
+
+.paragrafo3[b-k8aihg5em2]{
+    background-color:red;
 }
 
 
@@ -635,9 +646,19 @@ Informativo[b-k8aihg5em2] {
     border-radius: 50%;
 }
 
+#horizontes[b-k8aihg5em2] {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.item-horizonte[b-k8aihg5em2]{
+    margin-left: 20px;
+}
+
 
 @media (max-width: 550px) and (min-width: 50px) {
-
     .carousel-control-next[b-k8aihg5em2]{
         width: 10%;
     }

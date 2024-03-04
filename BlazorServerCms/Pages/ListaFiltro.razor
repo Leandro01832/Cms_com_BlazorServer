@@ -1,15 +1,23 @@
-﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{compartilhante}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}"
-@page "/formulario/{pagina:int}/{ordenar}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}"
-
-
+﻿@page "/lista-filtro/{pagina:int}/{ordenar}/{compartilhante}/{auto:int}/{interval:int}/{tamanho:int}/{Capitulo:int}/{indiceFiltro:int}/{verso1:int}/{verso2:int}/{verso3:int}/{verso4:int}/{verso5:int}/{verso6:int}/{verso7:int}/{verso8:int}/{verso9:int}/{verso10:int}/{exemplo1:int}/{exemplo2:int}/{exemplo3:int}/{exemplo4:int}/{exemplo5:int}/{exemplo6:int}/{exemplo7:int}/{exemplo8:int}/{exemplo9:int}/{exemplo10:int}/{questao?}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider? AuthenticationStateProvider
 @inject IJSRuntime js
-@inject BlazorTimer Timer
 @layout MeuLayout
 
 <PageTitle>listas de filtro</PageTitle>
+
+@if(questao == null)
+{
+    <BackPage></BackPage>    
+    <a onclick="@desmarcar" class="btn btn-primary" >Desmarcar</a>
+}
+
+@if(questao == null && verso1 != 0)
+{ 
+    <a onclick="@criarFiltro" class="btn btn-primary" >Criar Filtro</a>
+}
+
 
 <div id="configuracao">
     <p id="livro">www.instagleo.net.br</p>
@@ -55,7 +63,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{verso1}/{verso2}/{verso3}/{verso4}/{verso5}/{verso6}/{verso7}/{verso8}/{verso9}/{verso10}/{exemplo1}/{exemplo2}/{exemplo3}/{exemplo4}/{exemplo5}/{exemplo6}/{exemplo7}/{exemplo8}/{exemplo9}/{exemplo10}/{questao}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -63,7 +71,7 @@
             }
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{verso1}/{verso2}/{verso3}/{verso4}/{verso5}/{verso6}/{verso7}/{verso8}/{verso9}/{verso10}/{exemplo1}/{exemplo2}/{exemplo3}/{exemplo4}/{exemplo5}/{exemplo6}/{exemplo7}/{exemplo8}/{exemplo9}/{exemplo10}/{questao}"))">
                 Proxima lista >>>
             </a>
 
@@ -156,17 +164,20 @@
 
 <h3>Lista de Filtro</h3>
 
-
- Capitulo @Capitulo
-<a href="#" onclick="@(() => acessarPasta())">
-    Pasta @indiceFiltro
+<a href="#" onclick="@(() => acessarPasta())" style="font-size:22px;">
+ Capitulo @Capitulo - Pasta @indiceFiltro
 </a>
+
+@if(questao != "")
+{
+    <p style="font-size:30px; background-color:aquamarine;" >@questao</p>
+}
+
 @if(filtro != null)
 {
     <p> <header>@filtro.Nome</header> </p>
 }
 
-<p>Qual sua preferência?</p>
 @{
     if(Model == null || Model.Count == 0)
     {
@@ -175,25 +186,20 @@
     else
     {
         <div class="container">
-      
-        @if (Model.FirstOrDefault(p => p.Produto != null) != null)
-        {
-            @foreach(var item in Model)
-            {
-            <div class="divs"> 
-                @if (Model!.ToList().IndexOf(item) != 0)
-                {
-                    var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
-                    var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
-                    var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
-                    var identifica = paginaItem.Id;
-                    List<Pagina> lista = paginaItem.Story!.Pagina!.OrderBy(p => p.Id).ToList();
-                    var Capitulo = paginaItem.Story.PaginaPadraoLink;
 
-                    var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
-                    if (item.Content.Contains("ContentIframe"))
-                    {
+            @if (Model.FirstOrDefault(p => p.Produto != null) != null)
+            {
+                foreach(var item in Model)
+            {
+                    var paginaItem = Context.Pagina!.Include(p => p.Produto).ThenInclude(p => p.Imagem).First(p => p.Id == item.Id);
+                    var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
                         var markup = new MarkupString(item.Content);
+                    var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
+
+            <div class="divs"> 
+               
+                    @if (item.Content.Contains("ContentIframe"))
+                    {
                         <div class="content" >
                             @markup
                         </div>
@@ -209,12 +215,61 @@
                         <p> Preço: @item.Produto!.Preco </p>
                         <p> Estoque: @item.Produto!.QuantEstoque </p>
                     </div>
-                    <div class="caps">
-                            <a target="_blank" href="/renderizar/@Capitulo/@Versiculo/0/11/1/0/0/0/0/dominio/comp/comp2">
-                            Versiculo @Versiculo
-                        </a>
-                    </div>
-                    <p>
+                            @if (item.Versiculo == verso1 || item.Versiculo == verso2 || item.Versiculo == verso3 ||
+                       item.Versiculo == verso4 || item.Versiculo == verso5 || item.Versiculo == verso6 ||
+                       item.Versiculo == verso7 || item.Versiculo == verso8 || item.Versiculo == verso9 ||
+                       item.Versiculo == verso10)
+                                    {
+                                        <div class="caps" style="background-color:yellow;">
+                                               <center>
+                                                                Versiculo @item.Versiculo foi marcado
+                                        @{
+                                            if(questao != null && questao != "")
+                                            {
+                                                
+                                                    if (
+                                                        item.Versiculo ==   verso1 && exemplo1 == 1 ||
+                                                        item.Versiculo ==   verso2 && exemplo2 == 1 ||
+                                                        item.Versiculo ==   verso3 && exemplo3 == 1 ||
+                                                        item.Versiculo ==   verso4 && exemplo4 == 1 ||
+                                                        item.Versiculo ==   verso5 && exemplo5 == 1 ||
+                                                        item.Versiculo ==   verso6 && exemplo6 == 1 ||
+                                                        item.Versiculo ==   verso7 && exemplo7 == 1 ||
+                                                        item.Versiculo ==   verso8 && exemplo8 == 1 ||
+                                                        item.Versiculo ==   verso9 && exemplo9 == 1 ||
+                                                        item.Versiculo == verso10 && exemplo10 == 1 
+                                                    )
+                                                    {
+                                                        <p> como exemplo</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p> como resposta</p>
+                                                
+                                                    }
+                                            }
+                                           
+                                        }
+                                               
+                                               </center>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                         <div class="caps" style="background-color:transparent;">
+                                               <center>
+                                                                Versiculo @item.Versiculo
+                                               </center>
+                                                @if (questao == null)
+                                                {
+                                                    <p>
+                                                        <a onclick="@(() => marcar(item.Versiculo))" class="btn btn-dark">Marcar</a>
+                                                    </p>
+                                                }
+                                        </div>
+                                    }
+                                    <p>
                         <img src="@path" alt="Imagem do produto" />
                     </p>
 
@@ -222,27 +277,22 @@
                         
                     }
 
-               
 
-                }
+                
             </div>
-            }
+            
 
         }
-        else
+                
+            }
+             else
         {
             @foreach (var item in Model)
-            {
-            <div class="divs">
-                @if (Model!.ToList().IndexOf(item) != 0)
-                {
-                    var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
-                    var identifica = paginaItem.Id;
-                    List<Pagina> lista = paginaItem.Story!.Pagina!.OrderBy(p => p.Id).ToList();
-                    var Capitulo = paginaItem.Story.PaginaPadraoLink;                    
+            {                   
                     var markup = new MarkupString(item.ContentUser);
 
-                    var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
+            <div class="divs">
+               
 
                     <div class="conteudo" onclick="cancelar()">
                        
@@ -251,18 +301,67 @@
                         <div class="content" style="width:100%; height:auto;" >
                             @markup
                         </div>
-                        
-                        <div class="caps" style="background-color:yellow;">  
+
+                            @if (item.Versiculo == verso1 || item.Versiculo == verso2 || item.Versiculo == verso3 ||
+                                item.Versiculo == verso4 || item.Versiculo == verso5 || item.Versiculo == verso6 ||
+                                item.Versiculo == verso7 || item.Versiculo == verso8 || item.Versiculo == verso9 ||
+                                item.Versiculo == verso10)
+                                {
+                                     <div class="caps" style="background-color:yellow;">  
                         <center>                            
-                                Versiculo @Versiculo                            
+                                Versiculo @item.Versiculo foi marcado
+                                        @{
+                                            if (questao != null && questao != "")
+                                            {
+                                                if (
+                                                item.Versiculo == verso1 && exemplo1 == 1 ||
+                                                item.Versiculo == verso2 && exemplo2 == 1 ||
+                                                item.Versiculo == verso3 && exemplo3 == 1 ||
+                                                item.Versiculo == verso4 && exemplo4 == 1 ||
+                                                item.Versiculo == verso5 && exemplo5 == 1 ||
+                                                item.Versiculo == verso6 && exemplo6 == 1 ||
+                                                item.Versiculo == verso7 && exemplo7 == 1 ||
+                                                item.Versiculo == verso8 && exemplo8 == 1 ||
+                                                item.Versiculo == verso9 && exemplo9 == 1 ||
+                                                item.Versiculo == verso10 && exemplo10 == 1
+                                                )
+                                                {
+                                                    <p> como exemplo</p>
+                                                }
+                                                else
+                                                {
+                                                    <p> como resposta</p>                                                
+                                                }                                                
+                                            }
+                                            
+
+                                        }
                         </center>
-                        </div>
+                                   
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="caps" style="background-color: transparent;">  
+                                    <center>                            
+                                            Versiculo @item.Versiculo
+                                            @if (questao == null)
+                                            {
+                                                <p>
+                                                    <a onclick="@(() => marcar(item.Versiculo))" class="btn btn-dark">Marcar</a>
+                                                </p>
+                                            }
+                                    </center>
+                                               
+                                    </div>
+                                }
 
                     </div>
                     <br />
                     <hr />
                     <br />
-                }
+                
             </div>
             }
         }
@@ -277,15 +376,41 @@
     List<Pagina> Model = new List<Pagina>();
     List<Filtro>? filtros { get; set; }
     protected ClaimsPrincipal user;
-
+    private int indiceMarcador;
 
     [Parameter] public string? compartilhante { get; set; }
+
+    [Parameter] public int verso1 { get; set; }
+    [Parameter] public int verso2 { get; set; }
+    [Parameter] public int verso3 { get; set; }
+    [Parameter] public int verso4 { get; set; }
+    [Parameter] public int verso5 { get; set; }
+    [Parameter] public int verso6 { get; set; }
+    [Parameter] public int verso7 { get; set; }
+    [Parameter] public int verso8 { get; set; }
+    [Parameter] public int verso9 { get; set; }
+    [Parameter] public int verso10 { get; set; }
+
+    [Parameter] public int exemplo1 { get; set; }
+    [Parameter] public int exemplo2 { get; set; }
+    [Parameter] public int exemplo3 { get; set; }
+    [Parameter] public int exemplo4 { get; set; }
+    [Parameter] public int exemplo5 { get; set; }
+    [Parameter] public int exemplo6 { get; set; }
+    [Parameter] public int exemplo7 { get; set; }
+    [Parameter] public int exemplo8 { get; set; }
+    [Parameter] public int exemplo9 { get; set; }
+    [Parameter] public int exemplo10 { get; set; }
+
+
+    [Parameter] public string questao { get; set; }
+
 
     [Parameter] public int auto { get; set; }
     [Parameter] public int pagina { get; set; }
     [Parameter] public int indiceFiltro { get; set; }
     [Parameter] public int Capitulo { get; set; }
-   
+
     [Parameter] public int? redirecionar { get; set; }
     [Parameter] public string? ordenar { get; set; }
     [Parameter] public int interval { get; set; }
@@ -307,7 +432,6 @@
         {
             Console.WriteLine(ex.Message);
         }
-        StartTimer();
 
     }
 
@@ -323,6 +447,11 @@
      .OrderBy(f => f.StoryId)
      .OrderBy(f => f.Id)
      .ToListAsync();
+
+        if(questao == null)
+        {
+            questao = "";
+        }
 
 
         filtro = filtros[indiceFiltro];
@@ -395,50 +524,22 @@
         return applicationDbContext;
     }
 
-    private void StartTimer()
-    {
-        if (auto == 1)
-        {
-            double t = interval * 1000;
-            Timer!.SetTimerListaFiltro(t);
-            Timer._timerListaFiltro!.Elapsed += _timer_Elapsed;
-            Console.WriteLine("Timer Started.");
-        }
-
-    }
-
-    private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
-    {
-        if (auto == 1 && Model!.ToList().Count == tamanho)
-            navigation.NavigateTo($"/lista-filtro/{pagina + 1}/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}");
-        else if (auto == 1)
-            navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/1/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}");
-        else
-            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/0/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}");
-
-        Console.WriteLine("Timer Elapsed.");
-        Timer!._timerListaFiltro!.Elapsed -= _timer_Elapsed;
-    }
-
-   
-
-
     private void desabilitar()
     {
         auto = 0;
-        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}");
+        navigation.NavigateTo($"/lista-filtro/1/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{verso1}/{verso2}/{verso3}/{verso4}/{verso5}/{verso6}/{verso7}/{verso8}/{verso9}/{verso10}/{exemplo1}/{exemplo2}/{exemplo3}/{exemplo4}/{exemplo5}/{exemplo6}/{exemplo7}/{exemplo8}/{exemplo9}/{exemplo10}/{questao}");
     }
 
     private void abilitar()
     {
         auto = 1;
-        navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}");
+        navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{verso1}/{verso2}/{verso3}/{verso4}/{verso5}/{verso6}/{verso7}/{verso8}/{verso9}/{verso10}/{exemplo1}/{exemplo2}/{exemplo3}/{exemplo4}/{exemplo5}/{exemplo6}/{exemplo7}/{exemplo8}/{exemplo9}/{exemplo10}/{questao}");
     }
 
     private void acessarPasta()
     {
         auto = 0;
-        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/0/0/0/dominio/comp/comp2");
+        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/0/0/0/dominio/{compartilhante}");
     }
 
     private async void clicou()
@@ -469,7 +570,7 @@
 
     private  string buscarId(Pagina p)
     {
-            var id_video = "";
+        var id_video = "";
         if (p != null && p.Content != null && p.Content.Contains("iframe")  ||
                         p != null && p.ContentUser != null && p.ContentUser.Contains("iframe") )
         {
@@ -494,8 +595,104 @@
                     break;
                 }
             }
-          
+
         }
-            return id_video;
+        return id_video;
     }
+    
+    protected async void marcar(int Versiculo)
+    {
+        if (!user.Identity!.IsAuthenticated)
+        {
+            await js!.InvokeAsync<object>("DarAlert", $"Por favor faça login para poder marcar versiculos");
+        }
+        else
+        {
+
+            auto = 0;
+
+            if(verso1 == 0)    verso1  = Versiculo; else
+            if(verso2 == 0)    verso2  = Versiculo; else
+            if(verso3 == 0)    verso3  = Versiculo; else
+            if(verso4 == 0)    verso4  = Versiculo; else
+            if(verso5 == 0)    verso5  = Versiculo; else
+            if(verso6 == 0)    verso6  = Versiculo; else
+            if(verso7 == 0)    verso7  = Versiculo; else
+            if(verso8 == 0)    verso8  = Versiculo; else
+            if(verso9 == 0)    verso9  = Versiculo; else
+            if(verso10 == 0)   verso10 = Versiculo; else
+            await js!.InvokeAsync<object>("DarAlert", $"É possível marcar somente 10 versículos.");
+
+            await js!.InvokeAsync<object>("DarAlert", $"O versiculo {Versiculo} foi marcado com sucesso!!!");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{verso1}/{verso2}/{verso3}/{verso4}/{verso5}/{verso6}/{verso7}/{verso8}/{verso9}/{verso10}/{exemplo1}/{exemplo2}/{exemplo3}/{exemplo4}/{exemplo5}/{exemplo6}/{exemplo7}/{exemplo8}/{exemplo9}/{exemplo10}/{questao}");
+
+        }
+
+    }
+
+    protected async void desmarcar()
+    {
+        if (!user.Identity!.IsAuthenticated)
+        {
+            await js!.InvokeAsync<object>("DarAlert", $"Por favor faça login para poder desmarcar versiculos");
+
+        }
+        else
+        {
+            auto = 0;
+
+                verso1 = 0;                       
+                verso2 = 0;                       
+                verso3 = 0;                       
+                verso4 = 0;                       
+                verso5 = 0;                       
+                verso6 = 0;                       
+                verso7 = 0;                       
+                verso8 = 0;                       
+                verso9 = 0;                       
+                verso10 = 0;                      
+
+            await js!.InvokeAsync<object>("DarAlert", $"Versiculos desmarcados com sucesso.");
+            navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{verso1}/{verso2}/{verso3}/{verso4}/{verso5}/{verso6}/{verso7}/{verso8}/{verso9}/{verso10}/{exemplo1}/{exemplo2}/{exemplo3}/{exemplo4}/{exemplo5}/{exemplo6}/{exemplo7}/{exemplo8}/{exemplo9}/{exemplo10}/{questao}");
+        }
+
+    }
+
+    private async void criarFiltro()
+    {
+        string prompted = await js.InvokeAsync<string>("prompt", "Informe o nome do filtro.");
+        highlighter filtro = new highlighter
+            {
+                capitulo = Capitulo,
+                Nome = prompted,
+                pasta = indiceFiltro,
+                user = user.Identity.Name,
+                verso1 = verso1,
+                verso2 = verso2,
+                verso3 = verso3,
+                verso4 = verso4,
+                verso5 = verso5,
+                verso6 = verso6,
+                verso7 = verso7,
+                verso8 = verso8,
+                verso9 = verso9,
+                verso10 = verso10
+            };
+            Context.Add(filtro);
+            await Context.SaveChangesAsync();
+        await js!.InvokeAsync<object>("DarAlert", $"Filtro criado com sucesso pelo usuario!!! ");
+
+        verso1 = 0;
+        verso2 = 0;
+        verso3 = 0;
+        verso4 = 0;
+        verso5 = 0;
+        verso6 = 0;
+        verso7 = 0;
+        verso8 = 0;
+        verso9 = 0;
+        verso10 = 0;
+        navigation.NavigateTo($"/lista-filtro/{pagina}/{ordenar}/{compartilhante}/{auto}/{interval}/{tamanho}/{Capitulo}/{indiceFiltro}/{verso1}/{verso2}/{verso3}/{verso4}/{verso5}/{verso6}/{verso7}/{verso8}/{verso9}/{verso10}/{exemplo1}/{exemplo2}/{exemplo3}/{exemplo4}/{exemplo5}/{exemplo6}/{exemplo7}/{exemplo8}/{exemplo9}/{exemplo10}/{questao}");
+    }
+
 }

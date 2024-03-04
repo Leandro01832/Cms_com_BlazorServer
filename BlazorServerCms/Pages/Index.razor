@@ -28,6 +28,9 @@
 {
     <h3>@MensagemSistema</h3>    
 }   
+<p>
+    <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank" >Peça seu livro</a>
+</p>
 <div data-first>
 
     <p style="font-family: 'League Script', cursive; font-size:large;" >
@@ -39,6 +42,7 @@
 <p>
     Usuarios inscritos: @users
 </p>
+
     
  <div class="container">
     <input type="text" placeholder="Usuario" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
@@ -86,8 +90,8 @@
 
 @if(filtros!.Count > 0)
 {
-    <div style="position:absolute; background-color:aliceblue;">
-        <table cellspacing="10" border="1" cellpadding="10" >
+    <div style="position:absolute; background-color:aliceblue; width:75%;">
+        <table cellspacing="50" border="5" cellpadding="50" style="width:100%">
             <tr>
                 <th>Capitulo</th>
                 <th>Pasta</th>
@@ -96,13 +100,14 @@
             </tr>
             @foreach (var item in filtros!)
             {
-                var fil = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
-                .First(p => p.StoryId == item.StoryId).Story!.Filtro;
+                var fil = filtros2
+                .Where(p => p.StoryId == item.StoryId).OrderBy(p => p.Id).ToList();
                 var f = fil!.First(fi => fi.Id == item.Id);
                 <tr>
-                    <td>Capitulo @Context.Pagina!.Include(p => p.Story).First(p => p.StoryId == item.StoryId).Story!.PaginaPadraoLink </td>
+                    <td>Capitulo @f.Story!.PaginaPadraoLink </td>
                     <td>Pasta @(fil!.IndexOf(f) + 1) </td>
-                    <td>@item.Nome</td>
+                    <td>Pasta @f.Nome </td>
+                   
                     <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
                 </tr>
             }
@@ -174,6 +179,7 @@
     public string? Query { get; set; }
     public string? Usuario { get; set; }
     List<Filtro>? filtros = new List<Filtro>();
+    List<Filtro>? filtros2 = new List<Filtro>();
     List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
     int cap = 1;
     string? Mensagem { get; set; }
@@ -190,6 +196,9 @@
         Context = db.CreateDbContext(null);
         var quant = await userManager.Users.ToListAsync();
         users = quant.Count;
+
+        filtros2 = await Context.Filtro!
+                .Include(f => f.Story).ToListAsync();
 
         var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.user == repositoryPagina.buscarDominio());
         if (compartilhante == null)        
@@ -249,7 +258,7 @@
 
     }
 
- 
+
 
     private async void Acessar(Filtro item)
     {
@@ -279,13 +288,39 @@
 
                 if(filtros.Count == 0)
                 {
-                    var rota = new Rota
+                    var paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())).ToList();
+                    List<Pagina> pages = new List<Pagina>();
+
+                    foreach(var item in paginas)
+                    {
+                        var rotas = item.Rotas.Split(",");
+                        foreach (var rota in rotas)
+                            if (rota.ToLower().TrimEnd().TrimStart() == Query.ToLower().TrimEnd().TrimStart())
+                                pages.Add(item);
+                    }
+
+                    if(pages.Count == 0)
+                    {
+                        var rot = Context.Rota.FirstOrDefaultAsync(r => r.Nome.ToLower().Contains(Query.ToLower()));
+
+                        if(rot == null)
                         {
-                            Nome = Query,
-                            Registrado = false
-                        };
-                    Context.Add(rota);
-                    await Context.SaveChangesAsync();
+                            var rota = new Rota
+                                        {
+                                            Nome = Query.ToLower(),
+                                            Registrado = false
+                                        };
+                            Context.Add(rota);
+                            await Context.SaveChangesAsync();                        
+                        }
+                    }
+                    else
+                    {
+                        var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
+                        var story = stories.First(str => str.Id == paginas[0].StoryId);
+                        var cap = stories.IndexOf(story) + 1;
+                        navigation.NavigateTo($"/substory/{cap}/1/1/0/11/1/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
+                    }
                 }
             }
             else if (string.IsNullOrEmpty(Query))

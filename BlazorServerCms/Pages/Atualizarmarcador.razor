@@ -1,0 +1,58 @@
+﻿@page "/atualizarmarcador/{Id:long}"
+@inject IJSRuntime? js
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+
+<BackPage></BackPage>
+
+<h3>Atualizar nome de marcador</h3>
+
+
+@if (exampleModel != null && exampleModel.user == user.Identity.Name)
+{
+
+    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <p>
+            <label>Nome:</label>
+            <InputTextArea id="questao" @bind-Value="exampleModel.Nome" />
+            <input type="hidden" id="pasta" @bind="exampleModel.pasta" >
+            <input type="hidden" id="capitulo" @bind="exampleModel.capitulo" >
+            <input type="hidden" id="user" @bind="exampleModel.user" >
+        </p>
+
+
+        <button type="submit">Atualizar marcador</button>
+    </EditForm>
+}
+
+
+@code {
+    [Parameter] public long Id { get; set; }
+
+    private highlighter exampleModel = new();
+
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private ClaimsPrincipal user = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+         Context = db.CreateDbContext(null);
+        var authState = await AuthenticationStateProvider
+           .GetAuthenticationStateAsync();
+        user = authState.User;
+        exampleModel = await Context.highlighter!.FirstAsync(p => p.Id == Id);
+    }
+
+
+    private async void HandleSubmit()
+    {
+        Context.Update(exampleModel);
+        await Context.SaveChangesAsync();
+        await js!.InvokeAsync<object>("DarAlert", $"Marcador atualizado com sucesso!!!");
+    }
+
+
+}

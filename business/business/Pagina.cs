@@ -57,6 +57,8 @@ namespace business
         public int Versiculo { get; set; }
         public int UltimaPasta { get; set; }
 
+        public string? Rotas { get; set; }
+
         public virtual Produto? Produto { get; set; }
 
         public virtual Classificacao? Classificacao { get; set; }

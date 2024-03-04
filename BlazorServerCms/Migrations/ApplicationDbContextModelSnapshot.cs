@@ -450,13 +450,10 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("business.business.UserResponse", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<int>("Pergunta")
-                        .HasColumnType("int");
+                    b.Property<long?>("LivroId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("capitulo")
                         .HasColumnType("int");
@@ -529,6 +526,8 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
 
                     b.ToTable("UserResponse");
                 });
@@ -715,6 +714,9 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImagemContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Rotas")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("StoryId")
@@ -1112,6 +1114,23 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Filtro");
                 });
 
+            modelBuilder.Entity("business.business.UserResponse", b =>
+                {
+                    b.HasOne("business.business.Pergunta", "Pergunta")
+                        .WithOne("UserResponse")
+                        .HasForeignKey("business.business.UserResponse", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.business.Book.Livro", "Livro")
+                        .WithMany("respostas")
+                        .HasForeignKey("LivroId");
+
+                    b.Navigation("Livro");
+
+                    b.Navigation("Pergunta");
+                });
+
             modelBuilder.Entity("business.Filtro", b =>
                 {
                     b.HasOne("business.Group.Story", "Story")
@@ -1341,6 +1360,11 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("livros");
                 });
 
+            modelBuilder.Entity("business.business.Book.Livro", b =>
+                {
+                    b.Navigation("respostas");
+                });
+
             modelBuilder.Entity("business.business.Cliente", b =>
                 {
                     b.Navigation("Endereco")
@@ -1348,6 +1372,11 @@ namespace BlazorServerCms.Migrations
 
                     b.Navigation("Telefone")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("business.business.Pergunta", b =>
+                {
+                    b.Navigation("UserResponse");
                 });
 
             modelBuilder.Entity("business.Filtro", b =>

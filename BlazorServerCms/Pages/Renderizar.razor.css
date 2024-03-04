@@ -25,6 +25,10 @@ p {
     background-color:transparent;
 }
 
+.paragrafo3{
+    background-color:red;
+}
+
 
 #ultimapasta{
     margin-left: 15px;
@@ -260,9 +264,19 @@ Informativo {
     border-radius: 50%;
 }
 
+#horizontes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.item-horizonte{
+    margin-left: 20px;
+}
+
 
 @media (max-width: 550px) and (min-width: 50px) {
-
     .carousel-control-next{
         width: 10%;
     }

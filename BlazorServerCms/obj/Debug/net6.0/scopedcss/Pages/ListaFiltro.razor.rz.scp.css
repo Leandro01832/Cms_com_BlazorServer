@@ -123,6 +123,13 @@ img[b-622vkbnu9r] {
     flex-wrap: wrap;
 }
 
+.marc[b-622vkbnu9r] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 
 
 @media (max-width: 500px) and (min-width: 50px) {

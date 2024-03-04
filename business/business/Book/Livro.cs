@@ -6,7 +6,6 @@ namespace business.business.Book
     public class Livro : BaseModel
     {
         private string? urlNoBook;
-
         public bool IsBook { get; set; }
         public string? UrlNoBook
         {
@@ -25,9 +24,9 @@ namespace business.business.Book
         public long? InstanteId { get; set; }
         public virtual Instante Instante { get; set; }
 
+        public virtual List<UserResponse> respostas { get; set; }
         public int capitulo { get; set; }
         public int pasta { get; set; }
         public int versiculo { get; set; }
-
     }
 }

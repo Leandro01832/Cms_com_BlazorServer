@@ -26,6 +26,13 @@ namespace BlazorServerCms.servicos
         public int diaCupom = 0;
         public string cupomDesconto = "";
 
+        public List<Pergunta> perguntas = new List<Pergunta>();
+        public List<Pagina> paginas = new List<Pagina>();
+        public List<Filtro> filtros = new List<Filtro>();
+        public List<highlighter> filtrosUsers = new List<highlighter>();
+        public List<PageLiked> paginasCurtidas = new List<PageLiked>();
+        public List<Story> stories = new List<Story>();
+
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
             Configuration = configuration;

@@ -108,9 +108,13 @@
         exampleModel.Versiculo = count.Pagina.Count + 1;
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
+        repositoryPagina.paginas.Add(exampleModel);
         exampleModel = Context.Pagina!.Include(p => p.Filtro).First(f => f.Id == exampleModel!.Id);
-        filtros = await Context.Filtro.Include(f => f.Story)
-        .Where(f => f.StoryId == exampleModel.StoryId).OrderBy(f => f.Id).ToListAsync();
+        filtros = await Context.Filtro
+        .Include(f => f.Story)
+        .Where(f => f.StoryId == exampleModel.StoryId)
+        .OrderBy(f => f.Id)
+        .ToListAsync();
         if(pasta != 0)
         {
             var fil = filtros.First(f => f.Id == pasta);

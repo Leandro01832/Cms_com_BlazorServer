@@ -28,6 +28,7 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
+builder.Services.AddSingleton<ChatGpt>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));

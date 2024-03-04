@@ -1,0 +1,154 @@
+﻿@page "/responderpergunta/{Id:long}"
+@inject NavigationManager navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+
+<h3>Responder Pergunta</h3>
+@if(pergunta != null)
+{
+    <h5>@pergunta.Questao</h5>
+
+    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <p>
+            <label>Informe o livro:</label>
+            <select @bind="@exampleModel.LivroId" >
+
+                @foreach(var item in livros)
+                {
+                    <option value="@item.Id" > @item.url</option>
+                    
+                }
+            </select>
+        </p>
+
+        <p>
+            <label>Informe o capitulo</label>
+            <InputNumber @bind-Value="@exampleModel.capitulo"  ></InputNumber>
+        </p>
+
+        <p style="color:darkblue;" >
+            Por favor Garanta que todos os versiculos estejam na mesma pasta.
+        </p>
+
+
+        @if(ultimaPasta != 0)
+        {
+            <a href="/lista-filtro/1/teste/comp/0/30/20/@exampleModel.capitulo/@ultimaPasta/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0" target="_blank"> 
+                Acessar pasta @ultimaPasta
+            </a>
+        }
+
+        <p>
+            <label>Informe o 1º versiculo como resposta </label>
+            <input type="number" id="verso1" onchange="@((ChangeEventArgs e) => buscarPasta(e))">
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR1"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 2º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta2"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR2"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 3º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta3"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR3"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 4º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta4"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR4"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 5º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta5"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR5"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 6º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta6"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR6"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 7º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta7"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR7"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 8º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta8"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR8"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 9º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta9"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR9"></InputCheckbox> Marcar como exemplo
+        </p>
+        
+        <p>
+            <label>Informe o 10º versiculo como resposta </label>
+            <InputNumber @bind-Value="@exampleModel.resposta10"></InputNumber>
+            <InputCheckbox @bind-Value="@exampleModel.exempoloR10"></InputCheckbox> Marcar como exemplo
+        </p>
+
+
+        <button type="submit">Adicionar resposta</button>
+    </EditForm>
+}
+
+@code {
+
+    [Parameter] public long Id { get; set; }
+
+    private UserResponse exampleModel = new();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private Pergunta pergunta;
+    private List<Livro> livros = new List<Livro>();
+    private int ultimaPasta = 0;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Context = db.CreateDbContext(null);
+        pergunta = await Context.Pergunta.FirstAsync(p => p.Id == Id);
+
+        livros = await Context.Livro!.Where(l => l.IsBook).ToListAsync();
+
+    }
+
+    private async void HandleSubmit()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var p = Context.Pagina!.First(p => p.Versiculo == exampleModel.resposta1);
+        exampleModel.pasta = p.UltimaPasta;
+        exampleModel.user = user.Identity!.Name!;
+        exampleModel.Id = pergunta.Id;
+        await Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();
+        navigation.NavigateTo("crud/livro/1");
+    }
+
+    private void buscarPasta(ChangeEventArgs e)
+    {
+        exampleModel.resposta1 = int.Parse(e.Value!.ToString()!);
+        var model = Context.Pagina.Include(p => p.Story)
+        .FirstOrDefault(p => p.Story.PaginaPadraoLink == exampleModel.capitulo &&
+            p.Versiculo == exampleModel.resposta1);
+
+        if(model != null)
+        ultimaPasta = model.UltimaPasta;
+        else
+        ultimaPasta = 0;
+    }
+
+}

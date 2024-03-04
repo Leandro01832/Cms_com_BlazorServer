@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Atualizarmarcador.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXR1YWxpemFybWFyY2Fkb3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ClassificacaoComentario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xhc3NpZmljYWNhb0NvbWVudGFyaW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -58,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Configurar/RemovePermissao.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxSZW1vdmVQZXJtaXNzYW8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CreateMarcador.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlTWFyY2Fkb3IucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Criterio.razor]
@@ -244,12 +252,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGl2cm9Db21wYXJ0aWxoYWRvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Marcador.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFyY2Fkb3IucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Perguntar.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVyZ3VudGFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/ResponderPergunta.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVzcG9uZGVyUGVyZ3VudGEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Responsechatgpt.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVzcG9uc2VjaGF0Z3B0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Sobre.razor]

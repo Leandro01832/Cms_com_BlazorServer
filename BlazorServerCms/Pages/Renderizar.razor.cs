@@ -119,7 +119,7 @@ namespace BlazorCms.Client.Pages
                 quant = CountPaginas(ApplicationDbContext._connectionString);
             else
             {
-                var lista = retornarListaFiltrada();
+                var lista = retornarListaFiltrada(null);
                 quant = lista.Count;
             }
             if (auto == 1)
@@ -213,23 +213,23 @@ namespace BlazorCms.Client.Pages
 
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else
             url = $"/Renderizar/{capitulo}/{indice}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}";
             navigation!.NavigateTo(url);
@@ -285,296 +285,6 @@ namespace BlazorCms.Client.Pages
             return calculo;
         }        
        
-        protected async void marcar(int Versiculo)
-        {
-            if (!user.Identity!.IsAuthenticated)
-            {
-                await js!.InvokeAsync<object>("DarAlert", $"Por favor faça login para poder marcar versiculos");
-            }
-            else
-            {
-                await marcarResponder();
-
-                auto = 0;
-
-                if (!marcacao)
-                {
-                    if(resposta == null)
-                    {
-                        resposta = new UserResponse
-                        {
-                            resposta1 = 0,
-                            resposta2 = 0,
-                            resposta3 = 0,
-                            resposta4 = 0,
-                            resposta5 = 0,
-                            resposta6 = 0,
-                            resposta7 = 0,
-                            resposta8 = 0,
-                            resposta9 = 0,
-                            resposta10 = 0,
-                            pasta = (int) indice_Filtro!,
-                            Pergunta = question,
-                            capitulo = capitulo,
-                            user = user.Identity!.Name!,
-                             
-
-                        };
-                    }
-
-
-                    if (resposta.resposta1 == 0)
-                    {
-                        resposta.exempoloR1 = exemplo;
-                        resposta.resposta1 = Versiculo;
-                        if (!resposta.exempoloR1)                        
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta1} foi marcado como 1º resposta");
-                        else
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta1} foi marcado como 1º exemplo");
-                        
-
-                    }
-                    else if (resposta.resposta2 == 0)
-                    {
-                        resposta.exempoloR2 = exemplo;
-                        resposta.resposta2 = Versiculo;
-                        if (!resposta.exempoloR2)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta2} foi marcado como 2º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta2} foi marcado como 2º exemplo");
-                    }
-                    else if (resposta.resposta3 == 0)
-                    {
-                        resposta.exempoloR3 = exemplo;
-                        resposta.resposta3 = Versiculo;
-                        if (!resposta.exempoloR3)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta3} foi marcado como 3º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta3} foi marcado como 3º exemplo");
-                    }
-                    else if (resposta.resposta4 == 0)
-                    {
-                        resposta.exempoloR4 = exemplo;
-                        resposta.resposta4 = Versiculo;
-                        if (!resposta.exempoloR4)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta4} foi marcado como 4º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta4} foi marcado como 4º exemplo");
-                    }
-                    else if (resposta.resposta5 == 0)
-                    {
-                        resposta.exempoloR5 = exemplo;
-                        resposta.resposta5 = Versiculo;
-                        if (!resposta.exempoloR5)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta5} foi marcado como 5º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta5} foi marcado como 5º exemplo");
-                    }
-                    else if (resposta.resposta6 == 0)
-                    {
-                        resposta.exempoloR6 = exemplo;
-                        resposta.resposta6 = Versiculo;
-                        if (!resposta.exempoloR6)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta6} foi marcado como 6º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta6} foi marcado como 6º exemplo");
-                    }
-                    else if (resposta.resposta7 == 0)
-                    {
-                        resposta.exempoloR7 = exemplo;
-                        resposta.resposta7 = Versiculo;
-                        if (!resposta.exempoloR7)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta7} foi marcado como 7º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta7} foi marcado como 7º exemplo");
-                    }
-                    else if (resposta.resposta8 == 0)
-                    {
-                        resposta.exempoloR8 = exemplo;
-                        resposta.resposta8 = Versiculo;
-                        if (!resposta.exempoloR8)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta8} foi marcado como 8º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta8} foi marcado como 8º exemplo");
-                    }
-                    else if (resposta.resposta9 == 0)
-                    {
-                        resposta.exempoloR9 = exemplo;
-                        resposta.resposta9 = Versiculo;
-                        if (!resposta.exempoloR9)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta9} foi marcado como 9º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta9} foi marcado como 9º exemplo");
-                    }
-                    else if (resposta.resposta10 == 0)
-                    {
-                        resposta.exempoloR10 = exemplo;
-                        resposta.resposta10 = Versiculo;
-                        if (!resposta.exempoloR10)
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta10} foi marcado como 10º resposta");
-                        else
-                            await js!.InvokeAsync<object>("DarAlert", $"versiculo {resposta.resposta10} foi marcado como 10º exemplo");
-                    }
-                    else
-                        await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 respostas");
-
-                    if(resposta.Id == 0)
-                    {
-                        Context.Add(resposta);
-                        await Context.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        Context.Update(resposta);
-                        await Context.SaveChangesAsync();
-                    }
-                }
-
-                else
-                {
-                    if(marcador == null || marcador.verso10 != 0)
-                    {
-                        var marcs = Context.highlighter.Where(hi => hi.capitulo == capitulo &&
-                         hi.pasta == indice_Filtro && hi.user == user.Identity!.Name).ToList();
-                        marcador = new highlighter
-                        {
-                            verso1 = 0,
-                            verso2 = 0,
-                            verso3 = 0,
-                            verso4 = 0,
-                            verso5 = 0,
-                            verso6 = 0,
-                            verso7 = 0,
-                            verso8 = 0,
-                            verso9 = 0,
-                            verso10 = 0,
-                            capitulo = capitulo,
-                            pasta = (int)indice_Filtro!,
-                            user = user.Identity!.Name,
-                            Nome = "marcador " + marcs.Count.ToString()
-                        };
-                    }
-
-                    if (marcador.verso1 == 0)
-                    {
-                        marcador.verso1 = Versiculo;
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso1} foi marcado.");
-
-                    }
-                    else if (marcador.verso2 == 0)
-                    {
-                        marcador.verso2 = Versiculo;
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso2} foi marcado.");
-                    }
-                    else if (marcador.verso3 == 0)
-                    {
-                        marcador.verso3 = Versiculo;
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso3} foi marcado.");
-                    }                                                                                      
-                    else if (marcador.verso4 == 0)                                                         
-                    {                                                                                      
-                        marcador.verso4 = Versiculo;                                                       
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso4} foi marcado.");
-                    }                                                                                      
-                    else if (marcador.verso5 == 0)                                                         
-                    {                                                                                      
-                        marcador.verso5 = Versiculo;                                                       
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso5} foi marcado.");
-                    }                                                                                      
-                    else if (marcador.verso6 == 0)                                                         
-                    {                                                                                      
-                        marcador.verso6 = Versiculo;                                                       
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso6} foi marcado.");
-                    }                                                                                      
-                    else if (marcador.verso7 == 0)                                                         
-                    {                                                                                      
-                        marcador.verso7 = Versiculo;                                                       
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso7} foi marcado.");
-                    }                                                                                      
-                    else if (marcador.verso8 == 0)                                                         
-                    {                                                                                      
-                        marcador.verso8 = Versiculo;                                                       
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso8} foi marcado.");
-                    }                                                                                      
-                    else if (marcador.verso9 == 0)                                                         
-                    {                                                                                      
-                        marcador.verso9 = Versiculo;                                                       
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso9} foi marcado.");
-                    }
-                    else if (marcador.verso10 == 0)
-                    {
-                        marcador.verso10 = Versiculo;
-                        await js!.InvokeAsync<object>("DarAlert", $"versiculo {marcador.verso10} foi marcado.");
-                    }
-                    else
-                        await js!.InvokeAsync<object>("DarAlert", "Você só pode marcar 10 respostas");
-                
-                            if (marcador.Id == 0)
-                        {
-                            Context.Add(marcador);
-                            await Context.SaveChangesAsync();
-                        }
-                        else
-                        {
-                            Context.Update(marcador);
-                            await Context.SaveChangesAsync();
-                        }
-                }
-
-
-            }
-                        
-        }
-
-        protected async void desmarcar()
-        {
-            if (!user.Identity!.IsAuthenticated)
-            {
-                await js!.InvokeAsync<object>("DarAlert", $"Por favor faça login para poder desmarcar versiculos");
-                
-            }
-            else
-            {
-                await marcarResponder();
-                auto = 0;
-                if (!marcacao)
-                {
-
-                        resposta.resposta1 = 0;
-                        resposta.resposta2 = 0;
-                        resposta.resposta3 = 0;
-                        resposta.resposta4 = 0;
-                        resposta.resposta5 = 0;
-                        resposta.resposta6 = 0;
-                        resposta.resposta7 = 0;
-                        resposta.resposta8 = 0;
-                        resposta.resposta9 = 0;
-                        resposta.resposta10 = 0;
-                        Context.Update(resposta);
-                        Context.SaveChanges();
-                               
-                }
-                else
-                {
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    marcador.verso1 = 0;
-                    Context.Update(marcador);
-                    Context.SaveChanges();
-                }
-                        await js!.InvokeAsync<object>("DarAlert", $"Versiculos desmarcados com sucesso.");
-
-            }
-          
-        }
-
         protected async void acessarPasta()
         {
             indice_Filtro = indice;
@@ -586,14 +296,51 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{indice_Filtro}/{preferencia}/0/0/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{indice_Filtro}/{preferencia}/0/0/{dominio}/{compartilhante}");
 
             }
 
         }
+        
+        protected async void acessarPergunta()
+        {
+            indice_Filtro = indice;
+
+
+            if (Model3!.UserResponse != null)
+            {
+                var dominio = "";
+                if (Model3.UserResponse.Livro == null)
+                    dominio = repositoryPagina.buscarDominio();
+                else
+                    dominio = Model3.UserResponse.Livro.url;
+                var exemp1 = Convert.ToInt32(Model3.UserResponse.exempoloR1);
+                var exemp2 = Convert.ToInt32(Model3.UserResponse.exempoloR2);
+                var exemp3 = Convert.ToInt32(Model3.UserResponse.exempoloR3);
+                var exemp4 = Convert.ToInt32(Model3.UserResponse.exempoloR4);
+                var exemp5 = Convert.ToInt32(Model3.UserResponse.exempoloR5);
+                var exemp6 = Convert.ToInt32(Model3.UserResponse.exempoloR6);
+                var exemp7 = Convert.ToInt32(Model3.UserResponse.exempoloR7);
+                var exemp8 = Convert.ToInt32(Model3.UserResponse.exempoloR8);
+                var exemp9 = Convert.ToInt32(Model3.UserResponse.exempoloR9);
+                var exemp10 = Convert.ToInt32(Model3.UserResponse.exempoloR10);
+                navigation!.NavigateTo($"{dominio}/lista-filtro/1/teste/{Model3.UserResponse.user}/{auto}/30/20/{Model3.UserResponse.capitulo}/"+
+                    $"{Model3.UserResponse.pasta}/{Model3.UserResponse.resposta1}/{Model3.UserResponse.resposta2}/{Model3.UserResponse.resposta3}/"+
+                    $"{Model3.UserResponse.resposta4}/{Model3.UserResponse.resposta5}/{Model3.UserResponse.resposta6}/"+
+                    $"{Model3.UserResponse.resposta7}/{Model3.UserResponse.resposta8}/{Model3.UserResponse.resposta9}/"+
+                    $"{Model3.UserResponse.resposta10}/{exemp1}/{exemp2}/{exemp3}/{exemp4}/{exemp5}/{exemp6}/{exemp7}/" +
+                    $"{exemp8}/{exemp9}/{exemp10}/{Model3.Questao}");
+            }
+            else
+            {
+                navigation.NavigateTo($"/responderpergunta/{Model3.Id}");
+            }
+
+        }
+
         protected void listarPasta()
         {
-            var lista = retornarListaFiltrada();
+            var lista = retornarListaFiltrada(null);
             int tamanho = 0;
 
             if (dominio == null) dominio = "dominio";
@@ -605,7 +352,7 @@ namespace BlazorCms.Client.Pages
 
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/lista-filtro/1/teste/1/11/{tamanho}/{capitulo}/{indice_Filtro}/{question}");
+            navigation!.NavigateTo($"/lista-filtro/1/teste/{compartilhante}/1/11/{tamanho}/{capitulo}/{indice_Filtro}/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0");
         }
 
         protected void acessarHorizontePastas()
@@ -622,7 +369,23 @@ namespace BlazorCms.Client.Pages
             outroHorizonte = 0;
             navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
         }
-           
+
+        protected void acessarHorizontePerguntas()
+        {
+            if (auto == 1)
+                desabilitarAuto();
+            outroHorizonte = 2;
+            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+        }
+
+        protected void acessarHorizonteMarcadores()
+        {
+            if (auto == 1)
+                desabilitarAuto();
+            outroHorizonte = 3;
+            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+        }
+
         protected int buscarCamada(Filtro fil)
         {
             if (fil is SubStory)
@@ -650,60 +413,60 @@ namespace BlazorCms.Client.Pages
         protected int? buscarPastaFiltrada(int camada)
         {
             long? IdGrupo = 0;
-            Pagina  pag = Context!.Pagina!.Include(p => p.Filtro)
-                    .FirstOrDefault(p =>  p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
+            Pagina pag = repositoryPagina.paginas
+                    .FirstOrDefault(p => p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
+           
 
             if (pag != null)
             {
-                Filtro  fil = pag.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id)!.Filtro!;
+                Filtro fil = pag.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id)!.Filtro!;
 
                 if (camada != 0)
                 {
                     Filtro fl = null;
-                    var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
-                        .Where(p => p.Story!.PaginaPadraoLink == capitulo)
-                       .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
-                    if(fil is SubStory)
+                    var filtros = repositoryPagina.filtros
+                        .Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
+                    if (fil is SubStory)
                     {
                         SubStory gr = (SubStory)fil;
                         fl = filtros!.First(f => f.Id == gr.Id);
                     }
-                    if(fil is Grupo)
+                    if (fil is Grupo)
                     {
                         Grupo gr = (Grupo)fil;
                         fl = filtros!.First(f => f.Id == gr.SubStoryId);
                     }
-                    if(fil is SubGrupo)
+                    if (fil is SubGrupo)
                     {
                         SubGrupo gr = (SubGrupo)fil;
                         fl = filtros!.First(f => f.Id == gr.GrupoId);
                     }
-                    if(fil is SubSubGrupo)
+                    if (fil is SubSubGrupo)
                     {
                         SubSubGrupo gr = (SubSubGrupo)fil;
                         fl = filtros!.First(f => f.Id == gr.SubGrupoId);
                     }
-                    if(fil is CamadaSeis)
+                    if (fil is CamadaSeis)
                     {
                         CamadaSeis gr = (CamadaSeis)fil;
                         fl = filtros!.First(f => f.Id == gr.SubSubGrupoId);
                     }
-                    if(fil is CamadaSete)
+                    if (fil is CamadaSete)
                     {
                         CamadaSete gr = (CamadaSete)fil;
                         fl = filtros!.First(f => f.Id == gr.CamadaSeisId);
                     }
-                    if(fil is CamadaOito)
+                    if (fil is CamadaOito)
                     {
                         CamadaOito gr = (CamadaOito)fil;
                         fl = filtros!.First(f => f.Id == gr.CamadaSeteId);
                     }
-                    if(fil is CamadaNove)
+                    if (fil is CamadaNove)
                     {
                         CamadaNove gr = (CamadaNove)fil;
                         fl = filtros!.First(f => f.Id == gr.CamadaOitoId);
                     }
-                    if(fil is CamadaDez)
+                    if (fil is CamadaDez)
                     {
                         CamadaDez gr = (CamadaDez)fil;
                         fl = filtros!.First(f => f.Id == gr.CamadaNoveId);
@@ -712,44 +475,61 @@ namespace BlazorCms.Client.Pages
 
                     return pasta;
                 }
-                return 0;                
+                return 0;
             }
             else
-                return null;            
-        }
-   
+                return null;
+        }       
+
         protected void buscarProximo()
         {
             var quant = 0;
-            if (substory == null)
+            if (substory == null && outroHorizonte == 0)
                 quant = CountPaginas(ApplicationDbContext._connectionString);
+            else if (outroHorizonte == 1)
+            {
+                quant = QuantFiltros();
+            }
             else
             {
-                var lista = retornarListaFiltrada();
+                List<Pagina> lista = null;
+                if (rotas != null)
+                    lista = retornarListaFiltrada(rotas);
+                else
+                    lista = retornarListaFiltrada(null);
                 quant = lista.Count;
             }
             auto = 0;
             var proximo = indice + 1;
+            if(rotas != null)
+            {
+                
+                 if (proximo <= quant)
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+                else
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+            }
+            else
             if (proximo <= quant)
             {
                 if (camadadez != null)
-                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadanove != null)
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadaoito != null)
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadasete != null)
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadaseis != null)
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (subsubgrupo != null)
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (subgrupo != null)
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (grupo != null)
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (substory != null)
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else
                     navigation!.NavigateTo($"/Renderizar/{capitulo}/{proximo}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
             }
@@ -764,12 +544,12 @@ namespace BlazorCms.Client.Pages
         private void navegarSubgrupos(bool somenteSubgrupos)
         {
             var quant = 0;
-                Story story = stories!.First(p => p.Id == Model!.StoryId);
+                Story story = repositoryPagina!.stories!.First(p => p.Id == Model!.StoryId);
             if (substory == null)
                 quant = CountPaginas(ApplicationDbContext._connectionString);
             else
             {
-                var lista = retornarListaFiltrada();
+                var lista = retornarListaFiltrada(null);
                 quant = lista.Count;
             }
 
@@ -783,15 +563,15 @@ namespace BlazorCms.Client.Pages
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, camadadez);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/camadadez/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/camadadez/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/camadanove/{capitulo}/1/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/camadanove/{capitulo}/1/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-                    .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    .NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else  if (camadanove != null)
@@ -802,15 +582,15 @@ namespace BlazorCms.Client.Pages
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/camadanove/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/camadanove/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/camadaoito/{capitulo}/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/camadaoito/{capitulo}/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-                   .NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                   .NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else  if (camadaoito != null)
@@ -821,15 +601,15 @@ namespace BlazorCms.Client.Pages
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/camadaoito/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/camadaoito/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/camadasete/{capitulo}/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/camadasete/{capitulo}/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-                  .NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                  .NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else  if (camadasete != null )
@@ -840,15 +620,15 @@ namespace BlazorCms.Client.Pages
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/camadasete/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/camadasete/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/camadaseis/{capitulo}/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/camadaseis/{capitulo}/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-                .NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                .NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else  if (camadaseis != null)
@@ -859,15 +639,15 @@ namespace BlazorCms.Client.Pages
                         grupo, subgrupo, subsubgrupo, camadaseis);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/camadaseis/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/camadaseis/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/subsubgrupo/{capitulo}/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/subsubgrupo/{capitulo}/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-               .NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+               .NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else  if (subsubgrupo != null)
@@ -878,15 +658,15 @@ namespace BlazorCms.Client.Pages
                         grupo, subgrupo, subsubgrupo);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/subsubgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/subsubgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/subgrupo/{capitulo}/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/subgrupo/{capitulo}/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-              .NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+              .NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else if (subgrupo != null)
@@ -897,15 +677,15 @@ namespace BlazorCms.Client.Pages
                         grupo, subgrupo);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/subgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/subgrupo/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/grupo/{capitulo}/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/grupo/{capitulo}/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-            .NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+            .NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else if (grupo != null)
@@ -915,15 +695,15 @@ namespace BlazorCms.Client.Pages
                     var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory!, grupo);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/grupo/{arr[0]}/{arr[1]}/{arr[2]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/grupo/{arr[0]}/{arr[1]}/{arr[2]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
-                        navigation!.NavigateTo($"/substory/{capitulo}/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                        navigation!.NavigateTo($"/substory/{capitulo}/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
                 }
                 else
                 {
                     navigation!
-           .NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+           .NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
             else  if (substory != null)
@@ -933,7 +713,7 @@ namespace BlazorCms.Client.Pages
                     var arr = Arr.RetornarArray(story.Filtro, Model!.Story!, 1, 0, capitulo, (int)substory);
                     if (arr != null)
                         navigation!
-                     .NavigateTo($"/substory/{arr[0]}/{arr[1]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                     .NavigateTo($"/substory/{arr[0]}/{arr[1]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     else
                         navigation!.NavigateTo($"/renderizar/{capitulo}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
 
@@ -941,7 +721,7 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     navigation!
-             .NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+             .NavigateTo($"/substory/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 }
             }
         }
@@ -949,6 +729,14 @@ namespace BlazorCms.Client.Pages
         protected void buscarAnterior()
         {
             auto = 0;
+            if(rotas != null)
+            {
+                if (indice == 1)
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+                else
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{indice - 1}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+            }
+            else
             if (indice == 1 && capitulo != 0)
             {
                 if(substory != null)
@@ -957,56 +745,56 @@ namespace BlazorCms.Client.Pages
                 }
 
                 if (camadadez != null)
-                navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
                    
                 else if (camadanove != null)
-                navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
                    
                 else if (camadaoito != null)
-                navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
                     
                 else if (camadasete != null)
-                navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
                     
                 else if (camadaseis != null)
-                navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
                    
                 else if (subsubgrupo != null)
-                navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
                     
                 else if (subgrupo != null)                
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");    
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");    
                 
                 else if (grupo != null)
-                navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");                    
+                navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");                    
                 
                 else if (substory != null)
-                navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}/{question}");
+                navigation!.NavigateTo($"/substory/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
                 else
                     navigation!.NavigateTo($"/Renderizar/{capitulo - 1}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
 
             }
-            if (indice != 1)
+            if (indice != 1 && rotas == null)
             {
                 var anterior = indice - 1;
                 if (camadadez != null)
-                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadanove != null)
-                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadaoito != null)
-                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadasete != null)
-                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (camadaseis != null)
-                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (subsubgrupo != null)
-                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (subgrupo != null)
-                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (grupo != null)
-                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else if (substory != null)
-                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
+                    navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{anterior}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                 else
                     navigation!.NavigateTo($"/Renderizar/{capitulo}/{anterior}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
             }
@@ -1062,26 +850,27 @@ namespace BlazorCms.Client.Pages
             };
              await Context.AddAsync(pageLiked);
             await Context.SaveChangesAsync();
+            repositoryPagina.paginasCurtidas.Add(pageLiked);
 
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             navigation!.NavigateTo(url);
         }
         
@@ -1095,26 +884,27 @@ namespace BlazorCms.Client.Pages
             {
                 Context.Remove(page);
                 await Context.SaveChangesAsync();
+                repositoryPagina.paginasCurtidas.Remove(page);
             }
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
             navigation!.NavigateTo(url);
         }
              
@@ -1125,24 +915,26 @@ namespace BlazorCms.Client.Pages
             usuarios!.Clear();
             var url = "";
             if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
+                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
             else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}/{question}";
-            navigation!.NavigateTo(url);
+                url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
+            else
+                url = $"/renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{usu}";
+                navigation!.NavigateTo(url);
         }
 
         protected void alterarQuery(ChangeEventArgs e)
@@ -1155,40 +947,33 @@ namespace BlazorCms.Client.Pages
             }
             catch(Exception ex)
             {
-
-
-               
-                    var users = Context.UserResponse.Where(p => p.pasta == indice_Filtro &&
-                   p.capitulo == capitulo &&
-                   p.user.Contains(opcional) && p.Pergunta == question).ToList();
-
                     foreach (var item in userManager.Users)
                     usuarios.Add(new UserPreferencesImage { user = item.UserName, UserModel = item });
-                       
-                 
 
                 if (string.IsNullOrEmpty(opcional))
                 {
                     usuarios.Clear();
                     var url = "";
                     if (camadadez != null)
-                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadanove != null)
-                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadaoito != null)
-                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadasete != null)
-                        url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadaseis != null)
-                        url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (subsubgrupo != null)
-                        url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (subgrupo != null)
-                        url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (grupo != null)
-                        url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (substory != null)
-                        url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                    else
+                        url = $"/renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     navigation!.NavigateTo(url);
                 }
             }
@@ -1207,51 +992,21 @@ namespace BlazorCms.Client.Pages
                 opcional = indice.ToString();
             else
             {
-                 var lista = retornarListaFiltrada();
+                 var lista = retornarListaFiltrada(null);
                 opcional = vers.ToString();
             }
             substory = 1;
-            navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{ultimaPasta}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}");
+            navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{ultimaPasta}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}");
             
             
         }
-
-        protected void alterarQuestion(ChangeEventArgs e)
-        {
-            question = int.Parse(e.Value.ToString());
-            if (camadadez != null)
-                navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (camadanove != null)
-                navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (camadaoito != null)
-                navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (camadasete != null)
-                navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (camadaseis != null)
-                navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (subsubgrupo != null)
-                navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (subgrupo != null)
-                navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (grupo != null)
-                navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-
-            else if (substory != null)
-                navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{question}");
-        }
+              
 
         private async void redirecionarParaVerso(int verso)
         {
             if(outroHorizonte == 0)
             {
-                var list = retornarListaFiltrada();
+                var list = retornarListaFiltrada(null);
                 if (list == null)
                 {
                     navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/{auto}/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}");
@@ -1261,7 +1016,7 @@ namespace BlazorCms.Client.Pages
                 int indiceListaFiltrada = 0;
                 foreach (var item in list)
                 {
-                    var p = Context.Pagina!.First(p => p.Id == item.Id);
+                    var p = repositoryPagina!.paginas!.First(p => p.Id == item.Id);
                     if (int.Parse(opcional) == p.Versiculo)
                     {
                         indiceListaFiltrada = list.IndexOf(item) + 1;
@@ -1278,23 +1033,23 @@ namespace BlazorCms.Client.Pages
                 {
                     var url = "";
                     if (camadadez != null)
-                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadanove != null)
-                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadaoito != null)
-                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadasete != null)
-                        url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (camadaseis != null)
-                        url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (subsubgrupo != null)
-                        url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (subgrupo != null)
-                        url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (grupo != null)
-                        url = $"/grupo/{capitulo}/{substory}/{grupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/grupo/{capitulo}/{substory}/{grupo}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     else if (substory != null)
-                        url = $"/substory/{capitulo}/{substory}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{question}";
+                        url = $"/substory/{capitulo}/{substory}/{indiceListaFiltrada}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
                     navigation!.NavigateTo(url);
 
             }
@@ -1356,6 +1111,16 @@ namespace BlazorCms.Client.Pages
                 return true;
             else
                 return false;
+        }
+
+        private int QuantFiltros()
+        {
+            if(story == null)            
+                story = repositoryPagina.stories!
+               .First(p => p.Id == Model!.StoryId);
+            
+                return story.Filtro.Count;
+            
         }
 
         private int CountPaginas(string conexao)

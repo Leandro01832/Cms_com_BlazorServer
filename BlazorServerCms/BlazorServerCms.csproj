@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Pages\CrudCamadaDez\" />
     <Folder Include="Pages\CrudCamadaNove\" />
     <Folder Include="Pages\CrudCamadaOito\" />

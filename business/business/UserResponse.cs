@@ -1,5 +1,8 @@
-﻿using System;
+﻿using business.business.Book;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +11,14 @@ namespace business.business
 {
     public class UserResponse : BaseModel
     {
+        [Key, ForeignKey("Pergunta")]
+       public new long Id { get; set; }
+        public virtual Pergunta Pergunta { get; set; }
+        public long? LivroId { get; set; }
+        public virtual Livro Livro { get; set; }
         public string user { get; set; }
         public int capitulo { get; set; }
-        public int pasta { get; set; }
-        public int Pergunta { get; set; }     
+        public int pasta { get; set; }  
 
         public int resposta1 { get; set; }
         public bool exempoloR1 { get; set; }
