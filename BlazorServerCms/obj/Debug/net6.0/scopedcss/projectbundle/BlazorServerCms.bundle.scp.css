@@ -269,6 +269,335 @@ img[b-622vkbnu9r] {
     flex-wrap: wrap;
     justify-content: space-between;
 }
+/* _content/BlazorServerCms/Pages/Marcador.razor.rz.scp.css */
+*[b-dorb4bb8y2] {
+    padding: 0;
+    margin: 0;
+}
+
+.content[b-dorb4bb8y2] {
+    height: 700px;
+    display: flex;
+}
+
+span[b-dorb4bb8y2] {
+    background-color: white;
+}
+
+h3[b-dorb4bb8y2] {
+    background-color: darkgray;
+    opacity: 0.80;
+}
+
+p[b-dorb4bb8y2] {
+    background-color: rgb(227, 196, 101);
+}
+
+.paragrafo2[b-dorb4bb8y2] {
+    background-color: transparent;
+}
+
+.paragrafo3[b-dorb4bb8y2] {
+    background-color: red;
+}
+
+
+#ultimapasta[b-dorb4bb8y2] {
+    margin-left: 15px;
+}
+
+
+#comentario[b-dorb4bb8y2] {
+    display: none;
+}
+
+#NumeroPaginaAcesso2[b-dorb4bb8y2] {
+    width: 60px;
+    font-size: large;
+}
+
+#NumeroPaginaAcesso3[b-dorb4bb8y2] {
+    width: 120px;
+    font-size: large;
+}
+
+#inputime[b-dorb4bb8y2] {
+    width: 60px;
+    font-size: large;
+}
+
+#inputenter[b-dorb4bb8y2] {
+    width: 10px;
+}
+
+.ImagemProduto[b-dorb4bb8y2] {
+    width: 100%;
+}
+
+.linksPagina[b-dorb4bb8y2] {
+    display: none;
+}
+
+.blocoLoader[b-dorb4bb8y2] {
+    width: 100%;
+}
+
+.capitulos[b-dorb4bb8y2] {
+    font-size: 12px;
+    background-color: transparent;
+}
+
+.users[b-dorb4bb8y2] {
+    font-size: 12px;
+    position: absolute;
+    background-color: black;
+    margin-left: 10%;
+    margin-top: 5%;
+    padding: 2%;
+    height: 300px;
+    overflow: auto;
+    border-radius: 10%;
+    background-color: rgb(208, 146, 61);
+}
+
+.ImagemContent[b-dorb4bb8y2] {
+    height: 600px;
+}
+
+
+
+.indices[b-dorb4bb8y2] {
+    font-size: 1.2rem;
+}
+
+.barra[b-dorb4bb8y2] {
+    height: 5px;
+    background-color: black;
+}
+
+
+
+
+.Paginacao[b-dorb4bb8y2] {
+    position: fixed;
+    bottom: 1%;
+    right: 1%;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    opacity: 0.90;
+    justify-content: center;
+}
+
+Informativo[b-dorb4bb8y2] {
+    align-self: center;
+    display: flex;
+}
+
+.marc[b-dorb4bb8y2] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.DivPagina[b-dorb4bb8y2] {
+    height: 40px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.DivPag[b-dorb4bb8y2] {
+    width: 35px;
+    height: 20px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    border-radius: 30px;
+    flex-direction: column;
+    background-color: white;
+}
+
+
+
+.navbar[b-dorb4bb8y2] {
+    width: 100%;
+    background-color: transparent;
+}
+
+.navegacao[b-dorb4bb8y2] {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+#pesquisas[b-dorb4bb8y2] {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.progressbar[b-dorb4bb8y2] {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: solid 2px rgb(130, 130, 130);
+}
+
+    .progressbar div[b-dorb4bb8y2] {
+        height: 100%;
+        border-radius: 5px;
+        background-color: red;
+        width: 1%;
+    }
+
+.carousel-control-prev[b-dorb4bb8y2] {
+    height: 50%;
+    top: 30%;
+    background-color: black;
+    position: fixed;
+}
+
+.carousel-control-next[b-dorb4bb8y2] {
+    height: 50%;
+    top: 30%;
+    background-color: black;
+    position: fixed;
+}
+
+.capSubstory[b-dorb4bb8y2] {
+    width: 90px;
+}
+
+.capHeader[b-dorb4bb8y2] {
+    flex-grow: 3;
+}
+
+.circulo[b-dorb4bb8y2] {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.circulo2[b-dorb4bb8y2] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.circulop2[b-dorb4bb8y2] {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #FF1493;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.circulo2p2[b-dorb4bb8y2] {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.ImgStory[b-dorb4bb8y2] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}
+
+.ImgUser[b-dorb4bb8y2] {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+#horizontes[b-dorb4bb8y2] {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.item-horizonte[b-dorb4bb8y2] {
+    margin-left: 20px;
+}
+
+
+@media (max-width: 550px) and (min-width: 50px) {
+    .carousel-control-next[b-dorb4bb8y2] {
+        width: 10%;
+    }
+
+    .carousel-control-prev[b-dorb4bb8y2] {
+        width: 10%;
+    }
+
+    #Livro[b-dorb4bb8y2] {
+        font-size: 1.5rem !important;
+    }
+
+    #record[b-dorb4bb8y2] {
+        font-size: 1rem !important;
+    }
+
+
+
+
+
+    .indices[b-dorb4bb8y2] {
+        font-size: 0.8rem !important;
+    }
+
+
+    .DivPag[b-dorb4bb8y2] {
+        width: 16px !important;
+        margin: 4px !important;
+        padding: 0;
+    }
+
+
+    .content[b-dorb4bb8y2] {
+        width: 100% !important;
+    }
+
+    img[b-dorb4bb8y2] {
+        width: 100% !important;
+    }
+
+
+
+    #message[b-dorb4bb8y2] {
+        width: 20%;
+    }
+
+    #user img[b-dorb4bb8y2] {
+        display: none;
+    }
+}
 /* _content/BlazorServerCms/Pages/Pastas.razor.rz.scp.css */
 
 

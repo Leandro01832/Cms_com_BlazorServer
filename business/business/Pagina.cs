@@ -42,6 +42,8 @@ namespace business
   
         public virtual List<FiltroPagina>? Filtro { get; set; }
 
+        public virtual List<MarcadorPagina> Marcador { get; set; }
+
         [Required(ErrorMessage = "O titulo é necessário")]
         [Display(Name = "Titulo da pagina")]
         public string? Titulo { get; set; }        

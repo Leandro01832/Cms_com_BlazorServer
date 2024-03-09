@@ -314,22 +314,12 @@ namespace BlazorCms.Client.Pages
                     dominio = repositoryPagina.buscarDominio();
                 else
                     dominio = Model3.UserResponse.Livro.url;
-                var exemp1 = Convert.ToInt32(Model3.UserResponse.exempoloR1);
-                var exemp2 = Convert.ToInt32(Model3.UserResponse.exempoloR2);
-                var exemp3 = Convert.ToInt32(Model3.UserResponse.exempoloR3);
-                var exemp4 = Convert.ToInt32(Model3.UserResponse.exempoloR4);
-                var exemp5 = Convert.ToInt32(Model3.UserResponse.exempoloR5);
-                var exemp6 = Convert.ToInt32(Model3.UserResponse.exempoloR6);
-                var exemp7 = Convert.ToInt32(Model3.UserResponse.exempoloR7);
-                var exemp8 = Convert.ToInt32(Model3.UserResponse.exempoloR8);
-                var exemp9 = Convert.ToInt32(Model3.UserResponse.exempoloR9);
-                var exemp10 = Convert.ToInt32(Model3.UserResponse.exempoloR10);
-                navigation!.NavigateTo($"{dominio}/lista-filtro/1/teste/{Model3.UserResponse.user}/{auto}/30/20/{Model3.UserResponse.capitulo}/"+
-                    $"{Model3.UserResponse.pasta}/{Model3.UserResponse.resposta1}/{Model3.UserResponse.resposta2}/{Model3.UserResponse.resposta3}/"+
-                    $"{Model3.UserResponse.resposta4}/{Model3.UserResponse.resposta5}/{Model3.UserResponse.resposta6}/"+
-                    $"{Model3.UserResponse.resposta7}/{Model3.UserResponse.resposta8}/{Model3.UserResponse.resposta9}/"+
-                    $"{Model3.UserResponse.resposta10}/{exemp1}/{exemp2}/{exemp3}/{exemp4}/{exemp5}/{exemp6}/{exemp7}/" +
-                    $"{exemp8}/{exemp9}/{exemp10}/{Model3.Questao}");
+
+                var fils = repositoryPagina.filtros.Where(f => f.StoryId == Model3.Filtro!.StoryId).OrderBy(f => f.Id).ToList();
+                var fil = repositoryPagina.filtros.First(f => f.StoryId == Model3.Filtro!.Id);
+                var i = fils.IndexOf(fil) + 1;
+
+                navigation!.NavigateTo($"{dominio}/lista-filtro/1/{compartilhante}/{capitulo}/{i}/{Model3.Id}");
             }
             else
             {
@@ -352,7 +342,7 @@ namespace BlazorCms.Client.Pages
 
             if (auto == 1)
                 desabilitarAuto();
-            navigation!.NavigateTo($"/lista-filtro/1/teste/{compartilhante}/1/11/{tamanho}/{capitulo}/{indice_Filtro}/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0/0");
+            navigation!.NavigateTo($"/lista-filtro/1/{compartilhante}/{capitulo}/{indice_Filtro}/0");
         }
 
         protected void acessarHorizontePastas()
@@ -496,8 +486,7 @@ namespace BlazorCms.Client.Pages
                 if (rotas != null)
                     lista = retornarListaFiltrada(rotas);
                 else
-                    lista = retornarListaFiltrada(null);
-                quant = lista.Count;
+                quant = quantidadeLista;
             }
             auto = 0;
             var proximo = indice + 1;

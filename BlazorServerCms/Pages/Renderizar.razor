@@ -10,6 +10,7 @@
 @page "/camadaoito/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
 @page "/camadanove/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
 @page "/camadadez/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
+
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -382,7 +383,6 @@ else
             </GuidedTourStep>
         </GuidedTour>
 
-
         <GuidedTour TourId="FormGuidedTour2" OverlayEnabled="true">
             <GuidedTourStep Title="Marcar" StepName="firstStep" TourStepSequence="1"
                             ElementSelector="[data-first]">
@@ -430,7 +430,6 @@ else
                 </span>
             </GuidedTourStep>
         </GuidedTour>
-
 
         @if (usuarios!.Count > 0)
         {
@@ -639,6 +638,8 @@ else
                             Informe o usuario compartilhante
                         </label>
                         <input type="text" placeholder="Usuario" id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
+                   
+                         
                     </center>
                 }
                 else if(Model4 != null)
@@ -648,8 +649,11 @@ else
                             Alterar usuario compartilhante
                         </label>
                         <input type="text" placeholder="Usuario" id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
-                    
-                        <h2>Filtro @Model4.Nome</h2>
+                        <h1>usuario - @compartilhante </h1>
+                        Filtro
+                        <a href="/marcador/@Model4.Id/1">
+                             <h2> <u>@Model4.Nome</u> </h2>
+                        </a>
                     
                     </center>                    
                 }

@@ -1,0 +1,327 @@
+﻿@page "/marcador/{Id:long}/{indice:int}"
+@inject NavigationManager navigation
+@inject RepositoryPagina repositoryPagina
+@inject IJSRuntime? js
+@layout MeuLayout
+
+ <div>
+
+<h5>Marcador de @marc.user </h5>
+<header> @marc.Nome -  </header>
+
+    @if(pagina.Id != 0)
+    {
+    <h5> Capitulo @marc.capitulo Versiculo @pagina.Versiculo  </h5>
+        
+    }
+
+<a onclick="@(() => marcadorAnterior())" class="btn btn-primary" >Marcador anetrior</a> marcador @indiceMarcador
+    <a onclick="@(() => proximoMarcador())" class="btn btn-primary" >Proximo marcador</a>
+
+ </div>
+
+ <center>
+    
+    @markup
+ </center>
+
+<a class="carousel-control-prev btn btn-dark" onclick="@buscarAnterior">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+        <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+    </svg>
+</a>
+
+<a class="carousel-control-next btn btn-dark" onclick="@buscarProximo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
+        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
+    </svg>
+</a>
+
+<div id="PaginacaoConteudo" class="Paginacao">
+
+    <center>
+        <div class="Informativo">
+            <h3>
+                @if (auto == 1)
+                {
+                    <input data-7 type="checkbox" id="automatico" name="automatico" checked="checked" onclick="@desabilitarAuto" />
+                }
+                else
+                {
+                    <input data-7 type="checkbox" id="automatico" name="automatico" onclick="@habilitarAuto" />
+                }
+
+                Automático
+            </h3>
+
+            
+        </div>
+
+
+        <div class="DivPagina" style="background-color:white;">
+            @{
+
+                    for (var i = 1; i <= quantidade; i++)
+                    {
+                        <div class="DivPag" id="DivPagina@(i)">
+                            <div>
+                            @if(pagina.Id != 0 && indice == i)
+                            {
+                                <span class="indices"> @pagina.Versiculo </span>
+                            }
+                            else
+                            {
+                                <span class="indices">  </span>
+                            
+                            }
+                        </div>
+                            <div class="barra">
+                                ---
+                            </div>
+                        </div>
+                    }
+                
+           
+
+            }
+        </div>
+
+    </center>
+
+    <div class="progressbar">
+        <div></div>
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter] public long Id { get; set; }
+    [Parameter] public int indice { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private string html;
+    private int indiceMarcador = 0;
+    private int quantidade = 0;
+    private List<Pagina> pages = new List<Pagina>();
+    private Pagina pagina;
+    private MarkupString markup;
+    private bool carregar;
+    private int auto;
+
+    List<highlighter> marcadores = new List<highlighter>();
+    highlighter marc = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        marc = repositoryPagina.filtrosUsers.First(h => h.Id == Id);
+        indiceMarcador = repositoryPagina.filtrosUsers.IndexOf(marc) + 1;
+
+        pages.Clear();
+        List<Pagina> list = retornarListaComConteudo(marc.Pagina.Select(p => p.Pagina).OrderBy(h => h.Id).ToList()!, marc.Content);
+        pages.AddRange(list);
+        quantidade = pages.Count;
+
+        renderizar();
+
+        if(indice == 1 && carregar)
+            try
+            {
+                await js!.InvokeAsync<object>("ExecutarReload", 1);
+                carregar = false;
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);       
+        marc = repositoryPagina.filtrosUsers.First(h => h.Id == Id);
+        marcadores = repositoryPagina.filtrosUsers.Where(h => h.user == marc.user).OrderBy(h => h.Id).ToList();
+        indice = 1;
+    }
+
+    private void proximoMarcador()
+    {
+        carregar = true;
+        if(marc.Id != marcadores.Last().Id)
+        {
+            var indice = marcadores.IndexOf(marc) + 1;
+
+            navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/1");
+        }
+        else
+            navigation.NavigateTo($"/marcador/{marcadores[0].Id}/1");
+
+
+    }
+
+    private void marcadorAnterior()
+    {
+        carregar = true;
+        if(marc.Id != marcadores.First().Id)
+        {
+            var indice = marcadores.IndexOf(marc) - 1;
+            navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/1");
+        }
+        else
+            navigation.NavigateTo($"/marcador/{marcadores[marcadores.Count - 1].Id}/1");
+
+    }
+
+    private void buscarAnterior()
+    {
+        if (indice == 1)
+        {
+            carregar = true;
+            if (marc.Id != marcadores.First().Id)
+            {
+                var indice = marcadores.IndexOf(marc) - 1;
+                navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/1");
+            }
+            else
+                navigation.NavigateTo($"/marcador/{marcadores[marcadores.Count - 1].Id}/1");
+
+        }
+        else
+        {
+            indice--;
+            navigation.NavigateTo($"/marcador/{marc.Id}/{indice}");
+
+        }
+    }
+
+    private void buscarProximo()
+    {
+        indice++;
+        if(indice > quantidade)
+        {
+            carregar = true;
+            var indice = marcadores.IndexOf(marc) + 1;
+            if(indice < marcadores.Count)
+            navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/1");
+            else
+            navigation.NavigateTo($"/marcador/{marcadores[0].Id}/1");
+           
+        }
+        else
+            navigation.NavigateTo($"/marcador/{marc.Id}/{indice}");
+    }
+
+    private void habilitarAuto()
+    {
+    }
+
+    private void desabilitarAuto()
+    {
+    }
+
+    private async Task renderizar()
+    {
+                 pagina = pages
+                .Where(p => p.Story!.PaginaPadraoLink == marc.capitulo)
+                .Skip(indice - 1).OrderBy(p => p.Id).FirstOrDefault()!;
+
+
+        if (pagina.ContentUser != null && pagina.ContentUser.Contains("iframe") ||
+            pagina.Content != null && pagina.Content.Contains("iframe"))
+        {
+            var conteudoHtml = "";
+            if (pagina.ContentUser != null) conteudoHtml = pagina.ContentUser;
+            else conteudoHtml = pagina.Content;
+
+            if (!conteudoHtml.Contains("?autoplay="))
+                colocarAutoPlay(pagina);
+        }
+        if (pagina.Id != 0)
+        {
+            try
+            {
+                html = await repositoryPagina!.renderizarPagina(pagina);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro: " + ex.Message);
+            }
+        }
+        else html = pagina.ContentUser;
+
+        markup = new MarkupString(html);
+
+
+        try
+        {
+            if (indice > marc.Pagina.Count)
+                await js!.InvokeAsync<object>("MarcarIndice", "1");
+            else
+                await js!.InvokeAsync<object>("MarcarIndice", $"{indice}");
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+
+    private void colocarAutoPlay(Pagina model)
+    {
+        var conteudoHtml = "";
+        if (model.Content != null) conteudoHtml = model.Content;
+        else conteudoHtml = model.ContentUser;
+        var arr = conteudoHtml!.Split("/");
+        var id_video = "";
+        for (var index = 0; index < arr.Length; index++)
+        {
+            if (arr[index] == "embed")
+            {
+                var text = arr[index + 1];
+                var arr2 = text.Split('"');
+                id_video = arr2[0];
+                break;
+            }
+        }
+        if (model.Content != null)
+        {
+            model.Content = model.Content.Replace(id_video, id_video + "?autoplay=1");
+            model.Content = model.Content.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
+
+        }
+        else if (model.ContentUser != null)
+        {
+            model.ContentUser = model.ContentUser.Replace(id_video, id_video + "?autoplay=1");
+            model.ContentUser = model.ContentUser.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
+        }
+    }
+
+    private List<Pagina> retornarListaComConteudo(List<Pagina> paginas, List<Content> conteudos)
+    {
+        List<Pagina> listaComConteudo = new List<Pagina>();
+        int interacao = 0;
+
+        while (paginas.Skip(interacao * 2).ToList().Count >= 2)
+        {
+            listaComConteudo.AddRange(paginas.Skip(interacao * 2).Take(2).ToList());
+            if (conteudos.Skip(interacao).FirstOrDefault() != null)
+                listaComConteudo.Add(new Pagina { ContentUser = conteudos.Skip(interacao).First().Html });
+
+            interacao++;
+        }
+
+        if (listaComConteudo.Count == 0) return paginas;
+        if (!listaComConteudo.Contains(paginas.Last()))
+            listaComConteudo.Add(paginas.Last());
+
+        return listaComConteudo;
+    }
+
+
+
+}
+

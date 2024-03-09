@@ -40,7 +40,7 @@ else
     public int? i { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private Instante objInstante;
+    private Estante objInstante;
 
     protected override void OnInitialized()
     {
@@ -50,7 +50,7 @@ else
 
     private async void buscarInstante()
     {
-        List<Instante>? instantes = await Context.Instante.Include(i => i.livros).OrderBy(l => l.Id).ToListAsync();
+        List<Estante>? instantes = await Context.Instante.Include(i => i.livros).OrderBy(l => l.Id).ToListAsync();
 
         objInstante = instantes.Skip((int)insta - 1).FirstOrDefault();
         i = insta;

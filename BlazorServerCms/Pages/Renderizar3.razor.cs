@@ -1,4 +1,5 @@
 ﻿using BlazorServerCms.Data;
+using BlazorServerCms.Pages;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -109,7 +110,11 @@ namespace BlazorCms.Client.Pages
 
             if (repositoryPagina.filtrosUsers.Count == 0)
             {
-                var pergs = await Context!.highlighter!.ToListAsync();
+                var pergs = await Context!.highlighter!
+                    .Include(h => h.Content)
+                    .Include(h => h.Pagina)
+                    .ThenInclude(h => h.Pagina)
+                    .ToListAsync();
                 repositoryPagina.filtrosUsers.AddRange(pergs);
             }
             
@@ -474,7 +479,7 @@ namespace BlazorCms.Client.Pages
         private List<Pagina> retornarListaFiltrada(string rota)
         {
             List<Pagina> listaFiltradaComConteudo = null;
-                Story story = repositoryPagina.stories!.First(p => p.Id == Model!.StoryId);
+
             if (outroHorizonte == 0 && substory != null && rota == null)
             {
 
@@ -711,7 +716,7 @@ namespace BlazorCms.Client.Pages
 
                 quantidadeLista = listaFiltradaComConteudo!.Count;
             }
-
+           
 
             return listaFiltradaComConteudo;
         }

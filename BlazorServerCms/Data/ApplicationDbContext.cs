@@ -25,12 +25,14 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Content> Content { get; set; }
         public DbSet<highlighter> highlighter { get; set; }
         public DbSet<Pergunta> Pergunta { get; set; }
         public DbSet<UserResponse> UserResponse { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
-        public DbSet<Instante> Instante { get; set; }
+        public DbSet<Estante> Instante { get; set; }
         public DbSet<FiltroPagina> FiltroPagina { get; set; }
+        public DbSet<MarcadorPagina> MarcadorPagina { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Classificacao> Classificacao { get; set; }
         public DbSet<savedFolder> savedFolder { get; set; }
@@ -61,6 +63,9 @@ namespace BlazorServerCms.Data
             base.OnModelCreating(builder);
             builder.Entity<FiltroPagina>()
           .HasKey(p => new { p.FiltroId, p.PaginaId });
+            
+            builder.Entity<MarcadorPagina>()
+          .HasKey(p => new { p.highlighterId, p.PaginaId });
 
         }
     }

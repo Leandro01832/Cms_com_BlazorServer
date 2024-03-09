@@ -291,3 +291,4 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Mic
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\Microsoft.JSInterop.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\PSC.Blazor.Components.Tours.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\System.IO.Pipelines.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Marcador.razor.rz.scp.css

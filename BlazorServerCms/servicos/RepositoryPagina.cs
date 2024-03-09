@@ -27,6 +27,7 @@ namespace BlazorServerCms.servicos
         public string cupomDesconto = "";
 
         public List<Pergunta> perguntas = new List<Pergunta>();
+        public List<Pagina> Marcados = new List<Pagina>();
         public List<Pagina> paginas = new List<Pagina>();
         public List<Filtro> filtros = new List<Filtro>();
         public List<highlighter> filtrosUsers = new List<highlighter>();

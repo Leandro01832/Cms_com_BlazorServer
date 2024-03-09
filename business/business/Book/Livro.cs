@@ -22,7 +22,7 @@ namespace business.business.Book
         public string? user { get; set; }
 
         public long? InstanteId { get; set; }
-        public virtual Instante Instante { get; set; }
+        public virtual Estante Instante { get; set; }
 
         public virtual List<UserResponse> respostas { get; set; }
         public int capitulo { get; set; }
