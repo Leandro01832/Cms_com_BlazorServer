@@ -490,6 +490,21 @@ namespace BlazorCms.Client.Pages
             }
             auto = 0;
             var proximo = indice + 1;
+            if(Id != 0)
+            {
+                if (proximo > quantidadeLista)
+                {
+                    var indice = marcadores.IndexOf(Model4) + 1;
+                    if (indice < marcadores.Count)
+                        navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/1/{compartilhante}");
+                    else
+                        navigation.NavigateTo($"/marcador/{marcadores[0].Id}/1/{compartilhante}");
+
+                }
+                else
+                    navigation.NavigateTo($"/marcador/{Model4.Id}/{proximo}/{compartilhante}");
+            }
+            else
             if(rotas != null)
             {
                 
@@ -718,6 +733,33 @@ namespace BlazorCms.Client.Pages
         protected void buscarAnterior()
         {
             auto = 0;
+            if(Id != 0)
+            {
+                if (indice == 1)
+                {
+                    if (Model4.Id != marcadores.First().Id)
+                    {
+
+                        var indice = marcadores.IndexOf(Model4) - 1;
+                        quantidadeLista = marcadores[indice].Pagina.Count + marcadores[indice].Content.Count;
+                        navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/{quantidadeLista}/{compartilhante}");
+                    }
+                    else
+                    {
+                        quantidadeLista = marcadores[marcadores.Count - 1].Pagina.Count + marcadores[marcadores.Count - 1].Content.Count;
+                        navigation.NavigateTo($"/marcador/{marcadores[marcadores.Count - 1].Id}/{quantidadeLista}/{compartilhante}");
+
+                    }
+
+                }
+                else
+                {
+                    var anterior = indice - 1;
+                    navigation.NavigateTo($"/marcador/{Model4.Id}/{anterior}/{compartilhante}");
+
+                }
+            }
+            else
             if(rotas != null)
             {
                 if (indice == 1)
@@ -763,7 +805,7 @@ namespace BlazorCms.Client.Pages
                     navigation!.NavigateTo($"/Renderizar/{capitulo - 1}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/1/{dominio}/{compartilhante}");
 
             }
-            if (indice != 1 && rotas == null)
+            if (indice != 1 && rotas == null && Id == 0)
             {
                 var anterior = indice - 1;
                 if (camadadez != null)
@@ -1181,6 +1223,7 @@ namespace BlazorCms.Client.Pages
             desabilitarAuto();
             await TourService.StartTour("FormGuidedTour1");
         }
+
 
     }
 

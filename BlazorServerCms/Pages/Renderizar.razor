@@ -10,7 +10,7 @@
 @page "/camadaoito/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
 @page "/camadanove/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
 @page "/camadadez/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-
+@page "/marcador/{Id:long}/{indice:int}/{compartilhante}"
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -50,6 +50,9 @@ else
 {
     <div id="renderizar" >
 
+        @if(Id == 0)
+        {
+            
 
         <nav class="navbar navbar-expand-lg navbar-light" style="position:fixed; background-color:transparent;">
     
@@ -456,11 +459,31 @@ else
                        </a>
                     }
             </div>
+            }
         }
+        else if(Model4 != null)
+        {
+            <div>
+
+                <h5>Marcador de @Model4.user </h5>
+                <header> @Model4.Nome -  </header>
+
+                @if ( pag != null && pag.Id != 0)
+                {
+                    <h5> Capitulo @Model4.capitulo Versiculo @pag.Versiculo  </h5>
+
+                }
+
+
+            </div>
+        }
+
 
      <div id="render">
 
-            
+            @if(Id == 0)
+            {
+                
 
     @if(outroHorizonte == 0)
     {
@@ -651,15 +674,24 @@ else
                         <input type="text" placeholder="Usuario" id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
                         <h1>usuario - @compartilhante </h1>
                         Filtro
-                        <a href="/marcador/@Model4.Id/1">
+                        <a href="/marcador/@Model4.Id/1/@compartilhante">
                              <h2> <u>@Model4.Nome</u> </h2>
                         </a>
                     
                     </center>                    
                 }
+                }
+
+            }
+            else
+            {
+                <a href="#" onclick="@(() => navigation.NavigateTo($"/renderizar/{Model4.capitulo}/1/0/11/1/3/0/0/0/dominio/{compartilhante}"))" class="btn btn-dark">voltar</a>
+                <center>
+
+                    @markup2
+                </center>
             }
 
-   
 </div>
       
     <a class="carousel-control-prev btn btn-dark" onclick="@buscarAnterior">
@@ -800,11 +832,11 @@ else
 
 
 
-                            if (capitulo == 0)
+                            if (capitulo == 0 && Id == 0)
                             {
                                 <span class="TextoInformativo">Capitulo @indice de @quantidadeLista</span>
                             }
-                            else
+                            else if (Id == 0)
                             {
                                 if (outroHorizonte == 1 && capitulo != 0)
                                 {
@@ -868,7 +900,7 @@ else
                 @{
                     
 
-                    if(substory == null)
+                    if(substory == null && Id == 0)
                     {
                         for (var indice = 1; indice <= quantidadeLista; indice++)
                         {
@@ -882,7 +914,7 @@ else
                             </div>
                         }
                     }
-                    else
+                    else if (substory != null || Id != 0)
                     {
                         for (var i = 1; i <= quantidadeLista; i++)
                         {
@@ -890,8 +922,22 @@ else
                                  <div>
                                     @if(i == indice)
                                     {
-                                        <span data-7 class="indices"> @vers</span>
-                                    }
+                                            if(Id == 0)
+                                            {
+                                                <span data-7 class="indices"> @vers</span>
+                                            }
+                                            else
+                                            if (pag.Id != 0)
+                                            {
+                                                <span data-7 class="indices"> @pag.Versiculo</span>
+
+                                            }
+                                            else
+                                            {
+                                                <span class="indices"> - </span>
+                                                
+                                            }
+                                        }
                                     else
                                     {
                                             <span class="indices"> </span>

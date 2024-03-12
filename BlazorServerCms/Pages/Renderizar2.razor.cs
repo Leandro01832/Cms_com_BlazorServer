@@ -38,7 +38,7 @@ namespace BlazorCms.Client.Pages
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private List<Pagina> conteudo = new List<Pagina>();
-        private int indiceMarcador;
+        private int? indiceMarcador;
         private Story story = null;
 
         
@@ -46,16 +46,19 @@ namespace BlazorCms.Client.Pages
         protected int cap = 1;
 
         protected MarkupString markup;
+        protected MarkupString markup2;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
         protected string nameGroup = "";
         protected UserModel usuario;
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
+        protected Pagina? pag;
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
         protected Pergunta? Model3;
         protected highlighter? Model4;
+        protected List<highlighter> marcadores;
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;       
@@ -69,7 +72,7 @@ namespace BlazorCms.Client.Pages
         protected long ultimaPasta { get; set; }
          protected bool condicaoFiltro { get; set; } = false;
                
-        protected int? indice_Filtro { get; set; }        
+        protected int? indice_Filtro { get; set; }         
         protected int? vers { get; set; }
 
         [Parameter] public int indiceLivro { get; set; } = 0; [Parameter] public int retroceder { get; set; } = 0;
@@ -95,6 +98,7 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public string? filtrar { get; set; } = null;
         [Parameter] public string? rotas { get; set; } = null;
+        [Parameter] public long Id { get; set; }
         
 
     }

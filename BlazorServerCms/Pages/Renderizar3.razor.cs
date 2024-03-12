@@ -224,13 +224,14 @@ namespace BlazorCms.Client.Pages
                         quantidadeLista = pergs.Count;
 
             }
-            else if (outroHorizonte == 3)
+            else if (outroHorizonte == 3 || Id != 0)
             {
-                var pergs = repositoryPagina.filtrosUsers.Where(p => p.user == compartilhante).OrderBy(p => p.Id).ToList();
-                        Model4 = pergs.Skip((int)indice - 1).FirstOrDefault();
-                        quantidadeLista = pergs.Count;
+                marcadores = repositoryPagina.filtrosUsers.Where(p => p.user == compartilhante).OrderBy(p => p.Id).ToList();
+                        Model4 = marcadores.Skip((int)indice - 1).FirstOrDefault();
+                        quantidadeLista = marcadores.Count;
 
             }
+               
             quantidadePaginas = CountPaginas(ApplicationDbContext._connectionString);
 
             if (quantidadePaginas == 0 && outroHorizonte == 0)
@@ -437,6 +438,17 @@ namespace BlazorCms.Client.Pages
                 html = RepositoryPagina.Capa;
 
             markup = new MarkupString(html);
+
+            if (Id != 0)
+            {
+                Model4 = marcadores.First(m => m.Id == Id);
+                quantidadeLista = Model4.Pagina.Count + Model4.Content.Count;
+                var lista = retornarListaComConteudo(Model4.Pagina.Select(p => p.Pagina).ToList(), Model4.Content);
+                pag = lista.Skip(indice - 1).FirstOrDefault();
+                if(pag == null)
+                pag = lista.FirstOrDefault();
+                markup2 = new MarkupString(pag.ContentUser);
+            }
 
             try
             {
@@ -720,6 +732,28 @@ namespace BlazorCms.Client.Pages
 
             return listaFiltradaComConteudo;
         }
+
+        private List<Pagina> retornarListaComConteudo(List<Pagina> paginas, List<Content> conteudos)
+        {
+            List<Pagina> listaComConteudo = new List<Pagina>();
+            int interacao = 0;
+
+            while (paginas.Skip(interacao * 2).ToList().Count >= 2)
+            {
+                listaComConteudo.AddRange(paginas.Skip(interacao * 2).Take(2).ToList());
+                if (conteudos.Skip(interacao).FirstOrDefault() != null)
+                    listaComConteudo.Add(new Pagina { ContentUser = conteudos.Skip(interacao).First().Html });
+
+                interacao++;
+            }
+
+            if (listaComConteudo.Count == 0) return paginas;
+            if (!listaComConteudo.Contains(paginas.Last()))
+                listaComConteudo.Add(paginas.Last());
+
+            return listaComConteudo;
+        }
+
 
     }
 }
