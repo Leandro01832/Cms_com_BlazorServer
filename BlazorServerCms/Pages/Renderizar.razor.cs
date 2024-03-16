@@ -94,8 +94,17 @@ namespace BlazorCms.Client.Pages
 
                 else
                 {
+                    if(Id == 0)
+                    {
                     await js!.InvokeAsync<object>("PreencherProgressBar", timeproduto * 1000);
                     Timer!.SetTimer(timeproduto * 1000);
+
+                    }
+                    else
+                    {
+                        await js!.InvokeAsync<object>("PreencherProgressBar", 11000);
+                        Timer!.SetTimer(11000);
+                    }
                 }
 
             }
@@ -122,7 +131,7 @@ namespace BlazorCms.Client.Pages
                 var lista = retornarListaFiltrada(null);
                 quant = lista.Count;
             }
-            if (auto == 1)
+            if (auto == 1 && Id == 0)
             {
                 if (substory == null)
                 {
@@ -141,8 +150,13 @@ namespace BlazorCms.Client.Pages
                     navegarSubgrupos(false);
                 }
             }
+            else if (auto == 1 && Id != 0)
+            {
+                buscarProximo();
+            }
 
-            Console.WriteLine("Timer Elapsed.");
+
+                Console.WriteLine("Timer Elapsed.");
             Timer!._timer!.Elapsed -= _timer_Elapsed;
         }
 
@@ -212,26 +226,34 @@ namespace BlazorCms.Client.Pages
             Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
 
             var url = "";
-            if (camadadez != null)
-                url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (camadanove != null)
-                url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (camadaoito != null)
-                url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (camadasete != null)
-                url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (camadaseis != null)
-                url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (subsubgrupo != null)
-                url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (subgrupo != null)
-                url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (grupo != null)
-                url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            else if (substory != null)
-                url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+            if(Id == 0)
+            {
+                if (camadadez != null)
+                    url = $"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (camadanove != null)
+                    url = $"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (camadaoito != null)
+                    url = $"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (camadasete != null)
+                    url = $"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (camadaseis != null)
+                    url = $"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (subsubgrupo != null)
+                    url = $"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (subgrupo != null)
+                    url = $"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (grupo != null)
+                    url = $"/grupo/{capitulo}/{substory}/{grupo}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else if (substory != null)
+                    url = $"/substory/{capitulo}/{substory}/{indice}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                else
+                url = $"/Renderizar/{capitulo}/{indice}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}";
+
+            }
             else
-            url = $"/Renderizar/{capitulo}/{indice}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}";
+            {
+                url = $"/marcador/{Id}/{indice}/{compartilhante}/1";
+            }
             navigation!.NavigateTo(url);
         }
 
@@ -488,7 +510,7 @@ namespace BlazorCms.Client.Pages
                 else
                 quant = quantidadeLista;
             }
-            auto = 0;
+            
             var proximo = indice + 1;
             if(Id != 0)
             {
@@ -496,13 +518,13 @@ namespace BlazorCms.Client.Pages
                 {
                     var indice = marcadores.IndexOf(Model4) + 1;
                     if (indice < marcadores.Count)
-                        navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/1/{compartilhante}");
+                        navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/1/{compartilhante}/{auto}");
                     else
-                        navigation.NavigateTo($"/marcador/{marcadores[0].Id}/1/{compartilhante}");
+                        navigation.NavigateTo($"/marcador/{marcadores[0].Id}/1/{compartilhante}/{auto}");
 
                 }
                 else
-                    navigation.NavigateTo($"/marcador/{Model4.Id}/{proximo}/{compartilhante}");
+                    navigation.NavigateTo($"/marcador/{Model4.Id}/{proximo}/{compartilhante}/{auto}");
             }
             else
             if(rotas != null)
@@ -742,12 +764,12 @@ namespace BlazorCms.Client.Pages
 
                         var indice = marcadores.IndexOf(Model4) - 1;
                         quantidadeLista = marcadores[indice].Pagina.Count + marcadores[indice].Content.Count;
-                        navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/{quantidadeLista}/{compartilhante}");
+                        navigation.NavigateTo($"/marcador/{marcadores[indice].Id}/{quantidadeLista}/{compartilhante}/{auto}");
                     }
                     else
                     {
                         quantidadeLista = marcadores[marcadores.Count - 1].Pagina.Count + marcadores[marcadores.Count - 1].Content.Count;
-                        navigation.NavigateTo($"/marcador/{marcadores[marcadores.Count - 1].Id}/{quantidadeLista}/{compartilhante}");
+                        navigation.NavigateTo($"/marcador/{marcadores[marcadores.Count - 1].Id}/{quantidadeLista}/{compartilhante}/{auto}");
 
                     }
 
@@ -755,7 +777,7 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     var anterior = indice - 1;
-                    navigation.NavigateTo($"/marcador/{Model4.Id}/{anterior}/{compartilhante}");
+                    navigation.NavigateTo($"/marcador/{Model4.Id}/{anterior}/{compartilhante}/{auto}");
 
                 }
             }
@@ -1215,16 +1237,12 @@ namespace BlazorCms.Client.Pages
         protected async void StartTour()
         {
             desabilitarAuto();
+            if(substory == null)
             await TourService.StartTour("FormGuidedTour1");
+            else
+            await TourService.StartTour("FormGuidedTour2");
         } 
         
-        protected async void StartTour2()
-        {
-            desabilitarAuto();
-            await TourService.StartTour("FormGuidedTour1");
-        }
-
-
     }
 
     public class UserPreferencesImage

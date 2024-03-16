@@ -153,6 +153,10 @@
       "PackagePath": "staticwebassets\\main.js"
     },
     {
+      "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\pasta-user.png",
+      "PackagePath": "staticwebassets\\pasta-user.png"
+    },
+    {
       "Id": "C:\\Users\\leand\\source\\repos\\BlazorServerCms\\BlazorServerCms\\wwwroot\\story.jpg",
       "PackagePath": "staticwebassets\\story.jpg"
     },

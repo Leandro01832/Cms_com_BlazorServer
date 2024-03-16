@@ -1,0 +1,85 @@
+﻿@page "/createcontent"
+@inject NavigationManager navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime js
+@inject RepositoryPagina repositoryPagina
+@attribute [Authorize]
+
+<h3>Criar conteudo</h3>
+        @if(lista != null && lista.Count > 0 )
+        {
+
+                <Editor Id="contentextarea"
+                        Inline=false
+                        CloudChannel="5"
+                        Disable=false
+                        JsConfSrc="sample"
+                        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
+                        ClassName="tinymce-wrapper" @bind-Value="exampleModel.Html" />
+
+                <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <label>
+                        Informe o Filtro
+                    </label>
+                    <select @bind="@exampleModel.highlighterId">
+
+                            <option value="0" selected="selected" > Filtro </option>
+                            @foreach(var item in lista)
+                            {
+                                <option value="@item.Id"> @item.Nome </option>
+
+                            }
+                    </select>
+   
+
+
+                    <button type="submit">Adicionar</button>
+                </EditForm>
+
+        }
+        else if(lista != null)
+        {
+            <p> Crie um filtro para criar novos conteudos.  </p>
+        }
+
+
+
+@code {
+    private Content? exampleModel = new Content();
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private List<highlighter> lista;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);
+        var authState = await AuthenticationStateProvider
+           .GetAuthenticationStateAsync();
+        var user = authState.User;
+        lista = await Context.highlighter.Where(h => h.user == user.Identity.Name).ToListAsync();
+
+
+    }
+
+    private async void HandleSubmit()
+    {
+        if(exampleModel.highlighterId != 0)
+        {
+            await Context.AddAsync(exampleModel);
+            await Context.SaveChangesAsync();
+            var fil = repositoryPagina.filtrosUsers.FirstOrDefault(f => f.Id == exampleModel.highlighterId);
+            if(fil != null)
+            fil.Content.Add(exampleModel);
+
+            await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
+            navigation.NavigateTo("/");            
+        }
+        else
+        {
+            await js!.InvokeAsync<object>("DarAlert", $"Informe o filtro.");
+        }
+    }
+}

@@ -64,8 +64,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxSZW1vdmVQZXJtaXNzYW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CreateMarcador.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlTWFyY2Fkb3IucmF6b3I=
+[C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/CreateContent.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlQ29udGVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/leand/source/repos/BlazorServerCms/BlazorServerCms/Pages/Criterio.razor]

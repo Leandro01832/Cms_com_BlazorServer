@@ -3,23 +3,23 @@
 @inject RepositoryPagina repositoryPagina
 @inject IJSRuntime js
 @inject NavigationManager navigation
-<h3>Instante</h3>
+<h3>Estante</h3>
 
-@if (insta != null && objInstante != null)
+@if (insta != null && objEstante != null)
 {
-    <PageTitle>Instante @insta </PageTitle>
-    <p>Você esta acessando a instante nº @i </p>
-    <p>Descrição da instante: @objInstante.Descricao </p>
+    <PageTitle>Estante @insta </PageTitle>
+    <p>Você esta acessando a estante nº @i </p>
+    <p>Descrição da instante: @objEstante.Descricao </p>
 }
 else
 {
-    <PageTitle>Acessando instantes </PageTitle>
+    <PageTitle>Acessando estantes </PageTitle>
     
 }
 
 <center>
     <a href="/crud/instante/1" class="btn btn-dark">
-        Instantes
+        Estantes
     </a>
 </center>
 
@@ -31,7 +31,7 @@ else
 
 </p>
 <p>
-    <a  onclick="@buscarInstante" class="btn btn-dark" >Acessar instante</a>
+    <a  onclick="@buscarEstante" class="btn btn-dark" >Acessar instante</a>
 
 </p>
 
@@ -40,7 +40,7 @@ else
     public int? i { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private Estante objInstante;
+    private Estante objEstante;
 
     protected override void OnInitialized()
     {
@@ -48,18 +48,18 @@ else
     }
 
 
-    private async void buscarInstante()
+    private async void buscarEstante()
     {
         List<Estante>? instantes = await Context.Instante.Include(i => i.livros).OrderBy(l => l.Id).ToListAsync();
 
-        objInstante = instantes.Skip((int)insta - 1).FirstOrDefault();
+        objEstante = instantes.Skip((int)insta - 1).FirstOrDefault();
         i = insta;
 
 
-        if (objInstante != null)
+        if (objEstante != null)
         {
             navigation.NavigateTo($"/acessoinstante/{insta}");
-            List<Livro> livros = objInstante.livros.OrderBy(l => l.Id).ToList();
+            List<Livro> livros = objEstante.livros.OrderBy(l => l.Id).ToList();
             string url = "";
             for (var i = 0; i < livros.Count; i++)
             {

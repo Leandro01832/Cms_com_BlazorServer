@@ -28,9 +28,25 @@
 {
     <h3>@MensagemSistema</h3>    
 }   
+<div class="info">
+
 <p>
-    <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank" >Peça seu livro</a>
+    <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank" >
+        Peça seu livro
+    </a>
 </p>
+<p>
+    Usuarios inscritos: @users
+</p>
+
+<p>
+        <a data-8 href="#" onclick="@(() => navigation.NavigateTo("/createcontent"))">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+            </svg>
+        </a>
+</p>
+</div>
 <div data-first>
 
     <p style="font-family: 'League Script', cursive; font-size:large;" >
@@ -39,9 +55,6 @@
     </p>
 
 </div>
-<p>
-    Usuarios inscritos: @users
-</p>
 
     
  <div class="container">
@@ -152,7 +165,7 @@
                     ElementSelector="[data-6]">
         <span>
            No livro compartilhado pode-se definir o livro e o capitulo.
-           Só será necessário informar o versiculo ou a pasta.
+           Só será necessário informar o versiculo.
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Configurações" StepName="Step7" TourStepSequence="7"
@@ -162,10 +175,13 @@
            Gerencia todo o sistema criando pastas, paginas e stories.
         </span>
     </GuidedTourStep>
+    <GuidedTourStep Title="Configurações" StepName="Step8" TourStepSequence="8"
+                    ElementSelector="[data-8]">
+        <span>
+           Crie conteudos para filtros que foram criados por você
+        </span>
+    </GuidedTourStep>
 </GuidedTour>
-
-
-
 
 @code{
 
@@ -188,8 +204,6 @@
     private int users = 0;
 
     private string erro1 = "Voce ainda não esta compartilhando nenhum livro";
-
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -257,8 +271,6 @@
 
 
     }
-
-
 
     private async void Acessar(Filtro item)
     {

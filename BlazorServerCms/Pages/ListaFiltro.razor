@@ -161,7 +161,9 @@
 @if(filtro != null)
 {
     <p> <header>@filtro.Nome</header> </p>
+    <a href="/perguntar/@Capitulo/@indiceFiltro" class="btn btn-dark" >Faça uma pergunta sobre @filtro.Nome </a>
 }
+
 
 @{
     if(Model == null || Model.Count == 0)
@@ -635,7 +637,7 @@
         marcacao.Marcados.Clear();
 
         await js!.InvokeAsync<object>("DarAlert", $"Filtro criado com sucesso pelo usuario!!! ");
-         navigation.NavigateTo($"/marcador/{filtro.Id}/1");
+         navigation.NavigateTo($"/marcador/{filtro.Id}/1/{filtro.user}/0");
     }
 
 }
