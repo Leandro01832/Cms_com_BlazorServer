@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240304214545_marcadores-paginas")]
-    partial class marcadorespaginas
+    [Migration("20240322202958_Inicio")]
+    partial class Inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,7 +98,7 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("business.business.Book.Instante", b =>
+            modelBuilder.Entity("business.business.Book.Estante", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -222,6 +222,28 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Cliente");
                 });
 
+            modelBuilder.Entity("business.business.Content", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Html")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("highlighterId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("highlighterId");
+
+                    b.ToTable("Content");
+                });
+
             modelBuilder.Entity("business.business.Endereco", b =>
                 {
                     b.Property<long>("Id")
@@ -300,6 +322,21 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("highlighter");
+                });
+
+            modelBuilder.Entity("business.business.MarcadorPagina", b =>
+                {
+                    b.Property<long>("highlighterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PaginaId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("highlighterId", "PaginaId");
+
+                    b.HasIndex("PaginaId");
+
+                    b.ToTable("MarcadorPagina");
                 });
 
             modelBuilder.Entity("business.business.PageLiked", b =>
@@ -417,6 +454,27 @@ namespace BlazorServerCms.Migrations
                     b.HasIndex("FiltroId");
 
                     b.ToTable("savedFolder");
+                });
+
+            modelBuilder.Entity("business.business.Segue", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("seguidor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("seguindo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Segue");
                 });
 
             modelBuilder.Entity("business.business.UserResponse", b =>
@@ -1016,7 +1074,7 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Book.Livro", b =>
                 {
-                    b.HasOne("business.business.Book.Instante", "Instante")
+                    b.HasOne("business.business.Book.Estante", "Instante")
                         .WithMany("livros")
                         .HasForeignKey("InstanteId");
 
@@ -1032,6 +1090,17 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("Pagina");
+                });
+
+            modelBuilder.Entity("business.business.Content", b =>
+                {
+                    b.HasOne("business.business.highlighter", "highlighter")
+                        .WithMany("Content")
+                        .HasForeignKey("highlighterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("highlighter");
                 });
 
             modelBuilder.Entity("business.business.Endereco", b =>
@@ -1062,6 +1131,25 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Filtro");
 
                     b.Navigation("Pagina");
+                });
+
+            modelBuilder.Entity("business.business.MarcadorPagina", b =>
+                {
+                    b.HasOne("business.Pagina", "Pagina")
+                        .WithMany("Marcador")
+                        .HasForeignKey("PaginaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.business.highlighter", "highlighter")
+                        .WithMany("Pagina")
+                        .HasForeignKey("highlighterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pagina");
+
+                    b.Navigation("highlighter");
                 });
 
             modelBuilder.Entity("business.business.Pergunta", b =>
@@ -1327,7 +1415,7 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("SubGrupo");
                 });
 
-            modelBuilder.Entity("business.business.Book.Instante", b =>
+            modelBuilder.Entity("business.business.Book.Estante", b =>
                 {
                     b.Navigation("livros");
                 });
@@ -1344,6 +1432,13 @@ namespace BlazorServerCms.Migrations
 
                     b.Navigation("Telefone")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("business.business.highlighter", b =>
+                {
+                    b.Navigation("Content");
+
+                    b.Navigation("Pagina");
                 });
 
             modelBuilder.Entity("business.business.Pergunta", b =>
@@ -1372,6 +1467,8 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Classificacao");
 
                     b.Navigation("Filtro");
+
+                    b.Navigation("Marcador");
 
                     b.Navigation("Produto");
                 });

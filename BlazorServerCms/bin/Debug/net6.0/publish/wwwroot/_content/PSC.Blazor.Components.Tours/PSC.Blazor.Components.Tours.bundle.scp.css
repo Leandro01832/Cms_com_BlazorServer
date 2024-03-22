@@ -1,0 +1,168 @@
+/* _content/PSC.Blazor.Components.Tours/GuidedTour.razor.rz.scp.css */
+.guided-tour-overlay[b-b02g1iecht] {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+
+.guided-tour-wrapper[b-b02g1iecht] {
+    z-index: 10;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+    .guided-tour-wrapper .arrow[b-b02g1iecht],
+    .guided-tour-wrapper .arrow[b-b02g1iecht]::before {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: inherit;
+    }
+
+    .guided-tour-wrapper .arrow[b-b02g1iecht] {
+        visibility: hidden;
+    }
+
+        .guided-tour-wrapper .arrow.force-hide[b-b02g1iecht]::before {
+            visibility: hidden !important;
+        }
+
+        .guided-tour-wrapper .arrow[b-b02g1iecht]::before {
+            background: white;
+            visibility: visible;
+            content: '';
+            transform: rotate(45deg);
+        }
+
+            .guided-tour-wrapper .arrow[b-b02g1iecht]::before.force-hide {
+                visibility: hidden !important;
+            }
+
+    .guided-tour-wrapper[data-popper-placement^='top'] > .arrow[b-b02g1iecht] {
+        bottom: -4px;
+        color: #ffffff;
+    }
+
+    .guided-tour-wrapper[data-popper-placement^='bottom'] > .arrow[b-b02g1iecht] {
+        top: -4px;
+        color: #ffffff;
+    }
+
+    .guided-tour-wrapper[data-popper-placement^='left'] > .arrow[b-b02g1iecht] {
+        right: -4px;
+        color: #ffffff;
+    }
+
+    .guided-tour-wrapper[data-popper-placement^='right'] > .arrow[b-b02g1iecht] {
+        left: -4px;
+        color: #ffffff;        
+    }
+
+.theme-default-overlay[b-b02g1iecht] {
+    background-color: rgba(33, 33, 33, 0.5);
+}
+
+.theme-default-wrapper[b-b02g1iecht] {
+    background-color: #ffffff;
+    border-radius: 0.2rem;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+}
+
+.theme-default-arrow[b-b02g1iecht]::before {
+    background-color: white;
+}
+/* _content/PSC.Blazor.Components.Tours/GuidedTourStep.razor.rz.scp.css */
+.theme-default-step-wrapper .theme-default-step-header[b-9yrwidluju] {
+    padding: 10px 10px 0px 10px;
+    text-align: center;
+}
+
+    .theme-default-step-wrapper .theme-default-step-header .theme-default-step-header-title[b-9yrwidluju] {
+        background-color: #ffffff;
+        border: 0;
+        text-align: center;
+        color: #2d2d2d;
+        font-weight: 300;
+        font-size: 24px;
+    }
+
+.theme-default-step-wrapper .theme-default-step-content[b-9yrwidluju] {
+    padding: 10px;
+    font-size: 13px;
+}
+
+.theme-default-step-wrapper .theme-default-step-footer[b-9yrwidluju] {
+    padding: 10px;
+    position: relative;
+    font-size: 13px;
+    border: 1px solid #c3c4c7;
+    background-color: #f1f1f1;
+    border-top: 1px solid #d9d9d9;
+}
+
+.theme-default-button[b-9yrwidluju] {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition-duration: 0.2s;
+    box-sizing: border-box;
+    margin: 0.2rem;
+}
+
+    .theme-default-button.cancel-button[b-9yrwidluju] {
+        background-color: #ffffff;
+        color: #1B719E;
+        border-color: #1B719E;
+    }
+
+        .theme-default-button.cancel-button:hover[b-9yrwidluju] {
+            background-color: #d4d4d4;
+            color: #005e85;
+            border-color: #669abc;
+        }
+
+    .theme-default-button.previous-button[b-9yrwidluju] {
+        background-color: #4c88af;
+    }
+
+        .theme-default-button.previous-button:hover[b-9yrwidluju] {
+            background-color: #005e85;
+            color: #ffffff;
+            border-color: #4c88af;
+        }
+
+    .theme-default-button.next-button[b-9yrwidluju] {
+        background-color: #4c88af;
+        float: right;
+    }
+
+        .theme-default-button.next-button:hover[b-9yrwidluju] {
+            background-color: #005e85;
+            color: #ffffff;
+            border-color: #4c88af;
+        }
+
+    .theme-default-button.complete-button[b-9yrwidluju] {
+        background-color: #1c3342;
+        float:right;
+    }
+
+        .theme-default-button.complete-button:hover[b-9yrwidluju] {
+            background-color: white;
+            color: #1c3342;
+            border-color: #73a3c2;
+        }

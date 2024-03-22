@@ -108,17 +108,7 @@ namespace BlazorServerCms.Migrations
                     user = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     capitulo = table.Column<int>(type: "int", nullable: false),
-                    pasta = table.Column<int>(type: "int", nullable: false),
-                    verso1 = table.Column<int>(type: "int", nullable: false),
-                    verso2 = table.Column<int>(type: "int", nullable: false),
-                    verso3 = table.Column<int>(type: "int", nullable: false),
-                    verso4 = table.Column<int>(type: "int", nullable: false),
-                    verso5 = table.Column<int>(type: "int", nullable: false),
-                    verso6 = table.Column<int>(type: "int", nullable: false),
-                    verso7 = table.Column<int>(type: "int", nullable: false),
-                    verso8 = table.Column<int>(type: "int", nullable: false),
-                    verso9 = table.Column<int>(type: "int", nullable: false),
-                    verso10 = table.Column<int>(type: "int", nullable: false)
+                    pasta = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,6 +165,20 @@ namespace BlazorServerCms.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rota", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Segue",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    seguidor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    seguindo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Segue", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -361,6 +365,26 @@ namespace BlazorServerCms.Migrations
                         name: "FK_Telefone_Cliente_Id",
                         column: x => x.Id,
                         principalTable: "Cliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Content",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    highlighterId = table.Column<long>(type: "bigint", nullable: false),
+                    Html = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Content", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Content_highlighter_highlighterId",
+                        column: x => x.highlighterId,
+                        principalTable: "highlighter",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -590,6 +614,30 @@ namespace BlazorServerCms.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MarcadorPagina",
+                columns: table => new
+                {
+                    PaginaId = table.Column<long>(type: "bigint", nullable: false),
+                    highlighterId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MarcadorPagina", x => new { x.highlighterId, x.PaginaId });
+                    table.ForeignKey(
+                        name: "FK_MarcadorPagina_highlighter_highlighterId",
+                        column: x => x.highlighterId,
+                        principalTable: "highlighter",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MarcadorPagina_Pagina_PaginaId",
+                        column: x => x.PaginaId,
+                        principalTable: "Pagina",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Produto",
                 columns: table => new
                 {
@@ -745,6 +793,11 @@ namespace BlazorServerCms.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Content_highlighterId",
+                table: "Content",
+                column: "highlighterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Filtro_CamadaNoveId",
                 table: "Filtro",
                 column: "CamadaNoveId");
@@ -815,6 +868,11 @@ namespace BlazorServerCms.Migrations
                 column: "InstanteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MarcadorPagina_PaginaId",
+                table: "MarcadorPagina",
+                column: "PaginaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Pagina_StoryId",
                 table: "Pagina",
                 column: "StoryId");
@@ -867,19 +925,22 @@ namespace BlazorServerCms.Migrations
                 name: "Compartilhante");
 
             migrationBuilder.DropTable(
+                name: "Content");
+
+            migrationBuilder.DropTable(
                 name: "Endereco");
 
             migrationBuilder.DropTable(
                 name: "FiltroPagina");
 
             migrationBuilder.DropTable(
-                name: "highlighter");
-
-            migrationBuilder.DropTable(
                 name: "ImagemProduto");
 
             migrationBuilder.DropTable(
                 name: "ItemPedido");
+
+            migrationBuilder.DropTable(
+                name: "MarcadorPagina");
 
             migrationBuilder.DropTable(
                 name: "PageLiked");
@@ -889,6 +950,9 @@ namespace BlazorServerCms.Migrations
 
             migrationBuilder.DropTable(
                 name: "savedFolder");
+
+            migrationBuilder.DropTable(
+                name: "Segue");
 
             migrationBuilder.DropTable(
                 name: "Telefone");
@@ -907,6 +971,9 @@ namespace BlazorServerCms.Migrations
 
             migrationBuilder.DropTable(
                 name: "Produto");
+
+            migrationBuilder.DropTable(
+                name: "highlighter");
 
             migrationBuilder.DropTable(
                 name: "Livro");

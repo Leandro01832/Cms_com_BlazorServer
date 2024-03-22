@@ -17,11 +17,16 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\pub
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Authentication.Twitter.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Authorization.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Components.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Components.Web.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Metadata.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.Build.dll
@@ -47,12 +52,14 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\pub
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.Extensions.FileProviders.Embedded.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.Extensions.Identity.Core.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.Identity.Client.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.IdentityModel.Logging.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.IdentityModel.Protocols.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.IdentityModel.Tokens.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.JSInterop.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.NET.StringTools.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.VisualStudio.Debugger.Contracts.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\Microsoft.VisualStudio.Web.CodeGeneration.dll
@@ -74,6 +81,7 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\pub
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\NuGet.Protocol.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\NuGet.Versioning.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\NVelocity.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\PSC.Blazor.Components.Tours.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Composition.AttributedModel.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Composition.Convention.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Composition.Hosting.dll
@@ -83,6 +91,7 @@ C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\pub
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Diagnostics.DiagnosticSource.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Drawing.Common.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.IO.Pipelines.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Net.WebSockets.WebSocketProtocol.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Reflection.MetadataLoadContext.dll
 C:\Users\leand\source\repos\BlazorServerCms\BlazorServerCms\bin\Debug\net6.0\publish\System.Runtime.Caching.dll

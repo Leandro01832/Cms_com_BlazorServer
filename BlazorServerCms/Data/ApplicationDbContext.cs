@@ -25,6 +25,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Segue> Segue { get; set; }
         public DbSet<Content> Content { get; set; }
         public DbSet<highlighter> highlighter { get; set; }
         public DbSet<Pergunta> Pergunta { get; set; }

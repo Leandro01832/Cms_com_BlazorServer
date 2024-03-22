@@ -46,6 +46,32 @@
 
 
 <div>
+    <h3>Seguidores</h3>
+    @foreach(var item in seguidores)
+    {
+        var seguidor =  userManager.Users.First(u => u.UserName == item.seguidor);
+        <div>
+            <img src="ImgUser/usuario-@(item.seguidor)-@(seguidor.Image)" class="ImgUser">
+            <p>@item.seguidor</p>
+        </div>
+    }
+
+
+
+
+    <h3>Seguindo</h3>
+    @foreach (var item in seguindo)
+    {
+        var seguindo = userManager.Users.First(u => u.UserName == item.seguindo);
+        <div>
+            <img src="ImgUser/usuario-@(item.seguindo)-@(seguindo.Image)" class="ImgUser">
+            <p>@item.seguindo</p>
+        </div>
+    }
+
+</div>
+
+<div>
 
 
 <center><strong>Pastas Salvas</strong> </center>
@@ -81,6 +107,8 @@ for(var i = 1; i <= caps.Length; i++)
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private List<Filtro> filtros = new List<Filtro>();
+    private List<Segue> seguidores;
+    private List<Segue> seguindo;
     private Livro? livroCompartilhado = null;
     private Estante objInstante = null;
     private int pasta;
@@ -109,8 +137,10 @@ for(var i = 1; i <= caps.Length; i++)
         usermodel = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == user);
         livroCompartilhado = await Context.Livro!.Where(u => u.user == user).OrderBy(l => l.Id).FirstOrDefaultAsync();
         if(livroCompartilhado != null)
-         preferences = Context.UserResponse
-        .FirstOrDefault(u => u.user == user && u.capitulo == livroCompartilhado.capitulo && u.pasta == pasta);
+            preferences = Context.UserResponse
+           .FirstOrDefault(u => u.user == user && u.capitulo == livroCompartilhado.capitulo && u.pasta == pasta);
+        seguidores = await Context.Segue.Where(s => s.seguindo == user).ToListAsync();
+        seguindo = await Context.Segue.Where(s => s.seguidor == user).ToListAsync();
     }
 
    
