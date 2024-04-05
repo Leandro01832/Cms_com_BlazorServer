@@ -119,13 +119,16 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 user.Email = Input.Email;
-                user.UserName = Input.User;
+                user.UserName = Input.User.Replace(" ", "").ToLower();
                 user.EmailConfirmed = true;
                 await _userStore.SetUserNameAsync(user, Input.User, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                IdentityResult result = null;
+                if(_userManager.Users.FirstOrDefault(u => u.UserName == user.UserName) == null &&
+                    _userManager.Users.FirstOrDefault(u => u.Email == user.Email) == null)
+                 result = await _userManager.CreateAsync(user, Input.Password);
 
-                if (result.Succeeded)
+                if (result != null && result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -151,6 +154,14 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+                else if(result == null)
+                {
+                    if (_userManager.Users.FirstOrDefault(u => u.UserName == user.UserName) != null)
+                    ModelState.AddModelError(string.Empty, "Informe outro usuario");   
+                    else if (_userManager.Users.FirstOrDefault(u => u.Email == user.Email) != null)
+                    ModelState.AddModelError(string.Empty, "Informe outro email");   
+                }
+                else
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

@@ -30,9 +30,9 @@ namespace BlazorServerCms.servicos
         public List<Pagina> Marcados = new List<Pagina>();
         public List<Pagina> paginas = new List<Pagina>();
         public List<Filtro> filtros = new List<Filtro>();
-        public List<highlighter> filtrosUsers = new List<highlighter>();
         public List<PageLiked> paginasCurtidas = new List<PageLiked>();
         public List<Story> stories = new List<Story>();
+        public List<Content> conteudos = new List<Content>();
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {

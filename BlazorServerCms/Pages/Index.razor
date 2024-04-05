@@ -295,7 +295,7 @@
             {
                 filtros = await Context.Filtro!
                 .Include(f => f.Story)
-                .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower())).ToListAsync();
+                .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.user == null).ToListAsync();
 
 
                 if(filtros.Count == 0)
@@ -331,7 +331,7 @@
                         var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
                         var story = stories.First(str => str.Id == paginas[0].StoryId);
                         var cap = stories.IndexOf(story) + 1;
-                        navigation.NavigateTo($"/substory/{cap}/1/1/0/11/1/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
+                        navigation.NavigateTo($"/camada2/{cap}/1/1/0/11/1/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
                     }
                 }
             }

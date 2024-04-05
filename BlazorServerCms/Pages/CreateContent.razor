@@ -24,7 +24,7 @@
                     <label>
                         Informe o Filtro
                     </label>
-                    <select @bind="@exampleModel.highlighterId">
+                    <select @bind="@exampleModel.FiltroId">
 
                             <option value="0" selected="selected" > Filtro </option>
                             @foreach(var item in lista)
@@ -51,7 +51,7 @@
     private Content? exampleModel = new Content();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private List<highlighter> lista;
+    private List<Filtro> lista;
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,20 +59,22 @@
         var authState = await AuthenticationStateProvider
            .GetAuthenticationStateAsync();
         var user = authState.User;
-        lista = await Context.highlighter.Where(h => h.user == user.Identity.Name).ToListAsync();
+        lista = await Context.Filtro.Where(h => h.user == user.Identity.Name).ToListAsync();
 
 
     }
 
     private async void HandleSubmit()
     {
-        if(exampleModel.highlighterId != 0)
+        if(exampleModel.FiltroId != 0)
         {
             await Context.AddAsync(exampleModel);
             await Context.SaveChangesAsync();
-            var fil = repositoryPagina.filtrosUsers.FirstOrDefault(f => f.Id == exampleModel.highlighterId);
+            var fil = repositoryPagina.filtros.FirstOrDefault(f => f.Id == exampleModel.FiltroId);
             if(fil != null)
-            fil.Content.Add(exampleModel);
+                fil.Content.Add(exampleModel);
+
+            repositoryPagina.conteudos.Add(exampleModel);
 
             await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
             navigation.NavigateTo("/");            

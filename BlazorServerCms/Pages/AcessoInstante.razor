@@ -9,7 +9,7 @@
 {
     <PageTitle>Estante @insta </PageTitle>
     <p>Você esta acessando a estante nº @i </p>
-    <p>Descrição da instante: @objEstante.Descricao </p>
+    <p>Descrição da estante: @objEstante.Descricao </p>
 }
 else
 {
@@ -26,12 +26,12 @@ else
 <hr />
 
 <p>
-    <label>Informe o nº da instante</label>
+    <label>Informe o nº da estante</label>
     <input type="number" min="1" @bind="@insta" />
 
 </p>
 <p>
-    <a  onclick="@buscarEstante" class="btn btn-dark" >Acessar instante</a>
+    <a  onclick="@buscarEstante" class="btn btn-dark" >Acessar estante</a>
 
 </p>
 

@@ -100,6 +100,6 @@
         if (str.Filtro == null || str.Filtro.Count == 0)
             navigation.NavigateTo("/");
 
-        lista = str.Filtro.OrderBy(f => f.Id).ToList();
+        lista = str.Filtro.Where(f => f.user == null).OrderBy(f => f.Id).ToList();
     }
 }

@@ -144,13 +144,11 @@ using (var scope = app.Services.CreateScope())
         var padrao = new Story
         {
             PaginaPadraoLink = 0,
-            Comentario = false,
             Nome = "Padrao"
         };
         var str = new Story
         {
             PaginaPadraoLink = 1,
-            Comentario = false,
             Nome = "seres vivos"
         };
         contexto.Add(padrao);
@@ -797,7 +795,6 @@ using (var scope = app.Services.CreateScope())
         var storyPadrao = new Story
         {
             PaginaPadraoLink = 0,
-            Comentario = false,
             Nome = "Padrao"
         };
 

@@ -25,4 +25,6 @@ cap.22 story eventos
 cap.23 story estudos(matemática, português etc)
 cap.24 story profissionais (serviços)
 cap.25 story papelaria
+cap.26 story calçados
+cap.27 story blog
 

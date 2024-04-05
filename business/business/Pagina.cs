@@ -16,7 +16,6 @@ namespace business
             {
                 Comentario = null;   
                 Data = DateTime.Now;
-                Classificacao = new Classificacao();
             }
         }
 
@@ -24,7 +23,6 @@ namespace business
         {
                 Comentario = null;
                 Data = DateTime.Now;
-                Classificacao = new Classificacao();
                 StoryId = story.Id;
                 Versiculo = story.Pagina.Count + 1;
             
@@ -41,8 +39,6 @@ namespace business
         public virtual Story? Story { get; set; }
   
         public virtual List<FiltroPagina>? Filtro { get; set; }
-
-        public virtual List<MarcadorPagina> Marcador { get; set; }
 
         [Required(ErrorMessage = "O titulo é necessário")]
         [Display(Name = "Titulo da pagina")]
@@ -62,8 +58,6 @@ namespace business
         public string? Rotas { get; set; }
 
         public virtual Produto? Produto { get; set; }
-
-        public virtual Classificacao? Classificacao { get; set; }
 
         [NotMapped]
         public string NomeComId { get { return Titulo + " chave - " + Id.ToString(); } }

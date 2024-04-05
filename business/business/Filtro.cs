@@ -8,8 +8,10 @@ namespace business
     {
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
+        public string? user { get; set; }
         public virtual List<savedFolder>? savedFolder { get; set; }
         public virtual List<Pergunta>? Pergunta { get; set; }
+        public virtual List<Content> Content { get; set; }
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
 

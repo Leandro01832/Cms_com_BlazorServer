@@ -108,15 +108,7 @@ namespace BlazorCms.Client.Pages
 
             }
 
-            if (repositoryPagina.filtrosUsers.Count == 0)
-            {
-                var pergs = await Context!.highlighter!
-                    .Include(h => h.Content)
-                    .Include(h => h.Pagina)
-                    .ThenInclude(h => h.Pagina)
-                    .ToListAsync();
-                repositoryPagina.filtrosUsers.AddRange(pergs);
-            }
+            
             
             if (repositoryPagina.paginas.Count == 0)
             {
@@ -184,7 +176,7 @@ namespace BlazorCms.Client.Pages
             var quantidadeFiltros = 0;
             var quantidadePaginas = 0;
             List<Pagina> listaFiltradaComConteudo = null;
-            List<Filtro> filtros = new List<Filtro>();
+          //  List<Filtro> filtros = new List<Filtro>();
 
             Model = repositoryPagina!.paginas
                     .FirstOrDefault(p => p.Versiculo == indice && p.Story!.PaginaPadraoLink == capitulo);
@@ -201,20 +193,10 @@ namespace BlazorCms.Client.Pages
             {
                 if (Model != null)
                 {
-                    Pagina fils = null;
-                    if (story == null)
-                    {
-                        quantidadeFiltros = QuantFiltros();
-                        quantidadeLista = quantidadeFiltros;
-                        Model2 = fils.Story.Filtro.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault();
-                    }
-                    else
-                    {
-                        quantidadeFiltros = story.Filtro.Count;
-                        quantidadeLista = quantidadeFiltros;
-                        Model2 = story.Filtro.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault();
+                    Model2 = story.Filtro.Where(f => f.user == null).OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault(); 
 
-                    }
+                    quantidadeLista = story.Filtro.Where(f => f.user == null).ToList().Count;
+                    indiceAcesso = story.Filtro.IndexOf(Model2) + 1;
                 }
             }
             else if (outroHorizonte == 2)
@@ -224,13 +206,17 @@ namespace BlazorCms.Client.Pages
                         quantidadeLista = pergs.Count;
 
             }
-            else if (outroHorizonte == 3 || Id != 0)
+            else if (outroHorizonte == 3)
             {
-                marcadores = repositoryPagina.filtrosUsers.Where(p => p.user == compartilhante).OrderBy(p => p.Id).ToList();
+                marcadores = repositoryPagina.filtros.Where(p => p.user == compartilhante && p.Story.PaginaPadraoLink == capitulo).OrderBy(p => p.Id).ToList();
                         Model4 = marcadores.Skip((int)indice - 1).FirstOrDefault();
                         quantidadeLista = marcadores.Count;
 
+                indiceAcesso = story.Filtro.IndexOf(Model4) + 1;
+
             }
+
+           
                
             quantidadePaginas = CountPaginas(ApplicationDbContext._connectionString);
 
@@ -252,8 +238,7 @@ namespace BlazorCms.Client.Pages
                .First(p => p.Id == Model!.StoryId);
             }
 
-            if (filtros.Count == 0 && story.Filtro!.Count > 0)
-                filtros.AddRange(story.Filtro);
+        
 
             if (filtrar == null && substory == null)
             {
@@ -302,27 +287,31 @@ namespace BlazorCms.Client.Pages
                     preferencia = 0;
                     int[] arr = null;
                     var indiceFiltro = int.Parse(filtrar.Replace("pasta-", ""));
-                    var fi = story!.Filtro!.OrderBy(f => f.Id).ToList()[indiceFiltro - 1];
+                    Filtro fi = null;
+                    
+                    var fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
+                  
+                    fi = fils[indiceFiltro - 1];
 
 
                     if (fi is CamadaDez)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                     else if (fi is CamadaNove)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1, 1);
                     else if (fi is CamadaOito)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1);
                     else if (fi is CamadaSete)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1);
                     else if (fi is CamadaSeis)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1);
                     else if (fi is SubSubGrupo)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1);
                     else if (fi is SubGrupo)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1);
                     else if (fi is Grupo)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1);
                     else if (fi is SubStory)
-                        arr = Arr.RetornarArray(filtros, story!, 3, (long)fi.Id, capitulo, 1);
+                        arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1);
                     indice = 1;
                     if (compartilhante == null) compartilhante = "admin";
                     auto = 0;
@@ -337,7 +326,7 @@ namespace BlazorCms.Client.Pages
                         camadaoito = arr[7];
                         camadanove = arr[8];
                         camadadez = arr[9];
-                        navigation!.NavigateTo($"/camadadez/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 9)
                     {
@@ -349,7 +338,7 @@ namespace BlazorCms.Client.Pages
                         camadasete = arr[6];
                         camadaoito = arr[7];
                         camadanove = arr[8];
-                        navigation!.NavigateTo($"/camadanove/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 8)
                     {
@@ -360,7 +349,7 @@ namespace BlazorCms.Client.Pages
                         camadaseis = arr[5];
                         camadasete = arr[6];
                         camadaoito = arr[7];
-                        navigation!.NavigateTo($"/camadaoito/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 7)
                     {
@@ -370,7 +359,7 @@ namespace BlazorCms.Client.Pages
                         subsubgrupo = arr[4];
                         camadaseis = arr[5];
                         camadasete = arr[6];
-                        navigation!.NavigateTo($"/camadasete/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 6)
                     {
@@ -379,7 +368,7 @@ namespace BlazorCms.Client.Pages
                         subgrupo = arr[3];
                         subsubgrupo = arr[4];
                         camadaseis = arr[5];
-                        navigation!.NavigateTo($"/camadaseis/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 5)
                     {
@@ -387,25 +376,25 @@ namespace BlazorCms.Client.Pages
                         grupo = arr[2];
                         subgrupo = arr[3];
                         subsubgrupo = arr[4];
-                        navigation!.NavigateTo($"/subsubgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 4)
                     {
                         substory = arr[1];
                         grupo = arr[2];
                         subgrupo = arr[3];
-                        navigation!.NavigateTo($"/subgrupo/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 3)
                     {
                         substory = arr[1];
                         grupo = arr[2];
-                        navigation!.NavigateTo($"/grupo/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                     else if (arr.Length == 2)
                     {
                         substory = arr[1];
-                        navigation!.NavigateTo($"/substory/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                        navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
                     }
                 }
 
@@ -437,18 +426,7 @@ namespace BlazorCms.Client.Pages
             else if (Model.Produto == null)
                 html = RepositoryPagina.Capa;
 
-            markup = new MarkupString(html);
-
-            if (Id != 0)
-            {
-                Model4 = marcadores.First(m => m.Id == Id);
-                quantidadeLista = Model4.Pagina.Count + Model4.Content.Count;
-                var lista = retornarListaComConteudo(Model4.Pagina.Select(p => p.Pagina).ToList(), Model4.Content);
-                pag = lista.Skip(indice - 1).FirstOrDefault();
-                if(pag == null)
-                pag = lista.FirstOrDefault();
-                markup2 = new MarkupString(pag.ContentUser);
-            }
+            markup = new MarkupString(html);            
 
             try
             {
@@ -485,7 +463,6 @@ namespace BlazorCms.Client.Pages
                 liked = true;
 
             quantLiked = CountLikes(ApplicationDbContext._connectionString);
-            filtros.Clear();
         }
 
         private List<Pagina> retornarListaFiltrada(string rota)
@@ -682,18 +659,27 @@ namespace BlazorCms.Client.Pages
                     Filtro = story!.Filtro!.First(f => f.Id == group2!.Id);
                 else if (group != null)
                     Filtro = story!.Filtro!.First(f => f.Id == group!.Id);
-                indice_Filtro = story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
+
+                if (Filtro.user != null)                
+                indice_Filtro = story.Filtro!.Where(f => f.user == Filtro.user).OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
+                else
+                indice_Filtro = story.Filtro!.Where(f => f.user == null).OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
 
                 Model2 = Filtro;
 
-                Pagina pag2 = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+                if (compartilhante != "comp")                
+                    listaFiltradaComConteudo = retornarListaComConteudo(listaFiltradaComConteudo!.OrderBy(p => p.Id).ToList()!,
+                        repositoryPagina.conteudos.Where(c => c.FiltroId == Model2.Id).ToList());                    
+                   
+                
 
-                if (pag2 == null)
-                {
+                 pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+
+                if (pag == null)                
                     navigation.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}");
-                }
+                
 
-                vers = pag2.Versiculo;
+                vers = pag.Versiculo;
                 Model = repositoryPagina.includes()
                 .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
 

@@ -40,13 +40,13 @@ namespace BlazorCms.Client.Pages
         private List<Pagina> conteudo = new List<Pagina>();
         private int? indiceMarcador;
         private Story story = null;
+        protected int indiceAcesso;
 
         
         protected bool exemplo = false;
         protected int cap = 1;
 
         protected MarkupString markup;
-        protected MarkupString markup2;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
         protected string nameGroup = "";
@@ -57,8 +57,8 @@ namespace BlazorCms.Client.Pages
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
         protected Pergunta? Model3;
-        protected highlighter? Model4;
-        protected List<highlighter> marcadores;
+        protected Filtro? Model4; // Para user
+        protected List<Filtro> marcadores;
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;       
@@ -98,7 +98,6 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public string? filtrar { get; set; } = null;
         [Parameter] public string? rotas { get; set; } = null;
-        [Parameter] public long Id { get; set; }
         
 
     }

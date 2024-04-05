@@ -17,15 +17,15 @@
 <p>Configurações de filtro</p>
 
     <div class="container">        
-        <p><a href="/crud/substory/1">sub-stories</a>  </p>
-        <p><a href="/crud/grupo/1">grupos</a>          </p>
-        <p><a href="/crud/subgrupo/1">sub-grupos</a>   </p>
-        <p><a href="/crud/subsubgrupo/1">sub-sub-grupos</a>  </p>
-        <p><a href="/crud/camadaseis/1">camada seis</a></p>
-        <p><a href="/crud/camadasete/1">camada sete</a></p>
-        <p><a href="/crud/camadaoito/1">camada oito</a></p>
-        <p><a href="/crud/camadanove/1">camada nove</a></p>
-        <p><a href="/crud/camadadez/1">camada dez</a>  </p>
+        <p><a href="/crud/camada2/1">sub-stories</a>  </p>
+        <p><a href="/crud/camada3/1">grupos</a>          </p>
+        <p><a href="/crud/camada4/1">sub-grupos</a>   </p>
+        <p><a href="/crud/camada5/1">sub-sub-grupos</a>  </p>
+        <p><a href="/crud/camada6/1">camada seis</a></p>
+        <p><a href="/crud/camada7/1">camada sete</a></p>
+        <p><a href="/crud/camada8/1">camada oito</a></p>
+        <p><a href="/crud/camada9/1">camada nove</a></p>
+        <p><a href="/crud/camada10/1">camada dez</a>  </p>
     </div>
 
 <hr />
@@ -80,7 +80,7 @@
         Context = db.CreateDbContext(null);
         livros = await Context.Livro!.ToListAsync();
         lista = await Context.Story!
-           .Where(str => str.Nome != "Padrao" && !str.Comentario).ToListAsync();
+           .Where(str => str.Nome != "Padrao").ToListAsync();
 
         if (lista.Count == 0)
         {

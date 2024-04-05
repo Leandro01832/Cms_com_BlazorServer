@@ -1,4 +1,4 @@
-﻿@page "/camadaseis/create"
+﻿@page "/camada6/create"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @attribute [Authorize(Roles = "Admin")]
@@ -92,6 +92,6 @@
     {
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/camadaseis/1");
+        navigation.NavigateTo("crud/camada6/1");
     }
 }

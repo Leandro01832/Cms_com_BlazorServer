@@ -1,4 +1,4 @@
-﻿@page "/crud/substory/{pagina:int}"
+﻿@page "/crud/camada2/{pagina:int}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @attribute [Authorize(Roles = "Admin")]
@@ -73,9 +73,9 @@ else
     private void acessarPagina(ChangeEventArgs e)
     {
         if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
-            navigation.NavigateTo($"/crud/substory/{e.Value!.ToString()}");
+            navigation.NavigateTo($"/crud/camada2/{e.Value!.ToString()}");
         else
-            navigation.NavigateTo($"/crud/substory/1");
+            navigation.NavigateTo($"/crud/camada2/1");
     }
 
 }

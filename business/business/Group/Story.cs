@@ -11,12 +11,7 @@ namespace business.Group
         private int paginaPadraoLink = 0;
         private int quantidade = 0;
         private int quantComentario = 0;
-
         public virtual List<Filtro>? Filtro { get; set; }
-
-        public bool Comentario { get; set; }
-        public bool Produto { get; set; }
-
         public string? Nome { get; set; }
         public string? Image { get; set; }
         public virtual List<Pagina>? Pagina { get; set; }

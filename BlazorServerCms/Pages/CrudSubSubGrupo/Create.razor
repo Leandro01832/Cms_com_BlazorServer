@@ -1,4 +1,4 @@
-﻿@page "/subsubgrupo/create"
+﻿@page "/camada5/create"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @attribute [Authorize(Roles = "Admin")]
@@ -80,6 +80,6 @@
     {
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/subsubgrupo/1");
+        navigation.NavigateTo("crud/camada5/1");
     }
 }

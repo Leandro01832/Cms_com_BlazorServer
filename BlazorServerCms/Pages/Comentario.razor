@@ -85,38 +85,9 @@
     protected async void FazerComentario()
     {
         var Quant = await Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
-        var comenta = await Context.Story!.Include(st => st.Pagina)
-        .Where(st => st.Comentario)
-        .OrderBy(st => st.Id)
-        .ToListAsync();
-        var Story = comenta.LastOrDefault();
+        var Story = await Context.Story!.Include(st => st.Pagina)
+        .FirstAsync(st => st.PaginaPadraoLink == 2);
 
-        if (Story == null || Story.Pagina!.ToList().Count > 499)
-        {
-            Story = new Story
-                {
-                    Nome = "Comentario " + (comenta.Count + 1),
-                    Comentario = true,
-                    PaginaPadraoLink = Quant.Count + 1
-
-                };
-            Context.Add(Story);
-            Context.SaveChanges();
-
-            var str = await Context.Story!.FirstAsync(st => st.Nome == "Padrao");
-            var count1 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
-            Pagina.entity = true;
-            var p = new Pagina(count1)
-                {
-                    Titulo = "Story - " + str.Nome,
-                    ContentUser = "<h1> Story " + Story.Nome + "</h1>"
-                };
-            Pagina.entity = false;
-
-            Context.Add(p);
-            Context.SaveChanges();
-            p.Story!.Quantidade++;
-        }
         var count2 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
         Pagina.entity = true;
         var pagina = new Pagina(count2)

@@ -4,6 +4,7 @@ using BlazorServerCms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323192218_data")]
+    partial class data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,16 +233,16 @@ namespace BlazorServerCms.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("FiltroId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Html")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("highlighterId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FiltroId");
+                    b.HasIndex("highlighterId");
 
                     b.ToTable("Content");
                 });
@@ -298,6 +300,46 @@ namespace BlazorServerCms.Migrations
                     b.HasIndex("PaginaId");
 
                     b.ToTable("FiltroPagina");
+                });
+
+            modelBuilder.Entity("business.business.highlighter", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("pasta")
+                        .HasColumnType("int");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("highlighter");
+                });
+
+            modelBuilder.Entity("business.business.MarcadorPagina", b =>
+                {
+                    b.Property<long>("highlighterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PaginaId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("highlighterId", "PaginaId");
+
+                    b.HasIndex("PaginaId");
+
+                    b.ToTable("MarcadorPagina");
                 });
 
             modelBuilder.Entity("business.business.PageLiked", b =>
@@ -593,9 +635,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<long>("StoryId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("user")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1052,13 +1091,13 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Content", b =>
                 {
-                    b.HasOne("business.Filtro", "Filtro")
+                    b.HasOne("business.business.highlighter", "highlighter")
                         .WithMany("Content")
-                        .HasForeignKey("FiltroId")
+                        .HasForeignKey("highlighterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Filtro");
+                    b.Navigation("highlighter");
                 });
 
             modelBuilder.Entity("business.business.Endereco", b =>
@@ -1089,6 +1128,25 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Filtro");
 
                     b.Navigation("Pagina");
+                });
+
+            modelBuilder.Entity("business.business.MarcadorPagina", b =>
+                {
+                    b.HasOne("business.Pagina", "Pagina")
+                        .WithMany("Marcador")
+                        .HasForeignKey("PaginaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.business.highlighter", "highlighter")
+                        .WithMany("Pagina")
+                        .HasForeignKey("highlighterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pagina");
+
+                    b.Navigation("highlighter");
                 });
 
             modelBuilder.Entity("business.business.Pergunta", b =>
@@ -1373,6 +1431,13 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("business.business.highlighter", b =>
+                {
+                    b.Navigation("Content");
+
+                    b.Navigation("Pagina");
+                });
+
             modelBuilder.Entity("business.business.Pergunta", b =>
                 {
                     b.Navigation("UserResponse");
@@ -1380,8 +1445,6 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
-                    b.Navigation("Content");
-
                     b.Navigation("Pagina");
 
                     b.Navigation("Pergunta");
@@ -1401,6 +1464,8 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Classificacao");
 
                     b.Navigation("Filtro");
+
+                    b.Navigation("Marcador");
 
                     b.Navigation("Produto");
                 });

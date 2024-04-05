@@ -401,7 +401,7 @@
         }
         else
         {
-            var m = Context.highlighter.Include(h => h.Pagina).First(h => h.Id == Id);
+            var m = Context.Filtro.Include(h => h.Pagina).First(h => h.Id == Id);
             Model.AddRange(m.Pagina.Select(p => p.Pagina).ToList()!);
         }
         try
@@ -614,30 +614,105 @@
     private async void criarFiltro()
     {
         string prompted = await js.InvokeAsync<string>("prompt", "Informe o nome do filtro.");
-        highlighter filtro = new highlighter
+
+        var type = filtro.GetType();
+        Filtro obj = null;
+        if(type.Name == "SubStory")
+            obj = new Grupo
             {
-                capitulo = Capitulo,
+                Id = 0,                  
+                StoryId = filtro.StoryId,
                 Nome = prompted,
-                pasta = indiceFiltro,
                 user = user.Identity.Name,
 
             };
-        Context.Add(filtro);
+        else if (type.Name == "Grupo")
+            obj = new SubGrupo
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
+                     GrupoId = filtro.Id
+
+                };
+        else if (type.Name == "SubGrupo")
+            obj = new SubSubGrupo
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
+                    SubGrupoId = filtro.Id
+                };
+        else if (type.Name == "SubSubGrupo")
+            obj = new CamadaSeis
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
+                    SubSubGrupoId = filtro.Id
+                };
+        else if (type.Name == "CamadaSeis")
+            obj = new CamadaSete
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
+                    CamadaSeisId = filtro.Id
+                };
+        else if (type.Name == "CamadaSete")
+            obj = new CamadaOito
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
+                    CamadaSeteId = filtro.Id
+                };
+        else if (type.Name == "CamadaOito")
+            obj = new CamadaNove
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
+                    CamadaOitoId = filtro.Id
+                };
+        else if (type.Name == "CamadaNove")
+            obj = new CamadaDez
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
+
+                };
+        Context.Add(obj);
         Context.SaveChanges();
 
-        filtro.Pagina = new List<MarcadorPagina>();
         foreach (var item in marcacao.Marcados)
         {
-            var mp = new MarcadorPagina { PaginaId = item.Id, highlighterId = filtro.Id };
+            var mp = new FiltroPagina { PaginaId = item.Id, FiltroId = obj.Id };
             Context.Add(mp);
             Context.SaveChanges();
         }
-        repositoryPagina.filtrosUsers.Add(filtro);
+        repositoryPagina.filtros.Add(obj);
 
         marcacao.Marcados.Clear();
 
+        filtros = await Context.Filtro!
+        .Where(f => f.Story.PaginaPadraoLink == Capitulo)
+    .OrderBy(f => f.Id)
+    .ToListAsync();
+
+        var f = filtros.First(f => f.Id == obj.Id);
+        var i = filtros.IndexOf(f) + 1;
+
         await js!.InvokeAsync<object>("DarAlert", $"Filtro criado com sucesso pelo usuario!!! ");
-         navigation.NavigateTo($"/marcador/{filtro.Id}/1/{filtro.user}/0");
+        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{i}/0/0/0/dominio/{compartilhante}");
     }
 
 }

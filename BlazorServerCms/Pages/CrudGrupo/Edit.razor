@@ -1,4 +1,4 @@
-﻿@page "/grupo/edit/{Id:long}"
+﻿@page "/camada3/edit/{Id:long}"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @attribute [Authorize(Roles = "Admin")]
@@ -59,7 +59,7 @@
     {
         Context.Update(exampleModel);
         await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/grupo/1");
+        navigation.NavigateTo("crud/camada3/1");
         // Process the form
     }
 }

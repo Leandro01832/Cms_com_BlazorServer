@@ -1,4 +1,4 @@
-﻿@page "/substory/create"
+﻿@page "/camada2/create"
 @inject NavigationManager navigation
 @inject IJSRuntime js
 @inject RepositoryPagina repositoryPagina
@@ -44,7 +44,7 @@
     {
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/substory/1");
+        navigation.NavigateTo("crud/camada2/1");
     }
 
     private async void ExecutarChange(string e)

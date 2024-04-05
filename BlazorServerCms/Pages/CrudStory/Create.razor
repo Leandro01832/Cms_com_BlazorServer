@@ -15,9 +15,6 @@
         <label>Imagem (512 x 512):</label>
         <InputFile OnChange="@LoadFiles"  />
     </p>
-    <p>
-        <input type="checkbox" checked="@exampleModel.Produto" /> Para produtos
-    </p>
     
 
     <button type="submit">Adicionar</button>
@@ -48,14 +45,7 @@
 
         Pagina pag = null;
         var count = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == exampleModel.Id);
-        Pagina.entity = true;
-        if(exampleModel.Produto)
-            pag = new Pagina(count)
-            {
-                Titulo = "Story - " + exampleModel.Nome,
-                Content = conteudo
-            };
-        else
+        Pagina.entity = true;        
             pag = new Pagina(count)
                 {
                     Titulo = "Story - " + exampleModel.Nome,
