@@ -462,7 +462,7 @@ p[b-k8aihg5em2] {
 }
 
 .capitulos[b-k8aihg5em2] {
-    font-size: 12px;
+    font-size: 17px;
     background-color: transparent;
 }
 
@@ -668,6 +668,12 @@ Informativo[b-k8aihg5em2] {
 
 
 @media (max-width: 550px) and (min-width: 50px) {
+
+    .capitulos[b-k8aihg5em2] {
+        font-size: 12px;
+        background-color: transparent;
+    }
+    
     .carousel-control-next[b-k8aihg5em2]{
         width: 10%;
     }

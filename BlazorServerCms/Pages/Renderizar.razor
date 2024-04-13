@@ -316,7 +316,6 @@ else
            
             </div>
 
-    
 
      </nav>
         <br/>
@@ -325,19 +324,6 @@ else
         
             <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
         
-        @if(rotas != null)
-        {
-            <p>Versiculos encontrados</p>
-        }
-       
-        @if(Model2 != null && Model2.user != null)
-        {
-            <div>
-                <h5>pasta de @compartilhante </h5>
-                <h5> <a href="/renderizar/@capitulo/1/0/11/1/1/0/0/0/@dominio/comp">acessar pastas de admin</a>  </h5>
-            </div>
-        }
-
 
         <GuidedTour TourId="FormGuidedTour1" OverlayEnabled="true">
             <GuidedTourStep Title="Acessar story" StepName="firstStep" TourStepSequence="1"
@@ -468,9 +454,6 @@ else
             </div>
             }
         
-     
-
-
      <div id="render">
 
            
@@ -478,13 +461,39 @@ else
 
     @if(outroHorizonte == 0)
     {
-            @if (Model.Story!.PaginaPadraoLink == 2)
-            {
-                <br />  <br />
-                <p>@Model.Data.ToString("dd/MM/yyyy")</p>
 
-                <br />
-            }
+                <div class="cabecalho">
+
+                    @if (rotas != null)
+                    {
+                        <p>Versiculos encontrados</p>
+                    }
+
+
+                    @if (Model2 != null && Model2.user != null)
+                    {
+                        <p>
+
+                            <h5>pasta de @compartilhante </h5>
+                            <h5> <a href="/renderizar/@capitulo/1/0/11/1/1/0/0/0/@dominio/comp">acessar pastas de admin</a>  </h5>
+                        </p>
+                    }
+
+                    @if (substory != null)
+                    {
+                        <p>
+                            @Model.Data.ToString("dd/MM/yyyy") ||
+
+                            <input type="checkbox" id="data" name="data" @bind="data" />
+                            Mais rerecentes
+                        </p>
+
+
+                    }
+                    <p>
+                        <h5> <a href="#" onclick="@acessarItem" >1º item</a>  </h5>
+                    </p>
+                </div>
 
         <!-- ProdutoContent -->
         if (nameStory == "Padrao")

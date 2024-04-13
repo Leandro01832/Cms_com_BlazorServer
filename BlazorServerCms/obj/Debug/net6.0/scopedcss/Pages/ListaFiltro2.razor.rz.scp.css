@@ -45,3 +45,11 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+.circulo[b-92jj3wda8j] {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: blue;
+    display: flex;
+}

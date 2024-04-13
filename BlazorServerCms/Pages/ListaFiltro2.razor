@@ -1,6 +1,8 @@
 ﻿@page "/listar-pasta/{capitulo:int}/{dominio}/{compartilhante}"
 @inject NavigationManager navigation
 @layout MeuLayout
+
+<PageTitle>Lista de pastas</PageTitle>
 <h3>Lista de pastas -</h3>
 <h3>Capitulo @capitulo</h3>
 <br />
@@ -29,11 +31,11 @@
 
     <div class="itemLegenda3">
     <p class="info1">
-        possui versiculos marcados
+        possui novos versiculos 
     </p>
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
-            <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
-        </svg>
+        <div class="circulo">
+           
+        </div>
     </div>
 
 </div>
@@ -57,6 +59,14 @@
                                 <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
                             </svg>
                             <p> Pasta @indice - @item.Nome</p>
+                            @if (NewVers(item))
+                            {
+                            <p>
+                                    <div class="circulo">
+                                    </div>
+                            </p>
+                                
+                            }
                         </div>
                     </a>
                 }
@@ -94,12 +104,20 @@
     protected override async Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        var str = await Context.Story.Include(s => s.Filtro)!
+        var str = await Context.Story!.Include(s => s.Filtro)!
+        .ThenInclude(s => s.Pagina)!
         .ThenInclude(s => s.Pagina).FirstAsync(s => s.PaginaPadraoLink == capitulo);
 
         if (str.Filtro == null || str.Filtro.Count == 0)
             navigation.NavigateTo("/");
 
         lista = str.Filtro.Where(f => f.user == null).OrderBy(f => f.Id).ToList();
+    }
+
+    private bool NewVers(Filtro fil)
+    { 
+        if (fil.Pagina.FirstOrDefault(p => p.Pagina.Data > DateTime.Now.AddDays(-3)) != null)
+        return true;
+        else return false;
     }
 }

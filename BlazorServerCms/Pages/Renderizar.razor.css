@@ -71,7 +71,7 @@ p {
 }
 
 .capitulos {
-    font-size: 12px;
+    font-size: 17px;
     background-color: transparent;
 }
 
@@ -264,6 +264,13 @@ Informativo {
     border-radius: 50%;
 }
 
+.cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #horizontes {
     display: flex;
     flex-wrap: wrap;
@@ -277,6 +284,12 @@ Informativo {
 
 
 @media (max-width: 550px) and (min-width: 50px) {
+
+    .capitulos {
+        font-size: 12px;
+        background-color: transparent;
+    }
+    
     .carousel-control-next{
         width: 10%;
     }

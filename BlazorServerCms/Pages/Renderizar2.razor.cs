@@ -62,6 +62,7 @@ namespace BlazorCms.Client.Pages
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;       
+        protected bool data = false;       
         protected long quantLiked = 0;
 
         protected string? html { get; set; } = "";

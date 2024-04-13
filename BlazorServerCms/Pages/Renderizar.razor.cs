@@ -812,12 +812,12 @@ namespace BlazorCms.Client.Pages
              
         protected async void acessarPreferenciasUsuario(string usu)
         {
-            var pref = Context.UserResponse
-                   .FirstOrDefault(u => u.user == usu)!;
             usuarios!.Clear();
+            if (auto == 1)
+                desabilitarAuto();
+            outroHorizonte = 3;
             compartilhante = usu;
-            var url = retornarUrl();
-                navigation!.NavigateTo(url);
+            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/0/0/0/dominio/{compartilhante}");
         }
 
         protected void alterarQuery(ChangeEventArgs e)
@@ -1056,6 +1056,13 @@ namespace BlazorCms.Client.Pages
             else
             await TourService.StartTour("FormGuidedTour2");
         } 
+
+        protected void acessarItem()
+        {
+            indice = 1;
+            var url = retornarUrl();
+            navigation!.NavigateTo(url);
+        }
 
         private string retornarUrl()
         {

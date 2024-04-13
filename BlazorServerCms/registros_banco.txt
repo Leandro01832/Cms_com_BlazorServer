@@ -19,11 +19,11 @@ GO
 SET IDENTITY_INSERT [dbo].[Story] ON 
 
 GO
-INSERT [dbo].[Story] ([Id], [Nome], [Image], [PaginaPadraoLink]) VALUES (1, 0, 0, N'Padrao', NULL, 0)
+INSERT [dbo].[Story] ([Id], [Nome], [Image], [PaginaPadraoLink]) VALUES (1,  N'Padrao', NULL, 0)
 GO
-INSERT [dbo].[Story] ([Id], [Nome], [Image], [PaginaPadraoLink]) VALUES (2, 0, 0, N'seres vivos', N'seres-vivos.jpg', 1)
+INSERT [dbo].[Story] ([Id], [Nome], [Image], [PaginaPadraoLink]) VALUES (2,  N'seres vivos', N'seres-vivos.jpg', 1)
 GO
-INSERT [dbo].[Story] ([Id], [Nome], [Image], [PaginaPadraoLink]) VALUES (3, 1, 0, N'Comentarios', NULL, 2)
+INSERT [dbo].[Story] ([Id], [Nome], [Image], [PaginaPadraoLink]) VALUES (3,  N'Comentarios', NULL, 2)
 GO
 SET IDENTITY_INSERT [dbo].[Story] OFF
 GO

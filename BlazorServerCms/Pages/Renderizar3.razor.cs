@@ -654,12 +654,18 @@ namespace BlazorCms.Client.Pages
 
                 Model2 = Filtro;
 
-                if (Model2.user != null)                
+                if (Model2.user != null)
+                {
                     listaFiltradaComConteudo = retornarListaComConteudo(listaFiltradaComConteudo!.OrderBy(p => p.Id).ToList()!,
                         repositoryPagina.conteudos.Where(c => c.FiltroId == Model2.Id).ToList());
+                    compartilhante = Model2.user;
+                }  
+                else if(Model2.user == null)
+                    compartilhante = "comp";
 
-
-
+                if(data)
+                  pag = listaFiltradaComConteudo!.OrderByDescending(p => p.Data).Skip((int)indice - 1).FirstOrDefault();
+                else
                   pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 if (pag == null)                

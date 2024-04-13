@@ -31,6 +31,8 @@ namespace business
 
 
         private DateTime data = DateTime.Now;
+        private string content;
+        private string contentUser;
 
         public DateTime Data { get { return data; } set { data = value; } }
 
@@ -49,8 +51,27 @@ namespace business
         [Display(Name = "Arquivo")]
         public string? ImagemContent { get; set; }
 
-        public string? Content { get; set; }
-        public string? ContentUser { get; set; }
+        public string? Content 
+        {
+            get { return content; }
+            set 
+            { 
+                content = value;
+                if (value != null)
+                    Data = DateTime.Now;
+            }
+        }
+
+        public string? ContentUser
+        {
+            get { return contentUser; }
+            set 
+            { 
+                contentUser = value;
+                if(value != null)
+                Data = DateTime.Now;
+            }
+        }
 
         public int Versiculo { get; set; }
         public int UltimaPasta { get; set; }

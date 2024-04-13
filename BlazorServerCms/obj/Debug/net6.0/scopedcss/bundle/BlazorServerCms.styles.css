@@ -278,6 +278,14 @@ img[b-622vkbnu9r] {
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+.circulo[b-92jj3wda8j] {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: blue;
+    display: flex;
+}
 /* _content/BlazorServerCms/Pages/Pastas.razor.rz.scp.css */
 
 
@@ -462,7 +470,7 @@ p[b-k8aihg5em2] {
 }
 
 .capitulos[b-k8aihg5em2] {
-    font-size: 12px;
+    font-size: 17px;
     background-color: transparent;
 }
 
@@ -655,6 +663,13 @@ Informativo[b-k8aihg5em2] {
     border-radius: 50%;
 }
 
+.cabecalho[b-k8aihg5em2] {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #horizontes[b-k8aihg5em2] {
     display: flex;
     flex-wrap: wrap;
@@ -668,6 +683,12 @@ Informativo[b-k8aihg5em2] {
 
 
 @media (max-width: 550px) and (min-width: 50px) {
+
+    .capitulos[b-k8aihg5em2] {
+        font-size: 12px;
+        background-color: transparent;
+    }
+    
     .carousel-control-next[b-k8aihg5em2]{
         width: 10%;
     }

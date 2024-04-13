@@ -100,22 +100,6 @@ namespace BlazorServerCms.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "highlighter",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    user = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    capitulo = table.Column<int>(type: "int", nullable: false),
-                    pasta = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_highlighter", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Instante",
                 columns: table => new
                 {
@@ -187,8 +171,6 @@ namespace BlazorServerCms.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Comentario = table.Column<bool>(type: "bit", nullable: false),
-                    Produto = table.Column<bool>(type: "bit", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaginaPadraoLink = table.Column<int>(type: "int", nullable: false)
@@ -370,26 +352,6 @@ namespace BlazorServerCms.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Content",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    highlighterId = table.Column<long>(type: "bigint", nullable: false),
-                    Html = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Content", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Content_highlighter_highlighterId",
-                        column: x => x.highlighterId,
-                        principalTable: "highlighter",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Livro",
                 columns: table => new
                 {
@@ -422,6 +384,7 @@ namespace BlazorServerCms.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rotas = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    user = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StoryId = table.Column<long>(type: "bigint", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CamadaNoveId = table.Column<long>(type: "bigint", nullable: true),
@@ -521,6 +484,27 @@ namespace BlazorServerCms.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Content",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FiltroId = table.Column<long>(type: "bigint", nullable: false),
+                    Html = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Data = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Content", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Content_Filtro_FiltroId",
+                        column: x => x.FiltroId,
+                        principalTable: "Filtro",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pergunta",
                 columns: table => new
                 {
@@ -562,33 +546,6 @@ namespace BlazorServerCms.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Classificacao",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    preferencia1 = table.Column<int>(type: "int", nullable: false),
-                    preferencia2 = table.Column<int>(type: "int", nullable: false),
-                    preferencia3 = table.Column<int>(type: "int", nullable: false),
-                    preferencia4 = table.Column<int>(type: "int", nullable: false),
-                    preferencia5 = table.Column<int>(type: "int", nullable: false),
-                    preferencia6 = table.Column<int>(type: "int", nullable: false),
-                    preferencia7 = table.Column<int>(type: "int", nullable: false),
-                    preferencia8 = table.Column<int>(type: "int", nullable: false),
-                    preferencia9 = table.Column<int>(type: "int", nullable: false),
-                    preferencia10 = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Classificacao", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Classificacao_Pagina_Id",
-                        column: x => x.Id,
-                        principalTable: "Pagina",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FiltroPagina",
                 columns: table => new
                 {
@@ -607,30 +564,6 @@ namespace BlazorServerCms.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FiltroPagina_Pagina_PaginaId",
-                        column: x => x.PaginaId,
-                        principalTable: "Pagina",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MarcadorPagina",
-                columns: table => new
-                {
-                    PaginaId = table.Column<long>(type: "bigint", nullable: false),
-                    highlighterId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MarcadorPagina", x => new { x.highlighterId, x.PaginaId });
-                    table.ForeignKey(
-                        name: "FK_MarcadorPagina_highlighter_highlighterId",
-                        column: x => x.highlighterId,
-                        principalTable: "highlighter",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MarcadorPagina_Pagina_PaginaId",
                         column: x => x.PaginaId,
                         principalTable: "Pagina",
                         principalColumn: "Id",
@@ -793,9 +726,9 @@ namespace BlazorServerCms.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Content_highlighterId",
+                name: "IX_Content_FiltroId",
                 table: "Content",
-                column: "highlighterId");
+                column: "FiltroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Filtro_CamadaNoveId",
@@ -868,11 +801,6 @@ namespace BlazorServerCms.Migrations
                 column: "InstanteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MarcadorPagina_PaginaId",
-                table: "MarcadorPagina",
-                column: "PaginaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Pagina_StoryId",
                 table: "Pagina",
                 column: "StoryId");
@@ -916,9 +844,6 @@ namespace BlazorServerCms.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Classificacao");
-
-            migrationBuilder.DropTable(
                 name: "Comentario");
 
             migrationBuilder.DropTable(
@@ -938,9 +863,6 @@ namespace BlazorServerCms.Migrations
 
             migrationBuilder.DropTable(
                 name: "ItemPedido");
-
-            migrationBuilder.DropTable(
-                name: "MarcadorPagina");
 
             migrationBuilder.DropTable(
                 name: "PageLiked");
@@ -971,9 +893,6 @@ namespace BlazorServerCms.Migrations
 
             migrationBuilder.DropTable(
                 name: "Produto");
-
-            migrationBuilder.DropTable(
-                name: "highlighter");
 
             migrationBuilder.DropTable(
                 name: "Livro");

@@ -113,7 +113,7 @@ window.MarcarIndice = (id) => {
     var tamanho = 0;
     var scrolando = 0;
     if (largura > 500) {
-        tamanho = parseInt((25 * largura) / 1280);
+        tamanho = parseInt((27 * largura) / 1280);
          scrolando = 32;
     }
     else  {

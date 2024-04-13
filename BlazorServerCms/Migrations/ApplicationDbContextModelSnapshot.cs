@@ -151,46 +151,6 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Livro");
                 });
 
-            modelBuilder.Entity("business.business.Classificacao", b =>
-                {
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("preferencia1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia10")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia2")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia3")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia4")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia5")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia6")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia7")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia8")
-                        .HasColumnType("int");
-
-                    b.Property<int>("preferencia9")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Classificacao");
-                });
-
             modelBuilder.Entity("business.business.Cliente", b =>
                 {
                     b.Property<long>("Id")
@@ -1039,17 +999,6 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Instante");
                 });
 
-            modelBuilder.Entity("business.business.Classificacao", b =>
-                {
-                    b.HasOne("business.Pagina", "Pagina")
-                        .WithOne("Classificacao")
-                        .HasForeignKey("business.business.Classificacao", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pagina");
-                });
-
             modelBuilder.Entity("business.business.Content", b =>
                 {
                     b.HasOne("business.Filtro", "Filtro")
@@ -1398,8 +1347,6 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Pagina", b =>
                 {
-                    b.Navigation("Classificacao");
-
                     b.Navigation("Filtro");
 
                     b.Navigation("Produto");
