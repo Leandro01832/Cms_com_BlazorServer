@@ -95,7 +95,7 @@ p[b-k8aihg5em2] {
 
 
 .indices[b-k8aihg5em2] {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
 }
 
 .barra[b-k8aihg5em2] {
@@ -280,6 +280,13 @@ Informativo[b-k8aihg5em2] {
 
 .item-horizonte[b-k8aihg5em2]{
     margin-left: 20px;
+}
+
+.share[b-k8aihg5em2] {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 

@@ -1,15 +1,15 @@
 ﻿@page "/renderizar"
 @page "/filtro/{capitulo:int}/{filtrar}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{redirecionar?}"
-@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{outroHorizonte:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada2/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{rotas?}"
-@page "/camada3/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada4/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada5/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada6/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada7/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada8/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada9/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
-@page "/camada10/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}"
+@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{outroHorizonte:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada2/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}/{rotas?}"
+@page "/camada3/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada4/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada5/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada6/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada7/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada8/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada9/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
+@page "/camada10/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{pontos?}"
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -321,8 +321,25 @@ else
         <br/>
         <br/>
         <br/>
-        
+
+        <div class="share">
+
             <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
+
+            @if (substory != null && rotas == null && indice_Filtro == ultimaPasta ||
+                substory != null && rotas == null && compartilhante != "comp")
+            {
+                <a class="compartilhar" onclick="@share">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                    </svg>
+                </a>
+            }
+
+            
+        </div>
+        
+            
         
 
         <GuidedTour TourId="FormGuidedTour1" OverlayEnabled="true">
@@ -747,31 +764,8 @@ else
                                             </svg>
                                         </a>
                                     </div>
-                                }
-                                
-                                @if (substory == null && outroHorizonte == 2 && condicaoFiltro)
-                                {
-                                    <div data-9 style="background-color:gray;" class="item-horizonte">
-
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
-                                        </svg>
-
-                                    </div>
-                                }
-
-                                else if (substory == null)
-                                {
-                                    <div data-9 style="background-color:transparent;" class="item-horizonte">
-
-                                        <a data-8 onclick="@acessarHorizontePerguntas">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                }
+                                }                                
+                               
 
                                 @if (substory == null && outroHorizonte == 1 && condicaoFiltro)
                                 {
@@ -867,7 +861,7 @@ else
 
                 @{
                    
-                        if (substory != null && indice_Filtro == ultimaPasta)
+                        if (substory != null /* && indice_Filtro == ultimaPasta */)
                         {
                             <a data-2 href="#" class="btn btn-dark" onclick="@listarPasta">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ol" viewBox="0 0 16 16">

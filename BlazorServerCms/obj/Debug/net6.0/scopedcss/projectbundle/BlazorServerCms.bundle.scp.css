@@ -65,6 +65,36 @@
     background-color: white;
 }
 
+.circuloCompartilhando[b-ybvjv7whh6] {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: rgb(95, 56, 23);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-size: 1.0rem;
+}
+
+
+.circulo2Compartilhando[b-ybvjv7whh6] {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(208, 146, 61);
+}
+
+.apresentacao[b-ybvjv7whh6] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between
+}
+
 .ImgUser[b-ybvjv7whh6] {
     width: 45px;
     height: 45px;
@@ -76,6 +106,13 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between
+}
+
+.container[b-ybvjv7whh6] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-evenly
 }
 
 @media (max-width: 550px) and (min-width: 50px) {
@@ -492,7 +529,7 @@ p[b-k8aihg5em2] {
 
 
 .indices[b-k8aihg5em2] {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
 }
 
 .barra[b-k8aihg5em2] {
@@ -677,6 +714,13 @@ Informativo[b-k8aihg5em2] {
 
 .item-horizonte[b-k8aihg5em2]{
     margin-left: 20px;
+}
+
+.share[b-k8aihg5em2] {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 

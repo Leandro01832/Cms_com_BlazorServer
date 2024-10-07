@@ -95,7 +95,7 @@ p {
 
 
 .indices {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
 }
 
 .barra {
@@ -280,6 +280,13 @@ Informativo {
 
 .item-horizonte{
     margin-left: 20px;
+}
+
+.share {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 

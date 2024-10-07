@@ -13,7 +13,10 @@ namespace BlazorServerCms.Data
             set { value = dominio; Permissao = false; }
         }
         public bool Permissao { get; set; }
+        public int PontosPorDia { get; set; }
 
-        
+        public DateTime DataPontuacao { get; set; }
+
+        public int Recorde { get; set; }
     }
 }

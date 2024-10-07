@@ -40,6 +40,8 @@ namespace BlazorCms.Client.Pages
         private List<Pagina> conteudo = new List<Pagina>();
         private int? indiceMarcador;
         private Story story = null;
+        private string? title = null;
+        private string? resumo = null;
         protected int indiceAcesso;
 
         
@@ -94,6 +96,7 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public string? redirecionar { get; set; } = null; [Parameter] public string? dominio { get; set; } = "dominio";
         [Parameter] public string? compartilhante { get; set; } = "dominio";
+        [Parameter] public string? pontos { get; set; } = "";
 
         [Parameter] public int outroHorizonte { get; set; }
 

@@ -34,6 +34,9 @@ namespace BlazorServerCms.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DataPontuacao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Dominio")
                         .HasColumnType("nvarchar(max)");
 
@@ -72,6 +75,12 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("PontosPorDia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Recorde")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

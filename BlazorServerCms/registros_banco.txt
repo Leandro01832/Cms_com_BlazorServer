@@ -1,4 +1,4 @@
-USE [sites]
+USE [cms]
 GO
 INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'220b2d6e-5e1e-4f19-bfb6-9ef12bf4c69e', N'Manager', N'MANAGER', N'5920cf02-a9df-4f8b-8843-b4d5cdce8bdb')
 GO

@@ -58,8 +58,40 @@ namespace BlazorCms.Client.Pages
                     .GetAuthenticationStateAsync();
             user = authState.User;
 
+
+            if (compartilhante != "comp" && pontos != null)
+            {
+               var us = Context.Users.FirstOrDefault(u => u.UserName == compartilhante);
+
+                if (us != null)
+                {
+                    if(DateTime.Now.Date > us.DataPontuacao.Date)
+                    {
+                        if (us.PontosPorDia > us.Recorde)
+                        {
+                            us.Recorde = us.PontosPorDia;
+                            Context.Update(us);
+                            Context.SaveChanges();
+                        }
+                        us.PontosPorDia = 1;
+                        us.DataPontuacao = DateTime.Now;
+                        Context.Update(us);
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
+                        us.PontosPorDia++;
+                        Context.Update(us);
+                        Context.SaveChanges();
+                    }
+                    
+                }
+
+                pontos = null;
+            }
+
             if (compartilhante == null)
-                compartilhante = "admin";
+                compartilhante = "comp";
             if (dominio == null)
                 dominio = "dominio";
             if (dominio == null)

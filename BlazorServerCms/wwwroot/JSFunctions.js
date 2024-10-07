@@ -185,5 +185,24 @@ window.sairFullScreen = (url) => {
 }
 
 
+window.share = (config) => {
+
+    var arr = config.split("/");
+
+    var endereco = window.location.href;
+    var titulo = arr[0];
+    var resumo = arr[1];    
+
+    if (navigator.share !== undefined) {
+        navigator.share({
+            title: titulo,
+            text: resumo,
+            url: endereco,
+        })
+            .then(() => alert('Compartilhamento feito com sucesso!!!'))
+            .catch((error) => alert('Erro ao compartilhar!!! ' + error, error));
+    }
+}
+
 
 

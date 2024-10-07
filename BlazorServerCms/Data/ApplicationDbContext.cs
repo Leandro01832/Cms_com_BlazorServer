@@ -9,7 +9,7 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
-        public static string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=instagleo;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        public static string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=cms;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
         public ApplicationDbContext(string connectionString)
         {

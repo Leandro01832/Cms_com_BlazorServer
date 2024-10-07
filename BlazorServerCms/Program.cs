@@ -43,23 +43,23 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 
 builder.Services.UseTour();
 
-builder.Services.AddAuthentication()
-               .AddGoogle(options =>
-               {
-                   options.ClientId = config["Authentication:Google:ClientId"];
-                   options.ClientSecret = config["Authentication:Google:ClientSecret"];
-                   IConfigurationSection googleAuthNSection =
-                       config.GetSection("Authentication:Google");
-                   options.ClientId = googleAuthNSection["ClientId"];
-                   options.ClientSecret = googleAuthNSection["ClientSecret"];
-               })
-               .AddFacebook(options =>
-               {
-                   IConfigurationSection facebookAuthNSection =
-                       config.GetSection("Authentication:Facebook");
-                   options.AppId = "901844574837459";
-                   options.AppSecret = "44255326eb4d1d9aae788034ffca9dd1";
-               });
+//builder.Services.AddAuthentication()
+//               .AddGoogle(options =>
+//               {
+//                   options.ClientId = config["Authentication:Google:ClientId"];
+//                   options.ClientSecret = config["Authentication:Google:ClientSecret"];
+//                   IConfigurationSection googleAuthNSection =
+//                       config.GetSection("Authentication:Google");
+//                   options.ClientId = googleAuthNSection["ClientId"];
+//                   options.ClientSecret = googleAuthNSection["ClientSecret"];
+//               })
+//               .AddFacebook(options =>
+//               {
+//                   IConfigurationSection facebookAuthNSection =
+//                       config.GetSection("Authentication:Facebook");
+//                   options.AppId = "901844574837459";
+//                   options.AppSecret = "44255326eb4d1d9aae788034ffca9dd1";
+//               });
 
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 

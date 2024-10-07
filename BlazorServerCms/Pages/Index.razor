@@ -14,8 +14,16 @@
 @inject ITourService TourService
 
 
-    <PageTitle>Instagleo</PageTitle>
-    
+<PageTitle>Instagleo</PageTitle>
+
+
+
+
+@if(marcar)
+{
+    <h5>capitulo 1</h5>
+}
+
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
 
@@ -26,48 +34,56 @@
 
 @if (MensagemSistema != null)
 {
-    <h3>@MensagemSistema</h3>    
-}   
+    <h3>@MensagemSistema</h3>
+}
 <div class="info">
 
-<p>
-    <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank" >
-        Peça seu livro
-    </a>
-</p>
-<p>
-    Usuarios inscritos: @users
-</p>
+   
 
-<p>
+    <p>
+        <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank">
+            Peça seu livro
+        </a>
+    </p>
+    <p>
+        Usuarios inscritos: @users
+    </p>
+
+    <p>
         <a data-8 href="#" onclick="@(() => navigation.NavigateTo("/createcontent"))">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
             </svg>
         </a>
-</p>
+    </p>
 </div>
 <div data-first>
 
-    <p style="font-family: 'League Script', cursive; font-size:large;" >
+    <p style="font-family: 'League Script', cursive; font-size:large;">
         A beleza da vida se multiplica cada vez Que a gente partilha com alguém que a gente ama.
         Se você quiser multiplicar a vida Você precisa dividí-la.
     </p>
 
 </div>
 
+
+<div class="container">
+    <div>
+        <input type="text" placeholder="Usuario" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
+        <br />
+        <input type="text" @bind="Query" placeholder="@placeholder" data-2 />
+        <a id="acessoPaginaComInput2" onclick="@buscar"
+           class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+        </a>
+    </div>
+    <div>
+        <input type="checkbox"  onchange="@(() => alterarPlaceholder())" /> Marcar?
+    </div>
     
- <div class="container">
-    <input type="text" placeholder="Usuario" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
-    <br />
-    <input type="text" @bind="Query" placeholder="Nº do capitulo ou pesquisar" data-2 />
-    <a id="acessoPaginaComInput2"  onclick="@buscar"
-       class="btn btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-        </svg>
-    </a>     
- </div>
+</div>
 
 @if (usuarios!.Count > 0)
 {
@@ -82,17 +98,17 @@
                     <div class="circulo">
                         <center>
 
-                        <div class="circulo2">
-                            @if (item.UserModel.Image != null)
-                            {
+                            <div class="circulo2">
+                                @if (item.UserModel.Image != null)
+                                {
                                     <img src="ImgUser/usuario-@(item.user)-@(item.UserModel.Image)" class="ImgUser">
-                            }
-                            else
-                            {
-                                <img src="ImgUser/padrao.jpg" class="ImgUser">
+                                }
+                                else
+                                {
+                                    <img src="ImgUser/padrao.jpg" class="ImgUser">
 
-                            }
-                        </div>
+                                }
+                            </div>
                         </center>
                     </div>
                 </a>
@@ -101,7 +117,7 @@
     </div>
 }
 
-@if(filtros!.Count > 0)
+@if (filtros!.Count > 0)
 {
     <div style="position:absolute; background-color:aliceblue; width:75%;">
         <table cellspacing="50" border="5" cellpadding="50" style="width:100%">
@@ -120,7 +136,7 @@
                     <td>Capitulo @f.Story!.PaginaPadraoLink </td>
                     <td>Pasta @(fil!.IndexOf(f) + 1) </td>
                     <td>Pasta @f.Nome </td>
-                   
+
                     <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
                 </tr>
             }
@@ -128,27 +144,49 @@
         </table>
     </div>
 }
-<img src="/story.jpg" style="width:60%" />
+<div class="apresentacao">
 
-<a href="/comentario/0/1" style="background-color:rgb(208, 146, 61); font-size:large;color:rgb(95, 56, 23);">
-        Compartilhe seu comentário
-    </a>
+   
+    <img src="/story.jpg" style="width:90%" />
+
+    <div class="circuloCompartilhando">
+        <center>
+
+            <div class="circulo2Compartilhando">
+                <a href="/comentario/0/1" >
+                    Compartilhe seu comentário
+                </a>
+            </div>
+        </center>
+    </div>
+    
+    <div class="circuloCompartilhando">
+        <center>
+
+            <div class="circulo2Compartilhando">
+                Ganhe descontos, prêmios e dinheiro compartilhando!!!
+            </div>
+        </center>
+    </div>
+
+
+</div>
 
 <GuidedTour TourId="FormGuidedTour" OverlayEnabled="true">
     <GuidedTourStep Title="Instagleo" StepName="firstStep" TourStepSequence="1"
-        ElementSelector="[data-first]">
+                    ElementSelector="[data-first]">
         <span>Seja Bem-vindo ao nosso sistema de compartilhamento de paginas</span>
     </GuidedTourStep>
     <GuidedTourStep Title="acessando stories" StepName="Step2" TourStepSequence="2"
-        ElementSelector="[data-2]">
+                    ElementSelector="[data-2]">
         <span>Informe o capitulo 1 e acesse a primeira story</span>
     </GuidedTourStep>
     <GuidedTourStep Title="Sumario" StepName="Step3" TourStepSequence="3"
-        ElementSelector="[data-3]">
+                    ElementSelector="[data-3]">
         <span>No sumário você poderá ver todos os capitulos </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Instante" StepName="Step4" TourStepSequence="4"
-        ElementSelector="[data-4]">
+                    ElementSelector="[data-4]">
         <span>
             Após acessar os stories poderá usar instantes.
             É mais uma forma  compartilhar conteudos.
@@ -158,32 +196,32 @@
     <GuidedTourStep Title="Plataformas" StepName="Step5" TourStepSequence="5"
                     ElementSelector="[data-5]">
         <span>
-          Neste link você terá acesso a todas as plataformas utilizadas pelo administrador.
+            Neste link você terá acesso a todas as plataformas utilizadas pelo administrador.
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Livro compartilhado" StepName="Step6" TourStepSequence="6"
                     ElementSelector="[data-6]">
         <span>
-           No livro compartilhado pode-se definir o livro e o capitulo.
-           Só será necessário informar o versiculo.
+            No livro compartilhado pode-se definir o livro e o capitulo.
+            Só será necessário informar o versiculo.
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Configurações" StepName="Step7" TourStepSequence="7"
                     ElementSelector="[data-7]">
         <span>
             Somente o administrador pode acessar.
-           Gerencia todo o sistema criando pastas, paginas e stories.
+            Gerencia todo o sistema criando pastas, paginas e stories.
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Configurações" StepName="Step8" TourStepSequence="8"
                     ElementSelector="[data-8]">
         <span>
-           Crie conteudos para filtros que foram criados por você
+            Crie conteudos para filtros que foram criados por você
         </span>
     </GuidedTourStep>
 </GuidedTour>
 
-@code{
+@code {
 
     [Parameter] public int? capitulo { get; set; }
 
@@ -202,6 +240,8 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private int users = 0;
+    private string placeholder = "Nº do capitulo ou pesquisar";
+    private bool marcar;
 
     private string erro1 = "Voce ainda não esta compartilhando nenhum livro";
 
@@ -215,9 +255,9 @@
                 .Include(f => f.Story).ToListAsync();
 
         var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.user == repositoryPagina.buscarDominio());
-        if (compartilhante == null)        
+        if (compartilhante == null)
             compartilhante = "comp";
-        if(dominio == null)
+        if (dominio == null)
             dominio = repositoryPagina.buscarDominio();
 
         else if (dominio != repositoryPagina.buscarDominio())
@@ -237,7 +277,7 @@
             }
         }
 
-        if(dominio == null)
+        if (dominio == null)
         {
             dominio = "dominio";
         }
@@ -250,9 +290,9 @@
         else if (capitulo != null && filtrar != null)
         {
             navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0/1");
-        }        
+        }
         else if (indice != null)
-        { 
+        {
             var number = Regex.Match(indice, @"d+").Value;
             if (livro != null)
                 navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.capitulo}/{number}/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
@@ -289,7 +329,7 @@
             cap = int.Parse(Query!);
             navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             if (!string.IsNullOrEmpty(Query))
             {
@@ -298,12 +338,12 @@
                 .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.user == null).ToListAsync();
 
 
-                if(filtros.Count == 0)
+                if (filtros.Count == 0)
                 {
                     var paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())).ToList();
                     List<Pagina> pages = new List<Pagina>();
 
-                    foreach(var item in paginas)
+                    foreach (var item in paginas)
                     {
                         var rotas = item.Rotas.Split(",");
                         foreach (var rota in rotas)
@@ -311,19 +351,19 @@
                                 pages.Add(item);
                     }
 
-                    if(pages.Count == 0)
+                    if (pages.Count == 0)
                     {
                         var rot = Context.Rota.FirstOrDefaultAsync(r => r.Nome.ToLower().Contains(Query.ToLower()));
 
-                        if(rot == null)
+                        if (rot == null)
                         {
                             var rota = new Rota
-                                        {
-                                            Nome = Query.ToLower(),
-                                            Registrado = false
-                                        };
+                                {
+                                    Nome = Query.ToLower(),
+                                    Registrado = false
+                                };
                             Context.Add(rota);
-                            await Context.SaveChangesAsync();                        
+                            await Context.SaveChangesAsync();
                         }
                     }
                     else
@@ -346,14 +386,14 @@
     private void alterarUser(ChangeEventArgs args)
     {
         var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
-        foreach(var item in users)
+        foreach (var item in users)
 
             usuarios.Add(new IdentityUserImage { user = item.UserName, UserModel = item });
 
         if (string.IsNullOrEmpty(args.Value!.ToString()!))
             usuarios.Clear();
     }
-    
+
     private class IdentityUserImage
     {
         public string? user { get; set; }
@@ -363,6 +403,15 @@
     private async Task StartTour()
     {
         await TourService.StartTour("FormGuidedTour");
+    }
+
+    private void alterarPlaceholder()
+    {
+        marcar = !marcar;
+        if (marcar)
+        placeholder = "Nº dos versos ou pesquisar";
+        else
+        placeholder = "Nº do capitulo ou pesquisar";
     }
 
 }
