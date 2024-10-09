@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "MJNolA08V/0=",
+  "dgSpecHash": "ETMTsw8PZ7A=",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\cms\\BlazorServerCms\\BlazorServerCms.csproj",
   "expectedPackageFiles": [
@@ -270,7 +270,11 @@
     "C:\\Users\\User\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\tinymce.blazor\\1.0.4\\tinymce.blazor.1.0.4.nupkg.sha512"
+    "C:\\Users\\User\\.nuget\\packages\\tinymce.blazor\\1.0.4\\tinymce.blazor.1.0.4.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.35\\microsoft.windowsdesktop.app.ref.6.0.35.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.35\\microsoft.netcore.app.ref.6.0.35.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.35\\microsoft.aspnetcore.app.ref.6.0.35.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.35\\microsoft.netcore.app.host.win-x64.6.0.35.nupkg.sha512"
   ],
   "logs": []
 }

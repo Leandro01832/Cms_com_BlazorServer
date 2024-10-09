@@ -21,7 +21,7 @@
 
 @if(marcar)
 {
-    <h5>capitulo 1</h5>
+    <h5>capitulo @repositoryPagina.CapituloLivro</h5>
 }
 
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
@@ -243,6 +243,20 @@
     private string placeholder = "Nº do capitulo ou pesquisar";
     private bool marcar;
 
+    public ClassArray Arr = new ClassArray();
+    private Story story = null;
+
+    int? verso = null;
+    int? substory = null;
+    int? grupo = null;
+    int? subgrupo = null;
+    int? subsubgrupo = null;
+    int? camadaseis = null;
+    int? camadasete = null;
+    int? camadaoito = null;
+    int? camadanove = null;
+    int? camadadez = null;
+
     private string erro1 = "Voce ainda não esta compartilhando nenhum livro";
 
     protected override async Task OnInitializedAsync()
@@ -252,7 +266,21 @@
         users = quant.Count;
 
         filtros2 = await Context.Filtro!
-                .Include(f => f.Story).ToListAsync();
+                .Include(f => f.Story)
+                .Include(f => f.Pagina)!
+                .ThenInclude(f => f.Pagina)
+                .OrderBy(f => f.Id).ToListAsync();
+
+        filtros2.Reverse();
+
+        if (story == null)
+        {
+            story = await Context.Story!
+                      .Include(p => p.Filtro)!
+                     .ThenInclude(p => p.Pagina)!
+                     .ThenInclude(p => p.Pagina)!
+                      .OrderBy(st => st.Id).FirstOrDefaultAsync(p => p.PaginaPadraoLink == 1)!;
+        }
 
         var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.user == repositoryPagina.buscarDominio());
         if (compartilhante == null)
@@ -324,64 +352,219 @@
 
     private async void buscar()
     {
-        try
+        var comp = "";
+        if (marcar)
         {
-            cap = int.Parse(Query!);
-            navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
-        }
-        catch (Exception ex)
-        {
-            if (!string.IsNullOrEmpty(Query))
+            string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario.");
+            string? url = null;
+            Filtro[] fils = null;
+            if (!string.IsNullOrEmpty(prompted))
             {
-                filtros = await Context.Filtro!
-                .Include(f => f.Story)
-                .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.user == null).ToListAsync();
+                prompted = prompted.Replace(" ", "");
+                var us = Context.Users.FirstOrDefaultAsync(u => u.UserName == prompted);
+                if (us != null)
+                    compartilhante = prompted;
+                else
+                    compartilhante = "comp";
+            }
+            else
+                compartilhante = "comp";
 
+            if (Query[Query.Length - 1] == ',')
+                Query = Query.Replace(Query.Last().ToString(), "");
+            if (Query.Contains(","))
+            {
+                var arr = Query.Replace(" ", "").Split(",");
+                bool teste = true;
+                bool teste2 = true;
+                fils = new Filtro[arr.Length];
+                int[] numeros = new int[arr.Length];
 
-                if (filtros.Count == 0)
+                for (var i = 0; i < arr.Length; i++)
                 {
-                    var paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())).ToList();
-                    List<Pagina> pages = new List<Pagina>();
-
-                    foreach (var item in paginas)
+                    try
                     {
-                        var rotas = item.Rotas.Split(",");
-                        foreach (var rota in rotas)
-                            if (rota.ToLower().TrimEnd().TrimStart() == Query.ToLower().TrimEnd().TrimStart())
-                                pages.Add(item);
+                        numeros[i] = int.Parse(arr[i]);
+                    }
+                    catch (Exception)
+                    {
+                        await js!.InvokeAsync<object>("DarAlert", "Informe apenas numeros separando por virgula");
+                        teste = false;
+                        break;
+                    }
+                }
+
+                if (teste)
+                {
+                    for (var j = 0; j < numeros.Length; j++)
+                    {
+                        url = null;
+                        foreach (var item in filtros2)
+                        {
+                            if (fils.Contains(item))
+                            {
+                                teste2 = false;
+                                break;
+                            }
+                            foreach (var item2 in item.Pagina)
+                            {
+
+                                if (compartilhante == "comp")
+                                {
+                                    if (item2.Pagina.Versiculo == numeros[j] && url == null && !fils.Contains(item))
+                                    {
+                                        verso = item.Pagina.IndexOf(item2) + 1;
+                                        var a = retornarArray(item);
+                                        fils[j] = item;
+                                        setarCamadas(a);
+                                        url = retornarUrl();
+                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+
+                                    }
+                                }
+                                else
+                                {
+                                    if (item2.Pagina.Versiculo == numeros[j] && url == null &&
+                                        item.user == compartilhante && !fils.Contains(item))
+                                    {
+                                        verso = item.Pagina.IndexOf(item2) + 1;
+                                        var a = retornarArray(item);
+                                        fils[j] = item;
+                                        setarCamadas(a);
+                                        url = retornarUrl();
+                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                                    }
+                                }
+
+
+                            }
+
+
+
+
+                        }
+
+
+
+                    }
+                }
+
+                if (!teste2)
+                {
+                    await js!.InvokeAsync<object>("DarAlert", "Informe versiculos que estejam em pastas diferentes!!!");
+                }
+
+            }
+            else
+            {
+                try
+                {
+                    var num = int.Parse(Query);
+
+                    foreach(var item in filtros2)
+                    {
+                        foreach (var item2 in item.Pagina)
+                        {
+                            if (comp == "comp")
+                            {
+                                if (item2.Pagina.Versiculo == num && url == null)
+                                {
+                                    verso = item.Pagina.IndexOf(item2) + 1;
+                                    var a = retornarArray(item);                                    
+                                    setarCamadas(a);
+                                    url = retornarUrl();
+
+                                }
+                            }
+                            else
+                            {
+                                if (item2.Pagina.Versiculo == num && url == null && item.user == comp)
+                                {
+                                    verso = item.Pagina.IndexOf(item2) + 1;
+                                    var a = retornarArray(item);                                    
+                                    setarCamadas(a);
+                                    url = retornarUrl();
+
+                                }
+                            }
+                        }
                     }
 
-                    if (pages.Count == 0)
-                    {
-                        var rot = Context.Rota.FirstOrDefaultAsync(r => r.Nome.ToLower().Contains(Query.ToLower()));
+                    await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                    url = null;
+                }
+                catch (Exception)
+                {
+                    await js!.InvokeAsync<object>("DarAlert", $"Informe apenas numeros separando por virgula");
 
-                        if (rot == null)
+                }
+            }
+        }
+        else
+        {
+            try
+            {
+                cap = int.Parse(Query!);
+                navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
+            }
+            catch (Exception ex)
+            {
+                if (!string.IsNullOrEmpty(Query))
+                {
+                    filtros = await Context.Filtro!
+                    .Include(f => f.Story)
+                    .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.user == null).ToListAsync();
+
+
+                    if (filtros.Count == 0)
+                    {
+                        var paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())).ToList();
+                        List<Pagina> pages = new List<Pagina>();
+
+                        foreach (var item in paginas)
                         {
-                            var rota = new Rota
+                            var rotas = item.Rotas.Split(",");
+                            foreach (var rota in rotas)
+                                if (rota.ToLower().TrimEnd().TrimStart() == Query.ToLower().TrimEnd().TrimStart())
+                                    pages.Add(item);
+                        }
+
+                        if (pages.Count == 0)
+                        {
+                            var rot = Context.Rota.FirstOrDefaultAsync(r => r.Nome.ToLower().Contains(Query.ToLower()));
+
+                            if (rot == null)
+                            {
+                                var rota = new Rota
                                 {
                                     Nome = Query.ToLower(),
                                     Registrado = false
                                 };
-                            Context.Add(rota);
-                            await Context.SaveChangesAsync();
+                                Context.Add(rota);
+                                await Context.SaveChangesAsync();
+                            }
+                        }
+                        else
+                        {
+                            var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
+                            var story = stories.First(str => str.Id == paginas[0].StoryId);
+                            var cap = stories.IndexOf(story) + 1;
+                            navigation.NavigateTo($"/camada2/{cap}/1/1/0/11/1/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
                         }
                     }
-                    else
-                    {
-                        var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
-                        var story = stories.First(str => str.Id == paginas[0].StoryId);
-                        var cap = stories.IndexOf(story) + 1;
-                        navigation.NavigateTo($"/camada2/{cap}/1/1/0/11/1/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
-                    }
                 }
+                else if (string.IsNullOrEmpty(Query))
+                {
+                    filtros = new List<Filtro>();
+                }
+                cap = 1;
             }
-            else if (string.IsNullOrEmpty(Query))
-            {
-                filtros = new List<Filtro>();
-            }
-            cap = 1;
+
         }
+
     }
+
+    
 
     private void alterarUser(ChangeEventArgs args)
     {
@@ -409,9 +592,138 @@
     {
         marcar = !marcar;
         if (marcar)
-        placeholder = "Nº dos versos ou pesquisar";
+        placeholder = "Nº dos versiculos";
         else
         placeholder = "Nº do capitulo ou pesquisar";
+    }
+
+    private int[] retornarArray(Filtro fi)
+    {
+        int[] arr = null;
+        if (fi is CamadaDez)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+        else if (fi is CamadaNove)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+        else if (fi is CamadaOito)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+        else if (fi is CamadaSete)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
+        else if (fi is CamadaSeis)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
+        else if (fi is SubSubGrupo)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
+        else if (fi is SubGrupo)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1);
+        else if (fi is Grupo)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1);
+        else if (fi is SubStory)
+            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1);
+        return arr;
+    }
+
+
+    private void setarCamadas(int[] arr)
+    {
+
+
+        if (arr.Length == 10)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+            subgrupo = arr[3];
+            subsubgrupo = arr[4];
+            camadaseis = arr[5];
+            camadasete = arr[6];
+            camadaoito = arr[7];
+            camadanove = arr[8];
+            camadadez = arr[9];
+        }
+        else if (arr.Length == 9)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+            subgrupo = arr[3];
+            subsubgrupo = arr[4];
+            camadaseis = arr[5];
+            camadasete = arr[6];
+            camadaoito = arr[7];
+            camadanove = arr[8];
+        }
+        else if (arr.Length == 8)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+            subgrupo = arr[3];
+            subsubgrupo = arr[4];
+            camadaseis = arr[5];
+            camadasete = arr[6];
+            camadaoito = arr[7];
+        }
+        else if (arr.Length == 7)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+            subgrupo = arr[3];
+            subsubgrupo = arr[4];
+            camadaseis = arr[5];
+            camadasete = arr[6];
+        }
+        else if (arr.Length == 6)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+            subgrupo = arr[3];
+            subsubgrupo = arr[4];
+            camadaseis = arr[5];
+        }
+        else if (arr.Length == 5)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+            subgrupo = arr[3];
+            subsubgrupo = arr[4];
+        }
+        else if (arr.Length == 4)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+            subgrupo = arr[3];
+        }
+        else if (arr.Length == 3)
+        {
+            substory = arr[1];
+            grupo = arr[2];
+        }
+        else if (arr.Length == 2)
+        {
+            substory = arr[1];
+        }
+    }
+
+    private string retornarUrl()
+    {
+        string url = null;
+        if (camadadez != null)
+            url = $"/camada10/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (camadanove != null)
+            url = $"/camada9/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (camadaoito != null)
+            url = $"/camada8/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (camadasete != null)
+            url = $"/camada7/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (camadaseis != null)
+            url = $"/camada6/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (subsubgrupo != null)
+            url = $"/camada5/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (subgrupo != null)
+            url = $"/camada4/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (grupo != null)
+            url = $"/camada3/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else if (substory != null)
+            url = $"/camada2/{repositoryPagina.CapituloLivro}/{substory}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+        else
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/1/0/0/0/0/dominio/{compartilhante}";
+        return url;
     }
 
 }

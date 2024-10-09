@@ -22,6 +22,7 @@ namespace BlazorServerCms.servicos
 
         public Random random = new Random();
 
+        public int? CapituloLivro { get; set; } = null;
         public bool aguarde { get; set; } = false;
         public int diaCupom = 0;
         public string cupomDesconto = "";

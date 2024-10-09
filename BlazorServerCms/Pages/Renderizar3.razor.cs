@@ -368,14 +368,23 @@ namespace BlazorCms.Client.Pages
             }
 
             PageLiked p = null;
-            if (substory != null)
-                p = repositoryPagina.paginasCurtidas.FirstOrDefault(p => p.capitulo == capitulo
-                   && p.verso == vers
-                   && p.user == user.Identity!.Name)!;
-            else
-                p = repositoryPagina.paginasCurtidas.FirstOrDefault(p => p.capitulo == capitulo
-                    && p.verso == indice
-                    && p.user == user.Identity!.Name)!;
+
+            try
+            {
+                if (substory != null)
+                    p = repositoryPagina.paginasCurtidas.FirstOrDefault(p => p.capitulo == capitulo
+                       && p.verso == vers
+                       && p.user == user.Identity!.Name)!;
+                else
+                    p = repositoryPagina.paginasCurtidas.FirstOrDefault(p => p.capitulo == capitulo
+                        && p.verso == indice
+                        && p.user == user.Identity!.Name)!;
+
+            }
+            catch (Exception)
+            {
+                liked = false;
+            }
 
             if (p != null)
                 liked = true;
