@@ -130,7 +130,7 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         var p = Context.Pagina!.First(p => p.Versiculo == exampleModel.resposta1);
-        exampleModel.pasta = p.UltimaPasta;
+        
         exampleModel.user = user.Identity!.Name!;
         exampleModel.Id = pergunta.Id;
         await Context.AddAsync(exampleModel);
@@ -145,10 +145,7 @@
         .FirstOrDefault(p => p.Story.PaginaPadraoLink == exampleModel.capitulo &&
             p.Versiculo == exampleModel.resposta1);
 
-        if(model != null)
-        ultimaPasta = model.UltimaPasta;
-        else
-        ultimaPasta = 0;
+        
     }
 
 }

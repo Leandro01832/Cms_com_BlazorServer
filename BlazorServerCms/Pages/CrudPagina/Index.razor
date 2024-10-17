@@ -19,7 +19,6 @@ else
             <th>Titulo</th>
             <th>Capitulo</th>
             <th>Versiculo</th>
-            <th>Ultima Pasta</th>
             <th>Edita</th>
             <th>Deleta</th>
         </tr>
@@ -31,7 +30,6 @@ else
                 <td>@camada.Titulo</td>
                 <td>@camada.Story!.PaginaPadraoLink</td>
                 <td>@camada.Versiculo</td>
-                <td>@camada.UltimaPasta</td>
                 <td><a class="btn btn-primary" href="pagina/edit/@camada.Id">Editar</a> </td>
                 <td><a class="btn btn-danger" @onclick="(()=> DeletarCamada(camada.Id))">Deletar</a> </td>
                

@@ -24,7 +24,7 @@
                     <label>
                         Informe o Filtro
                     </label>
-                    <select @bind="@exampleModel.FiltroId">
+                    <select @bind="@FiltroId">
 
                             <option value="0" selected="selected" > Filtro </option>
                             @foreach(var item in lista)
@@ -52,6 +52,7 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private List<Filtro> lista;
+    private long FiltroId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,22 +67,27 @@
 
     private async void HandleSubmit()
     {
-        if(exampleModel.FiltroId != 0)
-        {
-            await Context.AddAsync(exampleModel);
-            await Context.SaveChangesAsync();
-            var fil = repositoryPagina.filtros.FirstOrDefault(f => f.Id == exampleModel.FiltroId);
-            if(fil != null)
-                fil.Content.Add(exampleModel);
 
-            repositoryPagina.conteudos.Add(exampleModel);
+        await Context.AddAsync(exampleModel);
+        await Context.SaveChangesAsync();
+
+        repositoryPagina.conteudos.Add(exampleModel);
+
+        var c = await Context.Content.Include(con => con.Filtro)
+        .FirstAsync(f => f.Id == exampleModel.Id);
+
+        var fil = await Context.Filtro.FirstAsync(f => f.Id == FiltroId);
+
+        if(fil != null)
+        {
+
+            c.IncluiFiltro(fil);
+           await Context.SaveChangesAsync();
+        }
+
 
             await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
             navigation.NavigateTo("/");            
-        }
-        else
-        {
-            await js!.InvokeAsync<object>("DarAlert", $"Informe o filtro.");
-        }
+       
     }
 }

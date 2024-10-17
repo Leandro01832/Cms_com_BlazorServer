@@ -4,6 +4,7 @@ using BlazorServerCms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241012153520_Content-Pagina")]
+    partial class ContentPagina
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,19 +211,19 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Content");
                 });
 
-            modelBuilder.Entity("business.business.ContentFiltro", b =>
+            modelBuilder.Entity("business.business.ContentPagina", b =>
                 {
                     b.Property<long>("ContentId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("FiltroId")
+                    b.Property<long>("PaginaId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("ContentId", "FiltroId");
+                    b.HasKey("ContentId", "PaginaId");
 
-                    b.HasIndex("FiltroId");
+                    b.HasIndex("PaginaId");
 
-                    b.ToTable("ContentFiltro");
+                    b.ToTable("ContentPagina");
                 });
 
             modelBuilder.Entity("business.business.Endereco", b =>
@@ -693,6 +695,9 @@ namespace BlazorServerCms.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UltimaPasta")
+                        .HasColumnType("int");
+
                     b.Property<int>("Versiculo")
                         .HasColumnType("int");
 
@@ -768,6 +773,21 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Telefone");
+                });
+
+            modelBuilder.Entity("ContentFiltro", b =>
+                {
+                    b.Property<long>("ContentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("FiltroId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ContentId", "FiltroId");
+
+                    b.HasIndex("FiltroId");
+
+                    b.ToTable("ContentFiltro");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1015,23 +1035,23 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Instante");
                 });
 
-            modelBuilder.Entity("business.business.ContentFiltro", b =>
+            modelBuilder.Entity("business.business.ContentPagina", b =>
                 {
                     b.HasOne("business.business.Content", "Content")
-                        .WithMany("Filtro")
+                        .WithMany()
                         .HasForeignKey("ContentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithMany("Content")
-                        .HasForeignKey("FiltroId")
+                    b.HasOne("business.Pagina", "Pagina")
+                        .WithMany()
+                        .HasForeignKey("PaginaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Content");
 
-                    b.Navigation("Filtro");
+                    b.Navigation("Pagina");
                 });
 
             modelBuilder.Entity("business.business.Endereco", b =>
@@ -1186,6 +1206,21 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("ContentFiltro", b =>
+                {
+                    b.HasOne("business.business.Content", null)
+                        .WithMany()
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.Filtro", null)
+                        .WithMany()
+                        .HasForeignKey("FiltroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1346,11 +1381,6 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("business.business.Content", b =>
-                {
-                    b.Navigation("Filtro");
-                });
-
             modelBuilder.Entity("business.business.Pergunta", b =>
                 {
                     b.Navigation("UserResponse");
@@ -1358,8 +1388,6 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
-                    b.Navigation("Content");
-
                     b.Navigation("Pagina");
 
                     b.Navigation("Pergunta");

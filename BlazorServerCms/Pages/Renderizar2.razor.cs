@@ -56,6 +56,7 @@ namespace BlazorCms.Client.Pages
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
         protected Pagina? pag;
+        protected Content? pag2;
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
         protected Pergunta? Model3;
@@ -64,7 +65,7 @@ namespace BlazorCms.Client.Pages
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;       
-        protected bool data = false;       
+        protected bool Content = false;       
         protected long quantLiked = 0;
 
         protected string? html { get; set; } = "";
@@ -72,7 +73,7 @@ namespace BlazorCms.Client.Pages
         protected int? CapituloComentario { get; set; } = null;
         protected int? VersoComentario { get; set; } = null;        
         protected int quantidadeLista { get; set; } = 0;
-        protected long ultimaPasta { get; set; }
+        protected bool ultimaPasta { get; set; }
          protected bool condicaoFiltro { get; set; } = false;
                
         protected int? indice_Filtro { get; set; }         
@@ -96,6 +97,7 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public string? redirecionar { get; set; } = null; [Parameter] public string? dominio { get; set; } = "dominio";
         [Parameter] public string? compartilhante { get; set; } = "dominio";
+        [Parameter] public string? compartilhante2 { get; set; } = "dominio";
         [Parameter] public string? pontos { get; set; } = "";
 
         [Parameter] public int outroHorizonte { get; set; }

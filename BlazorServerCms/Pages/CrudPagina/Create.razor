@@ -119,7 +119,6 @@
         {
             var fil = filtros.First(f => f.Id == pasta);
             setPastas(fil);
-            exampleModel.UltimaPasta = filtros.IndexOf(fil) + 1;
             Context.Update(exampleModel);
             Context.SaveChanges();
         }   

@@ -92,6 +92,8 @@ namespace BlazorCms.Client.Pages
 
             if (compartilhante == null)
                 compartilhante = "comp";
+            if (compartilhante2 == null)
+                compartilhante2 = "comp";
             if (dominio == null)
                 dominio = "dominio";
             if (dominio == null)
@@ -113,6 +115,8 @@ namespace BlazorCms.Client.Pages
             if(repositoryPagina.stories.Count == 0)
             {
                 var str = await Context.Story!
+                    .Include(p => p.Filtro)!
+                    .ThenInclude(p => p.Content)!
                     .Include(p => p.Filtro)!
                    .ThenInclude(p => p.Pagina)!
                    .ThenInclude(p => p.Pagina)
@@ -185,7 +189,6 @@ namespace BlazorCms.Client.Pages
                 Console.WriteLine(ex.Message);
             }
 
-            ultimaPasta = 0;
             var quantidadeFiltros = 0;
             var quantidadePaginas = 0;
             List<Pagina> listaFiltradaComConteudo = null;
@@ -308,17 +311,17 @@ namespace BlazorCms.Client.Pages
 
                     var arr = retornarArray(fi);
                     indice = 1;
-                    if (compartilhante == null) compartilhante = "admin";
+                    if (compartilhante == null) compartilhante = "comp";
+                    if (compartilhante2 == null) compartilhante2 = "comp";
                     auto = 0;
 
                     setarCamadas(arr);
-                    var url = retornarUrl();
-                    navigation!.NavigateTo(url);
+                    acessar();
                 }
 
             }
 
-            ultimaPasta = Model.UltimaPasta;
+           // ultimaPasta = Model.UltimaPasta;
 
             if (Model.ContentUser != null && Model.ContentUser.Contains("iframe") ||
                 Model.Content != null && Model.Content.Contains("iframe"))
@@ -416,7 +419,8 @@ namespace BlazorCms.Client.Pages
                 camadaseis = arr[5];
                 camadasete = arr[6];
                 camadaoito = arr[7];
-                camadanove = arr[8];               
+                camadanove = arr[8];
+                camadadez = null;
             }
             else if (arr.Length == 8)
             {
@@ -426,7 +430,9 @@ namespace BlazorCms.Client.Pages
                 subsubgrupo = arr[4];
                 camadaseis = arr[5];
                 camadasete = arr[6];
-                camadaoito = arr[7];                
+                camadaoito = arr[7];   
+                camadanove = null;
+                camadadez = null;
             }
             else if (arr.Length == 7)
             {
@@ -435,7 +441,11 @@ namespace BlazorCms.Client.Pages
                 subgrupo = arr[3];
                 subsubgrupo = arr[4];
                 camadaseis = arr[5];
-                camadasete = arr[6];                
+                camadasete = arr[6];
+                camadaoito = null;
+                    camadanove = null;
+                    camadadez = null;
+
             }
             else if (arr.Length == 6)
             {
@@ -443,33 +453,75 @@ namespace BlazorCms.Client.Pages
                 grupo = arr[2];
                 subgrupo = arr[3];
                 subsubgrupo = arr[4];
-                camadaseis = arr[5];                
+                camadaseis = arr[5];  
+                camadasete = null;
+                camadaoito = null;  
+                camadanove = null;
+                camadadez = null;
             }
             else if (arr.Length == 5)
             {
                 substory = arr[1];
                 grupo = arr[2];
                 subgrupo = arr[3];
-                subsubgrupo = arr[4];               
+                subsubgrupo = arr[4];  
+                camadaseis = null;
+                camadasete = null;
+                camadaoito = null;
+                camadanove = null;
+                camadadez = null;
             }
             else if (arr.Length == 4)
             {
                 substory = arr[1];
                 grupo = arr[2];
-                subgrupo = arr[3];                
+                subgrupo = arr[3];  
+                subsubgrupo = null;
+                camadaseis = null;
+                camadasete = null;
+                camadaoito = null;
+                camadanove = null;
+                camadadez = null;
             }
             else if (arr.Length == 3)
             {
                 substory = arr[1];
                 grupo = arr[2];
+                subgrupo = null;
+                subsubgrupo = null;
+                camadaseis = null;
+                camadasete = null;
+                camadaoito = null;
+                camadanove = null;
+                camadadez = null;
             }
             else if (arr.Length == 2)
             {
                 substory = arr[1];
+                grupo = null;
+                subgrupo = null;
+                subsubgrupo = null;
+                camadaseis = null;
+                camadasete = null;
+                camadaoito = null;
+                camadanove = null;
+                camadadez = null;
+            }
+            else if (arr == null)
+            {
+                substory = null;
+                grupo = null;
+                subgrupo = null;
+                subsubgrupo = null;
+                camadaseis = null;
+                camadasete = null;
+                camadaoito = null;
+                camadanove = null;
+                camadadez = null;
             }
         }
 
-        private int[] retornarArray( Filtro fi)
+        private int[] retornarArray(Filtro fi)
         {
             int[] arr = null;
             if (fi is CamadaDez)
@@ -698,16 +750,17 @@ namespace BlazorCms.Client.Pages
                 if (Model2.user != null)
                 {
                     listaFiltradaComConteudo = retornarListaComConteudo(listaFiltradaComConteudo!.OrderBy(p => p.Id).ToList()!,
-                        repositoryPagina.conteudos.Where(c => c.FiltroId == Model2.Id).ToList());
+                        repositoryPagina.conteudos.ToList());
                     compartilhante = Model2.user;
                 }  
                 else if(Model2.user == null)
                     compartilhante = "comp";
 
-                if(data)
-                  pag = listaFiltradaComConteudo!.OrderByDescending(p => p.Data).Skip((int)indice - 1).FirstOrDefault();
-                else
-                  pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+                //if(Content)
+                //  pag2 = repositoryPagina.conteudos!
+                //        .Where(p => p.Filtro.FirstOrDefault(f => f.FiltroId == Model2.Id) != null  ).FirstOrDefault()!;
+                //else
+                //  pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 if (pag == null)                
                 pag = repositoryPagina.paginas!.Where(p => p.Story.PaginaPadraoLink == capitulo)
@@ -717,6 +770,11 @@ namespace BlazorCms.Client.Pages
                 vers = pag.Versiculo;
                 Model = repositoryPagina.includes()
                 .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
+
+                ultimaPasta = Model2.Id == story.Filtro
+                    .Where(f => f.Pagina
+                    .FirstOrDefault(p => p.Pagina!.Versiculo == Model.Versiculo) != null)
+                        .LastOrDefault()!.Id;
 
                 quantidadeLista = listaFiltradaComConteudo!.Count;
             }

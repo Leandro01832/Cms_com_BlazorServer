@@ -74,7 +74,6 @@ namespace business
         }
 
         public int Versiculo { get; set; }
-        public int UltimaPasta { get; set; }
 
         public string? Rotas { get; set; }
 

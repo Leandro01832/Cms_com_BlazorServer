@@ -110,14 +110,44 @@ namespace BlazorCms.Client.Pages
                 if (substory == null)
                 {
                     if (capitulo == 0 && indice >= quant)
-                        navigation!.NavigateTo($"/Renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-
+                    {
+                        setarCamadas(null);
+                        indice = 1;
+                        auto = 1;
+                        retroceder = 0;
+                    }
+                    //  navigation!.NavigateTo($"/Renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    // acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, 1, 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
                     else if (capitulo != 0 && indice >= quant && outroHorizonte == 0)
-                        navigation!.NavigateTo($"/Renderizar/{capitulo + 1}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    {
+                        setarCamadas(null);
+                        capitulo++;
+                        indice = 1;
+                        auto = 1;
+                        retroceder = 0;
+                    }
+                    //  navigation!.NavigateTo($"/Renderizar/{capitulo + 1}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    // acessar(outroHorizonte, capitulo + 1, null, null, null, null, null, null, null, null, null, 1, 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
                     else if (capitulo != 0 && indice >= quant && outroHorizonte == 1)
-                        navigation!.NavigateTo($"/Renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    {
+                        setarCamadas(null);
+                        indice = 1;
+                        auto = 1;
+                        retroceder = 0;
+                    }
+                    //  navigation!.NavigateTo($"/Renderizar/{capitulo}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    //  acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, 1, 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
                     else
-                        navigation!.NavigateTo($"/Renderizar/{capitulo}/{indice + 1}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    {
+                        setarCamadas(null);
+                        indice++;
+                        auto = 1;
+                        retroceder = 0;
+                    }
+
+                    // navigation!.NavigateTo($"/Renderizar/{capitulo}/{indice + 1}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                   // acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, indice + 1, 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                    acessar();
                 }
                 else if (auto == 1)
                 {
@@ -142,12 +172,25 @@ namespace BlazorCms.Client.Pages
 
                 if (args.Key == "Enter" && capitulo == 0)
                 {
-                    navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    setarCamadas(null);
+                    capitulo = indice;
+                    indice = 1;
+                    auto = 1;
+                    retroceder = 0;
+                    // navigation!.NavigateTo($"/Renderizar/{indice}/1/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                  //  acessar(outroHorizonte, indice, null, null, null, null, null, null, null, null, null, 1, 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
                 }
                 else if (args.Key == "Enter")
                 {
-                    navigation!.NavigateTo($"/Renderizar/0/{capitulo}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    setarCamadas(null);
+                    capitulo = 0;
+                    indice = capitulo;
+                    auto = 1;
+                    retroceder = 0;
+                    // navigation!.NavigateTo($"/Renderizar/0/{capitulo}/1/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                   // acessar(outroHorizonte, 0, null, null, null, null, null, null, null, null, null, capitulo, 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
                 }
+                acessar();
             }
             else if (args.Key == "Enter")
             {
@@ -161,7 +204,7 @@ namespace BlazorCms.Client.Pages
             auto = 0;
             if (compartilhante == null) compartilhante = "comp";
             if (dominio == null) dominio = repositoryPagina!.buscarDominio();
-            navigation!.NavigateTo($"/info/{dominio}/{compartilhante}");
+            navigation!.NavigateTo($"/info/{dominio}/{compartilhante}/{compartilhante2}");
         }
 
         protected async void Pesquisar()
@@ -180,8 +223,14 @@ namespace BlazorCms.Client.Pages
 
             if (substory == null && condicao)
             {
-                var url = $"/Renderizar/{capitulo}/{opcional}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}";
-                navigation!.NavigateTo(url);
+                setarCamadas(null);
+                indice = int.Parse(opcional);
+                auto = 1;
+                retroceder = 0;
+                // var url = $"/Renderizar/{capitulo}/{opcional}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}";
+                // navigation!.NavigateTo(url);
+                // acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, int.Parse(opcional), 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                acessar();
             }
             else if (condicao)
             {
@@ -194,8 +243,7 @@ namespace BlazorCms.Client.Pages
             Timer!.SetTimerAuto();
             Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
             auto = 1;
-            var url = retornarUrl();
-            navigation!.NavigateTo(url);
+            acessar();
         }
 
         protected void desabilitarAuto()
@@ -206,8 +254,7 @@ namespace BlazorCms.Client.Pages
                 Timer!.desligarAuto!.Enabled = false;
                 Timer.desligarAuto.Dispose();
                 auto = 0;
-                var url = retornarUrl();
-                navigation!.NavigateTo(url);
+                acessar();
             }
         }
 
@@ -256,12 +303,17 @@ namespace BlazorCms.Client.Pages
 
             if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
             {
+                setarCamadas(null);
+                auto = 1;
+                retroceder = 0;
                 await js!.InvokeAsync<object>("DarAlert", $"Esta pasta não possui versiculos");
-                navigation!.NavigateTo($"/renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                // navigation!.NavigateTo($"/renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                // acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, indice, 1, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                acessar();
             }
             else
             {
-                navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{indice_Filtro}/{preferencia}/0/0/{dominio}/{compartilhante}");
+                navigation!.NavigateTo($"/filtro/{capitulo}/pasta-{indice_Filtro}/{preferencia}/0/0/{dominio}/{compartilhante}/{compartilhante2}");
 
             }
 
@@ -284,7 +336,7 @@ namespace BlazorCms.Client.Pages
                 var fil = repositoryPagina.filtros.First(f => f.StoryId == Model3.Filtro!.Id);
                 var i = fils.IndexOf(fil) + 1;
 
-                navigation!.NavigateTo($"{dominio}/lista-filtro/1/{compartilhante}/{capitulo}/{i}/{Model3.Id}");
+                navigation!.NavigateTo($"{dominio}/lista-filtro/1/{compartilhante}/{compartilhante2}/{capitulo}/{i}/{Model3.Id}");
             }
             else
             {
@@ -314,7 +366,12 @@ namespace BlazorCms.Client.Pages
         {
             auto = 0;
             outroHorizonte = 1;
-            navigation!.NavigateTo($"/renderizar/{capitulo}/1/{auto}/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+            setarCamadas(null);
+            retroceder = 0;
+            indice = 1;
+            // navigation!.NavigateTo($"/renderizar/{capitulo}/1/{auto}/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+            // acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, 1, auto, 11, 1, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+            acessar();
         }
 
         protected void acessarHorizonteVersos()
@@ -322,15 +379,25 @@ namespace BlazorCms.Client.Pages
             if (auto == 1)
                 desabilitarAuto();
             outroHorizonte = 0;
-            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+            setarCamadas(null);
+            retroceder = 0;
+            indice = 1;
+            // navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+            // acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, 1, 0, 11, 1, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+            acessar();
         }
 
         protected void acessarHorizonteMarcadores()
         {
             if (auto == 1)
                 desabilitarAuto();
+            setarCamadas(null);
             outroHorizonte = 3;
-            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+            indice = 1;
+            retroceder = 0;
+            // navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+            // acessar(outroHorizonte, capitulo, null, null, null, null, null, null, null, null, null, 1, 0, 11, 1, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+            acessar();
         }
 
         protected int buscarCamada(Filtro fil)
@@ -451,30 +518,49 @@ namespace BlazorCms.Client.Pages
             {
 
                 if (proximo <= quant)
-                    navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+                {
+                    setarCamadas(new int[2] {capitulo,(int) substory!});
+                    retroceder = 0;
+                    indice = proximo;
+                }
+                    // navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{rotas}");
+                   // acessar(null, capitulo, substory, null, null, null, null, null, null, null, null, proximo, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
                 else
-                    navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+                {
+                    setarCamadas(new int[2] { capitulo, (int)substory! });
+                    retroceder = 0;
+                    indice = 1;
+                }
+                //  navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{rotas}");
+                //  acessar(null, capitulo, substory, null, null, null, null, null, null, null, null, 1, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                acessar();
             }
             else
             if (proximo <= quant)
             {
                 indice = proximo;
                 retroceder = 0;
-                string url = retornarUrl();
-                navigation!.NavigateTo($"{url}");
+                acessar();
             }
             else if (substory != null)
                 navegarSubgrupos(false);
             else
-                navigation!.NavigateTo($"/Renderizar/{capitulo + 1}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-
+            {
+                setarCamadas(null);
+                capitulo++;
+                retroceder = 0;
+                indice = 1;
+                acessar();
+            }
+                //  navigation!.NavigateTo($"/Renderizar/{capitulo + 1}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+              //  acessar(outroHorizonte, capitulo + 1, null, null, null, null, null, null, null, null, null, 1, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+              
 
         }
 
         private void navegarSubgrupos(bool somenteSubgrupos)
         {
             var quant = 0;
-            // Story story = repositoryPagina!.stories!.First(p => p.Id == Model!.StoryId);
             if (substory == null)
                 quant = CountPaginas(ApplicationDbContext._connectionString);
             else
@@ -498,18 +584,23 @@ namespace BlazorCms.Client.Pages
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, camadadez);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada10/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada9/{capitulo}/1/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                        //  navigation!.NavigateTo($"/camada10/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/{arr[9]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                       // acessar(null, arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], 1, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                    else                    
+                        setarCamadas(new int[9] { 1, 1, 1, 1, 1, 1, 1, 1, 1 });                    
+                    // navigation!.NavigateTo($"/camada9/{capitulo}/1/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                   // acessar(null, capitulo, 1, 1, 1, 1, 1, 1, 1, 1, null, 1, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
 
                 }
-                else
-                {
-                    navigation!
-                    .NavigateTo($"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[10] { capitulo, (int) substory!, (int)grupo!,
+                        (int)subgrupo!, (int)subsubgrupo!, (int)camadaseis!,
+                        (int)camadasete!, (int)camadaoito!, (int)camadanove!, (int)camadadez });
+                    // navigation!.NavigateTo($"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                  //  acessar(null, capitulo, substory, grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, camadadez, proximo, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                
             }
             else if (camadanove != null)
             {
@@ -517,18 +608,23 @@ namespace BlazorCms.Client.Pages
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada9/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada8/{capitulo}/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                    // navigation!.NavigateTo($"/camada9/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/{arr[8]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                   // acessar(null, arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6], arr[7], arr[8], null, 1, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                    else                    
+                        setarCamadas(new int[8] { 1, 1, 1, 1, 1, 1, 1, 1 });                    
+                    // navigation!.NavigateTo($"/camada8/{capitulo}/1/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                   // acessar(null, capitulo, 1, 1, 1, 1, 1, 1, 1, null, null, 1, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
 
                 }
-                else
-                {
-                    navigation!
-                   .NavigateTo($"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[9] { capitulo, (int) substory!, (int)grupo!,
+                        (int)subgrupo!, (int)subsubgrupo!, (int)camadaseis!,
+                        (int)camadasete!, (int)camadaoito!, (int)camadanove! });
+                    // navigation!.NavigateTo($"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                   // acessar(null, capitulo, substory, grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove, null, proximo, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                
             }
             else if (camadaoito != null)
             {
@@ -536,18 +632,21 @@ namespace BlazorCms.Client.Pages
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada8/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada7/{capitulo}/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                   // navigation!.NavigateTo($"/camada8/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/{arr[7]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                   // acessar(null, arr[0], arr[1], arr[2], arr[3], 1, 1, 1, 1, null, null, 1, auto, timeproduto, lista, preferencia, indiceLivro, 0, dominio, compartilhante, compartilhante2);
+                    else                    
+                        setarCamadas(new int[7] { 1,1,1,1,1,1,1 });                    
+                   // navigation!.NavigateTo($"/camada7/{capitulo}/1/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
 
                 }
-                else
-                {
-                    navigation!
-                  .NavigateTo($"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[8] { capitulo, (int) substory!, (int)grupo!,
+                        (int)subgrupo!, (int)subsubgrupo!, (int)camadaseis!,
+                        (int)camadasete!, (int)camadaoito! });
+                   // navigation!.NavigateTo($"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                
             }
             else if (camadasete != null)
             {
@@ -555,18 +654,20 @@ namespace BlazorCms.Client.Pages
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada7/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada6/{capitulo}/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                   // navigation!.NavigateTo($"/camada7/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/{arr[6]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    else                    
+                        setarCamadas(new int[6] { 1, 1, 1, 1, 1, 1 });                    
+                   // navigation!.NavigateTo($"/camada6/{capitulo}/1/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
 
                 }
-                else
-                {
-                    navigation!
-                .NavigateTo($"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[7] { capitulo, (int) substory!, (int)grupo!,
+                        (int)subgrupo!, (int)subsubgrupo!, (int)camadaseis!,
+                        (int)camadasete! });
+                  //  navigation!.NavigateTo($"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                
             }
             else if (camadaseis != null)
             {
@@ -574,18 +675,19 @@ namespace BlazorCms.Client.Pages
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada6/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada5/{capitulo}/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                    //  navigation!.NavigateTo($"/camada6/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/{arr[5]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    else                    
+                        setarCamadas(new int[5] { 1, 1, 1, 1, 1 });                    
+                       // navigation!.NavigateTo($"/camada5/{capitulo}/1/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
 
                 }
-                else
-                {
-                    navigation!
-               .NavigateTo($"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[6] { capitulo, (int) substory!, (int)grupo!,
+                        (int)subgrupo!, (int)subsubgrupo!, (int)camadaseis! });
+                   // navigation!.NavigateTo($"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                
             }
             else if (subsubgrupo != null)
             {
@@ -593,18 +695,19 @@ namespace BlazorCms.Client.Pages
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo, subsubgrupo);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada5/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada4/{capitulo}/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                   // navigation!.NavigateTo($"/camada5/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/{arr[4]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    else                    
+                        setarCamadas(new int[4] { 1, 1, 1, 1 });                    
+                   // navigation!.NavigateTo($"/camada4/{capitulo}/1/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
 
                 }
-                else
-                {
-                    navigation!
-              .NavigateTo($"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[5] { capitulo, (int) substory!, (int)grupo!,
+                        (int)subgrupo!, (int)subsubgrupo! });
+                   // navigation!.NavigateTo($"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                
             }
             else if (subgrupo != null)
             {
@@ -612,55 +715,59 @@ namespace BlazorCms.Client.Pages
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
                         grupo, subgrupo);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada4/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada3/{capitulo}/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                    // navigation!.NavigateTo($"/camada4/{arr[0]}/{arr[1]}/{arr[2]}/{arr[3]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    else                    
+                        setarCamadas(new int[3] { 1, 1, 1 });                    
+                       // navigation!.NavigateTo($"/camada3/{capitulo}/1/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
 
                 }
-                else
-                {
-                    navigation!
-            .NavigateTo($"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[4] { capitulo, (int) substory!, (int)grupo!,
+                        (int)subgrupo! });
+                   // navigation!.NavigateTo($"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                
             }
             else if (grupo != null)
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!, grupo);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada3/{arr[0]}/{arr[1]}/{arr[2]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/camada2/{capitulo}/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                   // navigation!.NavigateTo($"/camada3/{arr[0]}/{arr[1]}/{arr[2]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    else                    
+                        setarCamadas(new int[2] { 1, 1 });                    
+                   // navigation!.NavigateTo($"/camada2/{capitulo}/1/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
 
                 }
-                else
-                {
-                    navigation!
-           .NavigateTo($"/camada3/{capitulo}/{substory}/{grupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[3] { capitulo, (int) substory!, (int)grupo! });
+                   // navigation!.NavigateTo($"/camada3/{capitulo}/{substory}/{grupo}/{proximo}/1/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                
             }
             else if (substory != null)
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
                     var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory);
-                    if (arr != null)
-                        navigation!
-                     .NavigateTo($"/camada2/{arr[0]}/{arr[1]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                    else
-                        navigation!.NavigateTo($"/renderizar/{capitulo}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
+                    if (arr != null)                    
+                        setarCamadas(arr);                    
+                   // navigation!.NavigateTo($"/camada2/{arr[0]}/{arr[1]}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                    else                    
+                        setarCamadas(null);                    
+                  //  navigation!.NavigateTo($"/renderizar/{capitulo}/1/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
 
                 }
-                else
-                {
-                    navigation!
-             .NavigateTo($"/camada2/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}");
-                }
+                else                
+                    setarCamadas(new int[2] { capitulo, (int)substory! });                    
+                   // navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/{proximo}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}");
+                
             }
+            retroceder = 0;
+            indice = 1;
+            acessar();
         }
 
         protected void buscarAnterior()
@@ -670,9 +777,19 @@ namespace BlazorCms.Client.Pages
             if (rotas != null)
             {
                 if (indice == 1)
-                    navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+                {
+                    setarCamadas(new int[2] { capitulo, (int)substory! });
+                    indice = 1;
+                    retroceder = 0;
+                }
+                //  navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/1/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{rotas}");
                 else
-                    navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/{indice - 1}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{rotas}");
+                {
+                    setarCamadas(new int[2] { capitulo, (int)substory! });
+                    indice--;
+                    retroceder = 0;
+                }
+               // navigation!.NavigateTo($"/camada2/{capitulo}/{substory}/{indice - 1}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/0/{dominio}/{compartilhante}/{compartilhante2}/{rotas}");
             }
             else
             if (indice == 1 && capitulo != 0)
@@ -684,9 +801,8 @@ namespace BlazorCms.Client.Pages
 
                 indice = 1;
                 retroceder = 1;
-                if (substory == null) capitulo--;
-                string url = retornarUrl();
-                navigation!.NavigateTo($"{url}");
+                if (substory == null)
+                    capitulo--;
 
             }
             if (indice != 1 && rotas == null)
@@ -694,10 +810,9 @@ namespace BlazorCms.Client.Pages
                 var anterior = indice - 1;
                 indice = anterior;
                 retroceder = 0;
-                string url = retornarUrl();
-                navigation!.NavigateTo($"{url}");
             }
 
+                 acessar();
 
         }
 
@@ -751,8 +866,7 @@ namespace BlazorCms.Client.Pages
             await Context.SaveChangesAsync();
             repositoryPagina.paginasCurtidas.Add(pageLiked);
 
-            var url = retornarUrl();            
-            navigation!.NavigateTo(url);
+            acessar();
         }
 
         protected async Task Unlike()
@@ -767,8 +881,7 @@ namespace BlazorCms.Client.Pages
                 await Context.SaveChangesAsync();
                 repositoryPagina.paginasCurtidas.Remove(page);
             }
-            var url = retornarUrl();
-            navigation!.NavigateTo(url);
+             acessar();
         }
 
         protected async void acessarPreferenciasUsuario(string usu)
@@ -778,7 +891,10 @@ namespace BlazorCms.Client.Pages
                 desabilitarAuto();
             outroHorizonte = 3;
             compartilhante = usu;
-            navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/0/0/0/dominio/{compartilhante}");
+            indice = 1;
+            auto = 0;
+          //  navigation!.NavigateTo($"/renderizar/{capitulo}/1/0/11/1/{outroHorizonte}/0/0/0/dominio/{compartilhante}/{compartilhante2}");
+            acessar();
         }
 
         protected void alterarQuery(ChangeEventArgs e)
@@ -797,8 +913,7 @@ namespace BlazorCms.Client.Pages
                 if (string.IsNullOrEmpty(opcional))
                 {
                     usuarios.Clear();
-                    var url = retornarUrl();
-                    navigation!.NavigateTo(url);
+                    acessar();
                 }
             }
         }
@@ -806,8 +921,10 @@ namespace BlazorCms.Client.Pages
         protected void acessarVerso()
         {
             indice_Filtro = 0;
-            navigation!.NavigateTo($"/Renderizar/{capitulo}/{vers}/0/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}");
-
+            setarCamadas(null);
+            indice = (int) vers!;
+            // navigation!.NavigateTo($"/Renderizar/{capitulo}/{vers}/0/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}");
+            acessar();
         }
 
         protected async void redirecionarMarcar()
@@ -831,18 +948,32 @@ namespace BlazorCms.Client.Pages
             if (fils.Count == 0)
                 fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
 
-            if (fils.Count == story.Filtro!.Count)
-                fi = fils[(int)ultimaPasta - 1];
-            else
-                fi = fils.Where(f => f.Pagina.FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
-                        .FirstOrDefault()!;
+
+
+            fi = fils.Where(f => f.Pagina.FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
+                    .LastOrDefault()!;
 
             if (fi == null)
-                fi = story!.Filtro!.OrderBy(f => f.Id).ToList()[(int)ultimaPasta - 1];
+            {
+                fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
+                fi = fils.Where(f => f.Pagina.FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
+                       .LastOrDefault()!;
+            }
 
-            var arr = retornarArray(fi);
-            setarCamadas(arr);
-            redirecionarParaVerso(int.Parse(opcional!));
+            // fi = story!.Filtro!.OrderBy(f => f.Id).ToList()[(int)ultimaPasta - 1];
+
+            if (fi == null)
+            {
+                await js!.InvokeAsync<object>("DarAlert", "Marque um versiculo que tenha pasta!!!");
+            }
+            else
+            {
+                var arr = retornarArray(fi);
+                setarCamadas(arr);
+                redirecionarParaVerso(int.Parse(opcional!));
+
+            }
+
 
 
 
@@ -855,7 +986,11 @@ namespace BlazorCms.Client.Pages
                 var list = retornarListaFiltrada(null);
                 if (list == null)
                 {
-                    navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/{auto}/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}");
+                    setarCamadas(null);
+                    indice = verso;
+                    outroHorizonte = 0;
+                    acessar();
+                   // navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/{auto}/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}");
                     return;
                 }
                 opcional = verso.ToString();
@@ -878,13 +1013,16 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     indice = indiceListaFiltrada;
-                    var url = retornarUrl();
-                    navigation!.NavigateTo(url);
+                    acessar();
                 }
             }
             else
             {
-                navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/{auto}/{timeproduto}/{lista}/1/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}");
+                setarCamadas(null);
+                indice = verso;
+                outroHorizonte = 1;
+                navigation!.NavigateTo($"/renderizar/{capitulo}/{verso}/{auto}/{timeproduto}/{lista}/1/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}");
+                    acessar();
             }
 
         }
@@ -1022,7 +1160,7 @@ namespace BlazorCms.Client.Pages
         {
             if (compartilhante == "comp" || title == null || resumo == null)
             {
-                if(compartilhante == "comp")
+                if (compartilhante == "comp")
                 {
                     string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario.");
                     if (!string.IsNullOrEmpty(prompted))
@@ -1030,24 +1168,22 @@ namespace BlazorCms.Client.Pages
                         prompted = prompted.Replace(" ", "");
                         var us = Context.Users.FirstOrDefaultAsync(u => u.UserName == prompted);
                         compartilhante = prompted;
-                        var url = retornarUrl();
-                        url += "/1";
-                        navigation!.NavigateTo(url);
+                         acessar();
                         compartilhante = prompted;
                     }
                 }
-                  if (title == null)
+                if (title == null)
                 {
-                     title = await js.InvokeAsync<string>("prompt", "Informe o titulo da pagina.");
+                    title = await js.InvokeAsync<string>("prompt", "Informe o titulo da pagina.");
                 }
 
-                 if (resumo == null)
+                if (resumo == null)
                 {
                     resumo = await js.InvokeAsync<string>("prompt", "Informe o resumo da pagina.");
                 }
                 await js!.InvokeAsync<object>("DarAlert", $"Agora Compartilhe!!!");
             }
-           
+
             else
             {
                 try
@@ -1069,34 +1205,38 @@ namespace BlazorCms.Client.Pages
         protected void acessarItem()
         {
             indice = 1;
-            var url = retornarUrl();
-            navigation!.NavigateTo(url);
+             acessar();
         }
 
-        private string retornarUrl()
-        {
+        private void acessar()
+        {      
+
             string url = null;
             if (camadadez != null)
-                url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (camadanove != null)
-                url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (camadaoito != null)
-                url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (camadasete != null)
-                url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (camadaseis != null)
-                url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (subsubgrupo != null)
-                url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (subgrupo != null)
-                url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (grupo != null)
-                url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else if (substory != null)
-                url = $"/camada2/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
+                url = $"/camada2/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{lista}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
             else
-                url = $"/Renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}";
-            return url;
+                url = $"/Renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{lista}/{outroHorizonte}/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}";
+
+            if (compartilhante != "comp" && outroHorizonte == 0) url += "/1";
+
+
+            navigation!.NavigateTo(url);
         }
 
     }
