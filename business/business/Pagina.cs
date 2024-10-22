@@ -32,7 +32,6 @@ namespace business
 
         private DateTime data = DateTime.Now;
         private string content;
-        private string contentUser;
 
         public DateTime Data { get { return data; } set { data = value; } }
 
@@ -48,26 +47,14 @@ namespace business
 
         public long? Comentario { get; set; } 
 
-        [Display(Name = "Arquivo")]
-        public string? ImagemContent { get; set; }
+             
 
-        public string? Content 
+        public string? Content
         {
             get { return content; }
             set 
             { 
                 content = value;
-                if (value != null)
-                    Data = DateTime.Now;
-            }
-        }
-
-        public string? ContentUser
-        {
-            get { return contentUser; }
-            set 
-            { 
-                contentUser = value;
                 if(value != null)
                 Data = DateTime.Now;
             }
@@ -83,11 +70,7 @@ namespace business
         public string NomeComId { get { return Titulo + " chave - " + Id.ToString(); } }
 
 
-        [NotMapped]
-        public string Conteudo
-        {
-            get { if (Content != null) return Content; else if (ContentUser != null) return ContentUser; return ""; }
-        }
+        
 
         public void IncluiFiltro(Filtro fil)
         {

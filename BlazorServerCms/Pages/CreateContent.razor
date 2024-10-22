@@ -67,27 +67,13 @@
 
     private async void HandleSubmit()
     {
-
+        exampleModel.FiltroId = FiltroId;
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 
         repositoryPagina.conteudos.Add(exampleModel);
-
-        var c = await Context.Content.Include(con => con.Filtro)
-        .FirstAsync(f => f.Id == exampleModel.Id);
-
-        var fil = await Context.Filtro.FirstAsync(f => f.Id == FiltroId);
-
-        if(fil != null)
-        {
-
-            c.IncluiFiltro(fil);
-           await Context.SaveChangesAsync();
-        }
-
-
-            await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
-            navigation.NavigateTo("/");            
+        await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
+        navigation.NavigateTo("/");            
        
     }
 }

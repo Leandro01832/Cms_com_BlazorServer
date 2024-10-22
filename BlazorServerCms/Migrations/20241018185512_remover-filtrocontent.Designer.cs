@@ -4,6 +4,7 @@ using BlazorServerCms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241018185512_remover-filtrocontent")]
+    partial class removerfiltrocontent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -522,6 +524,9 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<string>("Admin")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Comissao")
                         .HasColumnType("int");
 
@@ -663,6 +668,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagemContent")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Rotas")
                         .HasColumnType("nvarchar(max)");

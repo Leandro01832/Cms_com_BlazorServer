@@ -280,7 +280,7 @@
         {
             @foreach (var item in Model)
             {                   
-                    var markup = new MarkupString(item.ContentUser);
+                    var markup = new MarkupString(item.Content);
 
                     <div class="divs">
                
@@ -485,11 +485,11 @@
 
         foreach(var item in Model)
         {
-            if (item.ContentUser != null && item.ContentUser.Contains("iframe"))
+            if (item.Content != null && item.Content.Contains("iframe"))
             {
                 var id = buscarId(item);
                 var url = await GetYouTubeVideo(id);
-                item.ContentUser = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
+                item.Content = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
 
             }
             else if (item.Content != null && item.Content.Contains("iframe"))
@@ -529,7 +529,7 @@
         int calculo = 0;
         var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
-                ApiKey = "",
+                ApiKey = "AIzaSyASZ_6t6HGmvxJ0R2XGIVWU8NOL1qZ9DE8",
                 ApplicationName = this.GetType().ToString()
             });
         var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
@@ -549,11 +549,11 @@
     {
         var id_video = "";
         if (p != null && p.Content != null && p.Content.Contains("iframe")  ||
-                        p != null && p.ContentUser != null && p.ContentUser.Contains("iframe") )
+                        p != null && p.Content != null && p.Content.Contains("iframe") )
         {
             var conteudoHtml = "";
             if (p.Content != null) conteudoHtml = p.Content;
-            else conteudoHtml = p.ContentUser;
+            else conteudoHtml = p.Content;
             var arr = conteudoHtml!.Split("/");
             for (var index = 0; index < arr.Length; index++)
             {

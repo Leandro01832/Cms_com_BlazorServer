@@ -37,7 +37,7 @@ namespace BlazorCms.Client.Pages
         public ClassArray Arr = new ClassArray();
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
-        private List<Pagina> conteudo = new List<Pagina>();
+      //  private List<Pagina> conteudo = new List<Pagina>();
         private int? indiceMarcador;
         private Story story = null;
         private string? title = null;
@@ -56,7 +56,6 @@ namespace BlazorCms.Client.Pages
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
         protected Pagina? pag;
-        protected Content? pag2;
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
         protected Pergunta? Model3;
@@ -81,7 +80,6 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public int indiceLivro { get; set; } = 0; [Parameter] public int retroceder { get; set; } = 0;
 
-        [Parameter] public int lista { get; set; } = 1; [Parameter] public int preferencia { get; set; } = 0;
         [Parameter] public int timeproduto { get; set; } = 1;   [Parameter] public int indice { get; set; } = 1;
         [Parameter] public int capitulo { get; set; } = 1;
 

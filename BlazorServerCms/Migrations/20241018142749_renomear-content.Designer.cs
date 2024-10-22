@@ -4,6 +4,7 @@ using BlazorServerCms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241018142749_renomear-content")]
+    partial class renomearcontent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,18 +202,28 @@ namespace BlazorServerCms.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("FiltroId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Html")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.ToTable("Content");
+                });
+
+            modelBuilder.Entity("business.business.ContentFiltro", b =>
+                {
+                    b.Property<long>("ContentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("FiltroId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ContentId", "FiltroId");
+
                     b.HasIndex("FiltroId");
 
-                    b.ToTable("Content");
+                    b.ToTable("ContentFiltro");
                 });
 
             modelBuilder.Entity("business.business.Endereco", b =>
@@ -522,6 +534,9 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<string>("Admin")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Comissao")
                         .HasColumnType("int");
 
@@ -663,6 +678,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagemContent")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Rotas")
                         .HasColumnType("nvarchar(max)");
@@ -996,13 +1014,21 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Instante");
                 });
 
-            modelBuilder.Entity("business.business.Content", b =>
+            modelBuilder.Entity("business.business.ContentFiltro", b =>
                 {
+                    b.HasOne("business.business.Content", "Content")
+                        .WithMany("Filtro")
+                        .HasForeignKey("ContentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("business.Filtro", "Filtro")
                         .WithMany("Content")
                         .HasForeignKey("FiltroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Content");
 
                     b.Navigation("Filtro");
                 });
@@ -1317,6 +1343,11 @@ namespace BlazorServerCms.Migrations
 
                     b.Navigation("Telefone")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("business.business.Content", b =>
+                {
+                    b.Navigation("Filtro");
                 });
 
             modelBuilder.Entity("business.business.Pergunta", b =>

@@ -1,15 +1,15 @@
 ﻿@page "/renderizar"
-@page "/filtro/{capitulo:int}/{filtrar}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{redirecionar?}"
-@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{outroHorizonte:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada2/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}/{rotas?}"
-@page "/camada3/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada4/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada5/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada6/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada7/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada8/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada9/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
-@page "/camada10/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{lista:int}/{preferencia:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/filtro/{capitulo:int}/{filtrar}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{redirecionar?}"
+@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada2/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}/{rotas?}"
+@page "/camada3/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada4/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada5/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada6/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada7/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada8/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada9/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
+@page "/camada10/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{compartilhante}/{compartilhante2}/{pontos?}"
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -39,43 +39,40 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
                 <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
             </svg>
-        
-            </a>
-        
+
+        </a>
+
     }
 
 }
 else
 {
-    <div id="renderizar" >
-
-      
-            
+    <div id="renderizar">
 
         <nav class="navbar navbar-expand-lg navbar-light" style="position:fixed; background-color:transparent;">
-    
-            <div id="pesquisas">
-            
-            @{
-                
 
-                if (capitulo != 0)
-                {
-                    if(substory == null)
+            <div id="pesquisas">
+
+                @{
+
+
+                    if (capitulo != 0)
                     {
-                        <PageTitle>@nameStory</PageTitle>
-                            <div class="capHeader"> 
-                        <header>Story: @nameStory</header>
+                        if (substory == null)
+                        {
+                            <PageTitle>@nameStory</PageTitle>
+                            <div class="capHeader">
+                                <header>Story: @nameStory</header>
                             </div>
-                        <span class="capitulos">
-                                <a data-first onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{capitulo}/0/{timeproduto}/{lista}/0/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
-                                Capítulo @cap
-                            </a>
+                            <span class="capitulos">
+                                <a data-first onclick="@(() => navigation!.NavigateTo($"/Renderizar/0/{capitulo}/0/{timeproduto}/0/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))" class="btn btn-primary">
+                                    Capítulo @cap
+                                </a>
                             </span>
                         }
                         else
                         {
-                            if(rotas != null)
+                            if (rotas != null)
                             {
                                 <PageTitle>@rotas</PageTitle>
                                 <div class="capHeader">
@@ -83,7 +80,7 @@ else
                                 </div>
                             }
                             else
-                            if(indiceLivro == 0)
+                if (indiceLivro == 0)
                             {
                                 <PageTitle>@nameGroup</PageTitle>
                                 <div class="capHeader">
@@ -97,24 +94,24 @@ else
                                     <p class="capitulos"> <header>@nameGroup</header></p>
                                 </div>
                             }
-                            @if( Model2 != null && Model2.user == null || pag != null && pag.Versiculo != 0)
+                            @if (Model2 != null && Model2.user == null || pag != null && pag.Versiculo != 0)
                             {
-                            <div class="capSubstory">
-                                <span class="capitulos">
-                                  Capítulo @cap                            
-                                </span>
-                                <span class="versos">
+                                <div class="capSubstory">
+                                    <span class="capitulos">
+                                        Capítulo @cap
+                                    </span>
+                                    <span class="versos">
                                         <a onclick="@(() => acessarVerso())" class="btn btn-primary">
-                                        Versiculo @vers
-                                    </a>
-                                </span>
-                            </div>
-                                
+                                            Versiculo @vers
+                                        </a>
+                                    </span>
+                                </div>
+
                             }
-                            
+
+                        }
+
                     }
-                    
-                }
                     else
                     {
                         <PageTitle>Capítulos</PageTitle>
@@ -124,17 +121,17 @@ else
 
                         @if (capitulo == 0)
                         {
-                        <span class="ms-3">Cap.</span>
+                            <span class="ms-3">Cap.</span>
                         }
                         else
                         {
                             if (outroHorizonte == 0 && substory == null)
                             {
-                            <span class="ms-3">Vers.</span>
+                                <span class="ms-3">Vers.</span>
                             }
                             else if (outroHorizonte == 1)
                             {
-                            <span class="ms-3">Pasta</span>
+                                <span class="ms-3">Pasta</span>
                             }
                         }
 
@@ -142,49 +139,49 @@ else
                         {
                             <input data-2 type="number" placeholder="digita nome" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
                                    id="NumeroPaginaAcesso3" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
-                               <center>
-                        <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                           class="btn btn-primary ms-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                            </svg>
-                        </a>
-                               </center>
+                            <center>
+                                <a id="acessoPaginaComInput2" onclick="@Pesquisar"
+                                   class="btn btn-primary ms-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </a>
+                            </center>
                         }
                         else
                         {
                             <input type="text" placeholder="verso ou user" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
                                    id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
-                               <center>
-                        <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                           class="btn btn-primary ms-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                            </svg>
-                        </a>
-                               </center>
+                            <center>
+                                <a id="acessoPaginaComInput2" onclick="@Pesquisar"
+                                   class="btn btn-primary ms-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </a>
+                            </center>
                         }
-                    
+
                     </div>
 
-                    
-                }   
-                
 
-            </div>    
+                }
 
 
-        <div class="navegacao">
+            </div>
 
-            <a href="#" onclick="@Casinha" class="btn btn-primary" data-3>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
-                </svg>
-            </a>
 
-            @if (nameStory != "Padrao" && outroHorizonte == 0)
-            {
-                    if(substory == null)
+            <div class="navegacao">
+
+                <a onclick="@Casinha" class="btn btn-primary" data-3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
+                    </svg>
+                </a>
+
+                @if (nameStory != "Padrao" && outroHorizonte == 0)
+                {
+                    if (substory == null)
                     {
                         <a data-4 href="/comentario/@capitulo/@indice" class="btn btn-primary" onclick="@(() => desligarAuto())">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
@@ -201,13 +198,13 @@ else
                                 <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z" />
                             </svg>
                         </a>
-                        
+
                     }
                 }
 
 
-                @if (outroHorizonte == 0 && nameStory != "Padrao" && substory != null)
-            {
+                @if (outroHorizonte == 0 && nameStory != "Padrao" && Model!.Filtro! != null && Model!.Filtro!.Count != 0)
+                {
                     <div>
                         @if (Model!.Filtro != null && Model.Filtro.FirstOrDefault(f => f.QuantidadePorType > 1) != null)
                         {
@@ -228,9 +225,9 @@ else
                                 </a>
                             }
                         }
-                        else 
+                        else
                         {
-                            if(substory != null)
+                            if (substory != null)
                             {
                                 <a data-5 href="/pastas/@capitulo/@vers/@dominio/@compartilhante" class="btn btn-primary" onclick="@(() => desligarAuto())">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
@@ -245,13 +242,13 @@ else
                                         <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
                                     </svg>
                                 </a>
-                            }                            
+                            }
 
                         }
-                        
 
-                        @if ( Model2 != null && Model2.user == null && !ultimaPasta || substory == null)
-                       
+
+                        @if (Model2 != null && Model2.user == null && !ultimaPasta || substory == null && !ultimaPasta)
+
                         {
                             <a data-6 id="ultimapasta" href="#" onclick="@(() => redirecionarMarcar())">
                                 marcar?
@@ -259,14 +256,14 @@ else
                         }
 
 
-                </div>
-            }
-                
+                    </div>
+                }
 
-              
 
-                    @if (capitulo != 0 && outroHorizonte == 0)
-                    {
+
+
+                @if (capitulo != 0 && outroHorizonte == 0)
+                {
                     <div>
 
 
@@ -274,7 +271,7 @@ else
                         {
                             if (ultimaPasta)
                             {
-                                <a  onclick="@DarUmLike">
+                                <a onclick="@DarUmLike">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                         <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                                     </svg>
@@ -293,7 +290,7 @@ else
                         {
                             if (ultimaPasta)
                             {
-                                <a  onclick="@Unlike">
+                                <a onclick="@Unlike">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                         <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                                     </svg>
@@ -309,24 +306,24 @@ else
                         }
                         @quantLiked
                     </div>
-                    }
+                }
 
-               
-           
+
+
             </div>
 
 
-     </nav>
-        <br/>
-        <br/>
-        <br/>
+        </nav>
+        <br />
+        <br />
+        <br />
 
         <div class="share">
 
             <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
             @if (substory != null && rotas == null && ultimaPasta ||
-                substory != null && rotas == null && compartilhante != "comp")
+           substory != null && rotas == null && compartilhante != "comp")
             {
                 <a class="compartilhar" onclick="@share">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
@@ -335,11 +332,8 @@ else
                 </a>
             }
 
-            
+
         </div>
-        
-            
-        
 
         <GuidedTour TourId="FormGuidedTour1" OverlayEnabled="true">
             <GuidedTourStep Title="Acessar story" StepName="firstStep" TourStepSequence="1"
@@ -348,24 +342,26 @@ else
             </GuidedTourStep>
             <GuidedTourStep Title="Acessando" StepName="Step2" TourStepSequence="2"
                             ElementSelector="[data-2]">
-                    @if(outroHorizonte == 0)
-                    {
+                @if (outroHorizonte == 0)
+                {
                     <span>Informe o numero do versiculo e acesse qualquer pagina desta story. (Horizonte versiculos).</span>
-                    
-                    }
-                    else if(outroHorizonte == 1){
-                        <span>Informe o numero da pasta e acesse qualquer filtro desta story criado pelo admin. (Horizonte pastas).</span>
 
-                    }
-                    else if(outroHorizonte == 2){
-                        <span>Informe o numero da pergunta que se refere a esta story. (Horizonte perguntas).</span>
+                }
+                else if (outroHorizonte == 1)
+                {
+                    <span>Informe o numero da pasta e acesse qualquer filtro desta story criado pelo admin. (Horizonte pastas).</span>
 
-                    }
-                    else if (outroHorizonte == 3)
-                    {
-                        <span>Informe o numero do marcador e acesse qualquer filtro desta story criado pelo usuario. (Horizonte marcador).</span>
+                }
+                else if (outroHorizonte == 2)
+                {
+                    <span>Informe o numero da pergunta que se refere a esta story. (Horizonte perguntas).</span>
 
-                    }
+                }
+                else if (outroHorizonte == 3)
+                {
+                    <span>Informe o numero do marcador e acesse qualquer filtro desta story criado pelo usuario. (Horizonte marcador).</span>
+
+                }
             </GuidedTourStep>
             <GuidedTourStep Title="Home" StepName="Step3" TourStepSequence="3"
                             ElementSelector="[data-3]">
@@ -376,7 +372,7 @@ else
                 <span>
                     Clique neste link para visualizar comentarios deste versiculo ou fazer um comentário.
                 </span>
-            </GuidedTourStep>           
+            </GuidedTourStep>
             <GuidedTourStep Title="Pastas" StepName="Step5" TourStepSequence="5"
                             ElementSelector="[data-5]">
                 <span>
@@ -386,60 +382,60 @@ else
             <GuidedTourStep Title="Ultima pasta" StepName="Step6" TourStepSequence="6"
                             ElementSelector="[data-6]">
                 <span>
-                        Neste link você será redirecionado para ultima pasta onde vão estar todos os versiculos marcados,
-                        perguntas, respostas, marcadores etc.
+                    Neste link você será redirecionado para ultima pasta onde vão estar todos os versiculos marcados,
+                    perguntas, respostas, marcadores etc.
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Automático" StepName="Step7" TourStepSequence="7"
                             ElementSelector="[data-7]">
                 <span>
-                        Clique aqui para mostrar as paginas automaticamente.
+                    Clique aqui para mostrar as paginas automaticamente.
                 </span>
             </GuidedTourStep>
-                <GuidedTourStep Title="Marcador" StepName="Step8" TourStepSequence="8"
-                                ElementSelector="[data-8]">
-                    <span>
-                        Clique aqui para acessar o horizonte marcador
-                    </span>
-                </GuidedTourStep>
-                <GuidedTourStep Title="Perguntas" StepName="Step9" TourStepSequence="9"
-                                ElementSelector="[data-9]">
-                    <span>
-                        Clique aqui para acessar o horizonte perguntas
-                    </span>
-                </GuidedTourStep>
-                <GuidedTourStep Title="Pastas" StepName="Step10" TourStepSequence="10"
-                                ElementSelector="[data-10]">
-                    <span>
-                        Clique aqui para acessar o horizonte pastas
-                    </span>
-                </GuidedTourStep>
-                <GuidedTourStep Title="Versiculos" StepName="Step11" TourStepSequence="11"
-                                ElementSelector="[data-11]">
-                    <span>
-                        Clique aqui para acessar o horizonte versiculos
-                    </span>
-                </GuidedTourStep>
+            <GuidedTourStep Title="Marcador" StepName="Step8" TourStepSequence="8"
+                            ElementSelector="[data-8]">
+                <span>
+                    Clique aqui para acessar o horizonte marcador
+                </span>
+            </GuidedTourStep>
+            <GuidedTourStep Title="Perguntas" StepName="Step9" TourStepSequence="9"
+                            ElementSelector="[data-9]">
+                <span>
+                    Clique aqui para acessar o horizonte perguntas
+                </span>
+            </GuidedTourStep>
+            <GuidedTourStep Title="Pastas" StepName="Step10" TourStepSequence="10"
+                            ElementSelector="[data-10]">
+                <span>
+                    Clique aqui para acessar o horizonte pastas
+                </span>
+            </GuidedTourStep>
+            <GuidedTourStep Title="Versiculos" StepName="Step11" TourStepSequence="11"
+                            ElementSelector="[data-11]">
+                <span>
+                    Clique aqui para acessar o horizonte versiculos
+                </span>
+            </GuidedTourStep>
         </GuidedTour>
 
         <GuidedTour TourId="FormGuidedTour2" OverlayEnabled="true">
             <GuidedTourStep Title="Marcar" StepName="firstStep" TourStepSequence="1"
                             ElementSelector="[data-first]">
-                    <span>
-                        Quando aparecer apenas um versiculo significa que você esta dentro da pasta.
-                    </span>
+                <span>
+                    Quando aparecer apenas um versiculo significa que você esta dentro da pasta.
+                </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Criar filtro" StepName="Step2" TourStepSequence="2"
                             ElementSelector="[data-2]">
-                    <span>
-                        Clique aqui e crie seu filtro.
-                    </span>
+                <span>
+                    Clique aqui e crie seu filtro.
+                </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Numero" StepName="Step3" TourStepSequence="3"
                             ElementSelector="[data-3]">
-                    <span>
-                        Este é o numero da pasta que foi acessado.
-                    </span>
+                <span>
+                    Este é o numero da pasta que foi acessado.
+                </span>
             </GuidedTourStep>
         </GuidedTour>
 
@@ -447,11 +443,11 @@ else
         {
 
             <div class="users">
-                
-                    @foreach (var item in usuarios!)
-                    {
-                       <a  onclick="@(() => acessarPreferenciasUsuario(item.user))" >
-                           Usuario compartilhante @item.user - 
+
+                @foreach (var item in usuarios!)
+                {
+                    <a onclick="@(() => acessarPreferenciasUsuario(item.user))">
+                        Usuario compartilhante @item.user -
                         <div class="circulop2">
                             <div class="circulo2p2">
                                 @if (item.UserModel.Image != null)
@@ -465,15 +461,15 @@ else
                                 }
                             </div>
                         </div>
-                       </a>
-                    }
+                    </a>
+                }
             </div>
         }
-        
-     <div id="render">
 
-    @if(outroHorizonte == 0)
-    {
+        <div id="render">
+
+            @if (outroHorizonte == 0)
+            {
 
                 <div class="cabecalho">
 
@@ -495,194 +491,183 @@ else
                     @if (substory != null)
                     {
                         <p>
-                            @if(Content == false)
+                            @if (Content == false)
                             {
-                                 @Model.Data.ToString("dd/MM/yyyy")
-                                
+                                @Model.Data.ToString("dd/MM/yyyy")
+
                             }
 
                             <input type="checkbox" id="data" name="data" @bind="Content" />
                             Conteudo?
                         </p>
 
+                        <p>
+                            <h5> <a href="#" onclick="@acessarItem">1º item</a>  </h5>
+                        </p>
 
                     }
-                    <p>
-                        <h5> <a href="#" onclick="@acessarItem" >1º item</a>  </h5>
-                    </p>
                 </div>
 
-        <!-- ProdutoContent -->
-        if (nameStory == "Padrao")
-        {
-            <center>
-                <h1>
-                    <a  onclick="@(() => navigation!.NavigateTo($"/renderizar/{indice}/1/1/11/1/{outroHorizonte}/{preferencia}/{indiceLivro}/0/dominio/comp"))">
-                        Story @repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Nome
-                         <div class="circulo">
-                  <div class="circulo2">
-                                @if (repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image != null)
-                                {
-                                    <img src="ImgStory/cap.@(repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].PaginaPadraoLink).@(repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image)" class="ImgStory">
-                                    
-                                }
-                  </div>
-                </div>
-                    </a>
-                </h1>
-
-            </center>                          
-        }
-        else
-        if (indice == 1 && substory == null && nameStory != "Padrao")
-        {
-            <p> Seja bem vindo a story @nameStory </p>   
-        }
-        else
-        if (Model.Produto != null)
-        {
-            <div class="row container produto">
-                <div class="col-md-6 info">
-                    <p> Categoria: @Model.Produto.Nome </p>
-                    <p> Descrição: @Model.Produto.Descricao </p>
-                    <p> Preço: @Model.Produto.Preco </p>
-                    <p> Estoque: @Model.Produto.QuantEstoque </p>
-                    <div class="col-md-12 imagens">
-                        @{
-                            @foreach (var item in Model.Produto.Imagem!.ToList())
-                            {
-                                if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
-                                {
-                                    <img src="@item.ArquivoImagem" class="ImagemProduto" />
-                                }
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="col-md-6 imagem">
-                    <img src="@Model.Produto.Imagem!.First().ArquivoImagem" class="ImagemProduto" />
-                </div>
-
-            </div>
-
-        }
-        else if (Model.ImagemContent != null)
-        {
-            <center>
-                <img class="ImagemContent" src="@Model.ImagemContent">
-
-            </center>
-        }
-        else if (html!.Contains("iframe") && Model.Content != null)
-        {
-
-            <div id="descricao"></div>
-            <center>
-                <div id="player"></div>
-
-            </center>
-        }
-        else
-        {
-            @markup
-        }
-
-        if (Model.Produto != null && repositoryPagina!.buscarEcommerce() == "yes")
-        {
-            <a href="/carrinho/@Model.Produto.Id/@capitulo/@indice/@dominio/@compartilhante">
-                Adicionar ao carrinho
-            </a>
-        }
-
-        <!-- ProdutoContent -->
-        
-
-
-
-        if (Model.Story.PaginaPadraoLink == 2
-        && Model.Comentario != 0)
-        {
-            <p>Comentário do Capitulo @CapituloComentario Verso @VersoComentario </p>
-        }
-        else if (Model.Story.PaginaPadraoLink == 2)
-        {
-            <p>Apenas um comentário </p>
-
-        }
-    }
-    else if(outroHorizonte == 1 && Model2 != null)
-    {
-        var cam = buscarCamada(Model2);
-        <center>
-            <a  onclick="@acessarPasta">
-                <h3> Pasta @Model2!.Nome </h3>
-            </a>
-
-          <p>
-                Camada nº @cam
-          </p>  
-            @{
-                
-                var p = buscarPastaFiltrada(cam);
-
-                if (@cam != 1 && p != null)
-            {
-                    <p>
-                        é um filtro da
-                            <a onclick="@(() => navigation.NavigateTo($"/renderizar/{capitulo}/{p}/0/11/1/1/{preferencia}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))">
-                            pasta  @p
-                        </a>
-                    </p>
-                }
-                else if(p == null)
+                <!-- ProdutoContent -->
+                if (nameStory == "Padrao")
                 {
-                    <p>Esta pasta não possui nenhum versículo</p>
+                    <center>
+                        <h1>
+                            <a onclick="@(() => navigation!.NavigateTo($"/renderizar/{indice}/1/1/11/1/{outroHorizonte}/{indiceLivro}/0/dominio/comp/comp"))">
+                                Story @repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Nome
+                                <div class="circulo">
+                                    <div class="circulo2">
+                                        @if (repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image != null)
+                                        {
+                                            <img src="ImgStory/cap.@(repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].PaginaPadraoLink).@(repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image)" class="ImgStory">
+
+                                        }
+                                    </div>
+                                </div>
+                            </a>
+                        </h1>
+
+                    </center>
+                }
+                else
+        if (indice == 1 && substory == null && nameStory != "Padrao")
+                {
+                    <p> Seja bem vindo a story @nameStory </p>
+                }
+                else
+        if (Model.Produto != null)
+                {
+                    <div class="row container produto">
+                        <div class="col-md-6 info">
+                            <p> Categoria: @Model.Produto.Nome </p>
+                            <p> Descrição: @Model.Produto.Descricao </p>
+                            <p> Preço: @Model.Produto.Preco </p>
+                            <p> Estoque: @Model.Produto.QuantEstoque </p>
+                            <div class="col-md-12 imagens">
+                                @{
+                                    @foreach (var item in Model.Produto.Imagem!.ToList())
+                                    {
+                                        if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
+                                        {
+                                            <img src="@item.ArquivoImagem" class="ImagemProduto" />
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6 imagem">
+                            <img src="@Model.Produto.Imagem!.First().ArquivoImagem" class="ImagemProduto" />
+                        </div>
+
+                    </div>
+
+                }
+                else if (html!.Contains("iframe") && Model.Content != null)
+                {
+
+                    <div id="descricao"></div>
+                    <center>
+                        <div id="player"></div>
+
+                    </center>
+                }
+                else
+                {
+                    @markup
                 }
 
+                if (Model.Produto != null && repositoryPagina!.buscarEcommerce() == "yes")
+                {
+                    <a href="/carrinho/@Model.Produto.Id/@capitulo/@indice/@dominio/@compartilhante">
+                        Adicionar ao carrinho
+                    </a>
+                }
+
+                <!-- ProdutoContent -->
+                if (Model.Story.PaginaPadraoLink == 2
+                && Model.Comentario != 0)
+                {
+                    <p>Comentário do Capitulo @CapituloComentario Verso @VersoComentario </p>
+                }
+                else if (Model.Story.PaginaPadraoLink == 2)
+                {
+                    <p>Apenas um comentário </p>
+
+                }
             }
-            
+            else if (outroHorizonte == 1 && Model2 != null)
+            {
+                var cam = buscarCamada(Model2);
+                <center>
+                    <a onclick="@acessarPasta">
+                        <h3> Pasta @Model2!.Nome </h3>
+                    </a>
+
+                    <p>
+                        Camada nº @cam
+                    </p>
+                    @{
+
+                        var p = buscarPastaFiltrada(cam);
+
+                        if (@cam != 1 && p != null)
+                        {
+                            <p>
+                                é um filtro da
+                                <a onclick="@(() => navigation.NavigateTo($"/renderizar/{capitulo}/{p}/0/11/1/1/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}"))">
+                                    pasta  @p
+                                </a>
+                            </p>
+                        }
+                        else if (p == null)
+                        {
+                            <p>Esta pasta não possui nenhum versículo</p>
+                        }
+
+                    }
+
                 </center>
             }
             else if (outroHorizonte == 2 && Model3 != null)
             {
                 <center>
-                        <h3>  @Model3.Questao </h3>
-               
-                        @if(Model3.UserResponse != null)
-                        {
-                            <a onclick="@acessarPergunta">
-                                visualizar resposta
-                            </a>
+                    <h3>  @Model3.Questao </h3>
 
-                        }
-                        else
-                        {
-                            <a onclick="@acessarPergunta">
-                                responder com versos
-                            </a>
-                            
-                        }
+                    @if (Model3.UserResponse != null)
+                    {
+                        <a onclick="@acessarPergunta">
+                            visualizar resposta
+                        </a>
 
-                 
+                    }
+                    else
+                    {
+                        <a onclick="@acessarPergunta">
+                            responder com versos
+                        </a>
 
-                   
+                    }
+
+
+
+
 
                 </center>
             }
             else if (outroHorizonte == 3 && compartilhante != null)
             {
-                if(compartilhante == "comp")
+                if (compartilhante == "comp")
                 {
                     <center>
                         <label>
                             Informe o usuario compartilhante
                         </label>
                         <input type="text" placeholder="Usuario" id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
-                   
-                         
+
+
                     </center>
                 }
-                else if(Model4 != null)
+                else if (Model4 != null)
                 {
                     <center>
                         <label>
@@ -691,60 +676,60 @@ else
                         <input type="text" placeholder="Usuario" id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
                         <h1>usuario - @compartilhante </h1>
                         Pasta do usuario
-                        <a href="/filtro/@capitulo/pasta-@indiceAcesso/@preferencia/@indiceLivro/@retroceder/@dominio/@compartilhante">
-                             <h2> <u>@Model4.Nome</u> </h2>
+                        <a href="/filtro/@capitulo/pasta-@indiceAcesso/@indiceLivro/@retroceder/@dominio/@compartilhante">
+                            <h2> <u>@Model4.Nome</u> </h2>
                         </a>
-                    
-                    </center>                    
+
+                    </center>
                 }
-                }
+            }
 
-            
-           
 
-</div>
-      
-    <a class="carousel-control-prev btn btn-dark" onclick="@buscarAnterior">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                    <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                </svg>
-            </a>
-        
-     <a class="carousel-control-next btn btn-dark" onclick="@buscarProximo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
-                    <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
-                </svg>
-            </a>
 
-    <div id="PaginacaoConteudo" class="Paginacao">
 
-        <center>
-            <div class="Informativo">
-                <h3>
-                    @if (auto == 1)
-                    {
-                        <input data-7 type="checkbox" id="automatico" name="automatico" checked="checked" onclick="@desabilitarAuto" />
-                    }
-                    else
-                    {
+        </div>
+
+        <a class="carousel-control-prev btn btn-dark" onclick="@buscarAnterior">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+            </svg>
+        </a>
+
+        <a class="carousel-control-next btn btn-dark" onclick="@buscarProximo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
+                <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+        </a>
+
+        <div id="PaginacaoConteudo" class="Paginacao">
+
+            <center>
+                <div class="Informativo">
+                    <h3>
+                        @if (auto == 1)
+                        {
+                            <input data-7 type="checkbox" id="automatico" name="automatico" checked="checked" onclick="@desabilitarAuto" />
+                        }
+                        else
+                        {
                             <input data-7 type="checkbox" id="automatico" name="automatico" onclick="@habilitarAuto" />
-                    }
+                        }
 
-                    Automático
-                </h3>
+                        Automático
+                    </h3>
 
-                    <div id="horizontes" >
-                        
+                    <div id="horizontes">
+
 
                         @{
-                            if(capitulo != 0)
+                            if (capitulo != 0)
                             {
 
                                 @if (substory == null && outroHorizonte == 3 && condicaoFiltro)
                                 {
-                                    <div data-8 style="background-color:gray;" class="item-horizonte" >
+                                    <div data-8 style="background-color:gray;" class="item-horizonte">
 
 
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder btn btn-danger" viewBox="0 0 16 16">
@@ -758,14 +743,14 @@ else
                                 {
                                     <div data-8 style="background-color:transparent;" class="item-horizonte">
 
-                                        <a  onclick="@acessarHorizonteMarcadores">
+                                        <a onclick="@acessarHorizonteMarcadores">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder btn btn-danger" viewBox="0 0 16 16">
                                                 <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3m-8.322.12q.322-.119.684-.12h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981z" />
                                             </svg>
                                         </a>
                                     </div>
-                                }                                
-                               
+                                }
+
 
                                 @if (substory == null && outroHorizonte == 1 && condicaoFiltro)
                                 {
@@ -823,7 +808,7 @@ else
                             {
                                 <span class="TextoInformativo">Capitulo @indice de @quantidadeLista</span>
                             }
-                            else 
+                            else
                             {
                                 if (outroHorizonte == 1 && capitulo != 0)
                                 {
@@ -834,7 +819,8 @@ else
                                 {
                                     <span class="TextoInformativo">Pergunta @indice de @quantidadeLista</span>
 
-                                }else if (outroHorizonte == 3 && capitulo != 0)
+                                }
+                                else if (outroHorizonte == 3 && capitulo != 0)
                                 {
                                     <span class="TextoInformativo">Marcador @indice de @quantidadeLista</span>
 
@@ -845,22 +831,22 @@ else
                                 }
 
                             }
-                                if (outroHorizonte == 1)
-                                {
-                                    <a href="/listar-pasta/@capitulo/@dominio/@compartilhante" class="btn btn-dark">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ol" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" />
-                                            <path d="M1.713 11.865v-.474H2c.217 0 .363-.137.363-.317 0-.185-.158-.31-.361-.31-.223 0-.367.152-.373.31h-.59c.016-.467.373-.787.986-.787.588-.002.954.291.957.703a.595.595 0 0 1-.492.594v.033a.615.615 0 0 1 .569.631c.003.533-.502.8-1.051.8-.656 0-1-.37-1.008-.794h.582c.008.178.186.306.422.309.254 0 .424-.145.422-.35-.002-.195-.155-.348-.414-.348h-.3zm-.004-4.699h-.604v-.035c0-.408.295-.844.958-.844.583 0 .96.326.96.756 0 .389-.257.617-.476.848l-.537.572v.03h1.054V9H1.143v-.395l.957-.99c.138-.142.293-.304.293-.508 0-.18-.147-.32-.342-.32a.33.33 0 0 0-.342.338v.041zM2.564 5h-.635V2.924h-.031l-.598.42v-.567l.629-.443h.635V5z" />
-                                        </svg>
-                                    </a>
-                                }
+                            if (outroHorizonte == 1)
+                            {
+                                <a href="/listar-pasta/@capitulo/@dominio/@compartilhante" class="btn btn-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ol" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" />
+                                        <path d="M1.713 11.865v-.474H2c.217 0 .363-.137.363-.317 0-.185-.158-.31-.361-.31-.223 0-.367.152-.373.31h-.59c.016-.467.373-.787.986-.787.588-.002.954.291.957.703a.595.595 0 0 1-.492.594v.033a.615.615 0 0 1 .569.631c.003.533-.502.8-1.051.8-.656 0-1-.37-1.008-.794h.582c.008.178.186.306.422.309.254 0 .424-.145.422-.35-.002-.195-.155-.348-.414-.348h-.3zm-.004-4.699h-.604v-.035c0-.408.295-.844.958-.844.583 0 .96.326.96.756 0 .389-.257.617-.476.848l-.537.572v.03h1.054V9H1.143v-.395l.957-.99c.138-.142.293-.304.293-.508 0-.18-.147-.32-.342-.32a.33.33 0 0 0-.342.338v.041zM2.564 5h-.635V2.924h-.031l-.598.42v-.567l.629-.443h.635V5z" />
+                                    </svg>
+                                </a>
+                            }
                         }
 
                     </div>
 
 
-                @{
-                   
+                    @{
+
                         if (substory != null /* && indice_Filtro == ultimaPasta */)
                         {
                             <a data-2 href="#" class="btn btn-dark" onclick="@listarPasta">
@@ -873,94 +859,92 @@ else
 
                             <span>-----</span>
                         }
-                            
-                                @if(Model2 != null && Model2.user != null && substory != null)
-                                {
-                                    <a class="btn btn-danger" onclick="@(() => navigation!.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/3/0/0/0/{dominio}/{compartilhante}/{compartilhante2}"))">
-                                            @indice_Filtro
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
-                                                <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3m-8.322.12q.322-.119.684-.12h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981z" />
-                                            </svg>
-                                    </a>
-                                }
-                                else if ( substory != null)
-                                {
-                                    <a class="btn btn-dark" onclick="@(() => navigation!.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}/{compartilhante2}"))">
-                                            @indice_Filtro
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-fill" viewBox="0 0 16 16">
-                                                <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
-                                            </svg>
-                                    </a>
-                                    
-                                }
-                       
-                    }
-            </div>
 
-
-            <div class="DivPagina" style="background-color:white;" >            
-                @{
-                    
-
-                    if(substory == null)
-                    {
-                        for (var indice = 1; indice <= quantidadeLista; indice++)
+                        @if (Model2 != null && Model2.user != null && substory != null)
                         {
-                            <div class="DivPag" id="DivPagina@(indice)">
-                                <div>
-                                <span class="indices"><b>@indice</b> </span>
-                                </div>
-                                <div class="barra">
-                                -
-                                </div>
-                            </div>
+                            <a class="btn btn-danger" onclick="@(() => navigation!.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/3/0/0/0/{dominio}/{compartilhante}/{compartilhante2}"))">
+                                @indice_Filtro
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3m-8.322.12q.322-.119.684-.12h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981z" />
+                                </svg>
+                            </a>
                         }
-                    }
-                    else if (substory != null )
-                    {
-                        for (var i = 1; i <= quantidadeLista; i++)
+                        else if (substory != null)
                         {
-                            <div class="DivPag" id="DivPagina@(indice)">
-                                 <div>
-                                    @if(compartilhante != "comp")
-                                    {
+                            <a class="btn btn-dark" onclick="@(() => navigation!.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}/{compartilhante2}"))">
+                                @indice_Filtro
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-fill" viewBox="0 0 16 16">
+                                    <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
+                                </svg>
+                            </a>
 
-                                            if (pag != null && pag.Id != 0 && indice == i)
+                        }
+
+                    }
+                </div>
+
+
+                <div class="DivPagina" style="background-color:white;">
+                    @{
+
+
+                        if (substory == null)
+                        {
+                            for (var indice = 1; indice <= quantidadeLista; indice++)
+                            {
+                                <div class="DivPag" id="DivPagina@(indice)">
+                                    <div>
+                                        <span class="indices"><b>@indice</b> </span>
+                                    </div>
+                                    <div class="barra">
+                                        -
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else if (substory != null)
+                        {
+                            for (var i = 1; i <= quantidadeLista; i++)
+                            {
+                                <div class="DivPag" id="DivPagina@(indice)">
+                                    <div>
+                                        @if (pag != null && indice == i)
+                                        {
+                                            if (!Content)
                                             {
                                                 <span data-first class="indices"> @pag.Versiculo</span>
+
                                             }
                                             else
                                             {
-                                                <span class="indices"> - </span>
-                                                
+                                                <span class="indices">0</span>
+
                                             }
-                                        }
-                                        else if(indice == i)
-                                        {
-                                            <span class="indices"> @vers </span>
                                         }
                                         else
                                         {
-                                            <span class="indices"> - </span>                                            
+                                            <span class="indices"> - </span>
+
                                         }
+
                                     </div>
-                                <div class="barra">
-                                -
+                                    <div class="barra">
+                                        -
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
+
                     }
+                </div>
 
-                }
-            </div>           
+            </center>
 
-        </center>
+            <div class="progressbar">
+                <div></div>
+            </div>
 
-        <div class="progressbar">
-            <div></div>
         </div>
 
-    </div>
-   
     </div>
 }

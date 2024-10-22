@@ -5,21 +5,31 @@ using System.Collections.Generic;
 using business.Group;
 using System.Collections;
 using business;
+using PSC.Blazor.Components.Tours.Interfaces;
 
 namespace BlazorServerCms.servicos
 {
     public class ClassArray
     {
 
-        public int[] RetornarArray(List<Filtro> filtros, Story story, int comparacao, long filtro, int Indice, int IndiceSubStory, int? IndiceGrupo = null,
-          int? IndiceSubGrupo = null, int? IndiceSubSubGrupo = null, int? IndiceCamadaSeis = null, int? IndiceCamadaSete = null,
+        public int[] RetornarArray(List<Filtro> filtros, Story story, int comparacao, long filtro,
+            int Indice, int IndiceSubStory, int? IndiceGrupo = null, int? IndiceSubGrupo = null,
+            int? IndiceSubSubGrupo = null, int? IndiceCamadaSeis = null, int? IndiceCamadaSete = null,
           int? IndiceCamadaOito = null, int? IndiceCamadaNove = null, int? IndiceCamadaDez = null)
         {
             int[]? result = null;
             bool condicao = false;
+            bool possuiVersos = false;
             long num;
 
-            if (IndiceCamadaDez != null)
+            if (comparacao == 2 &&
+                story.Filtro.FirstOrDefault(f => f.Id == filtro && f.Pagina != null && f.Pagina!.Count > 0) != null)
+                possuiVersos = true;
+
+            if (!possuiVersos && comparacao == 2) return null;
+            else
+            if (possuiVersos && comparacao == 2) return new int[1];
+            else if (IndiceCamadaDez != null)
             {
                 num = long.Parse($"{Indice}{IndiceSubStory}{IndiceGrupo}{IndiceSubGrupo}{IndiceSubSubGrupo}{IndiceCamadaSeis}{IndiceCamadaSete}{IndiceCamadaOito}{IndiceCamadaNove}{IndiceCamadaDez}");
                 foreach (var item in story.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).ToList())
@@ -65,18 +75,7 @@ namespace BlazorServerCms.servicos
                                                     var lista7 =  fil6.CamadaOito.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                                     var lista8 =  fil7.CamadaNove.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                                     var lista9 =  fil8.CamadaDez.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
-                                                    if(comparacao == 2)
-                                                    {
-                                                        lista1.Reverse();
-                                                        lista2.Reverse();
-                                                        lista3.Reverse();
-                                                        lista4.Reverse();
-                                                        lista5.Reverse();
-                                                        lista6.Reverse();
-                                                        lista7.Reverse();
-                                                        lista8.Reverse();
-                                                        lista9.Reverse();
-                                                    }
+                                                   
                                                     var var1 = lista1.IndexOf((SubStory   )item) + 1;
                                                     var var2 = lista2.IndexOf((Grupo      )item2) + 1;
                                                     var var3 = lista3.IndexOf((SubGrupo   )item3) + 1;
@@ -105,35 +104,7 @@ namespace BlazorServerCms.servicos
                                                             result[9] = var9;
                                                             break;
                                                         }
-                                                    }
-                                                    else if (comparacao == 2)
-                                                    {
-                                                            lista1.Reverse();
-                                                            lista2.Reverse();
-                                                            lista3.Reverse();
-                                                            lista4.Reverse();
-                                                            lista5.Reverse();
-                                                            lista6.Reverse();
-                                                            lista7.Reverse();
-                                                            lista8.Reverse();
-                                                            lista9.Reverse();
-                                                        if (num2 < num)
-                                                        {
-                                                            condicao = true;
-                                                            result = new int[10];
-                                                            result[0] = Indice;
-                                                            result[1] = var1;
-                                                            result[2] = var2;
-                                                            result[3] = var3;
-                                                            result[4] = var4;
-                                                            result[5] = var5;
-                                                            result[6] = var6;
-                                                            result[7] = var7;
-                                                            result[8] = var8;
-                                                            result[9] = var9;
-                                                            break;
-                                                        }
-                                                    }
+                                                    } 
                                                     else
                                                     {
                                                         if (item9.Id == filtro)
@@ -215,17 +186,7 @@ namespace BlazorServerCms.servicos
                                                 var lista6 = fil5.CamadaSete.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                                 var lista7 = fil6.CamadaOito.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                                 var lista8 = fil7.CamadaNove.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
-                                                if (comparacao == 2)
-                                                {
-                                                    lista1.Reverse();
-                                                    lista2.Reverse();
-                                                    lista3.Reverse();
-                                                    lista4.Reverse();
-                                                    lista5.Reverse();
-                                                    lista6.Reverse();
-                                                    lista7.Reverse();
-                                                    lista8.Reverse();
-                                                }
+                                              
                                                 var var1 = lista1.IndexOf((SubStory)item) + 1;
                                                 var var2 = lista2.IndexOf((Grupo)item2) + 1;
                                                 var var3 = lista3.IndexOf((SubGrupo)item3) + 1;
@@ -238,32 +199,6 @@ namespace BlazorServerCms.servicos
                                                 if (comparacao == 1)
                                                 {
                                                     if (num2 > num)
-                                                    {
-                                                        condicao = true;
-                                                        result = new int[9];
-                                                        result[0] = Indice;
-                                                        result[1] = var1;
-                                                        result[2] = var2;
-                                                        result[3] = var3;
-                                                        result[4] = var4;
-                                                        result[5] = var5;
-                                                        result[6] = var6;
-                                                        result[7] = var7;
-                                                        result[8] = var8;
-                                                        break;
-                                                    }
-                                                }
-                                                else if (comparacao == 2)
-                                                {
-                                                        lista1.Reverse();
-                                                        lista2.Reverse();
-                                                        lista3.Reverse();
-                                                        lista4.Reverse();
-                                                        lista5.Reverse();
-                                                        lista6.Reverse();
-                                                        lista7.Reverse();
-                                                        lista8.Reverse();
-                                                    if (num2 < num)
                                                     {
                                                         condicao = true;
                                                         result = new int[9];
@@ -353,16 +288,7 @@ namespace BlazorServerCms.servicos
                                             var lista5 = fil4.CamadaSeis.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                             var lista6 = fil5.CamadaSete.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                             var lista7 = fil6.CamadaOito.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
-                                            if (comparacao == 2)
-                                            {
-                                                lista1.Reverse();
-                                                lista2.Reverse();
-                                                lista3.Reverse();
-                                                lista4.Reverse();
-                                                lista5.Reverse();
-                                                lista6.Reverse();
-                                                lista7.Reverse();
-                                            }
+                                          
                                             var var1 = lista1.IndexOf((SubStory)item) + 1;
                                             var var2 = lista2.IndexOf((Grupo)item2) + 1;
                                             var var3 = lista3.IndexOf((SubGrupo)item3) + 1;
@@ -374,30 +300,6 @@ namespace BlazorServerCms.servicos
                                             if (comparacao == 1)
                                             {
                                                 if (num2 > num)
-                                                {
-                                                    condicao = true;
-                                                    result = new int[8];
-                                                    result[0] = Indice;
-                                                    result[1] = var1;
-                                                    result[2] = var2;
-                                                    result[3] = var3;
-                                                    result[4] = var4;
-                                                    result[5] = var5;
-                                                    result[6] = var6;
-                                                    result[7] = var7;
-                                                    break;
-                                                }
-                                            }
-                                            else if (comparacao == 2)
-                                            {
-                                                    lista1.Reverse();
-                                                    lista2.Reverse();
-                                                    lista3.Reverse();
-                                                    lista4.Reverse();
-                                                    lista5.Reverse();
-                                                    lista6.Reverse();
-                                                    lista7.Reverse();
-                                                if (num2 < num)
                                                 {
                                                     condicao = true;
                                                     result = new int[8];
@@ -479,15 +381,7 @@ namespace BlazorServerCms.servicos
                                         var lista4 = fil3.SubSubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                         var lista5 = fil4.CamadaSeis.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                         var lista6 = fil5.CamadaSete.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
-                                        if (comparacao == 2)
-                                        {
-                                            lista1.Reverse();
-                                            lista2.Reverse();
-                                            lista3.Reverse();
-                                            lista4.Reverse();
-                                            lista5.Reverse();
-                                            lista6.Reverse();
-                                        }
+                                        
                                         var var1 = lista1.IndexOf((SubStory)item) + 1;
                                         var var2 = lista2.IndexOf((Grupo)item2) + 1;
                                         var var3 = lista3.IndexOf((SubGrupo)item3) + 1;
@@ -498,28 +392,6 @@ namespace BlazorServerCms.servicos
                                         if (comparacao == 1)
                                         {
                                             if (num2 > num)
-                                            {
-                                                condicao = true;
-                                                result = new int[7];
-                                                result[0] = Indice;
-                                                result[1] = var1;
-                                                result[2] = var2;
-                                                result[3] = var3;
-                                                result[4] = var4;
-                                                result[5] = var5;
-                                                result[6] = var6;
-                                                break;
-                                            }
-                                        }
-                                        else if (comparacao == 2)
-                                        {
-                                                lista1.Reverse();
-                                                lista2.Reverse();
-                                                lista3.Reverse();
-                                                lista4.Reverse();
-                                                lista5.Reverse();
-                                                lista6.Reverse();
-                                            if (num2 < num)
                                             {
                                                 condicao = true;
                                                 result = new int[7];
@@ -592,14 +464,7 @@ namespace BlazorServerCms.servicos
                                     var lista3 = fil2.SubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                     var lista4 = fil3.SubSubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                     var lista5 = fil4.CamadaSeis.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
-                                    if (comparacao == 2)
-                                    {
-                                        lista1.Reverse();
-                                        lista2.Reverse();
-                                        lista3.Reverse();
-                                        lista4.Reverse();
-                                        lista5.Reverse();
-                                    }
+                                    
                                     var var1 = lista1.IndexOf((SubStory)item) + 1;
                                     var var2 = lista2.IndexOf((Grupo)item2) + 1;
                                     var var3 = lista3.IndexOf((SubGrupo)item3) + 1;
@@ -609,26 +474,6 @@ namespace BlazorServerCms.servicos
                                     if (comparacao == 1)
                                     {
                                         if (num2 > num)
-                                        {
-                                            condicao = true;
-                                            result = new int[6];
-                                            result[0] = Indice;
-                                            result[1] = var1;
-                                            result[2] = var2;
-                                            result[3] = var3;
-                                            result[4] = var4;
-                                            result[5] = var5;
-                                            break;
-                                        }
-                                    }
-                                    else if (comparacao == 2)
-                                    {
-                                            lista1.Reverse();
-                                            lista2.Reverse();
-                                            lista3.Reverse();
-                                            lista4.Reverse();
-                                            lista5.Reverse();
-                                        if (num2 < num)
                                         {
                                             condicao = true;
                                             result = new int[6];
@@ -691,13 +536,7 @@ namespace BlazorServerCms.servicos
                                 var lista2 = fil1.Grupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                 var lista3 = fil2.SubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                                 var lista4 = fil3.SubSubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList().OrderBy(str => str.Id).ToList();
-                                if (comparacao == 2)
-                                {
-                                    lista1.Reverse();
-                                    lista2.Reverse();
-                                    lista3.Reverse();
-                                    lista4.Reverse();
-                                }
+                               
                                 var var1 = lista1.IndexOf((SubStory)item) + 1;
                                 var var2 = lista2.IndexOf((Grupo)item2) + 1;
                                 var var3 = lista3.IndexOf((SubGrupo)item3) + 1;
@@ -707,24 +546,6 @@ namespace BlazorServerCms.servicos
                                 {
                                         
                                     if (num2 > num)
-                                    {
-                                        condicao = true;
-                                        result = new int[5];
-                                        result[0] = Indice;
-                                        result[1] = var1;
-                                        result[2] = var2;
-                                        result[3] = var3;
-                                        result[4] = var4;
-                                        break;
-                                    }
-                                }
-                                else if (comparacao == 2)
-                                {
-                                        lista1.Reverse();
-                                        lista2.Reverse();
-                                        lista3.Reverse();
-                                        lista4.Reverse();
-                                    if (num2 < num)
                                     {
                                         condicao = true;
                                         result = new int[5];
@@ -778,12 +599,7 @@ namespace BlazorServerCms.servicos
                             var lista1 = story.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).ToList() ;
                             var lista2 = fil1.Grupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
                             var lista3 = fil2.SubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList();
-                            if (comparacao == 2)
-                            {
-                                lista1.Reverse();
-                                lista2.Reverse();
-                                lista3.Reverse();
-                            }
+                           
                             var var1 = lista1.IndexOf((SubStory)item) + 1;
                             var var2 = lista2.IndexOf((Grupo)item2) + 1;
                             var var3 = lista3.IndexOf((SubGrupo)item3) + 1;
@@ -794,22 +610,6 @@ namespace BlazorServerCms.servicos
                                 {
                                     condicao = true;
                                     result = new int[4];
-                                    result[0] = Indice;
-                                    result[1] = var1;
-                                    result[2] = var2;
-                                    result[3] = var3;
-                                    break;
-                                }
-                            }
-                            else if (comparacao == 2)
-                            {
-                                    lista1.Reverse();
-                                    lista2.Reverse();
-                                    lista3.Reverse();
-                                if (num2 < num)
-                                {
-                                    condicao = true;
-                                    result = new int[5];
                                     result[0] = Indice;
                                     result[1] = var1;
                                     result[2] = var2;
@@ -849,11 +649,7 @@ namespace BlazorServerCms.servicos
                     {
                         var lista1 = story.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).ToList();
                         var lista2 = fil1.Grupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).ToList().ToList();
-                        if (comparacao == 2)
-                        {
-                            lista1.Reverse();
-                            lista2.Reverse();
-                        }
+                        
                         var var1 = lista1.IndexOf((SubStory)item) + 1;
                         var var2 = lista2.IndexOf((Grupo)item2) + 1;
                         long num2 = long.Parse($"{Indice}{var1}{var2}");
@@ -867,23 +663,9 @@ namespace BlazorServerCms.servicos
                                 result[1] = var1;
                                 result[2] = var2;
                                 break;
-                            }
+                                }
                         }
-                        else if (comparacao == 2)
-                        {
-                                lista1.Reverse();
-                                lista2.Reverse();
-                            if (num2 < num)
-                            {
-                                condicao = true;
-                                result = new int[5];
-                                result[0] = Indice;
-                                result[1] = var1;
-                                result[2] = var2;
-                                break;
-                            }
-                        }
-                        else
+                            else
                         {
                             if (item2.Id == filtro)
                             {
@@ -906,10 +688,7 @@ namespace BlazorServerCms.servicos
                 foreach (var item in story.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).ToList())
                 {
                     var lista1 = story.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).ToList();
-                    if (comparacao == 2)
-                    {
-                        lista1.Reverse();
-                    }
+                   
                     var var1 = lista1.IndexOf((SubStory)item) + 1;
                     long num2 = long.Parse($"{Indice}{var1}");
                     if (comparacao == 1)
@@ -918,18 +697,6 @@ namespace BlazorServerCms.servicos
                         {
                             condicao = true;
                             result = new int[2];
-                            result[0] = Indice;
-                            result[1] = var1;
-                            break;
-                        }
-                    }
-                    else if (comparacao == 2)
-                    {
-                        lista1.Reverse();
-                        if (num2 < num)
-                        {
-                            condicao = true;
-                            result = new int[5];
                             result[0] = Indice;
                             result[1] = var1;
                             break;

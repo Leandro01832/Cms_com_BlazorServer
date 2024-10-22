@@ -83,7 +83,6 @@ else
         foreach(var item in filtros)
             Context.Remove(item);
         await Context.SaveChangesAsync();
-        pagina.ContentUser = null;
         pagina.Content = null;
         pagina.Data = DateTime.Now;
         Context.Update(pagina);

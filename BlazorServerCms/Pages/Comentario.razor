@@ -16,7 +16,7 @@
             Disable=false
         JsConfSrc="sample"
         ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
-        ClassName="tinymce-wrapper" @bind-Value="exampleModel.ContentUser" />
+        ClassName="tinymce-wrapper" @bind-Value="exampleModel.Content" />
     <a href="#" onclick="@FazerComentario" class="btn btn-dark" >Adicionar comentário</a>
 
 @{
@@ -94,7 +94,7 @@
             {
                 Titulo = "Story - " + Story.Nome,
                 Comentario = Model.Id,
-                ContentUser = $"<div> {exampleModel.ContentUser} </div>"
+                Content = $"<div> {exampleModel.Content} </div>"
             };
         Pagina.entity = false;
 

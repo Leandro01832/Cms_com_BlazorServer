@@ -1,5 +1,4 @@
 ﻿@page "/"
-@page "/info/{dominio}/{compartilhante}"
 @page "/{capitulo:int}/{filtrar:int}"
 @page "/{capitulo:int}/{indice}"
 @page "/acesso/{indice}"
@@ -296,7 +295,6 @@
                 var compartilhant = new business.Compartilhante
                     {
                         Livro = dominio,
-                        Admin = compartilhante,
                         Data = DateTime.Now,
                         Comissao = 5
                     };

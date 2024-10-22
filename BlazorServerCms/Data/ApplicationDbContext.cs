@@ -31,7 +31,6 @@ namespace BlazorServerCms.Data
         public DbSet<UserResponse> UserResponse { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
         public DbSet<Estante> Instante { get; set; }
-        public DbSet<ContentFiltro> ContentFiltro { get; set; }
         public DbSet<FiltroPagina> FiltroPagina { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<savedFolder> savedFolder { get; set; }
@@ -63,10 +62,7 @@ namespace BlazorServerCms.Data
             builder.Entity<FiltroPagina>()
           .HasKey(p => new { p.FiltroId, p.PaginaId });
 
-            base.OnModelCreating(builder);
-            builder.Entity<ContentFiltro>()
-          .HasKey(p => new { p.ContentId, p.FiltroId });
-
+           
 
         }
     }
