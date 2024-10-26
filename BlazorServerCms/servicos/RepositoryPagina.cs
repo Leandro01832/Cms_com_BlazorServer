@@ -82,7 +82,7 @@ namespace BlazorServerCms.servicos
 
         public async Task<string> renderizarPagina(Pagina pagina)
         {
-        var text = await Http.GetStringAsync("https://www.instagleo.net.br/Arquivotxt/default.html");
+        var text = await Http.GetStringAsync("https://localhost:7224/Arquivotxt/default.html");
            
             var resultado = renderizar(pagina, text!);
             return resultado;

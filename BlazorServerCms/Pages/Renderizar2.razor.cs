@@ -78,7 +78,8 @@ namespace BlazorCms.Client.Pages
         protected int? indice_Filtro { get; set; }         
         protected int? vers { get; set; }
 
-        [Parameter] public int indiceLivro { get; set; } = 0; [Parameter] public int retroceder { get; set; } = 0;
+        [Parameter] public int indiceLivro { get; set; } = 0;
+        [Parameter] public int retroceder { get; set; } = 0;
 
         [Parameter] public int timeproduto { get; set; } = 1;   [Parameter] public int indice { get; set; } = 1;
         [Parameter] public int capitulo { get; set; } = 1;
@@ -91,11 +92,16 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public int? camadaoito { get; set; } = null; [Parameter] public int? camadanove { get; set; } = null;
 
-        [Parameter] public int? camadadez { get; set; } = null; [Parameter] public int auto { get; set; } = 1;
+        [Parameter] public int? camadadez { get; set; } = null;
+        [Parameter] public int auto { get; set; } = 1;
 
         [Parameter] public string? redirecionar { get; set; } = null; [Parameter] public string? dominio { get; set; } = "dominio";
-        [Parameter] public string? compartilhante { get; set; } = "dominio";
-        [Parameter] public string? compartilhante2 { get; set; } = "dominio";
+        [Parameter] public string? compartilhante { get; set; } = null;
+        [Parameter] public string? compartilhante2 { get; set; } = null;
+        [Parameter] public string? compartilhante3 { get; set; } = null;
+        [Parameter] public string? compartilhante4 { get; set; } = null;
+        [Parameter] public string? compartilhante5 { get; set; } = null;
+        [Parameter] public string? compartilhante6 { get; set; } = null;
         [Parameter] public string? pontos { get; set; } = "";
 
         [Parameter] public int outroHorizonte { get; set; }

@@ -41,6 +41,11 @@ namespace BlazorCms.Client.Pages
             if (auto == 1)
                 StartTimer(Model!);
 
+            if (compartilhante != "comp" && pontos != null)
+            {
+                adicionarPontos(compartilhante);
+            }
+
         }
         
         protected override async Task OnInitializedAsync()
@@ -57,44 +62,17 @@ namespace BlazorCms.Client.Pages
 
             var authState = await AuthenticationStateProvider
                     .GetAuthenticationStateAsync();
-            user = authState.User;
-
-
-            if (compartilhante != "comp" && pontos != null)
-            {
-               var us = Context.Users.FirstOrDefault(u => u.UserName == compartilhante);
-
-                if (us != null)
-                {
-                    if(DateTime.Now.Date > us.DataPontuacao.Date)
-                    {
-                        if (us.PontosPorDia > us.Recorde)
-                        {
-                            us.Recorde = us.PontosPorDia;
-                            Context.Update(us);
-                            Context.SaveChanges();
-                        }
-                        us.PontosPorDia = 1;
-                        us.DataPontuacao = DateTime.Now;
-                        Context.Update(us);
-                        Context.SaveChanges();
-                    }
-                    else
-                    {
-                        us.PontosPorDia++;
-                        Context.Update(us);
-                        Context.SaveChanges();
-                    }
-                    
-                }
-
-                pontos = null;
-            }
+            user = authState.User;           
 
             if (compartilhante == null)
+            {
                 compartilhante = "comp";
-            if (compartilhante2 == null)
                 compartilhante2 = "comp";
+                compartilhante3 = "comp";
+                compartilhante4 = "comp";
+                compartilhante5 = "comp";
+                compartilhante6 = "comp";
+            }
             if (dominio == null)
                 dominio = "dominio";
 
@@ -294,10 +272,6 @@ namespace BlazorCms.Client.Pages
                     else
                     listaFiltradaComConteudo = retornarListaFiltrada(rotas);
 
-                    if (retroceder == 1)
-                    {
-                        indice = listaFiltradaComConteudo!.Count;
-                    }
 
 
                 }
@@ -413,8 +387,7 @@ namespace BlazorCms.Client.Pages
 
         private void setarCamadas(int[] arr)
         {
-            retroceder = 0;
-            if (arr.Length == 10)
+            if (arr != null && arr.Length == 10)
             {
                 substory =  arr[1];
                 grupo = arr[2];
@@ -426,7 +399,7 @@ namespace BlazorCms.Client.Pages
                 camadanove = arr[8];
                 camadadez = arr[9];                
             }
-            else if (arr.Length == 9)
+            else if (arr != null && arr.Length == 9)
             {
                 substory = arr[1];
                 grupo = arr[2];
@@ -438,7 +411,7 @@ namespace BlazorCms.Client.Pages
                 camadanove = arr[8];
                 camadadez = null;
             }
-            else if (arr.Length == 8)
+            else if (arr != null && arr.Length == 8)
             {
                 substory =   arr[1];
                 grupo =  arr[2];
@@ -450,7 +423,7 @@ namespace BlazorCms.Client.Pages
                 camadanove = null;
                 camadadez = null;
             }
-            else if (arr.Length == 7)
+            else if (arr != null && arr.Length == 7)
             {
                 substory =  arr[1];
                 grupo =  arr[2];
@@ -463,7 +436,7 @@ namespace BlazorCms.Client.Pages
                     camadadez = null;
 
             }
-            else if (arr.Length == 6)
+            else if (arr != null && arr.Length == 6)
             {
                 substory =  arr[1];
                 grupo =  arr[2];
@@ -475,7 +448,7 @@ namespace BlazorCms.Client.Pages
                 camadanove = null;
                 camadadez = null;
             }
-            else if (arr.Length == 5)
+            else if (arr != null && arr.Length == 5)
             {
                 substory =  arr[1];
                 grupo =  arr[2];
@@ -487,7 +460,7 @@ namespace BlazorCms.Client.Pages
                 camadanove = null;
                 camadadez = null;
             }
-            else if (arr.Length == 4)
+            else if (arr != null && arr.Length == 4)
             {
                 substory =  arr[1];
                 grupo =  arr[2];
@@ -499,7 +472,7 @@ namespace BlazorCms.Client.Pages
                 camadanove = null;
                 camadadez = null;
             }
-            else if (arr.Length == 3)
+            else if (arr != null && arr.Length == 3)
             {
                 substory =  arr[1];
                 grupo =  arr[2];
@@ -511,7 +484,7 @@ namespace BlazorCms.Client.Pages
                 camadanove = null;
                 camadadez = null;
             }
-            else if (arr.Length == 2)
+            else if (arr != null && arr.Length == 2)
             {
                 substory =  arr[1];
                 grupo = null;
@@ -773,15 +746,98 @@ namespace BlazorCms.Client.Pages
 
                 if (Model2.user != null)
                 {
-                    compartilhante = Model2.user;
+                    var fil = verificarFiltros(Model2);
+                    Filtro fil2 = null;
+                    Filtro fil3 = null;
+                    Filtro fil4 = null;
+                    Filtro fil5 = null;
+
+                    if (fil.user != null)
+                    {
+                        //compartilhante ganha 2 pts
+                        compartilhante = fil.user;
+                        compartilhante2 = Model2.user;
+                        compartilhante3 = "comp";
+                        compartilhante4 = "comp";
+                        compartilhante5 = "comp";
+                        compartilhante6 = "comp";
+
+                         fil2 = verificarFiltros(fil);
+                        if (fil2.user != null)
+                        {
+                            //compartilhante ganha 3 pts
+                            compartilhante = fil2.user;
+                            compartilhante2 = fil.user;
+                            compartilhante3 = Model2.user;
+                            compartilhante4 = "comp";
+                            compartilhante5 = "comp";
+                            compartilhante6 = "comp";
+
+                            fil3 = verificarFiltros(fil2);
+                            if (fil3.user != null)
+                            {
+                                //compartilhante ganha 4 pts
+                                compartilhante = fil3.user;
+                                compartilhante2 = fil2.user;
+                                compartilhante3 = fil.user;
+                                compartilhante4 = Model2.user;
+                                compartilhante5 = "comp";
+                                compartilhante6 = "comp";
+
+                                fil4 = verificarFiltros(fil3);
+                                if (fil4.user != null)
+                                {
+                                    //compartilhante ganha 5 pts
+                                    compartilhante = fil4.user;
+                                    compartilhante2 = fil3.user;
+                                    compartilhante3 = fil2.user;
+                                    compartilhante4 = fil.user;
+                                    compartilhante5 = Model2.user;
+                                    compartilhante6 = "comp";
+
+                                    fil5 = verificarFiltros(fil4);
+                                    if (fil5.user != null)
+                                    {
+                                        //compartilhante ganha 6 pts
+                                        compartilhante = fil5.user;
+                                        compartilhante2 = fil4.user;
+                                        compartilhante3 = fil3.user;
+                                        compartilhante4 = fil2.user;
+                                        compartilhante5 = fil.user;
+                                        compartilhante6 = Model2.user;
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+
                 }  
                 else if(Model2.user == null)
+                {
                     compartilhante = "comp";
+                    compartilhante2 = "comp";
+                    compartilhante3 = "comp";
+                    compartilhante4 = "comp";
+                    compartilhante5 = "comp";
+                    compartilhante6 = "comp";
 
-                if (Content)
-                    pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
-                else
-                    pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+                }
+
+
+                if (retroceder == 1)
+                {
+                    indice = listaFiltradaComConteudo!.Count;
+                    retroceder = 0;
+                }
+
+
+                pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 if (pag == null)                
                 pag = repositoryPagina.paginas!.Where(p => p.Story.PaginaPadraoLink == capitulo)
@@ -842,7 +898,102 @@ namespace BlazorCms.Client.Pages
         }
 
         
+        private Filtro verificarFiltros(Filtro f)
+        {
+            if(f is CamadaDez)
+            {
+                CamadaDez camada = (CamadaDez)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaNoveId);
+            }
+            else if (f is CamadaNove)
+            {
+                CamadaNove camada = (CamadaNove)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaOitoId);
+            }
+            else if (f is CamadaOito)
+            {
+                CamadaOito camada = (CamadaOito)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaSeteId);
+            }
+            else if (f is CamadaSete)
+            {
+                CamadaSete camada = (CamadaSete)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaSeisId);
+            }
+            else if (f is CamadaSeis)
+            {
+                CamadaSeis camada = (CamadaSeis)f;
+                return story.Filtro.First(fil => fil.Id == camada.SubSubGrupoId);
+            }
+            else if (f is SubSubGrupo)
+            {
+                SubSubGrupo camada = (SubSubGrupo)f;
+                return story.Filtro.First(fil => fil.Id == camada.SubGrupoId);
+            }
+            else if (f is SubGrupo)
+            {
+                SubGrupo camada = (SubGrupo)f;
+                return story.Filtro.First(fil => fil.Id == camada.GrupoId);
+            }
+            else if (f is Grupo)
+            {
+                Grupo camada = (Grupo)f;
+                return story.Filtro.First(fil => fil.Id == camada.SubStoryId);
+            }
+            else
+            {
+                return f;
+            }
+        }
 
+        private void adicionarPontos(string username)
+        {
+            var us = Context.Users.FirstOrDefault(u => u.UserName == username);
+            var us2 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante2);
+            var us3 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante3);
+            var us4 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante4);
+            var us5 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante5);
+            var us6 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante6);
+            UserModel[] usuarios = new UserModel[6];
 
+            int pts = 0;
+
+            if (us != null){ pts = 1; usuarios[0] = us; } else usuarios[0] = null;
+            if (us2 != null){ pts = 2; usuarios[1] = us2; } else usuarios[1] = null;
+            if (us3 != null){ pts = 3; usuarios[2] = us3; } else usuarios[2] = null;
+            if (us4 != null){ pts = 4; usuarios[3] = us4; } else usuarios[3] = null;
+            if (us5 != null){ pts = 5; usuarios[4] = us5; } else usuarios[4] = null;
+            if (us6 != null) { pts = 6; usuarios[5] = us6; } else usuarios[5] = null;
+
+            for (var i = 0; i < 6; i++)
+            {
+                if (usuarios[i] != null)
+                {
+
+                    if (DateTime.Now.Date > usuarios[i].DataPontuacao.Date)
+                    {
+                        if (usuarios[i].PontosPorDia > usuarios[i].Recorde)
+                        {
+                            usuarios[i].Recorde = usuarios[i].PontosPorDia;
+                            Context.Update(usuarios[i]);
+                            Context.SaveChanges();
+                        }
+                        usuarios[i].PontosPorDia = 1;
+                        usuarios[i].DataPontuacao = DateTime.Now;
+                        Context.Update(usuarios[i]);
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
+                        usuarios[i].PontosPorDia += pts - i;
+                        Context.Update(usuarios[i]);
+                        Context.SaveChanges();
+                    }
+
+                }
+            }
+            pontos = null;
+        }
+    
     }
 }
