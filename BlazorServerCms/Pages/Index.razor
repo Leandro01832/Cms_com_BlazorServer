@@ -54,6 +54,9 @@
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
             </svg>
         </a>
+        <a  href="#" onclick="@(() => navigation.NavigateTo("/conteudo"))" style="margin-left: 10px;" >
+            <strong>Content</strong>
+        </a>
     </p>
 </div>
 <div data-first>
@@ -311,7 +314,7 @@
 
         if (capitulo != null && indice != null && indice.Contains("verso"))
         {
-            navigation.NavigateTo($"/renderizar/{capitulo}/{indice.Replace("verso-", "")}/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
+            navigation.NavigateTo($"/renderizar/{capitulo}/{indice.Replace("verso-", "")}/1/11/0/0/0/0/{dominio}/{compartilhante}");
         }
         else if (capitulo != null && filtrar != null)
         {
@@ -321,7 +324,7 @@
         {
             var number = Regex.Match(indice, @"d+").Value;
             if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.capitulo}/{number}/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
+                navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.capitulo}/{number}/1/11/0/0/0/0/{dominio}/{compartilhante}");
             else
                 Mensagem = erro1;
         }
@@ -345,7 +348,7 @@
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
         dominio = repositoryPagina.buscarDominio();
-        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}/user");
+        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/0/0/0/{dominio}/{compartilhante}/user");
     }
 
     private async void buscar()
@@ -503,7 +506,7 @@
             try
             {
                 cap = int.Parse(Query!);
-                navigation.NavigateTo($"/renderizar/{cap}/1/1/11/1/0/0/0/0/{dominio}/{compartilhante}");
+                navigation.NavigateTo($"/renderizar/{cap}/1/1/11/0/0/0/0/{dominio}/{compartilhante}");
             }
             catch (Exception ex)
             {
@@ -547,7 +550,7 @@
                             var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
                             var story = stories.First(str => str.Id == paginas[0].StoryId);
                             var cap = stories.IndexOf(story) + 1;
-                            navigation.NavigateTo($"/camada2/{cap}/1/1/0/11/1/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
+                            navigation.NavigateTo($"/camada2/{cap}/1/1/0/11/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
                         }
                     }
                 }
@@ -702,25 +705,25 @@
     {
         string url = null;
         if (camadadez != null)
-            url = $"/camada10/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada10/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (camadanove != null)
-            url = $"/camada9/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada9/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (camadaoito != null)
-            url = $"/camada8/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada8/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (camadasete != null)
-            url = $"/camada7/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada7/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (camadaseis != null)
-            url = $"/camada6/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada6/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (subsubgrupo != null)
-            url = $"/camada5/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada5/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (subgrupo != null)
-            url = $"/camada4/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada4/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (grupo != null)
-            url = $"/camada3/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada3/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else if (substory != null)
-            url = $"/camada2/{repositoryPagina.CapituloLivro}/{substory}/{verso}/0/11/1/0/0/0/dominio/{compartilhante}";
+            url = $"/camada2/{repositoryPagina.CapituloLivro}/{substory}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         else
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/1/0/0/0/0/dominio/{compartilhante}";
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         return url;
     }
 

@@ -37,7 +37,7 @@ namespace BlazorCms.Client.Pages
         public ClassArray Arr = new ClassArray();
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
-      //  private List<Pagina> conteudo = new List<Pagina>();
+        private int? auto = 1;
         private int? indiceMarcador;
         private Story story = null;
         private string? title = null;
@@ -47,6 +47,7 @@ namespace BlazorCms.Client.Pages
         
         protected bool exemplo = false;
         protected int cap = 1;
+        protected bool automatico = false;
 
         protected MarkupString markup;
         protected ElementReference firstInput;
@@ -81,7 +82,9 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int indiceLivro { get; set; } = 0;
         [Parameter] public int retroceder { get; set; } = 0;
 
-        [Parameter] public int timeproduto { get; set; } = 1;   [Parameter] public int indice { get; set; } = 1;
+        [Parameter] public int timeproduto { get; set; } = 11;  
+        [Parameter] public int? conteudo { get; set; } = 1;  
+        [Parameter] public int indice { get; set; } = 1;
         [Parameter] public int capitulo { get; set; } = 1;
 
         [Parameter] public int? substory { get; set; } = null; [Parameter] public int? grupo { get; set; } = null;
@@ -93,9 +96,19 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int? camadaoito { get; set; } = null; [Parameter] public int? camadanove { get; set; } = null;
 
         [Parameter] public int? camadadez { get; set; } = null;
-        [Parameter] public int auto { get; set; } = 1;
+        [Parameter] public int? Auto
+        {
+            get { return auto; }
+            set { 
+                    auto = value;
+                    if (auto == 1 && substory != null ) habilitarAuto();
+                    else if ( substory != null) desabilitarAuto();
+                }
+        
+        } 
 
-        [Parameter] public string? redirecionar { get; set; } = null; [Parameter] public string? dominio { get; set; } = "dominio";
+        [Parameter] public string? redirecionar { get; set; } = null; 
+        [Parameter] public string? dominio { get; set; } = "dominio";
         [Parameter] public string? compartilhante { get; set; } = null;
         [Parameter] public string? compartilhante2 { get; set; } = null;
         [Parameter] public string? compartilhante3 { get; set; } = null;

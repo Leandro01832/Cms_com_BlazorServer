@@ -6,7 +6,7 @@
 @attribute [Authorize]
 
 <h3>Criar conteudo</h3>
-        @if(lista != null && lista.Count > 0 )
+        @if(lista != null )
         {
 
                 <Editor Id="contentextarea"
@@ -22,27 +22,23 @@
                     <ValidationSummary />
 
                     <label>
-                        Informe o Filtro
+                        Classifique o conteudo
                     </label>
                     <select @bind="@FiltroId">
 
-                            <option value="0" selected="selected" > Filtro </option>
+                                <option value="0"> (Opcional) </option>
                             @foreach(var item in lista)
                             {
                                 <option value="@item.Id"> @item.Nome </option>
 
                             }
                     </select>
-   
+                    <br />
 
 
                     <button type="submit">Adicionar</button>
                 </EditForm>
 
-        }
-        else if(lista != null)
-        {
-            <p> Crie um filtro para criar novos conteudos.  </p>
         }
 
 
@@ -53,21 +49,26 @@
     private ApplicationDbContext Context;
     private List<Filtro> lista;
     private long FiltroId;
+    private ClaimsPrincipal user = null;
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
         var authState = await AuthenticationStateProvider
            .GetAuthenticationStateAsync();
-        var user = authState.User;
-        lista = await Context.Filtro.Where(h => h.user == user.Identity.Name).ToListAsync();
+        user = authState.User;
+        lista = await Context.Filtro.Where(h => h.user == user.Identity!.Name).ToListAsync();
 
 
     }
 
     private async void HandleSubmit()
     {
-        exampleModel.FiltroId = FiltroId;
+        if(FiltroId != 0)
+            exampleModel.FiltroId = FiltroId;
+        else
+            exampleModel.FiltroId = null;
+        exampleModel.user = user.Identity!.Name;
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 

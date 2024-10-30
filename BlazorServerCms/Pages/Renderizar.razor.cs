@@ -72,7 +72,7 @@ namespace BlazorCms.Client.Pages
                 var lista = retornarListaFiltrada(null);
                 quant = lista.Count;
             }
-            if (auto == 1)
+            if (Auto == 1)
             {
                 if (substory == null)
                 {
@@ -133,7 +133,7 @@ namespace BlazorCms.Client.Pages
                     capitulo = 0;
                     indice = capitulo;         
                 }
-                desabilitarAuto();
+                Auto = 0;
             }
             else if (args.Key == "Enter")
             {
@@ -153,7 +153,7 @@ namespace BlazorCms.Client.Pages
             try
             {
                 var n = int.Parse(opcional);
-                auto = 0;
+                Auto = 0;
                 condicao = true;
             }
             catch (Exception ex)
@@ -165,7 +165,7 @@ namespace BlazorCms.Client.Pages
             {
                 setarCamadas(null);
                 indice = int.Parse(opcional);
-                auto = 1;             
+                Auto = 1;             
                 acessar();
             }
             else if (condicao)
@@ -174,30 +174,28 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        protected void habilitarAuto()
+        private void habilitarAuto()
         {
             Timer!.SetTimerAuto();
             Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
-            auto = 1;
             acessar();
         }
 
-        protected void desabilitarAuto()
+        private void desabilitarAuto()
         {
             if (Timer!.desligarAuto != null)
             {
                 Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
                 Timer!.desligarAuto!.Enabled = false;
                 Timer.desligarAuto.Dispose();
-                auto = 0;
                 acessar();
             }
         }
 
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            if (auto == 1)
-                auto = 0;
+            if (Auto == 1)
+                Auto = 0;
 
             Console.WriteLine("Timer Elapsed auto.");
             Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
@@ -240,7 +238,7 @@ namespace BlazorCms.Client.Pages
             if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
             {
                 setarCamadas(null);
-                auto = 1;
+                Auto = 1;
                 await js!.InvokeAsync<object>("DarAlert", $"Esta pasta não possui versiculos");
                 acessar();
             }
@@ -290,14 +288,14 @@ namespace BlazorCms.Client.Pages
             else
                 tamanho = 20;
 
-            if (auto == 1)
-                desabilitarAuto();
+            if (Auto == 1)
+                Auto = 0;
             navigation!.NavigateTo($"/lista-filtro/1/{compartilhante}/{capitulo}/{indice_Filtro}/0");
         }
 
         protected void acessarHorizontePastas()
         {
-            auto = 0;
+            Auto = 0;
             outroHorizonte = 1;
             setarCamadas(null);
             indice = 1;
@@ -306,8 +304,8 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarHorizonteVersos()
         {
-            if (auto == 1)
-                desabilitarAuto();
+            if (Auto == 1)
+                Auto = 0;
             outroHorizonte = 0;
             setarCamadas(null);
             indice = 1;
@@ -316,8 +314,8 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarHorizonteMarcadores()
         {
-            if (auto == 1)
-                desabilitarAuto();
+            if (Auto == 1)
+                Auto = 0;
             setarCamadas(null);
             outroHorizonte = 3;
             indice = 1;
@@ -483,7 +481,7 @@ namespace BlazorCms.Client.Pages
             }           
 
             var proximo = indice + 1;
-            if (somenteSubgrupos) auto = 0;
+            if (somenteSubgrupos) Auto = 0;
             if (camadadez != null)
             {
                 if (indice >= quant || somenteSubgrupos)
@@ -630,7 +628,7 @@ namespace BlazorCms.Client.Pages
 
         protected void buscarAnterior()
         {
-            auto = 0;
+            Auto = 0;
 
             if (rotas != null)
             {
@@ -1182,12 +1180,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        protected void desligarAuto()
-        {
-            if (auto == 1)
-                desabilitarAuto();
-        }
-
         protected async Task DarUmLike()
         {
             PageLiked pageLiked = new PageLiked
@@ -1231,12 +1223,11 @@ namespace BlazorCms.Client.Pages
         protected async void acessarPreferenciasUsuario(string usu)
         {
             usuarios!.Clear();
-            if (auto == 1)
-                desabilitarAuto();
+            if (Auto == 1)
+                Auto = 0;
             outroHorizonte = 3;
             compartilhante = usu;
-            indice = 1;
-            auto = 0;          
+            indice = 1;        
             acessar();
         }
 
@@ -1271,7 +1262,7 @@ namespace BlazorCms.Client.Pages
 
         protected async void redirecionarMarcar()
         {
-            auto = 0;
+            Auto = 0;
             string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario (Opcional).");
             List<Filtro> fils = null;
             Filtro fi = null;
@@ -1480,7 +1471,7 @@ namespace BlazorCms.Client.Pages
 
         protected async void StartTour()
         {
-            desabilitarAuto();
+            Auto = 0;
             if (substory == null)
                 await TourService.StartTour("FormGuidedTour1");
             else
@@ -1533,29 +1524,35 @@ namespace BlazorCms.Client.Pages
         }
 
         private void acessar()
-        {      
+        {
+
+            Auto = Convert.ToInt32(automatico);
+
+            if (Content && conteudo == 0) indice = 1;
+
+            conteudo = Convert.ToInt32(Content);
 
             string url = null;
             if (camadadez != null)
-                url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (camadanove != null)
-                url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (camadaoito != null)
-                url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (camadasete != null)
-                url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (camadaseis != null)
-                url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (subsubgrupo != null)
-                url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (subgrupo != null)
-                url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (grupo != null)
-                url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else if (substory != null)
-                url = $"/camada2/{capitulo}/{substory}/{indice}/{auto}/{timeproduto}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/camada2/{capitulo}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
             else
-                url = $"/Renderizar/{capitulo}/{indice}/{auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                url = $"/Renderizar/{capitulo}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
 
             if (compartilhante != "comp" && outroHorizonte == 0 && pontos == null) url += "/1";
 

@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 using Models;
 using NuGet.Packaging;
+using NVelocity.Runtime.Directive;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -30,21 +31,26 @@ namespace BlazorCms.Client.Pages
     public partial class RenderizarBase : ComponentBase
     {
 
+       
+
         protected override async Task OnParametersSetAsync()
         {
+            
 
             if (capitulo > repositoryPagina!.stories!.Last().PaginaPadraoLink)
                 capitulo = 1;
 
             await renderizar();
 
-            if (auto == 1)
+            if (Auto == 1)
                 StartTimer(Model!);
 
             if (compartilhante != "comp" && pontos != null)
             {
                 adicionarPontos(compartilhante);
             }
+
+            
 
         }
         
@@ -58,7 +64,7 @@ namespace BlazorCms.Client.Pages
 
             };
             vers = null;
-            auto = 1;
+            Auto = 1;
 
             var authState = await AuthenticationStateProvider
                     .GetAuthenticationStateAsync();
@@ -76,7 +82,7 @@ namespace BlazorCms.Client.Pages
             if (dominio == null)
                 dominio = "dominio";
 
-            if (auto == 0 && Timer!.desligarAuto! != null
+            if (Auto == 0 && Timer!.desligarAuto! != null
                 && Timer!.desligarAuto!.Enabled == true)
             {
             
@@ -85,11 +91,8 @@ namespace BlazorCms.Client.Pages
                 Timer.desligarAuto.Dispose();
             }
            
-            if (indice == 0)
-                indice = 1;
-          
-            if (timeproduto == 0)
-                timeproduto = 11;
+         //   if (indice == 0)
+              //  indice = 1;
 
             if(repositoryPagina.stories.Count == 0)
             {
@@ -290,7 +293,7 @@ namespace BlazorCms.Client.Pages
                     indice = 1;
                     if (compartilhante == null) compartilhante = "comp";
                     if (compartilhante2 == null) compartilhante2 = "comp";
-                    auto = 0;
+                    Auto = 0;
 
                     setarCamadas(arr);
                     acessar();
@@ -958,12 +961,21 @@ namespace BlazorCms.Client.Pages
 
             int pts = 0;
 
-            if (us != null){ pts = 1; usuarios[0] = us; } else usuarios[0] = null;
-            if (us2 != null){ pts = 2; usuarios[1] = us2; } else usuarios[1] = null;
-            if (us3 != null){ pts = 3; usuarios[2] = us3; } else usuarios[2] = null;
-            if (us4 != null){ pts = 4; usuarios[3] = us4; } else usuarios[3] = null;
-            if (us5 != null){ pts = 5; usuarios[4] = us5; } else usuarios[4] = null;
-            if (us6 != null) { pts = 6; usuarios[5] = us6; } else usuarios[5] = null;
+            if (us != null) { pts  = 1; usuarios[0] = us;  } else usuarios[0] = null;
+            if (us2 != null){ pts =  2; usuarios[1] = us2; } else usuarios[1] = null;
+            if (us3 != null){ pts =  3; usuarios[2] = us3; } else usuarios[2] = null;
+            if (us4 != null){ pts =  4; usuarios[3] = us4; } else usuarios[3] = null;
+            if (us5 != null){ pts =  5; usuarios[4] = us5; } else usuarios[4] = null;
+            if (us6 != null){ pts =  6; usuarios[5] = us6; } else usuarios[5] = null;
+
+            if (story.Filtro.Count() > repositoryPagina.meta1) pts += 1;
+            if (story.Filtro.Count() > repositoryPagina.meta2) pts += 1;
+            if (story.Filtro.Count() > repositoryPagina.meta3) pts += 1;
+            if (story.Filtro.Count() > repositoryPagina.meta4) pts += 1;
+            if (story.Filtro.Count() > repositoryPagina.meta5) pts += 1;
+            if (story.Filtro.Count() > repositoryPagina.meta6) pts += 1;
+            if (story.Filtro.Count() > repositoryPagina.meta7) pts += 1;
+            if (story.Filtro.Count() > repositoryPagina.meta8) pts += 1;
 
             for (var i = 0; i < 6; i++)
             {

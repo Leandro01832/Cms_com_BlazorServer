@@ -18,6 +18,45 @@
 @onchange="(ChangeEventArgs e) => { repositoryPagina.CapituloLivro = int.Parse(e.Value.ToString()); }"
 style="width:300px" />
 
+<input type="number" placeholder="Informe a meta n° 1 de filtros"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta1 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
+<input type="number" placeholder="Informe a meta n° 2 de filtros"
+       min="@(repositoryPagina.meta1 + 1)"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta2 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
+<input type="number" placeholder="Informe a meta n° 3 de filtros"
+       min="@(repositoryPagina.meta2 + 1)"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta3 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+       
+<input type="number" placeholder="Informe a meta n° 4 de filtros"
+       min="@(repositoryPagina.meta3 + 1)"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta4 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
+<input type="number" placeholder="Informe a meta n° 5 de filtros"
+       min="@(repositoryPagina.meta4 + 1)"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta5 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
+<input type="number" placeholder="Informe a meta n° 6 de filtros"
+       min="@(repositoryPagina.meta5 + 1)"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta6 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
+<input type="number" placeholder="Informe a meta n° 7 de filtros"
+       min="@(repositoryPagina.meta6 + 1)"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta7 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
+<input type="number" placeholder="Informe a meta n° 8 de filtros"
+       min="@(repositoryPagina.meta7 + 1)"
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.meta8 = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
 <p>Configurações de filtro</p>
 
     <div class="container">        

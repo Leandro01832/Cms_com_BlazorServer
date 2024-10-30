@@ -22,6 +22,16 @@ namespace BlazorServerCms.servicos
 
         public Random random = new Random();
 
+        public int dias { get; set; } = 1;  
+        public int meta1 { get; set; } = 1;  
+        public int meta2 { get; set; } = 1;  
+        public int meta3 { get; set; } = 1;  
+        public int meta4 { get; set; } = 1;  
+        public int meta5 { get; set; } = 1;  
+        public int meta6 { get; set; } = 1;  
+        public int meta7 { get; set; } = 1;  
+        public int meta8 { get; set; } = 1;  
+
         public int? CapituloLivro { get; set; } = null;
         public bool aguarde { get; set; } = false;
         public int diaCupom = 0;
