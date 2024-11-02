@@ -10,10 +10,11 @@
         <label>Url:</label>
         <InputText id="url" @bind-Value="exampleModel.url" />
     </p>
-    <p>
-        <label>Url it's not a book:</label>
-        <InputText id="url2" @bind-Value="exampleModel.UrlNoBook" />
-    </p>
+
+    <br />
+
+    <input type="checkbox" id="data" name="data" @bind="exampleModel.IsBook" />
+    É um livro?
 
     <button type="submit">Alterar</button>
 </EditForm>
@@ -33,7 +34,6 @@
 
     private async void HandleSubmit()
     {
-        if (string.IsNullOrEmpty(exampleModel.UrlNoBook)) exampleModel.UrlNoBook = null;
 
         Context.Update(exampleModel);
         await Context.SaveChangesAsync();

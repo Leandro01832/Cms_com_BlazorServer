@@ -12,12 +12,12 @@ namespace BlazorServerCms.servicos
     public class ClassArray
     {
 
-        public int[] RetornarArray(List<Filtro> filtros, Story story, int comparacao, long filtro,
+        public int?[] RetornarArray(List<Filtro> filtros, Story story, int comparacao, long filtro,
             int Indice, int IndiceSubStory, int? IndiceGrupo = null, int? IndiceSubGrupo = null,
             int? IndiceSubSubGrupo = null, int? IndiceCamadaSeis = null, int? IndiceCamadaSete = null,
           int? IndiceCamadaOito = null, int? IndiceCamadaNove = null, int? IndiceCamadaDez = null)
         {
-            int[]? result = null;
+            int?[] result = new int?[10];
             bool condicao = false;
             bool possuiVersos = false;
             long num;
@@ -28,7 +28,7 @@ namespace BlazorServerCms.servicos
 
             if (!possuiVersos && comparacao == 2) return null;
             else
-            if (possuiVersos && comparacao == 2) return new int[1];
+            if (possuiVersos && comparacao == 2) return result;
             else if (IndiceCamadaDez != null)
             {
                 num = long.Parse($"{Indice}{IndiceSubStory}{IndiceGrupo}{IndiceSubGrupo}{IndiceSubSubGrupo}{IndiceCamadaSeis}{IndiceCamadaSete}{IndiceCamadaOito}{IndiceCamadaNove}{IndiceCamadaDez}");
@@ -91,7 +91,6 @@ namespace BlazorServerCms.servicos
                                                         if (num2 > num)
                                                         {
                                                             condicao = true;
-                                                            result = new int[10];
                                                             result[0] = Indice;
                                                             result[1] = var1;
                                                             result[2] = var2;
@@ -110,7 +109,6 @@ namespace BlazorServerCms.servicos
                                                         if (item9.Id == filtro)
                                                         {
                                                             condicao = true;
-                                                            result = new int[10];
                                                             result[0] = Indice;
                                                             result[1] = var1;
                                                             result[2] = var2;
@@ -201,7 +199,6 @@ namespace BlazorServerCms.servicos
                                                     if (num2 > num)
                                                     {
                                                         condicao = true;
-                                                        result = new int[9];
                                                         result[0] = Indice;
                                                         result[1] = var1;
                                                         result[2] = var2;
@@ -211,6 +208,7 @@ namespace BlazorServerCms.servicos
                                                         result[6] = var6;
                                                         result[7] = var7;
                                                         result[8] = var8;
+                                                        result[9] = null;
                                                         break;
                                                     }
                                                 }
@@ -219,7 +217,6 @@ namespace BlazorServerCms.servicos
                                                     if (item8.Id == filtro)
                                                     {
                                                         condicao = true;
-                                                        result = new int[9];
                                                         result[0] = Indice;
                                                         result[1] = var1;
                                                         result[2] = var2;
@@ -229,6 +226,7 @@ namespace BlazorServerCms.servicos
                                                         result[6] = var6;
                                                         result[7] = var7;
                                                         result[8] = var8;
+                                                        result[9] = null;
                                                         break;
                                                     }
                                                 }
@@ -302,7 +300,6 @@ namespace BlazorServerCms.servicos
                                                 if (num2 > num)
                                                 {
                                                     condicao = true;
-                                                    result = new int[8];
                                                     result[0] = Indice;
                                                     result[1] = var1;
                                                     result[2] = var2;
@@ -311,6 +308,8 @@ namespace BlazorServerCms.servicos
                                                     result[5] = var5;
                                                     result[6] = var6;
                                                     result[7] = var7;
+                                                    result[8] = null;
+                                                    result[9] = null;
                                                     break;
                                                 }
                                             }
@@ -319,7 +318,6 @@ namespace BlazorServerCms.servicos
                                                 if (item7.Id == filtro)
                                                 {
                                                     condicao = true;
-                                                    result = new int[8];
                                                     result[0] = Indice;
                                                     result[1] = var1;
                                                     result[2] = var2;
@@ -328,6 +326,8 @@ namespace BlazorServerCms.servicos
                                                     result[5] = var5;
                                                     result[6] = var6;
                                                     result[7] = var7;
+                                                    result[8] = null;
+                                                    result[9] = null;
                                                     break;
                                                 }
                                             }
@@ -394,7 +394,6 @@ namespace BlazorServerCms.servicos
                                             if (num2 > num)
                                             {
                                                 condicao = true;
-                                                result = new int[7];
                                                 result[0] = Indice;
                                                 result[1] = var1;
                                                 result[2] = var2;
@@ -402,6 +401,9 @@ namespace BlazorServerCms.servicos
                                                 result[4] = var4;
                                                 result[5] = var5;
                                                 result[6] = var6;
+                                                result[7] = null;
+                                                result[8] = null;
+                                                result[9] = null;
                                                 break;
                                             }
                                         }
@@ -410,7 +412,6 @@ namespace BlazorServerCms.servicos
                                             if (item6.Id == filtro)
                                             {
                                                 condicao = true;
-                                                result = new int[7];
                                                 result[0] = Indice;
                                                 result[1] = var1;
                                                 result[2] = var2;
@@ -418,6 +419,10 @@ namespace BlazorServerCms.servicos
                                                 result[4] = var4;
                                                 result[5] = var5;
                                                 result[6] = var6;
+                                                result[7] = null;
+                                                result[8] = null;
+                                                result[9] = null;
+                                                                        
                                                 break;
                                             }
                                         }
@@ -476,13 +481,16 @@ namespace BlazorServerCms.servicos
                                         if (num2 > num)
                                         {
                                             condicao = true;
-                                            result = new int[6];
                                             result[0] = Indice;
                                             result[1] = var1;
                                             result[2] = var2;
                                             result[3] = var3;
                                             result[4] = var4;
                                             result[5] = var5;
+                                            result[6] = null;
+                                            result[7] = null;
+                                            result[8] = null;
+                                            result[9] = null;
                                             break;
                                         }
                                     }
@@ -491,13 +499,16 @@ namespace BlazorServerCms.servicos
                                         if (item5.Id == filtro)
                                         {
                                             condicao = true;
-                                            result = new int[6];
                                             result[0] = Indice;
                                             result[1] = var1;
                                             result[2] = var2;
                                             result[3] = var3;
                                             result[4] = var4;
                                             result[5] = var5;
+                                            result[6] = null;
+                                            result[7] = null;
+                                            result[8] = null;
+                                            result[9] = null;
                                             break;
                                         }
                                     }
@@ -548,12 +559,16 @@ namespace BlazorServerCms.servicos
                                     if (num2 > num)
                                     {
                                         condicao = true;
-                                        result = new int[5];
                                         result[0] = Indice;
                                         result[1] = var1;
                                         result[2] = var2;
                                         result[3] = var3;
                                         result[4] = var4;
+                                        result[5] = null;
+                                        result[6] = null;
+                                        result[7] = null;
+                                        result[8] = null;
+                                        result[9] = null;
                                         break;
                                     }
                                 }
@@ -562,12 +577,16 @@ namespace BlazorServerCms.servicos
                                     if (item4.Id == filtro)
                                     {
                                         condicao = true;
-                                        result = new int[5];
                                         result[0] = Indice;
                                         result[1] = var1;
                                         result[2] = var2;
                                         result[3] = var3;
                                         result[4] = var4;
+                                        result[5] = null;
+                                        result[6] = null;
+                                        result[7] = null;
+                                        result[8] = null;
+                                        result[9] = null;
                                         break;
                                     }
                                 }
@@ -609,11 +628,16 @@ namespace BlazorServerCms.servicos
                                 if (num2 > num)
                                 {
                                     condicao = true;
-                                    result = new int[4];
                                     result[0] = Indice;
                                     result[1] = var1;
                                     result[2] = var2;
                                     result[3] = var3;
+                                    result[4] = null;
+                                    result[5] = null;
+                                    result[6] = null;
+                                    result[7] = null;
+                                    result[8] = null;
+                                    result[9] = null;
                                     break;
                                 }
                             }
@@ -622,11 +646,16 @@ namespace BlazorServerCms.servicos
                                 if (item3.Id == filtro)
                                 {
                                     condicao = true;
-                                    result = new int[4];
                                     result[0] = Indice;
                                     result[1] = var1;
                                     result[2] = var2;
                                     result[3] = var3;
+                                    result[4] = null;
+                                    result[5] = null;
+                                    result[6] = null;
+                                    result[7] = null;
+                                    result[8] = null;
+                                    result[9] = null;
                                     break;
                                 }
                             }
@@ -658,10 +687,16 @@ namespace BlazorServerCms.servicos
                             if (num2 > num)
                             {
                                 condicao = true;
-                                result = new int[3];
                                 result[0] = Indice;
                                 result[1] = var1;
                                 result[2] = var2;
+                                result[3] = null;
+                                result[4] = null;
+                                result[5] = null;
+                                result[6] = null;
+                                result[7] = null;
+                                result[8] = null;
+                                result[9] = null;
                                 break;
                                 }
                         }
@@ -670,10 +705,16 @@ namespace BlazorServerCms.servicos
                             if (item2.Id == filtro)
                             {
                                 condicao = true;
-                                result = new int[3];
                                 result[0] = Indice;
                                 result[1] = var1;
                                 result[2] = var2;
+                                result[3] = null;
+                                result[4] = null;
+                                result[5] = null;
+                                result[6] = null;
+                                result[7] = null;
+                                result[8] = null;
+                                result[9] = null;
                                 break;
                             }
                         }
@@ -696,9 +737,16 @@ namespace BlazorServerCms.servicos
                         if (num2 > num)
                         {
                             condicao = true;
-                            result = new int[2];
                             result[0] = Indice;
                             result[1] = var1;
+                            result[2] = null;
+                            result[3] = null;
+                            result[4] = null;
+                            result[5] = null;
+                            result[6] = null;
+                            result[7] = null;
+                            result[8] = null;
+                            result[9] = null;
                             break;
                         }
                     }
@@ -707,9 +755,16 @@ namespace BlazorServerCms.servicos
                         if (item.Id == filtro)
                         {
                             condicao = true;
-                            result = new int[2];
                             result[0] = Indice;
                             result[1] = var1;
+                            result[2] = null;
+                            result[3] = null;
+                            result[4] = null;
+                            result[5] = null;
+                            result[6] = null;
+                            result[7] = null;
+                            result[8] = null;
+                            result[9] = null;
                             break;
                         }
                     }

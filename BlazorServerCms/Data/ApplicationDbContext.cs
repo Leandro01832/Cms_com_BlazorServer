@@ -27,10 +27,7 @@ namespace BlazorServerCms.Data
 
         public DbSet<Segue> Segue { get; set; }
         public DbSet<Content> Content { get; set; }
-        public DbSet<Pergunta> Pergunta { get; set; }
-        public DbSet<UserResponse> UserResponse { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
-        public DbSet<Estante> Instante { get; set; }
         public DbSet<FiltroPagina> FiltroPagina { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<savedFolder> savedFolder { get; set; }

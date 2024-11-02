@@ -284,7 +284,6 @@
                       .OrderBy(st => st.Id).FirstOrDefaultAsync(p => p.PaginaPadraoLink == 1)!;
         }
 
-        var livro = await Context.Livro!.FirstOrDefaultAsync(l => l.user == repositoryPagina.buscarDominio());
         if (compartilhante == null)
             compartilhante = "comp";
         if (dominio == null)
@@ -320,21 +319,7 @@
         {
             navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0/1");
         }
-        else if (indice != null)
-        {
-            var number = Regex.Match(indice, @"d+").Value;
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/renderizar/{livro.capitulo}/{number}/1/11/0/0/0/0/{dominio}/{compartilhante}");
-            else
-                Mensagem = erro1;
-        }
-        else if (filtrar != null)
-        {
-            if (livro != null)
-                navigation.ToAbsoluteUri($"{livro.url}/filtro/{livro.capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0");
-            else
-                Mensagem = erro1;
-        }
+
 
 
 
@@ -598,9 +583,9 @@
         placeholder = "Nº do capitulo ou pesquisar";
     }
 
-    private int[] retornarArray(Filtro fi)
+    private int?[] retornarArray(Filtro fi)
     {
-        int[] arr = null;
+        int?[] arr = null;
         if (fi is CamadaDez)
             arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
         else if (fi is CamadaNove)
@@ -622,8 +607,7 @@
         return arr;
     }
 
-
-    private void setarCamadas(int[] arr)
+    private void setarCamadas(int?[] arr)
     {
 
 
@@ -639,91 +623,31 @@
             camadanove = arr[8];
             camadadez = arr[9];
         }
-        else if (arr.Length == 9)
-        {
-            substory = arr[1];
-            grupo = arr[2];
-            subgrupo = arr[3];
-            subsubgrupo = arr[4];
-            camadaseis = arr[5];
-            camadasete = arr[6];
-            camadaoito = arr[7];
-            camadanove = arr[8];
-        }
-        else if (arr.Length == 8)
-        {
-            substory = arr[1];
-            grupo = arr[2];
-            subgrupo = arr[3];
-            subsubgrupo = arr[4];
-            camadaseis = arr[5];
-            camadasete = arr[6];
-            camadaoito = arr[7];
-        }
-        else if (arr.Length == 7)
-        {
-            substory = arr[1];
-            grupo = arr[2];
-            subgrupo = arr[3];
-            subsubgrupo = arr[4];
-            camadaseis = arr[5];
-            camadasete = arr[6];
-        }
-        else if (arr.Length == 6)
-        {
-            substory = arr[1];
-            grupo = arr[2];
-            subgrupo = arr[3];
-            subsubgrupo = arr[4];
-            camadaseis = arr[5];
-        }
-        else if (arr.Length == 5)
-        {
-            substory = arr[1];
-            grupo = arr[2];
-            subgrupo = arr[3];
-            subsubgrupo = arr[4];
-        }
-        else if (arr.Length == 4)
-        {
-            substory = arr[1];
-            grupo = arr[2];
-            subgrupo = arr[3];
-        }
-        else if (arr.Length == 3)
-        {
-            substory = arr[1];
-            grupo = arr[2];
-        }
-        else if (arr.Length == 2)
-        {
-            substory = arr[1];
-        }
     }
 
     private string retornarUrl()
     {
         string url = null;
         if (camadadez != null)
-            url = $"/camada10/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada10/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (camadanove != null)
-            url = $"/camada9/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada9/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (camadaoito != null)
-            url = $"/camada8/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada8/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (camadasete != null)
-            url = $"/camada7/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada7/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (camadaseis != null)
-            url = $"/camada6/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada6/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (subsubgrupo != null)
-            url = $"/camada5/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada5/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (subgrupo != null)
-            url = $"/camada4/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada4/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (grupo != null)
-            url = $"/camada3/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada3/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else if (substory != null)
-            url = $"/camada2/{repositoryPagina.CapituloLivro}/{substory}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/camada2/{repositoryPagina.CapituloLivro}/{substory}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp";
         else
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/0/0/0/dominio/comp/comp/comp/comp/comp/comp";
         return url;
     }
 

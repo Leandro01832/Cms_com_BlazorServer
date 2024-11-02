@@ -1,76 +1,105 @@
 ﻿@page "/acessoinstante"
-@page "/acessoinstante/{insta:int}"
 @inject RepositoryPagina repositoryPagina
 @inject IJSRuntime js
 @inject NavigationManager navigation
-<h3>Estante</h3>
 
-@if (insta != null && objEstante != null)
+    <PageTitle>Estante </PageTitle>
+    <h3>Estante</h3>
+
+@if(livro != null)
 {
-    <PageTitle>Estante @insta </PageTitle>
-    <p>Você esta acessando a estante nº @i </p>
-    <p>Descrição da estante: @objEstante.Descricao </p>
-}
-else
-{
-    <PageTitle>Acessando estantes </PageTitle>
     
-}
-
 <center>
-    <a href="/crud/instante/1" class="btn btn-dark">
-        Estantes
-    </a>
-</center>
+        <a href="@livro.url" >@livro.url</a>
+    </center>
+}
 
 <hr />
 
-<p>
-    <label>Informe o nº da estante</label>
-    <input type="number" min="1" @bind="@insta" />
+<a class="carousel-control-prev btn btn-dark" onclick="@anterior">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+        <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+    </svg>
+</a>
 
-</p>
-<p>
-    <a  onclick="@buscarEstante" class="btn btn-dark" >Acessar estante</a>
+<a class="carousel-control-next btn btn-dark" onclick="@proximo">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
+        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
+    </svg>
+</a>
 
-</p>
+<div class="DivPagina" style="background-color:white;">
+    @{
+
+
+            for (var ind = 1; ind <= livros.Count; ind++)
+            {
+                <div class="DivPag" id="DivPagina@(ind)">
+                    @if (indice == ind)
+                    {
+
+                        <div>
+                            <span class="indice"><b>@ind</b> </span>
+                        </div>
+                        <div class="barra">
+                            -
+                        </div>
+
+                    }
+                    else
+                    {
+
+                        <div>
+                            <span class="indices"><b>@ind</b> </span>
+                        </div>
+                        <div class="barra">
+                            -
+                        </div>
+                    }
+                </div>
+            }
+        
+        
+        
+
+    }
+</div>
 
 @code {
-    [Parameter] public int? insta { get; set; }
-    public int? i { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private Estante objEstante;
+    List<Livro> livros = new List<Livro>();
+    Livro livro = null;
+    private int indice = 1;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
+
+        livros = await Context.Livro!.ToListAsync();
+
+        livro = livros.FirstOrDefault()!;
     }
 
-
-    private async void buscarEstante()
+    private void proximo()
     {
-        List<Estante>? instantes = await Context.Instante.Include(i => i.livros).OrderBy(l => l.Id).ToListAsync();
+        if (indice != livros.Count)
+        indice++;
+        else indice = 1;
+        livro = livros.Skip(indice - 1).FirstOrDefault()!;
 
-        objEstante = instantes.Skip((int)insta - 1).FirstOrDefault();
-        i = insta;
-
-
-        if (objEstante != null)
-        {
-            navigation.NavigateTo($"/acessoinstante/{insta}");
-            List<Livro> livros = objEstante.livros.OrderBy(l => l.Id).ToList();
-            string url = "";
-            for (var i = 0; i < livros.Count; i++)
-            {
-                if (livros[i].IsBook)
-                url = $"{livros[i]!.url}/filtro/{livros[i].capitulo}/pasta-{livros[i].pasta}/0/{i + 1}/0/{repositoryPagina!.buscarDominio()}/comp/0/0/0/0/0/0/0/0/0/0";
-                
-                else
-                    url = $"{livros[i]!.UrlNoBook}";
-                await js!.InvokeAsync<object>("AcessarSites", url);
-            }
-        }
     }
+
+    private void anterior()
+    {
+        if (indice != 1)
+            indice--;
+        else indice = 1;
+        livro = livros.Skip(indice - 1).FirstOrDefault()!;
+    }
+
+
 
 }

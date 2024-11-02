@@ -59,7 +59,6 @@ namespace BlazorCms.Client.Pages
         protected Pagina? pag;
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
-        protected Pergunta? Model3;
         protected Filtro? Model4; // Para user
         protected List<Filtro> marcadores;
         protected string[]? classificacoes = null;
@@ -101,8 +100,10 @@ namespace BlazorCms.Client.Pages
             get { return auto; }
             set { 
                     auto = value;
-                    if (auto == 1 && substory != null ) habilitarAuto();
-                    else if ( substory != null) desabilitarAuto();
+                    if (auto == 1 && Timer.desligarAuto == null )
+                    habilitarAuto();
+                    else
+                    desabilitarAuto();
                 }
         
         } 

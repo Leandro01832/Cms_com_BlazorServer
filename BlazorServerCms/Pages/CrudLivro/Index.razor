@@ -2,7 +2,7 @@
 @inherits IndexCamdaDezBase
 @attribute [Authorize(Roles = "Admin")]
 
-<p>Livros em instantes: @livroInstante</p>
+
 
 @if (camadas == null)
 {
@@ -28,11 +28,9 @@ else
     <tbody>
             @foreach (var livro in camadas)
         {
-                var url = "";
-                if (!livro.IsBook) url = livro.UrlNoBook;
-                else url = livro.url;
+                
                 <tr>
-                <td>@url</td>
+                <td>@livro.url;</td>
                 <td><a class="btn btn-primary" href="livro/edit/@livro.Id">Editar</a> </td>
                 <td><a class="btn btn-danger" @onclick="(()=> DeletarLivro(livro.Id))">Deletar</a> </td>
                
@@ -54,7 +52,6 @@ else
     [Parameter] public int pagina { get; set; } = 1;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private int livroInstante = 0;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -65,13 +62,11 @@ else
     {
         Context = db.CreateDbContext(null);
         await CarregaCamadas(pagina);
-        var livrosInstantes = await Context.Livro!.Where(l => l.InstanteId != null).ToListAsync();
-        livroInstante = livrosInstantes.Count;
     }
 
     async Task CarregaCamadas(int pag)
     {
-        camadas = await Context.Livro!.Where(l => l.InstanteId == null)
+        camadas = await Context.Livro!
         .OrderBy(p => p.Id)
                .Skip((pag - 1) * 10)
                .Take(10)

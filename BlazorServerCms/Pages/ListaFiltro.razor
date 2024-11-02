@@ -12,13 +12,13 @@
 
 @if (IdPergunta == 0)
 {
-    <BackPage></BackPage>    
-    <a onclick="@desmarcar" class="btn btn-primary" >Desmarcar</a>
+    <BackPage></BackPage>
+    <a onclick="@desmarcar" class="btn btn-primary">Desmarcar</a>
 }
 
 @if (IdPergunta == 0 && marcacao.Marcados.Count > 0)
-{ 
-    <a onclick="@criarFiltro" class="btn btn-primary" >Criar Filtro</a>
+{
+    <a onclick="@criarFiltro" class="btn btn-primary">Criar Filtro</a>
 }
 
 
@@ -28,17 +28,17 @@
     <p id="config">
         <strong>
             @if (Model.FirstOrDefault(p => p.Produto != null) != null)
-    {
-                <a  id="configurar" onclick="@(() => clicou())">Info e Config</a>
+            {
+                <a id="configurar" onclick="@(() => clicou())">Info e Config</a>
             }
             else
             {
-                <a  id="configurar" onclick="@(() => clicou())">Config</a>                
+                <a id="configurar" onclick="@(() => clicou())">Config</a>
             }
         </strong>
     </p>
-    
-   
+
+
     <p id="home">
         <a href="/" class="btn btn-primary">
 
@@ -71,50 +71,50 @@
     </p>
 </div>
 
-<div id="cabecalho">   
+<div id="cabecalho">
 
     @if (Model.FirstOrDefault(p => p.Produto != null) != null)
     {
-         <div id="ordenacao">
-        <h4>Ordenar</h4>
+        <div id="ordenacao">
+            <h4>Ordenar</h4>
 
-        <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
-            Ordenar por nome
-        </a>
-        <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
-            Ordenar por preço
-        </a>
-        <a href="#"
-           onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
-            Ordenar por capitulo
-        </a>
-    </div>
-   
-        
-    <div id="proxima-lista">
-        <h3>Tamanho da lista</h3>
-        <strong>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/11/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
-                10 itens
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                Ordenar por nome
             </a>
+            <a href="#"
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                Ordenar por preço
+            </a>
+            <a href="#"
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                Ordenar por capitulo
+            </a>
+        </div>
 
-        </strong>
-        <strong>
-            <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/41/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
-                40 itens
-            </a>
 
-        </strong>
-        <strong>
-            <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/81/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
-                80 itens
-            </a>
-        </strong>
+        <div id="proxima-lista">
+            <h3>Tamanho da lista</h3>
+            <strong>
+                <a href="#"
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/11/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                    10 itens
+                </a>
+
+            </strong>
+            <strong>
+                <a href="#"
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/41/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                    40 itens
+                </a>
+
+            </strong>
+            <strong>
+                <a href="#"
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/81/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                    80 itens
+                </a>
+            </strong>
         </div>
     }
     else
@@ -150,23 +150,20 @@
 <h3>Lista de Filtro</h3>
 
 <a href="#" onclick="@(() => acessarPasta())" style="font-size:22px;">
- Capitulo @Capitulo - Pasta @indiceFiltro
+    Capitulo @Capitulo - Pasta @indiceFiltro
 </a>
 
-@if(IdPergunta != 0)
-{
-    <p style="font-size:30px; background-color:aquamarine;" >@pergunta.Questao</p>
-}
 
-@if(filtro != null)
+
+@if (filtro != null)
 {
     <p> <header>@filtro.Nome</header> </p>
-    <a href="/perguntar/@Capitulo/@indiceFiltro" class="btn btn-dark" >Faça uma pergunta sobre @filtro.Nome </a>
+    <a href="/perguntar/@Capitulo/@indiceFiltro" class="btn btn-dark">Faça uma pergunta sobre @filtro.Nome </a>
 }
 
 
 @{
-    if(Model == null || Model.Count == 0)
+    if (Model == null || Model.Count == 0)
     {
         <p>Aguarde um momento... quantidade igual a @Model.Count</p>
     }
@@ -176,190 +173,76 @@
 
             @if (Model.FirstOrDefault(p => p.Produto != null) != null)
             {
-                foreach(var item in Model)
-            {
+                foreach (var item in Model)
+                {
                     var paginaItem = Context.Pagina!.Include(p => p.Produto).ThenInclude(p => p.Imagem).First(p => p.Id == item.Id);
                     var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
-                        var markup = new MarkupString(item.Content);
+                    var markup = new MarkupString(item.Content);
                     var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
 
-            <div class="divs"> 
-               
-                    @if (item.Content.Contains("ContentIframe"))
-                    {
-                        <div class="content" >
-                            @markup
-                        </div>
-                    }
-                    else
-                    {
-                         <div class="produto" onclick="cancelar()">
-                           
-                    
-                    <div class="info">
-                        <p> Nome: @item.Produto!.Nome </p>
-                        <p> Descrição: @item.Produto!.Descricao </p>
-                        <p> Preço: @item.Produto!.Preco </p>
-                        <p> Estoque: @item.Produto!.QuantEstoque </p>
+                    <div class="divs">
+
+                        @if (item.Content.Contains("ContentIframe"))
+                        {
+                            <div class="content">
+                                @markup
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="produto" onclick="cancelar()">
+
+
+                                <div class="info">
+                                    <p> Nome: @item.Produto!.Nome </p>
+                                    <p> Descrição: @item.Produto!.Descricao </p>
+                                    <p> Preço: @item.Produto!.Preco </p>
+                                    <p> Estoque: @item.Produto!.QuantEstoque </p>
+                                </div>
+
+
+                                <p>
+                                    <img src="@path" alt="Imagem do produto" />
+                                </p>
+
+                            </div>
+
+                        }
+
+
+
                     </div>
-                               
-                                    @if (pergunta != null && item.Versiculo == pergunta.UserResponse.resposta1 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta2 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta3 ||
-                               pergunta != null && item.Versiculo == pergunta.UserResponse.resposta4 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta5 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta6 ||
-                               pergunta != null && item.Versiculo == pergunta.UserResponse.resposta7 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta8 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta9 ||
-                               pergunta != null && item.Versiculo == pergunta.UserResponse.resposta10 ||  marcacao.Marcados.FirstOrDefault(p => p.Versiculo == item.Versiculo) != null)
-                                            {
-                                                <div class="caps" style="background-color:yellow;">
-                                                       <center>
-                                                                        Versiculo @item.Versiculo foi marcado
-                                                @{
-                                                    if(IdPergunta != 0)
-                                                    {
-                                                
-                                                            if (
-
-                                                            item.Versiculo == pergunta.UserResponse.resposta1 && pergunta.UserResponse.exempoloR1 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta2 && pergunta.UserResponse.exempoloR2 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta3 && pergunta.UserResponse.exempoloR3 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta4 && pergunta.UserResponse.exempoloR4 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta5 && pergunta.UserResponse.exempoloR5 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta6 && pergunta.UserResponse.exempoloR6 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta7 && pergunta.UserResponse.exempoloR7 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta8 && pergunta.UserResponse.exempoloR8 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta9 && pergunta.UserResponse.exempoloR9 ||
-                                                            item.Versiculo == pergunta.UserResponse.resposta10 && pergunta.UserResponse.exempoloR10 
-                                                            )
-                                                            {
-                                                                <p> como exemplo</p>
-                                                            }
-                                                            else
-                                                            {
-                                                                <p> como resposta</p>
-                                                
-                                                            }
-                                                    }
-                                           
-                                                }
-                                               
-                                                       </center>
-                                                </div>
-
-                                            }
-                                    
-                                
-                                    else
-                                    {
-                                         <div class="caps" style="background-color:transparent;">
-                                               <center>
-                                                                Versiculos @item.Versiculo
-                                               </center>
-                                                @if (IdPergunta == 0)
-                                                {
-                                                    <p>
-                                                        <a onclick="@(() => marcar(item.Versiculo))" class="btn btn-dark">Marcar</a>
-                                                    </p>
-                                                }
-                                        </div>
-                                    }
-                                    <p>
-                        <img src="@path" alt="Imagem do produto" />
-                    </p>
-
-                </div>
-                        
-                    }
 
 
-                
-            </div>
-            
+                }
 
-        }
-                
             }
-             else
-        {
-            @foreach (var item in Model)
-            {                   
+            else
+            {
+                @foreach (var item in Model)
+                {
                     var markup = new MarkupString(item.Content);
 
                     <div class="divs">
-               
 
-                    <div class="conteudo" onclick="cancelar()">
-                       
-                        
-                            
-                        <div class="content" style="width:100%; height:auto;" >
-                            @markup
+
+                        <div class="conteudo" onclick="cancelar()">
+
+
+
+                            <div class="content" style="width:100%; height:auto;">
+                                @markup
+                            </div>
+
                         </div>
-
-                           
-                                @if (pergunta != null && item.Versiculo == pergunta.UserResponse.resposta1 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta2 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta3 ||
-                           pergunta != null && item.Versiculo == pergunta.UserResponse.resposta4 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta5 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta6 ||
-                           pergunta != null && item.Versiculo == pergunta.UserResponse.resposta7 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta8 || pergunta != null && item.Versiculo == pergunta.UserResponse.resposta9 ||
-                           pergunta != null && item.Versiculo == pergunta.UserResponse.resposta10 || marcacao.Marcados.FirstOrDefault(p => p.Versiculo == item.Versiculo) != null)
-                                    {
-                                         <div class="caps" style="background-color:yellow;">  
-                                            <center>                            
-                                                    Versiculo @item.Versiculo foi marcado
-                                                            @{
-                                                            if (IdPergunta != 0)
-                                                                {
-                                                                    if (
-                                                                    item.Versiculo == pergunta.UserResponse.resposta1   && pergunta.UserResponse.exempoloR1  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta2   && pergunta.UserResponse.exempoloR2  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta3   && pergunta.UserResponse.exempoloR3  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta4   && pergunta.UserResponse.exempoloR4  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta5   && pergunta.UserResponse.exempoloR5  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta6   && pergunta.UserResponse.exempoloR6  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta7   && pergunta.UserResponse.exempoloR7  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta8   && pergunta.UserResponse.exempoloR8  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta9   && pergunta.UserResponse.exempoloR9  ||
-                                                                    item.Versiculo == pergunta.UserResponse.resposta10  && pergunta.UserResponse.exempoloR10 
-                                                                    )
-                                                                    {
-                                                                        <p> como exemplo</p>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <p> como resposta</p>                                                
-                                                                    }                                                
-                                                                }
-                                            
-
-                                                            }
-                                            </center>
-                                   
-                                        </div>
-
-                                    }
-                                
-                            
-                                else
-                                {
-                                    <div class="caps" style="background-color: transparent;">  
-                                    <center>                            
-                                            Versiculo @item.Versiculo
-                                        @if (IdPergunta == 0)
-                                            {
-                                                <p>
-                                                    <a onclick="@(() => marcar(item.Versiculo))" class="btn btn-dark">Marcar</a>
-                                                </p>
-                                            }
-                                    </center>
-                                               
-                                    </div>
-                                }
+                        <br />
+                        <hr />
+                        <br />
 
                     </div>
-                    <br />
-                    <hr />
-                    <br />
-                
-            </div>
+                }
             }
-        }
-       
+
         </div>
     }
 }
@@ -367,7 +250,6 @@
 @code {
 
     Filtro filtro = new Filtro();
-    Pergunta pergunta = null;
     List<Pagina> Model = new List<Pagina>();
     List<Filtro>? filtros { get; set; }
     protected ClaimsPrincipal user;
@@ -376,7 +258,7 @@
     [Parameter] public string? compartilhante { get; set; }
 
     [Parameter] public long Id { get; set; }
-    [Parameter] public long IdPergunta{ get; set; }  
+    [Parameter] public long IdPergunta { get; set; }
 
 
     [Parameter] public int pagina { get; set; }
@@ -393,7 +275,7 @@
     {
         filtro = filtros[indiceFiltro - 1];
 
-        if(Id == 0)
+        if (Id == 0)
         {
             VerificarFiltro(filtro);
             Model = await RetornarLista(pagina, ordenar!, (int)tamanho!);
@@ -434,7 +316,6 @@
         filtro = filtros[indiceFiltro];
         VerificarFiltro(filtro);
 
-        pergunta = await Context.Pergunta.Include(p => p.UserResponse).FirstOrDefaultAsync(p => p.Id == IdPergunta)!;
 
 
         var authState = await AuthenticationStateProvider
@@ -459,7 +340,7 @@
                    .OrderBy(p => p.Produto!.Preco)
                    .Skip((numeroPagina - 1) * tamanhoPagina)
                    .Take(tamanhoPagina).ToList();
-            else if(ordem == "descricao")
+            else if (ordem == "descricao")
                 applicationDbContext = Model!
                    .OrderBy(p => p.Produto!.Descricao)
                    .Skip((numeroPagina - 1) * tamanhoPagina)
@@ -469,11 +350,11 @@
                    .OrderBy(p => p.Produto!.Nome)
                    .Skip((numeroPagina - 1) * tamanhoPagina)
                    .Take(tamanhoPagina).ToList();
-            else 
+            else
                 applicationDbContext = Model!
                    .OrderBy(p => p.Id)
                    .Skip((numeroPagina - 1) * tamanhoPagina)
-                   .Take(tamanhoPagina).ToList();            
+                   .Take(tamanhoPagina).ToList();
         }
         else
         {
@@ -483,7 +364,7 @@
                    .Take(tamanhoPagina).ToList();
         }
 
-        foreach(var item in Model)
+        foreach (var item in Model)
         {
             if (item.Content != null && item.Content.Contains("iframe"))
             {
@@ -545,11 +426,11 @@
         return pesquisa;
     }
 
-    private  string buscarId(Pagina p)
+    private string buscarId(Pagina p)
     {
         var id_video = "";
-        if (p != null && p.Content != null && p.Content.Contains("iframe")  ||
-                        p != null && p.Content != null && p.Content.Contains("iframe") )
+        if (p != null && p.Content != null && p.Content.Contains("iframe") ||
+                        p != null && p.Content != null && p.Content.Contains("iframe"))
         {
             var conteudoHtml = "";
             if (p.Content != null) conteudoHtml = p.Content;
@@ -617,15 +498,15 @@
 
         var type = filtro.GetType();
         Filtro obj = null;
-        if(type.Name == "SubStory")
+        if (type.Name == "SubStory")
             obj = new Grupo
-            {
-                Id = 0,                  
-                StoryId = filtro.StoryId,
-                Nome = prompted,
-                user = user.Identity.Name,
+                {
+                    Id = 0,
+                    StoryId = filtro.StoryId,
+                    Nome = prompted,
+                    user = user.Identity.Name,
 
-            };
+                };
         else if (type.Name == "Grupo")
             obj = new SubGrupo
                 {
@@ -633,7 +514,7 @@
                     StoryId = filtro.StoryId,
                     Nome = prompted,
                     user = user.Identity.Name,
-                     GrupoId = filtro.Id
+                    GrupoId = filtro.Id
 
                 };
         else if (type.Name == "SubGrupo")
@@ -699,7 +580,6 @@
             Context.Add(mp);
             Context.SaveChanges();
         }
-        repositoryPagina.filtros.Add(obj);
 
         marcacao.Marcados.Clear();
 

@@ -121,18 +121,13 @@ for(var i = 1; i <= caps.Length; i++)
     private List<Filtro> filtros = new List<Filtro>();
     private List<Segue> seguidores;
     private List<Segue> seguindo;
-    private Livro? livroCompartilhado = null;
-    private Estante objInstante = null;
     private int pasta;
     private ClaimsPrincipal usuario;
-    private UserResponse preferences = null;
     private UserModel usermodel;
     int[] caps = null;
 
     protected override async Task OnParametersSetAsync()
     {
-
-
         var folders = await Context.savedFolder.Where(s => s.user == user).ToListAsync();
         foreach(var item in folders)
             filtros.Add(await Context.Filtro!
@@ -147,10 +142,6 @@ for(var i = 1; i <= caps.Length; i++)
     {
         Context = db.CreateDbContext(null);
         usermodel = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == user);
-        livroCompartilhado = await Context.Livro!.Where(u => u.user == user).OrderBy(l => l.Id).FirstOrDefaultAsync();
-        if(livroCompartilhado != null)
-            preferences = Context.UserResponse
-           .FirstOrDefault(u => u.user == user && u.capitulo == livroCompartilhado.capitulo && u.pasta == pasta);
         seguidores = await Context.Segue.Where(s => s.seguindo == user).ToListAsync();
         seguindo = await Context.Segue.Where(s => s.seguidor == user).ToListAsync();
     }

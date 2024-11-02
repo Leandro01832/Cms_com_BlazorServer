@@ -4,6 +4,7 @@ using BlazorServerCms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorServerCms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241102025543_Livro")]
+    partial class Livro
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,8 +118,20 @@ namespace BlazorServerCms.Migrations
                     b.Property<bool>("IsBook")
                         .HasColumnType("bit");
 
+                    b.Property<int>("capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("pasta")
+                        .HasColumnType("int");
+
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("user")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("versiculo")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -289,6 +303,30 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("PageLiked");
                 });
 
+            modelBuilder.Entity("business.business.Pergunta", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("FiltroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Questao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponseChatGpt")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FiltroId");
+
+                    b.ToTable("Pergunta");
+                });
+
             modelBuilder.Entity("business.business.Rota", b =>
                 {
                     b.Property<long>("Id")
@@ -348,6 +386,91 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Segue");
+                });
+
+            modelBuilder.Entity("business.business.UserResponse", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("capitulo")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("exempoloR1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR10")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR3")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR4")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR5")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR6")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR7")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR8")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("exempoloR9")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("pasta")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta10")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta3")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta4")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta5")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta6")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta7")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta8")
+                        .HasColumnType("int");
+
+                    b.Property<int>("resposta9")
+                        .HasColumnType("int");
+
+                    b.Property<string>("user")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserResponse");
                 });
 
             modelBuilder.Entity("business.Comentario", b =>
@@ -884,6 +1007,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Pagina");
                 });
 
+            modelBuilder.Entity("business.business.Pergunta", b =>
+                {
+                    b.HasOne("business.Filtro", "Filtro")
+                        .WithMany("Pergunta")
+                        .HasForeignKey("FiltroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filtro");
+                });
+
             modelBuilder.Entity("business.business.savedFolder", b =>
                 {
                     b.HasOne("business.Filtro", "Filtro")
@@ -893,6 +1027,23 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("Filtro");
+                });
+
+            modelBuilder.Entity("business.business.UserResponse", b =>
+                {
+                    b.HasOne("business.business.Pergunta", "Pergunta")
+                        .WithOne("UserResponse")
+                        .HasForeignKey("business.business.UserResponse", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.business.Book.Livro", "Livro")
+                        .WithMany("respostas")
+                        .HasForeignKey("LivroId");
+
+                    b.Navigation("Livro");
+
+                    b.Navigation("Pergunta");
                 });
 
             modelBuilder.Entity("business.Filtro", b =>
@@ -1119,6 +1270,11 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("SubGrupo");
                 });
 
+            modelBuilder.Entity("business.business.Book.Livro", b =>
+                {
+                    b.Navigation("respostas");
+                });
+
             modelBuilder.Entity("business.business.Cliente", b =>
                 {
                     b.Navigation("Endereco")
@@ -1128,11 +1284,18 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("business.business.Pergunta", b =>
+                {
+                    b.Navigation("UserResponse");
+                });
+
             modelBuilder.Entity("business.Filtro", b =>
                 {
                     b.Navigation("Content");
 
                     b.Navigation("Pagina");
+
+                    b.Navigation("Pergunta");
 
                     b.Navigation("savedFolder");
                 });
