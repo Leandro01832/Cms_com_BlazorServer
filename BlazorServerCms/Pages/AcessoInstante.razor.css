@@ -1,0 +1,22 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+.indices {
+    font-size: 0.6rem !important;
+}
+
+.indice {
+    font-size: 0.8rem !important;
+}
+
+.DivPagina {
+    height: 40px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+}

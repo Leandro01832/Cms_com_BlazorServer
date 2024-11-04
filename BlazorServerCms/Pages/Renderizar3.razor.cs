@@ -833,6 +833,8 @@ namespace BlazorCms.Client.Pages
 
         private void adicionarPontos(string username)
         {
+            int pts = 0;
+            int multiplicador = 10;
             var us = Context.Users.FirstOrDefault(u => u.UserName == username);
             var us2 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante2);
             var us3 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante3);
@@ -840,8 +842,6 @@ namespace BlazorCms.Client.Pages
             var us5 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante5);
             var us6 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante6);
             UserModel[] usuarios = new UserModel[6];
-
-            int pts = 0;
 
             if (us != null) { pts  = 1; usuarios[0] = us;  } else usuarios[0] = null;
             if (us2 != null){ pts =  2; usuarios[1] = us2; } else usuarios[1] = null;
@@ -879,7 +879,16 @@ namespace BlazorCms.Client.Pages
                     }
                     else
                     {
-                        usuarios[i].PontosPorDia += pts - i;
+                        var quantFiltros = Context.Filtro
+                            .Where(f => f.user == usuarios[i].UserName).ToList().Count;
+
+                        multiplicador -= quantFiltros;
+
+                        if (multiplicador < 1) multiplicador = 1;
+
+                        var pontosGanhos = multiplicador * (pts - i);
+
+                        usuarios[i].PontosPorDia += pontosGanhos;
                         Context.Update(usuarios[i]);
                         Context.SaveChanges();
                     }
