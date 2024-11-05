@@ -25,6 +25,9 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Time> Time { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<UsuarioTime> UsuarioTime { get; set; }
         public DbSet<Segue> Segue { get; set; }
         public DbSet<Content> Content { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
@@ -59,7 +62,10 @@ namespace BlazorServerCms.Data
             builder.Entity<FiltroPagina>()
           .HasKey(p => new { p.FiltroId, p.PaginaId });
 
-           
+            builder.Entity<UsuarioTime>()
+         .HasKey(p => new { p.UsuarioId, p.TimeId });
+
+
 
         }
     }

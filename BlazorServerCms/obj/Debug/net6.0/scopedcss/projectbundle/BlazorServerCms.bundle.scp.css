@@ -1,3 +1,26 @@
+/* _content/BlazorServerCms/Pages/AcessoInstante.razor.rz.scp.css */
+*[b-c8k1zi8mwu] {
+    padding: 0;
+    margin: 0;
+}
+
+.indices[b-c8k1zi8mwu] {
+    font-size: 0.6rem !important;
+}
+
+.indice[b-c8k1zi8mwu] {
+    font-size: 0.8rem !important;
+}
+
+.DivPagina[b-c8k1zi8mwu] {
+    height: 40px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
 /* _content/BlazorServerCms/Pages/Configurar/Config.razor.rz.scp.css */
 *[b-55jojgzw75] {
     padding: 0;

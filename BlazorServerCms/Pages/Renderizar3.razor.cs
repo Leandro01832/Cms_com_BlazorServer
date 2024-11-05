@@ -1,42 +1,20 @@
 ﻿using BlazorServerCms.Data;
-using BlazorServerCms.Pages;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.Group;
-using Google.Apis.Services;
-using Google.Apis.YouTube.v3;
-using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
-using Models;
-using NuGet.Packaging;
-using NVelocity.Runtime.Directive;
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security.Claims;
-using System.Security.Policy;
-using static Microsoft.AspNetCore.Razor.Language.TagHelperMetadata;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BlazorCms.Client.Pages
 {
     public partial class RenderizarBase : ComponentBase
-    {
-
-       
+    { 
 
         protected override async Task OnParametersSetAsync()
         {
-            
-
             if (capitulo > repositoryPagina!.stories!.Last().PaginaPadraoLink)
                 capitulo = 1;
 
@@ -49,9 +27,6 @@ namespace BlazorCms.Client.Pages
             {
                 adicionarPontos(compartilhante);
             }
-
-            
-
         }
         
         protected override async Task OnInitializedAsync()
@@ -637,7 +612,7 @@ namespace BlazorCms.Client.Pages
                     Filtro fil4 = null;
                     Filtro fil5 = null;
 
-                    if (fil.user != null)
+                    if (fil.user != null )
                     {
                         //compartilhante ganha 2 pts
                         compartilhante = fil.user;
@@ -691,6 +666,31 @@ namespace BlazorCms.Client.Pages
                                         compartilhante5 = fil.user;
                                         compartilhante6 = Model2.user;
 
+                                        var time = Context.Time.FirstOrDefault(t => t.user == compartilhante);
+
+                                        if (time is null)
+                                        {
+                                             time = new Time()
+                                             { nome = compartilhante, user = compartilhante};
+                                            Context.Add(time);
+                                            Context.SaveChanges();
+
+                                            Usuario comp1 = Context.Usuario.FirstOrDefault(u => u.user == compartilhante)!;
+                                            Usuario comp2 = Context.Usuario.FirstOrDefault(u => u.user == compartilhante2)!;
+                                            Usuario comp3 = Context.Usuario.FirstOrDefault(u => u.user == compartilhante3)!;
+                                            Usuario comp4 = Context.Usuario.FirstOrDefault(u => u.user == compartilhante4)!;
+                                            Usuario comp5 = Context.Usuario.FirstOrDefault(u => u.user == compartilhante5)!;
+                                            Usuario comp6 = Context.Usuario.FirstOrDefault(u => u.user == compartilhante6)!;
+
+                                            verificarCompartilhante(compartilhante, comp1, time);
+                                            verificarCompartilhante(compartilhante2, comp2, time);
+                                            verificarCompartilhante(compartilhante3, comp3, time);
+                                            verificarCompartilhante(compartilhante4, comp4, time);
+                                            verificarCompartilhante(compartilhante5, comp5, time);
+                                            verificarCompartilhante(compartilhante6, comp6, time);
+
+                                        }
+
                                     }
 
                                 }
@@ -700,8 +700,6 @@ namespace BlazorCms.Client.Pages
                         }
 
                     }
-
-
                 }  
                 else if(Model2.user == null)
                 {
@@ -835,15 +833,15 @@ namespace BlazorCms.Client.Pages
         {
             int pts = 0;
             int multiplicador = 10;
-            var us = Context.Users.FirstOrDefault(u => u.UserName == username);
+            UserModel[] usuarios = new UserModel[6];
+            var us  = Context.Users.FirstOrDefault(u => u.UserName == username);
             var us2 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante2);
             var us3 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante3);
             var us4 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante4);
             var us5 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante5);
             var us6 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante6);
-            UserModel[] usuarios = new UserModel[6];
 
-            if (us != null) { pts  = 1; usuarios[0] = us;  } else usuarios[0] = null;
+            if (us  != null){ pts  = 1; usuarios[0] = us;  } else usuarios[0] = null;
             if (us2 != null){ pts =  2; usuarios[1] = us2; } else usuarios[1] = null;
             if (us3 != null){ pts =  3; usuarios[2] = us3; } else usuarios[2] = null;
             if (us4 != null){ pts =  4; usuarios[3] = us4; } else usuarios[3] = null;
@@ -880,22 +878,37 @@ namespace BlazorCms.Client.Pages
                     else
                     {
                         var quantFiltros = Context.Filtro
-                            .Where(f => f.user == usuarios[i].UserName).ToList().Count;
-
+                            .Where(f => f.user == usuarios[i].UserName)
+                            .ToList().Count;
                         multiplicador -= quantFiltros;
-
                         if (multiplicador < 1) multiplicador = 1;
-
                         var pontosGanhos = multiplicador * (pts - i);
-
                         usuarios[i].PontosPorDia += pontosGanhos;
                         Context.Update(usuarios[i]);
                         Context.SaveChanges();
                     }
 
                 }
+                else break;
             }
             pontos = null;
+        }
+   
+        private void verificarCompartilhante(string username, Usuario usuario, Time time)
+        {
+            if (usuario != null)
+            {
+                usuario.IncluiTime(time);
+                Context.SaveChanges();
+            }
+            else
+            {
+                usuario = new Usuario { user = username };
+                Context.Add(usuario);
+                Context.SaveChanges();
+                usuario.IncluiTime(time);
+                Context.SaveChanges();
+            }
         }
     
     }
