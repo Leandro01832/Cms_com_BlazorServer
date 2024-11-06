@@ -832,7 +832,7 @@ namespace BlazorCms.Client.Pages
         private void adicionarPontos(string username)
         {
             int pts = 0;
-            int multiplicador = 10;
+            int multiplicador = 6;
             UserModel[] usuarios = new UserModel[6];
             var us  = Context.Users.FirstOrDefault(u => u.UserName == username);
             var us2 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante2);
@@ -877,12 +877,47 @@ namespace BlazorCms.Client.Pages
                     }
                     else
                     {
-                        var quantFiltros = Context.Filtro
+                        var fils = Context.Filtro
                             .Where(f => f.user == usuarios[i].UserName)
-                            .ToList().Count;
-                        multiplicador -= quantFiltros;
+                            .ToList();
+
+                        if (fils.FirstOrDefault(f => f is SubStory || f is Grupo ||
+                        f is SubGrupo)
+                            == null)
+                            multiplicador -= fils.Count;
+                        else 
+                        {
+                            if (fils.FirstOrDefault(f => f is SubGrupo) != null)
+                                multiplicador = 4;
+                           else if (fils.FirstOrDefault(f => f is Grupo) != null)
+                                multiplicador = 3;
+                            else if (fils.FirstOrDefault(f => f is SubStory) != null)
+                                multiplicador = 2;
+                        }
+
+                        if(multiplicador >= 1)
+                        {
+                            var conteudos = Context.Content
+                                .Where(c => c.user == usuarios[i].UserName &&
+                                c.Data.Date > DateTime.Now.AddDays(-7).Date)
+                                .ToList();
+                            var contentFiltro = conteudos.Where(c => c.FiltroId != null).ToList();
+                            var userTime = Context.UsuarioTime.Include(ut => ut.Usuario)
+                                .FirstOrDefault(ut => ut.Usuario.user ==  usuarios[i].UserName);
+
+                            multiplicador += conteudos.Count;
+
+                            if (contentFiltro.Count > conteudos.Count / 2)
+                                multiplicador += 10;
+
+                            if (userTime != null) multiplicador += 10;
+
+                        }
+
                         if (multiplicador < 1) multiplicador = 1;
                         var pontosGanhos = multiplicador * (pts - i);
+
+
                         usuarios[i].PontosPorDia += pontosGanhos;
                         Context.Update(usuarios[i]);
                         Context.SaveChanges();
