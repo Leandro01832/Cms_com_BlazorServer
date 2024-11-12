@@ -58,6 +58,8 @@ namespace BlazorServerCms.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+
             base.OnModelCreating(builder);
             builder.Entity<FiltroPagina>()
           .HasKey(p => new { p.FiltroId, p.PaginaId });
@@ -65,7 +67,9 @@ namespace BlazorServerCms.Data
             builder.Entity<UsuarioTime>()
          .HasKey(p => new { p.UsuarioId, p.TimeId });
 
-
+            builder.Entity<Time>()
+            .HasIndex(u => u.nome)
+            .IsUnique();
 
         }
     }

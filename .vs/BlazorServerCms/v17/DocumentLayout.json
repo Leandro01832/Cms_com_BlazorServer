@@ -7,8 +7,16 @@
       "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar3.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\cms\\blazorservercms\\pages\\renderizar.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar.razor.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\cms\\blazorservercms\\pages\\renderizar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\cms\\blazorservercms\\pages\\renderizar.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\cms\\blazorservercms\\pages\\renderizar2.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar2.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +26,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Renderizar.razor",
+              "DocumentMoniker": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar.razor",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar.razor",
+              "ToolTip": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar.razor",
+              "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar.razor",
+              "ViewState": "AgIAANQAAAAAAAAAAAAswOMAAABoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-10T15:43:33.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Renderizar2.razor.cs",
+              "DocumentMoniker": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar2.razor.cs",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar2.razor.cs",
+              "ToolTip": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar2.razor.cs",
+              "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar2.razor.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAIwHEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T15:12:11.046Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,22 +62,23 @@
               "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar3.razor.cs",
               "ToolTip": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar3.razor.cs",
               "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar3.razor.cs",
-              "ViewState": "AgIAAHsDAAAAAAAAAAAAAI4DAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T14:31:02.727Z",
+              "WhenOpened": "2024-11-10T14:35:24.033Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Renderizar.razor.css",
-              "DocumentMoniker": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar.razor.css",
-              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar.razor.css",
-              "ToolTip": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar.razor.css",
-              "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar.razor.css",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAYwIkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-11-04T11:54:08.695Z"
+              "DocumentIndex": 2,
+              "Title": "Renderizar.razor.cs",
+              "DocumentMoniker": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "ToolTip": "C:\\Users\\User\\cms\\BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "ViewState": "AgIAAM8EAAAAAAAAAAAAAM8EAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-10T14:25:53.16Z",
+              "EditorCaption": ""
             }
           ]
         }

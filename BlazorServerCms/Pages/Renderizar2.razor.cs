@@ -110,6 +110,8 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public string? redirecionar { get; set; } = null; 
         [Parameter] public string? dominio { get; set; } = "dominio";
+
+        [Parameter] public string? compartilhou { get; set; } = null;
         [Parameter] public string? compartilhante { get; set; } = null;
         [Parameter] public string? compartilhante2 { get; set; } = null;
         [Parameter] public string? compartilhante3 { get; set; } = null;

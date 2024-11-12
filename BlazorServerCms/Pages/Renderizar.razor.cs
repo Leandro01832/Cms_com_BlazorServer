@@ -1212,36 +1212,73 @@ namespace BlazorCms.Client.Pages
             string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario (Opcional).");
             List<Filtro> fils = null;
             Filtro fi = null;
-            if (substory == null)
-                opcional = indice.ToString();
-            else
+
+            var quant = story!.Filtro!.Where(f => f.user == null).ToList().Count;
+                if (substory == null)
+                    opcional = indice.ToString();
+                else
+                {
+                    var lista = retornarListaFiltrada(null);
+                    opcional = vers.ToString();
+                }
+                if (string.IsNullOrEmpty(prompted))
+                    fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
+                else
+                    fils = story!.Filtro!.Where(f => f.user == prompted).OrderBy(f => f.Id).ToList();
+
+                if (fils.Count == 0)
+                    fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
+
+            if(quant != 0)
             {
-                var lista = retornarListaFiltrada(null);
-                opcional = vers.ToString();
+                fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
+                        .LastOrDefault()!;
+
+                if (fi == null)
+                {
+                    fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
+                    fi = fils.Where(f => f.Pagina
+                    .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
+                           .LastOrDefault()!;
+                }
             }
-            if (string.IsNullOrEmpty(prompted))
-                fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
-            else
-                fils = story!.Filtro!.Where(f => f.user == prompted).OrderBy(f => f.Id).ToList();
+            else if(quant == 0)
+            {
+                // 1º time
+                fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is CamadaSete).LastOrDefault()!;
+                if(fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is CamadaSeis).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubSubGrupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubGrupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is Grupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubStory).LastOrDefault()!;
+            }
 
-            if (fils.Count == 0)
-                fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
 
-
-
-            fi = fils.Where(f => f.Pagina.FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
-                    .LastOrDefault()!;
 
             if (fi == null)
             {
-                fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
-                fi = fils.Where(f => f.Pagina.FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
-                       .LastOrDefault()!;
-            }
-
-
-            if (fi == null)
-            {
+                if(quant == 0 && !string.IsNullOrEmpty(prompted))
+                await js!.InvokeAsync<object>("DarAlert",
+                    $"A pasta do usuario {prompted} não pussui este verso!!!");
+                  else
                 await js!.InvokeAsync<object>("DarAlert", "Marque um versiculo que tenha pasta!!!");
             }
             else
@@ -1444,12 +1481,25 @@ namespace BlazorCms.Client.Pages
                     resumo = await js.InvokeAsync<string>("prompt", "Informe o resumo da pagina.");
                 }
                 await js!.InvokeAsync<object>("DarAlert", $"Agora Compartilhe!!!");
+
+                    if(substory != null)
+                    {
+                            if(user.Identity!.IsAuthenticated)
+                            
+                                compartilhou = user.Identity.Name;
+                            
+                            else
+                                compartilhou = "comp";
+
+                        
+                    }
             }
 
             else
             {
                 try
                 {
+
                     await js!.InvokeAsync<object>("share", $"{title} / {resumo}");
                     title = null;
                     resumo = null;
@@ -1551,25 +1601,25 @@ namespace BlazorCms.Client.Pages
 
                 string url = null;
                 if (camadadez != null)
-                    url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (camadanove != null)
-                    url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (camadaoito != null)
-                    url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (camadasete != null)
-                    url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (camadaseis != null)
-                    url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (subsubgrupo != null)
-                    url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (subgrupo != null)
-                    url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (grupo != null)
-                    url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else if (substory != null)
-                    url = $"/camada2/{capitulo}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada2/{capitulo}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
                 else
-                    url = $"/Renderizar/{capitulo}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/Renderizar/{capitulo}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
 
                 if (compartilhante != "comp" && outroHorizonte == 0 && pontos == null) url += "/1";
 

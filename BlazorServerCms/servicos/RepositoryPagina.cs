@@ -31,6 +31,7 @@ namespace BlazorServerCms.servicos
         public int meta6 { get; set; } = 1;  
         public int meta7 { get; set; } = 1;  
         public int meta8 { get; set; } = 1;  
+        public int metaTime { get; set; } = 1;  
 
         public int? CapituloLivro { get; set; } = null;
         public bool aguarde { get; set; } = false;

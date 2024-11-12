@@ -12,7 +12,6 @@ namespace BlazorCms.Client.Pages
 {
     public partial class RenderizarBase : ComponentBase
     { 
-
         protected override async Task OnParametersSetAsync()
         {
             if (capitulo > repositoryPagina!.stories!.Last().PaginaPadraoLink)
@@ -23,10 +22,10 @@ namespace BlazorCms.Client.Pages
             if (Auto == 1)
                 StartTimer(Model!);
 
-            if (compartilhante != "comp" && pontos != null)
-            {
-                adicionarPontos(compartilhante);
-            }
+            if (compartilhou != "comp" && pontos != null ||
+                compartilhante != "comp" && pontos != null)            
+                adicionarPontos();
+            
         }
         
         protected override async Task OnInitializedAsync()
@@ -47,6 +46,7 @@ namespace BlazorCms.Client.Pages
 
             if (compartilhante == null)
             {
+                compartilhou = "comp";
                 compartilhante = "comp";
                 compartilhante2 = "comp";
                 compartilhante3 = "comp";
@@ -666,12 +666,27 @@ namespace BlazorCms.Client.Pages
                                         compartilhante5 = fil.user;
                                         compartilhante6 = Model2.user;
 
-                                        var time = Context.Time.FirstOrDefault(t => t.user == compartilhante);
+                                        var time = Context.Time
+                                            .Include(t => t.usuarios)
+                                            .ThenInclude(t => t.Usuario)
+                                            .FirstOrDefault(t => 
+                                            t.usuarios
+                                            .FirstOrDefault(u => u.Usuario.user == compartilhante) != null &&
+                                            t.usuarios
+                                            .FirstOrDefault(u => u.Usuario.user == compartilhante2) != null &&
+                                            t.usuarios
+                                            .FirstOrDefault(u => u.Usuario.user == compartilhante3) != null &&
+                                            t.usuarios
+                                            .FirstOrDefault(u => u.Usuario.user == compartilhante4) != null &&
+                                            t.usuarios
+                                            .FirstOrDefault(u => u.Usuario.user == compartilhante5) != null &&
+                                            t.usuarios
+                                            .FirstOrDefault(u => u.Usuario.user == compartilhante6) != null);
 
                                         if (time is null)
                                         {
-                                             time = new Time()
-                                             { nome = compartilhante, user = compartilhante};
+                                            time = new Time()
+                                            { nome = compartilhante, user = compartilhante };
                                             Context.Add(time);
                                             Context.SaveChanges();
 
@@ -690,7 +705,7 @@ namespace BlazorCms.Client.Pages
                                             verificarCompartilhante(compartilhante6, comp6, time);
 
                                         }
-
+                                       
                                     }
 
                                 }
@@ -779,8 +794,7 @@ namespace BlazorCms.Client.Pages
                 conteudos.Add(new Pagina { Content = p.Html });
             return conteudos;
         }
-
-        
+                
         private Filtro verificarFiltros(Filtro f)
         {
             if(f is CamadaDez)
@@ -829,17 +843,20 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private void adicionarPontos(string username)
+        private void adicionarPontos()
         {
             int pts = 0;
-            int multiplicador = 6;
-            UserModel[] usuarios = new UserModel[6];
-            var us  = Context.Users.FirstOrDefault(u => u.UserName == username);
-            var us2 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante2);
-            var us3 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante3);
-            var us4 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante4);
-            var us5 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante5);
-            var us6 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante6);
+            int multiplicador = 1;
+            UserModel[] usuarios = new UserModel[7];
+            var us = Context.Users.FirstOrDefault(u => u.UserName == compartilhou);
+            var us2  = Context.Users.FirstOrDefault(u => u.UserName == compartilhante);
+            var us3 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante2);
+            var us4 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante3);
+            var us5 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante4);
+            var us6 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante5);
+            var us7 = Context.Users.FirstOrDefault(u => u.UserName == compartilhante6);
+            var users = Context.Users.ToList().Count;
+            var filtros = story.Filtro.Count();
 
             if (us  != null){ pts  = 1; usuarios[0] = us;  } else usuarios[0] = null;
             if (us2 != null){ pts =  2; usuarios[1] = us2; } else usuarios[1] = null;
@@ -847,17 +864,18 @@ namespace BlazorCms.Client.Pages
             if (us4 != null){ pts =  4; usuarios[3] = us4; } else usuarios[3] = null;
             if (us5 != null){ pts =  5; usuarios[4] = us5; } else usuarios[4] = null;
             if (us6 != null){ pts =  6; usuarios[5] = us6; } else usuarios[5] = null;
+            if (us7 != null){ pts =  7; usuarios[6] = us7; } else usuarios[6] = null;
 
-            if (story.Filtro.Count() > repositoryPagina.meta1) pts += 1;
-            if (story.Filtro.Count() > repositoryPagina.meta2) pts += 1;
-            if (story.Filtro.Count() > repositoryPagina.meta3) pts += 1;
-            if (story.Filtro.Count() > repositoryPagina.meta4) pts += 1;
-            if (story.Filtro.Count() > repositoryPagina.meta5) pts += 1;
-            if (story.Filtro.Count() > repositoryPagina.meta6) pts += 1;
-            if (story.Filtro.Count() > repositoryPagina.meta7) pts += 1;
-            if (story.Filtro.Count() > repositoryPagina.meta8) pts += 1;
+            if (filtros > repositoryPagina.meta1) pts++;
+            if (filtros > repositoryPagina.meta2) pts++;
+            if (filtros > repositoryPagina.meta3) pts++;
+            if (filtros > repositoryPagina.meta4) pts++;
+            if (filtros > repositoryPagina.meta5) pts++;
+            if (filtros > repositoryPagina.meta6) pts++;
+            if (filtros > repositoryPagina.meta7) pts++;
+            if (filtros > repositoryPagina.meta8) pts++;              
 
-            for (var i = 0; i < 6; i++)
+            for (var i = 0; i < 7; i++)
             {
                 if (usuarios[i] != null)
                 {
@@ -877,44 +895,60 @@ namespace BlazorCms.Client.Pages
                     }
                     else
                     {
-                        var fils = Context.Filtro
-                            .Where(f => f.user == usuarios[i].UserName)
-                            .ToList();
-
-                        if (fils.FirstOrDefault(f => f is SubStory || f is Grupo ||
-                        f is SubGrupo)
-                            == null)
-                            multiplicador -= fils.Count;
-                        else 
-                        {
-                            if (fils.FirstOrDefault(f => f is SubGrupo) != null)
-                                multiplicador = 4;
-                           else if (fils.FirstOrDefault(f => f is Grupo) != null)
-                                multiplicador = 3;
-                            else if (fils.FirstOrDefault(f => f is SubStory) != null)
-                                multiplicador = 2;
-                        }
-
-                        if(multiplicador >= 1)
-                        {
-                            var conteudos = Context.Content
+                        var fils = Context.Filtro!.Where(f => f.user == usuarios[i].UserName)
+                        .ToList();
+                        var conteudos = Context.Content
                                 .Where(c => c.user == usuarios[i].UserName &&
                                 c.Data.Date > DateTime.Now.AddDays(-7).Date)
                                 .ToList();
+
+                        if(fils.Count == 1 && i != 0)
+                        {
+                            if (users >= 100000 && users < 200000)      multiplicador += 10;
+                            else if (users >= 200000 && users < 300000) multiplicador += 20;
+                            else if (users >= 300000 && users < 400000) multiplicador += 30;
+                            else if (users >= 400000 && users < 500000) multiplicador += 40;
+                            else if (users >= 500000 && users < 600000) multiplicador += 50;
+                            else if (users >= 600000 && users < 700000) multiplicador += 60;
+                            else if (users >= 700000 && users < 800000) multiplicador += 70;
+                            else if (users >= 800000 && users < 900000) multiplicador += 80;
+                            else if (users >= 900000) multiplicador += 90;
+
+
                             var contentFiltro = conteudos.Where(c => c.FiltroId != null).ToList();
-                            var userTime = Context.UsuarioTime.Include(ut => ut.Usuario)
-                                .FirstOrDefault(ut => ut.Usuario.user ==  usuarios[i].UserName);
+                            var userTime = Context.UsuarioTime
+                                .Include(ut => ut.Usuario)
+                                .Include(ut => ut.Time)
+                                .Where(ut => ut.Usuario.user ==  usuarios[i].UserName).ToList();
 
                             multiplicador += conteudos.Count;
 
                             if (contentFiltro.Count > conteudos.Count / 2)
                                 multiplicador += 10;
 
-                            if (userTime != null) multiplicador += 10;
+                            if (userTime.Count > 0)
+                            {
+                                multiplicador += 10;
+                                multiplicador += 10 * userTime.Sum(ut => ut.Time.vendas);
+
+                                int soma = 0;
+                                List<UserModel> l = new List<UserModel>();
+
+                                foreach (var t in userTime)
+                                    l.Add(Context.Users
+                                    .First(u => u.UserName == t.Usuario.user));
+
+                                 soma += l.Sum(ut =>  ut.Recorde);
+
+                                if(soma > repositoryPagina.metaTime)
+                                multiplicador += 10;
+
+                            }
 
                         }
 
-                        if (multiplicador < 1) multiplicador = 1;
+                        if (i == 0) multiplicador += conteudos.Count;
+
                         var pontosGanhos = multiplicador * (pts - i);
 
 
@@ -924,7 +958,7 @@ namespace BlazorCms.Client.Pages
                     }
 
                 }
-                else break;
+                else if(i != 0) break;
             }
             pontos = null;
         }
@@ -944,7 +978,6 @@ namespace BlazorCms.Client.Pages
                 usuario.IncluiTime(time);
                 Context.SaveChanges();
             }
-        }
-    
+        }    
     }
 }
