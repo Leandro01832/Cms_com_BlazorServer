@@ -42,10 +42,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBZGRQZXJtaXNzYW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/cms/BlazorServerCms/Pages/Configurar/AlterarDominio.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBbHRlcmFyRG9taW5pby5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/User/cms/BlazorServerCms/Pages/Configurar/AlterarFoto.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBbHRlcmFyRm90by5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -274,9 +270,9 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/cms/BlazorServerCms/Pages/AcessoInstante.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNlc3NvSW5zdGFudGUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-c8k1zi8mwu
+[C:/Users/User/cms/BlazorServerCms/Pages/AcessoEstante.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNlc3NvRXN0YW50ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-y6zxmyyu3y
 
 [C:/Users/User/cms/BlazorServerCms/Pages/Configurar/Config.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxDb25maWcucmF6b3I=

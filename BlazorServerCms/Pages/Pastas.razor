@@ -25,7 +25,7 @@
 
                         var fil = filtros.First(f => f.Id == item.FiltroId);
                         var pasta = filtros.IndexOf(fil) + 1;
-                    var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
+                    var condicao = user.savedFolder.FirstOrDefault(f => f.FiltroId == fil.Id);
 
                     <div class="filtragem1">
                                 <p>
@@ -49,412 +49,14 @@
                                     </a>
                                 </p>
 
-                            </div>
-                    
-                
+                            </div>               
 
                 }
             </div>
                         
         }
 
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 2).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 2 </h3>
-            </div>
-            <div class="divs2">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 2))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem2">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 3).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 3 </h3>
-            </div>
-            <div class="divs3">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 3))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem3">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 4).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 4 </h3>
-            </div>
-            <div class="divs4">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 4))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem4">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 5).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 5 </h3>
-            </div>
-            <div class="divs5">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 5))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem5">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 6).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 6 </h3>
-            </div>
-            <div class="divs6">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 6))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem6">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 7).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 7 </h3>
-            </div>
-            <div class="divs7">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 7))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem7">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 8).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 8 </h3>
-            </div>
-            <div class="divs8">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 8))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem8">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 9).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 9 </h3>
-            </div>
-            <div class="divs9">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 9))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem9">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-        }
-
-         @if (Model.Filtro != null && Model.Filtro!.Where(f => f.QuantidadePorType == 10).ToList().Count > 0 && filtros.Count > 0)
-        {
-            <div class="linha">
-            <h3> linha de filtragem nº 10 </h3>
-            </div>
-            <div class="divs10">
-            @foreach (var item in Model.Filtro!.Where(f => f.QuantidadePorType == 10))
-            {
-
-                var fil = filtros.First(f => f.Id == item.FiltroId);
-                var pasta = filtros.IndexOf(fil) + 1;
-                var condicao = saved.FirstOrDefault(f => f.FiltroId == fil.Id);
-
-                <div class="filtragem10">
-                    <p>
-                        pasta @pasta - @item.Filtro!.Nome
-                        <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                        <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                            @if (condicao != null)
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                </svg>
-
-                            }
-                            else
-                            {
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                </svg>
-                            }
-
-                        </a>
-                    </p>
-
-                </div>
-
-
-
-            }
-            </div>
-
-        }
+       
 
     </div>
 
@@ -470,8 +72,9 @@
     public Pagina Model { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+    private ClaimsPrincipal usuario = null;
+    private UserModel user = null;
 
-    List<savedFolder> saved = new List<savedFolder>();
     List<Filtro> filtros = new List<Filtro>();
 
     protected override async Task OnInitializedAsync()
@@ -480,53 +83,52 @@
         var lst = Context.Pagina!.Include(p => p.Story).Include(p => p.Filtro)!.ThenInclude(p => p.Filtro)
         .Where(p => p.Story!.PaginaPadraoLink == capitulo).OrderBy(p => p.Id).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
-        saved = await Context.savedFolder.ToListAsync();
         filtros = Context.Pagina!
     .Include(p => p.Filtro)!
     .ThenInclude(p => p.Filtro)
     .Include(p => p.Story)
     .ThenInclude(p => p.Filtro)
-                    .Where(p => p.Story!.PaginaPadraoLink == capitulo).First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
+    .Where(p => p.Story!.PaginaPadraoLink == capitulo)
+    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
 
-    }
-
-  
-
-    private async Task GetClaimsPrincipalData(Filtro fil)
-    {
         var authState = await AuthenticationStateProvider
-            .GetAuthenticationStateAsync();
-        var user = authState.User;
+               .GetAuthenticationStateAsync();
+        usuario = authState.User;
 
-        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        if (usuario.Identity is not null && usuario.Identity.IsAuthenticated)
         {
-            authMessage = $"{user.Identity.Name} esta autenticado.";
-            var usuario = await userManager.GetUserAsync(user);
-            var save = Context.savedFolder
-            .FirstOrDefaultAsync(s => s.FiltroId == fil.Id && s.user == usuario.UserName);
-            if (save == null)
-            {
-                var s = new savedFolder
-                    {
-                        FiltroId = fil.Id,
-                        user = usuario.UserName
-                    };
-                Context.Add(s);
-                await Context.SaveChangesAsync();
-                saved.Add(s);
-            }
-            else
-            {
-                Context.Remove(Context.savedFolder.First(s => s.FiltroId == fil.Id &&
-                    s.user == usuario.UserName));
-                  await  Context.SaveChangesAsync();
-                saved.Remove(saved.First(s => s.FiltroId == fil.Id &&
-                    s.user == usuario.UserName));
-            }
+            authMessage = $"{usuario.Identity.Name} esta autenticado.";
+             var u = await userManager.GetUserAsync(usuario);
+             user = await Context.Users.Include(u => u.savedFolder)
+             .FirstAsync(us => us.Id == u.Id);
         }
         else
         {
             authMessage = "não esta autenticado.";
         }
+
+    }
+
+    private async Task GetClaimsPrincipalData(Filtro fil)
+    {
+        if (user is not null)
+        {
+            var save = Context.UserModelFiltro
+            .Include(uf => uf.UserModel)
+            .FirstOrDefaultAsync(s => s.FiltroId == fil.Id && s.UserModel.UserName == user.UserName);
+            if (save == null)
+            {
+                user.salvarPasta(fil);
+                await Context.SaveChangesAsync();
+            }
+            else
+            {
+                Context.Remove(Context.UserModelFiltro.Include(uf => uf.UserModel)
+                    .First(s => s.FiltroId == fil.Id &&
+                    s.UserModel.UserName == user.UserName));
+                  await  Context.SaveChangesAsync();
+            }
+        }
+      
     }
 }

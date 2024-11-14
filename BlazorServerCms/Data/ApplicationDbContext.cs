@@ -26,14 +26,14 @@ namespace BlazorServerCms.Data
         }
 
         public DbSet<Time> Time { get; set; }
-        public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<UsuarioTime> UsuarioTime { get; set; }
-        public DbSet<Segue> Segue { get; set; }
         public DbSet<Content> Content { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
         public DbSet<FiltroPagina> FiltroPagina { get; set; }
+        public DbSet<UserModelTime> UserModelTime { get; set; }
+        public DbSet<UserModelLivro> UserModelLivro { get; set; }
+        public DbSet<UserModelFiltro> UserModelFiltro { get; set; }
+        public DbSet<UserModelPageLiked> UserModelPageLiked { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
-        public DbSet<savedFolder> savedFolder { get; set; }
         public DbSet<Rota>? Rota { get; set; }
         public DbSet<Filtro>? Filtro { get; set; }
         public DbSet<Pagina>? Pagina { get; set; }
@@ -64,8 +64,17 @@ namespace BlazorServerCms.Data
             builder.Entity<FiltroPagina>()
           .HasKey(p => new { p.FiltroId, p.PaginaId });
 
-            builder.Entity<UsuarioTime>()
-         .HasKey(p => new { p.UsuarioId, p.TimeId });
+            builder.Entity<UserModelTime>()
+         .HasKey(p => new { p.UserModelId, p.TimeId });
+            
+            builder.Entity<UserModelLivro>()
+         .HasKey(p => new { p.UserModelId, p.LivroId });
+            
+            builder.Entity<UserModelFiltro>()
+         .HasKey(p => new { p.UserModelId, p.FiltroId });
+            
+            builder.Entity<UserModelPageLiked>()
+         .HasKey(p => new { p.UserModelId, p.PageLikedId });
 
             builder.Entity<Time>()
             .HasIndex(u => u.nome)

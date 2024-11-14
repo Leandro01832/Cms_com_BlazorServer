@@ -68,7 +68,9 @@
             exampleModel.FiltroId = FiltroId;
         else
             exampleModel.FiltroId = null;
-        exampleModel.user = user.Identity!.Name;
+
+            var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
+        exampleModel.UserModelId = u.Id;
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 

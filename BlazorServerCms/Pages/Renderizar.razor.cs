@@ -1129,35 +1129,35 @@ namespace BlazorCms.Client.Pages
 
         protected async Task DarUmLike()
         {
-            PageLiked pageLiked = new PageLiked
-            {
-                user = user.Identity!.Name!,
-                capitulo = capitulo,
-                indice = indice,
-                substory = (int)substory!,
-                grupo = grupo,
-                subgrupo = subgrupo,
-                subsubgrupo = subsubgrupo,
-                camadaSeis = camadaseis,
-                camadaSete = camadasete,
-                camadaOito = camadaoito,
-                camadaNove = camadanove,
-                camadaDez = camadadez,
-                verso = (int)vers!
-            };
+            var u = await userManager.GetUserAsync(user);
+            UserModel usuario = await Context.Users.Include(u => u.PageLiked)
+            .FirstAsync(us => us.Id == u.Id);
+            PageLiked pageLiked = new PageLiked();
+            if (!Content)
+                pageLiked.PaginaId = Model.Id;
+            else
+                pageLiked.ContentId = Model.Id;
+
             await Context.AddAsync(pageLiked);
+            await Context.SaveChangesAsync();
+            usuario.curtir(pageLiked);
             await Context.SaveChangesAsync();
             repositoryPagina.paginasCurtidas.Add(pageLiked);
 
-            acessar();
+           // acessar();
         }
 
-        protected async Task Unlike()
+        protected async Task Unlike(long Id)
         {
-            PageLiked? page = await Context.PageLiked
-                            .FirstOrDefaultAsync(p => p.capitulo == capitulo
-                            && p.verso == vers
-                            && p.user == user.Identity!.Name);
+            PageLiked? page = null;
+            if (conteudo == 0)            
+                 page = await Context.PageLiked
+                                .FirstOrDefaultAsync(p => p.ContentId == Model.Id);
+            else
+                page = await Context.PageLiked
+                                   .FirstOrDefaultAsync(p => p.PaginaId == Model.Id);
+
+
             if (page != null)
             {
                 Context.Remove(page);

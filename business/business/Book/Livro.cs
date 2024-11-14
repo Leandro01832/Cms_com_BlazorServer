@@ -9,6 +9,6 @@ namespace business.business.Book
         
         public string? url { get; set; }
 
-
+        public virtual List<UserModelLivro> Users { get; set; }
     }
 }

@@ -585,4 +585,4 @@ C:\Users\User\cms\BlazorServerCms\obj\Debug\net6.0\refint\BlazorServerCms.dll
 C:\Users\User\cms\BlazorServerCms\obj\Debug\net6.0\BlazorServerCms.pdb
 C:\Users\User\cms\BlazorServerCms\obj\Debug\net6.0\BlazorServerCms.genruntimeconfig.cache
 C:\Users\User\cms\BlazorServerCms\obj\Debug\net6.0\ref\BlazorServerCms.dll
-C:\Users\User\cms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\AcessoInstante.razor.rz.scp.css
+C:\Users\User\cms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\AcessoEstante.razor.rz.scp.css

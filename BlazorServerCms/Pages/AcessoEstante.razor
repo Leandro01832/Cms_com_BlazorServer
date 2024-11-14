@@ -1,17 +1,27 @@
-﻿@page "/acessoinstante"
+﻿
+@page "/acessoestante/{user?}"
 @inject RepositoryPagina repositoryPagina
 @inject IJSRuntime js
 @inject NavigationManager navigation
 
-    <PageTitle>Estante </PageTitle>
-    <h3>Estante</h3>
+    <PageTitle>Estante de @user </PageTitle>
+    <h3>Estante de @user</h3>
+
+
+
+
+
 
 @if(livro != null)
 {
     
 <center>
-        <a href="@livro.url" >@livro.url</a>
+        <a href="@livro.Livro.url" >@livro.Livro.url</a>
     </center>
+}
+else
+{
+    <p>Usuario não possui livros</p>
 }
 
 <hr />
@@ -74,15 +84,24 @@
 @code {
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    List<Livro> livros = new List<Livro>();
-    Livro livro = null;
+    List<UserModelLivro> livros = new List<UserModelLivro>();
+    [Parameter] public string? user { get; set; }
+    UserModelLivro livro = null;
     private int indice = 1;
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
 
-        livros = await Context.Livro!.ToListAsync();
+        if(user is null)
+        {
+            user = await js.InvokeAsync<string>("prompt", "Informe o compartilhante.");
+        }
+
+        livros = await Context.UserModelLivro!
+        .Include(ul => ul.UserModel)
+        .Include(ul => ul.Livro)
+        .Where(ul => ul.UserModel.UserName == user).ToListAsync();
 
         livro = livros.FirstOrDefault()!;
     }

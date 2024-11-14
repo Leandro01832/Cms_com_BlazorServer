@@ -22,89 +22,6 @@ namespace BlazorServerCms.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BlazorServerCms.Data.UserModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataPontuacao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Dominio")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Permissao")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PontosPorDia")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Recorde")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("business.business.Book.Livro", b =>
                 {
                     b.Property<long>("Id")
@@ -171,12 +88,15 @@ namespace BlazorServerCms.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("user")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserModelId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FiltroId");
+
+                    b.HasIndex("UserModelId");
 
                     b.ToTable("Content");
                 });
@@ -244,47 +164,17 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int?>("camadaDez")
-                        .HasColumnType("int");
+                    b.Property<long?>("ContentId")
+                        .HasColumnType("bigint");
 
-                    b.Property<int?>("camadaNove")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("camadaOito")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("camadaSeis")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("camadaSete")
-                        .HasColumnType("int");
-
-                    b.Property<int>("capitulo")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("grupo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("indice")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("subgrupo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("substory")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("subsubgrupo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("user")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("verso")
-                        .HasColumnType("int");
+                    b.Property<long?>("PaginaId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasIndex("PaginaId");
 
                     b.ToTable("PageLiked");
                 });
@@ -308,48 +198,6 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Rota");
                 });
 
-            modelBuilder.Entity("business.business.savedFolder", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("FiltroId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("user")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FiltroId");
-
-                    b.ToTable("savedFolder");
-                });
-
-            modelBuilder.Entity("business.business.Segue", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("seguidor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("seguindo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Segue");
-                });
-
             modelBuilder.Entity("business.business.Time", b =>
                 {
                     b.Property<long>("Id")
@@ -360,9 +208,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<string>("nome")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("user")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("vendas")
                         .HasColumnType("int");
@@ -376,36 +221,144 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Time");
                 });
 
-            modelBuilder.Entity("business.business.Usuario", b =>
+            modelBuilder.Entity("business.business.UserModel", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
-                    b.Property<string>("user")
-                        .IsRequired()
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DataPontuacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Permissao")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PontosPorDia")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Recorde")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("business.business.UsuarioTime", b =>
+            modelBuilder.Entity("business.business.UserModelFiltro", b =>
                 {
-                    b.Property<long>("UsuarioId")
+                    b.Property<string>("UserModelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("FiltroId")
                         .HasColumnType("bigint");
+
+                    b.HasKey("UserModelId", "FiltroId");
+
+                    b.HasIndex("FiltroId");
+
+                    b.ToTable("UserModelFiltro");
+                });
+
+            modelBuilder.Entity("business.business.UserModelLivro", b =>
+                {
+                    b.Property<string>("UserModelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("LivroId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserModelId", "LivroId");
+
+                    b.HasIndex("LivroId");
+
+                    b.ToTable("UserModelLivro");
+                });
+
+            modelBuilder.Entity("business.business.UserModelPageLiked", b =>
+                {
+                    b.Property<string>("UserModelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("PageLikedId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserModelId", "PageLikedId");
+
+                    b.HasIndex("PageLikedId");
+
+                    b.ToTable("UserModelPageLiked");
+                });
+
+            modelBuilder.Entity("business.business.UserModelTime", b =>
+                {
+                    b.Property<string>("UserModelId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<long>("TimeId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("UsuarioId", "TimeId");
+                    b.HasKey("UserModelId", "TimeId");
 
                     b.HasIndex("TimeId");
 
-                    b.ToTable("UsuarioTime");
+                    b.ToTable("UserModelTime");
                 });
 
             modelBuilder.Entity("business.Comentario", b =>
@@ -909,7 +862,15 @@ namespace BlazorServerCms.Migrations
                         .WithMany("Content")
                         .HasForeignKey("FiltroId");
 
+                    b.HasOne("business.business.UserModel", "UserModel")
+                        .WithMany("conteudos")
+                        .HasForeignKey("UserModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Filtro");
+
+                    b.Navigation("UserModel");
                 });
 
             modelBuilder.Entity("business.business.Endereco", b =>
@@ -942,18 +903,79 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Pagina");
                 });
 
-            modelBuilder.Entity("business.business.savedFolder", b =>
+            modelBuilder.Entity("business.business.PageLiked", b =>
+                {
+                    b.HasOne("business.business.Content", "Content")
+                        .WithMany()
+                        .HasForeignKey("ContentId");
+
+                    b.HasOne("business.Pagina", "Pagina")
+                        .WithMany()
+                        .HasForeignKey("PaginaId");
+
+                    b.Navigation("Content");
+
+                    b.Navigation("Pagina");
+                });
+
+            modelBuilder.Entity("business.business.UserModelFiltro", b =>
                 {
                     b.HasOne("business.Filtro", "Filtro")
-                        .WithMany("savedFolder")
+                        .WithMany("usuarios")
                         .HasForeignKey("FiltroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("business.business.UserModel", "UserModel")
+                        .WithMany("savedFolder")
+                        .HasForeignKey("UserModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Filtro");
+
+                    b.Navigation("UserModel");
                 });
 
-            modelBuilder.Entity("business.business.UsuarioTime", b =>
+            modelBuilder.Entity("business.business.UserModelLivro", b =>
+                {
+                    b.HasOne("business.business.Book.Livro", "Livro")
+                        .WithMany("Users")
+                        .HasForeignKey("LivroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.business.UserModel", "UserModel")
+                        .WithMany("Livro")
+                        .HasForeignKey("UserModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Livro");
+
+                    b.Navigation("UserModel");
+                });
+
+            modelBuilder.Entity("business.business.UserModelPageLiked", b =>
+                {
+                    b.HasOne("business.business.PageLiked", "PageLiked")
+                        .WithMany("usuarios")
+                        .HasForeignKey("PageLikedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.business.UserModel", "UserModel")
+                        .WithMany("PageLiked")
+                        .HasForeignKey("UserModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PageLiked");
+
+                    b.Navigation("UserModel");
+                });
+
+            modelBuilder.Entity("business.business.UserModelTime", b =>
                 {
                     b.HasOne("business.business.Time", "Time")
                         .WithMany("usuarios")
@@ -961,15 +983,15 @@ namespace BlazorServerCms.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("business.business.Usuario", "Usuario")
-                        .WithMany("times")
-                        .HasForeignKey("UsuarioId")
+                    b.HasOne("business.business.UserModel", "UserModel")
+                        .WithMany("Time")
+                        .HasForeignKey("UserModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Time");
 
-                    b.Navigation("Usuario");
+                    b.Navigation("UserModel");
                 });
 
             modelBuilder.Entity("business.Filtro", b =>
@@ -1068,7 +1090,7 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BlazorServerCms.Data.UserModel", null)
+                    b.HasOne("business.business.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1077,7 +1099,7 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BlazorServerCms.Data.UserModel", null)
+                    b.HasOne("business.business.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1092,7 +1114,7 @@ namespace BlazorServerCms.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BlazorServerCms.Data.UserModel", null)
+                    b.HasOne("business.business.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1101,7 +1123,7 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BlazorServerCms.Data.UserModel", null)
+                    b.HasOne("business.business.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1196,6 +1218,11 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("SubGrupo");
                 });
 
+            modelBuilder.Entity("business.business.Book.Livro", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("business.business.Cliente", b =>
                 {
                     b.Navigation("Endereco")
@@ -1205,14 +1232,27 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("business.business.PageLiked", b =>
+                {
+                    b.Navigation("usuarios");
+                });
+
             modelBuilder.Entity("business.business.Time", b =>
                 {
                     b.Navigation("usuarios");
                 });
 
-            modelBuilder.Entity("business.business.Usuario", b =>
+            modelBuilder.Entity("business.business.UserModel", b =>
                 {
-                    b.Navigation("times");
+                    b.Navigation("Livro");
+
+                    b.Navigation("PageLiked");
+
+                    b.Navigation("Time");
+
+                    b.Navigation("conteudos");
+
+                    b.Navigation("savedFolder");
                 });
 
             modelBuilder.Entity("business.Filtro", b =>
@@ -1221,7 +1261,7 @@ namespace BlazorServerCms.Migrations
 
                     b.Navigation("Pagina");
 
-                    b.Navigation("savedFolder");
+                    b.Navigation("usuarios");
                 });
 
             modelBuilder.Entity("business.Group.Story", b =>

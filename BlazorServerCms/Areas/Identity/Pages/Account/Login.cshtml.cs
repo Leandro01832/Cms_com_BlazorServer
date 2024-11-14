@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BlazorServerCms.Data;
+using business.business;
 
 namespace BlazorServerCms.Areas.Identity.Pages.Account
 {

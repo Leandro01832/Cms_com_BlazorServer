@@ -6,13 +6,13 @@
 
 @if(f != null)
 {
-    <a onclick="@(() => { navigation.NavigateTo($"/{c.user}"); })" > @c.user </a>   
+    <a onclick="@(() => { navigation.NavigateTo($"/{c.UserModel.UserName}"); })"> @c.UserModel.UserName </a>
     <br />
     <a onclick="@(() => { acessar(f); })" > @f.Nome </a>
 }
 else if (c != null)
 {
-    <a onclick="@(() => { navigation.NavigateTo($"/{c.user}"); })" > @c.user </a>    
+    <a onclick="@(() => { navigation.NavigateTo($"/{c.UserModel.UserName}"); })"> @c.UserModel.UserName </a>
 }
 @if(c != null)
 {

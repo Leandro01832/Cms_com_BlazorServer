@@ -18,6 +18,8 @@ namespace business.business
 
         public DateTime Data { get { return data; } set { data = value; } }
 
-        public string? user { get; set; }
+        public string UserModelId { get; set; }
+
+        public virtual UserModel UserModel { get; set; }
     }
 }

@@ -20,8 +20,7 @@
     {
         <p>
 
-            Usuario @item.user - <input type="radio" value="@item.UserModel.Permissao" onclick="@(() => alterarPermissao(item.user))" /> Permissão concedida - <a href="@item.UserModel.Dominio">@item.UserModel.Dominio</a>
-                
+            Usuario @item.user - <input type="radio" value="@item.UserModel.Permissao" onclick="@(() => alterarPermissao(item.user))" /> Permissão concedida                 
             
         </p>
     }
@@ -32,7 +31,7 @@
 
     private void alterarUser(ChangeEventArgs args)
     {
-        var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!) && u.Dominio != null).ToList();
+        var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!) && !u.Permissao).ToList();
         foreach (var item in users)
 
             usuarios.Add(new IdentityUserImage { user = item.UserName, UserModel = item });

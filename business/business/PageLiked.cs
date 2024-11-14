@@ -8,19 +8,14 @@ namespace business.business
 {
     public class PageLiked : BaseModel
     {
-        public string user { get; set; }
-        public int capitulo { get; set; }
-        public int indice { get; set; }
-        public int verso { get; set; }
-        public int substory { get; set; }
-        public int? grupo { get; set; }
-        public int? subgrupo { get; set; }
-        public int? subsubgrupo { get; set; }
-        public int? camadaSeis { get; set; }
-        public int? camadaSete { get; set; }
-        public int? camadaOito { get; set; }
-        public int? camadaNove { get; set; }
-        public int? camadaDez { get; set; }
+       
+        public long? PaginaId { get; set; }
+        public virtual Pagina Pagina { get; set; }
+
+        public long? ContentId { get; set; }
+        public virtual Content Content { get; set; }
+
+        public virtual List<UserModelPageLiked> usuarios { get; set; }
 
     }
 }
