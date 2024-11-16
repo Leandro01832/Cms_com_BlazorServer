@@ -1223,13 +1223,13 @@ namespace BlazorCms.Client.Pages
                 }
                 if (string.IsNullOrEmpty(prompted))
                     fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
-                else
-                    fils = story!.Filtro!.Where(f => f.user == prompted).OrderBy(f => f.Id).ToList();
+            else
+            {
+                var usu = Context.Users.FirstOrDefault(u => u.UserName == prompted);
+                fi = story!.Filtro!.FirstOrDefault(f => f.Id == usu.FiltroId);
+            }
 
-                if (fils.Count == 0)
-                    fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
-
-            if(quant != 0)
+            if (quant != 0 && fi == null)
             {
                 fi = fils.Where(f => f.Pagina
                 .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
@@ -1243,7 +1243,7 @@ namespace BlazorCms.Client.Pages
                            .LastOrDefault()!;
                 }
             }
-            else if(quant == 0)
+            else if(quant == 0 && fi == null)
             {
                 // 1º time
                 fi = fils.Where(f => f.Pagina

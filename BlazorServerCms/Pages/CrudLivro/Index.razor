@@ -1,43 +1,63 @@
 ﻿@page "/crud/livro/{pagina:int}"
 @inherits IndexCamdaDezBase
-@attribute [Authorize(Roles = "Admin")]
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<UserModel> userManager
 
 
 
 @if (camadas == null)
 {
-<p><em>Carregando...</em></p>
+    <p><em>Carregando...</em></p>
 }
 else if (camadas.Length == 0)
 {
-<p><em>Não existem livros cadastrados...</em></p>    
+    <p><em>Não existem livros cadastrados...</em></p>
 }
 else
 {
     <div>
         <a class="btn btn-success" href="livro/create">Novo livro</a>
     </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Livros</th>
-            <th>Edita</th>
-            <th>Deleta</th>
-        </tr>
-    </thead>
-    <tbody>
-            @foreach (var livro in camadas)
-        {
-                
-                <tr>
-                <td>@livro.url;</td>
-                <td><a class="btn btn-primary" href="livro/edit/@livro.Id">Editar</a> </td>
-                <td><a class="btn btn-danger" @onclick="(()=> DeletarLivro(livro.Id))">Deletar</a> </td>
-               
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Livros</th>
+                @if (admin)
+                {
+                    <th>Edita</th>
+                    <th>Deleta</th>
+
+                }
+                <th>Estante</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var livro in camadas)
+            {
+
+                <tr>
+                    <td>@livro.url;</td>
+                    @if (admin)
+                    {
+                        <td><a class="btn btn-primary" href="livro/edit/@livro.Id">Editar</a> </td>
+                        <td><a class="btn btn-danger" @onclick="(()=> DeletarLivro(livro.Id))">Deletar</a> </td>
+                    }
+                    @if (verificarLivro(livro))
+                    {
+                        <td><a class="btn btn-danger" @onclick="(()=> Remover(livro.Id))">Remover da estante</a> </td>
+
+                    }
+                    else
+                    {
+                        <td><a class="btn btn-danger" @onclick="(()=> Incluir(livro.Id))">Colocar na estante</a> </td>
+
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
 
 }
 <div>
@@ -52,6 +72,9 @@ else
     [Parameter] public int pagina { get; set; } = 1;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+    private ClaimsPrincipal usuario = null;
+    private UserModel user = null;
+    private bool admin;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -62,6 +85,16 @@ else
     {
         Context = db.CreateDbContext(null);
         await CarregaCamadas(pagina);
+
+        var authState = await AuthenticationStateProvider
+               .GetAuthenticationStateAsync();
+        usuario = authState.User;
+
+        var u = await userManager.GetUserAsync(usuario);
+        user = await Context.Users.Include(u => u.Livro)
+        .FirstAsync(us => us.Id == u.Id);
+
+        admin = await userManager.IsInRoleAsync(user, "Admin");
     }
 
     async Task CarregaCamadas(int pag)
@@ -79,6 +112,33 @@ else
             navigation.NavigateTo($"/crud/livro/{e.Value!.ToString()}");
         else
             navigation.NavigateTo($"/crud/livro/1");
+    }
+
+    private async void Incluir(long Id)
+    {
+        var livro = await Context.Livro!.FirstAsync(l => l.Id == Id);
+        user.IncluiLivro(livro);
+        await Context.SaveChangesAsync();
+    }
+
+    private async void Remover(long Id)
+    {
+        var obj = await Context.UserModelLivro!
+        .FirstAsync(l => l.LivroId == Id && l.UserModelId == user.Id);
+
+        Context.Remove(obj);
+        await Context.SaveChangesAsync();
+        user.Recorde -= 1000;
+        Context.Update(user);
+        await Context.SaveChangesAsync();
+    }
+
+    private bool verificarLivro(Livro livro)
+    {
+        var liv = user.Livro.FirstOrDefault(l => l.LivroId == livro.Id);
+
+        if (liv != null) return true;
+        else return false;
     }
 
 }

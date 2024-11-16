@@ -15,6 +15,9 @@ namespace business.business
 
         public int Recorde { get; set; }
 
+        public long? FiltroId { get; set; }
+        public virtual Filtro Filtro { get; set; }
+
         public virtual List<UserModelLivro> Livro { get; set; }
 
         public virtual List<UserModelTime> Time { get; set; }

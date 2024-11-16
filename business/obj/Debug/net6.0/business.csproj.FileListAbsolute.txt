@@ -23,3 +23,16 @@ C:\Users\User\cms\business\obj\Debug\net6.0\business.dll
 C:\Users\User\cms\business\obj\Debug\net6.0\refint\business.dll
 C:\Users\User\cms\business\obj\Debug\net6.0\business.pdb
 C:\Users\User\cms\business\obj\Debug\net6.0\ref\business.dll
+C:\Users\User\blazor\business\bin\Debug\net6.0\business.deps.json
+C:\Users\User\blazor\business\bin\Debug\net6.0\business.dll
+C:\Users\User\blazor\business\bin\Debug\net6.0\business.pdb
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.csproj.AssemblyReference.cache
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.AssemblyInfoInputs.cache
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.AssemblyInfo.cs
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.csproj.CoreCompileInputs.cache
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.sourcelink.json
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.dll
+C:\Users\User\blazor\business\obj\Debug\net6.0\refint\business.dll
+C:\Users\User\blazor\business\obj\Debug\net6.0\business.pdb
+C:\Users\User\blazor\business\obj\Debug\net6.0\ref\business.dll

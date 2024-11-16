@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "i5cO5icQbpPT5Zm5yLF2Mxw7UGyIQSSS7yq4n1NXEe4=",
+  "Hash": "r7Vg0wI/EwtVCn1EXUWfFq2FBooCxs412eqdvnM6BkQ=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "BlazorServerCms\\wwwroot",
       "Source": "BlazorServerCms",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "Pattern": "**"
     }
@@ -1160,7 +1160,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/fonts/bootstrap-icons.woff",
       "AssetKind": "All",
@@ -1179,7 +1179,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff2",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/fonts/bootstrap-icons.woff2",
       "AssetKind": "All",
@@ -1198,7 +1198,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\styles.css",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/styles.css",
       "AssetKind": "All",
@@ -1217,7 +1217,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "js/JsInteropCommon.js",
       "AssetKind": "All",
@@ -1236,7 +1236,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.min.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "js/JsInteropCommon.min.js",
       "AssetKind": "All",
@@ -1255,7 +1255,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.ts",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "js/JsInteropCommon.ts",
       "AssetKind": "All",
@@ -1274,7 +1274,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "js/JsInteropPopper.js",
       "AssetKind": "All",
@@ -1293,7 +1293,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.min.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "js/JsInteropPopper.min.js",
       "AssetKind": "All",
@@ -1312,7 +1312,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.ts",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "js/JsInteropPopper.ts",
       "AssetKind": "All",
@@ -1331,7 +1331,7 @@
       "Identity": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\vendor.min.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "js/vendor.min.js",
       "AssetKind": "All",
@@ -1594,10 +1594,10 @@
       "OriginalItemSpec": "C:\\Users\\User\\.nuget\\packages\\tinymce.blazor\\1.0.4\\staticwebassets\\tinymce-blazor.js"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css",
       "SourceId": "BlazorServerCms",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "BlazorServerCms.styles.css",
       "AssetKind": "All",
@@ -1610,13 +1610,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\User\\cms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css"
+      "OriginalItemSpec": "C:\\Users\\User\\blazor\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
       "SourceId": "BlazorServerCms",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "BlazorServerCms.bundle.scp.css",
       "AssetKind": "All",
@@ -1629,13 +1629,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\User\\cms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\User\\blazor\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\Arquivotxt\\Capa.html",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\Arquivotxt\\Capa.html",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "Arquivotxt/Capa.html",
       "AssetKind": "All",
@@ -1651,10 +1651,10 @@
       "OriginalItemSpec": "wwwroot\\Arquivotxt\\Capa.html"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\Arquivotxt\\default.html",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\Arquivotxt\\default.html",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "Arquivotxt/default.html",
       "AssetKind": "All",
@@ -1670,10 +1670,10 @@
       "OriginalItemSpec": "wwwroot\\Arquivotxt\\default.html"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -1689,10 +1689,10 @@
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -1708,10 +1708,10 @@
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "AssetKind": "All",
@@ -1727,10 +1727,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.eot",
       "AssetKind": "All",
@@ -1746,10 +1746,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.otf",
       "AssetKind": "All",
@@ -1765,10 +1765,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.svg",
       "AssetKind": "All",
@@ -1784,10 +1784,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.ttf",
       "AssetKind": "All",
@@ -1803,10 +1803,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.woff",
       "AssetKind": "All",
@@ -1822,10 +1822,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/FONT-LICENSE",
       "AssetKind": "All",
@@ -1841,10 +1841,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/ICON-LICENSE",
       "AssetKind": "All",
@@ -1860,10 +1860,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\ICON-LICENSE"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\README.md",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\open-iconic\\README.md",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/open-iconic/README.md",
       "AssetKind": "All",
@@ -1879,10 +1879,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\README.md"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\css\\site.css",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\css\\site.css",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -1898,10 +1898,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\favicon.ico",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\favicon.ico",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -1917,10 +1917,10 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\favicon-32x32.png",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\favicon-32x32.png",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "favicon-32x32.png",
       "AssetKind": "All",
@@ -1936,10 +1936,10 @@
       "OriginalItemSpec": "wwwroot\\favicon-32x32.png"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\folder.webp",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\folder.webp",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "folder.webp",
       "AssetKind": "All",
@@ -1955,10 +1955,10 @@
       "OriginalItemSpec": "wwwroot\\folder.webp"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\ga.js",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\ga.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "ga.js",
       "AssetKind": "All",
@@ -1974,10 +1974,10 @@
       "OriginalItemSpec": "wwwroot\\ga.js"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.1.seres-vivos.jpg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\ImgStory\\cap.1.seres-vivos.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "ImgStory/cap.1.seres-vivos.jpg",
       "AssetKind": "All",
@@ -1993,10 +1993,10 @@
       "OriginalItemSpec": "wwwroot\\ImgStory\\cap.1.seres-vivos.jpg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\ImgStory\\seres-vivos.jpg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\ImgStory\\seres-vivos.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "ImgStory/seres-vivos.jpg",
       "AssetKind": "All",
@@ -2012,10 +2012,10 @@
       "OriginalItemSpec": "wwwroot\\ImgStory\\seres-vivos.jpg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\ImgUser\\padrao.jpg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\ImgUser\\padrao.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "ImgUser/padrao.jpg",
       "AssetKind": "All",
@@ -2031,10 +2031,10 @@
       "OriginalItemSpec": "wwwroot\\ImgUser\\padrao.jpg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "ImgUser/usuario-leandro01832-FB_IMG_16129905677283571.jpg",
       "AssetKind": "All",
@@ -2050,10 +2050,10 @@
       "OriginalItemSpec": "wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "JSFunctions.js",
       "AssetKind": "All",
@@ -2069,10 +2069,10 @@
       "OriginalItemSpec": "wwwroot\\JSFunctions.js"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\livro.jpg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\livro.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "livro.jpg",
       "AssetKind": "All",
@@ -2088,10 +2088,10 @@
       "OriginalItemSpec": "wwwroot\\livro.jpg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\Loading.gif",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\Loading.gif",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "Loading.gif",
       "AssetKind": "All",
@@ -2107,10 +2107,10 @@
       "OriginalItemSpec": "wwwroot\\Loading.gif"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\main.js",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\main.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "main.js",
       "AssetKind": "All",
@@ -2126,10 +2126,10 @@
       "OriginalItemSpec": "wwwroot\\main.js"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\pasta-user.png",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\pasta-user.png",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "pasta-user.png",
       "AssetKind": "All",
@@ -2145,10 +2145,10 @@
       "OriginalItemSpec": "wwwroot\\pasta-user.png"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\story.jpg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\story.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "story.jpg",
       "AssetKind": "All",
@@ -2164,10 +2164,10 @@
       "OriginalItemSpec": "wwwroot\\story.jpg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\svg\\house.svg",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\svg\\house.svg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "svg/house.svg",
       "AssetKind": "All",
@@ -2183,10 +2183,10 @@
       "OriginalItemSpec": "wwwroot\\svg\\house.svg"
     },
     {
-      "Identity": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\Tynymce.js",
+      "Identity": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\Tynymce.js",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\User\\cms\\BlazorServerCms\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\User\\blazor\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
       "RelativePath": "Tynymce.js",
       "AssetKind": "All",
