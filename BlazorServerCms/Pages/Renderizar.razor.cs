@@ -262,6 +262,12 @@ namespace BlazorCms.Client.Pages
             acessar($"/lista-filtro/1/{compartilhante}/{capitulo}/{indice_Filtro}/0");
         }
 
+        protected void listarPastas()
+        {
+
+            acessar($"/listar-pasta/{capitulo}/{dominio}/{compartilhante}");
+        }
+
         protected void acessarHorizontePastas(int? i)
         {
             automatico = false;
@@ -279,18 +285,6 @@ namespace BlazorCms.Client.Pages
             automatico = false;
             outroHorizonte = 0;
             setarCamadas(null);
-            indice = 1;
-            acessar();
-        }
-
-        protected void acessarHorizonteMarcadores(int? i)
-        {
-            automatico = false;
-            setarCamadas(null);
-            outroHorizonte = 3;
-            if(i != null)
-            indice = (int) i;
-            else
             indice = 1;
             acessar();
         }
@@ -1168,13 +1162,8 @@ namespace BlazorCms.Client.Pages
         }
 
         protected async void acessarPreferenciasUsuario(string usu)
-        {
-            usuarios!.Clear();
-            automatico = false;
-            outroHorizonte = 3;
-            compartilhante = usu;
-            indice = 1;        
-            acessar();
+        {     
+            acessar($"/{usu}");
         }
 
         protected void alterarQuery(ChangeEventArgs e)
@@ -1553,15 +1542,6 @@ namespace BlazorCms.Client.Pages
             indice = capitulo;
             capitulo = 0;
             outroHorizonte = 0;
-            setarCamadas(null);
-
-            acessar();
-        }
-
-        protected void acessarPastasUser()
-        {
-            outroHorizonte = 3;
-            indice = 1;
             setarCamadas(null);
 
             acessar();

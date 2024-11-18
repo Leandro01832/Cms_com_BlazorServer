@@ -3,24 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\User\\blazor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\pages\\renderizar.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\migrations\\20241118192951_remover-permissao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\migrations\\20241118192951_remover-permissao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{696A985A-27B1-4125-887C-82622EFE8B64}|business\\business.csproj|c:\\users\\user\\blazor\\business\\business\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{696A985A-27B1-4125-887C-82622EFE8B64}|business\\business.csproj|solutionrelative:business\\business\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\pages\\crudlivro\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\crudlivro\\index.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\pages\\usuario.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\usuario.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{696A985A-27B1-4125-887C-82622EFE8B64}|business\\business.csproj|c:\\users\\user\\blazor\\business\\business\\filtro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696A985A-27B1-4125-887C-82622EFE8B64}|business\\business.csproj|solutionrelative:business\\business\\filtro.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\pages\\pastas.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\pastas.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\pages\\renderizar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\pages\\renderizar.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\user\\blazor\\blazorservercms\\pages\\renderizar3.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar3.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,40 +43,66 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Renderizar.razor.cs",
-              "DocumentMoniker": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Renderizar.razor.cs",
-              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar.razor.cs",
-              "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Renderizar.razor.cs",
-              "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar.razor.cs",
-              "ViewState": "AgIAALAEAAAAAAAAAAA1wMkEAAAQAAAAAAAAAA==",
+              "Title": "20241118192951_remover-permissao.cs",
+              "DocumentMoniker": "C:\\Users\\User\\blazor\\BlazorServerCms\\Migrations\\20241118192951_remover-permissao.cs",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Migrations\\20241118192951_remover-permissao.cs",
+              "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Migrations\\20241118192951_remover-permissao.cs",
+              "RelativeToolTip": "BlazorServerCms\\Migrations\\20241118192951_remover-permissao.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-16T16:01:06.634Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Index.razor",
-              "DocumentMoniker": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\CrudLivro\\Index.razor",
-              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\CrudLivro\\Index.razor",
-              "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\CrudLivro\\Index.razor",
-              "RelativeToolTip": "BlazorServerCms\\Pages\\CrudLivro\\Index.razor",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-16T15:51:21.461Z",
+              "WhenOpened": "2024-11-18T19:29:53.568Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Filtro.cs",
-              "DocumentMoniker": "C:\\Users\\User\\blazor\\business\\business\\Filtro.cs",
-              "RelativeDocumentMoniker": "business\\business\\Filtro.cs",
-              "ToolTip": "C:\\Users\\User\\blazor\\business\\business\\Filtro.cs",
-              "RelativeToolTip": "business\\business\\Filtro.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAApAAAAAAAAAA==",
+              "Title": "Pastas.razor",
+              "DocumentMoniker": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Pastas.razor",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Pastas.razor",
+              "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Pastas.razor",
+              "RelativeToolTip": "BlazorServerCms\\Pages\\Pastas.razor",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAF0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-18T19:07:48.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Usuario.razor",
+              "DocumentMoniker": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Usuario.razor",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Usuario.razor",
+              "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Usuario.razor",
+              "RelativeToolTip": "BlazorServerCms\\Pages\\Usuario.razor",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAADcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-18T13:09:15.52Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Renderizar3.razor.cs",
+              "DocumentMoniker": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Renderizar3.razor.cs",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar3.razor.cs",
+              "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Renderizar3.razor.cs",
+              "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar3.razor.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAkwKMAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-16T15:19:27.819Z",
+              "WhenOpened": "2024-11-17T12:43:09.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Renderizar.razor.cs",
+              "DocumentMoniker": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar.razor.cs",
+              "ViewState": "AgIAALYBAAAAAAAAAAAgwI0EAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-16T16:01:06.634Z",
               "EditorCaption": ""
             },
             {
@@ -79,7 +113,7 @@
               "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar.razor",
               "ToolTip": "C:\\Users\\User\\blazor\\BlazorServerCms\\Pages\\Renderizar.razor",
               "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar.razor",
-              "ViewState": "AgIAAOwAAAAAAAAAAAAAAPgAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAAMkBAAAAAAAAAAAAAM4BAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-14T11:12:31.606Z",
               "EditorCaption": ""
@@ -92,7 +126,7 @@
               "RelativeDocumentMoniker": "business\\business\\UserModel.cs",
               "ToolTip": "C:\\Users\\User\\blazor\\business\\business\\UserModel.cs",
               "RelativeToolTip": "business\\business\\UserModel.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABIAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-13T19:35:09.886Z",
               "EditorCaption": ""

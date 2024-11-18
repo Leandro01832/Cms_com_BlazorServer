@@ -1,127 +1,218 @@
 ﻿@page "/{user}"
-@page "/{user}/{insta:int}"
 @inject UserManager<UserModel> userManager
 @inject RepositoryPagina? repositoryPagina
-@inject IJSRuntime? js 
+@inject IJSRuntime? js
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigation
 @layout LayoutUsuario
 
 
-<AuthorizeView>
-    <Authorized>
-        @if (user == context.User.Identity?.Name)
-        {
-            <p>Hello, @context.User.Identity?.Name!</p>
 
+@if (usuario.Identity!.IsAuthenticated && usuario.Identity.Name == usermodel.UserName)
+{
+    <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto/{user}"))">
+        <div class="circulo">
+            <div class="circulo2">
+                @if (usermodel != null && usermodel.Image != null)
+                {
+                    <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser">
+                }
+                else
+                {
+                    <img src="ImgUser/padrao.jpg" class="ImgUser">
 
-            <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto/{user}"))">
-                <div class="circulo">
-                    <div class="circulo2">
-                        @if (usermodel != null && usermodel.Image != null)
-                        {
-                            <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser">
-                        }
-                        else
-                        {
-                            <img src="ImgUser/padrao.jpg" class="ImgUser">
+                }
+            </div>
+        </div>
+        Alterar foto
+    </a>
 
-                        }
-                    </div>
-                </div>
-                Alterar foto
-            </a>
-            
-        }
-    </Authorized>
-    <NotAuthorized>
-        @if (usermodel != null && usermodel.Permissao)
-        {
-
-            <center>
-                <strong><a href="/acessoestante/@user"> Minha estante</a></strong>
-            </center>
-            <br />
-            <br />
-        }
-        @if(usermodel != null)
-         {
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
-                <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z" />
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
-            </svg>
-            <p>Insta Golds:    @usermodel.Recorde </p>
-         }
-        <br />
-        <br />
-
-    </NotAuthorized>
-</AuthorizeView>
+    <br />
+    <br />
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+        <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z" />
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+        <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12" />
+    </svg>
+    <p>Insta Golds:    @usermodel.Recorde </p>
+    <br />
+    <br />
+}
 
 
 
 
+
+
+@if (usermodel != null )
+{
+
+    <center>
+        <strong><a href="/acessoestante/@user"> Minha estante</a></strong>
+    </center>
+    <br />
+    <br />
+}
 
 <div>
 
 
-<center><strong>Pastas Salvas</strong> </center>
-
-@if(caps != null)
-for(var i = 1; i <= caps.Length; i++)
-{
-    <p>Capitulo @i</p>
-    foreach (var item in filtros.Where(f => f.Story!.PaginaPadraoLink == i).ToList())
+    <center><strong>Pastas Compartilhadas</strong> </center>
+    @foreach (var item in marcadores)
     {
-            var filtrs = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
-                .Where(p => p.StoryId == item.StoryId).First().Story!.Filtro!;
+        var filtrs = story.Filtro;
         var fil = filtrs.First(f => f.Id == item.Id);
         var pasta = filtrs.OrderBy(f => f.Id).ToList().IndexOf(fil) + 1;
-       
+
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
             </svg>
             <span> Pasta @pasta</span>
         </div>
-        
+
     }
     <hr />
-}
+    <hr />
+    <hr />
+
+    @if (usuario.Identity!.IsAuthenticated && usuario.Identity.Name == usermodel.UserName)
+    {
+        <center><strong>Pastas Salvas</strong> </center>
+
+
+        @foreach (var item in usermodel.savedFolder)
+        {
+            var filtrs = story.Filtro;
+            var fil = filtrs.First(f => f.Id == item.FiltroId);
+            var pasta = filtrs.OrderBy(f => f.Id).ToList().IndexOf(fil) + 1;
+
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                </svg>
+                <span> Pasta @pasta</span>
+            </div>
+
+        }
+        <hr />
+    }
+
+
+
 </div>
 
 
 @code {
     [Parameter] public string user { get; set; }
-    [Parameter] public int? insta { get; set; }
-    public int? i;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private List<Filtro> filtros = new List<Filtro>();
     private int pasta;
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
-    int[] caps = null;
+    private List<Filtro> marcadores;
+
+    private Story story = null;
 
     protected override async Task OnParametersSetAsync()
     {
-        var folders = await Context.UserModelFiltro.Include(uf => uf.UserModel)
-        .Where(s => s.UserModel.UserName == user).ToListAsync();
-        foreach(var item in folders)
-            filtros.Add(await Context.Filtro!
-                .Include(f => f.Story)
-                .FirstAsync(f => f.Id == item.FiltroId));
 
-        var stories = await Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
-        caps = new int[stories.Count];
+
     }
 
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        usermodel = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == user);
+        usermodel = await userManager.Users
+        .Include(u => u.Filtro)!
+        .Include(u => u.savedFolder)!
+        .ThenInclude(u => u.Filtro)!
+        .FirstOrDefaultAsync(u => u.UserName == user)!;
+        story = Context.Story!
+        .Include(st => st.Filtro)
+        .First(st => st.Id == usermodel.Filtro.StoryId);
+
+
+        var authState = await AuthenticationStateProvider
+              .GetAuthenticationStateAsync();
+        usuario = authState.User;
+
+        marcadores = new List<Filtro>();
+
+        foreach (var item in story.Filtro.OrderBy(f => f.Id).ToList())
+        {
+            bool condicao = false;
+            Filtro f = null;
+            List<Filtro> list = new List<Filtro>();
+            list.Add(item);
+            f = verificarFiltros(item);
+            list.Add(f);
+            while (f is not SubStory)
+            {
+                f = verificarFiltros(f);
+                list.Add(f);
+                if (usermodel.FiltroId == f.Id)
+                {
+                    condicao = true;
+                    break;
+                }
+            }
+            if (condicao)
+            {
+                foreach (var item2 in list)
+                    if (!marcadores.Contains(item2))
+                        marcadores.Add(item2);
+            }
+
+        }
     }
 
-   
+    private Filtro verificarFiltros(Filtro f)
+    {
+        if (f is CamadaDez)
+        {
+            CamadaDez camada = (CamadaDez)f;
+            return story.Filtro.First(fil => fil.Id == camada.CamadaNoveId);
+        }
+        else if (f is CamadaNove)
+        {
+            CamadaNove camada = (CamadaNove)f;
+            return story.Filtro.First(fil => fil.Id == camada.CamadaOitoId);
+        }
+        else if (f is CamadaOito)
+        {
+            CamadaOito camada = (CamadaOito)f;
+            return story.Filtro.First(fil => fil.Id == camada.CamadaSeteId);
+        }
+        else if (f is CamadaSete)
+        {
+            CamadaSete camada = (CamadaSete)f;
+            return story.Filtro.First(fil => fil.Id == camada.CamadaSeisId);
+        }
+        else if (f is CamadaSeis)
+        {
+            CamadaSeis camada = (CamadaSeis)f;
+            return story.Filtro.First(fil => fil.Id == camada.SubSubGrupoId);
+        }
+        else if (f is SubSubGrupo)
+        {
+            SubSubGrupo camada = (SubSubGrupo)f;
+            return story.Filtro.First(fil => fil.Id == camada.SubGrupoId);
+        }
+        else if (f is SubGrupo)
+        {
+            SubGrupo camada = (SubGrupo)f;
+            return story.Filtro.First(fil => fil.Id == camada.GrupoId);
+        }
+        else if (f is Grupo)
+        {
+            Grupo camada = (Grupo)f;
+            return story.Filtro.First(fil => fil.Id == camada.SubStoryId);
+        }
+        else
+        {
+            return f;
+        }
+    }
 
 }

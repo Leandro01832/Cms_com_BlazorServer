@@ -59,8 +59,6 @@ namespace BlazorCms.Client.Pages
         protected Pagina? pag;
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
-        protected Filtro? Model4; // Para user
-        protected List<Filtro> marcadores;
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;       

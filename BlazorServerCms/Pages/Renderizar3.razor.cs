@@ -73,6 +73,8 @@ namespace BlazorCms.Client.Pages
             {
                 var str = await Context.Story!
                     .Include(p => p.Filtro)!
+                   .ThenInclude(p => p.UserModel)!
+                    .Include(p => p.Filtro)!
                    .ThenInclude(p => p.Pagina)!
                    .ThenInclude(p => p.Pagina)
                     .OrderBy(st => st.Id).ToListAsync();
@@ -159,19 +161,7 @@ namespace BlazorCms.Client.Pages
                     indiceAcesso = story.Filtro.IndexOf(Model2) + 1;
                 }
             }
-            else if (outroHorizonte == 2)
-            {
-
-            }
-            else if (outroHorizonte == 3)
-            {
-                marcadores = story.Filtro.Where(p => p.user == compartilhante ).OrderBy(p => p.Id).ToList();
-                        Model4 = marcadores.Skip((int)indice - 1).FirstOrDefault();
-                        quantidadeLista = marcadores.Count;
-
-                indiceAcesso = story.Filtro.IndexOf(Model4) + 1;
-
-            }
+           
 
            
                
@@ -923,59 +913,80 @@ namespace BlazorCms.Client.Pages
                                 c.Data.Date > DateTime.Now.AddDays(-7).Date)
                                 .ToList();
 
-                        if(fils.Count == 1 && i != 0)
+                        if (fils.Count == 1 && i != 0)
                         {
-                            if (users >= 100000 && users < 200000)      multiplicador += 10;
-                            else if (users >= 200000 && users < 300000) multiplicador += 20;
-                            else if (users >= 300000 && users < 400000) multiplicador += 30;
-                            else if (users >= 400000 && users < 500000) multiplicador += 40;
-                            else if (users >= 500000 && users < 600000) multiplicador += 50;
-                            else if (users >= 600000 && users < 700000) multiplicador += 60;
-                            else if (users >= 700000 && users < 800000) multiplicador += 70;
-                            else if (users >= 800000 && users < 900000) multiplicador += 80;
-                            else if (users >= 900000) multiplicador += 90;
+                            var condicao = story.Filtro
+                             .FirstOrDefault(f => f.user == usuarios[i].UserName);
 
-
-                            var contentFiltro = conteudos.Where(c => c.FiltroId != null).ToList();
-                            var userTime = Context.UserModelTime
-                                .Include(ut => ut.UserModel)
-                                .Include(ut => ut.Time)
-                                .Where(ut => ut.UserModel.UserName == usuarios[i].UserName).ToList();
-
-                            multiplicador += conteudos.Count;
-
-                            if (contentFiltro.Count > conteudos.Count / 2)
-                                multiplicador += 10;
-
-                            if (userTime.Count > 0)
+                            if (condicao != null)
                             {
-                                multiplicador += 10;
-                                multiplicador += 10 * userTime.Sum(ut => ut.Time.vendas);
+                                var UserModels = condicao.UserModel;
+                                if (users >= 100000 && users < 200000) multiplicador += 1;
+                                else if (users >= 200000 && users < 300000) multiplicador += 2;
+                                else if (users >= 300000 && users < 400000) multiplicador += 3;
+                                else if (users >= 400000 && users < 500000) multiplicador += 4;
+                                else if (users >= 500000 && users < 600000) multiplicador += 5;
+                                else if (users >= 600000 && users < 700000) multiplicador += 6;
+                                else if (users >= 700000 && users < 800000) multiplicador += 7;
+                                else if (users >= 800000 && users < 900000) multiplicador += 8;
+                                else if (users >= 900000) multiplicador += 9;
 
-                                int soma = 0;
-                                List<UserModel> l = new List<UserModel>();
 
-                                foreach (var t in userTime)
-                                    l.Add(Context.Users
-                                    .First(u => u.UserName == t.UserModel.UserName));
+                                var contentFiltro = conteudos.Where(c => c.FiltroId != null).ToList();
+                                var userTime = Context.UserModelTime
+                                    .Include(ut => ut.UserModel)
+                                    .Include(ut => ut.Time)
+                                    .Where(ut => ut.UserModel.UserName == usuarios[i].UserName).ToList();
 
-                                soma += l.Sum(ut => ut.Recorde);
+                                multiplicador += conteudos.Count;
 
-                                if (soma > repositoryPagina.metaTime)
+                                if (contentFiltro.Count > conteudos.Count / 2)
                                     multiplicador += 10;
 
-                            }
+                                if (userTime.Count > 0)
+                                {
+                                    multiplicador += 10;
+                                    multiplicador += 10 * userTime.Sum(ut => ut.Time.vendas);
 
+                                    int soma = 0;
+                                    List<UserModel> l = new List<UserModel>();
+
+                                    foreach (var t in userTime)
+                                        l.Add(Context.Users
+                                        .First(u => u.UserName == t.UserModel.UserName));
+
+                                    soma += l.Sum(ut => ut.Recorde);
+
+                                    if (soma > repositoryPagina.metaTime)
+                                        multiplicador += 10;
+
+                                }
+
+                                var pontosGanhos = multiplicador * (pts - i);
+                                foreach(var UserModel in UserModels)
+                                {
+                                    if(usuarios[0] is not null &&  UserModel.Id == usuarios[0].Id)
+                                    UserModel.PontosPorDia += 1000;
+                                    UserModel.PontosPorDia += pontosGanhos;
+                                    Context.Update(usuarios[i]);
+                                    Context.SaveChanges();
+                                }
+                               
+                            }
+                        }
+                        else
+                        if (i == 0) 
+                        {
+                            multiplicador += conteudos.Count;
+                            var pontosGanhos = multiplicador * (pts - i);
+
+
+                            usuarios[i].PontosPorDia += pontosGanhos;
+                            Context.Update(usuarios[i]);
+                            Context.SaveChanges();
                         }
 
-                        if (i == 0) multiplicador += conteudos.Count;
-
-                        var pontosGanhos = multiplicador * (pts - i);
-
-
-                        usuarios[i].PontosPorDia += pontosGanhos;
-                        Context.Update(usuarios[i]);
-                        Context.SaveChanges();
+                       
                     }
 
                 }

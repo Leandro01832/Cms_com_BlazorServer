@@ -8,7 +8,6 @@ namespace business.business
        
         public string? Image { get; set; }
 
-        public bool Permissao { get; set; } = false;
         public int PontosPorDia { get; set; }
 
         public DateTime DataPontuacao { get; set; }
