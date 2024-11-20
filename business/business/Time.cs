@@ -8,6 +8,7 @@ namespace business.business
 {
     public class Time : BaseModel
     {
+       
         public string? nome { get; set; }
 
         // Clicou no botão comprar

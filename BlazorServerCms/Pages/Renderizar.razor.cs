@@ -1198,11 +1198,11 @@ namespace BlazorCms.Client.Pages
         protected async void redirecionarMarcar()
         {
             automatico = false;
+            int camada = repositoryPagina.buscarCamada();
             string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario (Opcional).");
             List<Filtro> fils = null;
             Filtro fi = null;
 
-            var quant = story!.Filtro!.Where(f => f.user == null).ToList().Count;
                 if (substory == null)
                     opcional = indice.ToString();
                 else
@@ -1215,31 +1215,40 @@ namespace BlazorCms.Client.Pages
             else
             {
                 var usu = Context.Users.FirstOrDefault(u => u.UserName == prompted);
-                fi = story!.Filtro!.FirstOrDefault(f => f.Id == usu.FiltroId);
+                fils = repositoryPagina.retornarMarcadores(usu, story!).OrderBy(f => f.Id).ToList();
             }
 
-            if (quant != 0 && fi == null)
-            {
-                fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
-                        .LastOrDefault()!;
-
-                if (fi == null)
-                {
-                    fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
-                    fi = fils.Where(f => f.Pagina
-                    .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null)
-                           .LastOrDefault()!;
-                }
-            }
-            else if(quant == 0 && fi == null)
-            {
-                // 1º time
+            // 1º time
+            if (camada == 7)
+            {                   
                 fi = fils.Where(f => f.Pagina
                 .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
                 f is CamadaSete).LastOrDefault()!;
-                if(fi == null)
+                if (fi == null)
                     fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is CamadaSeis).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubSubGrupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubGrupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is Grupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubStory).LastOrDefault()!;                
+            }
+           
+            else if (camada == 6)
+            {
+                 fi = fils.Where(f => f.Pagina
                 .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
                 f is CamadaSeis).LastOrDefault()!;
                 if (fi == null)
@@ -1259,12 +1268,57 @@ namespace BlazorCms.Client.Pages
                 .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
+           
+            else if (camada == 5)
+            {
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubSubGrupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubGrupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is Grupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubStory).LastOrDefault()!;
+            }
+
+            else if (camada == 4)
+            {
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubGrupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is Grupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubStory).LastOrDefault()!;
+            }
+
+            else if (camada == 3)
+            {
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is Grupo).LastOrDefault()!;
+                if (fi == null)
+                    fi = fils.Where(f => f.Pagina
+                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                f is SubStory).LastOrDefault()!;
+            }
 
 
 
             if (fi == null)
             {
-                if(quant == 0 && !string.IsNullOrEmpty(prompted))
+                if(fi is null && !string.IsNullOrEmpty(prompted))
                 await js!.InvokeAsync<object>("DarAlert",
                     $"A pasta do usuario {prompted} não pussui este verso!!!");
                   else

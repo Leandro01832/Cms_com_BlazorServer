@@ -137,82 +137,10 @@
               .GetAuthenticationStateAsync();
         usuario = authState.User;
 
-        marcadores = new List<Filtro>();
+        marcadores = repositoryPagina.retornarMarcadores(usermodel, story);
 
-        foreach (var item in story.Filtro.OrderBy(f => f.Id).ToList())
-        {
-            bool condicao = false;
-            Filtro f = null;
-            List<Filtro> list = new List<Filtro>();
-            list.Add(item);
-            f = verificarFiltros(item);
-            list.Add(f);
-            while (f is not SubStory)
-            {
-                f = verificarFiltros(f);
-                list.Add(f);
-                if (usermodel.FiltroId == f.Id)
-                {
-                    condicao = true;
-                    break;
-                }
-            }
-            if (condicao)
-            {
-                foreach (var item2 in list)
-                    if (!marcadores.Contains(item2))
-                        marcadores.Add(item2);
-            }
-
-        }
     }
 
-    private Filtro verificarFiltros(Filtro f)
-    {
-        if (f is CamadaDez)
-        {
-            CamadaDez camada = (CamadaDez)f;
-            return story.Filtro.First(fil => fil.Id == camada.CamadaNoveId);
-        }
-        else if (f is CamadaNove)
-        {
-            CamadaNove camada = (CamadaNove)f;
-            return story.Filtro.First(fil => fil.Id == camada.CamadaOitoId);
-        }
-        else if (f is CamadaOito)
-        {
-            CamadaOito camada = (CamadaOito)f;
-            return story.Filtro.First(fil => fil.Id == camada.CamadaSeteId);
-        }
-        else if (f is CamadaSete)
-        {
-            CamadaSete camada = (CamadaSete)f;
-            return story.Filtro.First(fil => fil.Id == camada.CamadaSeisId);
-        }
-        else if (f is CamadaSeis)
-        {
-            CamadaSeis camada = (CamadaSeis)f;
-            return story.Filtro.First(fil => fil.Id == camada.SubSubGrupoId);
-        }
-        else if (f is SubSubGrupo)
-        {
-            SubSubGrupo camada = (SubSubGrupo)f;
-            return story.Filtro.First(fil => fil.Id == camada.SubGrupoId);
-        }
-        else if (f is SubGrupo)
-        {
-            SubGrupo camada = (SubGrupo)f;
-            return story.Filtro.First(fil => fil.Id == camada.GrupoId);
-        }
-        else if (f is Grupo)
-        {
-            Grupo camada = (Grupo)f;
-            return story.Filtro.First(fil => fil.Id == camada.SubStoryId);
-        }
-        else
-        {
-            return f;
-        }
-    }
+    
 
 }

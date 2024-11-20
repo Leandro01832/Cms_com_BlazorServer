@@ -74,12 +74,54 @@ namespace BlazorServerCms.servicos
         public  string textDefault {  get  { return System.IO.File.ReadAllText(path + Configuration.GetConnectionString("path")); } }
         //140 linhas
 
-        
+        public List<Filtro> retornarMarcadores(UserModel user, Story story)
+        {
+            List<Filtro> marcadores = new List<Filtro>();
+            foreach (var item in story.Filtro.OrderBy(f => f.Id).ToList())
+            {
+                if(user != null && user.FiltroId != null)
+                {
+                    bool condicao = false;
+                    Filtro f = null;
+                    List<Filtro> list = new List<Filtro>();
+                    list.Add(item);
+                    f = verificarFiltros(item, story);
+                    list.Add(f);
+                    while (f is not SubStory)
+                    {
+                        f = verificarFiltros(f, story);
+                        list.Add(f);
+                        if (user.FiltroId == f.Id)
+                        {
+                            condicao = true;
+                            break;
+                        }
+                    }
+                    if (condicao)
+                    {
+                        foreach (var item2 in list)
+                            if (!marcadores.Contains(item2))
+                                marcadores.Add(item2);
+                    }
+
+                }
+
+            }
+
+            return marcadores;
+        }
 
         public string buscarDominio()
         {
             var dominio = Configuration.GetConnectionString("dominio");
             return dominio;
+        } 
+        
+        public int buscarCamada()
+        {
+            var camada = Configuration.GetConnectionString("camada");
+            int cam = int.Parse(camada);
+            return cam;
         }
 
         public string buscarEcommerce()
@@ -123,8 +165,54 @@ namespace BlazorServerCms.servicos
             return Contexto.Pagina!
              .Include(p => p.Story)!;
         }
-        
-        
+
+        private Filtro verificarFiltros(Filtro f, Story story)
+        {
+            if (f is CamadaDez)
+            {
+                CamadaDez camada = (CamadaDez)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaNoveId);
+            }
+            else if (f is CamadaNove)
+            {
+                CamadaNove camada = (CamadaNove)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaOitoId);
+            }
+            else if (f is CamadaOito)
+            {
+                CamadaOito camada = (CamadaOito)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaSeteId);
+            }
+            else if (f is CamadaSete)
+            {
+                CamadaSete camada = (CamadaSete)f;
+                return story.Filtro.First(fil => fil.Id == camada.CamadaSeisId);
+            }
+            else if (f is CamadaSeis)
+            {
+                CamadaSeis camada = (CamadaSeis)f;
+                return story.Filtro.First(fil => fil.Id == camada.SubSubGrupoId);
+            }
+            else if (f is SubSubGrupo)
+            {
+                SubSubGrupo camada = (SubSubGrupo)f;
+                return story.Filtro.First(fil => fil.Id == camada.SubGrupoId);
+            }
+            else if (f is SubGrupo)
+            {
+                SubGrupo camada = (SubGrupo)f;
+                return story.Filtro.First(fil => fil.Id == camada.GrupoId);
+            }
+            else if (f is Grupo)
+            {
+                Grupo camada = (Grupo)f;
+                return story.Filtro.First(fil => fil.Id == camada.SubStoryId);
+            }
+            else
+            {
+                return f;
+            }
+        }
 
     }
 

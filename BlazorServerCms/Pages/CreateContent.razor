@@ -5,51 +5,49 @@
 @inject RepositoryPagina repositoryPagina
 @attribute [Authorize]
 
-<h3>Criar conteudo</h3>
-        @if(lista != null )
+<h3>Criar conteudo</h3>     
+
+    <Editor Id="contentextarea"
+            Inline=false
+            CloudChannel="5"
+            Disable=false
+            JsConfSrc="sample"
+            ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
+            ClassName="tinymce-wrapper" @bind-Value="exampleModel.Html" />
+
+    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        @if (lista != null)
         {
+            <label>
+                Classifique o conteudo
+            </label>
+            <select @bind="@FiltroId">
 
-                <Editor Id="contentextarea"
-                        Inline=false
-                        CloudChannel="5"
-                        Disable=false
-                        JsConfSrc="sample"
-                        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
-                        ClassName="tinymce-wrapper" @bind-Value="exampleModel.Html" />
+                <option value="0"> (Opcional) </option>
+                @foreach (var item in lista)
+                {
+                    <option value="@item.Id"> @item.Nome </option>
 
-                <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-
-                    <label>
-                        Classifique o conteudo
-                    </label>
-                    <select @bind="@FiltroId">
-
-                                <option value="0"> (Opcional) </option>
-                            @foreach(var item in lista)
-                            {
-                                <option value="@item.Id"> @item.Nome </option>
-
-                            }
-                    </select>
-                    <br />
-
-
-                    <button type="submit">Adicionar</button>
-                </EditForm>
+                }
+            </select>
+            <br />
 
         }
 
-
+        <button type="submit">Adicionar</button>
+    </EditForm>
 
 @code {
     private Content? exampleModel = new Content();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private List<Filtro> lista;
+    private List<Filtro> lista = null;
     private long FiltroId;
     private ClaimsPrincipal user = null;
+    private Story story = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -57,26 +55,36 @@
         var authState = await AuthenticationStateProvider
            .GetAuthenticationStateAsync();
         user = authState.User;
-        lista = await Context.Filtro.Where(h => h.user == user.Identity!.Name).ToListAsync();
 
+        var usermodel = await Context.Users
+                .Include(u => u.Filtro)!
+                .Include(u => u.savedFolder)!
+                .ThenInclude(u => u.Filtro)!
+                .FirstOrDefaultAsync(u => u.UserName == user.Identity.Name)!;
 
+        if (usermodel.FiltroId != null)
+        {
+            var f = Context.Filtro.First(f => f.Id == usermodel.FiltroId);
+            story = Context.Story!.Include(str => str.Filtro).First(str => str.Id == f.StoryId);
+            lista = repositoryPagina.retornarMarcadores(usermodel, story);
+        }
     }
 
     private async void HandleSubmit()
     {
-        if(FiltroId != 0)
+        if (FiltroId != 0)
             exampleModel.FiltroId = FiltroId;
         else
             exampleModel.FiltroId = null;
 
-            var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
+        var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
         exampleModel.UserModelId = u.Id;
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 
         repositoryPagina.conteudos.Add(exampleModel);
         await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
-        navigation.NavigateTo("/");            
-       
+        navigation.NavigateTo("/");
+
     }
 }
