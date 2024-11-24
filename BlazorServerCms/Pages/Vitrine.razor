@@ -67,7 +67,7 @@
 
 @code {
     List<Filtro> filtrosPorCap = new List<Filtro>();
-    List<Pagina> Model = new List<Pagina>();
+    List<Content> Model = new List<Content>();
     [Parameter] public int indiceFiltro { get; set; }
     [Parameter] public int capitulo { get; set; }
     [Parameter] public int auto { get; set; }
@@ -91,7 +91,7 @@
         .Include(p => p.Story)
         .ThenInclude(p => p.Filtro)!
         .ThenInclude(p => p.Pagina)!
-        .ThenInclude(p => p.Pagina)
+        .ThenInclude(p => p.Content)
         .Where(p => p.Story!.PaginaPadraoLink == capitulo)
                    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
 
@@ -117,9 +117,9 @@
 
     private async void VerificarFiltro(Filtro fil)
     {
-        Model = fil.Pagina!.Select(f => f.Pagina).ToList()!;
+        Model = fil.Pagina!.Select(f => f.Content).ToList()!;
 
-        List<Pagina> lista = new List<Pagina>();
+        List<Content> lista = new List<Content>();
         foreach(var item in Model)
         {
             var p = Context.Pagina!.Include(p => p.Produto).First(p => p.Id == item.Id);
@@ -127,7 +127,6 @@
         }
 
         Model = lista.Where(p => p.Produto != null).OrderBy(p => p.Id).ToList();
-
     }
 
 

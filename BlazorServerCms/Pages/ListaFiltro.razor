@@ -177,12 +177,12 @@
                 {
                     var paginaItem = Context.Pagina!.Include(p => p.Produto).ThenInclude(p => p.Imagem).First(p => p.Id == item.Id);
                     var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
-                    var markup = new MarkupString(item.Content);
+                    var markup = new MarkupString(item.Html);
                     var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
 
                     <div class="divs">
 
-                        @if (item.Content.Contains("ContentIframe"))
+                        @if (item.Html.Contains("ContentIframe"))
                         {
                             <div class="content">
                                 @markup
@@ -221,7 +221,7 @@
             {
                 @foreach (var item in Model)
                 {
-                    var markup = new MarkupString(item.Content);
+                    var markup = new MarkupString(item.Html);
 
                     <div class="divs">
 
@@ -284,7 +284,7 @@
         else
         {
             var m = Context.Filtro.Include(h => h.Pagina).First(h => h.Id == Id);
-            Model.AddRange(m.Pagina.Select(p => p.Pagina).ToList()!);
+            Model.AddRange(m.Pagina.Select(p =>(Pagina) p.Content).ToList()!);
         }
         try
         {
@@ -302,7 +302,7 @@
         Context = db.CreateDbContext(null);
         filtros = await Context.Filtro!
         .Include(f => f.Pagina)!
-        .ThenInclude(f => f.Pagina)
+        .ThenInclude(f => f.Content)
         .ThenInclude(f => f.Produto)
         .Include(f => f.Story)
          .Where(f => f.Story.PaginaPadraoLink == Capitulo)
@@ -326,7 +326,7 @@
 
     private void VerificarFiltro(Filtro fil)
     {
-        Model = fil.Pagina!.Select(f => f.Pagina).ToList()!;
+        Model = fil.Pagina!.Select(f => (Pagina) f.Content).ToList()!;
     }
 
     private async Task<List<Pagina>> RetornarLista(int numeroPagina, string ordem, int tamanhoPagina)
@@ -366,18 +366,18 @@
 
         foreach (var item in Model)
         {
-            if (item.Content != null && item.Content.Contains("iframe"))
+            if (item.Html != null && item.Html.Contains("iframe"))
             {
                 var id = buscarId(item);
                 var url = await GetYouTubeVideo(id);
-                item.Content = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
+                item.Html = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
 
             }
-            else if (item.Content != null && item.Content.Contains("iframe"))
+            else if (item.Html != null && item.Html.Contains("iframe"))
             {
                 var id = buscarId(item);
                 var url = await GetYouTubeVideo(id);
-                item.Content = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
+                item.Html = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
 
             }
         }
@@ -429,12 +429,12 @@
     private string buscarId(Pagina p)
     {
         var id_video = "";
-        if (p != null && p.Content != null && p.Content.Contains("iframe") ||
-                        p != null && p.Content != null && p.Content.Contains("iframe"))
+        if (p != null && p.Html != null && p.Html.Contains("iframe") ||
+                        p != null && p.Html != null && p.Html.Contains("iframe"))
         {
             var conteudoHtml = "";
-            if (p.Content != null) conteudoHtml = p.Content;
-            else conteudoHtml = p.Content;
+            if (p.Html != null) conteudoHtml = p.Html;
+            else conteudoHtml = p.Html;
             var arr = conteudoHtml!.Split("/");
             for (var index = 0; index < arr.Length; index++)
             {
@@ -576,7 +576,7 @@
 
         foreach (var item in marcacao.Marcados)
         {
-            var mp = new FiltroPagina { PaginaId = item.Id, FiltroId = obj.Id };
+            var mp = new FiltroContent { ContentId = item.Id, FiltroId = obj.Id };
             Context.Add(mp);
             Context.SaveChanges();
         }

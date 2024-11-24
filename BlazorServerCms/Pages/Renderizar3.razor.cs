@@ -76,7 +76,7 @@ namespace BlazorCms.Client.Pages
                    .ThenInclude(p => p.UserModel)!
                     .Include(p => p.Filtro)!
                    .ThenInclude(p => p.Pagina)!
-                   .ThenInclude(p => p.Pagina)
+                   .ThenInclude(p => p.Content)
                     .OrderBy(st => st.Id).ToListAsync();
                 repositoryPagina.stories.AddRange(str);
 
@@ -86,8 +86,7 @@ namespace BlazorCms.Client.Pages
             {
                 var str = await Context.Content!
                     .Include(p => p.Filtro)!
-                   .ThenInclude(p => p.Pagina)!
-                   .ThenInclude(p => p.Pagina)
+                   .ThenInclude(p => p.Content)!
                     .OrderBy(st => st.Id).ToListAsync();
             }
 
@@ -136,7 +135,7 @@ namespace BlazorCms.Client.Pages
             ultimaPasta = false;
             var quantidadeFiltros = 0;
             var quantidadePaginas = 0;
-            List<Pagina> listaFiltradaComConteudo = null;
+            List<Content> listaFiltradaComConteudo = null;
 
             Model = repositoryPagina!.paginas
                     .FirstOrDefault(p => p.Versiculo == indice && p.Story!.PaginaPadraoLink == capitulo);
@@ -250,24 +249,24 @@ namespace BlazorCms.Client.Pages
 
 
 
-            if ( Model.Content.Contains("iframe"))
+            if ( Model.Html.Contains("iframe"))
             {
                 var conteudoHtml = "";
 
                 if(Content)
-                 conteudoHtml = pag.Content;
+                 conteudoHtml = pag.Html;
                 else
-                conteudoHtml = Model.Content;
+                conteudoHtml = Model.Html;
 
                 if (!conteudoHtml.Contains("?autoplay="))
                     conteudoHtml =  colocarAutoPlay(conteudoHtml);
 
                 if (Content)
-                    pag.Content = conteudoHtml;
+                    pag.Html = conteudoHtml;
                 else
-                    Model.Content = conteudoHtml;
+                    Model.Html = conteudoHtml;
             }
-            if (!Content && Model.Content != null)
+            if (!Content && Model.Html != null)
             {
                 try
                 {
@@ -392,9 +391,9 @@ namespace BlazorCms.Client.Pages
             return arr;
         }
 
-        private List<Pagina> retornarListaFiltrada(string rota)
+        private List<Content> retornarListaFiltrada(string rota)
         {
-            List<Pagina> listaFiltradaComConteudo = null;
+            List<Content> listaFiltradaComConteudo = null;
 
             if (outroHorizonte == 0 && substory != null && rota == null)
             {
@@ -418,7 +417,7 @@ namespace BlazorCms.Client.Pages
                     }
                     else
                     {
-                        listaFiltradaComConteudo = filtropa.Pagina!.Select(p => p.Pagina).ToList()!;
+                        listaFiltradaComConteudo = filtropa.Pagina!.Select(p => p.Content).ToList()!;
                     }
                 
 
@@ -435,7 +434,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -454,7 +453,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -473,7 +472,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -492,7 +491,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -511,7 +510,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -530,7 +529,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -549,7 +548,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -568,7 +567,7 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Pagina).ToList()!;
+                            listaFiltradaComConteudo = filtropag.Pagina!.Select(p => p.Content).ToList()!;
                         }
                     
 
@@ -714,33 +713,37 @@ namespace BlazorCms.Client.Pages
                 pag = repositoryPagina.paginas!.Where(p => p.Story.PaginaPadraoLink == capitulo)
                     .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
                 
-
-                vers = pag.Versiculo;
+                if(pag is Pagina)
+                {
+                    var p = (Pagina)pag;
+                vers = p.Versiculo;
                 Model = repositoryPagina.includes()
                 .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
 
+                }
+
                 ultimaPasta = Model2.Id == story.Filtro
                     .Where(f => f.Pagina
-                    .FirstOrDefault(p => p.Pagina!.Versiculo == Model.Versiculo) != null)
+                    .FirstOrDefault(p => p.Content!.Id == Model.Id) != null)
                         .LastOrDefault()!.Id;
 
                 quantidadeLista = listaFiltradaComConteudo!.Count;
             }
             else if (outroHorizonte == 0 && substory != null && rota != null)
             {
-                listaFiltradaComConteudo = new List<Pagina>();
+                listaFiltradaComConteudo = new List<Content>();
                 foreach (var item in story.Filtro)
                 foreach(var item2 in item.Pagina)
                 {
-                        var rotas = item2.Pagina.Rotas.Split(",");
+                        var rotas = item2.Content.Rotas.Split(",");
                         foreach (var rot in rotas)
                             if (rot.ToLower().TrimEnd().TrimStart() == rota.ToLower().TrimEnd().TrimStart())                             
-                             if (!listaFiltradaComConteudo.Contains(item2.Pagina))                        
-                            listaFiltradaComConteudo.Add(item2.Pagina);
+                             if (!listaFiltradaComConteudo.Contains(item2.Content))                        
+                            listaFiltradaComConteudo.Add(item2.Content);
                         
                 }
 
-                Pagina pag2 = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+                Content pag2 = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 var str = repositoryPagina.stories.First(st => st.Id == pag2.StoryId);
                 cap = repositoryPagina.stories.IndexOf(str);
@@ -749,9 +752,14 @@ namespace BlazorCms.Client.Pages
                 {
                     navigation.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}");
                 }
-                vers = pag2.Versiculo;
+
+                if(pag2 is Pagina)
+                {
+                    var p = (Pagina)pag2;
+                vers = p.Versiculo;
                 Model = repositoryPagina.includes()
                    .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
+                }
 
                 quantidadeLista = listaFiltradaComConteudo!.Count;
             }
@@ -880,11 +888,10 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private List<Pagina> listarConteudos(Filtro f)
+        private List<Content> listarConteudos(Filtro f)
         {
-            List<Pagina> conteudos = new List<Pagina>();
-            foreach (var p in repositoryPagina.conteudos.Where(p => p.FiltroId == f.Id).ToList()!)
-                conteudos.Add(new Pagina { Content = p.Html, Id = p.Id });
+            List<Content> conteudos = new List<Content>();
+
             return conteudos;
         }
                 
@@ -1026,7 +1033,7 @@ namespace BlazorCms.Client.Pages
                                 else if (UserModels.Count >= 900) multiplicador += 9;
 
 
-                                var contentFiltro = conteudos.Where(c => c.FiltroId != null).ToList();
+                                var contentFiltro = conteudos.ToList();
                                 var userTime = Context.UserModelTime
                                     .Include(ut => ut.UserModel)
                                     .Include(ut => ut.Time)

@@ -106,7 +106,7 @@
         Context = db.CreateDbContext(null);
         var str = await Context.Story!.Include(s => s.Filtro)!
         .ThenInclude(s => s.Pagina)!
-        .ThenInclude(s => s.Pagina).FirstAsync(s => s.PaginaPadraoLink == capitulo);
+        .ThenInclude(s => s.Content).FirstAsync(s => s.PaginaPadraoLink == capitulo);
 
         if (str.Filtro == null || str.Filtro.Count == 0)
             navigation.NavigateTo("/");
@@ -116,7 +116,7 @@
 
     private bool NewVers(Filtro fil)
     { 
-        if (fil.Pagina.FirstOrDefault(p => p.Pagina.Data > DateTime.Now.AddDays(-3)) != null)
+        if (fil.Pagina.FirstOrDefault(p => p.Content.Data > DateTime.Now.AddDays(-3)) != null)
         return true;
         else return false;
     }

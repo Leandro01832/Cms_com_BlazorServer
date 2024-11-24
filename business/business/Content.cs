@@ -1,25 +1,140 @@
-﻿using business.Group;
+﻿using business.business.Contrato;
+using business.Group;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace business.business
 {
-    public class Content : BaseModel
+    public class Content : BaseModel, IMudancaEstado
     {
-        private DateTime data = DateTime.Now;
+        public Content()
+        {
+            mudanca = new MudancaEstado();
+        }
 
-        public long? FiltroId { get; set; }
+        public MudancaEstado mudanca;
+        private string html;
+        public DateTime Data { get; set; } = DateTime.Now;
 
-        public virtual  Filtro Filtro { get; set; }
-        public string Html { get; set; }
+        [Required(ErrorMessage = "O titulo é necessário")]
+        [Display(Name = "Titulo da pagina")]
+        public string? Titulo { get; set; }
 
-        public DateTime Data { get { return data; } set { data = value; } }
+        [Display(Name = "Story")]
+        public Int64 StoryId { get; set; }
+        public virtual Story? Story { get; set; }
 
-        public string UserModelId { get; set; }
+        public virtual List<FiltroContent>? Filtro { get; set; }
 
-        public virtual UserModel UserModel { get; set; }
+        public string? Rotas { get; set; }
+
+        public long? Comentario { get; set; }
+
+        public virtual Produto? Produto { get; set; }
+
+
+        public string? Html
+        {
+            get { return html; }
+            set
+            {
+                html = value;
+                if (value != null)
+                    Data = DateTime.Now;
+            }
+        }
+
+        public void IncluiFiltro(Filtro fil)
+        {
+            if (this.Filtro == null) this.Filtro = new List<FiltroContent>();
+
+            if (this.Filtro.FirstOrDefault(f => f.FiltroId == fil.Id) == null)
+            {
+                if (fil is SubStory)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubStory).ToList().Count + 1
+                    });
+
+                if (fil is Grupo)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is Grupo).ToList().Count + 1
+                    });
+
+                if (fil is SubGrupo)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubGrupo).ToList().Count + 1
+                    });
+
+                if (fil is SubSubGrupo)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is SubSubGrupo).ToList().Count + 1
+                    });
+
+                if (fil is CamadaSeis)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaSeis).ToList().Count + 1
+                    });
+
+                if (fil is CamadaSete)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaSete).ToList().Count + 1
+                    });
+
+                if (fil is CamadaOito)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaOito).ToList().Count + 1
+                    });
+
+                if (fil is CamadaNove)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaNove).ToList().Count + 1
+                    });
+
+                if (fil is CamadaDez)
+                    this.Filtro!.Add(new FiltroContent
+                    {
+                        Filtro = fil,
+                        Content = this,
+                        QuantidadePorType = this.Filtro.Where(f => f.Filtro is CamadaDez).ToList().Count + 1
+                    });
+
+            }
+
+
+        }
+
+        public Pagina MudarEstado( ContentUser m, long curtidas, long compartilhamentos)
+        {
+          return  mudanca.MudarEstado( m, curtidas, compartilhamentos);
+        }
     }
 }

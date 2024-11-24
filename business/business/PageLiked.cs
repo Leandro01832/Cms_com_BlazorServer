@@ -13,7 +13,7 @@ namespace business.business
         public virtual Pagina Pagina { get; set; }
 
         public long? ContentId { get; set; }
-        public virtual Content Content { get; set; }
+        public virtual ContentUser Content { get; set; }
 
         public virtual List<UserModelPageLiked> usuarios { get; set; }
 

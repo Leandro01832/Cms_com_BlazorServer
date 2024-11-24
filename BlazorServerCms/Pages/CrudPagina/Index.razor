@@ -79,11 +79,11 @@ else
         var pag = list.First(l => l.Id == pagina.Id);
         var vers = list.IndexOf(pag) + 1;
         
-        var filtros = await Context.FiltroPagina.Where(fp => fp.PaginaId == pagina.Id).ToListAsync();
+        var filtros = await Context.FiltroContent.Where(fp => fp.ContentId == pagina.Id).ToListAsync();
         foreach(var item in filtros)
             Context.Remove(item);
         await Context.SaveChangesAsync();
-        pagina.Content = null;
+        pagina.Html = null;
         pagina.Data = DateTime.Now;
         Context.Update(pagina);
         await Context.SaveChangesAsync();

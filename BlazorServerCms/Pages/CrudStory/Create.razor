@@ -49,7 +49,7 @@
             pag = new Pagina(count)
                 {
                     Titulo = "Story - " + exampleModel.Nome,
-                    Content = conteudo,
+                    Html = conteudo,
                 };
         Pagina.entity = false;
 
@@ -62,7 +62,7 @@
         var pagina = new Pagina(count2)
             {
                 Titulo = "Story - " + exampleModel.Nome,
-                Content = "<a href='#' id='LinkPadrao'> <h1> Story " + exampleModel.Nome + "</h1> </a>",
+                Html = "<a href='#' id='LinkPadrao'> <h1> Story " + exampleModel.Nome + "</h1> </a>",
                 
             };
 

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace business.business
 {
-    public class FiltroPagina
+    public class FiltroContent
     {
         public int QuantidadePorType { get; set; }
-        public long PaginaId { get; set; }
+        public long ContentId { get; set; }
         public long FiltroId { get; set; }
         public virtual Filtro? Filtro { get; set; }
-        public virtual Pagina? Pagina { get; set; }
+        public virtual Content? Content { get; set; }
     }
 }

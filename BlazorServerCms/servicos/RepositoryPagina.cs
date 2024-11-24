@@ -42,7 +42,7 @@ namespace BlazorServerCms.servicos
         public List<Pagina> paginas = new List<Pagina>();
         public List<PageLiked> paginasCurtidas = new List<PageLiked>();
         public List<Story> stories = new List<Story>();
-        public List<Content> conteudos = new List<Content>();
+        public List<ContentUser> conteudos = new List<ContentUser>();
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {
@@ -131,16 +131,16 @@ namespace BlazorServerCms.servicos
         }
 
 
-        public async Task<string> renderizarPagina(Pagina pagina)
+        public async Task<string> renderizarPagina(Content content)
         {
         var text = await Http.GetStringAsync("https://localhost:7224/Arquivotxt/default.html");
            
-            var resultado = renderizar(pagina, text!);
+            var resultado = renderizar(content, text!);
             return resultado;
         }       
        
 
-        public string renderizar(Pagina pagina, string TextoHtml)
+        public string renderizar(Content pagina, string TextoHtml)
         {     
             Velocity.Init();
             var Modelo = new

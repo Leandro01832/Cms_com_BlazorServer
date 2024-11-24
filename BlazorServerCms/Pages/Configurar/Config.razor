@@ -167,12 +167,12 @@ style="width:300px" />
                 if (cap != 0)
                 {
                     pag = await Context!.Pagina!.Include(pa => pa!.Story!)
-                   .FirstOrDefaultAsync(pa => pa!.Content == null &&
+                   .FirstOrDefaultAsync(pa => pa!.Html == null &&
                    pa!.Produto! == null && pa!.Story!.PaginaPadraoLink == cap);
                     if (pag == null)
                         break;
 
-                    pag.Content = $"<iframe width='320' height='560' src='https://www.youtube.com{text}' " +
+                    pag.Html = $"<iframe width='320' height='560' src='https://www.youtube.com{text}' " +
                         "frameborder='0' title='video' allow='accelerometer; autoplay; clipboard-write; encrypted-media; " +
                         "gyroscope; picture-in-picture; web-share' allowfullscreen ></iframe>";
 
@@ -182,12 +182,12 @@ style="width:300px" />
                 else
                 {
                     pag = await Context.Pagina.Include(pa => pa.Story!)
-                .FirstOrDefaultAsync(pa => pa!.Content == null && pa!.Produto! == null);
+                .FirstOrDefaultAsync(pa => pa!.Html == null && pa!.Produto! == null);
                     if (pag == null)
                         break;
 
                     
-                    pag.Content = $"<iframe width='320' height='560' src='https://www.youtube.com{text}' " +
+                    pag.Html = $"<iframe width='320' height='560' src='https://www.youtube.com{text}' " +
                         "frameborder='0' title='video' allow='accelerometer; autoplay; clipboard-write; encrypted-media; " +
                         "gyroscope; picture-in-picture; web-share' allowfullscreen ></iframe>";
 
@@ -217,7 +217,7 @@ style="width:300px" />
 
         bool teste = false;
         foreach (var item in story.Pagina!)
-            if (item.Content == null && item.Produto == null)
+            if (item.Html == null && item.Produto == null)
                 teste = true;
 
         if (teste)

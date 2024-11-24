@@ -25,10 +25,11 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<MudancaEstado> MudancaEstado { get; set; }
         public DbSet<Time> Time { get; set; }
-        public DbSet<Content> Content { get; set; }
+        public DbSet<ContentUser> Content { get; set; }
         public DbSet<PageLiked> PageLiked { get; set; }
-        public DbSet<FiltroPagina> FiltroPagina { get; set; }
+        public DbSet<FiltroContent> FiltroContent { get; set; }
         public DbSet<UserModelTime> UserModelTime { get; set; }
         public DbSet<UserModelLivro> UserModelLivro { get; set; }
         public DbSet<UserModelFiltro> UserModelFiltro { get; set; }
@@ -61,8 +62,8 @@ namespace BlazorServerCms.Data
 
 
             base.OnModelCreating(builder);
-            builder.Entity<FiltroPagina>()
-          .HasKey(p => new { p.FiltroId, p.PaginaId });
+            builder.Entity<FiltroContent>()
+          .HasKey(p => new { p.FiltroId, p.ContentId });
 
             builder.Entity<UserModelTime>()
          .HasKey(p => new { p.UserModelId, p.TimeId });

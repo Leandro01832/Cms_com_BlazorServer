@@ -270,7 +270,7 @@
         filtros2 = await Context.Filtro!
                 .Include(f => f.Story)
                 .Include(f => f.Pagina)!
-                .ThenInclude(f => f.Pagina)
+                .ThenInclude(f => f.Content)
                 .OrderBy(f => f.Id).ToListAsync();
 
         filtros2.Reverse();
@@ -280,7 +280,7 @@
             story = await Context.Story!
                       .Include(p => p.Filtro)!
                      .ThenInclude(p => p.Pagina)!
-                     .ThenInclude(p => p.Pagina)!
+                     .ThenInclude(p => p.Content)!
                       .OrderBy(st => st.Id).FirstOrDefaultAsync(p => p.PaginaPadraoLink == 1)!;
         }
 
@@ -394,10 +394,11 @@
                             }
                             foreach (var item2 in item.Pagina)
                             {
+                                var pag = (Pagina)item2.Content;
 
                                 if (compartilhante == "comp")
                                 {
-                                    if (item2.Pagina.Versiculo == numeros[j] && url == null && !fils.Contains(item))
+                                    if (pag.Versiculo == numeros[j] && url == null && !fils.Contains(item))
                                     {
                                         verso = item.Pagina.IndexOf(item2) + 1;
                                         var a = retornarArray(item);
@@ -410,7 +411,7 @@
                                 }
                                 else
                                 {
-                                    if (item2.Pagina.Versiculo == numeros[j] && url == null &&
+                                    if (pag.Versiculo == numeros[j] && url == null &&
                                         item.user == compartilhante && !fils.Contains(item))
                                     {
                                         verso = item.Pagina.IndexOf(item2) + 1;
@@ -451,9 +452,10 @@
                     {
                         foreach (var item2 in item.Pagina)
                         {
+                            var pag = (Pagina)item2.Content;
                             if (comp == "comp")
                             {
-                                if (item2.Pagina.Versiculo == num && url == null)
+                                if (pag.Versiculo == num && url == null)
                                 {
                                     verso = item.Pagina.IndexOf(item2) + 1;
                                     var a = retornarArray(item);                                    
@@ -464,7 +466,7 @@
                             }
                             else
                             {
-                                if (item2.Pagina.Versiculo == num && url == null && item.user == comp)
+                                if (pag.Versiculo == num && url == null && item.user == comp)
                                 {
                                     verso = item.Pagina.IndexOf(item2) + 1;
                                     var a = retornarArray(item);                                    

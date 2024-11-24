@@ -42,8 +42,8 @@ else
 
 @code {
 
-    List<Content> content = new List<Content>();
-    Content c = null;
+    List<ContentUser> content = new List<ContentUser>();
+    ContentUser c = null;
     Filtro f = null;
     Story s = null;
     private MarkupString markup;
@@ -70,15 +70,7 @@ else
             c = content.First();
         else
             c = content.First(co => co.Id == Id);
-        if(c.FiltroId != null)
-        {
-            f = await Context.Filtro!.FirstAsync(f => f.Id == c.FiltroId);
-            s = await Context.Story!
-            .Include(st => st.Filtro)!
-            .ThenInclude(p => p.Pagina)!
-            .ThenInclude(p => p.Pagina)!
-            .FirstAsync(st => st.Id == f.StoryId);
-        }
+        
         markup = new MarkupString(c.Html);
 
     }

@@ -56,7 +56,7 @@ namespace BlazorCms.Client.Pages
         protected UserModel usuario;
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
-        protected Pagina? pag;
+        protected Content? pag;
         protected Pagina? Model = new Pagina();
         protected Filtro? Model2;
         protected string[]? classificacoes = null;

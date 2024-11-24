@@ -50,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxDb25maWd1cmFjb2VzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/User/blazor/BlazorServerCms/Pages/Configurar/ConvertContent.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxDb252ZXJ0Q29udGVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/User/blazor/BlazorServerCms/Pages/Configurar/RemovePermissao.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxSZW1vdmVQZXJtaXNzYW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

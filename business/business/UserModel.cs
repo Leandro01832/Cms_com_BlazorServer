@@ -23,7 +23,7 @@ namespace business.business
 
         public virtual List<UserModelFiltro> savedFolder { get; set; }
 
-        public virtual List<Content> conteudos { get; set; }
+        public virtual List<ContentUser> conteudos { get; set; }
         public virtual List<UserModelPageLiked> PageLiked { get; set; }
 
         public void IncluiTime(Time time)

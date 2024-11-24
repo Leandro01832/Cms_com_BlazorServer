@@ -19,9 +19,9 @@ namespace BlazorCms.Client.Pages
         {
             try
             {
-                if (p != null && p.Content != null && p.Content.Contains("iframe") && outroHorizonte == 0)
+                if (p != null && p.Html != null && p.Html.Contains("iframe") && outroHorizonte == 0)
                 {
-                    var conteudoHtml = p.Content;
+                    var conteudoHtml = p.Html;
                     var arr = conteudoHtml!.Split("/");
                     var id_video = "";
                     for (var index = 0; index < arr.Length; index++)
@@ -254,7 +254,7 @@ namespace BlazorCms.Client.Pages
 
             if (dominio == null) dominio = "dominio";
 
-            if (lista.FirstOrDefault(p => p.Content != null) != null)
+            if (lista.FirstOrDefault(p => p.Html != null) != null)
                 tamanho = 5;
             else
                 tamanho = 20;
@@ -394,7 +394,7 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                List<Pagina> lista = null;
+                List<Content> lista = null;
                 if (rotas != null)
                     lista = retornarListaFiltrada(rotas);
                 else
@@ -657,8 +657,8 @@ namespace BlazorCms.Client.Pages
                                 arr[2] == grupo && arr[1] == substory && arr[8] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez) != null)
+                                .FirstOrDefault(p => p.Content!.Id ==
+                                f.Pagina!.First().Content!.Id && f is CamadaDez) != null)
                                 .LastOrDefault()!;
                                 if(fi != null)
                                 arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -693,10 +693,10 @@ namespace BlazorCms.Client.Pages
                                arr[2] == grupo && arr[1] == substory && arr[7] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaNove) != null)
+                                 .FirstOrDefault(p => p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaNove) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
                                 arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -732,12 +732,12 @@ namespace BlazorCms.Client.Pages
                                arr[2] == grupo && arr[1] == substory && arr[6] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaNove ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaOito) != null)
+                                 .FirstOrDefault(p => p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaOito) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
                                     arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -775,14 +775,14 @@ namespace BlazorCms.Client.Pages
                               arr[2] == grupo && arr[1] == substory && arr[5] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaNove ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaOito ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSete) != null)
+                                 .FirstOrDefault(p => p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSete) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
                                     arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -823,16 +823,16 @@ namespace BlazorCms.Client.Pages
                               arr[2] == grupo && arr[1] == substory && arr[4] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaNove ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaOito ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSete ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSeis) != null)
+                                 .FirstOrDefault(p => p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSeis) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
                                     arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -874,18 +874,18 @@ namespace BlazorCms.Client.Pages
                             if (arr[2] == grupo && arr[1] == substory && arr[3] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaNove ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaOito ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSete ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSeis ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is SubSubGrupo) != null)
+                                 .FirstOrDefault(p => p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSeis ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is SubSubGrupo) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
                                     arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -929,20 +929,20 @@ namespace BlazorCms.Client.Pages
                             if (arr[1] == substory && arr[2] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaNove ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaOito ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSete ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSeis ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is SubSubGrupo ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is SubGrupo) != null)
+                                 .FirstOrDefault(p => p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSeis ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is SubSubGrupo ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is SubGrupo) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
                                     arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -988,22 +988,22 @@ namespace BlazorCms.Client.Pages
                             if (arr[1] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaDez ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaNove ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaOito ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSete ||
-                                  p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is CamadaSeis ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is SubSubGrupo ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is SubGrupo ||
-                                 p.Pagina!.Versiculo ==
-                                 f.Pagina!.First().Pagina!.Versiculo && f is Grupo) != null)
+                                 .FirstOrDefault(p => p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
+                                  p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is CamadaSeis ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is SubSubGrupo ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is SubGrupo ||
+                                 p.Content!.Id ==
+                                 f.Pagina!.First().Content!.Id && f is Grupo) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
                                     arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
@@ -1222,95 +1222,95 @@ namespace BlazorCms.Client.Pages
             if (camada == 7)
             {                   
                 fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is CamadaSete).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is CamadaSeis).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubSubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;                
             }
            
             else if (camada == 6)
             {
                  fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is CamadaSeis).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubSubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
            
             else if (camada == 5)
             {
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubSubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
 
             else if (camada == 4)
             {
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
 
             else if (camada == 3)
             {
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Pagina!.Versiculo == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
 
