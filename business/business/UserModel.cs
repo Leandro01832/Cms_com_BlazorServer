@@ -23,8 +23,8 @@ namespace business.business
 
         public virtual List<UserModelFiltro> savedFolder { get; set; }
 
-        public virtual List<ContentUser> conteudos { get; set; }
-        public virtual List<UserModelPageLiked> PageLiked { get; set; }
+        public virtual List<UserContent> conteudos { get; set; }
+        public virtual List<UserModelContent> PageLiked { get; set; }
 
         public void IncluiTime(Time time)
         {
@@ -44,10 +44,10 @@ namespace business.business
             this.savedFolder!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
         }
         
-        public void curtir(PageLiked page)
+        public void curtir(Content page)
         {
-            if (this.PageLiked == null) this.PageLiked = new List<UserModelPageLiked>();
-            this.PageLiked!.Add(new UserModelPageLiked { PageLiked = page, UserModel = this });
+            if (this.PageLiked == null) this.PageLiked = new List<UserModelContent>();
+            this.PageLiked!.Add(new UserModelContent { Content = page, UserModel = this });
         }
     }
 }

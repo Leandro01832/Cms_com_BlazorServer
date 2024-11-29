@@ -3,24 +3,12 @@ using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.Group;
-using Google.Apis.Services;
-using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
-using Models;
 using PSC.Blazor.Components.Tours.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
-using System.Security.Policy;
-using static Microsoft.AspNetCore.Razor.Language.TagHelperMetadata;
 
 namespace BlazorCms.Client.Pages
 {
@@ -42,10 +30,13 @@ namespace BlazorCms.Client.Pages
         private Story story = null;
         private string? title = null;
         private string? resumo = null;
+
+
         protected int indiceAcesso;
 
         
         protected bool exemplo = false;
+        protected bool mudanca = false;
         protected int cap = 1;
         protected bool automatico = false;
 
@@ -56,8 +47,7 @@ namespace BlazorCms.Client.Pages
         protected UserModel usuario;
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
-        protected Content? pag;
-        protected Pagina? Model = new Pagina();
+        protected Content? Model = null;
         protected Filtro? Model2;
         protected string[]? classificacoes = null;
         protected string opcional = "";

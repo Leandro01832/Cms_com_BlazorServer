@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace business.business
 {
-    public class ContentUser : Content
+    public class UserContent : Content
     {
 
         public string UserModelId { get; set; }

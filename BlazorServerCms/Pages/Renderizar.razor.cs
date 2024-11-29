@@ -15,7 +15,7 @@ namespace BlazorCms.Client.Pages
     public partial class RenderizarBase : ComponentBase
     {
 
-        private async void StartTimer(Pagina p)
+        private async void StartTimer(Content p)
         {
             try
             {
@@ -316,7 +316,7 @@ namespace BlazorCms.Client.Pages
         protected int? buscarPastaFiltrada(int camada)
         {
             long? IdGrupo = 0;
-            Pagina pag = repositoryPagina.paginas
+            Pagina pag = repositoryPagina.Conteudo.OfType<Pagina>()
                     .FirstOrDefault(p => p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
 
 
@@ -1122,43 +1122,21 @@ namespace BlazorCms.Client.Pages
         }
 
         protected async Task DarUmLike()
-        {
-            var u = await userManager.GetUserAsync(user);
-            UserModel usuario = await Context.Users.Include(u => u.PageLiked)
-            .FirstAsync(us => us.Id == u.Id);
-            PageLiked pageLiked = new PageLiked();
-            if (!Content)
-                pageLiked.PaginaId = Model.Id;
-            else
-                pageLiked.ContentId = Model.Id;
-
-            await Context.AddAsync(pageLiked);
+        {            
+            usuario.curtir(Model);
             await Context.SaveChangesAsync();
-            usuario.curtir(pageLiked);
-            await Context.SaveChangesAsync();
-            repositoryPagina.paginasCurtidas.Add(pageLiked);
-
-           // acessar();
         }
 
-        protected async Task Unlike(long Id)
-        {
-            PageLiked? page = null;
-            if (conteudo == 0)            
-                 page = await Context.PageLiked
-                                .FirstOrDefaultAsync(p => p.ContentId == Model.Id);
-            else
-                page = await Context.PageLiked
-                                   .FirstOrDefaultAsync(p => p.PaginaId == Model.Id);
-
+        protected async Task Unlike()
+        {          
+            var page =  usuario.PageLiked
+            .FirstOrDefault(p => p.ContentId == Model.Id);
 
             if (page != null)
             {
                 Context.Remove(page);
                 await Context.SaveChangesAsync();
-                repositoryPagina.paginasCurtidas.Remove(page);
             }
-             acessar();
         }
 
         protected async void acessarPreferenciasUsuario(string usu)
@@ -1354,7 +1332,7 @@ namespace BlazorCms.Client.Pages
                 int indiceListaFiltrada = 0;
                 foreach (var item in list)
                 {
-                    var p = repositoryPagina!.paginas!.First(p => p.Id == item.Id);
+                    Pagina p = repositoryPagina!.Conteudo.OfType<Pagina>()!.First(p => p.Id == item.Id);
                     if (int.Parse(opcional) == p.Versiculo)
                     {
                         indiceListaFiltrada = list.IndexOf(item) + 1;

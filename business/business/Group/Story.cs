@@ -1,4 +1,5 @@
 ﻿using business;
+using business.business;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace business.Group
         public virtual List<Filtro>? Filtro { get; set; }
         public string? Nome { get; set; }
         public string? Image { get; set; }
-        public virtual List<Pagina>? Pagina { get; set; }
+        public virtual List<Content>? Pagina { get; set; }
         public int PaginaPadraoLink
         {
             get

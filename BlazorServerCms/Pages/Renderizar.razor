@@ -94,7 +94,7 @@ else
                                     <p class="capitulos"> <header>@nameGroup</header></p>
                                 </div>
                             }
-                            @if (Model2 != null && Model2.user == null || pag == null)
+                            @if (Model is Pagina || Model is ContentUser && mudanca)
                             {
                                 <div class="capSubstory">
                                     <span class="capitulos">
@@ -799,7 +799,8 @@ else
                                         {
                                             if (!Content)
                                             {
-                                                <span data-first class="indices"> @Model.Versiculo</span>
+                                                Pagina p = (Pagina)Model;
+                                                <span data-first class="indices"> @p.Versiculo</span>
 
                                             }
                                             else

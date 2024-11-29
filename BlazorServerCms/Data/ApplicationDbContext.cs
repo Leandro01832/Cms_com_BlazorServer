@@ -27,13 +27,13 @@ namespace BlazorServerCms.Data
 
         public DbSet<MudancaEstado> MudancaEstado { get; set; }
         public DbSet<Time> Time { get; set; }
-        public DbSet<ContentUser> Content { get; set; }
-        public DbSet<PageLiked> PageLiked { get; set; }
+        public DbSet<Content> Content { get; set; }
+        public DbSet<UserContent> ContentUser { get; set; }
         public DbSet<FiltroContent> FiltroContent { get; set; }
         public DbSet<UserModelTime> UserModelTime { get; set; }
         public DbSet<UserModelLivro> UserModelLivro { get; set; }
         public DbSet<UserModelFiltro> UserModelFiltro { get; set; }
-        public DbSet<UserModelPageLiked> UserModelPageLiked { get; set; }
+        public DbSet<UserModelContent> UserModelPageLiked { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Rota>? Rota { get; set; }
         public DbSet<Filtro>? Filtro { get; set; }
@@ -74,8 +74,8 @@ namespace BlazorServerCms.Data
             builder.Entity<UserModelFiltro>()
          .HasKey(p => new { p.UserModelId, p.FiltroId });
             
-            builder.Entity<UserModelPageLiked>()
-         .HasKey(p => new { p.UserModelId, p.PageLikedId });
+            builder.Entity<UserModelContent>()
+         .HasKey(p => new { p.UserModelId, p.ContentId });
 
             builder.Entity<Time>()
             .HasIndex(u => u.nome)

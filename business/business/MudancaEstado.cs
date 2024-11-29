@@ -14,7 +14,7 @@ namespace business.business
         public long Compartilhamentos { get; set; }
         public long Id { get; set; }
 
-        public Pagina MudarEstado( ContentUser m, long curtidas, long compartilhamentos)
+        public Pagina MudarEstado( UserContent m, long curtidas, long compartilhamentos)
         {
             this.Curtidas = curtidas;
             this.Compartilhamentos = compartilhamentos;

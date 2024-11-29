@@ -2,15 +2,10 @@
 using business;
 using business.business;
 using business.Group;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NVelocity;
 using NVelocity.App;
-using System.Net;
 using System.Text;
 
 namespace BlazorServerCms.servicos
@@ -34,15 +29,14 @@ namespace BlazorServerCms.servicos
         public int metaTime { get; set; } = 1;  
 
         public int? CapituloLivro { get; set; } = null;
-        public bool aguarde { get; set; } = false;
+
         public int diaCupom = 0;
+
         public string cupomDesconto = "";
 
         public List<Pagina> Marcados = new List<Pagina>();
-        public List<Pagina> paginas = new List<Pagina>();
-        public List<PageLiked> paginasCurtidas = new List<PageLiked>();
+        public List<Content> Conteudo = new List<Content>();
         public List<Story> stories = new List<Story>();
-        public List<ContentUser> conteudos = new List<ContentUser>();
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {

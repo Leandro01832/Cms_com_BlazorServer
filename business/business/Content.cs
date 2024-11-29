@@ -14,7 +14,13 @@ namespace business.business
     {
         public Content()
         {
-            mudanca = new MudancaEstado();
+
+        }
+
+        public Content(MudancaEstado m)
+        {
+            mudanca = m;
+                
         }
 
         public MudancaEstado mudanca;
@@ -37,6 +43,7 @@ namespace business.business
 
         public virtual Produto? Produto { get; set; }
 
+        public virtual List<UserModelContent> usuarios { get; set; }
 
         public string? Html
         {
@@ -132,7 +139,7 @@ namespace business.business
 
         }
 
-        public Pagina MudarEstado( ContentUser m, long curtidas, long compartilhamentos)
+        public Pagina MudarEstado( UserContent m, long curtidas, long compartilhamentos)
         {
           return  mudanca.MudarEstado( m, curtidas, compartilhamentos);
         }

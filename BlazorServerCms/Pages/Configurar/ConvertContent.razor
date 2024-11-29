@@ -1,17 +1,110 @@
-﻿<h3>ConvertContent</h3>
+﻿@page "/ConvertContent"
+@attribute [Authorize(Roles = "Admin")]
+@inject UserManager<UserModel> userManager
+
+<h3>Converter Content</h3>
+
+<div>
+    <input type="text" placeholder="Usuario" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
+    <br />
+</div>
+
+
+@if (usuarios!.Count > 0)
+{
+
+    <div class="users">
+
+        @foreach (var item in usuarios!)
+        {
+            <p>
+                <a href="#"  onclick="@(() => buscarConteudo(item.UserModel);)" >
+                    Usuario @item.user
+                    <div class="circulo">
+                        <center>
+
+                            <div class="circulo2">
+                                @if (item.UserModel.Image != null)
+                                {
+                                    <img src="ImgUser/usuario-@(item.user)-@(item.UserModel.Image)" class="ImgUser">
+                                }
+                                else
+                                {
+                                    <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                                }
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </p>
+        }
+    </div>
+}
+
+@if(conteudos != null)
+{
+    @foreach(var item in conteudos)
+    {
+        <div>
+
+            <a href="#" onclick="@(() => converter(item);)" >
+
+            </a>
+
+        </div>
+    }
+    
+}
+
 
 @code {
-    private ContentUser content = null;
+    private UserContent content = null;
+    private UserModel usuario = null;
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+    List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
+    List<UserContent> conteudos = null;
 
     protected override Task OnInitializedAsync()
     {
+        Context = db.CreateDbContext(null);
         return base.OnInitializedAsync();
 
     }
 
-    private void converter(long Id)
+    private void converter(UserContent c)
     {
-        
+        Pagina pagina = new Content(new MudancaEstado()).MudarEstado(c, 1, 1);
+
+        Context.Add(pagina);
+        Context.SaveChanges();
+        Context.Add(pagina.mudanca);
+        Context.SaveChanges();
+
+    }
+
+    private void alterarUser(ChangeEventArgs args)
+    {
+        var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
+        foreach (var item in users)
+
+            usuarios.Add(new IdentityUserImage { user = item.UserName, UserModel = item });
+
+        if (string.IsNullOrEmpty(args.Value!.ToString()!))
+            usuarios.Clear();
+    }
+
+    private void buscarConteudo(UserModel user)
+    {
+        conteudos = Context.ContentUser.Where(c => c.UserModelId == user.Id).ToList();
+    }
+
+    private class IdentityUserImage
+    {
+        public string? user { get; set; }
+        public UserModel UserModel { get; set; }
     }
 
 }

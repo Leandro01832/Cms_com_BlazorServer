@@ -78,7 +78,7 @@ else
     protected override void OnInitialized()
     {
         Context = db.CreateDbContext(null);
-        content = repositoryPagina.conteudos
+        content = repositoryPagina.Conteudo.OfType<ContentUser>()
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias)).OrderBy(co => co.Id).ToList();
         verso = 1;
     }

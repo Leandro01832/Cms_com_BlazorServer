@@ -32,6 +32,15 @@ namespace BlazorCms.Client.Pages
         {
             Context = db.CreateDbContext(null);
 
+            if (user.Identity!.IsAuthenticated)
+            {
+                var u = await userManager.GetUserAsync(user);
+            usuario = await Context.Users
+                .Include(u => u.PageLiked)
+            .FirstAsync(us => us.Id == u.Id);
+
+            }
+
             Model = new Pagina
             {
                 Story = new Story(),
@@ -82,24 +91,12 @@ namespace BlazorCms.Client.Pages
 
             }
                        
-            if(repositoryPagina.conteudos.Count == 0)
-            {
-                var str = await Context.Content!
-                    .Include(p => p.Filtro)!
-                   .ThenInclude(p => p.Content)!
-                    .OrderBy(st => st.Id).ToListAsync();
-            }
+            
 
-            if (repositoryPagina.paginas.Count == 0)
+            if (repositoryPagina.Conteudo.Count == 0)
             {
-                var pergs = await Context!.Pagina!.Include(p => p.Story).Include(p => p.Filtro).ToListAsync();
-                repositoryPagina.paginas.AddRange(pergs);
-            }
-                        
-            if(repositoryPagina.paginasCurtidas.Count == 0)
-            {
-                var pergs = await Context.PageLiked.ToListAsync();
-                repositoryPagina.paginasCurtidas.AddRange(pergs);
+                var pergs = await Context!.Content!.Include(p => p.Story).Include(p => p.Filtro).ToListAsync();
+                repositoryPagina.Conteudo.AddRange(pergs);
             }
 
             if (dominio != repositoryPagina.buscarDominio() && dominio != "dominio")
@@ -137,7 +134,7 @@ namespace BlazorCms.Client.Pages
             var quantidadePaginas = 0;
             List<Content> listaFiltradaComConteudo = null;
 
-            Model = repositoryPagina!.paginas
+            Model = repositoryPagina!.Conteudo.OfType<Pagina>()
                     .FirstOrDefault(p => p.Versiculo == indice && p.Story!.PaginaPadraoLink == capitulo);
 
             
@@ -146,7 +143,7 @@ namespace BlazorCms.Client.Pages
 
             if (Model == null)
             {
-                Model = repositoryPagina.paginas
+                Model = repositoryPagina.Conteudo.OfType<Pagina>()
                 .FirstOrDefault(p => p.Story.PaginaPadraoLink == capitulo);
             }
             
@@ -202,9 +199,9 @@ namespace BlazorCms.Client.Pages
                 if (Model != null && Model.Comentario != 0 && Model.Comentario != null)
                 {
                     var page = story.Pagina!.FirstOrDefault(p => p.Id == Model.Comentario);
-
-                    CapituloComentario = page!.Story!.PaginaPadraoLink;
-                    VersoComentario = page.Versiculo;
+                    Pagina pa = (Pagina)page;
+                    CapituloComentario = pa!.Story!.PaginaPadraoLink;
+                    VersoComentario = pa.Versiculo;
                 }
 
             }
@@ -245,35 +242,21 @@ namespace BlazorCms.Client.Pages
             }
 
             // ultimaPasta = Model.UltimaPasta;
-            
-
-
 
             if ( Model.Html.Contains("iframe"))
             {
-                var conteudoHtml = "";
-
-                if(Content)
-                 conteudoHtml = pag.Html;
-                else
-                conteudoHtml = Model.Html;
+                var conteudoHtml = Model.Html;
 
                 if (!conteudoHtml.Contains("?autoplay="))
                     conteudoHtml =  colocarAutoPlay(conteudoHtml);
 
-                if (Content)
-                    pag.Html = conteudoHtml;
-                else
                     Model.Html = conteudoHtml;
             }
             if (!Content && Model.Html != null)
             {
                 try
                 {
-                    if (Content)
-                        html = await repositoryPagina!.renderizarPagina(pag);
-                    else
-                        html = await repositoryPagina!.renderizarPagina(Model);
+                    html = await repositoryPagina!.renderizarPagina(Model);
                 }
                 catch (Exception ex)
                 {
@@ -306,23 +289,16 @@ namespace BlazorCms.Client.Pages
                 Console.WriteLine(ex.Message);
             }
 
-            UserModelPageLiked p = null;
+            UserModelContent p = null;
 
             try
             {
                 if (user.Identity!.IsAuthenticated)
                 {
-                    if (!Content)
                         p = Context.UserModelPageLiked
-                            .Include(umpl => umpl.PageLiked)
+                            .Include(umpl => umpl.Content)
                             .Include(umpl => umpl.UserModel)
-                            .FirstOrDefault(p => p.PageLiked.PaginaId == Model.Id &&                       
-                            p.UserModel.UserName == user.Identity!.Name)!;
-                    else
-                        p = Context.UserModelPageLiked
-                            .Include(umpl => umpl.PageLiked)
-                            .Include(umpl => umpl.UserModel)
-                             .FirstOrDefault(p => p.PageLiked.ContentId == Model.Id &&                         
+                            .FirstOrDefault(p => p.ContentId == Model.Id &&                       
                             p.UserModel.UserName == user.Identity!.Name)!;
                 }
 
@@ -707,15 +683,15 @@ namespace BlazorCms.Client.Pages
                 }
 
 
-                pag = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+                Model = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
-                if (pag == null)                
-                pag = repositoryPagina.paginas!.Where(p => p.Story.PaginaPadraoLink == capitulo)
+                
+                Model = repositoryPagina.Conteudo!.Where(p => p.Story.PaginaPadraoLink == capitulo)
                     .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
                 
-                if(pag is Pagina)
+                if(Model is Pagina)
                 {
-                    var p = (Pagina)pag;
+                    var p = (Pagina)Model;
                 vers = p.Versiculo;
                 Model = repositoryPagina.includes()
                 .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
@@ -999,7 +975,7 @@ namespace BlazorCms.Client.Pages
                             .FirstOrDefault(f => f.UserName == usuarios[i].UserName &&
                             f.FiltroId != null);
 
-                        var conteudos = Context.Content.Include(c => c.UserModel)
+                        var conteudos = Context.ContentUser.Include(c => c.UserModel)
                                 .Where(c => c.UserModel.UserName == usuarios[i].UserName &&
                                 c.Data.Date > DateTime.Now.AddDays(-7).Date)
                                 .ToList();

@@ -79,7 +79,7 @@
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 
-        repositoryPagina.conteudos.Add(exampleModel);
+        repositoryPagina.Conteudo.Add(exampleModel);
         await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
         navigation.NavigateTo("/");
 
