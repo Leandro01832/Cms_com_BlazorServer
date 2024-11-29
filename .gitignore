@@ -1,6 +1,8 @@
 # Ignorar diretórios de build
 BlazorServerCms/bin/
 BlazorServerCms/obj/
+business/bin/
+business/obj/
 obj/
 Tests/
 .vs/
