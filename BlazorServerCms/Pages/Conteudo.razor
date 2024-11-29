@@ -42,8 +42,8 @@ else
 
 @code {
 
-    List<ContentUser> content = new List<ContentUser>();
-    ContentUser c = null;
+    List<UserContent> content = new List<UserContent>();
+    UserContent c = null;
     Filtro f = null;
     Story s = null;
     private MarkupString markup;
@@ -78,7 +78,7 @@ else
     protected override void OnInitialized()
     {
         Context = db.CreateDbContext(null);
-        content = repositoryPagina.Conteudo.OfType<ContentUser>()
+        content = repositoryPagina.Conteudo.OfType<UserContent>()
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias)).OrderBy(co => co.Id).ToList();
         verso = 1;
     }

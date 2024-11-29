@@ -18,7 +18,7 @@
         @foreach (var item in usuarios!)
         {
             <p>
-                <a href="#"  onclick="@(() => buscarConteudo(item.UserModel);)" >
+                <a href="#"  onclick="@(() => { buscarConteudo(item.UserModel);} )" >
                     Usuario @item.user
                     <div class="circulo">
                         <center>
@@ -48,7 +48,7 @@
     {
         <div>
 
-            <a href="#" onclick="@(() => converter(item);)" >
+            <a href="#" onclick="@(() => { converter(item); })" >
 
             </a>
 

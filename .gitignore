@@ -1,0 +1,25 @@
+# Ignorar diretórios de build
+BlazorServerCms/bin/
+BlazorServerCms/obj/
+business/
+obj/
+Tests/
+.vs/
+
+# Ignorar arquivos de configuração do usuário
+*.user
+*.suo
+
+# Ignorar logs
+*.log
+
+# Ignorar pastas de publicação
+BlazorServerCms/wwwroot/
+
+# Ignorar dependências de pacotes
+BlazorServerCms/node_modules/
+BlazorServerCms/packages/
+
+# Ignorar arquivos temporários
+*.tmp
+*.temp

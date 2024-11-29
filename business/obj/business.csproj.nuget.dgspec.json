@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\blazor\\business\\business.csproj": {}
+    "C:\\Users\\User\\BlazorCms\\business\\business.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\blazor\\business\\business.csproj": {
+    "C:\\Users\\User\\BlazorCms\\business\\business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\blazor\\business\\business.csproj",
+        "projectUniqueName": "C:\\Users\\User\\BlazorCms\\business\\business.csproj",
         "projectName": "business",
-        "projectPath": "C:\\Users\\User\\blazor\\business\\business.csproj",
+        "projectPath": "C:\\Users\\User\\BlazorCms\\business\\business.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\blazor\\business\\obj\\",
+        "outputPath": "C:\\Users\\User\\BlazorCms\\business\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
