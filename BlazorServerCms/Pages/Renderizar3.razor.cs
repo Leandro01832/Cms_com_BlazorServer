@@ -32,6 +32,10 @@ namespace BlazorCms.Client.Pages
         {
             Context = db.CreateDbContext(null);
 
+            var authState = await AuthenticationStateProvider
+               .GetAuthenticationStateAsync();
+            user = authState.User;
+
             if (user.Identity!.IsAuthenticated)
             {
                 var u = await userManager.GetUserAsync(user);
@@ -48,10 +52,7 @@ namespace BlazorCms.Client.Pages
             };
             vers = null;
             Auto = 1;
-
-            var authState = await AuthenticationStateProvider
-                    .GetAuthenticationStateAsync();
-            user = authState.User;           
+          
 
             if (compartilhante == null)
             {

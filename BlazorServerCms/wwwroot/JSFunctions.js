@@ -102,33 +102,81 @@ window.Clicou = (m) => {
     element.style.display = "flex";
 }
 
-window.MarcarIndice = (id) => {
+
+window.AumentarDiv = (id) => {
     var divs = document.getElementsByClassName("DivPag");
 
-    for (var i = 0; i < divs.length; i++)
-    {
+    for (var i = 0; i < divs.length; i++) {
         divs[i].style.color = "black";
+        //if (indice > 99 && indice < 1000 && largura < 500) {
+
+        //    // tres algarismos
+        //    divs[i].classList.remove("DivPag");
+        //    divs[i].classList.add("DivPagTam2");
+        //}
+        //else if (indice > 999 && indice < 10000 && largura < 500) {
+
+        //    // quatro algarismos
+        //    divs[i].classList.remove("DivPag");
+        //    divs[i].classList.add("DivPagTam3");
+        //}
+        //else if (indice > 9999 && indice < 100000 && largura < 500) {
+
+        //    // cinco algarismos
+        //    divs[i].classList.remove("DivPag");
+        //    divs[i].classList.add("DivPagTam4");
+        //}
+
     }
+
+}
+
+window.MarcarIndice = (id) => {
+    var divs = document.getElementsByClassName("DivPag");
+    var indice = parseInt(id);
     var largura = window.screen.width;
+
+
     var tamanho = 0;
     var scrolando = 0;
+    var calculo = 0;
     if (largura > 500) {
-        tamanho = parseInt((27 * largura) / 1280);
+        tamanho = parseInt((25 * largura) / 1280);
          scrolando = 32;
     }
-    else  {
-        tamanho = parseInt((14 * largura) / 360);
-        scrolando = 28;
+    else {
+        if (indice < 99) {
+            tamanho = parseInt((16 * largura) / 412);
+            scrolando = 28;
+
+        }
+        else if (indice > 99 && indice < 1000) {
+            tamanho = parseInt((13 * largura) / 412);
+            scrolando = 28;
+        }
+        else if (indice > 999 && indice < 10000) {
+            tamanho = parseInt((10 * largura) / 412);
+            scrolando = 28;
+        }
+        else if (indice > 9999 && indice < 100000) {
+            tamanho = parseInt((7 * largura) / 412);
+            scrolando = 28;
+        }
     }
-    var indice = parseInt(id);
-    var r = parseInt(indice / tamanho);
-    if(r  > 0)
-        var calculo = (scrolando * r);
+    var filas = parseInt(indice / tamanho);
+    var resto = parseInt(indice % tamanho);
+    if (filas > 0 && resto == 0)
+        filas--;
+    if (filas > 0)
+         calculo = (scrolando * filas);
 
-    console.log(largura);
+    console.log("Largura: " + largura);
+    console.log("Tamanho: " + tamanho);
+    console.log("Calculo: " + calculo);
+    console.log("Filas: " + filas);
 
-    document.getElementById("DivPagina" + id).style.color = "red";
-    document.getElementsByClassName("DivPagina")[0].scrollBy(0, -2000);
+    document.getElementsByClassName("DivPagina")[0].scrollBy(0, -200000);
+    if(calculo > 0)
     document.getElementsByClassName("DivPagina")[0].scrollBy(0, calculo);
 }
 

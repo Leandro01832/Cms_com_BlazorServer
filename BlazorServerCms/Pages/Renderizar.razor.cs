@@ -1433,7 +1433,7 @@ namespace BlazorCms.Client.Pages
                 {
                     SqlCommand cmd = null;
                     if (Model != null)
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Pagina as P  where P.StoryId={Model.StoryId} ", con);
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P  where P.StoryId={Model.StoryId} and P.Discriminator='Pagina' ", con);
                     else
                         _TotalRegistros = 0;
 
@@ -1590,7 +1590,7 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarStory()
         {
-            outroHorizonte = 1;
+            outroHorizonte = 0;
             capitulo = indice;
             automatico = false;
             indice = 1;

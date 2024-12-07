@@ -1,11 +1,12 @@
 # Ignorar diretórios de build
-BlazorServerCms/bin/
-BlazorServerCms/obj/
-business/bin/
-business/obj/
+**/BlazorServerCms/bin/
+**/BlazorServerCms/obj/
+**/BlazorServerCms/Migrations/
+**/business/bin/
+**/business/obj/
 obj/
 Tests/
-.vs/
+**/.vs/
 
 # Ignorar arquivos de configuração do usuário
 *.user
@@ -15,7 +16,7 @@ Tests/
 *.log
 
 # Ignorar pastas de publicação
-BlazorServerCms/wwwroot/
+**/BlazorServerCms/wwwroot/
 
 # Ignorar dependências de pacotes
 BlazorServerCms/node_modules/

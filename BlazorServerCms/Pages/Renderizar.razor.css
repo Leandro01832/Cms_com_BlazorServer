@@ -322,16 +322,39 @@ Informativo {
    
 
     .indices {
-        font-size: 0.8rem !important;
+        font-size: 0.9rem !important;
+        color: black;
     }
 
     .indice {
-        font-size: 1.0rem !important;
+        font-size: 0.9rem !important;
+        color: red;
     }
 
 
     .DivPag {
         width: 16px !important;
+        margin: 4px !important;
+        padding: 0;
+    }
+
+    /* tres algarismos */
+    .DivPagTam2 {
+        width: 21px !important;
+        margin: 4px !important;
+        padding: 0;
+    }
+
+    /* quatro algarismos */
+    .DivPagTam3 {
+        width: 30px !important;
+        margin: 4px !important;
+        padding: 0;
+    }
+
+    /* cinco algarismos */
+    .DivPagTam4 {
+        width: 43px !important;
         margin: 4px !important;
         padding: 0;
     }

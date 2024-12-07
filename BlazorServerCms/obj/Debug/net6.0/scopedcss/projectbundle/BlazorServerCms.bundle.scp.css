@@ -779,16 +779,39 @@ Informativo[b-k8aihg5em2] {
    
 
     .indices[b-k8aihg5em2] {
-        font-size: 0.8rem !important;
+        font-size: 0.9rem !important;
+        color: black;
     }
 
     .indice[b-k8aihg5em2] {
-        font-size: 1.0rem !important;
+        font-size: 0.9rem !important;
+        color: red;
     }
 
 
     .DivPag[b-k8aihg5em2] {
         width: 16px !important;
+        margin: 4px !important;
+        padding: 0;
+    }
+
+    /* tres algarismos */
+    .DivPagTam2[b-k8aihg5em2] {
+        width: 21px !important;
+        margin: 4px !important;
+        padding: 0;
+    }
+
+    /* quatro algarismos */
+    .DivPagTam3[b-k8aihg5em2] {
+        width: 30px !important;
+        margin: 4px !important;
+        padding: 0;
+    }
+
+    /* cinco algarismos */
+    .DivPagTam4[b-k8aihg5em2] {
+        width: 43px !important;
         margin: 4px !important;
         padding: 0;
     }
