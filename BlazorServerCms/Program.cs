@@ -127,12 +127,12 @@ using (var scope = app.Services.CreateScope())
     if (!await contexto!.Set<Story>().AnyAsync())
     {
 
-        var padrao = new Story
+        var padrao = new PatternStory
         {
             PaginaPadraoLink = 0,
             Nome = "Padrao"
         };
-        var str = new Story
+        var str = new PatternStory
         {
             PaginaPadraoLink = 1,
             Nome = "seres vivos"

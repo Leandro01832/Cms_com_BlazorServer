@@ -49,6 +49,7 @@ namespace BlazorServerCms.Data
         public DbSet<SubStory>? SubStory { get; set; }
         public DbSet<Story>? Story { get; set; }
         public DbSet<ShortStory>? ShortStory { get; set; }
+        public DbSet<SmallStory>? SmallStory { get; set; }
         public DbSet<PatternStory>? PatternStory { get; set; }
         public DbSet<Telefone>? Telefone { get; set; }
         public DbSet<Livro>? Livro { get; set; }

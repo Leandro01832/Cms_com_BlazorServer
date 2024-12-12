@@ -48,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>0exo23att1</Fingerprint>
-      <Integrity>+DKGdf36V5GvP8WqP77Bf6O/w8S1z78bBlTcHolo1ew=</Integrity>
+      <Fingerprint>9d61w2ui6n</Fingerprint>
+      <Integrity>fZ5AENnhqZhu5KQuK1amWUoXZ+FPUtNb9D7gg/cakpc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Arquivotxt\stories.txt'))</OriginalItemSpec>

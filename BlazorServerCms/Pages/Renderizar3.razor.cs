@@ -84,16 +84,22 @@ namespace BlazorCms.Client.Pages
             {
                 var lista = await repositoryPagina.buscarPatternStory();
 
-                foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(3).ToList())
+                foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(2).ToList())
                     Context.Add(story);
                 Context.SaveChanges();
 
-                var shortStory1 = new ShortStory(Context.Story.ToList(), "story promoções 10% off");
-                var shortStory2 = new ShortStory(Context.Story.ToList(), "story promoções 30% off");
-                var shortStory3 = new ShortStory(Context.Story.ToList(), "story promoções 50% off");
+                var shortStory1 = new ShortStory(Context.Story.ToList(), "promoções 10% off");
+                var shortStory2 = new ShortStory(Context.Story.ToList(), "promoções 30% off");
+                var shortStory3 = new ShortStory(Context.Story.ToList(), "promoções 50% off");
+                var shortStory4 = new SmallStory(Context.Story.ToList(), "Logistica");
+                var shortStory5 = new SmallStory(Context.Story.ToList(), "Filiais");
+                var shortStory6 = new SmallStory(Context.Story.ToList(), "Entrega de produtos");
                 Context.Add(shortStory1);
                 Context.Add(shortStory2);
                 Context.Add(shortStory3);
+                Context.Add(shortStory4);
+                Context.Add(shortStory5);
+                Context.Add(shortStory6);
                 Context.SaveChanges();
 
                 foreach (var item in Context.Story.OrderBy(str => str.Id).Skip(1).ToList())
