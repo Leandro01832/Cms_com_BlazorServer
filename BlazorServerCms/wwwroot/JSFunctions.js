@@ -102,34 +102,21 @@ window.Clicou = (m) => {
     element.style.display = "flex";
 }
 
+window.GeminiResponse = (p) => {
 
-window.AumentarDiv = (id) => {
-    var divs = document.getElementsByClassName("DivPag");
+    const prompt = p;
 
-    for (var i = 0; i < divs.length; i++) {
-        divs[i].style.color = "black";
-        //if (indice > 99 && indice < 1000 && largura < 500) {
+    debugger;
 
-        //    // tres algarismos
-        //    divs[i].classList.remove("DivPag");
-        //    divs[i].classList.add("DivPagTam2");
-        //}
-        //else if (indice > 999 && indice < 10000 && largura < 500) {
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+    console.log(text);
 
-        //    // quatro algarismos
-        //    divs[i].classList.remove("DivPag");
-        //    divs[i].classList.add("DivPagTam3");
-        //}
-        //else if (indice > 9999 && indice < 100000 && largura < 500) {
-
-        //    // cinco algarismos
-        //    divs[i].classList.remove("DivPag");
-        //    divs[i].classList.add("DivPagTam4");
-        //}
-
-    }
+    return text;
 
 }
+
 
 window.MarcarIndice = (id) => {
     var divs = document.getElementsByClassName("DivPag");
@@ -141,7 +128,7 @@ window.MarcarIndice = (id) => {
     var scrolando = 0;
     var calculo = 0;
     if (largura > 500) {
-        tamanho = parseInt((25 * largura) / 1280);
+        tamanho = parseInt((21 * largura) / 1024);
          scrolando = 32;
     }
     else {

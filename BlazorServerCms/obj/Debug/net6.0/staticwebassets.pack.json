@@ -1,168 +1,176 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff",
       "PackagePath": "staticwebassets\\css\\fonts\\bootstrap-icons.woff"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff2",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\fonts\\bootstrap-icons.woff2",
       "PackagePath": "staticwebassets\\css\\fonts\\bootstrap-icons.woff2"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\styles.css",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\css\\styles.css",
       "PackagePath": "staticwebassets\\css\\styles.css"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.js",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.js",
       "PackagePath": "staticwebassets\\js\\JsInteropCommon.js"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.min.js",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.min.js",
       "PackagePath": "staticwebassets\\js\\JsInteropCommon.min.js"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.ts",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropCommon.ts",
       "PackagePath": "staticwebassets\\js\\JsInteropCommon.ts"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.js",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.js",
       "PackagePath": "staticwebassets\\js\\JsInteropPopper.js"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.min.js",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.min.js",
       "PackagePath": "staticwebassets\\js\\JsInteropPopper.min.js"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.ts",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\JsInteropPopper.ts",
       "PackagePath": "staticwebassets\\js\\JsInteropPopper.ts"
     },
     {
-      "Id": "C:\\Users\\User\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\vendor.min.js",
+      "Id": "C:\\Users\\leand\\.nuget\\packages\\psc.blazor.components.tours\\1.0.10\\contentFiles\\any\\net6.0\\wwwroot\\js\\vendor.min.js",
       "PackagePath": "staticwebassets\\js\\vendor.min.js"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
-      "PackagePath": "staticwebassets\\BlazorServerCms.bundle.scp.css"
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
+      "PackagePath": "staticwebassets\\BlazorServerCms.9ymrtvw2wu.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\Capa.html",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\Capa.html",
       "PackagePath": "staticwebassets\\Arquivotxt\\Capa.html"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\default.html",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\default.html",
       "PackagePath": "staticwebassets\\Arquivotxt\\default.html"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.1.seres-vivos.jpg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.txt",
+      "PackagePath": "staticwebassets\\Arquivotxt\\stories.txt"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.1.seres-vivos.jpg",
       "PackagePath": "staticwebassets\\ImgStory\\cap.1.seres-vivos.jpg"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\seres-vivos.jpg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\seres-vivos.jpg",
       "PackagePath": "staticwebassets\\ImgStory\\seres-vivos.jpg"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\padrao.jpg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\padrao.jpg",
       "PackagePath": "staticwebassets\\ImgUser\\padrao.jpg"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg",
       "PackagePath": "staticwebassets\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "PackagePath": "staticwebassets\\JSFunctions.js"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\Loading.gif",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Loading.gif",
       "PackagePath": "staticwebassets\\Loading.gif"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\Tynymce.js",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Tynymce.js",
       "PackagePath": "staticwebassets\\Tynymce.js"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
       "PackagePath": "staticwebassets\\css\\open-iconic"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
       "PackagePath": "staticwebassets\\css\\open-iconic"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\README.md",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\README.md",
       "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\site.css",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\favicon-32x32.png",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\favicon-32x32.png",
       "PackagePath": "staticwebassets\\favicon-32x32.png"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\favicon.ico",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\folder.webp",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\folder.webp",
       "PackagePath": "staticwebassets\\folder.webp"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\ga.js",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ga.js",
       "PackagePath": "staticwebassets\\ga.js"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\livro.jpg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\livro.jpg",
       "PackagePath": "staticwebassets\\livro.jpg"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\main.js",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\main.js",
       "PackagePath": "staticwebassets\\main.js"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\pasta-user.png",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\pasta-user.png",
       "PackagePath": "staticwebassets\\pasta-user.png"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\story.jpg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\story.jpg",
       "PackagePath": "staticwebassets\\story.jpg"
     },
     {
-      "Id": "C:\\Users\\User\\BlazorCms\\BlazorServerCms\\wwwroot\\svg\\house.svg",
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\svg\\house.svg",
       "PackagePath": "staticwebassets\\svg\\house.svg"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.BlazorServerCms.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.BlazorServerCms.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -2,6 +2,7 @@
 using BlazorServerCms.servicos;
 using business;
 using business.business;
+using business.business.Group;
 using business.Group;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -78,6 +79,36 @@ namespace BlazorCms.Client.Pages
            
             if (indice == 0)
                 indice = 1;
+
+            if(Context.Story.ToList().Count == 2)
+            {
+                var lista = await repositoryPagina.buscarPatternStory();
+
+                foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(3).ToList())
+                    Context.Add(story);
+                Context.SaveChanges();
+
+                var shortStory1 = new ShortStory(Context.Story.ToList(), "story promoções 10% off");
+                var shortStory2 = new ShortStory(Context.Story.ToList(), "story promoções 30% off");
+                var shortStory3 = new ShortStory(Context.Story.ToList(), "story promoções 50% off");
+                Context.Add(shortStory1);
+                Context.Add(shortStory2);
+                Context.Add(shortStory3);
+                Context.SaveChanges();
+
+                foreach (var item in Context.Story.OrderBy(str => str.Id).Skip(1).ToList())
+                {
+                    var strPadrao = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 1);
+                    var pagPadrao = new Pagina(strPadrao)
+                    {
+                        Comentario = 0,
+                        Html = $"<a href=''#'' class=''LinkPadrao''> <h1> {item.Nome} </h1> </a>",
+                        Titulo = "capitulos",
+                    };
+                    Context.Add(pagPadrao);
+                    Context.SaveChanges();
+                }
+            }
 
             if(repositoryPagina.stories.Count == 0)
             {
@@ -689,15 +720,16 @@ namespace BlazorCms.Client.Pages
                 
                 Model = repositoryPagina.Conteudo!.Where(p => p.Story.PaginaPadraoLink == capitulo)
                     .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
-                
-                if(Model is Pagina)
+
+                if (Model is Pagina)
                 {
                     var p = (Pagina)Model;
-                vers = p.Versiculo;
-                Model = repositoryPagina.includes()
-                .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
+                    vers = p.Versiculo;
+                    Model = repositoryPagina.includes()
+                    .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
 
                 }
+                else vers = 0;
 
                 ultimaPasta = Model2.Id == story.Filtro
                     .Where(f => f.Pagina
@@ -737,6 +769,7 @@ namespace BlazorCms.Client.Pages
                 Model = repositoryPagina.includes()
                    .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
                 }
+                else vers = 0;
 
                 quantidadeLista = listaFiltradaComConteudo!.Count;
             }

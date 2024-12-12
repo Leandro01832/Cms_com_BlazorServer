@@ -96,10 +96,12 @@ p {
 
 .indices {
     font-size: 0.6rem !important;
+    color: black;
 }
 
 .indice {
-    font-size: 0.8rem !important;
+    font-size: 0.6rem !important;
+    color: red;
 }
 
 .barra {

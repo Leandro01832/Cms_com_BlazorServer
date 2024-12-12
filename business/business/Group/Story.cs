@@ -1,9 +1,5 @@
-﻿using business;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using business.business;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace business.Group
 {

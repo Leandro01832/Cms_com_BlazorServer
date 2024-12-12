@@ -1,23 +1,15 @@
 using BlazorServerCms.Areas.Identity;
 using BlazorServerCms.Data;
-using business.Group;
+using BlazorServerCms.servicos;
 using business;
-using Microsoft.AspNetCore.Components;
+using business.business;
+using business.business.Group;
+using business.Group;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Newtonsoft.Json;
-using BlazorServerCms.servicos;
-using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
-using business.business;
-using System.Collections.Generic;
-using BlazorServerCms.Pages;
-using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Authentication.Google;
 using PSC.Blazor.Components.Tours;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -134,6 +126,7 @@ using (var scope = app.Services.CreateScope())
 
     if (!await contexto!.Set<Story>().AnyAsync())
     {
+
         var padrao = new Story
         {
             PaginaPadraoLink = 0,
@@ -148,23 +141,9 @@ using (var scope = app.Services.CreateScope())
         contexto.Add(str);
         contexto.SaveChanges();
 
-        var count3 = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == str.Id);
-        var pagPadrao = new Pagina(count3)
-        {
-            Comentario = 0,
-            Html = "<a href=''#'' id=''LinkPadrao''> <h1> Story seres vivos</h1> </a>",            
-            Titulo = "capitulos",
-        };
-        contexto.Add(pagPadrao);
-        contexto.SaveChanges();
-        var p = await repositoryPagina.includes().FirstAsync(pa => pa.Id == pagPadrao.Id);
+        Pagina[] pages = new Pagina[10000];       
 
-        Pagina[] pages = new Pagina[15000];
-        foreach(var item in contexto.Story!.Include(str => str.Pagina).First(str => str.Id == 1).Pagina!.ToList())
-        {
-            var p1 = await repositoryPagina.includes().FirstAsync(pa => pa.Id == item.Id);
-        }
-        for (var i = 1; i<= 15000; i++)
+        for (var i = 1; i<= 10000; i++)
         {
             var count = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 2);          
                 
@@ -777,6 +756,7 @@ using (var scope = app.Services.CreateScope())
             repositoryPagina.Conteudo.Add(pages[i - 1]);
         }
 
+        
 
     }
 

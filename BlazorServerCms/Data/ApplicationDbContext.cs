@@ -1,6 +1,7 @@
 ﻿using business;
 using business.business;
 using business.business.Book;
+using business.business.Group;
 using business.Group;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
-        public static string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=cms;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        public static string _connectionString = "Data Source=DESKTOP-MF10LM9\\SQLEXPRESS;Initial Catalog=cms;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
         public ApplicationDbContext(string connectionString)
         {
@@ -47,6 +48,8 @@ namespace BlazorServerCms.Data
         public DbSet<Grupo>? Grupo { get; set; }
         public DbSet<SubStory>? SubStory { get; set; }
         public DbSet<Story>? Story { get; set; }
+        public DbSet<ShortStory>? ShortStory { get; set; }
+        public DbSet<PatternStory>? PatternStory { get; set; }
         public DbSet<Telefone>? Telefone { get; set; }
         public DbSet<Livro>? Livro { get; set; }
         public DbSet<Comentario>? Comentario { get; set; }

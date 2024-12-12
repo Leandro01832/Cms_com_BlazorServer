@@ -5,11 +5,9 @@
 @inject NavigationManager navigation
 
     <PageTitle>Estante de @user </PageTitle>
+
+
     <h3>Estante de @user</h3>
-
-
-
-
 
 
 @if(livro != null)
@@ -96,7 +94,8 @@ else
         if(user is null)
         {
             user = await js.InvokeAsync<string>("prompt", "Informe o compartilhante.");
-        }
+            user = user.Trim();
+        }       
 
         livros = await Context.UserModelLivro!
         .Include(ul => ul.UserModel)

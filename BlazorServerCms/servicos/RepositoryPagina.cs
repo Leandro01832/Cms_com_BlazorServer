@@ -1,6 +1,7 @@
 ﻿using BlazorServerCms.Data;
 using business;
 using business.business;
+using business.business.Group;
 using business.Group;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -122,6 +123,26 @@ namespace BlazorServerCms.servicos
         {
             var dominio = Configuration.GetConnectionString("ecommerce");
             return dominio;
+        }
+
+
+        public async Task<List<PatternStory>> buscarPatternStory()
+        {
+            List<PatternStory> lista = new List<PatternStory>();
+            var text = await Http.GetStringAsync("https://localhost:7224/Arquivotxt/stories.txt");
+
+            var stories = text.Split('-');
+
+            for (int i = 0; i < stories.Length; i++)
+            {
+                lista.Add(new PatternStory
+                {
+                    PaginaPadraoLink = i,
+                    Nome = stories[i].TrimStart().TrimEnd()
+                });
+            }
+
+            return lista;
         }
 
 

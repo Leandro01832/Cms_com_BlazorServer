@@ -459,6 +459,10 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -471,6 +475,8 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Story");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Story");
                 });
 
             modelBuilder.Entity("business.ImagemProduto", b =>
@@ -724,6 +730,20 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("business.business.Group.PatternStory", b =>
+                {
+                    b.HasBaseType("business.Group.Story");
+
+                    b.HasDiscriminator().HasValue("PatternStory");
+                });
+
+            modelBuilder.Entity("business.business.Group.ShortStory", b =>
+                {
+                    b.HasBaseType("business.Group.Story");
+
+                    b.HasDiscriminator().HasValue("ShortStory");
                 });
 
             modelBuilder.Entity("business.business.UserContent", b =>

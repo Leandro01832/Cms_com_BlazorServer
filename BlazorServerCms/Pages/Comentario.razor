@@ -10,6 +10,18 @@
 
 <h3>Comentar</h3>
 
+<input type="checkbox" id="data" name="data" @bind="Gemini" />
+                            Utilizar Gemini?
+
+                            <br />
+
+@if (Gemini)
+{
+    <input type="text" placeholder="Informe prompt" @bind="prompt" />
+    <br />
+}
+    <a href="#" class="btn btn-danger" onclick"@(buscarResposta)" >Run</a>
+
 <Editor Id="contentextarea"
             Inline=false
             CloudChannel="5"
@@ -49,6 +61,9 @@
     Pagina Model = new Pagina();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+
+    private bool Gemini = false;
+    private string prompt = "";
 
 
 
@@ -119,12 +134,15 @@
         else
         {
             await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!!");
-                await js!.InvokeVoidAsync("history.back");
-            
+            await js!.InvokeVoidAsync("history.back");
+
         }
 
     }
 
-  
+    private async void buscarResposta()
+    {
+       var reposta =  await js!.InvokeAsync<object>("GeminiResponse", prompt);
+    }
 
 }

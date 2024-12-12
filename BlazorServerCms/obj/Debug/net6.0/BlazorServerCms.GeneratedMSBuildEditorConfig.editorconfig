@@ -9,379 +9,381 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BlazorServerCms
 build_property.RootNamespace = BlazorServerCms
-build_property.ProjectDir = C:\Users\User\BlazorCms\BlazorServerCms\
+build_property.ProjectDir = C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\User\BlazorCms\BlazorServerCms
+build_property.MSBuildProjectDirectory = C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms
 build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 6.0
+build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/App.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Admin.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Admin.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Atualizarmarcador.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Atualizarmarcador.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXR1YWxpemFybWFyY2Fkb3IucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/ClassificacaoComentario.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/ClassificacaoComentario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xhc3NpZmljYWNhb0NvbWVudGFyaW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Comentario.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Comentario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tZW50YXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Configurar/AddPermissao.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Configurar/AddPermissao.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBZGRQZXJtaXNzYW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Configurar/AlterarFoto.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Configurar/AlterarFoto.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxBbHRlcmFyRm90by5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Configurar/Configuracoes.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Configurar/Configuracoes.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxDb25maWd1cmFjb2VzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Configurar/ConvertContent.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Configurar/ConvertContent.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxDb252ZXJ0Q29udGVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Configurar/RemovePermissao.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Configurar/RemovePermissao.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxSZW1vdmVQZXJtaXNzYW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Conteudo.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Conteudo.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGV1ZG8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CreateContent.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CreateContent.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlQ29udGVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Criterio.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Criterio.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JpdGVyaW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaDez/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaDez/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYURlelxDcmVhdGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaDez/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaDez/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYURlelxFZGl0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaDez/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaDez/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYURlelxJbmRleC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaNove/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaNove/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYU5vdmVcQ3JlYXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaNove/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaNove/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYU5vdmVcRWRpdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaNove/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaNove/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYU5vdmVcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaOito/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaOito/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYU9pdG9cQ3JlYXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaOito/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaOito/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYU9pdG9cRWRpdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaOito/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaOito/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYU9pdG9cSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaSeis/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaSeis/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYVNlaXNcQ3JlYXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaSeis/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaSeis/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYVNlaXNcRWRpdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaSeis/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaSeis/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYVNlaXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaSete/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaSete/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYVNldGVcQ3JlYXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaSete/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaSete/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYVNldGVcRWRpdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudCamadaSete/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudCamadaSete/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZENhbWFkYVNldGVcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudGrupo/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudGrupo/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEdydXBvXENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudGrupo/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudGrupo/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEdydXBvXEVkaXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudGrupo/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudGrupo/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZEdydXBvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudLivro/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudLivro/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudLivro/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudLivro/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXEVkaXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudLivro/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudLivro/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZExpdnJvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudPagina/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudPagina/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFBhZ2luYVxDcmVhdGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudPagina/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudPagina/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFBhZ2luYVxFZGl0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudPagina/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudPagina/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFBhZ2luYVxJbmRleC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudStory/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudStory/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN0b3J5XENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudStory/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudStory/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN0b3J5XEVkaXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudStory/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudStory/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN0b3J5XEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubGrupo/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubGrupo/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YkdydXBvXENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubGrupo/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubGrupo/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YkdydXBvXEVkaXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubGrupo/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubGrupo/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YkdydXBvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubStory/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubStory/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN0b3J5XENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubStory/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubStory/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN0b3J5XEVkaXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubStory/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubStory/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN0b3J5XEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubSubGrupo/Create.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubSubGrupo/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN1YkdydXBvXENyZWF0ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubSubGrupo/Edit.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubSubGrupo/Edit.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN1YkdydXBvXEVkaXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/CrudSubSubGrupo/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/CrudSubSubGrupo/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3J1ZFN1YlN1YkdydXBvXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/ecommerce/Cadastro.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/ecommerce/Cadastro.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXENhZGFzdHJvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/ecommerce/Carrinho.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/ecommerce/Carrinho.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXENhcnJpbmhvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/ecommerce/Resumo.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/ecommerce/Resumo.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcZWNvbW1lcmNlXFJlc3Vtby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Responsechatgpt.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Responsechatgpt.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVzcG9uc2VjaGF0Z3B0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Sobre.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Sobre.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU29icmUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Sumario.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Sumario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3VtYXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Vitrine.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Vitrine.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVml0cmluZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/Alerta.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/Alerta.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEFsZXJ0YS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/BackPage.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/BackPage.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEJhY2tQYWdlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/Compartilhante.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/Compartilhante.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXENvbXBhcnRpbGhhbnRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/LayoutContent.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/LayoutContent.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExheW91dENvbnRlbnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/LoginDisplay.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/LoginDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/SurveyPrompt.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/_Imports.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/AcessoEstante.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/AcessoEstante.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNlc3NvRXN0YW50ZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-y6zxmyyu3y
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Configurar/Config.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Configurar/Config.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhclxDb25maWcucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-55jojgzw75
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Index.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ybvjv7whh6
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/ListaFiltro.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/ListaFiltro.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-622vkbnu9r
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/ListaFiltro2.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/ListaFiltro2.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlzdGFGaWx0cm8yLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-92jj3wda8j
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Pastas.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Pastas.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFzdGFzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-jje5gysd6g
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Plataforma.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Plataforma.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGxhdGFmb3JtYS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-j12sz7i7s5
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Renderizar.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Renderizar.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVuZGVyaXphci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-k8aihg5em2
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Usuario.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Usuario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXN1YXJpby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-xgm24g75ba
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/LayoutUsuario.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/LayoutUsuario.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExheW91dFVzdWFyaW8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-q23uvzelni
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/MainLayout.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ofu5x09pw2
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/MeuLayout.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/MeuLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1ldUxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-mnex5vseq6
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Shared/NavMenu.razor]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-hzn4tv4b19
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/LogOut.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/LogOut.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dPdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Error.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Shared/_Layout.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Shared/_LoginPartial.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/_Host.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/_Layout.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/User/BlazorCms/BlazorServerCms/Pages/_ViewImports.cshtml]
+[C:/Users/leand/OneDrive/Documentos/BlazorCms/BlazorServerCms/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

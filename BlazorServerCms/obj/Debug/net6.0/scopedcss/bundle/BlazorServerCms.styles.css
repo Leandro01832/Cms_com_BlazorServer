@@ -555,10 +555,12 @@ p[b-k8aihg5em2] {
 
 .indices[b-k8aihg5em2] {
     font-size: 0.6rem !important;
+    color: black;
 }
 
 .indice[b-k8aihg5em2] {
-    font-size: 0.8rem !important;
+    font-size: 0.6rem !important;
+    color: red;
 }
 
 .barra[b-k8aihg5em2] {

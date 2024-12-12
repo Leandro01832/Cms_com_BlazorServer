@@ -20,6 +20,31 @@
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', '');</script>
 
 
+    <script type="importmap">
+        {
+          "imports": {
+            "@@google/generative-ai": "https://esm.run/@@google/generative-ai"
+          }
+        }
+    </script>
+    <script type="module">
+        import { GoogleGenerativeAI } from "@@google/generative-ai";
+
+        // Fetch your API_KEY
+        const API_KEY = "...";
+        // Reminder: This should only be for local testing
+
+        // Access your API key (see "Set up your API key" above)
+        const genAI = new GoogleGenerativeAI(API_KEY);
+
+        // ...
+
+        // The Gemini 1.5 models are versatile and work with most use cases
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        // ...
+    </script>
+
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body id="corpoPagina">
