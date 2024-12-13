@@ -80,40 +80,67 @@ namespace BlazorCms.Client.Pages
             if (indice == 0)
                 indice = 1;
 
-            if(Context.Story.ToList().Count == 2)
+            var Stories = Context.Story.ToList();
+            var lista = await repositoryPagina.buscarPatternStory();
+
+            if (Stories.Count == 2 || lista.Count !=  Stories.OfType<PatternStory>().ToList().Count )
             {
-                var lista = await repositoryPagina.buscarPatternStory();
-
-                foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(2).ToList())
-                    Context.Add(story);
-                Context.SaveChanges();
-
-                var shortStory1 = new ShortStory(Context.Story.ToList(), "promoções 10% off");
-                var shortStory2 = new ShortStory(Context.Story.ToList(), "promoções 30% off");
-                var shortStory3 = new ShortStory(Context.Story.ToList(), "promoções 50% off");
-                var shortStory4 = new SmallStory(Context.Story.ToList(), "Logistica");
-                var shortStory5 = new SmallStory(Context.Story.ToList(), "Filiais");
-                var shortStory6 = new SmallStory(Context.Story.ToList(), "Entrega de produtos");
-                Context.Add(shortStory1);
-                Context.Add(shortStory2);
-                Context.Add(shortStory3);
-                Context.Add(shortStory4);
-                Context.Add(shortStory5);
-                Context.Add(shortStory6);
-                Context.SaveChanges();
-
-                foreach (var item in Context.Story.OrderBy(str => str.Id).Skip(1).ToList())
+                if(Stories.Count == 2)
                 {
-                    var strPadrao = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 1);
-                    var pagPadrao = new Pagina(strPadrao)
-                    {
-                        Comentario = 0,
-                        Html = $"<a href=''#'' class=''LinkPadrao''> <h1> {item.Nome} </h1> </a>",
-                        Titulo = "capitulos",
-                    };
-                    Context.Add(pagPadrao);
+                    foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(2).ToList())
+                        Context.Add(story);
                     Context.SaveChanges();
+
+                    var shortStory1 = new ShortStory(Context.Story.ToList(), "promoções 10% off");
+                    var shortStory2 = new ShortStory(Context.Story.ToList(), "promoções 30% off");
+                    var shortStory3 = new ShortStory(Context.Story.ToList(), "promoções 50% off");
+                    var shortStory4 = new SmallStory(Context.Story.ToList(), "Logistica");
+                    var shortStory5 = new SmallStory(Context.Story.ToList(), "Filiais");
+                    var shortStory6 = new SmallStory(Context.Story.ToList(), "Entrega de produtos");
+                    Context.Add(shortStory1);
+                    Context.Add(shortStory2);
+                    Context.Add(shortStory3);
+                    Context.Add(shortStory4);
+                    Context.Add(shortStory5);
+                    Context.Add(shortStory6);
+                    Context.SaveChanges();
+
+                    foreach (var item in Context.Story.OrderBy(str => str.Id).Skip(1).ToList())
+                    {
+                        var strPadrao = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 1);
+                        var pagPadrao = new Pagina(strPadrao)
+                        {
+                            Comentario = 0,
+                            Html = $"<a href=''#'' class=''LinkPadrao''> <h1> {item.Nome} </h1> </a>",
+                            Titulo = "capitulos",
+                        };
+                        Context.Add(pagPadrao);
+                        Context.SaveChanges();
+                    }
+
                 }
+                else
+                {
+                    foreach(var item in lista)
+                    {
+                        if(Stories.OfType<PatternStory>().ToList()
+                        .FirstOrDefault(l => l.PaginaPadraoLink == item.PaginaPadraoLink) == null)
+                        {
+                            Context.Add(item);
+                            Context.SaveChanges();
+                        }
+                    }
+                    var compartilharCapitulo = Stories.Where(str => str is not PatternStory)
+                        .OrderBy(str => str.Id).ToList();
+                    for(var i = 0; i < compartilharCapitulo.Count; i++)
+                    {
+                        compartilharCapitulo[i].PaginaPadraoLink = Context.Story.ToList().Count + i;
+                        Context.Update(compartilharCapitulo[i]);
+                        Context.SaveChanges();
+                    }
+                }
+                
+            
             }
 
             if(repositoryPagina.stories.Count == 0)
