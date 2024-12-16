@@ -295,6 +295,10 @@ Informativo {
     justify-content: space-between;
 }
 
+.barra.vermelho {
+    background-color: red;
+}
+
 
 @media (max-width: 550px) and (min-width: 50px) {
 

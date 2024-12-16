@@ -752,6 +752,10 @@ Informativo[b-k8aihg5em2] {
     justify-content: space-between;
 }
 
+.barra.vermelho[b-k8aihg5em2] {
+    background-color: red;
+}
+
 
 @media (max-width: 550px) and (min-width: 50px) {
 

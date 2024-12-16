@@ -40,6 +40,7 @@ namespace BlazorCms.Client.Pages
         protected int cap = 1;
         protected bool automatico = false;
 
+        protected int padroes = 0;
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;

@@ -1,5 +1,11 @@
-﻿    var porcentagem = 0;
-    var funcaoCarregarPagina2 = null;
+﻿
+
+    var porcentagem = 0;
+var funcaoCarregarPagina2 = null;
+
+
+
+// ...
 
 window.zerar = (m) => {
     porcentagem = 0;
@@ -104,16 +110,14 @@ window.Clicou = (m) => {
 
 window.GeminiResponse = (p) => {
 
-    const prompt = p;
+    //const prompt = p;
+    
+    //const result = await model.generateContent(prompt);
+    //const response = await result.response;
+    //const text = response.text();
+    //console.log(text);
 
-    debugger;
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-    console.log(text);
-
-    return text;
+    return p;
 
 }
 
@@ -122,7 +126,6 @@ window.MarcarIndice = (id) => {
     var divs = document.getElementsByClassName("DivPag");
     var indice = parseInt(id);
     var largura = window.screen.width;
-
 
     var tamanho = 0;
     var scrolando = 0;

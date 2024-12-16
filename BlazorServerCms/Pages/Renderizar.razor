@@ -138,10 +138,10 @@ else
                         @if (substory == null)
                         {
                             <input data-2 type="number" placeholder="digita nome" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
-                                   id="NumeroPaginaAcesso3" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
+                            id="NumeroPaginaAcesso3" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
                             <center>
                                 <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                                   class="btn btn-primary ms-1">
+                                class="btn btn-primary ms-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                     </svg>
@@ -151,10 +151,10 @@ else
                         else
                         {
                             <input type="text" placeholder="verso ou user" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
-                                   id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
+                            id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
                             <center>
                                 <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                                   class="btn btn-primary ms-1">
+                                class="btn btn-primary ms-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                     </svg>
@@ -298,7 +298,7 @@ else
             <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
             @if (substory != null && rotas == null && ultimaPasta ||
-           substory != null && rotas == null && compartilhante != "comp")
+         substory != null && rotas == null && compartilhante != "comp")
             {
                 <a class="compartilhar" onclick="@share">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
@@ -312,11 +312,11 @@ else
 
         <GuidedTour TourId="FormGuidedTour1" OverlayEnabled="true">
             <GuidedTourStep Title="Acessar story" StepName="firstStep" TourStepSequence="1"
-                            ElementSelector="[data-first]">
+            ElementSelector="[data-first]">
                 <span>Acesse a story e altere o capitulo se for necessário</span>
             </GuidedTourStep>
             <GuidedTourStep Title="Acessando" StepName="Step2" TourStepSequence="2"
-                            ElementSelector="[data-2]">
+            ElementSelector="[data-2]">
                 @if (outroHorizonte == 0)
                 {
                     <span>Informe o numero do versiculo e acesse qualquer pagina desta story. (Horizonte versiculos).</span>
@@ -339,54 +339,54 @@ else
                 }
             </GuidedTourStep>
             <GuidedTourStep Title="Home" StepName="Step3" TourStepSequence="3"
-                            ElementSelector="[data-3]">
+            ElementSelector="[data-3]">
                 <span>Neste link você acessará a home ou a capa do livro </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Comentários" StepName="Step4" TourStepSequence="4"
-                            ElementSelector="[data-4]">
+            ElementSelector="[data-4]">
                 <span>
                     Clique neste link para visualizar comentarios deste versiculo ou fazer um comentário.
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Pastas" StepName="Step5" TourStepSequence="5"
-                            ElementSelector="[data-5]">
+            ElementSelector="[data-5]">
                 <span>
                     Visualise todas as pastas deste versiculo clicando neste link.
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Ultima pasta" StepName="Step6" TourStepSequence="6"
-                            ElementSelector="[data-6]">
+            ElementSelector="[data-6]">
                 <span>
                     Neste link você será redirecionado para ultima pasta onde vão estar todos os versiculos marcados,
                     perguntas, respostas, marcadores etc.
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Automático" StepName="Step7" TourStepSequence="7"
-                            ElementSelector="[data-7]">
+            ElementSelector="[data-7]">
                 <span>
                     Clique aqui para mostrar as paginas automaticamente.
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Marcador" StepName="Step8" TourStepSequence="8"
-                            ElementSelector="[data-8]">
+            ElementSelector="[data-8]">
                 <span>
                     Clique aqui para acessar o horizonte marcador
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Perguntas" StepName="Step9" TourStepSequence="9"
-                            ElementSelector="[data-9]">
+            ElementSelector="[data-9]">
                 <span>
                     Clique aqui para acessar o horizonte perguntas
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Pastas" StepName="Step10" TourStepSequence="10"
-                            ElementSelector="[data-10]">
+            ElementSelector="[data-10]">
                 <span>
                     Clique aqui para acessar o horizonte pastas
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Versiculos" StepName="Step11" TourStepSequence="11"
-                            ElementSelector="[data-11]">
+            ElementSelector="[data-11]">
                 <span>
                     Clique aqui para acessar o horizonte versiculos
                 </span>
@@ -395,19 +395,19 @@ else
 
         <GuidedTour TourId="FormGuidedTour2" OverlayEnabled="true">
             <GuidedTourStep Title="Marcar" StepName="firstStep" TourStepSequence="1"
-                            ElementSelector="[data-first]">
+            ElementSelector="[data-first]">
                 <span>
                     Quando aparecer apenas um versiculo significa que você esta dentro da pasta.
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Criar filtro" StepName="Step2" TourStepSequence="2"
-                            ElementSelector="[data-2]">
+            ElementSelector="[data-2]">
                 <span>
                     Clique aqui e crie seu filtro.
                 </span>
             </GuidedTourStep>
             <GuidedTourStep Title="Numero" StepName="Step3" TourStepSequence="3"
-                            ElementSelector="[data-3]">
+            ElementSelector="[data-3]">
                 <span>
                     Este é o numero da pasta que foi acessado.
                 </span>
@@ -488,7 +488,7 @@ else
                     <center>
                         <h1>
                             <a onclick="@(() => acessarStory())">
-                                 @repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Nome
+                               Story @repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Nome
                                 <div class="circulo">
                                     <div class="circulo2">
                                         @if (repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image != null)
@@ -500,6 +500,20 @@ else
                                 </div>
                             </a>
                         </h1>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+
+                        <div class="barra vermelho" style="width:40px">
+                            
+                        </div> Stories Padrões
+                        <br />
+                        <br />
+                        <div class="barra" style="width:40px">
+                            
+                        </div> Stories do usuario
+
 
                     </center>
                 }
@@ -617,6 +631,7 @@ else
         <div id="PaginacaoConteudo" class="Paginacao">
 
             <center>
+
                 <div class="Informativo">
                     <h3>
 
@@ -754,10 +769,9 @@ else
                     }
                 </div>
 
-
                 <div class="DivPagina" style="background-color:white;">
                     @{
-
+                        var padrao = " vermelho";
 
                         if (substory == null)
                         {
@@ -772,9 +786,18 @@ else
                                             <div>
                                                 <span class="indice"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>                                                
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
 
                                         }
                                         else
@@ -783,9 +806,18 @@ else
                                             <div>
                                                 <span class="indices"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
                                         }
                                     </div>
 
@@ -799,9 +831,18 @@ else
                                             <div>
                                                 <span class="indice"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
 
                                         }
                                         else
@@ -810,9 +851,18 @@ else
                                             <div>
                                                 <span class="indices"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
                                         }
                                     </div>
                                 }
@@ -825,9 +875,18 @@ else
                                             <div>
                                                 <span class="indice"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
 
                                         }
                                         else
@@ -836,9 +895,18 @@ else
                                             <div>
                                                 <span class="indices"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
                                         }
                                     </div>
                                 }
@@ -851,9 +919,18 @@ else
                                             <div>
                                                 <span class="indice"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
 
                                         }
                                         else
@@ -862,14 +939,24 @@ else
                                             <div>
                                                 <span class="indices"><b>@ind</b> </span>
                                             </div>
-                                            <div class="barra">
-                                                -
-                                            </div>
+                                            @if (capitulo == 0 && ind <= padroes)
+                                            {
+                                                <div class="barra@(padrao)">
+                                                    -
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="barra">
+                                                    -
+                                                </div>
+                                            }
                                         }
                                     </div>
                                 }
                             }
                         }
+                        
                         else if (substory != null)
                         {
                             for (var i = 1; i <= quantidadeLista; i++)

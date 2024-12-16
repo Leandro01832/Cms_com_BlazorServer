@@ -143,7 +143,9 @@ namespace BlazorCms.Client.Pages
             
             }
 
-            if(repositoryPagina.stories.Count == 0)
+            padroes = Stories.OfType<PatternStory>().ToList().Count - 1;
+
+            if (repositoryPagina.stories.Count == 0)
             {
                 var str = await Context.Story!
                     .Include(p => p.Filtro)!
@@ -160,7 +162,7 @@ namespace BlazorCms.Client.Pages
 
             if (repositoryPagina.Conteudo.Count == 0)
             {
-                var pergs = await Context!.Content!.Include(p => p.Story).Include(p => p.Filtro).ToListAsync();
+                var pergs = await Context!.Content!.ToListAsync();
                 repositoryPagina.Conteudo.AddRange(pergs);
             }
 

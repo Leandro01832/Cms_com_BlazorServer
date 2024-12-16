@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "UtVqE+qecFm8mTrxVEFaosstHv7JNr71XNvpX/WYNNY=",
+  "Hash": "sy8zC+4uvCvGgmSBNvzzkmhXweaUc0vDv94OtPL0DDM=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -1774,8 +1774,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "cr69bkudhr",
-      "Integrity": "eGVPpeHFV8xb2x+mS2yGHihiilsCkPE1qw2NUVEOcNs=",
+      "Fingerprint": "2uxkum8ywu",
+      "Integrity": "tiGBJ+NolcvZ/NtFRkIQIoO0Hmk1n5fOp2Nw7yutNOw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css"
@@ -1795,8 +1795,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "9ymrtvw2wu",
-      "Integrity": "8UWLNyCsZyoIn8/bPtHeAQYk1WdVY7lYg6AaKDdXcc8=",
+      "Fingerprint": "g7dc8x8wlt",
+      "Integrity": "3Hme5IXTtzg7b61XTDY/yP+wnVCbc0ZgXwMTo0iIttw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css"
@@ -2299,8 +2299,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "xwsw945xa3",
-      "Integrity": "YSOwO97Xvyws8vCnWW/KMCmQk832RjngyUURtXXPI0k=",
+      "Fingerprint": "9wxecy36gv",
+      "Integrity": "51iZlDzKJMPNUYB0oDN58Q1iNpR7WgjNcM0yJoZNdGY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JSFunctions.js"
@@ -3182,8 +3182,8 @@
       ]
     },
     {
-      "Route": "BlazorServerCms.9ymrtvw2wu.bundle.scp.css",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
+      "Route": "BlazorServerCms.2uxkum8ywu.styles.css",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3191,8 +3191,12 @@
           "Value": "bytes"
         },
         {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
           "Name": "Content-Length",
-          "Value": "19981"
+          "Value": "20142"
         },
         {
           "Name": "Content-Type",
@@ -3200,29 +3204,29 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"8UWLNyCsZyoIn8/bPtHeAQYk1WdVY7lYg6AaKDdXcc8=\""
+          "Value": "\"tiGBJ+NolcvZ/NtFRkIQIoO0Hmk1n5fOp2Nw7yutNOw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 07 Dec 2024 12:57:53 GMT"
+          "Value": "Mon, 16 Dec 2024 11:55:51 GMT"
         },
         {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Name": "Link",
+          "Value": "<_content/PSC.Blazor.Components.Tours/PSC.Blazor.Components.Tours.bundle.scp.css>; rel=\"preload\"; as=\"style\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "9ymrtvw2wu"
-        },
-        {
-          "Name": "label",
-          "Value": "BlazorServerCms.bundle.scp.css"
+          "Value": "2uxkum8ywu"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-8UWLNyCsZyoIn8/bPtHeAQYk1WdVY7lYg6AaKDdXcc8="
+          "Value": "sha256-tiGBJ+NolcvZ/NtFRkIQIoO0Hmk1n5fOp2Nw7yutNOw="
+        },
+        {
+          "Name": "label",
+          "Value": "BlazorServerCms.styles.css"
         }
       ]
     },
@@ -3237,7 +3241,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "19981"
+          "Value": "20048"
         },
         {
           "Name": "Content-Type",
@@ -3245,11 +3249,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"8UWLNyCsZyoIn8/bPtHeAQYk1WdVY7lYg6AaKDdXcc8=\""
+          "Value": "\"3Hme5IXTtzg7b61XTDY/yP+wnVCbc0ZgXwMTo0iIttw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 07 Dec 2024 12:57:53 GMT"
+          "Value": "Mon, 16 Dec 2024 11:55:51 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3259,13 +3263,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-8UWLNyCsZyoIn8/bPtHeAQYk1WdVY7lYg6AaKDdXcc8="
+          "Value": "sha256-3Hme5IXTtzg7b61XTDY/yP+wnVCbc0ZgXwMTo0iIttw="
         }
       ]
     },
     {
-      "Route": "BlazorServerCms.cr69bkudhr.styles.css",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css",
+      "Route": "BlazorServerCms.g7dc8x8wlt.bundle.scp.css",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3273,12 +3277,8 @@
           "Value": "bytes"
         },
         {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        },
-        {
           "Name": "Content-Length",
-          "Value": "20075"
+          "Value": "20048"
         },
         {
           "Name": "Content-Type",
@@ -3286,29 +3286,29 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eGVPpeHFV8xb2x+mS2yGHihiilsCkPE1qw2NUVEOcNs=\""
+          "Value": "\"3Hme5IXTtzg7b61XTDY/yP+wnVCbc0ZgXwMTo0iIttw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 07 Dec 2024 12:57:53 GMT"
+          "Value": "Mon, 16 Dec 2024 11:55:51 GMT"
         },
         {
-          "Name": "Link",
-          "Value": "<_content/PSC.Blazor.Components.Tours/PSC.Blazor.Components.Tours.bundle.scp.css>; rel=\"preload\"; as=\"style\""
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "cr69bkudhr"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-eGVPpeHFV8xb2x+mS2yGHihiilsCkPE1qw2NUVEOcNs="
+          "Value": "g7dc8x8wlt"
         },
         {
           "Name": "label",
-          "Value": "BlazorServerCms.styles.css"
+          "Value": "BlazorServerCms.bundle.scp.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3Hme5IXTtzg7b61XTDY/yP+wnVCbc0ZgXwMTo0iIttw="
         }
       ]
     },
@@ -3327,7 +3327,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "20075"
+          "Value": "20142"
         },
         {
           "Name": "Content-Type",
@@ -3335,11 +3335,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"eGVPpeHFV8xb2x+mS2yGHihiilsCkPE1qw2NUVEOcNs=\""
+          "Value": "\"tiGBJ+NolcvZ/NtFRkIQIoO0Hmk1n5fOp2Nw7yutNOw=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 07 Dec 2024 12:57:53 GMT"
+          "Value": "Mon, 16 Dec 2024 11:55:51 GMT"
         },
         {
           "Name": "Link",
@@ -3349,7 +3349,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-eGVPpeHFV8xb2x+mS2yGHihiilsCkPE1qw2NUVEOcNs="
+          "Value": "sha256-tiGBJ+NolcvZ/NtFRkIQIoO0Hmk1n5fOp2Nw7yutNOw="
         }
       ]
     },
@@ -8034,6 +8034,51 @@
       ]
     },
     {
+      "Route": "JSFunctions.9wxecy36gv.js",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7163"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"51iZlDzKJMPNUYB0oDN58Q1iNpR7WgjNcM0yJoZNdGY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 16 Dec 2024 14:16:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "9wxecy36gv"
+        },
+        {
+          "Name": "label",
+          "Value": "JSFunctions.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-51iZlDzKJMPNUYB0oDN58Q1iNpR7WgjNcM0yJoZNdGY="
+        }
+      ]
+    },
+    {
       "Route": "JSFunctions.js",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "Selectors": [],
@@ -8044,7 +8089,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7157"
+          "Value": "7163"
         },
         {
           "Name": "Content-Type",
@@ -8052,11 +8097,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"YSOwO97Xvyws8vCnWW/KMCmQk832RjngyUURtXXPI0k=\""
+          "Value": "\"51iZlDzKJMPNUYB0oDN58Q1iNpR7WgjNcM0yJoZNdGY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 08 Dec 2024 15:15:53 GMT"
+          "Value": "Mon, 16 Dec 2024 14:16:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8066,52 +8111,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-YSOwO97Xvyws8vCnWW/KMCmQk832RjngyUURtXXPI0k="
-        }
-      ]
-    },
-    {
-      "Route": "JSFunctions.xwsw945xa3.js",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "7157"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"YSOwO97Xvyws8vCnWW/KMCmQk832RjngyUURtXXPI0k=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sun, 08 Dec 2024 15:15:53 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "xwsw945xa3"
-        },
-        {
-          "Name": "label",
-          "Value": "JSFunctions.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-YSOwO97Xvyws8vCnWW/KMCmQk832RjngyUURtXXPI0k="
+          "Value": "sha256-51iZlDzKJMPNUYB0oDN58Q1iNpR7WgjNcM0yJoZNdGY="
         }
       ]
     },
