@@ -604,6 +604,7 @@ Informativo[b-k8aihg5em2] {
     flex-direction: row;
     overflow: hidden;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .DivPag[b-k8aihg5em2] {

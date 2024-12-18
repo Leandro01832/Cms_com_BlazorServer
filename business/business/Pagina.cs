@@ -25,6 +25,13 @@ namespace business
                 StoryId = story.Id;
                 Versiculo = story.Pagina.Count + 1;
             
+        } 
+        
+        public Pagina(int count)
+        {
+            Data = DateTime.Now;
+            Versiculo = count;
+            
         }           
 
         public int Versiculo { get; set; }       

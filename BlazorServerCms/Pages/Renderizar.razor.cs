@@ -1433,14 +1433,16 @@ namespace BlazorCms.Client.Pages
                 {
                     SqlCommand cmd = null;
                     if (Model != null)
+                    {
                         cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P  where P.StoryId={Model.StoryId} and P.Discriminator='Pagina' ", con);
+                        con.Open();
+                        _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
+                        con.Close();
+                    }
                     else
                         _TotalRegistros = 0;
 
 
-                    con.Open();
-                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
-                    con.Close();
                 }
             }
             catch (Exception)

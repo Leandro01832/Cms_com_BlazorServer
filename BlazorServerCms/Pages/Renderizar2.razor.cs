@@ -41,6 +41,7 @@ namespace BlazorCms.Client.Pages
         protected bool automatico = false;
 
         protected int padroes = 0;
+        protected string classCss = "";
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;

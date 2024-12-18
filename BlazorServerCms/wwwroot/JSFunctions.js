@@ -123,45 +123,82 @@ window.GeminiResponse = (p) => {
 
 
 window.MarcarIndice = (id) => {
-    var divs = document.getElementsByClassName("DivPag");
     var indice = parseInt(id);
+    var ind2 = indice;
+    var elemento = "";
+    var elemento2 = "";
+    var divs = document.getElementsByClassName("DivPag");
     var largura = window.screen.width;
-
-    var tamanho = 0;
+    var quantDiv = 0;
     var scrolando = 0;
     var calculo = 0;
+
     if (largura > 500) {
-        tamanho = parseInt((21 * largura) / 1024);
-         scrolando = 32;
+        quantDiv = parseInt((21 * largura) / 1024);
+        scrolando = 32;
     }
     else {
-        if (indice < 99) {
-            tamanho = parseInt((16 * largura) / 412);
+        if (indice < 100) {
+            quantDiv = parseInt((13 * largura) / 344);
             scrolando = 28;
-
         }
         else if (indice > 99 && indice < 1000) {
-            tamanho = parseInt((13 * largura) / 412);
+            quantDiv = parseInt((11 * largura) / 344);
             scrolando = 28;
         }
         else if (indice > 999 && indice < 10000) {
-            tamanho = parseInt((10 * largura) / 412);
+            quantDiv = parseInt((8 * largura) / 344);
             scrolando = 28;
         }
         else if (indice > 9999 && indice < 100000) {
-            tamanho = parseInt((7 * largura) / 412);
+            quantDiv = parseInt((6 * largura) / 344);
             scrolando = 28;
         }
     }
-    var filas = parseInt(indice / tamanho);
-    var resto = parseInt(indice % tamanho);
+
+    var resto = parseInt(indice % quantDiv);
+
+    if (resto == 0) {
+        ind2++;
+        elemento = "DivPagina" + indice;
+        elemento2 = "DivPagina" + ind2;
+        var el = document.getElementById(elemento);
+        var el2 = document.getElementById(elemento2);
+        var posicao = el.getBoundingClientRect();
+        var posicao2 = el2.getBoundingClientRect();
+
+        if (posicao.left < posicao2.left)
+            quantDiv = quantDiv + 1;
+    }
+    else
+    while (resto != 0) {
+        ind2++;
+        var ind3 = ind2 + 1;
+        resto = ind2 % quantDiv;
+        if (resto == 0) {
+            elemento = "DivPagina" + ind2;
+            elemento2 = "DivPagina" + ind3;
+            var el = document.getElementById(elemento);
+            var el2 = document.getElementById(elemento2);
+            var posicao = el.getBoundingClientRect();
+            var posicao2 = el2.getBoundingClientRect();
+
+            if (posicao.left < posicao2.left)
+                quantDiv = quantDiv + 1;
+        }
+
+    }
+
+
+    resto = parseInt(indice % quantDiv);
+    var filas = parseInt(indice / quantDiv);
     if (filas > 0 && resto == 0)
         filas--;
     if (filas > 0)
-         calculo = (scrolando * filas);
+        calculo = (scrolando * filas);
 
     console.log("Largura: " + largura);
-    console.log("Tamanho: " + tamanho);
+    console.log("Tamanho: " + quantDiv);
     console.log("Calculo: " + calculo);
     console.log("Filas: " + filas);
 

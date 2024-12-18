@@ -134,7 +134,7 @@ namespace BlazorCms.Client.Pages
                         .OrderBy(str => str.Id).ToList();
                     for(var i = 0; i < compartilharCapitulo.Count; i++)
                     {
-                        compartilharCapitulo[i].PaginaPadraoLink = Context.Story.ToList().Count + i;
+                        compartilharCapitulo[i].PaginaPadraoLink = Context.Story.OfType<PatternStory>().ToList().Count + i;
                         Context.Update(compartilharCapitulo[i]);
                         Context.SaveChanges();
                     }
@@ -145,7 +145,7 @@ namespace BlazorCms.Client.Pages
 
             padroes = Stories.OfType<PatternStory>().ToList().Count - 1;
 
-            if (repositoryPagina.stories.Count == 0)
+            if (repositoryPagina.stories.Count == 0 || repositoryPagina.stories.Count != Stories.Count)
             {
                 var str = await Context.Story!
                     .Include(p => p.Filtro)!
@@ -154,6 +154,7 @@ namespace BlazorCms.Client.Pages
                    .ThenInclude(p => p.Pagina)!
                    .ThenInclude(p => p.Content)
                     .OrderBy(st => st.Id).ToListAsync();
+                repositoryPagina.stories.Clear();
                 repositoryPagina.stories.AddRange(str);
 
             }
@@ -354,6 +355,21 @@ namespace BlazorCms.Client.Pages
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+
+            if(substory == null)
+            {
+                if (indice < 100) classCss = "";
+                else if (indice > 99 && indice < 1000) classCss = " DivPagTam2";
+                else if (indice > 999 && indice < 10000) classCss = " DivPagTam3";
+                else if (indice > 9999 && indice < 100000) classCss = " DivPagTam4";
+            }
+            else
+            {
+                if (vers < 100) classCss = "";
+                else if (vers > 99 && vers < 1000) classCss = " DivPagTam2";
+                else if (vers > 999 && vers < 10000) classCss = " DivPagTam3";
+                else if (vers > 9999 && vers < 100000) classCss = " DivPagTam4";
             }
 
             UserModelContent p = null;

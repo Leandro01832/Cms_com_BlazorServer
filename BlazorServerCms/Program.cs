@@ -141,17 +141,23 @@ using (var scope = app.Services.CreateScope())
         contexto.Add(str);
         contexto.SaveChanges();
 
-        Pagina[] pages = new Pagina[10000];       
+        Pagina[] pages = new Pagina[13000];       
+            var count = 
+            await contexto.Story
+            .Include(str => str.Pagina)
+            .FirstAsync(str => str.Id == 2);
 
-        for (var i = 1; i<= 10000; i++)
+        if (count.Pagina == null) count.Pagina = new List<Content>();
+
+        for (var i = 1; i<= 13000; i++)
         {
-            var count = await contexto.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 2);          
                 
-                pages[i - 1] = new Pagina(count);
-                pages[i - 1].Titulo = "pagina";
-                pages[i - 1].Titulo += $" {i}";
-                pages[i - 1].Produto = null;
-                pages[i - 1].Comentario = 0;
+            pages[i - 1] = new Pagina(count.Pagina.Count + i);
+            pages[i - 1].Titulo = "pagina";
+            pages[i - 1].StoryId = count.Id ;
+            pages[i - 1].Titulo += $" {i}";
+            pages[i - 1].Produto = null;
+            pages[i - 1].Comentario = 0;
 
             pages[i - 1].Html = $"<br /> <br /> <br /> <p> <h1> Conteudo {pages[i - 1].Versiculo}  </h1> </p>";
 

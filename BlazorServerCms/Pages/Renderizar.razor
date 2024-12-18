@@ -488,12 +488,12 @@ else
                     <center>
                         <h1>
                             <a onclick="@(() => acessarStory())">
-                               Story @repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Nome
+                               Story @repositoryPagina!.stories!.OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Nome
                                 <div class="circulo">
                                     <div class="circulo2">
                                         @if (repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image != null)
                                         {
-                                            <img src="ImgStory/cap.@(repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].PaginaPadraoLink).@(repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image)" class="ImgStory">
+                                            <img src="ImgStory/cap.@(repositoryPagina!.stories!.OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].PaginaPadraoLink).@(repositoryPagina!.stories!.Skip(1).ToList()[indice - 1].Image)" class="ImgStory">
 
                                         }
                                     </div>
@@ -777,9 +777,8 @@ else
                         {
                             for (var ind = 1; ind <= quantidadeLista; ind++)
                             {
-                                @if (indice < 100)
-                                {
-                                    <div class="DivPag" id="DivPagina@(ind)">
+                               
+                                    <div class="DivPag@(classCss)" id="DivPagina@(ind)">
                                         @if (indice == ind)
                                         {
 
@@ -821,139 +820,7 @@ else
                                         }
                                     </div>
 
-                                }
-                                else if (indice > 99 && indice < 1000)
-                                {
-                                    <div class="DivPag DivPagTam2" id="DivPagina@(ind)">
-                                        @if (indice == ind)
-                                        {
-
-                                            <div>
-                                                <span class="indice"><b>@ind</b> </span>
-                                            </div>
-                                            @if (capitulo == 0 && ind <= padroes)
-                                            {
-                                                <div class="barra@(padrao)">
-                                                    -
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="barra">
-                                                    -
-                                                </div>
-                                            }
-
-                                        }
-                                        else
-                                        {
-
-                                            <div>
-                                                <span class="indices"><b>@ind</b> </span>
-                                            </div>
-                                            @if (capitulo == 0 && ind <= padroes)
-                                            {
-                                                <div class="barra@(padrao)">
-                                                    -
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="barra">
-                                                    -
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                }
-                                else if (indice > 999 && indice < 10000)
-                                {
-                                    <div class="DivPag DivPagTam3" id="DivPagina@(ind)">
-                                        @if (indice == ind)
-                                        {
-
-                                            <div>
-                                                <span class="indice"><b>@ind</b> </span>
-                                            </div>
-                                            @if (capitulo == 0 && ind <= padroes)
-                                            {
-                                                <div class="barra@(padrao)">
-                                                    -
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="barra">
-                                                    -
-                                                </div>
-                                            }
-
-                                        }
-                                        else
-                                        {
-
-                                            <div>
-                                                <span class="indices"><b>@ind</b> </span>
-                                            </div>
-                                            @if (capitulo == 0 && ind <= padroes)
-                                            {
-                                                <div class="barra@(padrao)">
-                                                    -
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="barra">
-                                                    -
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                }
-                                else if (indice > 9999 && indice < 100000)
-                                {
-                                    <div class="DivPag DivPagTam4" id="DivPagina@(ind)">
-                                        @if (indice == ind)
-                                        {
-
-                                            <div>
-                                                <span class="indice"><b>@ind</b> </span>
-                                            </div>
-                                            @if (capitulo == 0 && ind <= padroes)
-                                            {
-                                                <div class="barra@(padrao)">
-                                                    -
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="barra">
-                                                    -
-                                                </div>
-                                            }
-
-                                        }
-                                        else
-                                        {
-
-                                            <div>
-                                                <span class="indices"><b>@ind</b> </span>
-                                            </div>
-                                            @if (capitulo == 0 && ind <= padroes)
-                                            {
-                                                <div class="barra@(padrao)">
-                                                    -
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="barra">
-                                                    -
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                }
+                                
                             }
                         }
                         
@@ -962,12 +829,9 @@ else
                             for (var i = 1; i <= quantidadeLista; i++)
                             {
                                 var condicao = indice == i;
-                                string classe = "";
 
 
-                                @if (vers < 100)
-                                {
-                                    <div class="DivPag" id="DivPagina@(indice)">
+                                    <div class="DivPag@(classCss)" id="DivPagina@(indice)">
                                         <div>
                                             @if (Model != null && condicao)
                                             {
@@ -995,106 +859,7 @@ else
                                         </div>
                                     </div>
 
-                                }
-                                else if (vers > 99 && vers < 1000)
-                                {
-                                    if(condicao)
-                                    classe = " DivPagTam2";
-                                    <div class="DivPag@(classe)" id="DivPagina@(indice)">
-                                        <div>
-                                            @if (Model != null && condicao)
-                                            {
-                                                if (!Content)
-                                                {
-                                                    Pagina p = (Pagina)Model;
-                                                    <span data-first class="indice"> @p.Versiculo</span>
-
-                                                }
-                                                else
-                                                {
-                                                    <span class="indice">0</span>
-
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <span class="indices"> - </span>
-
-                                            }
-
-                                        </div>
-                                        <div class="barra">
-                                            -
-                                        </div>
-                                    </div>
-
-                                }
-                                else if (vers > 999 && vers < 10000)
-                                {
-                                    if(condicao)
-                                    classe = " DivPagTam3";
-                                    <div class="DivPag@(classe)" id="DivPagina@(indice)">
-                                        <div>
-                                            @if (Model != null && condicao)
-                                            {
-                                                if (!Content)
-                                                {
-                                                    Pagina p = (Pagina)Model;
-                                                    <span data-first class="indice"> @p.Versiculo</span>
-
-                                                }
-                                                else
-                                                {
-                                                    <span class="indice">0</span>
-
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <span class="indices"> - </span>
-
-                                            }
-
-                                        </div>
-                                        <div class="barra">
-                                            -
-                                        </div>
-                                    </div>
-
-                                }
-                                else if (vers > 9999 && vers < 100000)
-                                {
-                                    if(condicao)
-                                    classe = " DivPagTam4";
-                                    <div class="DivPag@(classe)" id="DivPagina@(indice)">
-                                        <div>
-                                            @if (Model != null && condicao)
-                                            {
-                                                if (!Content)
-                                                {
-                                                    Pagina p = (Pagina)Model;
-                                                    <span data-first class="indice"> @p.Versiculo</span>
-
-                                                }
-                                                else
-                                                {
-                                                    <span class="indice">0</span>
-
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <span class="indices"> - </span>
-
-                                            }
-
-                                        </div>
-                                        <div class="barra">
-                                            -
-                                        </div>
-                                    </div>
-
-                                }
+                                
 
                             }
                         }
