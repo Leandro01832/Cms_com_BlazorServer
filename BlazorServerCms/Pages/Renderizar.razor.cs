@@ -1,4 +1,5 @@
 ﻿using BlazorServerCms.Data;
+using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.Group;
@@ -9,6 +10,11 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using BCrypt.Net;
 
 namespace BlazorCms.Client.Pages
 {
@@ -241,7 +247,7 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                acessar($"/filtro/{capitulo}/pasta-{indice_Filtro}/0/0/{dominio}/{compartilhante}");
+                acessar($"/filtro/{capitulo}/pasta-{indice_Filtro}/0/0/{dominio}/{Compartilhante}");
 
             }
 
@@ -259,13 +265,13 @@ namespace BlazorCms.Client.Pages
             else
                 tamanho = 20;
 
-            acessar($"/lista-filtro/1/{compartilhante}/{capitulo}/{indice_Filtro}/0");
+            acessar($"/lista-filtro/1/{Compartilhante}/{capitulo}/{indice_Filtro}/0");
         }
 
         protected void listarPastas()
         {
 
-            acessar($"/listar-pasta/{capitulo}/{dominio}/{compartilhante}");
+            acessar($"/listar-pasta/{capitulo}/{dominio}/{Compartilhante}");
         }
 
         protected void acessarHorizontePastas(int? i)
@@ -1487,11 +1493,11 @@ namespace BlazorCms.Client.Pages
         protected async void share()
         {
             Auto = 0;
-            if (compartilhante == "comp" || title == null || resumo == null)
+            if (Compartilhante == "comp" || title == null || resumo == null)
             {
-                if (compartilhante == "comp")
+                if (Compartilhante == "comp")
                 {
-                    compartilhante = Context.Users
+                    Compartilhante = Context.Users
                     .FirstOrDefault(u => u.UserName == "Leandro01832")!.UserName;
                 }
                 if (title == null)
@@ -1509,10 +1515,10 @@ namespace BlazorCms.Client.Pages
                     {
                             if(user.Identity!.IsAuthenticated)
                             
-                                compartilhou = user.Identity.Name;
+                                Compartilhou = user.Identity.Name;
                             
                             else
-                                compartilhou = "comp";
+                                Compartilhou = "comp";
 
                         
                     }
@@ -1562,11 +1568,11 @@ namespace BlazorCms.Client.Pages
             automatico = false;
             if (substory == null)
             {
-                acessar($"/pastas/{capitulo}/{indice}/{dominio}/{compartilhante}");
+                acessar($"/pastas/{capitulo}/{indice}/{dominio}/{Compartilhante}");
             }
             else
             {
-                acessar($"/pastas/{capitulo}/{vers}/{dominio}/{compartilhante}");
+                acessar($"/pastas/{capitulo}/{vers}/{dominio}/{Compartilhante}");
 
             }
         }
@@ -1601,7 +1607,7 @@ namespace BlazorCms.Client.Pages
             acessar();
         }
 
-        private void acessar(string url2 = null)
+        private async void acessar(string url2 = null)
         {
             if (url2 != null) Auto = 0;
 
@@ -1613,30 +1619,50 @@ namespace BlazorCms.Client.Pages
 
                 conteudo = Convert.ToInt32(Content);
 
+
+                if (criptografar)
+                {
+                    comp1 = Compartilhou   ;
+                    comp2 = Compartilhante ;
+                    comp3 = Compartilhante2;
+                    comp4 = Compartilhante3;
+                    comp5 = Compartilhante4;
+                    comp6 = Compartilhante5;
+                    comp7 = Compartilhante6;
+                    Compartilhou    = Encrypt(Compartilhou! );
+                    Compartilhante  = Encrypt(Compartilhante!);
+                    Compartilhante2 = Encrypt(Compartilhante2!);
+                    Compartilhante3 = Encrypt(Compartilhante3!);
+                    Compartilhante4 = Encrypt(Compartilhante4!);
+                    Compartilhante5 = Encrypt(Compartilhante5!);
+                    Compartilhante6 = Encrypt(Compartilhante6!);
+                    criptografar = false;
+                }
+
+
                 string url = null;
                 if (camadadez != null)
-                    url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadanove != null)
-                    url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadaoito != null)
-                    url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadasete != null)
-                    url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadaseis != null)
-                    url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (subsubgrupo != null)
-                    url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (subgrupo != null)
-                    url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (grupo != null)
-                    url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (substory != null)
-                    url = $"/camada2/{capitulo}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/camada2/{capitulo}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else
-                    url = $"/Renderizar/{capitulo}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}";
+                    url = $"/Renderizar/{capitulo}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
 
-                if (compartilhante != "comp" && outroHorizonte == 0 && pontos == null) url += "/1";
-
+                if (Compartilhante != "comp" && outroHorizonte == 0 && pontos == null) url += "/1";
 
                 navigation!.NavigateTo(url);
             }
@@ -1645,6 +1671,25 @@ namespace BlazorCms.Client.Pages
 
             
 
+        }
+
+        private  string Encrypt(string plainText)
+        {
+            string Hasheada = BCrypt.Net.BCrypt.HashPassword(plainText);
+
+            if (!Hasheada.Contains("/"))
+                return Hasheada;
+            else return Encrypt(plainText);
+        }
+
+        private  string Decrypt(string cipherText, string usuario)
+        {
+
+                if (!BCrypt.Net.BCrypt.Verify("comp", cipherText))
+                if (BCrypt.Net.BCrypt.Verify(usuario, cipherText))
+                    return usuario;
+
+            return "comp";
         }
 
     }

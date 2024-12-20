@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hqFWvMGreH8=",
+  "dgSpecHash": "ddZsM3uCNoY=",
   "success": true,
   "projectFilePath": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\BlazorServerCms.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\leand\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\google.apis\\1.61.0\\google.apis.1.61.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\google.apis.auth\\1.61.0\\google.apis.auth.1.61.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\google.apis.core\\1.61.0\\google.apis.core.1.61.0.nupkg.sha512",

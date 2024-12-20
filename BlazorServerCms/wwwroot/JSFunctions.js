@@ -1,11 +1,15 @@
-﻿
-
-    var porcentagem = 0;
+﻿var porcentagem = 0;
 var funcaoCarregarPagina2 = null;
 
-
-
-// ...
+function codificarUri(uri) {
+    return btoa(uri);
+    // Codifica a URI em Base64
+}
+function decodificarUri(encodedUri)
+{
+    return atob(encodedUri);
+    // Decodifica a URI de Base64
+}
 
 window.zerar = (m) => {
     porcentagem = 0;
@@ -13,7 +17,6 @@ window.zerar = (m) => {
     prog.setAttribute("style", "width: " + porcentagem + "%");
     clearInterval(funcaoCarregarPagina2);
 }
-
 
 window.ExecutarReload = (m) => {
     location.reload();
@@ -121,7 +124,6 @@ window.GeminiResponse = (p) => {
 
 }
 
-
 window.MarcarIndice = (id) => {
     var indice = parseInt(id);
     var ind2 = indice;
@@ -132,6 +134,8 @@ window.MarcarIndice = (id) => {
     var quantDiv = 0;
     var scrolando = 0;
     var calculo = 0;
+
+    
 
     if (largura > 500) {
         quantDiv = parseInt((21 * largura) / 1024);
@@ -175,11 +179,12 @@ window.MarcarIndice = (id) => {
         ind2++;
         var ind3 = ind2 + 1;
         resto = ind2 % quantDiv;
-        if (resto == 0) {
+        if (resto == 0 && indice + quantDiv < divs.length) {
             elemento = "DivPagina" + ind2;
             elemento2 = "DivPagina" + ind3;
-            var el = document.getElementById(elemento);
-            var el2 = document.getElementById(elemento2);
+            
+            var el = document.getElementById("DivPagina" + ind2);
+            var el2 = document.getElementById("DivPagina" + ind3);
             var posicao = el.getBoundingClientRect();
             var posicao2 = el2.getBoundingClientRect();
 
@@ -258,7 +263,6 @@ window.AcessarSites = (url) => {
 window.sairFullScreen = (url) => {
     document.exitFullscreen();
 }
-
 
 window.share = (config) => {
 

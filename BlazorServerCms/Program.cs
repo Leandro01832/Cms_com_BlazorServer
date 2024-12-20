@@ -21,7 +21,6 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
 builder.Services.AddSingleton<ChatGpt>();
-builder.Services.AddScoped<Marcacao>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -124,7 +123,29 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(user, "Admin");
     }
 
-    if (!await contexto!.Set<Story>().AnyAsync())
+    //var stor = await contexto!.Content.FirstOrDefaultAsync(c => c.StoryId == 4);
+
+    //if (stor == null)
+    //{
+    //    Pagina[] pages = new Pagina[14000];
+
+    //    for (var i = 1; i <= 14000; i++)
+    //    {
+    //        pages[i - 1] = new Pagina(i);
+    //        pages[i - 1].Titulo = "pagina";
+    //        pages[i - 1].StoryId = 4;
+    //        pages[i - 1].Titulo += $" {i}";
+    //        pages[i - 1].Produto = null;
+    //        pages[i - 1].Comentario = 0;
+    //        pages[i - 1].Html = $"<br /> <br /> <br /> <p> <h1> Conteudo {pages[i - 1].Versiculo}  </h1> </p>";
+    //        contexto.Add(pages[i - 1]);
+    //       await contexto.SaveChangesAsync();
+    //        repositoryPagina.Conteudo.Add(pages[i - 1]);
+    //    }
+
+    //}
+
+        if (!await contexto!.Set<Story>().AnyAsync())
     {
 
         var padrao = new PatternStory
@@ -152,7 +173,7 @@ using (var scope = app.Services.CreateScope())
         for (var i = 1; i<= 13000; i++)
         {
                 
-            pages[i - 1] = new Pagina(count.Pagina.Count + i);
+            pages[i - 1] = new Pagina(i);
             pages[i - 1].Titulo = "pagina";
             pages[i - 1].StoryId = count.Id ;
             pages[i - 1].Titulo += $" {i}";
@@ -759,7 +780,6 @@ using (var scope = app.Services.CreateScope())
 
             contexto.Add(pages[i - 1]); 
             contexto.SaveChanges();
-            repositoryPagina.Conteudo.Add(pages[i - 1]);
         }
 
         

@@ -1,4 +1,6 @@
-﻿using BlazorServerCms.Data;
+﻿using System.Drawing;
+using System.Security.Policy;
+using BlazorServerCms.Data;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -23,8 +25,8 @@ namespace BlazorCms.Client.Pages
             if (Auto == 1)
                 StartTimer(Model!);
 
-            if (compartilhou != "comp" && pontos != null ||
-                compartilhante != "comp" && pontos != null)            
+            if (Compartilhou != "comp" && pontos != null  ||
+                Compartilhante != "comp" && pontos != null )            
                 adicionarPontos();
             
         }
@@ -55,15 +57,15 @@ namespace BlazorCms.Client.Pages
             Auto = 1;
           
 
-            if (compartilhante == null)
+            if (Compartilhante == null)
             {
-                compartilhou = "comp";
-                compartilhante = "comp";
-                compartilhante2 = "comp";
-                compartilhante3 = "comp";
-                compartilhante4 = "comp";
-                compartilhante5 = "comp";
-                compartilhante6 = "comp";
+                Compartilhou = "comp";
+                Compartilhante = "comp";
+                Compartilhante2 = "comp";
+                Compartilhante3 = "comp";
+                Compartilhante4 = "comp";
+                Compartilhante5 = "comp";
+                Compartilhante6 = "comp";
             }
             if (dominio == null)
                 dominio = "dominio";
@@ -81,6 +83,7 @@ namespace BlazorCms.Client.Pages
                 indice = 1;
 
             var Stories = Context.Story.ToList();
+            var conteudos =   Context!.Content!.ToList();
             var lista = await repositoryPagina.buscarPatternStory();
 
             if (Stories.Count == 2 || lista.Count !=  Stories.OfType<PatternStory>().ToList().Count )
@@ -145,7 +148,9 @@ namespace BlazorCms.Client.Pages
 
             padroes = Stories.OfType<PatternStory>().ToList().Count - 1;
 
-            if (repositoryPagina.stories.Count == 0 || repositoryPagina.stories.Count != Stories.Count)
+
+            if (repositoryPagina.stories.Count == 0 || 
+                repositoryPagina.stories.Count != Stories.Count)
             {
                 var str = await Context.Story!
                     .Include(p => p.Filtro)!
@@ -158,13 +163,13 @@ namespace BlazorCms.Client.Pages
                 repositoryPagina.stories.AddRange(str);
 
             }
-                       
-            
+                          
 
-            if (repositoryPagina.Conteudo.Count == 0)
+            if (repositoryPagina.Conteudo.Count == 0 ||
+                repositoryPagina.Conteudo.Count != conteudos.Count)
             {
-                var pergs = await Context!.Content!.ToListAsync();
-                repositoryPagina.Conteudo.AddRange(pergs);
+                repositoryPagina.Conteudo.Clear();
+                repositoryPagina.Conteudo.AddRange(conteudos);
             }
 
             if (dominio != repositoryPagina.buscarDominio() && dominio != "dominio")
@@ -188,6 +193,7 @@ namespace BlazorCms.Client.Pages
 
         protected async Task renderizar()
         {
+            
             try
             {
                 await js!.InvokeAsync<object>("zerar", "1");
@@ -299,8 +305,8 @@ namespace BlazorCms.Client.Pages
 
                     var arr = retornarArray(fi);
                     indice = 1;
-                    if (compartilhante == null) compartilhante = "comp";
-                    if (compartilhante2 == null) compartilhante2 = "comp";
+                    if (Compartilhante == null) Compartilhante = "comp";
+                    if (Compartilhante2 == null) Compartilhante2 = "comp";
                     Auto = 0;
 
                     setarCamadas(arr);
@@ -349,7 +355,7 @@ namespace BlazorCms.Client.Pages
                 if (indice > quantidadeLista)
                     await js!.InvokeAsync<object>("MarcarIndice", "1");
                 else
-                    await js!.InvokeAsync<object>("MarcarIndice", $"{indice}");
+                    await js!.InvokeAsync<object>("MarcarIndice", $"{indice}");                   
 
             }
             catch (Exception ex)
@@ -663,12 +669,18 @@ namespace BlazorCms.Client.Pages
                 if (Model2.user != null)
                 {
                     var fil = verificarFiltros(Model2);
-                    compartilhante = Model2.user;
-                    compartilhante2 = "comp";
-                    compartilhante3 = "comp";
-                    compartilhante4 = "comp";
-                    compartilhante5 = "comp";
-                    compartilhante6 = "comp";
+                    if(Compartilhante != Model2.user)
+                    Compartilhante = Model2.user;
+                    if(Compartilhante2 != "comp")
+                    Compartilhante2 = "comp";
+                    if(Compartilhante3 != "comp")
+                    Compartilhante3 = "comp";
+                    if(Compartilhante4 != "comp")
+                    Compartilhante4 = "comp";
+                    if(Compartilhante5 != "comp")
+                    Compartilhante5 = "comp";
+                    if(Compartilhante6 != "comp")
+                    Compartilhante6 = "comp";
                     Filtro fil2 = null;
                     Filtro fil3 = null;
                     Filtro fil4 = null;
@@ -677,56 +689,86 @@ namespace BlazorCms.Client.Pages
                     if (fil.user != null )
                     {
                         //compartilhante ganha 2 pts
-                        compartilhante = fil.user;
-                        compartilhante2 = Model2.user;
-                        compartilhante3 = "comp";
-                        compartilhante4 = "comp";
-                        compartilhante5 = "comp";
-                        compartilhante6 = "comp";
+                        if (Compartilhante != fil.user)
+                        Compartilhante = fil.user;
+                        if (Compartilhante2 != Model2.user)
+                        Compartilhante2 = Model2.user;
+                        if (Compartilhante3 != "comp")
+                            Compartilhante3 = "comp";
+                        if (Compartilhante4 != "comp")
+                            Compartilhante4 = "comp";
+                        if (Compartilhante5 != "comp")
+                            Compartilhante5 = "comp";
+                        if (Compartilhante6 != "comp")
+                            Compartilhante6 = "comp";
 
-                         fil2 = verificarFiltros(fil);
+                        fil2 = verificarFiltros(fil);
                         if (fil2.user != null)
                         {
                             //compartilhante ganha 3 pts
-                            compartilhante = fil2.user;
-                            compartilhante2 = fil.user;
-                            compartilhante3 = Model2.user;
-                            compartilhante4 = "comp";
-                            compartilhante5 = "comp";
-                            compartilhante6 = "comp";
+                            if (Compartilhante != fil2.user)
+                            Compartilhante = fil2.user;
+                            if (Compartilhante2 != fil.user)
+                            Compartilhante2 = fil.user;
+                            if (Compartilhante3 != Model2.user)
+                            Compartilhante3 = Model2.user;
+                            if (Compartilhante4 != "comp")
+                                Compartilhante4 = "comp";
+                            if (Compartilhante5 != "comp")
+                                Compartilhante5 = "comp";
+                            if (Compartilhante6 != "comp")
+                                Compartilhante6 = "comp";
 
                             fil3 = verificarFiltros(fil2);
                             if (fil3.user != null)
                             {
                                 //compartilhante ganha 4 pts
-                                compartilhante = fil3.user;
-                                compartilhante2 = fil2.user;
-                                compartilhante3 = fil.user;
-                                compartilhante4 = Model2.user;
-                                compartilhante5 = "comp";
-                                compartilhante6 = "comp";
+
+                                if (Compartilhante != fil3.user)
+                                Compartilhante = fil3.user;
+                                if (Compartilhante2 != fil2.user)
+                                Compartilhante2 = fil2.user;
+                                if (Compartilhante3 != fil.user)
+                                Compartilhante3 = fil.user;
+                                if (Compartilhante4 != Model2.user)
+                                Compartilhante4 = Model2.user;
+                                if (Compartilhante5 != "comp")
+                                    Compartilhante5 = "comp";
+                                if (Compartilhante6 != "comp")
+                                    Compartilhante6 = "comp";
 
                                 fil4 = verificarFiltros(fil3);
                                 if (fil4.user != null)
                                 {
                                     //compartilhante ganha 5 pts
-                                    compartilhante = fil4.user;
-                                    compartilhante2 = fil3.user;
-                                    compartilhante3 = fil2.user;
-                                    compartilhante4 = fil.user;
-                                    compartilhante5 = Model2.user;
-                                    compartilhante6 = "comp";
+                                    if (Compartilhante != fil4.user)
+                                    Compartilhante = fil4.user;
+                                    if (Compartilhante2 != fil3.user)
+                                    Compartilhante2 = fil3.user;
+                                    if (Compartilhante3 != fil2.user)
+                                    Compartilhante3 = fil2.user;
+                                    if (Compartilhante4 != fil.user)
+                                    Compartilhante4 = fil.user;
+                                    if (Compartilhante5 != Model2.user)
+                                    Compartilhante5 = Model2.user;
+                                    if (Compartilhante6 != "comp")
+                                        Compartilhante6 = "comp";
 
                                     fil5 = verificarFiltros(fil4);
                                     if (fil5.user != null)
                                     {
                                         //compartilhante ganha 6 pts
-                                        compartilhante = fil5.user;
-                                        compartilhante2 = fil4.user;
-                                        compartilhante3 = fil3.user;
-                                        compartilhante4 = fil2.user;
-                                        compartilhante5 = fil.user;
-                                        compartilhante6 = Model2.user;                
+                                        Compartilhante = fil5.user;
+                                        if (Compartilhante2 != fil4.user)
+                                        Compartilhante2 = fil4.user;
+                                        if (Compartilhante3 != fil3.user)
+                                        Compartilhante3 = fil3.user;
+                                        if (Compartilhante4 != fil2.user)
+                                        Compartilhante4 = fil2.user;
+                                        if (Compartilhante5 != fil.user)
+                                        Compartilhante5 = fil.user;
+                                        if (Compartilhante6 != Model2.user)
+                                            Compartilhante6 = Model2.user;                
                                        
                                     }
 
@@ -748,12 +790,18 @@ namespace BlazorCms.Client.Pages
                 }  
                 else if(Model2.user == null)
                 {
-                    compartilhante = "comp";
-                    compartilhante2 = "comp";
-                    compartilhante3 = "comp";
-                    compartilhante4 = "comp";
-                    compartilhante5 = "comp";
-                    compartilhante6 = "comp";
+                    if (Compartilhante != "comp")
+                        Compartilhante = "comp";
+                    if (Compartilhante2 != "comp")
+                        Compartilhante2 = "comp";
+                    if (Compartilhante3 != "comp")
+                        Compartilhante3 = "comp";
+                    if (Compartilhante4 != "comp")
+                        Compartilhante4 = "comp";
+                    if (Compartilhante5 != "comp")
+                        Compartilhante5 = "comp";
+                    if (Compartilhante6 != "comp")
+                        Compartilhante6 = "comp";
 
                 }
 
@@ -810,7 +858,7 @@ namespace BlazorCms.Client.Pages
 
                 if (pag2 == null)
                 {
-                    navigation.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{compartilhante}");
+                    navigation.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{Compartilhante}");
                 }
 
                 if(pag2 is Pagina)
@@ -834,17 +882,17 @@ namespace BlazorCms.Client.Pages
             UserModel[] users = new UserModel[6];
             Time time = null;
             users[0] = Context.Users
-               .FirstOrDefault(u => u.UserName == compartilhante)!;
+               .FirstOrDefault(u => u.UserName == Compartilhante)!;
             users[1] = Context.Users
-            .FirstOrDefault(u => u.UserName == compartilhante2)!;
+            .FirstOrDefault(u => u.UserName == Compartilhante2)!;
             users[2] = Context.Users
-            .FirstOrDefault(u => u.UserName == compartilhante3)!;
+            .FirstOrDefault(u => u.UserName == Compartilhante3)!;
             users[3] = Context.Users
-            .FirstOrDefault(u => u.UserName == compartilhante4)!;
+            .FirstOrDefault(u => u.UserName == Compartilhante4)!;
             users[4] = Context.Users
-            .FirstOrDefault(u => u.UserName == compartilhante5)!;
+            .FirstOrDefault(u => u.UserName == Compartilhante5)!;
             users[5] = Context.Users
-            .FirstOrDefault(u => u.UserName == compartilhante6)!;
+            .FirstOrDefault(u => u.UserName == Compartilhante6)!;
             if (camada == 7 && users[0] is not null && users[1] is not null &&
                     users[2] is not null && users[3] is not null && users[4] is not null &&
                      users[5] is not null)
@@ -1006,16 +1054,24 @@ namespace BlazorCms.Client.Pages
 
         private void adicionarPontos()
         {
+            Compartilhou = Decrypt(Compartilhou!, comp1);
+            Compartilhante = Decrypt(Compartilhante, comp2);
+            Compartilhante2 = Decrypt(Compartilhante2, comp3);
+            Compartilhante3 = Decrypt(Compartilhante3, comp4);
+            Compartilhante4 = Decrypt(Compartilhante4, comp5);
+            Compartilhante5 = Decrypt(Compartilhante5, comp6);
+            Compartilhante6 = Decrypt(Compartilhante6, comp7);
+
             int pts = 0;
             int multiplicador = 1;
             UserModel[] usuarios = new UserModel[7];
-            var us = Context.Users.FirstOrDefault(u =>   u.UserName == compartilhou);
-            var us2  = Context.Users.FirstOrDefault(u => u.UserName == compartilhante);
-            var us3 = Context.Users.FirstOrDefault(u =>  u.UserName == compartilhante2);
-            var us4 = Context.Users.FirstOrDefault(u =>  u.UserName == compartilhante3);
-            var us5 = Context.Users.FirstOrDefault(u =>  u.UserName == compartilhante4);
-            var us6 = Context.Users.FirstOrDefault(u =>  u.UserName == compartilhante5);
-            var us7 = Context.Users.FirstOrDefault(u =>  u.UserName == compartilhante6);
+            var us = Context.Users.FirstOrDefault(u =>   u.UserName == Compartilhou);
+            var us2  = Context.Users.FirstOrDefault(u => u.UserName == Compartilhante);
+            var us3 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante2);
+            var us4 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante3);
+            var us5 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante4);
+            var us6 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante5);
+            var us7 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante6);
             var users = Context.Users.ToList().Count;
             var filtros = story.Filtro.Count();
 

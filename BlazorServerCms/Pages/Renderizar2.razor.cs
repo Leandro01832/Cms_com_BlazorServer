@@ -31,6 +31,15 @@ namespace BlazorCms.Client.Pages
         private string? title = null;
         private string? resumo = null;
 
+        private string comp1 = "";
+        private string comp2 = "";
+        private string comp3 = "";
+        private string comp4 = "";
+        private string comp5 = "";
+        private string comp6 = "";
+        private string comp7 = "";
+
+        private bool criptografar = true;
 
         protected int indiceAcesso;
 
@@ -97,17 +106,87 @@ namespace BlazorCms.Client.Pages
                 }
         
         } 
-
-        [Parameter] public string? redirecionar { get; set; } = null; 
+        [Parameter] public string? redirecionar { get; set; } = "";
         [Parameter] public string? dominio { get; set; } = "dominio";
 
-        [Parameter] public string? compartilhou { get; set; } = null;
-        [Parameter] public string? compartilhante { get; set; } = null;
-        [Parameter] public string? compartilhante2 { get; set; } = null;
-        [Parameter] public string? compartilhante3 { get; set; } = null;
-        [Parameter] public string? compartilhante4 { get; set; } = null;
-        [Parameter] public string? compartilhante5 { get; set; } = null;
-        [Parameter] public string? compartilhante6 { get; set; } = null;
+        private string? compartilhou = null; 
+        [Parameter] public string? Compartilhou 
+        {
+            get { return compartilhou; }
+            set
+            {
+                compartilhou = value;
+                criptografar = true;
+            }
+        }
+
+        private string? compartilhante = null;
+        [Parameter] public string? Compartilhante 
+        {
+            get { return compartilhante; }
+            set 
+            {
+                compartilhante = value;
+                criptografar = true;
+            }
+        }
+
+        private string? compartilhante2 = null;
+        [Parameter] public string? Compartilhante2
+        {
+            get { return compartilhante2; }
+            set
+            {
+                compartilhante2 = value;
+                criptografar = true;
+            }
+        }
+
+        private string? compartilhante3 = null;
+        [Parameter] public string? Compartilhante3
+        {
+            get { return compartilhante3; }
+            set
+            {
+                compartilhante3 = value;
+                criptografar = true;
+            }
+        }
+
+        private string? compartilhante4 = null;
+        [Parameter] public string? Compartilhante4
+        {
+            get { return compartilhante4; }
+            set
+            {
+                compartilhante4 = value;
+                criptografar = true;
+            }
+        }
+
+        private string? compartilhante5 = null;
+        [Parameter] public string? Compartilhante5
+        {
+            get { return compartilhante5; }
+            set
+            {
+                compartilhante5 = value;
+                criptografar = true;
+            }
+        }
+
+        private string? compartilhante6 = null;
+        [Parameter] public string? Compartilhante6
+        {
+            get { return compartilhante6; }
+            set
+            {
+                compartilhante6 = value;
+                criptografar = true;
+            }
+        }
+
+
         [Parameter] public string? pontos { get; set; } = "";
 
         [Parameter] public int outroHorizonte { get; set; }

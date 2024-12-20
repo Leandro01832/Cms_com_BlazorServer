@@ -3,6 +3,7 @@ using business;
 using business.business;
 using business.business.Group;
 using business.Group;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using NVelocity;
@@ -35,7 +36,6 @@ namespace BlazorServerCms.servicos
 
         public string cupomDesconto = "";
 
-        public List<Pagina> Marcados = new List<Pagina>();
         public List<Content> Conteudo = new List<Content>();
         public List<Story> stories = new List<Story>();
 

@@ -1475,3 +1475,4 @@ C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\st
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\BlazorSe.3B2CE2CD.Up2Date
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\BlazorServerCms.genruntimeconfig.cache
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\ref\BlazorServerCms.dll
+C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\bin\Debug\net6.0\BCrypt.Net-Next.dll

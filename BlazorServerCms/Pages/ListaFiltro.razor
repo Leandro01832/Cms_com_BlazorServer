@@ -1,27 +1,11 @@
-﻿@page "/lista-filtro/{pagina:int}/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{IdPergunta:long}"
-@page "/marcador/{pagina:int}/{compartilhante}/{Capitulo:int}/{indiceFiltro:int}/{Id:long}"
+﻿@page "/lista-filtro/{pagina:int}"
+@page "/lista-filtro/{pagina:int}/{Id:long}"
 @inject RepositoryPagina repositoryPagina
-@inject Marcacao marcacao
 @inject NavigationManager navigation
-@inject AuthenticationStateProvider? AuthenticationStateProvider
 @inject IJSRuntime js
 @layout MeuLayout
 
 <PageTitle>listas de filtro</PageTitle>
-
-
-@if (IdPergunta == 0)
-{
-    <BackPage></BackPage>
-    <a onclick="@desmarcar" class="btn btn-primary">Desmarcar</a>
-}
-
-@if (IdPergunta == 0 && marcacao.Marcados.Count > 0)
-{
-    <a onclick="@criarFiltro" class="btn btn-primary">Criar Filtro</a>
-}
-
-
 
 <div id="configuracao">
     <p id="livro">www.instagleo.net.br</p>
@@ -55,7 +39,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{compartilhante}/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                    onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{Capitulo}/{indiceFiltro}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -63,7 +47,7 @@
             }
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{compartilhante}/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{Capitulo}/{indiceFiltro}"))">
                 Proxima lista >>>
             </a>
 
@@ -79,15 +63,15 @@
             <h4>Ordenar</h4>
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{Capitulo}/{indiceFiltro}"))">
                 Ordenar por nome
             </a>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{Capitulo}/{indiceFiltro}"))">
                 Ordenar por preço
             </a>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{Capitulo}/{indiceFiltro}"))">
                 Ordenar por capitulo
             </a>
         </div>
@@ -97,21 +81,21 @@
             <h3>Tamanho da lista</h3>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/11/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
                     10 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/41/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/41/{Capitulo}/{indiceFiltro}"))">
                     40 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/81/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/81/{Capitulo}/{indiceFiltro}"))">
                     80 itens
                 </a>
             </strong>
@@ -123,21 +107,21 @@
             <h3>Tamanho da lista</h3>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/6/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/6/{Capitulo}/{indiceFiltro}"))">
                     5 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/11/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
                     10 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/1/16/{Capitulo}/{indiceFiltro}/{IdPergunta}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/16/{Capitulo}/{indiceFiltro}"))">
                     15 itens
                 </a>
             </strong>
@@ -152,8 +136,6 @@
 <a href="#" onclick="@(() => acessarPasta())" style="font-size:22px;">
     Capitulo @Capitulo - Pasta @indiceFiltro
 </a>
-
-
 
 @if (filtro != null)
 {
@@ -252,18 +234,16 @@
     Filtro filtro = new Filtro();
     List<Pagina> Model = new List<Pagina>();
     List<Filtro>? filtros { get; set; }
-    protected ClaimsPrincipal user;
     private int indiceMarcador;
 
-    [Parameter] public string? compartilhante { get; set; }
+
 
     [Parameter] public long Id { get; set; }
-    [Parameter] public long IdPergunta { get; set; }
 
 
     [Parameter] public int pagina { get; set; }
-    [Parameter] public int indiceFiltro { get; set; }
-    [Parameter] public int Capitulo { get; set; }
+    public int indiceFiltro { get; set; }
+    public int Capitulo { get; set; }
 
     [Parameter] public int? redirecionar { get; set; }
     public string? ordenar { get; set; }
@@ -300,27 +280,20 @@
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        filtros = await Context.Filtro!
+        filtro = await Context.Filtro!
         .Include(f => f.Pagina)!
         .ThenInclude(f => f.Content)
         .ThenInclude(f => f.Produto)
         .Include(f => f.Story)
-         .Where(f => f.Story.PaginaPadraoLink == Capitulo)
-     .OrderBy(f => f.StoryId)
-     .OrderBy(f => f.Id)
-     .ToListAsync();
+        .FirstAsync(f => f.Id == Id);
+
+        Capitulo = filtro.Story.PaginaPadraoLink;
 
         tamanho = 10;
         ordenar = "teste";
 
-        filtro = filtros[indiceFiltro];
-        VerificarFiltro(filtro);
-
-
-
-        var authState = await AuthenticationStateProvider
-                .GetAuthenticationStateAsync();
-        user = authState.User;
+       // filtro = filtros[indiceFiltro];
+       // VerificarFiltro(filtro);
 
     }
 
@@ -387,17 +360,17 @@
 
     private void desabilitar()
     {
-        navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{IdPergunta}");
+        navigation.NavigateTo($"/lista-filtro/1/{Capitulo}/{indiceFiltro}");
     }
 
     private void abilitar()
     {
-        navigation.NavigateTo($"/lista-filtro/{pagina}/{compartilhante}/{Capitulo}/{indiceFiltro}/{IdPergunta}");
+        navigation.NavigateTo($"/lista-filtro/{pagina}/{Capitulo}/{indiceFiltro}");
     }
 
     private void acessarPasta()
     {
-        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/{IdPergunta}/0/0/0/dominio/{compartilhante}");
+        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/0/0/0/dominio");
     }
 
     private async void clicou()
@@ -458,141 +431,10 @@
         return id_video;
     }
 
-    protected async void marcar(int Versiculo)
-    {
-        if (!user.Identity!.IsAuthenticated)
-        {
-            await js!.InvokeAsync<object>("DarAlert", $"Por favor faça login para poder marcar versiculos");
-        }
-        else
-        {
-            Pagina p = Context.Pagina.First(p => p.Versiculo == Versiculo && Capitulo == Capitulo);
-            marcacao.Marcados.Add(p);
+   
 
-            await js!.InvokeAsync<object>("DarAlert", $"O versiculo {Versiculo} foi marcado com sucesso!!!");
-            navigation.NavigateTo($"/lista-filtro/2/{compartilhante}/{Capitulo}/{indiceFiltro}/{IdPergunta}");
-            navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{IdPergunta}");
-        }
+    
 
-    }
 
-    protected async void desmarcar()
-    {
-        if (!user.Identity!.IsAuthenticated)
-        {
-            await js!.InvokeAsync<object>("DarAlert", $"Por favor faça login para poder desmarcar versiculos");
-
-        }
-        else
-        {
-            marcacao.Marcados.Clear();
-            await js!.InvokeAsync<object>("DarAlert", $"Versiculos desmarcados com sucesso.");
-            navigation.NavigateTo($"/lista-filtro/1/{compartilhante}/{Capitulo}/{indiceFiltro}/{IdPergunta}");
-        }
-
-    }
-
-    private async void criarFiltro()
-    {
-        string prompted = await js.InvokeAsync<string>("prompt", "Informe o nome do filtro.");
-
-        var type = filtro.GetType();
-        Filtro obj = null;
-        if (type.Name == "SubStory")
-            obj = new Grupo
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-
-                };
-        else if (type.Name == "Grupo")
-            obj = new SubGrupo
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-                    GrupoId = filtro.Id
-
-                };
-        else if (type.Name == "SubGrupo")
-            obj = new SubSubGrupo
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-                    SubGrupoId = filtro.Id
-                };
-        else if (type.Name == "SubSubGrupo")
-            obj = new CamadaSeis
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-                    SubSubGrupoId = filtro.Id
-                };
-        else if (type.Name == "CamadaSeis")
-            obj = new CamadaSete
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-                    CamadaSeisId = filtro.Id
-                };
-        else if (type.Name == "CamadaSete")
-            obj = new CamadaOito
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-                    CamadaSeteId = filtro.Id
-                };
-        else if (type.Name == "CamadaOito")
-            obj = new CamadaNove
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-                    CamadaOitoId = filtro.Id
-                };
-        else if (type.Name == "CamadaNove")
-            obj = new CamadaDez
-                {
-                    Id = 0,
-                    StoryId = filtro.StoryId,
-                    Nome = prompted,
-                    user = user.Identity.Name,
-
-                };
-        Context.Add(obj);
-        Context.SaveChanges();
-
-        foreach (var item in marcacao.Marcados)
-        {
-            var mp = new FiltroContent { ContentId = item.Id, FiltroId = obj.Id };
-            Context.Add(mp);
-            Context.SaveChanges();
-        }
-
-        marcacao.Marcados.Clear();
-
-        filtros = await Context.Filtro!
-        .Where(f => f.Story.PaginaPadraoLink == Capitulo)
-    .OrderBy(f => f.Id)
-    .ToListAsync();
-
-        var f = filtros.First(f => f.Id == obj.Id);
-        var i = filtros.IndexOf(f) + 1;
-
-        await js!.InvokeAsync<object>("DarAlert", $"Filtro criado com sucesso pelo usuario!!! ");
-        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{i}/0/0/0/dominio/{compartilhante}");
-    }
 
 }
