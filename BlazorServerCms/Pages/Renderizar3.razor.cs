@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Security.Policy;
 using BlazorServerCms.Data;
+using BlazorServerCms.Pages;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -17,16 +18,17 @@ namespace BlazorCms.Client.Pages
     { 
         protected override async Task OnParametersSetAsync()
         {
-            if (capitulo > repositoryPagina!.stories!.Last().PaginaPadraoLink)
-                capitulo = 1;
+            if (cap > repositoryPagina!.stories!.Last().PaginaPadraoLink)
+                storyid = repositoryPagina!.stories!
+                .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[0].Id;
 
             await renderizar();
 
             if (Auto == 1)
                 StartTimer(Model!);
 
-            if (Compartilhou != "comp" && pontos != null  ||
-                Compartilhante != "comp" && pontos != null )            
+            if (Compartilhou != "comp" && pontos != null && substory != null  ||
+                Compartilhante != "comp" && pontos != null && substory != null)            
                 adicionarPontos();
             
         }
@@ -84,6 +86,7 @@ namespace BlazorCms.Client.Pages
 
             var Stories = Context.Story.ToList();
             var conteudos =   Context!.Content!.ToList();
+            var UserModel =   Context!.Users!.ToList();
             var lista = await repositoryPagina.buscarPatternStory();
 
             if (Stories.Count == 2 || lista.Count !=  Stories.OfType<PatternStory>().ToList().Count )
@@ -113,7 +116,6 @@ namespace BlazorCms.Client.Pages
                         var strPadrao = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 1);
                         var pagPadrao = new Pagina(strPadrao)
                         {
-                            Comentario = 0,
                             Html = $"<a href=''#'' class=''LinkPadrao''> <h1> {item.Nome} </h1> </a>",
                             Titulo = "capitulos",
                         };
@@ -148,6 +150,10 @@ namespace BlazorCms.Client.Pages
 
             padroes = Stories.OfType<PatternStory>().ToList().Count - 1;
 
+            if(storyid == null)
+            {
+                storyid = Stories.OrderBy(str => str.Id).First().Id;
+            }
 
             if (repositoryPagina.stories.Count == 0 || 
                 repositoryPagina.stories.Count != Stories.Count)
@@ -170,6 +176,13 @@ namespace BlazorCms.Client.Pages
             {
                 repositoryPagina.Conteudo.Clear();
                 repositoryPagina.Conteudo.AddRange(conteudos);
+            }
+
+            if (repositoryPagina.UserModel.Count == 0 ||
+                repositoryPagina.UserModel.Count != UserModel.Count)
+            {
+                repositoryPagina.UserModel.Clear();
+                repositoryPagina.UserModel.AddRange(UserModel);
             }
 
             if (dominio != repositoryPagina.buscarDominio() && dominio != "dominio")
@@ -209,25 +222,24 @@ namespace BlazorCms.Client.Pages
             List<Content> listaFiltradaComConteudo = null;
 
             Model = repositoryPagina!.Conteudo.OfType<Pagina>()
-                    .FirstOrDefault(p => p.Versiculo == indice && p.Story!.PaginaPadraoLink == capitulo);
+                    .FirstOrDefault(p => p.Versiculo == indice && p.StoryId == storyid);
 
             
 
-            cap = capitulo;
 
             if (Model == null)
             {
                 Model = repositoryPagina.Conteudo.OfType<Pagina>()
-                .FirstOrDefault(p => p.Story.PaginaPadraoLink == capitulo);
+                .FirstOrDefault(p => p.StoryId == storyid);
             }
             
             if (outroHorizonte == 1)
             {
                 if (Model != null)
                 {
-                    Model2 = story.Filtro.Where(f => f.user == null).OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault(); 
+                    Model2 = story.Filtro.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault(); 
 
-                    quantidadeLista = story.Filtro.Where(f => f.user == null).ToList().Count;
+                    quantidadeLista = story.Filtro.ToList().Count;
                     indiceAcesso = story.Filtro.IndexOf(Model2) + 1;
                 }
             }
@@ -249,12 +261,13 @@ namespace BlazorCms.Client.Pages
             if (Model != null)
                 condicaoFiltro = CountFiltros(ApplicationDbContext._connectionString);
 
-            if (story == null || story.Id != Model.StoryId)
+            if (story == null ||  story.Id != Model.StoryId)
             {
                 story = repositoryPagina.stories!
                .First(p => p.Id == Model!.StoryId);
             }
 
+            cap = story.PaginaPadraoLink;
         
 
             if (filtrar == null && substory == null)
@@ -270,12 +283,18 @@ namespace BlazorCms.Client.Pages
 
                 nameStory = story.Nome;
 
-                if (Model != null && Model.Comentario != 0 && Model.Comentario != null)
+                if (Model is Comment)
                 {
-                    var page = story.Pagina!.FirstOrDefault(p => p.Id == Model.Comentario);
-                    Pagina pa = (Pagina)page;
-                    CapituloComentario = pa!.Story!.PaginaPadraoLink;
-                    VersoComentario = pa.Versiculo;
+                    Comment pa = (Comment)Model;
+                    if(pa.ContentId != null)
+                    {
+                        var c = repositoryPagina.Conteudo.First(c => c.Id == pa.ContentId);
+                        var s = repositoryPagina.stories.First(s => s.Id == c.StoryId);
+                        CapituloComentario = s.PaginaPadraoLink;
+                        VersoComentario = repositoryPagina.Conteudo
+                        .Where(con => con.StoryId == s.Id).OrderBy(con => con.Id)
+                        .ToList().IndexOf(c) + 1;
+                    }
                 }
 
             }
@@ -305,8 +324,6 @@ namespace BlazorCms.Client.Pages
 
                     var arr = retornarArray(fi);
                     indice = 1;
-                    if (Compartilhante == null) Compartilhante = "comp";
-                    if (Compartilhante2 == null) Compartilhante2 = "comp";
                     Auto = 0;
 
                     setarCamadas(arr);
@@ -436,23 +453,23 @@ namespace BlazorCms.Client.Pages
         {
             int?[] arr = null;
             if (fi is CamadaDez)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaNove)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaOito)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaSete)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaSeis)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1);
             else if (fi is SubSubGrupo)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1);
             else if (fi is SubGrupo)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1);
             else if (fi is Grupo)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1);
             else if (fi is SubStory)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, capitulo, 1);
+                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1);
             return arr;
         }
 
@@ -668,107 +685,68 @@ namespace BlazorCms.Client.Pages
 
                 if (Model2.user != null)
                 {
-                    var fil = verificarFiltros(Model2);
-                    if(Compartilhante != Model2.user)
-                    Compartilhante = Model2.user;
-                    if(Compartilhante2 != "comp")
-                    Compartilhante2 = "comp";
-                    if(Compartilhante3 != "comp")
-                    Compartilhante3 = "comp";
-                    if(Compartilhante4 != "comp")
-                    Compartilhante4 = "comp";
-                    if(Compartilhante5 != "comp")
-                    Compartilhante5 = "comp";
-                    if(Compartilhante6 != "comp")
+                    var fil = verificarFiltros(Model2);                    
+                    Compartilhante = Model2.user;                    
+                    Compartilhante2 = "comp";                    
+                    Compartilhante3 = "comp";                    
+                    Compartilhante4 = "comp";                    
+                    Compartilhante5 = "comp";                    
                     Compartilhante6 = "comp";
-                    Filtro fil2 = null;
-                    Filtro fil3 = null;
-                    Filtro fil4 = null;
-                    Filtro fil5 = null;
+                    
 
                     if (fil.user != null )
                     {
-                        //compartilhante ganha 2 pts
-                        if (Compartilhante != fil.user)
-                        Compartilhante = fil.user;
-                        if (Compartilhante2 != Model2.user)
-                        Compartilhante2 = Model2.user;
-                        if (Compartilhante3 != "comp")
-                            Compartilhante3 = "comp";
-                        if (Compartilhante4 != "comp")
-                            Compartilhante4 = "comp";
-                        if (Compartilhante5 != "comp")
-                            Compartilhante5 = "comp";
-                        if (Compartilhante6 != "comp")
-                            Compartilhante6 = "comp";
+                        //compartilhante ganha 2 pts                        
+                        Compartilhante = fil.user;                        
+                        Compartilhante2 = Model2.user;                        
+                        Compartilhante3 = "comp";                        
+                        Compartilhante4 = "comp";                        
+                        Compartilhante5 = "comp";                        
+                        Compartilhante6 = "comp";
 
                         fil2 = verificarFiltros(fil);
                         if (fil2.user != null)
                         {
-                            //compartilhante ganha 3 pts
-                            if (Compartilhante != fil2.user)
-                            Compartilhante = fil2.user;
-                            if (Compartilhante2 != fil.user)
-                            Compartilhante2 = fil.user;
-                            if (Compartilhante3 != Model2.user)
-                            Compartilhante3 = Model2.user;
-                            if (Compartilhante4 != "comp")
-                                Compartilhante4 = "comp";
-                            if (Compartilhante5 != "comp")
-                                Compartilhante5 = "comp";
-                            if (Compartilhante6 != "comp")
-                                Compartilhante6 = "comp";
+                            //compartilhante ganha 3 pts                            
+                            Compartilhante = fil2.user;                            
+                            Compartilhante2 = fil.user;                            
+                            Compartilhante3 = Model2.user;                            
+                            Compartilhante4 = "comp";                            
+                            Compartilhante5 = "comp";                            
+                            Compartilhante6 = "comp";
 
                             fil3 = verificarFiltros(fil2);
                             if (fil3.user != null)
                             {
-                                //compartilhante ganha 4 pts
-
-                                if (Compartilhante != fil3.user)
-                                Compartilhante = fil3.user;
-                                if (Compartilhante2 != fil2.user)
-                                Compartilhante2 = fil2.user;
-                                if (Compartilhante3 != fil.user)
-                                Compartilhante3 = fil.user;
-                                if (Compartilhante4 != Model2.user)
-                                Compartilhante4 = Model2.user;
-                                if (Compartilhante5 != "comp")
-                                    Compartilhante5 = "comp";
-                                if (Compartilhante6 != "comp")
-                                    Compartilhante6 = "comp";
+                                //compartilhante ganha 4 pts                                
+                                Compartilhante = fil3.user;                                
+                                Compartilhante2 = fil2.user;                                
+                                Compartilhante3 = fil.user;                                
+                                Compartilhante4 = Model2.user;                                
+                                Compartilhante5 = "comp";                                
+                                Compartilhante6 = "comp";
 
                                 fil4 = verificarFiltros(fil3);
                                 if (fil4.user != null)
                                 {
-                                    //compartilhante ganha 5 pts
-                                    if (Compartilhante != fil4.user)
-                                    Compartilhante = fil4.user;
-                                    if (Compartilhante2 != fil3.user)
-                                    Compartilhante2 = fil3.user;
-                                    if (Compartilhante3 != fil2.user)
-                                    Compartilhante3 = fil2.user;
-                                    if (Compartilhante4 != fil.user)
-                                    Compartilhante4 = fil.user;
-                                    if (Compartilhante5 != Model2.user)
-                                    Compartilhante5 = Model2.user;
-                                    if (Compartilhante6 != "comp")
-                                        Compartilhante6 = "comp";
+                                    //compartilhante ganha 5 pts                                    
+                                    Compartilhante = fil4.user;                                    
+                                    Compartilhante2 = fil3.user;                                    
+                                    Compartilhante3 = fil2.user;                                    
+                                    Compartilhante4 = fil.user;                                    
+                                    Compartilhante5 = Model2.user;                                    
+                                    Compartilhante6 = "comp";
 
                                     fil5 = verificarFiltros(fil4);
                                     if (fil5.user != null)
                                     {
-                                        //compartilhante ganha 6 pts
-                                        Compartilhante = fil5.user;
-                                        if (Compartilhante2 != fil4.user)
-                                        Compartilhante2 = fil4.user;
-                                        if (Compartilhante3 != fil3.user)
-                                        Compartilhante3 = fil3.user;
-                                        if (Compartilhante4 != fil2.user)
-                                        Compartilhante4 = fil2.user;
-                                        if (Compartilhante5 != fil.user)
-                                        Compartilhante5 = fil.user;
-                                        if (Compartilhante6 != Model2.user)
-                                            Compartilhante6 = Model2.user;                
+                                        //compartilhante ganha 6 pts                                        
+                                        Compartilhante = fil5.user;                                        
+                                        Compartilhante2 = fil4.user;                                        
+                                        Compartilhante3 = fil3.user;                                        
+                                        Compartilhante4 = fil2.user;                                        
+                                        Compartilhante5 = fil.user;                                        
+                                        Compartilhante6 = Model2.user;                
                                        
                                     }
 
@@ -817,7 +795,7 @@ namespace BlazorCms.Client.Pages
                 Model = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 
-                Model = repositoryPagina.Conteudo!.Where(p => p.Story.PaginaPadraoLink == capitulo)
+                Model = repositoryPagina.Conteudo!.Where(p => p.StoryId == storyid)
                     .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 if (Model is Pagina)
@@ -825,7 +803,7 @@ namespace BlazorCms.Client.Pages
                     var p = (Pagina)Model;
                     vers = p.Versiculo;
                     Model = repositoryPagina.includes()
-                    .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
+                    .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
 
                 }
                 else vers = 0;
@@ -858,7 +836,7 @@ namespace BlazorCms.Client.Pages
 
                 if (pag2 == null)
                 {
-                    navigation.NavigateTo($"/renderizar/{capitulo}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{Compartilhante}");
+                    navigation.NavigateTo($"/renderizar/{storyid}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{Compartilhante}");
                 }
 
                 if(pag2 is Pagina)
@@ -866,7 +844,7 @@ namespace BlazorCms.Client.Pages
                     var p = (Pagina)pag2;
                 vers = p.Versiculo;
                 Model = repositoryPagina.includes()
-                   .FirstOrDefault(p => p.Versiculo == vers && p.Story.PaginaPadraoLink == capitulo);
+                   .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
                 }
                 else vers = 0;
 
@@ -1054,13 +1032,6 @@ namespace BlazorCms.Client.Pages
 
         private void adicionarPontos()
         {
-            Compartilhou = Decrypt(Compartilhou!, comp1);
-            Compartilhante = Decrypt(Compartilhante, comp2);
-            Compartilhante2 = Decrypt(Compartilhante2, comp3);
-            Compartilhante3 = Decrypt(Compartilhante3, comp4);
-            Compartilhante4 = Decrypt(Compartilhante4, comp5);
-            Compartilhante5 = Decrypt(Compartilhante5, comp6);
-            Compartilhante6 = Decrypt(Compartilhante6, comp7);
 
             int pts = 0;
             int multiplicador = 1;

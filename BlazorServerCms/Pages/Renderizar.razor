@@ -1,16 +1,16 @@
 ﻿@page "/renderizar"
 
-@page "/filtro/{capitulo:int}/{filtrar}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{redirecionar?}"
-@page "/renderizar/{capitulo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada2/{capitulo:int}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}/{rotas?}"
-@page "/camada3/{capitulo:int}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada4/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada5/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada6/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada7/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada8/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada9/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
-@page "/camada10/{capitulo:int}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/filtro/{storyid:long}/{filtrar}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{redirecionar?}"
+@page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada2/{storyid:long}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}/{rotas?}"
+@page "/camada3/{storyid:long}/{substory:int}/{grupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada4/{storyid:long}/{substory:int}/{grupo:int}/{subgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada5/{storyid:long}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada6/{storyid:long}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada7/{storyid:long}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada8/{storyid:long}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada9/{storyid:long}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
+@page "/camada10/{storyid:long}/{substory:int}/{grupo:int}/{subgrupo:int}/{subsubgrupo:int}/{camadaseis:int}/{camadasete:int}/{camadaoito:int}/{camadanove:int}/{camadadez:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
 
 @inherits RenderizarBase
 @layout MeuLayout
@@ -58,7 +58,7 @@ else
                 @{
 
 
-                    if (capitulo != 0)
+                    if (cap != 0)
                     {
                         if (substory == null)
                         {
@@ -121,7 +121,7 @@ else
 
                     <div>
 
-                        @if (capitulo == 0)
+                        @if (cap == 0)
                         {
                             <span class="ms-3">Cap.</span>
                         }
@@ -239,7 +239,7 @@ else
 
 
 
-                @if (capitulo != 0 && outroHorizonte == 0)
+                @if (cap != 0 && outroHorizonte == 0)
                 {
                     <div>
 
@@ -557,23 +557,26 @@ else
                     @markup
                 }
 
-                if (Model.Produto != null && repositoryPagina!.buscarEcommerce() == "yes")
+                if (Model.ProdutoId != null)
                 {
-                    <a href="/carrinho/@Model.Produto.Id/@capitulo/@indice/@dominio/@Compartilhante">
-                        Adicionar ao carrinho
+                    <a href="/carrinho/@Model.ProdutoId/@Compartilhante">
+                        Vá comprar
                     </a>
                 }
 
                 <!-- ProdutoContent -->
-                if (Model.Story.PaginaPadraoLink == 2
-                && Model.Comentario != 0)
+                if (cap == 2 && Model is Comment)
                 {
-                    <p>Comentário do Capitulo @CapituloComentario Verso @VersoComentario </p>
-                }
-                else if (Model.Story.PaginaPadraoLink == 2)
-                {
-                    <p>Apenas um comentário </p>
+                    Comment pa = (Comment)Model;
+                    if (pa.ContentId != null)
+                    {
+                        <p>Comentário do Capitulo @CapituloComentario Verso @VersoComentario </p>
+                    }
+                    else 
+                    {
+                        <p>Apenas um comentário </p>
 
+                    }
                 }
             }
             else if (outroHorizonte == 1 && Model2 != null)
@@ -647,7 +650,7 @@ else
 
 
                         @{
-                            if (capitulo != 0)
+                            if (cap != 0)
                             {
                                 @if (substory == null && outroHorizonte == 1 && condicaoFiltro)
                                 {
@@ -701,23 +704,23 @@ else
 
 
 
-                            if (capitulo == 0)
+                            if (cap == 0)
                             {
                                 <span class="TextoInformativo">Capitulo @indice de @quantidadeLista</span>
                             }
                             else
                             {
-                                if (outroHorizonte == 1 && capitulo != 0)
+                                if (outroHorizonte == 1 && cap != 0)
                                 {
                                     <span class="TextoInformativo">Pasta @indice de @quantidadeLista</span>
 
                                 }
-                                else if (outroHorizonte == 2 && capitulo != 0)
+                                else if (outroHorizonte == 2 && cap != 0)
                                 {
                                     <span class="TextoInformativo">Pergunta @indice de @quantidadeLista</span>
 
                                 }
-                                else if (outroHorizonte == 3 && capitulo != 0)
+                                else if (outroHorizonte == 3 && cap != 0)
                                 {
                                     <span class="TextoInformativo">Marcador @indice de @quantidadeLista</span>
 
@@ -787,7 +790,7 @@ else
                                             <div>
                                                 <span class="indice"><b>@ind</b> </span>
                                             </div>
-                                            @if (capitulo == 0 && ind <= padroes)
+                                            @if (cap == 0 && ind <= padroes)
                                             {
                                                 <div class="barra@(padrao)">
                                                     -
@@ -807,7 +810,7 @@ else
                                             <div>
                                                 <span class="indices"><b>@ind</b> </span>
                                             </div>
-                                            @if (capitulo == 0 && ind <= padroes)
+                                            @if (cap == 0 && ind <= padroes)
                                             {
                                                 <div class="barra@(padrao)">
                                                     -

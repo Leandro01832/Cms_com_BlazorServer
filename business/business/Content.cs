@@ -1,12 +1,6 @@
-﻿using business.business.Contrato;
+﻿using System.ComponentModel.DataAnnotations;
+using business.business.Contrato;
 using business.Group;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace business.business
 {
@@ -39,11 +33,13 @@ namespace business.business
 
         public string? Rotas { get; set; }
 
-        public long? Comentario { get; set; }
+
+        public Int64? ProdutoId { get; set; }
 
         public virtual Produto? Produto { get; set; }
 
         public virtual List<UserModelContent> usuarios { get; set; }
+        public virtual List<Comment> Comentario { get; set; }
 
         public string? Html
         {
@@ -142,6 +138,11 @@ namespace business.business
         public Pagina MudarEstado( UserContent m, long curtidas, long compartilhamentos)
         {
           return  mudanca.MudarEstado( m, curtidas, compartilhamentos);
+        }
+
+        public Pagina MudarEstado2(Comment m, long curtidas, long compartilhamentos)
+        {
+            throw new NotImplementedException();
         }
     }
 }

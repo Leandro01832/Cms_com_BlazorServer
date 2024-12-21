@@ -1,11 +1,18 @@
-﻿using business.business.Book;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using business.business.Book;
 using Microsoft.AspNetCore.Identity;
 
 namespace business.business
 {
     public class UserModel : IdentityUser
     {
-       
+        public UserModel()
+        {
+            
+        }
+
+
+        public string? HashUserName { get; set; }
         public string? Image { get; set; }
 
         public int PontosPorDia { get; set; }

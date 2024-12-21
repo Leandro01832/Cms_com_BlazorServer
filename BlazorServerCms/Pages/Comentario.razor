@@ -1,4 +1,4 @@
-﻿@page "/comentario/{capitulo:int}/{verso:int}"
+﻿@page "/comentario/{Id:long}"
 @inject RepositoryPagina? repositoryPagina
 @inject NavigationManager? navigation
 @inject IJSRuntime? js
@@ -11,25 +11,25 @@
 <h3>Comentar</h3>
 
 <input type="checkbox" id="data" name="data" @bind="Gemini" />
-                            Utilizar Gemini?
+Utilizar Gemini?
 
-                            <br />
+<br />
 
 @if (Gemini)
 {
     <input type="text" placeholder="Informe prompt" @bind="prompt" />
     <br />
 }
-    <a href="#" class="btn btn-danger" onclick"@(buscarResposta)" >Run</a>
+<a href="#" class="btn btn-danger" onclick"@(buscarResposta)" >Run</a>
 
 <Editor Id="contentextarea"
-            Inline=false
-            CloudChannel="5"
-            Disable=false
-        JsConfSrc="sample"
-        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
-        ClassName="tinymce-wrapper" @bind-Value="exampleModel.Html" />
-    <a href="#" onclick="@FazerComentario" class="btn btn-dark" >Adicionar comentário</a>
+Inline=false
+CloudChannel="5"
+Disable=false
+JsConfSrc="sample"
+ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
+ClassName="tinymce-wrapper" @bind-Value="exampleModel.Html" />
+<a href="#" onclick="@FazerComentario" class="btn btn-dark" >Adicionar comentário</a>
 
 @{
     if (MensagemComentario != null)
@@ -53,91 +53,46 @@
 
 
 @code {
-    [Parameter] public int capitulo { get; set; }
-    [Parameter] public int verso { get; set; }
+    [Parameter] public long Id { get; set; }
     protected List<MarkupString> comentarios = new List<MarkupString>();
     protected string? MensagemComentario = null;
-    Pagina exampleModel = new Pagina();
-    Pagina Model = new Pagina();
+    Comment exampleModel = new Comment();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
     private bool Gemini = false;
     private string prompt = "";
 
-
-
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
 
-        if(capitulo != 0)
-        {
-            var lst = Context.Pagina!.Include(p => p.Story)
-            .Where(p => p.Story!.PaginaPadraoLink == capitulo).ToList();
-            Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
-            List<business.Comentario> listaComentarios =
-            await Context.Comentario!.Where(c => c.IdPagina == Model!.Id)
+        if(Id != 0)
+        {            
+            List<business.Comment> listaComentarios =
+            await Context.Comentario!.Where(c => c.ContentId == Id)
                            .OrderBy(c => c.Id)
                            .ToListAsync();
             comentarios = new List<MarkupString>();
 
+
             foreach (var item in listaComentarios)
             {
-                var p = Context.Pagina!.Include(p => p.Story)
-                .Where(pa => pa.Story!.PaginaPadraoLink == item.Capitulo)
-                .OrderBy(pa => pa.Id)
-                .Skip(item.Verso - 1).First();
-                var html = await repositoryPagina
-                .renderizarPagina(p);
-                var comentario = new MarkupString(html + $" <hr /> <p> Capitulo {item.Capitulo} Verso {item.Verso} </p>");
+                var comentario = new MarkupString(item.Html + $" <hr /> ");
                 comentarios.Add(comentario);
             }
         }
-
     }
 
     protected async void FazerComentario()
     {
-        var Quant = await Context.Story!.Where(st => st.Nome != "Padrao").ToListAsync();
-        var Story = await Context.Story!.Include(st => st.Pagina)
-        .FirstAsync(st => st.PaginaPadraoLink == 2);
-
-        var count2 = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == Story.Id);
-        Pagina.entity = true;
-        var pagina = new Pagina(count2)
-            {
-                Titulo = "Story - " + Story.Nome,
-                Comentario = Model.Id,
-                Html = $"<div> {exampleModel.Html} </div>"
-            };
-        Pagina.entity = false;
-
-        Context.Add(pagina);
+        if (Id != 0)
+        exampleModel.ContentId = Id;
+        Context.Add(exampleModel);
         Context.SaveChanges();
-        pagina.Story.QuantComentario++;
 
-
-        if (capitulo != 0)
-        {
-            var comentar = new business.Comentario
-                {
-                    IdPagina = Model.Id,
-                    Capitulo = Story.PaginaPadraoLink,
-                    Verso = Story.Pagina!.ToList().Count
-                };
-            Context.Add(comentar);
-            Context.SaveChanges();
-            await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!! Compartilhe!!! \n capitulo {Story.PaginaPadraoLink} \n verso {Story.Pagina!.ToList().Count}");
-            await js!.InvokeVoidAsync("history.back");
-        }
-        else
-        {
-            await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!!");
-            await js!.InvokeVoidAsync("history.back");
-
-        }
-
+        await js!.InvokeAsync<object>("DarAlert", $"Comentário feito com sucesso!!!");
+        await js!.InvokeVoidAsync("history.back");
     }
 
     private async void buscarResposta()

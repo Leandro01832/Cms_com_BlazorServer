@@ -15,6 +15,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using BCrypt.Net;
+using Newtonsoft.Json.Linq;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BlazorCms.Client.Pages
 {
@@ -82,18 +84,20 @@ namespace BlazorCms.Client.Pages
             {
                 if (substory == null)
                 {
-                    if (capitulo == 0 && indice >= quant)
+                    if (cap == 0 && indice >= quant)
                     {
                         setarCamadas(null);
                         indice = 1;
                     }                    
-                    else if (capitulo != 0 && indice >= quant && outroHorizonte == 0)
+                    else if (cap != 0 && indice >= quant && outroHorizonte == 0)
                     {
                         setarCamadas(null);
-                        capitulo++;
+                        cap++;
+                        storyid = repositoryPagina.stories
+                         .First(str => str.PaginaPadraoLink == cap).Id;
                         indice = 1;
                     }                  
-                    else if (capitulo != 0 && indice >= quant && outroHorizonte == 1)
+                    else if (cap != 0 && indice >= quant && outroHorizonte == 1)
                     {
                         setarCamadas(null);
                         indice = 1;
@@ -127,17 +131,18 @@ namespace BlazorCms.Client.Pages
             if (substory == null)
             {
 
-                if (args.Key == "Enter" && capitulo == 0)
+                if (args.Key == "Enter" && cap == 0)
                 {
                     setarCamadas(null);
-                    capitulo = indice;
+                    storyid = repositoryPagina!.stories!
+                    .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
                     indice = 1;               
                 }
                 else if (args.Key == "Enter")
                 {
                     setarCamadas(null);
-                    capitulo = 0;
-                    indice = capitulo;         
+                    storyid = repositoryPagina.stories.First().Id;
+                    indice = repositoryPagina.stories.IndexOf(story);         
                 }
                 automatico = false;
                 acessar();
@@ -247,7 +252,7 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                acessar($"/filtro/{capitulo}/pasta-{indice_Filtro}/0/0/{dominio}/{Compartilhante}");
+                acessar($"/filtro/{storyid}/pasta-{indice_Filtro}/0/0/{dominio}/{Compartilhante}");
 
             }
 
@@ -265,13 +270,13 @@ namespace BlazorCms.Client.Pages
             else
                 tamanho = 20;
 
-            acessar($"/lista-filtro/1/{Compartilhante}/{capitulo}/{indice_Filtro}/0");
+            acessar($"/lista-filtro/1/{Compartilhante}/{storyid}/{indice_Filtro}/0");
         }
 
         protected void listarPastas()
         {
 
-            acessar($"/listar-pasta/{capitulo}/{dominio}/{Compartilhante}");
+            acessar($"/listar-pasta/{storyid}/{dominio}/{Compartilhante}");
         }
 
         protected void acessarHorizontePastas(int? i)
@@ -413,13 +418,13 @@ namespace BlazorCms.Client.Pages
 
                 if (proximo <= quant)
                 {
-                    setarCamadas(new int?[10] {capitulo,(int) substory!, null, null, null,
+                    setarCamadas(new int?[10] {story.PaginaPadraoLink,(int) substory!, null, null, null,
                         null, null, null, null, null });
                     indice = proximo;
                 }
                 else
                 {
-                    setarCamadas(new int?[10] { capitulo, (int)substory!, null, null, null,
+                    setarCamadas(new int?[10] {story.PaginaPadraoLink, (int)substory!, null, null, null,
                         null, null, null, null, null });
                     indice = 1;
                 }
@@ -437,7 +442,9 @@ namespace BlazorCms.Client.Pages
             else
             {
                 setarCamadas(null);
-                capitulo++;
+                cap++;
+                 storyid = repositoryPagina.stories
+                 .First(str => str.PaginaPadraoLink == cap).Id;
                 indice = 1;
                 acessar();
             }              
@@ -460,7 +467,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete,
                         camadaoito, camadanove, camadadez);
                     if (arr != null)                    
@@ -474,7 +481,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -486,7 +493,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
                     if (arr != null)                    
                         setarCamadas(arr);                   
@@ -498,7 +505,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -510,7 +517,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -523,7 +530,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo);
                     if (arr != null)                    
                         setarCamadas(arr);                 
@@ -535,7 +542,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!,
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -548,7 +555,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory!, grupo);
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!, grupo);
                     if (arr != null)                    
                         setarCamadas(arr);                      
                     else                    
@@ -560,7 +567,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, capitulo, (int)substory);
+                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory);
                     if (arr != null)                    
                         setarCamadas(arr);                   
                     else                    
@@ -579,19 +586,19 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice == 1)
                 {
-                    setarCamadas(new int?[10] { capitulo, (int)substory!, null, null, null,
+                    setarCamadas(new int?[10] { story.PaginaPadraoLink, (int)substory!, null, null, null,
                         null, null, null, null, null });
                     indice = 1;
                 }                
                 else
                 {
-                    setarCamadas(new int?[10] { capitulo, (int)substory!, null, null, null,
+                    setarCamadas(new int?[10] { story.PaginaPadraoLink, (int)substory!, null, null, null,
                         null, null, null, null, null });
                     indice--;
                 }               
             }
             else
-            if (indice == 1 && capitulo != 0)
+            if (indice == 1 && cap != 0)
             {
                 if (substory != null)
                 {
@@ -601,7 +608,11 @@ namespace BlazorCms.Client.Pages
                 indice = 1;
                 retroceder = 1;
                 if (substory == null)
-                    capitulo--;
+                {
+                    cap--;
+                    storyid = repositoryPagina.stories
+                    .First(str => str.PaginaPadraoLink == cap).Id;
+                }
 
             }
             if (indice != 1 && rotas == null)
@@ -1377,9 +1388,9 @@ namespace BlazorCms.Client.Pages
                 {
                     SqlCommand cmd = null;
                     if (substory == null)
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={capitulo} and P.verso={indice}", con);
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={story.PaginaPadraoLink} and P.verso={indice}", con);
                     else
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={capitulo} and P.verso={vers}", con);
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={story.PaginaPadraoLink} and P.verso={vers}", con);
 
                     con.Open();
                     _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
@@ -1497,12 +1508,11 @@ namespace BlazorCms.Client.Pages
             {
                 if (Compartilhante == "comp")
                 {
-                    Compartilhante = Context.Users
-                    .FirstOrDefault(u => u.UserName == "Leandro01832")!.UserName;
+                    Compartilhante =  "Leandro01832";
                 }
                 if (title == null)
                 {
-                    title = await js.InvokeAsync<string>("prompt", "Informe o titulo da pagina.");
+                    title = Model.Titulo;
                 }
 
                 if (resumo == null)
@@ -1522,6 +1532,7 @@ namespace BlazorCms.Client.Pages
 
                         
                     }
+                acessar();
             }
 
             else
@@ -1554,11 +1565,11 @@ namespace BlazorCms.Client.Pages
             automatico = false;
             if(substory == null)
             {
-                acessar($"/comentario/{capitulo}/{indice}");
+                acessar($"/comentario/{Model.Id}");
             }
             else
             {
-                acessar($"/comentario/{capitulo}/{vers}");
+                acessar($"/comentario/{Model.Id}");
 
             }
         }
@@ -1568,19 +1579,19 @@ namespace BlazorCms.Client.Pages
             automatico = false;
             if (substory == null)
             {
-                acessar($"/pastas/{capitulo}/{indice}/{dominio}/{Compartilhante}");
+                acessar($"/pastas/{storyid}/{indice}/{dominio}/{Compartilhante}");
             }
             else
             {
-                acessar($"/pastas/{capitulo}/{vers}/{dominio}/{Compartilhante}");
+                acessar($"/pastas/{storyid}/{vers}/{dominio}/{Compartilhante}");
 
             }
         }
 
         protected void acessarCapitulos()
         {
-            indice = capitulo;
-            capitulo = 0;
+            indice = repositoryPagina.stories.IndexOf(story);
+            storyid = repositoryPagina!.stories!.First().Id;
             outroHorizonte = 0;
             setarCamadas(null);
 
@@ -1599,7 +1610,8 @@ namespace BlazorCms.Client.Pages
         protected void acessarStory()
         {
             outroHorizonte = 0;
-            capitulo = indice;
+            storyid = repositoryPagina!.stories!
+                .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
             automatico = false;
             indice = 1;
             setarCamadas(null);
@@ -1619,50 +1631,33 @@ namespace BlazorCms.Client.Pages
 
                 conteudo = Convert.ToInt32(Content);
 
-
-                if (criptografar)
-                {
-                    comp1 = Compartilhou   ;
-                    comp2 = Compartilhante ;
-                    comp3 = Compartilhante2;
-                    comp4 = Compartilhante3;
-                    comp5 = Compartilhante4;
-                    comp6 = Compartilhante5;
-                    comp7 = Compartilhante6;
-                    Compartilhou    = Encrypt(Compartilhou! );
-                    Compartilhante  = Encrypt(Compartilhante!);
-                    Compartilhante2 = Encrypt(Compartilhante2!);
-                    Compartilhante3 = Encrypt(Compartilhante3!);
-                    Compartilhante4 = Encrypt(Compartilhante4!);
-                    Compartilhante5 = Encrypt(Compartilhante5!);
-                    Compartilhante6 = Encrypt(Compartilhante6!);
-                    criptografar = false;
-                }
-
+                criptografar = true;
 
                 string url = null;
                 if (camadadez != null)
-                    url = $"/camada10/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada10/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadanove != null)
-                    url = $"/camada9/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada9/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadaoito != null)
-                    url = $"/camada8/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada8/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadasete != null)
-                    url = $"/camada7/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada7/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (camadaseis != null)
-                    url = $"/camada6/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada6/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (subsubgrupo != null)
-                    url = $"/camada5/{capitulo}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada5/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (subgrupo != null)
-                    url = $"/camada4/{capitulo}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada4/{storyid}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (grupo != null)
-                    url = $"/camada3/{capitulo}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada3/{storyid}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (substory != null)
-                    url = $"/camada2/{capitulo}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada2/{storyid}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else
-                    url = $"/Renderizar/{capitulo}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
 
                 if (Compartilhante != "comp" && outroHorizonte == 0 && pontos == null) url += "/1";
+
+                criptografar = false;
 
                 navigation!.NavigateTo(url);
             }
@@ -1682,15 +1677,14 @@ namespace BlazorCms.Client.Pages
             else return Encrypt(plainText);
         }
 
-        private  string Decrypt(string cipherText, string usuario)
-        {
+        //private string Decrypt(string cipherText, string usuario)
+        //{
+        //    string us;
 
-                if (!BCrypt.Net.BCrypt.Verify("comp", cipherText))
-                if (BCrypt.Net.BCrypt.Verify(usuario, cipherText))
-                    return usuario;
-
-            return "comp";
-        }
+        //    if (BCrypt.Net.BCrypt.Verify("comp", cipherText))
+        //        return "comp";
+        //    else  return "";
+        //}
 
     }
 

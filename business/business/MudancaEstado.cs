@@ -53,5 +53,25 @@ namespace business.business
 
             return pagina;
         }
+
+        public Pagina MudarEstado2(Comment m, long curtidas, long compartilhamentos)
+        {
+            this.Curtidas = curtidas;
+            this.Compartilhamentos = compartilhamentos;
+            this.Id = m.Id;
+
+            Pagina pagina = new Pagina(m.Story)
+            {
+                Html = m.Html,
+                Produto = m.Produto,
+                Rotas = m.Rotas,
+                Titulo = m.Titulo,
+                mudanca = this,
+                Comentario = m.Comentario,
+
+            };
+
+            return pagina;
+        }
     }
 }

@@ -53,7 +53,7 @@ namespace BlazorServerCms.Data
         public DbSet<PatternStory>? PatternStory { get; set; }
         public DbSet<Telefone>? Telefone { get; set; }
         public DbSet<Livro>? Livro { get; set; }
-        public DbSet<Comentario>? Comentario { get; set; }
+        public DbSet<Comment>? Comentario { get; set; }
         public DbSet<CamadaSeis>? CamadaSeis { get; set; }
         public DbSet<CamadaSete>? CamadaSete { get; set; }
         public DbSet<CamadaOito>? CamadaOito { get; set; }

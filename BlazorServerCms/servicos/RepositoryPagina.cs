@@ -37,6 +37,7 @@ namespace BlazorServerCms.servicos
         public string cupomDesconto = "";
 
         public List<Content> Conteudo = new List<Content>();
+        public List<UserModel> UserModel = new List<UserModel>();
         public List<Story> stories = new List<Story>();
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)

@@ -38,7 +38,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Livro", (string)null);
+                    b.ToTable("Livro");
                 });
 
             modelBuilder.Entity("business.business.Cliente", b =>
@@ -67,7 +67,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cliente", (string)null);
+                    b.ToTable("Cliente");
                 });
 
             modelBuilder.Entity("business.business.Content", b =>
@@ -78,9 +78,6 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long?>("Comentario")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
@@ -90,6 +87,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<string>("Html")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("ProdutoId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Rotas")
                         .HasColumnType("nvarchar(max)");
@@ -103,9 +103,11 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProdutoId");
+
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Content", (string)null);
+                    b.ToTable("Content");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Content");
                 });
@@ -144,7 +146,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Endereco", (string)null);
+                    b.ToTable("Endereco");
                 });
 
             modelBuilder.Entity("business.business.FiltroContent", b =>
@@ -162,7 +164,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.ToTable("FiltroContent", (string)null);
+                    b.ToTable("FiltroContent");
                 });
 
             modelBuilder.Entity("business.business.MudancaEstado", b =>
@@ -184,7 +186,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MudancaEstado", (string)null);
+                    b.ToTable("MudancaEstado");
                 });
 
             modelBuilder.Entity("business.business.Rota", b =>
@@ -203,7 +205,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rota", (string)null);
+                    b.ToTable("Rota");
                 });
 
             modelBuilder.Entity("business.business.Time", b =>
@@ -226,7 +228,7 @@ namespace BlazorServerCms.Migrations
                         .IsUnique()
                         .HasFilter("[nome] IS NOT NULL");
 
-                    b.ToTable("Time", (string)null);
+                    b.ToTable("Time");
                 });
 
             modelBuilder.Entity("business.business.UserModel", b =>
@@ -253,6 +255,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<long?>("FiltroId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("HashUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -323,7 +328,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.ToTable("UserModelPageLiked", (string)null);
+                    b.ToTable("UserModelPageLiked");
                 });
 
             modelBuilder.Entity("business.business.UserModelFiltro", b =>
@@ -338,7 +343,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("FiltroId");
 
-                    b.ToTable("UserModelFiltro", (string)null);
+                    b.ToTable("UserModelFiltro");
                 });
 
             modelBuilder.Entity("business.business.UserModelLivro", b =>
@@ -353,7 +358,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("LivroId");
 
-                    b.ToTable("UserModelLivro", (string)null);
+                    b.ToTable("UserModelLivro");
                 });
 
             modelBuilder.Entity("business.business.UserModelTime", b =>
@@ -368,29 +373,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("TimeId");
 
-                    b.ToTable("UserModelTime", (string)null);
-                });
-
-            modelBuilder.Entity("business.Comentario", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<int>("Capitulo")
-                        .HasColumnType("int");
-
-                    b.Property<long>("IdPagina")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Verso")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Comentario", (string)null);
+                    b.ToTable("UserModelTime");
                 });
 
             modelBuilder.Entity("business.Compartilhante", b =>
@@ -415,7 +398,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Compartilhante", (string)null);
+                    b.ToTable("Compartilhante");
                 });
 
             modelBuilder.Entity("business.Filtro", b =>
@@ -446,7 +429,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Filtro", (string)null);
+                    b.ToTable("Filtro");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Filtro");
                 });
@@ -474,7 +457,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Story", (string)null);
+                    b.ToTable("Story");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Story");
                 });
@@ -500,7 +483,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ProdutoId");
 
-                    b.ToTable("ImagemProduto", (string)null);
+                    b.ToTable("ImagemProduto");
                 });
 
             modelBuilder.Entity("business.ItemPedido", b =>
@@ -529,7 +512,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ProdutoId");
 
-                    b.ToTable("ItemPedido", (string)null);
+                    b.ToTable("ItemPedido");
                 });
 
             modelBuilder.Entity("business.Pedido", b =>
@@ -550,13 +533,16 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Pedido", (string)null);
+                    b.ToTable("Pedido");
                 });
 
             modelBuilder.Entity("business.Produto", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
@@ -572,7 +558,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Produto", (string)null);
+                    b.ToTable("Produto");
                 });
 
             modelBuilder.Entity("business.Telefone", b =>
@@ -596,7 +582,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Telefone", (string)null);
+                    b.ToTable("Telefone");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -746,6 +732,13 @@ namespace BlazorServerCms.Migrations
                     b.HasDiscriminator().HasValue("ShortStory");
                 });
 
+            modelBuilder.Entity("business.business.Group.SmallStory", b =>
+                {
+                    b.HasBaseType("business.Group.Story");
+
+                    b.HasDiscriminator().HasValue("SmallStory");
+                });
+
             modelBuilder.Entity("business.business.UserContent", b =>
                 {
                     b.HasBaseType("business.business.Content");
@@ -762,6 +755,18 @@ namespace BlazorServerCms.Migrations
                     b.HasIndex("UserModelId");
 
                     b.HasDiscriminator().HasValue("UserContent");
+                });
+
+            modelBuilder.Entity("business.Comment", b =>
+                {
+                    b.HasBaseType("business.business.Content");
+
+                    b.Property<long?>("ContentId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasDiscriminator().HasValue("Comment");
                 });
 
             modelBuilder.Entity("business.Group.CamadaDez", b =>
@@ -879,11 +884,17 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Content", b =>
                 {
+                    b.HasOne("business.Produto", "Produto")
+                        .WithMany("Content")
+                        .HasForeignKey("ProdutoId");
+
                     b.HasOne("business.Group.Story", "Story")
                         .WithMany("Pagina")
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Produto");
 
                     b.Navigation("Story");
                 });
@@ -1055,17 +1066,6 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("business.Produto", b =>
-                {
-                    b.HasOne("business.business.Content", "Content")
-                        .WithOne("Produto")
-                        .HasForeignKey("business.Produto", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Content");
-                });
-
             modelBuilder.Entity("business.Telefone", b =>
                 {
                     b.HasOne("business.business.Cliente", "Cliente")
@@ -1141,6 +1141,15 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("UserModel");
+                });
+
+            modelBuilder.Entity("business.Comment", b =>
+                {
+                    b.HasOne("business.business.Content", "Content")
+                        .WithMany("Comentario")
+                        .HasForeignKey("ContentId");
+
+                    b.Navigation("Content");
                 });
 
             modelBuilder.Entity("business.Group.CamadaDez", b =>
@@ -1247,9 +1256,9 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Content", b =>
                 {
-                    b.Navigation("Filtro");
+                    b.Navigation("Comentario");
 
-                    b.Navigation("Produto");
+                    b.Navigation("Filtro");
 
                     b.Navigation("usuarios");
                 });
@@ -1297,6 +1306,8 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Produto", b =>
                 {
+                    b.Navigation("Content");
+
                     b.Navigation("Imagem");
 
                     b.Navigation("Itens");

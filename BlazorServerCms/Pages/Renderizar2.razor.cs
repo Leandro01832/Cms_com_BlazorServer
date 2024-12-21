@@ -30,19 +30,16 @@ namespace BlazorCms.Client.Pages
         private Story story = null;
         private string? title = null;
         private string? resumo = null;
-
-        private string comp1 = "";
-        private string comp2 = "";
-        private string comp3 = "";
-        private string comp4 = "";
-        private string comp5 = "";
-        private string comp6 = "";
-        private string comp7 = "";
-
-        private bool criptografar = true;
+        private Filtro fil2 = null;
+        private Filtro fil3 = null;
+        private Filtro fil4 = null;
+        private Filtro fil5 = null;
 
         protected int indiceAcesso;
 
+        private bool criptografar = false;
+
+        
         
         protected bool exemplo = false;
         protected bool mudanca = false;
@@ -83,7 +80,7 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int timeproduto { get; set; } = 11;  
         [Parameter] public int? conteudo { get; set; } = 1;  
         [Parameter] public int indice { get; set; } = 1;
-        [Parameter] public int capitulo { get; set; } = 1;
+        [Parameter] public long? storyid { get; set; } = 1;
 
         [Parameter] public int? substory { get; set; } = null; [Parameter] public int? grupo { get; set; } = null;
 
@@ -94,6 +91,7 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int? camadaoito { get; set; } = null; [Parameter] public int? camadanove { get; set; } = null;
 
         [Parameter] public int? camadadez { get; set; } = null;
+
         [Parameter] public int? Auto
         {
             get { return auto; }
@@ -106,83 +104,231 @@ namespace BlazorCms.Client.Pages
                 }
         
         } 
+      
         [Parameter] public string? redirecionar { get; set; } = "";
         [Parameter] public string? dominio { get; set; } = "dominio";
 
         private string? compartilhou = null; 
         [Parameter] public string? Compartilhou 
         {
-            get { return compartilhou; }
+            get 
+            { 
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.HashUserName == compartilhou);
+                if (user != null && user.HashUserName == null)
+                    Compartilhou = user.UserName;
+                    if (!criptografar)
+                    {
+                        if (user != null)
+                            return user.UserName;
+                        else return null;
+
+                    }
+                else if (user != null) return user.HashUserName;
+                else return "comp";
+            }
             set
             {
-                compartilhou = value;
-                criptografar = true;
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.UserName == value);
+                if (user != null && user.HashUserName == null)
+                {
+                    compartilhou = Encrypt(user.UserName);
+                    user.HashUserName = compartilhou;
+                    Context.Update(user);
+                }
             }
         }
 
         private string? compartilhante = null;
         [Parameter] public string? Compartilhante 
         {
-            get { return compartilhante; }
+            get
+            {
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.HashUserName == compartilhante);
+                if (user != null && user.HashUserName == null)
+                    Compartilhante = user.UserName;
+                if (!criptografar)
+                {
+                    if (user != null)
+                        return user.UserName;
+                    else return null;
+
+                }
+                else if (user != null) return user.HashUserName;
+                else return "comp";
+            }
             set 
             {
-                compartilhante = value;
-                criptografar = true;
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.UserName == value);
+                if (user != null && user.HashUserName == null)
+                {
+                    compartilhante = Encrypt(user.UserName);
+                    user.HashUserName = compartilhante;
+                    Context.Update(user);
+                }
             }
         }
 
         private string? compartilhante2 = null;
         [Parameter] public string? Compartilhante2
         {
-            get { return compartilhante2; }
+            get 
+            {
+                    var user = repositoryPagina.UserModel
+               .FirstOrDefault(u => u.HashUserName == compartilhante2);
+                    if (user != null && user.HashUserName == null)
+                        Compartilhante2 = user.UserName;
+                if (!criptografar)
+                {
+                    if (user != null)
+                        return user.UserName;
+                    else return null;
+
+                }
+                else if (user != null) return user.HashUserName;
+                else return "comp";
+            }
             set
             {
-                compartilhante2 = value;
-                criptografar = true;
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.UserName == value);
+                if (user != null && user.HashUserName == null)
+                {
+                    compartilhante2 = Encrypt(user.UserName);
+                    user.HashUserName = compartilhante2;
+                    Context.Update(user);
+                }
             }
         }
 
         private string? compartilhante3 = null;
         [Parameter] public string? Compartilhante3
         {
-            get { return compartilhante3; }
+            get 
+            {
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.HashUserName == compartilhante3);
+                if (user != null && user.HashUserName == null)
+                    Compartilhante3 = user.UserName;
+                if (!criptografar)
+                {
+                    if (user != null)
+                        return user.UserName;
+                    else return null;
+
+                }
+                else if (user != null) return user.HashUserName;
+                else return "comp";
+            }
             set
             {
-                compartilhante3 = value;
-                criptografar = true;
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.UserName == value);
+                if (user != null && user.HashUserName == null)
+                {
+                    compartilhante3 = Encrypt(user.UserName);
+                    user.HashUserName = compartilhante3;
+                    Context.Update(user);
+                }
             }
         }
 
         private string? compartilhante4 = null;
         [Parameter] public string? Compartilhante4
         {
-            get { return compartilhante4; }
+            get 
+            {
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.HashUserName == compartilhante4);
+                if (user != null && user.HashUserName == null)
+                    Compartilhante4 = user.UserName;
+                if (!criptografar)
+                {
+                    if (user != null)
+                        return user.UserName;
+                    else return null;
+
+                }
+                else if (user != null) return user.HashUserName;
+                else return "comp";
+            }
             set
             {
-                compartilhante4 = value;
-                criptografar = true;
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.UserName == value);
+                if (user != null && user.HashUserName == null)
+                {
+                    compartilhante4 = Encrypt(user.UserName);
+                    user.HashUserName = compartilhante4;
+                    Context.Update(user);
+                }
             }
         }
 
         private string? compartilhante5 = null;
         [Parameter] public string? Compartilhante5
         {
-            get { return compartilhante5; }
+            get 
+            {
+                var user = repositoryPagina.UserModel
+               .FirstOrDefault(u => u.HashUserName == compartilhante5);
+                if (user != null && user.HashUserName == null)
+                    Compartilhante5 = user.UserName;
+                if (!criptografar)
+                {
+                    if (user != null)
+                        return user.UserName;
+                    else return null;
+
+                }
+                else if (user != null) return user.HashUserName;
+                else return "comp";
+            }
             set
             {
-                compartilhante5 = value;
-                criptografar = true;
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.UserName == value);
+                if (user != null && user.HashUserName == null)
+                {
+                    compartilhante5 = Encrypt(user.UserName);
+                    user.HashUserName = compartilhante5;
+                    Context.Update(user);
+                }
             }
         }
 
         private string? compartilhante6 = null;
         [Parameter] public string? Compartilhante6
         {
-            get { return compartilhante6; }
+            get 
+            {
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.HashUserName == compartilhante6);
+                if (user != null && user.HashUserName == null)
+                    Compartilhante6 = user.UserName;
+                if (!criptografar)
+                {
+                    if (user != null)
+                        return user.UserName;
+                    else return null;
+
+                }
+                else if (user != null) return user.HashUserName;
+                else return "comp";
+            }
             set
             {
-                compartilhante6 = value;
-                criptografar = true;
+                var user = repositoryPagina.UserModel
+                .FirstOrDefault(u => u.UserName == value);
+                if (user != null && user.HashUserName == null)
+                {
+                    compartilhante6 = Encrypt(user.UserName);
+                    user.HashUserName = compartilhante6;
+                    Context.Update(user);
+                }
             }
         }
 

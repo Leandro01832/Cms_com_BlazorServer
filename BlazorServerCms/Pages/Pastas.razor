@@ -1,10 +1,14 @@
-﻿@page "/pastas/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}"
+﻿@page "/pastas/{capitulo:long}/{verso:int}/{dominio}/{compartilhante}"
 @inject RepositoryPagina? repositoryPagina 
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<UserModel> userManager
 @layout MeuLayout
-<h3>Pastas do versiculo @verso do capitulo @capitulo</h3>
+
+@if(Model != null){
+<h3>Pastas do versiculo @verso do capitulo @Model.Story.PaginaPadraoLink</h3>
+
+}
 
 <PageTitle>Pastas</PageTitle>
 
@@ -65,7 +69,7 @@
 
 @code {
     private string? authMessage;
-    [Parameter] public int capitulo { get; set; }
+    [Parameter] public long capitulo { get; set; }
     [Parameter] public int verso { get; set; }
     [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
@@ -81,14 +85,14 @@
     {
         Context = db.CreateDbContext(null);
         var lst = Context.Pagina!.Include(p => p.Story).Include(p => p.Filtro)!.ThenInclude(p => p.Filtro)
-        .Where(p => p.Story!.PaginaPadraoLink == capitulo).OrderBy(p => p.Id).ToList();
+        .Where(p => p.StoryId == capitulo).OrderBy(p => p.Id).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
         filtros = Context.Pagina!
     .Include(p => p.Filtro)!
     .ThenInclude(p => p.Filtro)
     .Include(p => p.Story)
     .ThenInclude(p => p.Filtro)
-    .Where(p => p.Story!.PaginaPadraoLink == capitulo)
+    .Where(p => p.StoryId == capitulo)
     .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
 
         var authState = await AuthenticationStateProvider

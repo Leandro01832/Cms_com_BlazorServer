@@ -118,7 +118,7 @@ using (var scope = app.Services.CreateScope())
      
     if (userASP == null)
     {
-        var user = new UserModel { UserName = "leandro01832", Email = email, EmailConfirmed = true };
+        var user = new UserModel() { UserName = "leandro01832", Email = email, EmailConfirmed = true };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
     }
@@ -178,7 +178,6 @@ using (var scope = app.Services.CreateScope())
             pages[i - 1].StoryId = count.Id ;
             pages[i - 1].Titulo += $" {i}";
             pages[i - 1].Produto = null;
-            pages[i - 1].Comentario = 0;
 
             pages[i - 1].Html = $"<br /> <br /> <br /> <p> <h1> Conteudo {pages[i - 1].Versiculo}  </h1> </p>";
 
