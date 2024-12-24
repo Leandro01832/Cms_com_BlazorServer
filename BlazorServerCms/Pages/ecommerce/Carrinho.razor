@@ -1,4 +1,4 @@
-﻿@page "/carrinho/{codigo:long}/{capitulo:int}/{verso:int}/{dominio}/{compartilhante}/{compartilhante2}"
+﻿@page "/carrinho/{codigo:long}/{compartilhou}/{compartilhante}/{compartilhante2}/{compartilhante3}/{compartilhante4}/{compartilhante5}/{compartilhante6}"
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
 <h3>Carrinho</h3>
@@ -10,8 +10,8 @@
 <div class="row">
     <div class="col-md-12">
         <div class="pull-right">
-            <a href="/renderizar/@capitulo/@verso/1/11/1/@dominio/@compartilhante/compartilhante2">Adicionar produtos</a>
-            <a href="/cadastro/@ped!.Id/@capitulo/@verso/@dominio/@compartilhante/@compartilhante2">Preencher Cadastro</a>
+            <BackPage></BackPage>
+            <a href="/cadastro/@ped!.Id/@compartilhou/@compartilhante/@compartilhante2/@compartilhante3/@compartilhante4/@compartilhante5/@compartilhante6">Preencher Cadastro</a>
 
         </div>
     </div>
@@ -96,8 +96,8 @@
 <div class="row">
     <div class="col-md-12">
         <div class="pull-right">
-            <a href="/renderizar/@capitulo/@verso/1/11/1/@dominio/@compartilhante/compartilhante2">Adicionar produtos</a>
-            <a href="/cadastro/@ped!.Id/@capitulo/@verso/@dominio/@compartilhante/@compartilhante2">Preencher Cadastro</a>
+            <BackPage></BackPage>
+            <a href="/cadastro/@ped!.Id/@compartilhou/@compartilhante/@compartilhante2/@compartilhante3/@compartilhante4/@compartilhante5/@compartilhante6">Preencher Cadastro</a>
         </div>
     </div>
 </div>
@@ -105,11 +105,13 @@
 @code {
 
     [Parameter] public long? codigo { get; set; }
-    [Parameter] public int? capitulo { get; set; }
-    [Parameter] public int? verso { get; set; }
-    [Parameter] public string? dominio { get; set; }
+    [Parameter] public string? compartilhou { get; set; }
     [Parameter] public string? compartilhante { get; set; }
     [Parameter] public string? compartilhante2 { get; set; }
+    [Parameter] public string? compartilhante3 { get; set; }
+    [Parameter] public string? compartilhante4 { get; set; }
+    [Parameter] public string? compartilhante5 { get; set; }
+    [Parameter] public string? compartilhante6 { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private CarrinhoViewModel Model;

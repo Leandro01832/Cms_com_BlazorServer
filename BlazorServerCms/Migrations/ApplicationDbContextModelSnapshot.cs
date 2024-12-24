@@ -88,6 +88,9 @@ namespace BlazorServerCms.Migrations
                     b.Property<string>("Html")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Mudanca")
+                        .HasColumnType("bit");
+
                     b.Property<long?>("ProdutoId")
                         .HasColumnType("bigint");
 

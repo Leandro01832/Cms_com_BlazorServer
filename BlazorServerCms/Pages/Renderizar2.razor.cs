@@ -114,14 +114,15 @@ namespace BlazorCms.Client.Pages
             get 
             { 
                 var user = repositoryPagina.UserModel
-                .FirstOrDefault(u => u.HashUserName == compartilhou);
-                if (user != null && user.HashUserName == null)
-                    Compartilhou = user.UserName;
+                .FirstOrDefault(u => u.HashUserName != null &&
+                u.HashUserName == compartilhou &&
+                Decrypt(u.HashUserName, u.UserName));
+
                     if (!criptografar)
                     {
                         if (user != null)
                             return user.UserName;
-                        else return null;
+                        else return "comp";
 
                     }
                 else if (user != null) return user.HashUserName;
@@ -137,6 +138,8 @@ namespace BlazorCms.Client.Pages
                     user.HashUserName = compartilhou;
                     Context.Update(user);
                 }
+                else if (user != null) compartilhou = user.HashUserName;
+                else compartilhou = "comp";
             }
         }
 
@@ -146,14 +149,15 @@ namespace BlazorCms.Client.Pages
             get
             {
                 var user = repositoryPagina.UserModel
-                .FirstOrDefault(u => u.HashUserName == compartilhante);
-                if (user != null && user.HashUserName == null)
-                    Compartilhante = user.UserName;
+                .FirstOrDefault(u => u.HashUserName != null &&
+                u.HashUserName == compartilhante &&
+                Decrypt(u.HashUserName, u.UserName));
+
                 if (!criptografar)
                 {
                     if (user != null)
                         return user.UserName;
-                    else return null;
+                    else return "comp";
 
                 }
                 else if (user != null) return user.HashUserName;
@@ -169,6 +173,8 @@ namespace BlazorCms.Client.Pages
                     user.HashUserName = compartilhante;
                     Context.Update(user);
                 }
+                else if (user != null) compartilhante = user.HashUserName;
+                else compartilhante = "comp";
             }
         }
 
@@ -178,14 +184,15 @@ namespace BlazorCms.Client.Pages
             get 
             {
                     var user = repositoryPagina.UserModel
-               .FirstOrDefault(u => u.HashUserName == compartilhante2);
-                    if (user != null && user.HashUserName == null)
-                        Compartilhante2 = user.UserName;
+               .FirstOrDefault(u => u.HashUserName != null &&
+               u.HashUserName == compartilhante2 &&
+               Decrypt(u.HashUserName, u.UserName));
+
                 if (!criptografar)
                 {
                     if (user != null)
                         return user.UserName;
-                    else return null;
+                    else return "comp";
 
                 }
                 else if (user != null) return user.HashUserName;
@@ -201,6 +208,8 @@ namespace BlazorCms.Client.Pages
                     user.HashUserName = compartilhante2;
                     Context.Update(user);
                 }
+                else if (user != null) compartilhante2 = user.HashUserName;
+                else compartilhante2 = "comp";
             }
         }
 
@@ -210,14 +219,15 @@ namespace BlazorCms.Client.Pages
             get 
             {
                 var user = repositoryPagina.UserModel
-                .FirstOrDefault(u => u.HashUserName == compartilhante3);
-                if (user != null && user.HashUserName == null)
-                    Compartilhante3 = user.UserName;
+                .FirstOrDefault(u => u.HashUserName != null &&
+                u.HashUserName == compartilhante3 &&
+                Decrypt(u.HashUserName, u.UserName));
+
                 if (!criptografar)
                 {
                     if (user != null)
                         return user.UserName;
-                    else return null;
+                    else return "comp";
 
                 }
                 else if (user != null) return user.HashUserName;
@@ -233,6 +243,8 @@ namespace BlazorCms.Client.Pages
                     user.HashUserName = compartilhante3;
                     Context.Update(user);
                 }
+                else if (user != null) compartilhante3 = user.HashUserName;
+                else compartilhante3 = "comp";
             }
         }
 
@@ -242,14 +254,15 @@ namespace BlazorCms.Client.Pages
             get 
             {
                 var user = repositoryPagina.UserModel
-                .FirstOrDefault(u => u.HashUserName == compartilhante4);
-                if (user != null && user.HashUserName == null)
-                    Compartilhante4 = user.UserName;
+                .FirstOrDefault(u => u.HashUserName != null &&
+                u.HashUserName == compartilhante4 &&
+                Decrypt(u.HashUserName, u.UserName));
+
                 if (!criptografar)
                 {
                     if (user != null)
                         return user.UserName;
-                    else return null;
+                    else return "comp";
 
                 }
                 else if (user != null) return user.HashUserName;
@@ -265,6 +278,8 @@ namespace BlazorCms.Client.Pages
                     user.HashUserName = compartilhante4;
                     Context.Update(user);
                 }
+                else if (user != null) compartilhante4 = user.HashUserName;
+                else compartilhante4 = "comp";
             }
         }
 
@@ -274,14 +289,15 @@ namespace BlazorCms.Client.Pages
             get 
             {
                 var user = repositoryPagina.UserModel
-               .FirstOrDefault(u => u.HashUserName == compartilhante5);
-                if (user != null && user.HashUserName == null)
-                    Compartilhante5 = user.UserName;
+               .FirstOrDefault(u => u.HashUserName != null &&
+               u.HashUserName == compartilhante5 &&
+               Decrypt(u.HashUserName, u.UserName));
+
                 if (!criptografar)
                 {
                     if (user != null)
                         return user.UserName;
-                    else return null;
+                    else return "comp";
 
                 }
                 else if (user != null) return user.HashUserName;
@@ -297,6 +313,8 @@ namespace BlazorCms.Client.Pages
                     user.HashUserName = compartilhante5;
                     Context.Update(user);
                 }
+                else if (user != null) compartilhante5 = user.HashUserName;
+                else compartilhante5 = "comp";
             }
         }
 
@@ -306,14 +324,15 @@ namespace BlazorCms.Client.Pages
             get 
             {
                 var user = repositoryPagina.UserModel
-                .FirstOrDefault(u => u.HashUserName == compartilhante6);
-                if (user != null && user.HashUserName == null)
-                    Compartilhante6 = user.UserName;
+                .FirstOrDefault(u => u.HashUserName != null &&
+                u.HashUserName == compartilhante6 &&
+                Decrypt(u.HashUserName, u.UserName));
+
                 if (!criptografar)
                 {
                     if (user != null)
                         return user.UserName;
-                    else return null;
+                    else return "comp";
 
                 }
                 else if (user != null) return user.HashUserName;
@@ -329,6 +348,8 @@ namespace BlazorCms.Client.Pages
                     user.HashUserName = compartilhante6;
                     Context.Update(user);
                 }
+                else if (user != null) compartilhante6 = user.HashUserName;
+                else compartilhante6 = "comp";
             }
         }
 

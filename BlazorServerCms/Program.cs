@@ -172,15 +172,23 @@ using (var scope = app.Services.CreateScope())
 
         for (var i = 1; i<= 13000; i++)
         {
-                
-            pages[i - 1] = new Pagina(i);
-            pages[i - 1].Titulo = "pagina";
-            pages[i - 1].StoryId = count.Id ;
-            pages[i - 1].Titulo += $" {i}";
-            pages[i - 1].Produto = null;
+            var indice = i.ToString();
+            
+                pages[i - 1] = new Pagina(i);
+            if (indice[indice.Length - 1] == '0' ||
+                indice[indice.Length - 1] == '9' ||
+                indice[indice.Length - 1] == '8' ||
+                indice[indice.Length - 1] == '7')
+                pages[i - 1].Mudanca = true; // para mudanca de estado
+                pages[i - 1].Titulo = "pagina";
+                pages[i - 1].StoryId = count.Id ;
+                pages[i - 1].Titulo += $" {i}";
+                pages[i - 1].Produto = null;
 
+            if(!pages[i - 1].Mudanca)
             pages[i - 1].Html = $"<br /> <br /> <br /> <p> <h1> Conteudo {pages[i - 1].Versiculo}  </h1> </p>";
-
+            else
+            pages[i - 1].Html = $"<br /> <br /> <br /> <p> <h1> Mudanca {pages[i - 1].Versiculo}  </h1> </p>";
             //if (i == 1)
             //{
             //    pages[i - 1].Html = "<p> <h1> Seja bem vindo a Story seres vivos</h1> </p>";

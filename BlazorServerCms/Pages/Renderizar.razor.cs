@@ -245,14 +245,16 @@ namespace BlazorCms.Client.Pages
 
             if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
             {
-                setarCamadas(null);
                 automatico = false;
+                setarCamadas(null);
                 await js!.InvokeAsync<object>("DarAlert", $"Esta pasta não possui versiculos");
                 acessar();
             }
             else
             {
-                acessar($"/filtro/{storyid}/pasta-{indice_Filtro}/0/0/{dominio}/{Compartilhante}");
+                setarCamadas(null);
+                filtrar = $"pasta-{indice_Filtro}";
+                acessar();
 
             }
 
@@ -1619,6 +1621,16 @@ namespace BlazorCms.Client.Pages
             acessar();
         }
 
+        protected void AdicionarAoCarrinho()
+        {
+            criptografar = true;
+            var url = $"/carrinho/{Model.ProdutoId}/{Compartilhou}/{Compartilhante}/" +
+            $"{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}" +
+            $"{Compartilhante6}";
+            criptografar = false;
+            acessar(url);
+        }
+
         private async void acessar(string url2 = null)
         {
             if (url2 != null) Auto = 0;
@@ -1652,6 +1664,8 @@ namespace BlazorCms.Client.Pages
                     url = $"/camada3/{storyid}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
                 else if (substory != null)
                     url = $"/camada2/{storyid}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                else if (filtrar != null)
+                    url = $"/filtro/{storyid}/{filtrar}/0/0/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{redirecionar}";
                 else
                     url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
 
@@ -1677,14 +1691,12 @@ namespace BlazorCms.Client.Pages
             else return Encrypt(plainText);
         }
 
-        //private string Decrypt(string cipherText, string usuario)
-        //{
-        //    string us;
-
-        //    if (BCrypt.Net.BCrypt.Verify("comp", cipherText))
-        //        return "comp";
-        //    else  return "";
-        //}
+        private bool Decrypt(string cipherText, string usuario)
+        {
+            if (BCrypt.Net.BCrypt.Verify(usuario, cipherText))
+                return true;
+            else return false;
+        }
 
     }
 

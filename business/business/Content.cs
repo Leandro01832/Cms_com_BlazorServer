@@ -40,6 +40,7 @@ namespace business.business
 
         public virtual List<UserModelContent> usuarios { get; set; }
         public virtual List<Comment> Comentario { get; set; }
+        public bool Mudanca { get; set; }
 
         public string? Html
         {
