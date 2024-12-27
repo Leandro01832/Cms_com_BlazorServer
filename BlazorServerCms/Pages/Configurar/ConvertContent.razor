@@ -98,7 +98,7 @@
 
     private void buscarConteudo(UserModel user)
     {
-        conteudos = Context.ContentUser.Where(c => c.UserModelId == user.Id).ToList();
+        conteudos = Context.UserContent.Where(c => c.UserModelId == user.Id).ToList();
     }
 
     private class IdentityUserImage

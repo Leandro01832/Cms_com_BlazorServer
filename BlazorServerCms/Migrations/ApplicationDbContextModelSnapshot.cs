@@ -38,7 +38,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Livro");
+                    b.ToTable("Livro", (string)null);
                 });
 
             modelBuilder.Entity("business.business.Cliente", b =>
@@ -67,7 +67,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cliente");
+                    b.ToTable("Cliente", (string)null);
                 });
 
             modelBuilder.Entity("business.business.Content", b =>
@@ -110,7 +110,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Content");
+                    b.ToTable("Content", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Content");
                 });
@@ -149,7 +149,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Endereco");
+                    b.ToTable("Endereco", (string)null);
                 });
 
             modelBuilder.Entity("business.business.FiltroContent", b =>
@@ -167,7 +167,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.ToTable("FiltroContent");
+                    b.ToTable("FiltroContent", (string)null);
                 });
 
             modelBuilder.Entity("business.business.MudancaEstado", b =>
@@ -189,7 +189,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MudancaEstado");
+                    b.ToTable("MudancaEstado", (string)null);
                 });
 
             modelBuilder.Entity("business.business.Rota", b =>
@@ -208,7 +208,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rota");
+                    b.ToTable("Rota", (string)null);
                 });
 
             modelBuilder.Entity("business.business.Time", b =>
@@ -231,7 +231,7 @@ namespace BlazorServerCms.Migrations
                         .IsUnique()
                         .HasFilter("[nome] IS NOT NULL");
 
-                    b.ToTable("Time");
+                    b.ToTable("Time", (string)null);
                 });
 
             modelBuilder.Entity("business.business.UserModel", b =>
@@ -331,7 +331,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.ToTable("UserModelPageLiked");
+                    b.ToTable("UserModelPageLiked", (string)null);
                 });
 
             modelBuilder.Entity("business.business.UserModelFiltro", b =>
@@ -346,7 +346,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("FiltroId");
 
-                    b.ToTable("UserModelFiltro");
+                    b.ToTable("UserModelFiltro", (string)null);
                 });
 
             modelBuilder.Entity("business.business.UserModelLivro", b =>
@@ -361,7 +361,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("LivroId");
 
-                    b.ToTable("UserModelLivro");
+                    b.ToTable("UserModelLivro", (string)null);
                 });
 
             modelBuilder.Entity("business.business.UserModelTime", b =>
@@ -376,7 +376,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("TimeId");
 
-                    b.ToTable("UserModelTime");
+                    b.ToTable("UserModelTime", (string)null);
                 });
 
             modelBuilder.Entity("business.Compartilhante", b =>
@@ -401,7 +401,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Compartilhante");
+                    b.ToTable("Compartilhante", (string)null);
                 });
 
             modelBuilder.Entity("business.Filtro", b =>
@@ -432,7 +432,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Filtro");
+                    b.ToTable("Filtro", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Filtro");
                 });
@@ -460,7 +460,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Story");
+                    b.ToTable("Story", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Story");
                 });
@@ -486,7 +486,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ProdutoId");
 
-                    b.ToTable("ImagemProduto");
+                    b.ToTable("ImagemProduto", (string)null);
                 });
 
             modelBuilder.Entity("business.ItemPedido", b =>
@@ -515,7 +515,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ProdutoId");
 
-                    b.ToTable("ItemPedido");
+                    b.ToTable("ItemPedido", (string)null);
                 });
 
             modelBuilder.Entity("business.Pedido", b =>
@@ -536,7 +536,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.ToTable("Pedido");
+                    b.ToTable("Pedido", (string)null);
                 });
 
             modelBuilder.Entity("business.Produto", b =>
@@ -561,7 +561,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Produto");
+                    b.ToTable("Produto", (string)null);
                 });
 
             modelBuilder.Entity("business.Telefone", b =>
@@ -585,7 +585,7 @@ namespace BlazorServerCms.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Telefone");
+                    b.ToTable("Telefone", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

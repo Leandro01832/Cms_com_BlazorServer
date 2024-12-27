@@ -29,7 +29,8 @@ namespace BlazorServerCms.Data
         public DbSet<MudancaEstado> MudancaEstado { get; set; }
         public DbSet<Time> Time { get; set; }
         public DbSet<Content> Content { get; set; }
-        public DbSet<UserContent> ContentUser { get; set; }
+        public DbSet<AdminContent> AdminContent { get; set; }
+        public DbSet<UserContent> UserContent { get; set; }
         public DbSet<FiltroContent> FiltroContent { get; set; }
         public DbSet<UserModelTime> UserModelTime { get; set; }
         public DbSet<UserModelLivro> UserModelLivro { get; set; }

@@ -1087,7 +1087,7 @@ namespace BlazorCms.Client.Pages
                             .FirstOrDefault(f => f.UserName == usuarios[i].UserName &&
                             f.FiltroId != null);
 
-                        var conteudos = Context.ContentUser.Include(c => c.UserModel)
+                        var conteudos = Context.UserContent.Include(c => c.UserModel)
                                 .Where(c => c.UserModel.UserName == usuarios[i].UserName &&
                                 c.Data.Date > DateTime.Now.AddDays(-7).Date)
                                 .ToList();
