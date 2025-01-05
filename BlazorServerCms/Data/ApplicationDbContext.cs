@@ -29,6 +29,9 @@ namespace BlazorServerCms.Data
         public DbSet<MudancaEstado> MudancaEstado { get; set; }
         public DbSet<Time> Time { get; set; }
         public DbSet<Content> Content { get; set; }
+        public DbSet<Pagina>? Pagina { get; set; }
+        public DbSet<ProductContent> ProductContent { get; set; }
+        public DbSet<ChangeContent> ChangeContent { get; set; }
         public DbSet<AdminContent> AdminContent { get; set; }
         public DbSet<UserContent> UserContent { get; set; }
         public DbSet<FiltroContent> FiltroContent { get; set; }
@@ -39,7 +42,6 @@ namespace BlazorServerCms.Data
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Rota>? Rota { get; set; }
         public DbSet<Filtro>? Filtro { get; set; }
-        public DbSet<Pagina>? Pagina { get; set; }
         public DbSet<Produto>? Produto { get; set; }
         public DbSet<ImagemProduto>? ImagemProduto { get; set; }
         public DbSet<Pedido>? Pedido { get; set; }

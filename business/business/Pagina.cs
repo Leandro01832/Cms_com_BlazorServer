@@ -34,7 +34,7 @@ namespace business
             
         }           
 
-        public int Versiculo { get; set; }       
+        public int Versiculo { get; set; }        
 
         [NotMapped]
         public string NomeComId { get { return Titulo + " chave - " + Id.ToString(); } }       

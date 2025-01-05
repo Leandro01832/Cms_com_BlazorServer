@@ -15,7 +15,7 @@
         <label>Imagem (512 x 512):</label>
         <InputFile OnChange="@LoadFiles"  />
     </p>
-    
+
 
     <button type="submit">Adicionar</button>
 </EditForm>
@@ -34,23 +34,24 @@
 
     private async void HandleSubmit()
     {
-        var list = await Context.Story!.Where(p => p.Nome != "Padrao").ToListAsync();
-        exampleModel.PaginaPadraoLink = list.Count + 1;
+        var list = await Context.Story!.OrderBy(s => s.Id).ToListAsync();
+        var str = new Story(exampleModel.Nome, list, list.First());
         if(file != null)
-        exampleModel.Image = file.Name;
-        await Context.AddAsync(exampleModel);
+        str.Image = file.Name;
+
+        await Context.AddAsync(str);
         await Context.SaveChangesAsync();
 
-        var conteudo = "<p> <h1> Seja bem vindo a Story " + exampleModel.Nome + "</h1> </p>";
+        var conteudo = "<p> <h1> Seja bem vindo a Story " + exampleModel.Nome + " </h1> </p>";
 
         Pagina pag = null;
         var count = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == exampleModel.Id);
         Pagina.entity = true;        
             pag = new Pagina(count)
-                {
-                    Titulo = "Story - " + exampleModel.Nome,
-                    Html = conteudo,
-                };
+            {
+                Titulo = "Story - " + exampleModel.Nome,
+                Html = conteudo,
+            };
         Pagina.entity = false;
 
         Context.Add(pag);

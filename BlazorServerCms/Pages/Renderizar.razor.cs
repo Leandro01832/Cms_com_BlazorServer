@@ -1,5 +1,4 @@
 ﻿using BlazorServerCms.Data;
-using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.Group;
@@ -10,13 +9,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
-using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using BCrypt.Net;
-using Newtonsoft.Json.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BlazorCms.Client.Pages
 {
@@ -1159,8 +1151,8 @@ namespace BlazorCms.Client.Pages
         }
 
         protected async void acessarPreferenciasUsuario(string usu)
-        {     
-            acessar($"/{usu}");
+        {
+            preferencia = usu;
         }
 
         protected void alterarQuery(ChangeEventArgs e)
@@ -1173,13 +1165,16 @@ namespace BlazorCms.Client.Pages
             }
             catch (Exception ex)
             {
-                foreach (var item in userManager.Users)
-                    usuarios.Add(new UserPreferencesImage { user = item.UserName, UserModel = item });
+                foreach (var item in Model2.Pagina.Select(p => p.Content)
+                    .OfType<UserContent>().ToList())
+                {
+                    var user = userManager.Users.First(u => u.Id == item.UserModelId);
+                    usuarios.Add(new UserPreferencesImage { user = user.UserName, UserModel = user });
+                }
 
                 if (string.IsNullOrEmpty(opcional))
                 {
                     usuarios.Clear();
-                    acessar();
                 }
             }
         }
@@ -1453,7 +1448,11 @@ namespace BlazorCms.Client.Pages
                     SqlCommand cmd = null;
                     if (Model != null)
                     {
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P  where P.StoryId={Model.StoryId} and P.Discriminator='Pagina' ", con);
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
+                            $" where P.StoryId={Model.StoryId} and P.Discriminator='Pagina' or " +
+                            $" P.StoryId={Model.StoryId} and P.Discriminator='AdminContent' or " +
+                            $" P.StoryId={Model.StoryId} and P.Discriminator='ProductContent' or " +
+                            $" P.StoryId={Model.StoryId} and P.Discriminator='ChangeContent'  ", con);
                         con.Open();
                         _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
                         con.Close();
@@ -1629,6 +1628,11 @@ namespace BlazorCms.Client.Pages
             $"{Compartilhante6}";
             criptografar = false;
             acessar(url);
+        }
+
+        protected void removerPreferencia()
+        {
+            preferencia = null;
         }
 
         private async void acessar(string url2 = null)

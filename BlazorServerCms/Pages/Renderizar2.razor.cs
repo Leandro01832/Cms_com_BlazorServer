@@ -39,7 +39,7 @@ namespace BlazorCms.Client.Pages
 
         private bool criptografar = false;
 
-        
+        protected string preferencia = null;
         
         protected bool exemplo = false;
         protected bool mudanca = false;

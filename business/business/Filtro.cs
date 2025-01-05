@@ -9,7 +9,7 @@ namespace business
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
         public string? user { get; set; }
-        public virtual List<UserContent> Content { get; set; }
+
         public virtual List<UserModel> UserModel { get; set; }
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }

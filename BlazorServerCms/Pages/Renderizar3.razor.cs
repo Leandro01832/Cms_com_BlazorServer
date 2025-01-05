@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections;
+using System.Drawing;
 using System.Security.Policy;
 using BlazorServerCms.Data;
 using BlazorServerCms.Pages;
@@ -84,45 +85,36 @@ namespace BlazorCms.Client.Pages
             if (indice == 0)
                 indice = 1;
 
-            var Stories = Context.Story.ToList();
+            var Stories = Context.Story.OrderBy(s => s.Id).ToList();
             var conteudos =   Context!.Content!.ToList();
             var UserModel =   Context!.Users!.ToList();
             var lista = await repositoryPagina.buscarPatternStory();
 
-            if (Stories.Count == 2 || lista.Count !=  Stories.OfType<PatternStory>().ToList().Count )
+            if (Stories.Count == 4 || lista.Count !=  Stories.OfType<PatternStory>().ToList().Count )
             {
-                if(Stories.Count == 2)
+                if(Stories.Count == 4)
                 {
-                    foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(2).ToList())
-                        Context.Add(story);
-                    Context.SaveChanges();
-
-                    var shortStory1 = new ShortStory(Context.Story.ToList(), "promoções 10% off");
-                    var shortStory2 = new ShortStory(Context.Story.ToList(), "promoções 30% off");
-                    var shortStory3 = new ShortStory(Context.Story.ToList(), "promoções 50% off");
-                    var shortStory4 = new SmallStory(Context.Story.ToList(), "Logistica");
-                    var shortStory5 = new SmallStory(Context.Story.ToList(), "Filiais");
-                    var shortStory6 = new SmallStory(Context.Story.ToList(), "Entrega de produtos");
-                    Context.Add(shortStory1);
-                    Context.Add(shortStory2);
-                    Context.Add(shortStory3);
-                    Context.Add(shortStory4);
-                    Context.Add(shortStory5);
-                    Context.Add(shortStory6);
-                    Context.SaveChanges();
-
-                    foreach (var item in Context.Story.OrderBy(str => str.Id).Skip(1).ToList())
+                    foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(4).ToList())
                     {
-                        var strPadrao = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == 1);
-                        var pagPadrao = new Pagina(strPadrao)
-                        {
-                            Html = $"<a href=''#'' class=''LinkPadrao''> <h1> {item.Nome} </h1> </a>",
-                            Titulo = "capitulos",
-                        };
-                        Context.Add(pagPadrao);
+                        var str = new PatternStory(story.Nome, Context.Story.ToList(), Stories.First());
+                        Context.Add(str);
                         Context.SaveChanges();
                     }
 
+                    var shortStory1 = new ShortStory("promoções 10% off", Context.Story.ToList(), Stories.First());
+                    Context.Add(shortStory1);
+                    var shortStory2 = new ShortStory("promoções 30% off", Context.Story.ToList(), Stories.First());
+                    Context.Add(shortStory2);
+                    var shortStory3 = new ShortStory("promoções 50% off", Context.Story.ToList(), Stories.First());
+                    Context.Add(shortStory3);
+                    var shortStory4 = new SmallStory("Logistica", Context.Story.ToList(), Stories.First());
+                    Context.Add(shortStory4);
+                    var shortStory5 = new SmallStory("Filiais", Context.Story.ToList(), Stories.First());
+                    Context.Add(shortStory5);
+                    var shortStory6 = new SmallStory("Entrega de produtos", Context.Story.ToList(), Stories.First());
+                    Context.Add(shortStory6);
+
+                    Context.SaveChanges();
                 }
                 else
                 {
@@ -174,6 +166,7 @@ namespace BlazorCms.Client.Pages
             if (repositoryPagina.Conteudo.Count == 0 ||
                 repositoryPagina.Conteudo.Count != conteudos.Count)
             {
+                conteudos = Context!.Content!.ToList();
                 repositoryPagina.Conteudo.Clear();
                 repositoryPagina.Conteudo.AddRange(conteudos);
             }
@@ -204,6 +197,13 @@ namespace BlazorCms.Client.Pages
 
         }
 
+
+        private long retornarVerso(Content c)
+        {
+            Pagina pag = (Pagina)c;
+            return pag.Versiculo;
+        }
+
         protected async Task renderizar()
         {
             
@@ -221,16 +221,16 @@ namespace BlazorCms.Client.Pages
             var quantidadePaginas = 0;
             List<Content> listaFiltradaComConteudo = null;
 
-            Model = repositoryPagina!.Conteudo.OfType<Pagina>()
-                    .FirstOrDefault(p => p.Versiculo == indice && p.StoryId == storyid);
+            Model = repositoryPagina!.Conteudo
+                    .FirstOrDefault(p =>  p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid );
 
             
 
 
             if (Model == null)
             {
-                Model = repositoryPagina.Conteudo.OfType<Pagina>()
-                .FirstOrDefault(p => p.StoryId == storyid);
+                Model = repositoryPagina.Conteudo
+                .FirstOrDefault(p => p is Pagina && p.StoryId == storyid);
             }
             
             if (outroHorizonte == 1)
@@ -792,7 +792,8 @@ namespace BlazorCms.Client.Pages
                 }
 
 
-                Model = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+                Model = listaFiltradaComConteudo!
+                    .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 
                 Model = repositoryPagina.Conteudo!.Where(p => p.StoryId == storyid)
@@ -802,16 +803,20 @@ namespace BlazorCms.Client.Pages
                 {
                     var p = (Pagina)Model;
                     vers = p.Versiculo;
-                    Model = repositoryPagina.includes()
-                    .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
+                   // Model = repositoryPagina.includes()
+                   // .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
 
                 }
                 else vers = 0;
 
-                ultimaPasta = Model2.Id == story.Filtro
-                    .Where(f => f.Pagina
-                    .FirstOrDefault(p => p.Content!.Id == Model.Id) != null)
-                        .LastOrDefault()!.Id;
+                //ultimaPasta = Model2.Id == story.Filtro
+                //    .Where(f => f.Pagina
+                //    .FirstOrDefault(p => p.Content!.Id == Model.Id) != null)
+                //        .LastOrDefault()!.Id;
+
+                int cam = repositoryPagina.buscarCamada();
+                Type t = retornarPasta(cam);
+                ultimaPasta = Model2.GetType() == t;
 
                 quantidadeLista = listaFiltradaComConteudo!.Count;
             }
@@ -829,7 +834,8 @@ namespace BlazorCms.Client.Pages
                         
                 }
 
-                Content pag2 = listaFiltradaComConteudo!.OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
+                Content pag2 = listaFiltradaComConteudo!
+                    .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault()!;
 
                 var str = repositoryPagina.stories.First(st => st.Id == pag2.StoryId);
                 cap = repositoryPagina.stories.IndexOf(str);
@@ -843,8 +849,8 @@ namespace BlazorCms.Client.Pages
                 {
                     var p = (Pagina)pag2;
                 vers = p.Versiculo;
-                Model = repositoryPagina.includes()
-                   .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
+                // Model = repositoryPagina.includes()
+                  // .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
                 }
                 else vers = 0;
 
@@ -852,7 +858,7 @@ namespace BlazorCms.Client.Pages
             }
            
 
-            return listaFiltradaComConteudo;
+            return listaFiltradaComConteudo!.OfType<Content>().ToList();
         }
 
         private void instanciarTime(int camada)
@@ -975,11 +981,23 @@ namespace BlazorCms.Client.Pages
             }
         }
 
+        private string retornarUserContent(Content c)
+        {
+            UserContent u = (UserContent)c;
+            return u.UserModelId;
+        }
+
         private List<Content> listarConteudos(Filtro f)
         {
-            List<Content> conteudos = new List<Content>();
-
-            return conteudos;
+            var fil = story.Filtro.FirstOrDefault(fi => fi.Id == f.Id);
+            if(preferencia == null)
+            return fil.Pagina!.Select(p => p.Content).ToList()!;
+            else
+            {
+                var user = userManager.Users.First(u => u.UserName == preferencia);
+                return fil.Pagina!.Select(p => p.Content)
+                    .Where(c => c is UserContent && retornarUserContent(c) == user.Id).ToList()!;
+            }
         }
                 
         private Filtro verificarFiltros(Filtro f)
@@ -1191,5 +1209,30 @@ namespace BlazorCms.Client.Pages
                 Context.SaveChanges();
             
         }    
+   
+        private Type retornarPasta(int camada)
+        {
+            if (camada == 10)
+                return new CamadaDez().GetType();
+            if (camada == 9)
+                return new CamadaNove().GetType();
+            if (camada == 8)
+                return new CamadaOito().GetType();
+            if (camada == 7)
+                return new CamadaSete().GetType();
+            if (camada == 6)
+                return new CamadaSeis().GetType();
+            if (camada == 5)
+                return new SubSubGrupo().GetType();
+            if (camada == 4)
+                return new SubGrupo().GetType();
+            if (camada == 3)
+                return new Grupo().GetType();
+            if (camada == 2)
+                return new SubStory().GetType();
+            return null;
+        }
+
+
     }
 }

@@ -17,6 +17,9 @@ namespace business.business
                 
         }
 
+      
+
+
         public MudancaEstado mudanca;
         private string html;
         public DateTime Data { get; set; } = DateTime.Now;
@@ -39,8 +42,8 @@ namespace business.business
         public virtual Produto? Produto { get; set; }
 
         public virtual List<UserModelContent> usuarios { get; set; }
+
         public virtual List<Comment> Comentario { get; set; }
-        public bool Mudanca { get; set; }
 
         public string? Html
         {

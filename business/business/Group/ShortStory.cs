@@ -17,10 +17,28 @@ namespace business.business.Group
             
         }
 
-        public ShortStory(List<Story> stories, string nome)
+        public ShortStory(string nome, Story padrao) : base(nome, padrao)
         {
-            PaginaPadraoLink = stories.Count + 1;
-            Nome = nome;
+
+        }
+
+        public ShortStory(string nome, int quantidade, Story padrao) : base(nome, quantidade, padrao)
+        {
+
+        }
+
+        public ShortStory(string nome, List<Story> stories, Story padrao) : base(nome, stories, padrao)
+        {
+        }
+
+        public ShortStory(string nome, List<Story> stories, List<Content> conteudos, Story padrao) : base(nome, stories, conteudos, padrao)
+        {
+
+        }
+
+        public ShortStory(string nome, List<Content> conteudos, Story padrao) : base(nome, conteudos, padrao)
+        {
+
         }
 
     }
