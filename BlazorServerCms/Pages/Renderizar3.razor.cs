@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Drawing;
-using System.Security.Policy;
-using BlazorServerCms.Data;
-using BlazorServerCms.Pages;
+﻿using BlazorServerCms.Data;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -25,8 +21,10 @@ namespace BlazorCms.Client.Pages
 
             await renderizar();
 
-            if (Auto == 1)
-                StartTimer(Model!);
+            if(cap != 0)
+            StartTimer(Model);
+
+
 
             if (Compartilhou != "comp" && pontos != null && substory != null  ||
                 Compartilhante != "comp" && pontos != null && substory != null)            
@@ -57,8 +55,8 @@ namespace BlazorCms.Client.Pages
 
             };
             vers = null;
-            Auto = 1;
-          
+          //  Auto = 1;
+            timeproduto = 11;
 
             if (Compartilhante == null)
             {
@@ -131,7 +129,7 @@ namespace BlazorCms.Client.Pages
                         .OrderBy(str => str.Id).ToList();
                     for(var i = 0; i < compartilharCapitulo.Count; i++)
                     {
-                        compartilharCapitulo[i].PaginaPadraoLink = Context.Story.OfType<PatternStory>().ToList().Count + i;
+                        compartilharCapitulo[i].PaginaPadraoLink = Context.Story.ToList().Count;
                         Context.Update(compartilharCapitulo[i]);
                         Context.SaveChanges();
                     }
@@ -196,7 +194,6 @@ namespace BlazorCms.Client.Pages
             }
 
         }
-
 
         private long retornarVerso(Content c)
         {
@@ -324,7 +321,6 @@ namespace BlazorCms.Client.Pages
 
                     var arr = retornarArray(fi);
                     indice = 1;
-                    Auto = 0;
 
                     setarCamadas(arr);
                     acessar();
@@ -1232,7 +1228,6 @@ namespace BlazorCms.Client.Pages
                 return new SubStory().GetType();
             return null;
         }
-
-
+        
     }
 }

@@ -107,6 +107,24 @@ namespace BlazorServerCms.servicos
             return marcadores;
         }
 
+        public string buscarApiYoutube()
+        {
+            return Configuration.GetConnectionString("api_youtube");
+        }
+
+        public string buscarApiGemini()
+        {
+            return Configuration.GetConnectionString("api_gemini");
+
+        }
+        
+        public string buscarApiGoogleAnalytics()
+        {
+            return Configuration.GetConnectionString("api_google_analytics");
+
+        }
+
+
         public string buscarDominio()
         {
             var dominio = Configuration.GetConnectionString("dominio");

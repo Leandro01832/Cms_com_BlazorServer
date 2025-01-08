@@ -383,7 +383,7 @@
         int calculo = 0;
         var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
-                ApiKey = "",
+                ApiKey = repositoryPagina.buscarApiYoutube(),
                 ApplicationName = this.GetType().ToString()
             });
         var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");

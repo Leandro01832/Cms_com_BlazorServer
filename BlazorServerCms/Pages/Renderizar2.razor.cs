@@ -97,7 +97,7 @@ namespace BlazorCms.Client.Pages
             get { return auto; }
             set { 
                     auto = value;
-                    if (auto == 1 && Timer.desligarAuto == null )
+                    if (auto == 0 && Timer.desligarAuto == null )
                     habilitarAuto();
                     else
                     desabilitarAuto();

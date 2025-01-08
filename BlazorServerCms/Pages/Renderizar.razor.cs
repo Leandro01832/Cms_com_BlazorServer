@@ -19,31 +19,40 @@ namespace BlazorCms.Client.Pages
         {
             try
             {
-                if (p != null && p.Html != null && p.Html.Contains("iframe") && outroHorizonte == 0)
+                if (p != null && p.Html != null  && outroHorizonte == 0)
                 {
-                    var conteudoHtml = p.Html;
-                    var arr = conteudoHtml!.Split("/");
-                    var id_video = "";
-                    for (var index = 0; index < arr.Length; index++)
+                    if (p.Html.Contains("iframe"))
                     {
-                        if (arr[index] == "embed" && conteudoHtml.Contains("?autoplay="))
+                        var conteudoHtml = p.Html;
+                        var arr = conteudoHtml!.Split("/");
+                        var id_video = "";
+                        for (var index = 0; index < arr.Length; index++)
                         {
-                            var text = arr[index + 1];
-                            var arr2 = text.Split("?");
-                            id_video = arr2[0];
-                            break;
+                            if (arr[index] == "embed" && conteudoHtml.Contains("?autoplay="))
+                            {
+                                var text = arr[index + 1];
+                                var arr2 = text.Split("?");
+                                id_video = arr2[0];
+                                break;
+                            }
+                            else if (arr[index] == "embed")
+                            {
+                                var text = arr[index + 1];
+                                var arr2 = text.Split('"');
+                                id_video = arr2[0];
+                                break;
+                            }
                         }
-                        else if (arr[index] == "embed")
-                        {
-                            var text = arr[index + 1];
-                            var arr2 = text.Split('"');
-                            id_video = arr2[0];
-                            break;
-                        }
+                        var tempoVideo = await GetYouTubeVideo(id_video);
+                        await js!.InvokeAsync<object>("PreencherProgressBar", tempoVideo + 3000);
+                        Timer!.SetTimer(tempoVideo + 3000);
+
                     }
-                    var tempoVideo = await GetYouTubeVideo(id_video);
-                    await js!.InvokeAsync<object>("PreencherProgressBar", tempoVideo);
-                    Timer!.SetTimer(tempoVideo);
+                    else
+                    {
+                        await js!.InvokeAsync<object>("PreencherProgressBar", timeproduto * 1000);
+                        Timer!.SetTimer(timeproduto * 1000);
+                    }
                 }
 
 
@@ -55,11 +64,7 @@ namespace BlazorCms.Client.Pages
             }
             Timer._timer!.Elapsed += _timer_Elapsed;
             Console.WriteLine("Timer Started.");
-            if (Timer!.desligarAuto! == null || Timer!.desligarAuto!.Enabled == false)
-            {
-                Timer!.SetTimerAuto();
-                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
-            }
+            
         }
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -72,45 +77,45 @@ namespace BlazorCms.Client.Pages
                 var lista = retornarListaFiltrada(null);
                 quant = lista.Count;
             }
-            if (Auto == 1)
+            if (automatico)
             {
-                if (substory == null)
-                {
-                    if (cap == 0 && indice >= quant)
-                    {
-                        setarCamadas(null);
-                        indice = 1;
-                    }                    
-                    else if (cap != 0 && indice >= quant && outroHorizonte == 0)
-                    {
-                        setarCamadas(null);
-                        cap++;
-                        storyid = repositoryPagina.stories
-                         .First(str => str.PaginaPadraoLink == cap).Id;
-                        indice = 1;
-                    }                  
-                    else if (cap != 0 && indice >= quant && outroHorizonte == 1)
-                    {
-                        setarCamadas(null);
-                        indice = 1;
-                    }                    
-                    else
-                    {
-                        setarCamadas(null);
-                        indice++;
-                    }
-                                        
-                    acessar();
-                }
-                else
-                {
-                    navegarSubgrupos(false);
-                }
-            }
-            else
-            {
+                //if (substory == null)
+                //{
+                //    if (cap == 0 && indice >= quant)
+                //    {
+                //        setarCamadas(null);
+                //        indice = 1;
+                //    }
+                //    else if (cap != 0 && indice >= quant && outroHorizonte == 0)
+                //    {
+                //        setarCamadas(null);
+                //        cap++;
+                //        storyid = repositoryPagina.stories
+                //         .First(str => str.PaginaPadraoLink == cap).Id;
+                //        indice = 1;
+                //    }
+                //    else if (cap != 0 && indice >= quant && outroHorizonte == 1)
+                //    {
+                //        setarCamadas(null);
+                //        indice = 1;
+                //    }
+                //    else
+                //    {
+                //        setarCamadas(null);
+                //        indice++;
+                //    }
+
+                //    acessar();
+                //}
+                //else
+                //{
+                //    navegarSubgrupos(false);
+                //}
                 buscarProximo();
             }
+           // else
+           // {
+           // }
 
 
             Console.WriteLine("Timer Elapsed.");
@@ -179,8 +184,16 @@ namespace BlazorCms.Client.Pages
 
         private void habilitarAuto()
         {
-            Timer!.SetTimerAuto();
-            Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
+            if (Timer!.desligarAuto! == null )
+            {
+                Timer!.SetTimerAuto();
+                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
+            }
+            else
+            {
+                Timer!.desligarAuto!.Enabled = true;
+                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
+            }
             
         }
 
@@ -208,7 +221,7 @@ namespace BlazorCms.Client.Pages
             int calculo = 0;
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
-                ApiKey = "",
+                ApiKey = repositoryPagina.buscarApiYoutube(),
                 ApplicationName = this.GetType().ToString()
             });
             var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
@@ -574,7 +587,6 @@ namespace BlazorCms.Client.Pages
 
         protected void buscarAnterior()
         {
-            automatico = false;
 
             if (rotas != null)
             {
@@ -1495,7 +1507,7 @@ namespace BlazorCms.Client.Pages
 
         protected async void StartTour()
         {
-            Auto = 0;
+            automatico = false;
             if (substory == null)
                 await TourService.StartTour("FormGuidedTour1");
             else
@@ -1504,7 +1516,7 @@ namespace BlazorCms.Client.Pages
 
         protected async void share()
         {
-            Auto = 0;
+            automatico = false;
             if (Compartilhante == "comp" || title == null || resumo == null)
             {
                 if (Compartilhante == "comp")
