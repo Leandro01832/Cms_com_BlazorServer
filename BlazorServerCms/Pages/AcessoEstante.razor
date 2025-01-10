@@ -10,11 +10,12 @@
     <PageTitle>Estante de @user </PageTitle>
     <h3>Estante de @user</h3>
     <hr />
-
-    @if(livrosUser.Count != 0 || user != null)
-    {
-        <a href="#" onclick="@acessarEstante" >Todos os livros</a>
-    }
+}
+else if(livrosUser.Count != 0)
+{
+    <a href="#" onclick="@acessarEstante" >Todos os livros</a>
+    <PageTitle>livros do cap. @livro.Livro.StandardChapter </PageTitle>
+    <h3>livros do cap. @livro.Livro.StandardChapter</h3>
 }
 else
 {
@@ -287,6 +288,7 @@ else
 
     private void acessarEstante()
     {
+        livrosUser.Clear();
         navigation.NavigateTo("/acessoestante");
     }
 

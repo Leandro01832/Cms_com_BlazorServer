@@ -15,6 +15,25 @@ Tests/
 # Ignorar logs
 *.log
 
+# Ignorar json
+*.json
+
+# Ignorar arquivos bin
+*.bin
+
+# Ignorar arquivos dll
+*.dll
+
+# Ignorar arquivos exe
+*.exe
+
+# Ignorar arquivos pdb
+*.pdb
+
+# Ignorar arquivos cache
+*.cache
+
+
 # Ignorar pastas de publicação
 **/BlazorServerCms/wwwroot/
 
