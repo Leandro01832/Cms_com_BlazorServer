@@ -13,9 +13,7 @@
 
     <br />
 
-    <input type="checkbox" id="data" name="data" @bind="exampleModel.IsBook" />
-     É um livro?
-   
+
 
     <button type="submit">Adicionar</button>
 </EditForm>
@@ -32,7 +30,9 @@
 
     private async void HandleSubmit()
     {
-        await Context.AddAsync(exampleModel);
+        var book = new Livro(Context.Livro.ToList());
+        book.url = exampleModel.url;
+        await Context.AddAsync(book);
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/livro/1");
     }

@@ -3,24 +3,90 @@
 @inject RepositoryPagina repositoryPagina
 @inject IJSRuntime js
 @inject NavigationManager navigation
+@inject UserManager<UserModel> userManager
 
-    <PageTitle>Estante de @user </PageTitle>
-
-
-    <h3>Estante de @user</h3>
-
-
-@if(livro != null)
+@if(user != null)
 {
-    
-<center>
-        <a href="@livro.Livro.url" >@livro.Livro.url</a>
-    </center>
+    <PageTitle>Estante de @user </PageTitle>
+    <h3>Estante de @user</h3>
+    <hr />
+
+    @if(livrosUser.Count != 0 || user != null)
+    {
+        <a href="#" onclick="@acessarEstante" >Todos os livros</a>
+    }
 }
 else
 {
-    <p>Usuario não possui livros</p>
+    <PageTitle>Estante </PageTitle>
+    <h3>Estante</h3>
 }
+
+<input type="text" placeholder="Usuario ou capitulo" onchange="@((ChangeEventArgs e) => alterarUser(e))" />
+
+@if (livrosUser.Count == 0 && user == null)
+{
+    <input  type="number" placeholder="n° do livro" @bind="indice" min="1"   />
+
+}
+
+
+@if (usuarios!.Count > 0)
+{
+
+    <div class="users">
+
+        @foreach (var item in usuarios!)
+        {
+            <p>
+                <a href="#" onclick="@(() => navigation.NavigateTo("/acessoestante/" + item.UserName))">
+                    Usuario @item.UserName
+                    <div class="circulo">
+                        <center>
+
+                            <div class="circulo2">
+                                @if (item.Image != null)
+                                {
+                                    <img src="ImgUser/usuario-@(item.UserName)-@(item.Image)" class="ImgUser">
+                                }
+                                else
+                                {
+                                    <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                                }
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </p>
+        }
+    </div>
+}
+
+
+@if(user != null){
+
+    @if(livro != null)
+    {    
+        <center>
+            <a href="@livro.Livro.url" >@livro.Livro.url</a>
+        </center>
+    }
+    else
+    {
+        <p>Usuario não possui livros</p>
+    }
+
+}
+else{
+    @if (liv != null)
+    {
+        <center>
+            <a href="@liv.url">@liv.url</a>
+        </center>
+    }
+}
+
 
 <hr />
 
@@ -38,22 +104,33 @@ else
     </svg>
 </a>
 
-<div>
-    <p> Livro @indice de livros.Count </p>
-</div>
+@if(user != null)
+{
+    <div>
+        <p> Livro @livro.Livro.BookNumber </p>
+    </div>
+
+}
+else
+{
+    <div>
+        <p> Livro @liv.BookNumber de livros.Count </p>
+    </div>
+}
 
 <div class="DivPagina" style="background-color:white;">
     @{
 
-
-            for (var ind = 1; ind <= livros.Count; ind++)
+        if (user != null || livrosUser.Count != 0)
+        {
+            foreach (var ind in livrosUser.OrderBy(l => l.Livro.BookNumber).ToList())
             {
-                <div class="DivPag" id="DivPagina@(ind)">
-                    @if (indice == ind)
-                    {
+                <div class="DivPag" id="DivPagina@(ind.Livro.BookNumber)">
 
+                    @if (livro!.Livro.BookNumber == ind.Livro.BookNumber)
+                    {
                         <div>
-                            <span class="indice"><b>@ind</b> </span>
+                            <span class="indice"><b>@ind.Livro.BookNumber</b> </span>
                         </div>
                         <div class="barra">
                             -
@@ -64,17 +141,53 @@ else
                     {
 
                         <div>
-                            <span class="indices"><b>@ind</b> </span>
+                            <span class="indices"><b>-</b> </span>
                         </div>
                         <div class="barra">
                             -
                         </div>
+
                     }
                 </div>
             }
-        
-        
-        
+
+        }
+        else
+        {
+            foreach (var ind in livros.OrderBy(l => l.BookNumber).ToList())
+            {
+                <div class="DivPag" id="DivPagina@(ind.BookNumber)">
+
+                    @if(liv.BookNumber == ind.BookNumber)
+                    {
+                        <div>
+                            <span class="indice"><b>@ind.BookNumber</b> </span>
+                        </div>
+                        <div class="barra">
+                            -
+                        </div>
+
+                    }
+                    else{
+
+                        <div>
+                            <span class="indices"><b>@ind.BookNumber</b> </span>
+                        </div>
+                        <div class="barra">
+                            -
+                        </div>
+
+                    }
+
+
+
+                </div>
+            }
+
+        }
+
+
+
 
     }
 </div>
@@ -82,46 +195,99 @@ else
 @code {
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    List<UserModelLivro> livros = new List<UserModelLivro>();
+    List<UserModelLivro> livrosUser = new List<UserModelLivro>();
+    List<UserModel> usuarios = new List<UserModel>();
+    List<Livro> livros = new List<Livro>();
     [Parameter] public string? user { get; set; }
     UserModelLivro livro = null;
+    Livro liv = null;
     private int indice = 1;
 
     protected override async Task OnInitializedAsync()
     {
-        Context = db.CreateDbContext(null);
+        Context = db.CreateDbContext(null);      
 
-        if(user is null)
-        {
-            user = await js.InvokeAsync<string>("prompt", "Informe o compartilhante.");
-            user = user.Trim();
-        }       
+        if(user == null)
+            livros = await Context.Livro!
+            .OrderBy(l => l.Id)
+            .ToListAsync();
+        else
+            livrosUser = await Context.UserModelLivro!
+            .Include(ul => ul.UserModel)
+            .Include(ul => ul.Livro)
+            .Where(ul => ul.UserModel.UserName == user).ToListAsync();
 
-        livros = await Context.UserModelLivro!
-        .Include(ul => ul.UserModel)
-        .Include(ul => ul.Livro)
-        .Where(ul => ul.UserModel.UserName == user).ToListAsync();
-
-        livro = livros.FirstOrDefault()!;
+        livro = livrosUser.FirstOrDefault()!;
+        liv = livros.FirstOrDefault()!;
     }
 
     private void proximo()
     {
-        if (indice != livros.Count)
-        indice++;
-        else indice = 1;
-        livro = livros.Skip(indice - 1).FirstOrDefault()!;
+        if(user != null)
+        {
+            if (indice != livros.Count)
+                indice++;
+            else indice = 1;
+            livro = livrosUser.Skip(indice - 1).FirstOrDefault()!;
+        }
+        else
+        {
+            if (indice != livrosUser.Count)
+                indice++;
+            else indice = 1;
+            liv = livros.Skip(indice - 1).FirstOrDefault()!;
+        }
 
     }
 
     private void anterior()
     {
-        if (indice != 1)
-            indice--;
-        else indice = 1;
-        livro = livros.Skip(indice - 1).FirstOrDefault()!;
+        if (user != null)
+        {
+            if (indice != 1)
+                indice--;
+            else indice = 1;
+            livro = livrosUser.Skip(indice - 1).FirstOrDefault()!;
+        }
+        else
+        {
+            if (indice != 1)
+                indice--;
+            else indice = 1;
+            liv = livros.Skip(indice - 1).FirstOrDefault()!;
+        }
     }
 
+    private async void alterarUser(ChangeEventArgs args)
+    {
+        try
+        {
+            var num = int.Parse(args.Value!.ToString()!);
+            livrosUser.Clear();
+            livrosUser = 
+            await Context.UserModelLivro!
+            .Include(ul => ul.UserModel)
+            .Include(ul => ul.Livro)
+            .Where(ul => ul.Livro.StandardChapter == num).ToListAsync();
+        }
+        catch(Exception ex)
+        {
+            if (string.IsNullOrEmpty(args.Value!.ToString()!))
+            {
+                var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
+                foreach (var item in users)
 
+                    usuarios.Add(item);
+
+                if (string.IsNullOrEmpty(args.Value!.ToString()!))
+                    usuarios.Clear();
+            }
+        }
+    }
+
+    private void acessarEstante()
+    {
+        navigation.NavigateTo("/acessoestante");
+    }
 
 }

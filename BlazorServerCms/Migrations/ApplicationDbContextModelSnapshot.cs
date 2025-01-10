@@ -30,8 +30,11 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<bool>("IsBook")
-                        .HasColumnType("bit");
+                    b.Property<int>("BookNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StandardChapter")
+                        .HasColumnType("int");
 
                     b.Property<string>("url")
                         .HasColumnType("nvarchar(max)");
