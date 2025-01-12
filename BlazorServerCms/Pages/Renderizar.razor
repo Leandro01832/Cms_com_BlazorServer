@@ -525,11 +525,11 @@ else
 
                     </center>
                 }
-                else
+               @*  else
         if (indice == 1 && substory == null && nameStory != "Padrao")
                 {
                     <p> Seja bem vindo a story @nameStory </p>
-                }
+                } *@
                 else
         if (Model.Produto != null)
                 {
@@ -560,6 +560,11 @@ else
                 }
                 else
                 {
+                    if(!string.IsNullOrEmpty(Model.Link))
+                    {
+                        <a href="@Model.Link" > @Model.TextoLink </a>
+                    }
+
                     @markup
                 }
 

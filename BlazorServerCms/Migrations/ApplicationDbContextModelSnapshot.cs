@@ -91,6 +91,9 @@ namespace BlazorServerCms.Migrations
                     b.Property<string>("Html")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long?>("ProdutoId")
                         .HasColumnType("bigint");
 
@@ -99,6 +102,9 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<long>("StoryId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("TextoLink")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
                         .IsRequired()

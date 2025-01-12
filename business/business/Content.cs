@@ -56,6 +56,15 @@ namespace business.business
             }
         }
 
+        public string? Link { get; set; } = null;
+
+        private string? textoLink = null;
+        public string? TextoLink
+        {
+            get { if (string.IsNullOrEmpty(textoLink)) return "Link"; else return textoLink; }
+            set { textoLink = value; }
+        }
+
         public void IncluiFiltro(Filtro fil)
         {
             if (this.Filtro == null) this.Filtro = new List<FiltroContent>();

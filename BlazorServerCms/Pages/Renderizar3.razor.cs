@@ -125,11 +125,14 @@ namespace BlazorCms.Client.Pages
                             Context.SaveChanges();
                         }
                     }
-                    var compartilharCapitulo = Stories.Where(str => str is not PatternStory)
+                    var compartilharCapitulo = Context.Story.Where(str => !(str is  PatternStory))
                         .OrderBy(str => str.Id).ToList();
                     for(var i = 0; i < compartilharCapitulo.Count; i++)
                     {
-                        compartilharCapitulo[i].PaginaPadraoLink = Context.Story.ToList().Count;
+                        compartilharCapitulo[i].PaginaPadraoLink = 
+                        Context.PatternStory!
+                        .OrderBy(ps => ps.Id)
+                        .Last().PaginaPadraoLink + i + 1;
                         Context.Update(compartilharCapitulo[i]);
                         Context.SaveChanges();
                     }

@@ -4,6 +4,8 @@
 @inject IJSRuntime js
 @inject NavigationManager navigation
 @inject UserManager<UserModel> userManager
+@layout MeuLayout
+
 
 @if(user != null)
 {
@@ -264,6 +266,7 @@ else
         try
         {
             var num = int.Parse(args.Value!.ToString()!);
+            user = null;
             livrosUser.Clear();
             livrosUser = 
             await Context.UserModelLivro!
