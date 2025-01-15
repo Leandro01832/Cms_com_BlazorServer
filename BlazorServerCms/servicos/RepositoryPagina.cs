@@ -19,6 +19,8 @@ namespace BlazorServerCms.servicos
 
         public Random random = new Random();
 
+        public int QuantMinutos { get; set; } = 10;
+
         public int dias { get; set; } = 1;  
         public int meta1 { get; set; } = 1;  
         public int meta2 { get; set; } = 1;  

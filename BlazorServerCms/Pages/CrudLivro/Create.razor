@@ -10,6 +10,11 @@
         <label>Url:</label>
         <InputText id="url" @bind-Value="exampleModel.url" />
     </p>
+    <p>
+        <label>Capitulo:</label>
+        <input id="capitulo" type="number" @bind="exampleModel.StandardChapter" />
+        
+    </p>
 
     <br />
 
@@ -32,6 +37,7 @@
     {
         var book = new Livro(Context.Livro.ToList());
         book.url = exampleModel.url;
+        book.StandardChapter = exampleModel.StandardChapter;
         await Context.AddAsync(book);
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/livro/1");

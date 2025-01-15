@@ -69,54 +69,8 @@ namespace BlazorCms.Client.Pages
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            var quant = 0;
-            if (substory == null)
-                quant = CountPaginas(ApplicationDbContext._connectionString);
-            else
-            {
-                var lista = retornarListaFiltrada(null);
-                quant = lista.Count;
-            }
-            if (automatico)
-            {
-                //if (substory == null)
-                //{
-                //    if (cap == 0 && indice >= quant)
-                //    {
-                //        setarCamadas(null);
-                //        indice = 1;
-                //    }
-                //    else if (cap != 0 && indice >= quant && outroHorizonte == 0)
-                //    {
-                //        setarCamadas(null);
-                //        cap++;
-                //        storyid = repositoryPagina.stories
-                //         .First(str => str.PaginaPadraoLink == cap).Id;
-                //        indice = 1;
-                //    }
-                //    else if (cap != 0 && indice >= quant && outroHorizonte == 1)
-                //    {
-                //        setarCamadas(null);
-                //        indice = 1;
-                //    }
-                //    else
-                //    {
-                //        setarCamadas(null);
-                //        indice++;
-                //    }
-
-                //    acessar();
-                //}
-                //else
-                //{
-                //    navegarSubgrupos(false);
-                //}
+            if (automatico) 
                 buscarProximo();
-            }
-           // else
-           // {
-           // }
-
 
             Console.WriteLine("Timer Elapsed.");
             Timer!._timer!.Elapsed -= _timer_Elapsed;
@@ -183,17 +137,9 @@ namespace BlazorCms.Client.Pages
         }
 
         private void habilitarAuto()
-        {
-            if (Timer!.desligarAuto! == null )
-            {
-                Timer!.SetTimerAuto();
-                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
-            }
-            else
-            {
-                Timer!.desligarAuto!.Enabled = true;
-                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;
-            }
+        {          
+                Timer!.SetTimerAuto(repositoryPagina!.QuantMinutos);
+                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;      
             
         }
 
@@ -213,7 +159,7 @@ namespace BlazorCms.Client.Pages
             Console.WriteLine("Timer Elapsed auto.");
             Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
             Timer.desligarAuto.Dispose();
-            acessar("/");
+            automatico = false;
         }
 
         private async Task<int> GetYouTubeVideo(string id_video)

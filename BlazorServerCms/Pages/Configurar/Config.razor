@@ -12,6 +12,10 @@
     <p>Mensagem</p>
 }
 
+<input type="number" placeholder="Minutos para desabilitar auto" min="10" 
+       @onchange="(ChangeEventArgs e) => { repositoryPagina.QuantMinutos = int.Parse(e.Value.ToString()); }"
+       style="width:300px" />
+
 <p>Cupom de desconto: @repositoryPagina.cupomDesconto</p>
 
 <input type="number" placeholder="Informe o capitulo padrão do livro"

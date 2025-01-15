@@ -1,8 +1,10 @@
 ﻿@page "/crud/livro/{pagina:int}"
+
 @inherits IndexCamdaDezBase
 @attribute [Authorize]
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<UserModel> userManager
+@inject IJSRuntime? js
 
 
 
@@ -23,6 +25,7 @@ else
         <thead>
             <tr>
                 <th>Livros</th>
+                <th>Capitulo</th>
                 @if (admin)
                 {
                     <th>Edita</th>
@@ -37,7 +40,8 @@ else
             {
 
                 <tr>
-                    <td>@livro.url;</td>
+                    <td>@livro.url</td>
+                    <td>@livro.StandardChapter</td>
                     @if (admin)
                     {
                         <td><a class="btn btn-primary" href="livro/edit/@livro.Id">Editar</a> </td>
@@ -45,12 +49,12 @@ else
                     }
                     @if (verificarLivro(livro))
                     {
-                        <td><a class="btn btn-danger" @onclick="(()=> Remover(livro.Id))">Remover da estante</a> </td>
+                        <td><a class="btn btn-danger" @onclick="(()=> Remover(livro.Id))">Remover da minha estante</a> </td>
 
                     }
                     else
                     {
-                        <td><a class="btn btn-danger" @onclick="(()=> Incluir(livro.Id))">Colocar na estante</a> </td>
+                        <td><a class="btn btn-danger" @onclick="(()=> Incluir(livro.Id))">Colocar na minha estante</a> </td>
 
                     }
 
@@ -91,7 +95,7 @@ else
         usuario = authState.User;
 
         var u = await userManager.GetUserAsync(usuario);
-        user = await Context.Users.Include(u => u.Livro)
+        user = await Context.Users.Include(u => u.Livro).ThenInclude(u => u.Livro)
         .FirstAsync(us => us.Id == u.Id);
 
         admin = await userManager.IsInRoleAsync(user, "Admin");
@@ -117,8 +121,19 @@ else
     private async void Incluir(long Id)
     {
         var livro = await Context.Livro!.FirstAsync(l => l.Id == Id);
-        user.IncluiLivro(livro);
-        await Context.SaveChangesAsync();
+
+        if(user.Livro != null && user.Livro.FirstOrDefault(l => l.Livro.StandardChapter == livro.StandardChapter) == null)
+        {
+            user.IncluiLivro(livro);
+            await Context.SaveChangesAsync();
+            await js!.InvokeAsync<object>("DarAlert", $"Livro incluido com sucesso!!");
+            await js!.InvokeAsync<object>("ExecutarReload", $"teste");
+        }
+        else
+        {
+            await js!.InvokeAsync<object>("DarAlert", $"Só poderá ser incluido apenas um livro para cada segmento ou capitulo");
+        }
+        
     }
 
     private async void Remover(long Id)
@@ -128,9 +143,8 @@ else
 
         Context.Remove(obj);
         await Context.SaveChangesAsync();
-        user.Recorde -= 1000;
-        Context.Update(user);
-        await Context.SaveChangesAsync();
+        await js!.InvokeAsync<object>("DarAlert", $"Livro removido com sucesso!!");
+        await js!.InvokeAsync<object>("ExecutarReload", $"teste");
     }
 
     private bool verificarLivro(Livro livro)

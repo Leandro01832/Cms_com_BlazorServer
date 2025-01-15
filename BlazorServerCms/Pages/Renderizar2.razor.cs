@@ -96,11 +96,11 @@ namespace BlazorCms.Client.Pages
         {
             get { return auto; }
             set { 
-                    auto = value;
-                    if (auto == 0 && Timer.desligarAuto == null )
+                    if (auto == 0)
                     habilitarAuto();
                     else
                     desabilitarAuto();
+                    auto = value;
                 }
         
         } 

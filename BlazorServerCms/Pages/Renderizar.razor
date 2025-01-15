@@ -195,7 +195,7 @@ else
                 }
 
 
-                @if (outroHorizonte == 0 && nameStory != "Padrao" && Model!.Filtro! != null && Model!.Filtro!.Count != 0)
+                @if (outroHorizonte == 0 && nameStory != "Padrao" && Model != null && Model!.Filtro! != null && Model!.Filtro!.Count != 0)
                 {
                     <div>
 
@@ -531,7 +531,7 @@ else
                     <p> Seja bem vindo a story @nameStory </p>
                 } *@
                 else
-        if (Model.Produto != null)
+        if (Model != null && Model is ProductContent)
                 {
                     <div class="row container produto">
                         <div class="col-md-6 info">
@@ -558,7 +558,7 @@ else
                     </div>
 
                 }
-                else
+                else if(Model != null)
                 {
                     if(!string.IsNullOrEmpty(Model.Link))
                     {
@@ -568,7 +568,7 @@ else
                     @markup
                 }
 
-                if (Model.ProdutoId != null)
+                if ( Model != null && Model.ProdutoId != null)
                 {
                     <a href="#" onclick="@AdicionarAoCarrinho" >
                         Vá comprar

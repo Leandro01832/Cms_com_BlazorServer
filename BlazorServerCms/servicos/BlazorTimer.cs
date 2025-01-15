@@ -27,9 +27,9 @@ namespace BlazorServerCms.servicos
             _timerVitrine.Enabled = true;
         }
 
-        public void SetTimerAuto()
+        public void SetTimerAuto(int minutos)
         {
-            desligarAuto = new System.Timers.Timer(1800000); // 30 min
+            desligarAuto = new System.Timers.Timer(minutos * 60000); 
             desligarAuto.Enabled = true;
         }
     }
