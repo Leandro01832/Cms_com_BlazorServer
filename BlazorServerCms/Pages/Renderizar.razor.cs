@@ -1157,7 +1157,6 @@ namespace BlazorCms.Client.Pages
                     opcional = indice.ToString();
                 else
                 {
-                    var lista = retornarListaFiltrada(null);
                     opcional = vers.ToString();
                 }
                 if (string.IsNullOrEmpty(prompted))
@@ -1172,95 +1171,95 @@ namespace BlazorCms.Client.Pages
             if (camada == 7)
             {                   
                 fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is CamadaSete).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is CamadaSeis).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubSubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;                
             }
            
             else if (camada == 6)
             {
                  fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is CamadaSeis).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubSubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
            
             else if (camada == 5)
             {
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubSubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
 
             else if (camada == 4)
             {
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubGrupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
 
             else if (camada == 3)
             {
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is Grupo).LastOrDefault()!;
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => p.Content!.Id == int.Parse(opcional!)) != null &&
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;
             }
 

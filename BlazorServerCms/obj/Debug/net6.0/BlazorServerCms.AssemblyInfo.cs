@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BlazorServerCms")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+35ef9fe097a1db0852c34ab1cb49bc303742772e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1e2005b5ce4c1388a98aacca599289241880e28e")]
 [assembly: System.Reflection.AssemblyProductAttribute("BlazorServerCms")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BlazorServerCms")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

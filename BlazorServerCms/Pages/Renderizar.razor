@@ -473,7 +473,7 @@ else
                     @if (substory != null)
                     {
                         <p>
-                            @if (Content == false)
+                            @if (Model != null && Content == false)
                             {
                                 @Model.Data.ToString("dd/MM/yyyy")
 
@@ -853,9 +853,7 @@ else
                                             {
                                                 if (!Content)
                                                 {
-                                                    Pagina p = (Pagina)Model;
-                                                    <span data-first class="indice"> @p.Versiculo</span>
-
+                                                    <span data-first class="indice"> @vers</span>
                                                 }
                                                 else
                                                 {

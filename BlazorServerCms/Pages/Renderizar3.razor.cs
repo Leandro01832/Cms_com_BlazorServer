@@ -790,20 +790,18 @@ namespace BlazorCms.Client.Pages
                     retroceder = 0;
                 }
 
+              //  if (Model.Id == listaFiltradaComConteudo.First().Id)
+              //      indice = 1;
 
                 Model = listaFiltradaComConteudo!
                     .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 
-                Model = repositoryPagina.Conteudo!.Where(p => p.StoryId == storyid)
-                    .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
 
                 if (Model is Pagina)
                 {
                     var p = (Pagina)Model;
                     vers = p.Versiculo;
-                   // Model = repositoryPagina.includes()
-                   // .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
 
                 }
                 else vers = 0;
@@ -857,7 +855,7 @@ namespace BlazorCms.Client.Pages
             }
            
 
-            return listaFiltradaComConteudo!.OfType<Content>().ToList();
+            return listaFiltradaComConteudo!.OrderBy(c => c.Id).ToList();
         }
 
         private void instanciarTime(int camada)
