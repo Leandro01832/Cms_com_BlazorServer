@@ -55,7 +55,7 @@ namespace BlazorCms.Client.Pages
 
             };
             vers = null;
-          //  Auto = 1;
+            Auto = 0;
             timeproduto = 11;
 
             if (Compartilhante == null)

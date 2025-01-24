@@ -143,11 +143,15 @@ namespace BlazorCms.Client.Pages
             
         }
 
+        protected void ativar()
+        {
+            Auto = Convert.ToInt32(!automatico);
+        }
+
         private void desabilitarAuto()
         {
             if (Timer!.desligarAuto != null)
             {
-                Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
                 Timer!.desligarAuto!.Enabled = false;
                 Timer.desligarAuto.Dispose();                
             }
@@ -157,9 +161,9 @@ namespace BlazorCms.Client.Pages
         {
 
             Console.WriteLine("Timer Elapsed auto.");
-            Timer!.desligarAuto!.Elapsed -= desligarAuto_Elapsed;
-            Timer.desligarAuto.Dispose();
+            
             automatico = false;
+            acessar("/");
         }
 
         private async Task<int> GetYouTubeVideo(string id_video)
@@ -349,6 +353,8 @@ namespace BlazorCms.Client.Pages
 
         protected void buscarProximo()
         {
+            Timer!._timer!.Elapsed -= _timer_Elapsed;
+
             var quant = 0;
             if (substory == null && outroHorizonte == 0)
                 quant = CountPaginas(ApplicationDbContext._connectionString);
@@ -533,6 +539,7 @@ namespace BlazorCms.Client.Pages
 
         protected void buscarAnterior()
         {
+            Timer!._timer!.Elapsed -= _timer_Elapsed;
 
             if (rotas != null)
             {
@@ -1597,8 +1604,7 @@ namespace BlazorCms.Client.Pages
             if (url2 != null) Auto = 0;
 
             if(url2 == null)
-            {
-                Auto = Convert.ToInt32(automatico);
+            {           
 
                 if (Content && conteudo == 0) indice = 1;
 

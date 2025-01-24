@@ -25,7 +25,7 @@ namespace BlazorCms.Client.Pages
         public ClassArray Arr = new ClassArray();
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
-        private int? auto = 1;
+        private int? auto = 0;
         private int? indiceMarcador;
         private Story story = null;
         private string? title = null;
@@ -100,7 +100,11 @@ namespace BlazorCms.Client.Pages
                     habilitarAuto();
                     else
                     desabilitarAuto();
-                    auto = value;
+
+                    if (auto == null)
+                        auto = 0;
+                    else
+                        auto = value;
                 }
         
         } 
