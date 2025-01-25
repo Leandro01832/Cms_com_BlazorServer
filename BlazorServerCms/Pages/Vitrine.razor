@@ -32,8 +32,8 @@
                     if (Model!.ToList().IndexOf(item) != 0)
                     {
                     var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
-                        var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
-                        var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
+                    //    var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
+                    //    var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
                         var identifica = paginaItem.Id;
                         List<Content> lista = paginaItem.Story!.Pagina!.OrderBy(p => p.Id).ToList();
                         var Capitulo = paginaItem.Story.PaginaPadraoLink;
@@ -42,10 +42,10 @@
 
                         <div class="produto" onclick="cancelar()">
                             <div class="info">
-                                <p> Nome: @item.Produto!.Nome </p>
+                              @*  <p> Nome: @item.Produto!.Nome </p>
                                 <p> Descrição: @item.Produto!.Descricao </p>
                                 <p> Preço: @item.Produto!.Preco </p>
-                                <p> Estoque: @item.Produto!.QuantEstoque </p>
+                                <p> Estoque: @item.Produto!.QuantEstoque </p> *@
                             </div>
                             <div class="caps">
                                 <strong>
@@ -55,7 +55,7 @@
                             
                                 </strong>
                             </div>
-                                <img src="@path" alt="Imagem do produto" />
+                                <img src="" alt="Imagem do produto" />
 
                         </div>
                     }
@@ -122,11 +122,11 @@
         List<Content> lista = new List<Content>();
         foreach(var item in Model)
         {
-            var p = Context.Pagina!.Include(p => p.Produto).First(p => p.Id == item.Id);
+            var p = Context.Pagina!.First(p => p.Id == item.Id);
             lista.Add(p);
         }
 
-        Model = lista.Where(p => p.Produto != null).OrderBy(p => p.Id).ToList();
+        Model = lista.OrderBy(p => p.Id).ToList();
     }
 
 

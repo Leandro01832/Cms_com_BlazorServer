@@ -535,24 +535,24 @@ else
                 {
                     <div class="row container produto">
                         <div class="col-md-6 info">
-                            <p> Categoria: @Model.Produto.Nome </p>
+                          @*  <p> Categoria: @Model.Produto.Nome </p>
                             <p> Descrição: @Model.Produto.Descricao </p>
                             <p> Preço: @Model.Produto.Preco </p>
-                            <p> Estoque: @Model.Produto.QuantEstoque </p>
+                            <p> Estoque: @Model.Produto.QuantEstoque </p> *@
                             <div class="col-md-12 imagens">
                                 @{
-                                    @foreach (var item in Model.Produto.Imagem!.ToList())
-                                    {
-                                        if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
-                                        {
-                                            <img src="@item.ArquivoImagem" class="ImagemProduto" />
-                                        }
-                                    }
+                                    // @foreach (var item in Model.Produto.Imagem!.ToList())
+                                    // {
+                                    //     if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
+                                    //     {
+                                    //         <img src="@item.ArquivoImagem" class="ImagemProduto" />
+                                    //     }
+                                    // }
                                 }
                             </div>
                         </div>
                         <div class="col-md-6 imagem">
-                            <img src="@Model.Produto.Imagem!.First().ArquivoImagem" class="ImagemProduto" />
+                            <img src="" class="ImagemProduto" />
                         </div>
 
                     </div>
@@ -568,8 +568,9 @@ else
                     @markup
                 }
 
-                if ( Model != null && Model.ProdutoId != null)
+                if ( Model != null )
                 {
+                    @*Mostrar links em um modal*@
                     <a href="#" onclick="@AdicionarAoCarrinho" >
                         Vá comprar
                     </a>

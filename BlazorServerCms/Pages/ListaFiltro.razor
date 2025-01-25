@@ -11,7 +11,7 @@
     <p id="livro">www.instagleo.net.br</p>
     <p id="config">
         <strong>
-            @if (Model.FirstOrDefault(p => p.Produto != null) != null)
+            @if (Model.FirstOrDefault() != null)
             {
                 <a id="configurar" onclick="@(() => clicou())">Info e Config</a>
             }
@@ -57,7 +57,7 @@
 
 <div id="cabecalho">
 
-    @if (Model.FirstOrDefault(p => p.Produto != null) != null)
+    @if (Model.FirstOrDefault() != null)
     {
         <div id="ordenacao">
             <h4>Ordenar</h4>
@@ -153,14 +153,14 @@
     {
         <div class="container">
 
-            @if (Model.FirstOrDefault(p => p.Produto != null) != null)
+            @if (Model.FirstOrDefault() != null)
             {
                 foreach (var item in Model)
                 {
-                    var paginaItem = Context.Pagina!.Include(p => p.Produto).ThenInclude(p => p.Imagem).First(p => p.Id == item.Id);
-                    var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
+                    var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
+                   // var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
                     var markup = new MarkupString(item.Html);
-                    var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
+                  //  var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
 
                     <div class="divs">
 
@@ -176,15 +176,15 @@
 
 
                                 <div class="info">
-                                    <p> Nome: @item.Produto!.Nome </p>
+                                  @*  <p> Nome: @item.Nome </p>
                                     <p> Descrição: @item.Produto!.Descricao </p>
                                     <p> Preço: @item.Produto!.Preco </p>
-                                    <p> Estoque: @item.Produto!.QuantEstoque </p>
+                                    <p> Estoque: @item.Produto!.QuantEstoque </p> *@
                                 </div>
 
 
                                 <p>
-                                    <img src="@path" alt="Imagem do produto" />
+                                    <img src="" alt="Imagem do produto" />
                                 </p>
 
                             </div>
@@ -283,7 +283,6 @@
         filtro = await Context.Filtro!
         .Include(f => f.Pagina)!
         .ThenInclude(f => f.Content)
-        .ThenInclude(f => f.Produto)
         .Include(f => f.Story)
         .FirstAsync(f => f.Id == Id);
 
@@ -306,21 +305,18 @@
     {
         List<Pagina>? applicationDbContext = null;
 
-        @if (Model.FirstOrDefault(p => p.Produto != null) != null)
+        @if (Model.FirstOrDefault() != null)
         {
             if (ordem == "preco")
                 applicationDbContext = Model!
-                   .OrderBy(p => p.Produto!.Preco)
                    .Skip((numeroPagina - 1) * tamanhoPagina)
                    .Take(tamanhoPagina).ToList();
             else if (ordem == "descricao")
                 applicationDbContext = Model!
-                   .OrderBy(p => p.Produto!.Descricao)
                    .Skip((numeroPagina - 1) * tamanhoPagina)
                    .Take(tamanhoPagina).ToList();
             else if (ordem == "nome")
                 applicationDbContext = Model!
-                   .OrderBy(p => p.Produto!.Nome)
                    .Skip((numeroPagina - 1) * tamanhoPagina)
                    .Take(tamanhoPagina).ToList();
             else

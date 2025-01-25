@@ -10,7 +10,7 @@ namespace
             public decimal Preco { get; set; }
             public int QuantEstoque { get; set; }
              public virtual List<ItemPedido>? Itens { get; set; }   
-             public virtual List<ImagemProduto>? Imagem { get; set; }   
-             public virtual List<Content>? Content { get; set; }   
+             public virtual List<ImagemProduto>? Imagem { get; set; }         
+             public virtual List<ProdutoConteudo> Conteudo { get; set; }
     }
 }

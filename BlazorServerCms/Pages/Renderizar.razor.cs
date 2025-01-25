@@ -1584,10 +1584,10 @@ namespace BlazorCms.Client.Pages
             acessar();
         }
 
-        protected void AdicionarAoCarrinho()
+        protected void AdicionarAoCarrinho(long ProdutoId)
         {
             criptografar = true;
-            var url = $"/carrinho/{Model.ProdutoId}/{Compartilhou}/{Compartilhante}/" +
+            var url = $"/carrinho/{ProdutoId}/{Compartilhou}/{Compartilhante}/" +
             $"{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}" +
             $"{Compartilhante6}";
             criptografar = false;

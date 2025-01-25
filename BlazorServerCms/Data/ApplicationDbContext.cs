@@ -34,6 +34,7 @@ namespace BlazorServerCms.Data
         public DbSet<ChangeContent> ChangeContent { get; set; }
         public DbSet<AdminContent> AdminContent { get; set; }
         public DbSet<UserContent> UserContent { get; set; }
+        public DbSet<ProdutoConteudo> ProdutoConteudo { get; set; }
         public DbSet<FiltroContent> FiltroContent { get; set; }
         public DbSet<UserModelTime> UserModelTime { get; set; }
         public DbSet<UserModelLivro> UserModelLivro { get; set; }
@@ -69,6 +70,10 @@ namespace BlazorServerCms.Data
 
 
             base.OnModelCreating(builder);
+
+            builder.Entity<ProdutoConteudo>()
+         .HasKey(p => new { p.ProdutoId, p.ContentId });
+
             builder.Entity<FiltroContent>()
           .HasKey(p => new { p.FiltroId, p.ContentId });
 

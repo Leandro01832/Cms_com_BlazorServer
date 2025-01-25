@@ -37,9 +37,8 @@ namespace business.business
         public string? Rotas { get; set; }
 
 
-        public Int64? ProdutoId { get; set; }
 
-        public virtual Produto? Produto { get; set; }
+        public virtual List<ProdutoConteudo> Produto { get; set; }
 
         public virtual List<UserModelContent> usuarios { get; set; }
 
@@ -147,6 +146,18 @@ namespace business.business
 
 
         }
+
+        public void IncluiProduto(Produto produto)
+        {
+            if (this.Produto == null) this.Produto = new List<ProdutoConteudo>();
+
+            this.Produto!.Add(new ProdutoConteudo
+            {
+                Produto = produto,
+                Content = this,
+            });
+        }
+
 
         public Pagina MudarEstado( UserContent m, long curtidas, long compartilhamentos)
         {

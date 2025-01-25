@@ -353,8 +353,8 @@ namespace BlazorCms.Client.Pages
                     Console.WriteLine("Erro: " + ex.Message);
                 }
             }
-            else if (Model.Produto == null)
-                html = RepositoryPagina.Capa;
+          //  else if (Model.Produto == null)
+            //    html = RepositoryPagina.Capa;
 
             markup = new MarkupString(html);            
 
