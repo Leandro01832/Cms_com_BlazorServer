@@ -531,23 +531,26 @@ else
                     <p> Seja bem vindo a story @nameStory </p>
                 } *@
                 else
-        if (Model != null && Model is ProductContent)
+        if (Model != null && Model is ProductContent && Model.Produto.Count > 0)
                 {
+                    @foreach (var item in Model.Produto)
+                    {
+
                     <div class="row container produto">
                         <div class="col-md-6 info">
-                          @*  <p> Categoria: @Model.Produto.Nome </p>
-                            <p> Descrição: @Model.Produto.Descricao </p>
-                            <p> Preço: @Model.Produto.Preco </p>
-                            <p> Estoque: @Model.Produto.QuantEstoque </p> *@
+                            <p> Categoria: @item.Produto.Nome </p>
+                            <p> Descrição: @item.Produto.Descricao </p>
+                            <p> Preço: @item.Produto.Preco </p>
+                            <p> Estoque: @item.Produto.QuantEstoque </p> 
                             <div class="col-md-12 imagens">
                                 @{
-                                    // @foreach (var item in Model.Produto.Imagem!.ToList())
-                                    // {
-                                    //     if (Model.Produto.Imagem!.ToList().IndexOf(item) != 0)
-                                    //     {
-                                    //         <img src="@item.ArquivoImagem" class="ImagemProduto" />
-                                    //     }
-                                    // }
+                                    @foreach (var item2 in item.Produto.Imagem!.ToList())
+                                    {
+                                        if (item.Produto.Imagem!.ToList().IndexOf(item2) != 0)
+                                        {
+                                            <img src="@item2.ArquivoImagem" class="ImagemProduto" />
+                                        }
+                                    }
                                 }
                             </div>
                         </div>
@@ -556,6 +559,7 @@ else
                         </div>
 
                     </div>
+                    }
 
                 }
                 else if(Model != null)
@@ -568,7 +572,7 @@ else
                     @markup
                 }
 
-                if ( Model != null )
+                if ( Model != null && Model.Produto.Count > 0 )
                 {
                     @*Mostrar links em um modal*@
                     <a href="#" onclick="@AdicionarAoCarrinho" >

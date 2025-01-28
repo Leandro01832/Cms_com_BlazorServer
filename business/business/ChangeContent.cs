@@ -21,6 +21,6 @@ namespace business.business
         {
         }
 
-        public virtual MudancaEstado MudancaEstado { get; set; }
+        
     }
 }

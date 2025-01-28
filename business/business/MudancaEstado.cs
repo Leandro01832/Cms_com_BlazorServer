@@ -27,7 +27,8 @@ namespace business.business
             Pagina pagina = new Pagina(m.Story)
             {
                 Html = m.Html,
-                  Rotas = m.Rotas,
+                Produto = m.Produto,
+                Rotas = m.Rotas,
                   Titulo = m.Titulo,
                    mudanca = this,
                     Comentario = m.Comentario,
@@ -44,6 +45,7 @@ namespace business.business
             Pagina pagina = new Pagina(m.Story)
             {
                 Html = m.Html,
+                Produto = m.Produto,
                 Rotas = m.Rotas,
                 Titulo = m.Titulo,
                 mudanca = this,

@@ -171,7 +171,7 @@ style="width:300px" />
                 if (cap != 0)
                 {
                     pag = await Context!.Pagina!.Include(pa => pa!.Story!)
-                   .FirstOrDefaultAsync(pa => pa!.Html == null  && pa!.Story!.PaginaPadraoLink == cap);
+                   .FirstOrDefaultAsync(pa => pa!.Html == null && pa!.Produto!.Count == 0 && pa!.Story!.PaginaPadraoLink == cap);
                     if (pag == null)
                         break;
 
@@ -185,7 +185,7 @@ style="width:300px" />
                 else
                 {
                     pag = await Context.Pagina.Include(pa => pa.Story!)
-                .FirstOrDefaultAsync(pa => pa!.Html == null );
+                .FirstOrDefaultAsync(pa => pa!.Html == null && pa!.Produto!.Count == 0);
                     if (pag == null)
                         break;
 
@@ -215,12 +215,13 @@ style="width:300px" />
         var story = Context.Story!
         .Include(str => str.Pagina!)
         .Include(str => str.Pagina!)
-       // .ThenInclude(str => str.Produto)
+        .ThenInclude(str => str.Produto)
+        .ThenInclude(str => str.Produto)
         .First(str => str.Id == StoryId);
 
         bool teste = false;
         foreach (var item in story.Pagina!)
-            if (item.Html == null )
+            if (item.Html == null && item.Produto.Count == 0)
                 teste = true;
 
         if (teste)

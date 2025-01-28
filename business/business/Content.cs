@@ -34,6 +34,8 @@ namespace business.business
 
         public virtual List<FiltroContent>? Filtro { get; set; }
 
+        public virtual MudancaEstado MudancaEstado { get; set; }
+
         public string? Rotas { get; set; }
 
 

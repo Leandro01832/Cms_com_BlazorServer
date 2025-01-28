@@ -149,7 +149,6 @@ using (var scope = app.Services.CreateScope())
             pages[i - 1].Titulo = "pagina";
             pages[i - 1].StoryId = 2;
             pages[i - 1].Titulo += $" {i}";
-          //  pages[i - 1].ProdutoId = null;
 
 
 
@@ -775,7 +774,6 @@ using (var scope = app.Services.CreateScope())
             pages2[i - 1].Titulo = "pagina";
             pages2[i - 1].StoryId = str2.Id;
             pages2[i - 1].Titulo += $" {i}";
-         //   pages2[i - 1].ProdutoId = null;
 
             contexto.Add(pages2[i - 1]);
             contexto.SaveChanges();
@@ -809,7 +807,6 @@ using (var scope = app.Services.CreateScope())
             pages3[i - 1].Titulo = "pagina";
             pages3[i - 1].StoryId = str3.Id;
             pages3[i - 1].Titulo += $" {i}";
-           // pages3[i - 1].ProdutoId = null;
 
             contexto.Add(pages3[i - 1]);
             contexto.SaveChanges();

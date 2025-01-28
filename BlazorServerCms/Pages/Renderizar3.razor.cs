@@ -167,7 +167,11 @@ namespace BlazorCms.Client.Pages
             if (repositoryPagina.Conteudo.Count == 0 ||
                 repositoryPagina.Conteudo.Count != conteudos.Count)
             {
-                conteudos = Context!.Content!.ToList();
+                conteudos = Context!.Content!
+                    .Include(c => c.MudancaEstado)
+                    .Include(c => c.Produto)
+                    .ThenInclude(c => c.Produto)
+                    .ToList();
                 repositoryPagina.Conteudo.Clear();
                 repositoryPagina.Conteudo.AddRange(conteudos);
             }
@@ -342,10 +346,13 @@ namespace BlazorCms.Client.Pages
 
                     Model.Html = conteudoHtml;
             }
-            if (!Content && Model.Html != null)
+            if ( Model.Html != null)
             {
                 try
                 {
+                    if (Model is ChangeContent && Model.MudancaEstado != null)
+                        Model = repositoryPagina.Conteudo.First(c => c.Id == Model.MudancaEstado.IdContent);
+
                     html = await repositoryPagina!.renderizarPagina(Model);
                 }
                 catch (Exception ex)
@@ -353,8 +360,8 @@ namespace BlazorCms.Client.Pages
                     Console.WriteLine("Erro: " + ex.Message);
                 }
             }
-          //  else if (Model.Produto == null)
-            //    html = RepositoryPagina.Capa;
+            else if (Model.Produto.Count == 0)
+                html = RepositoryPagina.Capa;
 
             markup = new MarkupString(html);            
 

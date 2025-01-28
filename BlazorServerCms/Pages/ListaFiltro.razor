@@ -39,7 +39,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                    onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{Capitulo}/{indiceFiltro}"))">
+                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{Capitulo}/{indiceFiltro}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -47,7 +47,7 @@
             }
 
             <a href="#"
-            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{Capitulo}/{indiceFiltro}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{Capitulo}/{indiceFiltro}"))">
                 Proxima lista >>>
             </a>
 
@@ -63,15 +63,15 @@
             <h4>Ordenar</h4>
 
             <a href="#"
-            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{Capitulo}/{indiceFiltro}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{Capitulo}/{indiceFiltro}"))">
                 Ordenar por nome
             </a>
             <a href="#"
-            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{Capitulo}/{indiceFiltro}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{Capitulo}/{indiceFiltro}"))">
                 Ordenar por preço
             </a>
             <a href="#"
-            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{Capitulo}/{indiceFiltro}"))">
+               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{Capitulo}/{indiceFiltro}"))">
                 Ordenar por capitulo
             </a>
         </div>
@@ -81,21 +81,21 @@
             <h3>Tamanho da lista</h3>
             <strong>
                 <a href="#"
-                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
                     10 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/41/{Capitulo}/{indiceFiltro}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/41/{Capitulo}/{indiceFiltro}"))">
                     40 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/81/{Capitulo}/{indiceFiltro}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/81/{Capitulo}/{indiceFiltro}"))">
                     80 itens
                 </a>
             </strong>
@@ -107,21 +107,21 @@
             <h3>Tamanho da lista</h3>
             <strong>
                 <a href="#"
-                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/6/{Capitulo}/{indiceFiltro}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/6/{Capitulo}/{indiceFiltro}"))">
                     5 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
                     10 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/16/{Capitulo}/{indiceFiltro}"))">
+                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/16/{Capitulo}/{indiceFiltro}"))">
                     15 itens
                 </a>
             </strong>
@@ -140,7 +140,7 @@
 @if (filtro != null)
 {
     <p> <header>@filtro.Nome</header> </p>
-    <a href="/perguntar/@Capitulo/@indiceFiltro" class="btn btn-dark">Faça uma pergunta sobre @filtro.Nome </a>
+
 }
 
 
@@ -153,56 +153,58 @@
     {
         <div class="container">
 
-            @if (Model.FirstOrDefault() != null)
+
+            @foreach (var item in Model)
             {
-                foreach (var item in Model)
+                if (item.Produto.Count != 0)
                 {
-                    var paginaItem = Context.Pagina!.First(p => p.Id == item.Id);
-                   // var path = paginaItem.Produto!.Imagem!.First().ArquivoImagem;
-                    var markup = new MarkupString(item.Html);
-                  //  var largura = paginaItem.Produto!.Imagem!.First().WidthImagem;
+                    foreach (var item2 in item.Produto)
+                    {
 
-                    <div class="divs">
+                        var path = item2.Produto!.Imagem!.First().ArquivoImagem;
+                        var markup = new MarkupString(item.Html);
+                        var largura = item2.Produto!.Imagem!.First().WidthImagem;
 
-                        @if (item.Html.Contains("ContentIframe"))
-                        {
-                            <div class="content">
-                                @markup
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="produto" onclick="cancelar()">
+                        <div class="divs">
+
+                            @if (item.Html.Contains("ContentIframe"))
+                            {
+                                <div class="content">
+                                    @markup
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="produto" onclick="cancelar()">
 
 
-                                <div class="info">
-                                  @*  <p> Nome: @item.Nome </p>
-                                    <p> Descrição: @item.Produto!.Descricao </p>
-                                    <p> Preço: @item.Produto!.Preco </p>
-                                    <p> Estoque: @item.Produto!.QuantEstoque </p> *@
+                                    <div class="info">
+                                        <p> Nome: @item2.Produto.Nome </p>
+                                        <p> Descrição: @item2.Produto!.Descricao </p>
+                                        <p> Preço: @item2.Produto!.Preco </p>
+                                        <p> Estoque: @item2.Produto!.QuantEstoque </p>
+                                    </div>
+
+
+                                    <p>
+                                        <img src="" alt="Imagem do produto" />
+                                    </p>
+
                                 </div>
 
-
-                                <p>
-                                    <img src="" alt="Imagem do produto" />
-                                </p>
-
-                            </div>
-
-                        }
+                            }
 
 
 
-                    </div>
+                        </div>
 
+
+                    }
 
                 }
-
-            }
-            else
-            {
-                @foreach (var item in Model)
+                else
                 {
+
                     var markup = new MarkupString(item.Html);
 
                     <div class="divs">
@@ -222,8 +224,12 @@
                         <br />
 
                     </div>
+
                 }
+
             }
+
+
 
         </div>
     }
@@ -232,7 +238,7 @@
 @code {
 
     Filtro filtro = new Filtro();
-    List<Pagina> Model = new List<Pagina>();
+    List<Content> Model = new List<Content>();
     List<Filtro>? filtros { get; set; }
     private int indiceMarcador;
 
@@ -264,7 +270,7 @@
         else
         {
             var m = Context.Filtro.Include(h => h.Pagina).First(h => h.Id == Id);
-            Model.AddRange(m.Pagina.Select(p =>(Pagina) p.Content).ToList()!);
+            Model.AddRange(m.Pagina.Select(p => (Pagina)p.Content).ToList()!);
         }
         try
         {
@@ -291,19 +297,19 @@
         tamanho = 10;
         ordenar = "teste";
 
-       // filtro = filtros[indiceFiltro];
-       // VerificarFiltro(filtro);
+        // filtro = filtros[indiceFiltro];
+        // VerificarFiltro(filtro);
 
     }
 
     private void VerificarFiltro(Filtro fil)
     {
-        Model = fil.Pagina!.Select(f => (Pagina) f.Content).ToList()!;
+        Model = fil.Pagina!.Select(f => f.Content).ToList()!;
     }
 
-    private async Task<List<Pagina>> RetornarLista(int numeroPagina, string ordem, int tamanhoPagina)
+    private async Task<List<Content>> RetornarLista(int numeroPagina, string ordem, int tamanhoPagina)
     {
-        List<Pagina>? applicationDbContext = null;
+        List<Content>? applicationDbContext = null;
 
         @if (Model.FirstOrDefault() != null)
         {
@@ -395,7 +401,7 @@
         return pesquisa;
     }
 
-    private string buscarId(Pagina p)
+    private string buscarId(Content p)
     {
         var id_video = "";
         if (p != null && p.Html != null && p.Html.Contains("iframe") ||
@@ -427,9 +433,9 @@
         return id_video;
     }
 
-   
 
-    
+
+
 
 
 
