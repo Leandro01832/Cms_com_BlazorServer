@@ -4,6 +4,7 @@
 @page "/acesso/{indice}"
 @page "/{filtrar:int}"
 @page "/mensagem/{MensagemSistema}"
+@using business.business.Group
 
 
 @inject NavigationManager navigation
@@ -37,7 +38,7 @@
 }
 <div class="info">
 
-   
+
 
     <p>
         <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank">
@@ -75,7 +76,7 @@
         <br />
         <input type="text" @bind="Query" placeholder="@placeholder" data-2 />
         <a id="acessoPaginaComInput2" onclick="@buscar"
-           class="btn btn-primary">
+        class="btn btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
             </svg>
@@ -84,7 +85,7 @@
     <div>
         <input type="checkbox"  onchange="@(() => alterarPlaceholder())" /> Marcar?
     </div>
-    
+
 </div>
 
 @if (usuarios!.Count > 0)
@@ -148,7 +149,7 @@
 }
 <div class="apresentacao">
 
-   
+
     <img src="/story.jpg" style="width:90%" />
 
     <div class="circuloCompartilhando">
@@ -161,13 +162,13 @@
             </div>
         </center>
     </div>
-    
+
     <div class="circuloCompartilhando">
         <center>
 
             <div class="circulo2Compartilhando">
                 <a href="#">
-                Ganhe descontos, prêmios e dinheiro compartilhando!!!
+                    Ganhe descontos, prêmios e dinheiro compartilhando!!!
                 </a>
             </div>
         </center>
@@ -178,19 +179,19 @@
 
 <GuidedTour TourId="FormGuidedTour" OverlayEnabled="true">
     <GuidedTourStep Title="Instagleo" StepName="firstStep" TourStepSequence="1"
-                    ElementSelector="[data-first]">
+    ElementSelector="[data-first]">
         <span>Seja Bem-vindo ao nosso sistema de compartilhamento de paginas</span>
     </GuidedTourStep>
     <GuidedTourStep Title="acessando stories" StepName="Step2" TourStepSequence="2"
-                    ElementSelector="[data-2]">
+    ElementSelector="[data-2]">
         <span>Informe o capitulo 1 e acesse a primeira story</span>
     </GuidedTourStep>
     <GuidedTourStep Title="Sumario" StepName="Step3" TourStepSequence="3"
-                    ElementSelector="[data-3]">
+    ElementSelector="[data-3]">
         <span>No sumário você poderá ver todos os capitulos </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Instante" StepName="Step4" TourStepSequence="4"
-                    ElementSelector="[data-4]">
+    ElementSelector="[data-4]">
         <span>
             Após acessar os stories poderá usar instantes.
             É mais uma forma  compartilhar conteudos.
@@ -198,27 +199,27 @@
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Plataformas" StepName="Step5" TourStepSequence="5"
-                    ElementSelector="[data-5]">
+    ElementSelector="[data-5]">
         <span>
             Neste link você terá acesso a todas as plataformas utilizadas pelo administrador.
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Livro compartilhado" StepName="Step6" TourStepSequence="6"
-                    ElementSelector="[data-6]">
+    ElementSelector="[data-6]">
         <span>
             No livro compartilhado pode-se definir o livro e o capitulo.
             Só será necessário informar o versiculo.
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Configurações" StepName="Step7" TourStepSequence="7"
-                    ElementSelector="[data-7]">
+    ElementSelector="[data-7]">
         <span>
             Somente o administrador pode acessar.
             Gerencia todo o sistema criando pastas, paginas e stories.
         </span>
     </GuidedTourStep>
     <GuidedTourStep Title="Configurações" StepName="Step8" TourStepSequence="8"
-                    ElementSelector="[data-8]">
+    ElementSelector="[data-8]">
         <span>
             Crie conteudos para filtros que foram criados por você
         </span>
@@ -262,6 +263,26 @@
     int? camadadez = null;
 
     private string erro1 = "Voce ainda não esta compartilhando nenhum livro";
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            PatternStory padrao = null;
+            string? subdominio = await js.InvokeAsync<string>("retornarSubdominio", "url");
+            var lista = await repositoryPagina.buscarPatternStory();
+
+            if(subdominio != null)
+            padrao = lista.FirstOrDefault(i => i.Nome.Replace(" ", "").Contains(subdominio))!;
+
+            if (padrao != null) repositoryPagina.CapituloLivro = padrao.PaginaPadraoLink;
+        }
+        catch(Exception ex){
+
+        }
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -320,10 +341,7 @@
         else if (capitulo != null && filtrar != null)
         {
             navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0/1");
-        }
-
-
-
+        }       
 
 
     }

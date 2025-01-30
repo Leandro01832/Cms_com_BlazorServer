@@ -32,7 +32,7 @@ namespace BlazorServerCms.servicos
         public int meta8 { get; set; } = 1;  
         public int metaTime { get; set; } = 1;  
 
-        public int? CapituloLivro { get; set; } = null;
+        public int? CapituloLivro { get; set; } = 1;
 
         public int diaCupom = 0;
 

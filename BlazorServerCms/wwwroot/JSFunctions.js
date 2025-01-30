@@ -283,5 +283,28 @@ window.share = (config) => {
     }
 }
 
+window.retornarSubdominio = (url) =>
+{
+    var endereco = window.location.href;
+    // Cria um objeto URL a partir da string URL fornecida
+    const urlObj = new URL(endereco);
 
+    // Obtém o hostname da URL
+    const hostname = urlObj.hostname;
+    debugger;
+
+    // Divide o hostname em partes, separadas por pontos
+    const parts = hostname.split('.');
+
+    // Verifica se o hostname possui mais de duas partes (subdomínio.dominio.tld)
+    if (parts.length > 2) {
+        // Retorna a parte do subdomínio (todas as partes exceto as duas últimas)
+        return parts.slice(0, parts.length - 2).join('.');
+    } else {
+        // Se não houver subdomínio, retorna uma string vazia
+        return null;
+    }
+
+
+}
 

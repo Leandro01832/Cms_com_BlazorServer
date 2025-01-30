@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\leand\\onedrive\\documentos\\blazorcms\\blazorservercms\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\leand\\onedrive\\documentos\\blazorcms\\blazorservercms\\pages\\renderizar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\pages\\renderizar.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\leand\\onedrive\\documentos\\blazorcms\\blazorservercms\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|solutionrelative:blazorservercms\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D4A16B2E-3E0B-423C-93A8-0BCA65527750}|BlazorServerCms\\BlazorServerCms.csproj|c:\\users\\leand\\onedrive\\documentos\\blazorcms\\blazorservercms\\pages\\renderizar3.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,11 +30,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\appsettings.json",
               "RelativeDocumentMoniker": "BlazorServerCms\\appsettings.json",
@@ -47,7 +47,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Renderizar.razor",
               "DocumentMoniker": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\Pages\\Renderizar.razor",
               "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar.razor",
@@ -68,8 +68,7 @@
               "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar.razor.cs",
               "ViewState": "AgIAACEGAAAAAAAAAAAQwC8GAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-15T11:37:41.353Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-15T11:37:41.353Z"
             },
             {
               "$type": "Document",
@@ -79,7 +78,7 @@
               "RelativeDocumentMoniker": "BlazorServerCms\\Pages\\Renderizar3.razor.cs",
               "ToolTip": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\Pages\\Renderizar3.razor.cs",
               "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar3.razor.cs",
-              "ViewState": "AgIAAEwBAAAAAAAAAAAIwGEBAABsAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAowFgAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-15T11:37:09.432Z",
               "EditorCaption": ""
@@ -94,8 +93,7 @@
               "RelativeToolTip": "BlazorServerCms\\Pages\\Renderizar2.razor.cs",
               "ViewState": "AgIAAIIAAAAAAAAAAAApwJYAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-15T11:38:56.033Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-15T11:38:56.033Z"
             }
           ]
         }

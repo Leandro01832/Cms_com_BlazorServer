@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8j6mwkdVL+hXzBzFfljBnE6zUljq7h0RS9Lyr0VNfi0=",
+  "Hash": "/f4CeaCz99PEOH6mRfTIFv/Iz9CwBDq3sEsqRMbTHmQ=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -2299,8 +2299,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "6hg8vlujnc",
-      "Integrity": "apjJEDmPm0NXG0C0ZnoT40aYGuCN2Ga7zhFp8ITalS8=",
+      "Fingerprint": "ypmlnm5vdi",
+      "Integrity": "RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JSFunctions.js"
@@ -8034,51 +8034,6 @@
       ]
     },
     {
-      "Route": "JSFunctions.6hg8vlujnc.js",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "8535"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"apjJEDmPm0NXG0C0ZnoT40aYGuCN2Ga7zhFp8ITalS8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 19 Dec 2024 16:39:25 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "6hg8vlujnc"
-        },
-        {
-          "Name": "label",
-          "Value": "JSFunctions.js"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-apjJEDmPm0NXG0C0ZnoT40aYGuCN2Ga7zhFp8ITalS8="
-        }
-      ]
-    },
-    {
       "Route": "JSFunctions.js",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "Selectors": [],
@@ -8089,7 +8044,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8535"
+          "Value": "9279"
         },
         {
           "Name": "Content-Type",
@@ -8097,11 +8052,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"apjJEDmPm0NXG0C0ZnoT40aYGuCN2Ga7zhFp8ITalS8=\""
+          "Value": "\"RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 19 Dec 2024 16:39:25 GMT"
+          "Value": "Thu, 30 Jan 2025 13:42:31 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8111,7 +8066,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-apjJEDmPm0NXG0C0ZnoT40aYGuCN2Ga7zhFp8ITalS8="
+          "Value": "sha256-RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ="
+        }
+      ]
+    },
+    {
+      "Route": "JSFunctions.ypmlnm5vdi.js",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "9279"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 30 Jan 2025 13:42:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ypmlnm5vdi"
+        },
+        {
+          "Name": "label",
+          "Value": "JSFunctions.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ="
         }
       ]
     },
