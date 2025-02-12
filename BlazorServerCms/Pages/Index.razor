@@ -45,6 +45,7 @@
             Peça seu livro
         </a>
     </p>
+
     <p>
         Usuarios inscritos: @users
     </p>
@@ -147,6 +148,7 @@
         </table>
     </div>
 }
+
 <div class="apresentacao">
 
 
@@ -269,12 +271,18 @@
     {
         try
         {
+            repositoryPagina.CapituloLivro = 1;
             PatternStory padrao = null;
-            string? subdominio = await js.InvokeAsync<string>("retornarSubdominio", "url");
+            string? dominio = await js.InvokeAsync<string>("retornarSubdominio", "url");
+
             var lista = await repositoryPagina.buscarPatternStory();
 
-            if(subdominio != null)
-            padrao = lista.FirstOrDefault(i => i.Nome.Replace(" ", "").Contains(subdominio))!;
+            if (dominio != null)
+            {
+
+                string? subdominio = dominio.Split('.')[0];
+                padrao = lista.FirstOrDefault(i => i.Nome.Replace(" ", "").Contains(subdominio))!;
+            }
 
             if (padrao != null) repositoryPagina.CapituloLivro = padrao.PaginaPadraoLink;
         }
@@ -290,13 +298,6 @@
         var quant = await userManager.Users.ToListAsync();
         users = quant.Count;
 
-        filtros2 = await Context.Filtro!
-                .Include(f => f.Story)
-                .Include(f => f.Pagina)!
-                .ThenInclude(f => f.Content)
-                .OrderBy(f => f.Id).ToListAsync();
-
-        filtros2.Reverse();
 
         if (story == null)
         {
@@ -304,8 +305,19 @@
                       .Include(p => p.Filtro)!
                      .ThenInclude(p => p.Pagina)!
                      .ThenInclude(p => p.Content)!
-                      .OrderBy(st => st.Id).FirstOrDefaultAsync(p => p.PaginaPadraoLink == 1)!;
+                     .FirstOrDefaultAsync(p => p.PaginaPadraoLink == repositoryPagina.CapituloLivro)!;
         }
+
+
+        filtros2 = await Context.Filtro!
+                .Include(f => f.Story)
+                .Include(f => f.Pagina)!
+                .ThenInclude(f => f.Content)
+                .Where(f => f.StoryId == story.Id)
+                .OrderBy(f => f.Id)
+                .ToListAsync();
+
+        filtros2.Reverse();
 
         if (compartilhante == null)
             compartilhante = "comp";
@@ -358,12 +370,11 @@
 
     private async void buscar()
     {
-        var comp = "";
         if (marcar)
         {
             string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario.");
             string? url = null;
-            Filtro[] fils = null;
+            // Filtro[] fils = null;
             if (!string.IsNullOrEmpty(prompted))
             {
                 prompted = prompted.Replace(" ", "");
@@ -382,8 +393,7 @@
             {
                 var arr = Query.Replace(" ", "").Split(",");
                 bool teste = true;
-                bool teste2 = true;
-                fils = new Filtro[arr.Length];
+
                 int[] numeros = new int[arr.Length];
 
                 for (var i = 0; i < arr.Length; i++)
@@ -407,59 +417,50 @@
                         url = null;
                         foreach (var item in filtros2)
                         {
-                            if (fils.Contains(item))
-                            {
-                                teste2 = false;
-                                break;
-                            }
                             foreach (var item2 in item.Pagina)
                             {
-                                var pag = (Pagina)item2.Content;
-
-                                if (compartilhante == "comp")
+                                if(item2.Content is Pagina)
                                 {
-                                    if (pag.Versiculo == numeros[j] && url == null && !fils.Contains(item))
-                                    {
-                                        verso = item.Pagina.IndexOf(item2) + 1;
-                                        var a = retornarArray(item);
-                                        fils[j] = item;
-                                        setarCamadas(a);
-                                        url = retornarUrl();
-                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                                    var pag = (Pagina)item2.Content;
 
+                                    if (compartilhante == "comp")
+                                    {
+                                        if (pag.Versiculo == numeros[j] && url == null )
+                                        {
+                                            var pages = item.Pagina
+                                            .Where(c => c.Content is Pagina)
+                                            .OrderBy(c => c.Content.Id)
+                                            .ToList();
+                                            verso = pages.IndexOf(item2) + 1;
+                                            var a = retornarArray(item);
+                                            setarCamadas(a);
+                                            url = retornarUrl();
+                                            await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (pag.Versiculo == numeros[j] && url == null &&
+                                            item.user == compartilhante )
+                                        {
+                                            var pages = item.Pagina
+                                            .Where(c => c.Content is Pagina)
+                                            .OrderBy(c => c.Content.Id)
+                                            .ToList();
+                                            verso = pages.IndexOf(item2) + 1;
+                                            var a = retornarArray(item);
+                                            setarCamadas(a);
+                                            url = retornarUrl();
+                                            await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                                        }
                                     }
                                 }
-                                else
-                                {
-                                    if (pag.Versiculo == numeros[j] && url == null &&
-                                        item.user == compartilhante && !fils.Contains(item))
-                                    {
-                                        verso = item.Pagina.IndexOf(item2) + 1;
-                                        var a = retornarArray(item);
-                                        fils[j] = item;
-                                        setarCamadas(a);
-                                        url = retornarUrl();
-                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
-                                    }
-                                }
-
-
                             }
-
-
-
-
                         }
-
-
-
                     }
                 }
 
-                if (!teste2)
-                {
-                    await js!.InvokeAsync<object>("DarAlert", "Informe versiculos que estejam em pastas diferentes!!!");
-                }
 
             }
             else
@@ -472,27 +473,39 @@
                     {
                         foreach (var item2 in item.Pagina)
                         {
-                            var pag = (Pagina)item2.Content;
-                            if (comp == "comp")
+                            if(item2.Content is Pagina)
                             {
-                                if (pag.Versiculo == num && url == null)
-                                {
-                                    verso = item.Pagina.IndexOf(item2) + 1;
-                                    var a = retornarArray(item);                                    
-                                    setarCamadas(a);
-                                    url = retornarUrl();
 
+                                var pag = (Pagina)item2.Content;
+                                if (compartilhante == "comp")
+                                {
+                                    if (pag.Versiculo == num && url == null)
+                                    {
+                                        var pages = item.Pagina
+                                        .Where(c => c.Content is Pagina)
+                                        .OrderBy(c => c.Content.Id)
+                                        .ToList();
+                                        verso = pages.IndexOf(item2) + 1;
+                                        var a = retornarArray(item);                                    
+                                        setarCamadas(a);
+                                        url = retornarUrl();
+
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                if (pag.Versiculo == num && url == null && item.user == comp)
+                                else
                                 {
-                                    verso = item.Pagina.IndexOf(item2) + 1;
-                                    var a = retornarArray(item);                                    
-                                    setarCamadas(a);
-                                    url = retornarUrl();
+                                    if (pag.Versiculo == num && url == null && item.user == compartilhante)
+                                    {
+                                        var pages = item.Pagina
+                                        .Where(c => c.Content is Pagina)
+                                        .OrderBy(c => c.Content.Id)
+                                        .ToList();
+                                        verso = pages.IndexOf(item2) + 1;
+                                        var a = retornarArray(item);                                    
+                                        setarCamadas(a);
+                                        url = retornarUrl();
 
+                                    }
                                 }
                             }
                         }
@@ -651,25 +664,25 @@
     {
         string url = null;
         if (camadadez != null)
-            url = $"/camada10/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada10/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (camadanove != null)
-            url = $"/camada9/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada9/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (camadaoito != null)
-            url = $"/camada8/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada8/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (camadasete != null)
-            url = $"/camada7/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada7/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (camadaseis != null)
-            url = $"/camada6/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada6/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (subsubgrupo != null)
-            url = $"/camada5/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada5/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (subgrupo != null)
-            url = $"/camada4/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada4/{story.Id}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (grupo != null)
-            url = $"/camada3/{repositoryPagina.CapituloLivro}/{substory}/{grupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada3/{story.Id}/{substory}/{grupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else if (substory != null)
-            url = $"/camada2/{repositoryPagina.CapituloLivro}/{substory}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada2/{story.Id}/{substory}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         else
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/0/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
         return url;
     }
 

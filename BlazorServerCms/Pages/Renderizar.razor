@@ -1,5 +1,4 @@
 ﻿@page "/renderizar"
-
 @page "/filtro/{storyid:long}/{filtrar}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{redirecionar?}"
 @page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}"
 @page "/camada2/{storyid:long}/{substory:int}/{indice:int}/{auto:int}/{timeproduto:int}/{conteudo:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{pontos?}/{rotas?}"
@@ -47,7 +46,7 @@
     }
 
 }
-else
+else if(!repositoryPagina.erro)
 {
     <div id="renderizar">
 
@@ -572,7 +571,7 @@ else
                     @markup
                 }
 
-                if ( Model != null && Model.Produto.Count > 0 )
+                if ( Model != null && Model.Produto != null && Model.Produto.Count > 0 )
                 {
                     @*Mostrar links em um modal*@
                     <a href="#" onclick="@AdicionarAoCarrinho" >
@@ -895,4 +894,12 @@ else
         </div>
 
     </div>
+}
+
+else
+{
+    <center>
+        <h3>Aconteceu um erro. Entre em contato com a suporte da empresa!!!</h3>
+    </center>
+
 }

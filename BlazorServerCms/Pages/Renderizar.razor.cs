@@ -355,7 +355,7 @@ namespace BlazorCms.Client.Pages
         {
             Timer!._timer!.Elapsed -= _timer_Elapsed;
 
-            var quant = 0;
+            long quant = 0;
             if (substory == null && outroHorizonte == 0)
                 quant = CountPaginas(ApplicationDbContext._connectionString);
             else if (outroHorizonte == 1)
@@ -421,7 +421,7 @@ namespace BlazorCms.Client.Pages
             }           
 
             var proximo = indice + 1;
-            if (somenteSubgrupos) automatico = false;
+
             if (camadadez != null)
             {
                 if (indice >= quant || somenteSubgrupos)
@@ -1154,7 +1154,6 @@ namespace BlazorCms.Client.Pages
 
         protected async void redirecionarMarcar()
         {
-            automatico = false;
             int camada = repositoryPagina.buscarCamada();
             string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario (Opcional).");
             List<Filtro> fils = null;

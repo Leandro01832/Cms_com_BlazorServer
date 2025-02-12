@@ -13,9 +13,6 @@ namespace business.business
         {
         }
 
-        public ProductContent(Story story) : base(story)
-        {
-        }
 
         public ProductContent(int count) : base(count)
         {

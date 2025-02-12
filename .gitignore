@@ -40,6 +40,9 @@ Tests/
 # Ignorar dependências de pacotes
 BlazorServerCms/node_modules/
 BlazorServerCms/packages/
+ApplicationDbContext.cs
+appsettings.json
+
 
 # Ignorar arquivos temporários
 *.tmp

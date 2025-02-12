@@ -30,17 +30,17 @@
     <p>
         <label>Camada:</label>
         <select  onchange="@((ChangeEventArgs e) => alterarCamada(e))" >
-           
-                <option value="camada1" >Camada 1</option>
-                <option value="camada2" >Camada 2</option>
-                <option value="camada3" >Camada 3</option>
-                <option value="camada4" >Camada 4</option>
-                <option value="camada5" >Camada 5</option>
-                <option value="camada6" >Camada 6</option>
-                <option value="camada7" >Camada 7</option>
-                <option value="camada8" >Camada 8</option>
-                <option value="camada9">Camada 9</option>
-            
+
+            <option value="camada1" >Camada 1</option>
+            <option value="camada2" >Camada 2</option>
+            <option value="camada3" >Camada 3</option>
+            <option value="camada4" >Camada 4</option>
+            <option value="camada5" >Camada 5</option>
+            <option value="camada6" >Camada 6</option>
+            <option value="camada7" >Camada 7</option>
+            <option value="camada8" >Camada 8</option>
+            <option value="camada9">Camada 9</option>
+
         </select>
     </p>
     <p>
@@ -50,10 +50,10 @@
             {
                 @foreach (var item in Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId))
                 {
-                        var filtros = item.Story!.Filtro;
-                        var fil = filtros!.First(f => f.Id == item.Id);
-                        var pasta = filtros!.IndexOf(fil) + 1;
-                        <option value="@item.Id">@item.Nome - pasta @pasta - @GetCamada(item) </option>
+                    var filtros = item.Story!.Filtro;
+                    var fil = filtros!.First(f => f.Id == item.Id);
+                    var pasta = filtros!.IndexOf(fil) + 1;
+                    <option value="@item.Id">@item.Nome - pasta @pasta - @GetCamada(item) </option>
 
                 }
             }
@@ -61,16 +61,16 @@
             {
                 @foreach (var item in Filtro!.Where(sub => sub.StoryId == lista.First().Id))
                 {     
-                        var filtros = item.Story!.Filtro;
-                        var fil = filtros!.First(f => f.Id == item.Id);
-                        var pasta = filtros!.IndexOf(fil) + 1;
-                        <option value="@item.Id">@item.Nome - pasta @pasta - @GetCamada(item) </option>
+                    var filtros = item.Story!.Filtro;
+                    var fil = filtros!.First(f => f.Id == item.Id);
+                    var pasta = filtros!.IndexOf(fil) + 1;
+                    <option value="@item.Id">@item.Nome - pasta @pasta - @GetCamada(item) </option>
 
                 }
             }            
         </select>
     </p>
-   
+
 
     <button type="submit">Adicionar</button>
 </EditForm>
@@ -104,25 +104,30 @@
 
     private async void HandleSubmit()
     {
-        var count = await Context.Story.Include(str => str.Pagina).FirstAsync(str => str.Id == exampleModel.StoryId);
-        exampleModel.Versiculo = count.Pagina.Count + 1;
-        await Context.AddAsync(exampleModel);
-        await Context.SaveChangesAsync();
-        repositoryPagina.Conteudo.Add(exampleModel);
-        exampleModel = Context.Pagina!.Include(p => p.Filtro).First(f => f.Id == exampleModel!.Id);
-        filtros = await Context.Filtro
-        .Include(f => f.Story)
-        .Where(f => f.StoryId == exampleModel.StoryId)
-        .OrderBy(f => f.Id)
-        .ToListAsync();
-        if(pasta != 0)
+        var content = Context.Pagina.Where(c => c.StoryId == exampleModel.StoryId  && c.Html != null)
+        .OrderBy(c => c.Id).LastOrDefault()!;
+        var pag = await Context.Pagina.FirstOrDefaultAsync(str => str.Versiculo == content.Versiculo + 1);
+        if(pag != null)
         {
-            var fil = filtros.First(f => f.Id == pasta);
-            setPastas(fil);
-            Context.Update(exampleModel);
-            Context.SaveChanges();
-        }   
-        navigation.NavigateTo("crud/pagina/1");
+            pag.Html = exampleModel.Html;
+            Context.Update(pag);
+            await Context.SaveChangesAsync();
+            exampleModel = Context.Pagina!.Include(p => p.Filtro).First(f => f.Id == pag!.Id);
+            filtros = await Context.Filtro
+            .Include(f => f.Story)
+            .Where(f => f.StoryId == pag.StoryId)
+            .OrderBy(f => f.Id)
+            .ToListAsync();
+            if(pasta != 0)
+            {
+                var fil = filtros.First(f => f.Id == pasta);
+                setPastas(fil);
+                Context.Update(exampleModel);
+                Context.SaveChanges();
+            }   
+            navigation.NavigateTo("crud/pagina/1");
+
+        }
     }
 
     protected async void setPastas(Filtro Model)

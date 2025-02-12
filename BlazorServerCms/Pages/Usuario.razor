@@ -8,7 +8,7 @@
 
 
 
-@if (usuario.Identity!.IsAuthenticated && usuario.Identity.Name == usermodel.UserName)
+@if (usuario != null && usuario.Identity!.IsAuthenticated && usuario.Identity.Name == usermodel.UserName)
 {
     <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto/{user}"))">
         <div class="circulo">

@@ -15,6 +15,7 @@ namespace business
         public virtual Story? Story { get; set; }
 
         public virtual List<FiltroContent>? Pagina { get; set; }
+        
 
         public virtual List<UserModelFiltro> usuarios { get; set; }
 

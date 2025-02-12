@@ -83,8 +83,8 @@ namespace BlazorCms.Client.Pages
             if (indice == 0)
                 indice = 1;
 
-            var Stories = Context.Story.OrderBy(s => s.Id).ToList();
-            var conteudos =   Context!.Content!.ToList();
+            var Stories = await Context.Story.OrderBy(s => s.Id).ToListAsync();
+            var conteudos = await  Context!.Content!.ToListAsync();
             var UserModel =   Context!.Users!.ToList();
             var lista = await repositoryPagina.buscarPatternStory();
 
@@ -168,7 +168,6 @@ namespace BlazorCms.Client.Pages
                 repositoryPagina.Conteudo.Count != conteudos.Count)
             {
                 conteudos = Context!.Content!
-                    .Include(c => c.MudancaEstado)
                     .Include(c => c.Produto)
                     .ThenInclude(c => c.Produto)
                     .ToList();
@@ -249,9 +248,23 @@ namespace BlazorCms.Client.Pages
             }
            
 
+            if (story == null ||  story.Id != Model.StoryId)
+            {
+                story = repositoryPagina.stories!
+               .First(p => p.Id == Model!.StoryId);
+            }
+
+            cap = story.PaginaPadraoLink;
            
                
             quantidadePaginas = CountPaginas(ApplicationDbContext._connectionString);
+
+            if (
+                story is PatternStory && quantidadePaginas != 99999 ||
+                story is SmallStory && quantidadePaginas != 9999 ||
+                story is ShortStory && quantidadePaginas != 999
+                )
+                repositoryPagina.erro = true;
 
             if (quantidadePaginas == 0 && outroHorizonte == 0)
                 Mensagem = "aguarde um momento...";
@@ -260,18 +273,14 @@ namespace BlazorCms.Client.Pages
 
 
             if (outroHorizonte == 0)
-                quantidadeLista = quantidadePaginas;
+                quantidadeLista = 
+                    retornarVerso(repositoryPagina.Conteudo.
+                    Where(c => c.StoryId == story.Id && c is Pagina && c.Html != null)
+                    .OrderBy(c => c.Id).LastOrDefault()!);
 
             if (Model != null)
                 condicaoFiltro = CountFiltros(ApplicationDbContext._connectionString);
 
-            if (story == null ||  story.Id != Model.StoryId)
-            {
-                story = repositoryPagina.stories!
-               .First(p => p.Id == Model!.StoryId);
-            }
-
-            cap = story.PaginaPadraoLink;
         
 
             if (filtrar == null && substory == null)
@@ -350,9 +359,6 @@ namespace BlazorCms.Client.Pages
             {
                 try
                 {
-                    if (Model is ChangeContent && Model.MudancaEstado != null)
-                        Model = repositoryPagina.Conteudo.First(c => c.Id == Model.MudancaEstado.IdContent);
-
                     html = await repositoryPagina!.renderizarPagina(Model);
                 }
                 catch (Exception ex)

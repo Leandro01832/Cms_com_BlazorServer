@@ -19,24 +19,14 @@ namespace business.business.Group
             
         }
 
-        public PatternStory(string nome, int quantidade, Story padrao) : base(nome, quantidade, padrao) 
-        {
-            
-        }
+       
 
         public PatternStory(string nome, List<Story> stories, Story padrao) : base(nome, stories, padrao)
         {
         }
 
-        public PatternStory(string nome, List<Story> stories, List<Content> conteudos, Story padrao) : base(nome, stories, conteudos, padrao)
-        {
+       
 
-        }
-
-        public PatternStory(string nome, List<Content> conteudos, Story padrao) : base(nome, conteudos, padrao) 
-        {
-            
-        }
 
     }
 }

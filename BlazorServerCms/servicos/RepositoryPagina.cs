@@ -19,6 +19,8 @@ namespace BlazorServerCms.servicos
 
         public Random random = new Random();
 
+        public bool erro = false;
+
         public int QuantMinutos { get; set; } = 10;
 
         public int dias { get; set; } = 1;  
@@ -150,7 +152,8 @@ namespace BlazorServerCms.servicos
         public async Task<List<PatternStory>> buscarPatternStory()
         {
             List<PatternStory> lista = new List<PatternStory>();
-            var text = await Http.GetStringAsync("https://localhost:7224/Arquivotxt/stories.txt");
+            var dom = buscarDominio();
+            var text = await Http.GetStringAsync($"https://{dom}/Arquivotxt/stories.txt");
 
             var stories = text.Split('-');
 
@@ -169,7 +172,8 @@ namespace BlazorServerCms.servicos
 
         public async Task<string> renderizarPagina(Content content)
         {
-        var text = await Http.GetStringAsync("https://localhost:7224/Arquivotxt/default.html");
+            var dom = buscarDominio();
+            var text = await Http.GetStringAsync($"https://{dom}/Arquivotxt/default.html");
            
             var resultado = renderizar(content, text!);
             return resultado;

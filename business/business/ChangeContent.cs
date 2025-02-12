@@ -13,14 +13,11 @@ namespace business.business
         {
         }
 
-        public ChangeContent(Story story) : base(story)
-        {
-        }
 
         public ChangeContent(int count) : base(count)
         {
         }
 
-        
+        public virtual MudancaEstado MudancaEstado { get; set; }
     }
 }

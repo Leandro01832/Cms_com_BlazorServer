@@ -39,6 +39,7 @@ namespace BlazorCms.Client.Pages
 
         private bool criptografar = false;
 
+
         protected string preferencia = null;
         
         protected bool exemplo = false;
@@ -47,6 +48,7 @@ namespace BlazorCms.Client.Pages
         protected bool automatico = false;
 
         protected int padroes = 0;
+        protected bool erro = false;
         protected string classCss = "";
         protected MarkupString markup;
         protected ElementReference firstInput;
@@ -67,7 +69,7 @@ namespace BlazorCms.Client.Pages
         protected string? nameStory { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
         protected int? VersoComentario { get; set; } = null;        
-        protected int quantidadeLista { get; set; } = 0;
+        protected long quantidadeLista { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
          protected bool condicaoFiltro { get; set; } = false;
                

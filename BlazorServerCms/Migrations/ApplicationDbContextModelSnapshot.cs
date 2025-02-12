@@ -771,15 +771,9 @@ namespace BlazorServerCms.Migrations
                 {
                     b.HasBaseType("business.business.Content");
 
-                    b.Property<long>("MudancaEstadoId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("UserContent_MudancaEstadoId");
-
                     b.Property<string>("UserModelId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.HasIndex("MudancaEstadoId");
 
                     b.HasIndex("UserModelId");
 
@@ -793,12 +787,7 @@ namespace BlazorServerCms.Migrations
                     b.Property<long?>("ContentId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("MudancaEstadoId")
-                        .HasColumnType("bigint");
-
                     b.HasIndex("ContentId");
-
-                    b.HasIndex("MudancaEstadoId");
 
                     b.HasDiscriminator().HasValue("Comment");
                 });
@@ -920,12 +909,6 @@ namespace BlazorServerCms.Migrations
                 {
                     b.HasBaseType("business.Pagina");
 
-                    b.Property<long>("MudancaEstadoId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("AdminContent_MudancaEstadoId");
-
-                    b.HasIndex("MudancaEstadoId");
-
                     b.HasDiscriminator().HasValue("AdminContent");
                 });
 
@@ -939,12 +922,6 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("business.business.ProductContent", b =>
                 {
                     b.HasBaseType("business.Pagina");
-
-                    b.Property<long>("MudancaEstadoId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("ProductContent_MudancaEstadoId");
-
-                    b.HasIndex("MudancaEstadoId");
 
                     b.HasDiscriminator().HasValue("ProductContent");
                 });
@@ -1221,19 +1198,11 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.UserContent", b =>
                 {
-                    b.HasOne("business.business.MudancaEstado", "MudancaEstado")
-                        .WithMany()
-                        .HasForeignKey("MudancaEstadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("business.business.UserModel", "UserModel")
                         .WithMany("conteudos")
                         .HasForeignKey("UserModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MudancaEstado");
 
                     b.Navigation("UserModel");
                 });
@@ -1244,15 +1213,7 @@ namespace BlazorServerCms.Migrations
                         .WithMany("Comentario")
                         .HasForeignKey("ContentId");
 
-                    b.HasOne("business.business.MudancaEstado", "MudancaEstado")
-                        .WithMany()
-                        .HasForeignKey("MudancaEstadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Content");
-
-                    b.Navigation("MudancaEstado");
                 });
 
             modelBuilder.Entity("business.Group.CamadaDez", b =>
@@ -1341,28 +1302,6 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("SubGrupo");
-                });
-
-            modelBuilder.Entity("business.business.AdminContent", b =>
-                {
-                    b.HasOne("business.business.MudancaEstado", "MudancaEstado")
-                        .WithMany()
-                        .HasForeignKey("MudancaEstadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MudancaEstado");
-                });
-
-            modelBuilder.Entity("business.business.ProductContent", b =>
-                {
-                    b.HasOne("business.business.MudancaEstado", "MudancaEstado")
-                        .WithMany()
-                        .HasForeignKey("MudancaEstadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MudancaEstado");
                 });
 
             modelBuilder.Entity("business.business.Book.Livro", b =>

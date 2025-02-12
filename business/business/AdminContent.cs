@@ -13,13 +13,12 @@ namespace business.business
         {
         }
 
-        public AdminContent(Story story) : base(story) 
+
+        public AdminContent(int count) : base(count)
         {
         }
 
-        public AdminContent(int count) : base(count) 
-        {
-        }
+
 
     }
 }
