@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace business.business
 {
-    public class FiltroContent
+    public class PastaSalva : Filtro
     {
-        public long ContentId { get; set; }
         public long FiltroId { get; set; }
-        public virtual Filtro? Filtro { get; set; }
-        public virtual Content? Content { get; set; }
+        public virtual Filtro Filtro { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace BlazorCms.Client.Pages
 
 
             if (Compartilhou != "comp" && pontos != null && substory != null  ||
-                Compartilhante != "comp" && pontos != null && substory != null)            
+                Compartilhante != 0 && pontos != null && substory != null)            
                 adicionarPontos();
             
         }
@@ -60,13 +60,13 @@ namespace BlazorCms.Client.Pages
 
             if (Compartilhante == null)
             {
-                Compartilhou = "comp";
-                Compartilhante = "comp";
-                Compartilhante2 = "comp";
-                Compartilhante3 = "comp";
-                Compartilhante4 = "comp";
-                Compartilhante5 = "comp";
-                Compartilhante6 = "comp";
+                
+                Compartilhante = 0;
+                Compartilhante2 = 0;
+                Compartilhante3 = 0;
+                Compartilhante4 = 0;
+                Compartilhante5 = 0;
+                Compartilhante6 = 0;
             }
             if (dominio == null)
                 dominio = "dominio";
@@ -698,67 +698,67 @@ namespace BlazorCms.Client.Pages
                 if (Model2.user != null)
                 {
                     var fil = verificarFiltros(Model2);                    
-                    Compartilhante = Model2.user;                    
-                    Compartilhante2 = "comp";                    
-                    Compartilhante3 = "comp";                    
-                    Compartilhante4 = "comp";                    
-                    Compartilhante5 = "comp";                    
-                    Compartilhante6 = "comp";
+                    Compartilhante = Model2.Id;                    
+                    Compartilhante2 = 0;                    
+                    Compartilhante3 = 0;                    
+                    Compartilhante4 = 0;                    
+                    Compartilhante5 = 0;                    
+                    Compartilhante6 = 0;
                     
 
                     if (fil.user != null )
                     {
                         //compartilhante ganha 2 pts                        
-                        Compartilhante = fil.user;                        
-                        Compartilhante2 = Model2.user;                        
-                        Compartilhante3 = "comp";                        
-                        Compartilhante4 = "comp";                        
-                        Compartilhante5 = "comp";                        
-                        Compartilhante6 = "comp";
+                        Compartilhante = fil.Id;                        
+                        Compartilhante2 = Model2.Id;                        
+                        Compartilhante3 = 0;                        
+                        Compartilhante4 = 0;                        
+                        Compartilhante5 = 0;                        
+                        Compartilhante6 = 0;
 
                         fil2 = verificarFiltros(fil);
                         if (fil2.user != null)
                         {
                             //compartilhante ganha 3 pts                            
-                            Compartilhante = fil2.user;                            
-                            Compartilhante2 = fil.user;                            
-                            Compartilhante3 = Model2.user;                            
-                            Compartilhante4 = "comp";                            
-                            Compartilhante5 = "comp";                            
-                            Compartilhante6 = "comp";
+                            Compartilhante = fil2.Id;                            
+                            Compartilhante2 = fil.Id;                            
+                            Compartilhante3 = Model2.Id;                            
+                            Compartilhante4 = 0;                            
+                            Compartilhante5 = 0;                            
+                            Compartilhante6 = 0;
 
                             fil3 = verificarFiltros(fil2);
                             if (fil3.user != null)
                             {
                                 //compartilhante ganha 4 pts                                
-                                Compartilhante = fil3.user;                                
-                                Compartilhante2 = fil2.user;                                
-                                Compartilhante3 = fil.user;                                
-                                Compartilhante4 = Model2.user;                                
-                                Compartilhante5 = "comp";                                
-                                Compartilhante6 = "comp";
+                                Compartilhante = fil3.Id;                                
+                                Compartilhante2 = fil2.Id;                                
+                                Compartilhante3 = fil.Id;                                
+                                Compartilhante4 = Model2.Id;                                
+                                Compartilhante5 = 0;                                
+                                Compartilhante6 = 0;
 
                                 fil4 = verificarFiltros(fil3);
                                 if (fil4.user != null)
                                 {
                                     //compartilhante ganha 5 pts                                    
-                                    Compartilhante = fil4.user;                                    
-                                    Compartilhante2 = fil3.user;                                    
-                                    Compartilhante3 = fil2.user;                                    
-                                    Compartilhante4 = fil.user;                                    
-                                    Compartilhante5 = Model2.user;                                    
-                                    Compartilhante6 = "comp";
+                                    Compartilhante = fil4.Id;                                    
+                                    Compartilhante2 = fil3.Id;                                    
+                                    Compartilhante3 = fil2.Id;                                    
+                                    Compartilhante4 = fil.Id;                                    
+                                    Compartilhante5 = Model2.Id;                                    
+                                    Compartilhante6 = 0;
 
                                     fil5 = verificarFiltros(fil4);
                                     if (fil5.user != null)
                                     {
                                         //compartilhante ganha 6 pts                                        
-                                        Compartilhante = fil5.user;                                        
-                                        Compartilhante2 = fil4.user;                                        
-                                        Compartilhante3 = fil3.user;                                        
-                                        Compartilhante4 = fil2.user;                                        
-                                        Compartilhante5 = fil.user;                                        
-                                        Compartilhante6 = Model2.user;                
+                                        Compartilhante = fil5.Id;                                        
+                                        Compartilhante2 = fil4.Id;                                        
+                                        Compartilhante3 = fil3.Id;                                        
+                                        Compartilhante4 = fil2.Id;                                        
+                                        Compartilhante5 = fil.Id;                                        
+                                        Compartilhante6 = Model2.Id;                
                                        
                                     }
 
@@ -780,18 +780,18 @@ namespace BlazorCms.Client.Pages
                 }  
                 else if(Model2.user == null)
                 {
-                    if (Compartilhante != "comp")
-                        Compartilhante = "comp";
-                    if (Compartilhante2 != "comp")
-                        Compartilhante2 = "comp";
-                    if (Compartilhante3 != "comp")
-                        Compartilhante3 = "comp";
-                    if (Compartilhante4 != "comp")
-                        Compartilhante4 = "comp";
-                    if (Compartilhante5 != "comp")
-                        Compartilhante5 = "comp";
-                    if (Compartilhante6 != "comp")
-                        Compartilhante6 = "comp";
+                    if (Compartilhante != 0)
+                        Compartilhante = 0;
+                    if (Compartilhante2 != 0)
+                        Compartilhante2 = 0;
+                    if (Compartilhante3 != 0)
+                        Compartilhante3 = 0;
+                    if (Compartilhante4 != 0)
+                        Compartilhante4 = 0;
+                    if (Compartilhante5 != 0)
+                        Compartilhante5 = 0;
+                    if (Compartilhante6 != 0)
+                        Compartilhante6 = 0;
 
                 }
 
@@ -873,107 +873,107 @@ namespace BlazorCms.Client.Pages
 
         private void instanciarTime(int camada)
         {
-            UserModel[] users = new UserModel[6];
+            Filtro[] fils = new Filtro[6];
             Time time = null;
-            users[0] = Context.Users
-               .FirstOrDefault(u => u.UserName == Compartilhante)!;
-            users[1] = Context.Users
-            .FirstOrDefault(u => u.UserName == Compartilhante2)!;
-            users[2] = Context.Users
-            .FirstOrDefault(u => u.UserName == Compartilhante3)!;
-            users[3] = Context.Users
-            .FirstOrDefault(u => u.UserName == Compartilhante4)!;
-            users[4] = Context.Users
-            .FirstOrDefault(u => u.UserName == Compartilhante5)!;
-            users[5] = Context.Users
-            .FirstOrDefault(u => u.UserName == Compartilhante6)!;
-            if (camada == 7 && users[0] is not null && users[1] is not null &&
-                    users[2] is not null && users[3] is not null && users[4] is not null &&
-                     users[5] is not null)
+             fils[0] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                 .FirstOrDefault(u => u.Id == Compartilhante)!;
+            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u => u.Id == Compartilhante2)!;
+            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u => u.Id == Compartilhante3)!;
+            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u => u.Id == Compartilhante4)!;
+            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u => u.Id == Compartilhante5)!;
+            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u => u.Id == Compartilhante6)!;
+            if (camada == 7 && fils[0] is not null && fils[1] is not null &&
+                    fils[2] is not null && fils[3] is not null && fils[4] is not null &&
+                     fils[5] is not null)
             {
                  time = Context.Time
                 .Include(t => t.usuarios)
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[0].UserName) != null &&
+                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[1].UserName) != null &&
+                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => u.UserModel.UserName == users[2].UserName) != null &&
+                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => u.UserModel.UserName == users[3].UserName) != null &&
+                .FirstOrDefault(u => fils[3].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => u.UserModel.UserName == users[4].UserName) != null &&
+                .FirstOrDefault(u => fils[4].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => u.UserModel.UserName == users[5].UserName) != null)!;
+                .FirstOrDefault(u => fils[5].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null)!;
                 
             }
 
-            if (camada == 6 && users[0] is not null && users[1] is not null &&
-                    users[2] is not null && users[3] is not null && users[4] is not null )
+            if (camada == 6 && fils[0] is not null && fils[1] is not null &&
+                    fils[2] is not null && fils[3] is not null && fils[4] is not null )
             {
                 time = Context.Time
                 .Include(t => t.usuarios)
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[0].UserName) != null &&
+                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[1].UserName) != null &&
+                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[2].UserName) != null &&
+                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[3].UserName) != null &&
+                .FirstOrDefault(u => fils[3].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[4].UserName) != null)!;
+                .FirstOrDefault(u => fils[4].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null)!;
 
             }
 
-            if (camada == 5 && users[0] is not null && users[1] is not null &&
-                    users[2] is not null && users[3] is not null)
+            if (camada == 5 && fils[0] is not null && fils[1] is not null &&
+                    fils[2] is not null && fils[3] is not null)
             {
                 time = Context.Time
                 .Include(t => t.usuarios)
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[0].UserName) != null &&
+                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[1].UserName) != null &&
+                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[2].UserName) != null &&
+                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[3].UserName) != null)!;
+                .FirstOrDefault(u => fils[3].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null)!;
 
             }
 
-            if (camada == 4 && users[0] is not null && users[1] is not null &&
-                   users[2] is not null)
+            if (camada == 4 && fils[0] is not null && fils[1] is not null &&
+                   fils[2] is not null)
             {
                 time = Context.Time
                 .Include(t => t.usuarios)
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[0].UserName) != null &&
+                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[1].UserName) != null &&
+                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[2].UserName) != null )!;
+                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null )!;
 
             }
 
-            if (camada == 3 && users[0] is not null && users[1] is not null )
+            if (camada == 3 && fils[0] is not null && fils[1] is not null )
             {
                 time = Context.Time
                 .Include(t => t.usuarios)
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[0].UserName) != null &&
+                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => u.UserModel.UserName == users[1].UserName) != null )!;
+                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null )!;
 
             }
 
@@ -986,7 +986,7 @@ namespace BlazorCms.Client.Pages
                 Context.SaveChanges();
 
                 for (var i = 0; i < camada - 1; i++)
-                    verificarCompartilhante(users[i], time);
+                    verificarCompartilhante(fils[i], time);
 
             }
         }
@@ -1063,24 +1063,29 @@ namespace BlazorCms.Client.Pages
 
             int pts = 0;
             int multiplicador = 1;
-            UserModel[] usuarios = new UserModel[7];
-            var us = Context.Users.FirstOrDefault(u =>   u.UserName == Compartilhou);
-            var us2  = Context.Users.FirstOrDefault(u => u.UserName == Compartilhante);
-            var us3 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante2);
-            var us4 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante3);
-            var us5 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante4);
-            var us6 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante5);
-            var us7 = Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhante6);
-            var users = Context.Users.ToList().Count;
+            Filtro[] fils = new Filtro[6];
+            var us =    Context.Users.FirstOrDefault(u =>  u.UserName == Compartilhou);
+            var us2  =  Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u =>  u.Id == Compartilhante);
+            var us3 =   Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u =>  u.Id == Compartilhante2);
+            var us4 =   Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u =>  u.Id == Compartilhante3);
+            var us5 =   Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u =>  u.Id == Compartilhante4);
+            var us6 =   Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u =>  u.Id == Compartilhante5);
+            var us7 =   Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+                .FirstOrDefault(u =>  u.Id == Compartilhante6);
+            var users = Context.Filtro.ToList().Count;
             var filtros = story.Filtro.Count();
 
-            if (us  != null){ pts  = 1; usuarios[0] = us;  } else usuarios[0] = null;
-            if (us2 != null){ pts =  2; usuarios[1] = us2; } else usuarios[1] = null;
-            if (us3 != null){ pts =  3; usuarios[2] = us3; } else usuarios[2] = null;
-            if (us4 != null){ pts =  4; usuarios[3] = us4; } else usuarios[3] = null;
-            if (us5 != null){ pts =  5; usuarios[4] = us5; } else usuarios[4] = null;
-            if (us6 != null){ pts =  6; usuarios[5] = us6; } else usuarios[5] = null;
-            if (us7 != null){ pts =  7; usuarios[6] = us7; } else usuarios[6] = null;
+            if (us2 != null){ pts =  2; fils[0] = us2; } else fils[0] = null;
+            if (us3 != null){ pts =  3; fils[1] = us3; } else fils[1] = null;
+            if (us4 != null){ pts =  4; fils[2] = us4; } else fils[2] = null;
+            if (us5 != null){ pts =  5; fils[3] = us5; } else fils[3] = null;
+            if (us6 != null){ pts =  6; fils[4] = us6; } else fils[4] = null;
+            if (us7 != null){ pts =  7; fils[5] = us7; } else fils[5] = null;
 
             if (filtros > repositoryPagina.meta1) pts++;
             if (filtros > repositoryPagina.meta2) pts++;
@@ -1091,39 +1096,43 @@ namespace BlazorCms.Client.Pages
             if (filtros > repositoryPagina.meta7) pts++;
             if (filtros > repositoryPagina.meta8) pts++;              
 
-            for (var i = 0; i < 7; i++)
+            for (var i = 0; i < 6; i++)
             {
-                if (usuarios[i] != null)
+                var usuarios = fils[i].usuarios;
+
+                for (var j = 0; j < 7; j++)
+                {
+                    if (usuarios[j].UserModel != null)
                 {
 
-                    if (DateTime.Now.Date > usuarios[i].DataPontuacao.Date)
+                    if (DateTime.Now.Date > usuarios[j].UserModel.DataPontuacao.Date)
                     {
-                        if (usuarios[i].PontosPorDia > usuarios[i].Recorde)
+                        if (usuarios[j].UserModel.PontosPorDia > usuarios[j].UserModel.Recorde)
                         {
-                            usuarios[i].Recorde = usuarios[i].PontosPorDia;
-                            Context.Update(usuarios[i]);
+                            usuarios[j].UserModel.Recorde = usuarios[j].UserModel.PontosPorDia;
+                            Context.Update(usuarios[j].UserModel);
                             Context.SaveChanges();
                         }
-                        usuarios[i].PontosPorDia = 1;
-                        usuarios[i].DataPontuacao = DateTime.Now;
-                        Context.Update(usuarios[i]);
+                        usuarios[j].UserModel.PontosPorDia = 1;
+                        usuarios[j].UserModel.DataPontuacao = DateTime.Now;
+                        Context.Update(usuarios[j].UserModel);
                         Context.SaveChanges();
                     }
                     else
                     {
                         var fil = Context.Users!
-                            .FirstOrDefault(f => f.UserName == usuarios[i].UserName &&
-                            f.FiltroId != null);
+                            .FirstOrDefault(f => f.UserName == usuarios[j].UserModel.UserName &&
+                            f.Pastas != null);
 
                         var conteudos = Context.UserContent.Include(c => c.UserModel)
-                                .Where(c => c.UserModel.UserName == usuarios[i].UserName &&
+                                .Where(c => c.UserModel.UserName == usuarios[j].UserModel.UserName &&
                                 c.Data.Date > DateTime.Now.AddDays(-7).Date)
                                 .ToList();
 
                         if (fil != null && i != 0)
                         {
                             var condicao = story.Filtro
-                             .FirstOrDefault(f => f.user == usuarios[i].UserName);
+                             .FirstOrDefault(f => f.user == usuarios[j].UserModel.UserName);
 
                             if (condicao != null)
                             {
@@ -1153,7 +1162,7 @@ namespace BlazorCms.Client.Pages
                                 var userTime = Context.UserModelTime
                                     .Include(ut => ut.UserModel)
                                     .Include(ut => ut.Time)
-                                    .Where(ut => ut.UserModel.UserName == usuarios[i].UserName).ToList();
+                                    .Where(ut => ut.UserModel.UserName == usuarios[j].UserModel.UserName).ToList();
 
                                 multiplicador += conteudos.Count;
 
@@ -1181,10 +1190,10 @@ namespace BlazorCms.Client.Pages
                                     var pontosGanhos = multiplicador * (pts - i);
                                     foreach(var UserModel in UserModels)
                                     {
-                                        if(usuarios[0] is not null &&  UserModel.Id == usuarios[0].Id)
+                                        if(usuarios[0] is not null &&  UserModel.Id == usuarios[0].UserModel.Id)
                                         UserModel.PontosPorDia += 1000;
                                         UserModel.PontosPorDia += pontosGanhos;
-                                        Context.Update(usuarios[i]);
+                                        Context.Update(usuarios[j].UserModel);
                                         Context.SaveChanges();
                                     }
                                 }
@@ -1198,8 +1207,8 @@ namespace BlazorCms.Client.Pages
                             var pontosGanhos = multiplicador * (pts - i);
 
 
-                            usuarios[i].PontosPorDia += pontosGanhos;
-                            Context.Update(usuarios[i]);
+                            usuarios[j].UserModel.PontosPorDia += pontosGanhos;
+                            Context.Update(usuarios[j]);
                             Context.SaveChanges();
                         }
 
@@ -1207,15 +1216,18 @@ namespace BlazorCms.Client.Pages
                     }
 
                 }
-                else if(i != 0) break;
+                    else if(i != 0) break;
+
+                }
+
             }
             pontos = null;
         }
    
-        private void verificarCompartilhante( UserModel usuario, Time time)
+        private void verificarCompartilhante( Filtro fil, Time time)
         {
-            
-                usuario.IncluiTime(time);
+             foreach(var item in fil.usuarios)
+                item.UserModel.IncluiTime(time);
                 Context.SaveChanges();
             
         }    

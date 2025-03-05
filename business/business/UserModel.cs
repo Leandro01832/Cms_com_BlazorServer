@@ -19,16 +19,13 @@ namespace business.business
 
         public DateTime DataPontuacao { get; set; }
 
-        public int Recorde { get; set; }
-
-        public long? FiltroId { get; set; }
-        public virtual Filtro Filtro { get; set; }
+        public int Recorde { get; set; }        
 
         public virtual List<UserModelLivro> Livro { get; set; }
 
         public virtual List<UserModelTime> Time { get; set; }
 
-        public virtual List<UserModelFiltro> savedFolder { get; set; }
+        public virtual List<UserModelFiltro> Pastas { get; set; }
 
         public virtual List<UserContent> conteudos { get; set; }
         public virtual List<UserModelContent> PageLiked { get; set; }
@@ -45,10 +42,10 @@ namespace business.business
             this.Livro!.Add(new UserModelLivro { Livro = livro, UserModel = this });
         }
 
-        public void salvarPasta(Filtro filtro)
+        public void incluirPasta(Filtro filtro)
         {
-            if (this.savedFolder == null) this.savedFolder = new List<UserModelFiltro>();
-            this.savedFolder!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
+            if (this.Pastas == null) this.Pastas = new List<UserModelFiltro>();
+            this.Pastas!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
         }
         
         public void curtir(Content page)
