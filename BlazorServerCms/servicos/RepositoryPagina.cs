@@ -79,7 +79,7 @@ namespace BlazorServerCms.servicos
             List<Filtro> marcadores = new List<Filtro>();
             foreach (var item in story.Filtro.OrderBy(f => f.Id).ToList())
             {
-                if(user != null && user.FiltroId != null)
+                if(user != null )
                 {
                     bool condicao = false;
                     Filtro f = null;
@@ -91,7 +91,7 @@ namespace BlazorServerCms.servicos
                     {
                         f = verificarFiltros(f, story);
                         list.Add(f);
-                        if (user.FiltroId == f.Id)
+                        if (f is SubStory)
                         {
                             condicao = true;
                             break;

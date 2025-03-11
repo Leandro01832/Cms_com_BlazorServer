@@ -161,9 +161,6 @@ namespace BlazorServerCms.Migrations
                     b.Property<long>("ContentId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("QuantidadePorType")
-                        .HasColumnType("int");
-
                     b.HasKey("FiltroId", "ContentId");
 
                     b.HasIndex("ContentId");
@@ -194,6 +191,16 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MudancaEstado");
+                });
+
+            modelBuilder.Entity("business.business.PastaSalva", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PastaSalva");
                 });
 
             modelBuilder.Entity("business.business.ProdutoConteudo", b =>
@@ -384,6 +391,21 @@ namespace BlazorServerCms.Migrations
                     b.HasIndex("LivroId");
 
                     b.ToTable("UserModelLivro");
+                });
+
+            modelBuilder.Entity("business.business.UserModelPastaSalva", b =>
+                {
+                    b.Property<string>("UserModelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("PastaSalvaId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserModelId", "PastaSalvaId");
+
+                    b.HasIndex("PastaSalvaId");
+
+                    b.ToTable("UserModelPastaSalva");
                 });
 
             modelBuilder.Entity("business.business.UserModelTime", b =>
@@ -978,6 +1000,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("ChangeContent");
                 });
 
+            modelBuilder.Entity("business.business.PastaSalva", b =>
+                {
+                    b.HasOne("business.Filtro", "Filtro")
+                        .WithOne("PastaSalva")
+                        .HasForeignKey("business.business.PastaSalva", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filtro");
+                });
+
             modelBuilder.Entity("business.business.ProdutoConteudo", b =>
                 {
                     b.HasOne("business.business.Content", "Content")
@@ -999,11 +1032,9 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.UserModel", b =>
                 {
-                    b.HasOne("business.Filtro", "Filtro")
+                    b.HasOne("business.Filtro", null)
                         .WithMany("UserModel")
                         .HasForeignKey("FiltroId");
-
-                    b.Navigation("Filtro");
                 });
 
             modelBuilder.Entity("business.business.UserModelContent", b =>
@@ -1034,7 +1065,7 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.HasOne("business.business.UserModel", "UserModel")
-                        .WithMany("savedFolder")
+                        .WithMany("Pastas")
                         .HasForeignKey("UserModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1059,6 +1090,25 @@ namespace BlazorServerCms.Migrations
                         .IsRequired();
 
                     b.Navigation("Livro");
+
+                    b.Navigation("UserModel");
+                });
+
+            modelBuilder.Entity("business.business.UserModelPastaSalva", b =>
+                {
+                    b.HasOne("business.business.PastaSalva", "PastaSalva")
+                        .WithMany("UserModel")
+                        .HasForeignKey("PastaSalvaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("business.business.UserModel", "UserModel")
+                        .WithMany("PastaSalvas")
+                        .HasForeignKey("UserModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PastaSalva");
 
                     b.Navigation("UserModel");
                 });
@@ -1329,6 +1379,11 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("usuarios");
                 });
 
+            modelBuilder.Entity("business.business.PastaSalva", b =>
+                {
+                    b.Navigation("UserModel");
+                });
+
             modelBuilder.Entity("business.business.Time", b =>
                 {
                     b.Navigation("usuarios");
@@ -1340,16 +1395,21 @@ namespace BlazorServerCms.Migrations
 
                     b.Navigation("PageLiked");
 
+                    b.Navigation("PastaSalvas");
+
+                    b.Navigation("Pastas");
+
                     b.Navigation("Time");
 
                     b.Navigation("conteudos");
-
-                    b.Navigation("savedFolder");
                 });
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
                     b.Navigation("Pagina");
+
+                    b.Navigation("PastaSalva")
+                        .IsRequired();
 
                     b.Navigation("UserModel");
 

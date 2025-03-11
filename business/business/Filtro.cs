@@ -6,6 +6,10 @@ namespace business
 {
     public  class Filtro : BaseModel
     {
+        public Filtro()
+        {
+            PastaSalva = new PastaSalva();
+        }
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
         public string? user { get; set; }
@@ -18,6 +22,8 @@ namespace business
         
 
         public virtual List<UserModelFiltro> usuarios { get; set; }
+
+        public virtual PastaSalva PastaSalva { get; set; }
 
         public void IncluiPagina(Pagina pag)
         {

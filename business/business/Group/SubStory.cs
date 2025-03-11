@@ -7,7 +7,7 @@ using business.business;
 
 namespace business.Group
 {
-        public class SubStory : PastaCompartilhada
+        public class SubStory : Filtro
         {
             public virtual List<Grupo>? Grupo { get; set; }
 

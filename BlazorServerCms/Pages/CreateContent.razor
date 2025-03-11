@@ -57,17 +57,15 @@
         user = authState.User;
 
         var usermodel = await Context.Users
-                .Include(u => u.Filtro)!
-                .Include(u => u.savedFolder)!
-                .ThenInclude(u => u.Filtro)!
+                .Include(u => u.Pastas)!
+                .Include(u => u.PastaSalvas)!
+                .ThenInclude(u => u.PastaSalva)!
                 .FirstOrDefaultAsync(u => u.UserName == user.Identity.Name)!;
 
-        if (usermodel.FiltroId != null)
-        {
-            var f = Context.Filtro.First(f => f.Id == usermodel.FiltroId);
-            story = Context.Story!.Include(str => str.Filtro).First(str => str.Id == f.StoryId);
+        
+            story = Context.Story!.Include(str => str.Filtro).First(str => str.Id == repositoryPagina.CapituloLivro);
             lista = repositoryPagina.retornarMarcadores(usermodel, story);
-        }
+        
     }
 
     private async void HandleSubmit()

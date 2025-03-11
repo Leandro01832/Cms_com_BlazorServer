@@ -1468,11 +1468,11 @@ namespace BlazorCms.Client.Pages
         protected async void share()
         {
             automatico = false;
-            if (Compartilhante == "comp" || title == null || resumo == null)
+            if (Compartilhante == 0 || title == null || resumo == null)
             {
-                if (Compartilhante == "comp")
+                if (Compartilhante == 0)
                 {
-                    Compartilhante =  "Leandro01832";
+                    Compartilhante =  0;
                 }
                 if (title == null)
                 {
@@ -1635,7 +1635,7 @@ namespace BlazorCms.Client.Pages
                 else
                     url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
 
-                if (Compartilhante != "comp" && outroHorizonte == 0 && pontos == null) url += "/1";
+                if (Compartilhante != 0 && outroHorizonte == 0 && pontos == null) url += "/1";
 
                 criptografar = false;
 

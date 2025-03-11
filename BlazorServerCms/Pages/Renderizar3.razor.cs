@@ -695,7 +695,7 @@ namespace BlazorCms.Client.Pages
 
                 Model2 = Filtro;
 
-                if (Model2.user != null)
+                if (Model2.usuarios.Count != 0)
                 {
                     var fil = verificarFiltros(Model2);                    
                     Compartilhante = Model2.Id;                    
@@ -706,7 +706,7 @@ namespace BlazorCms.Client.Pages
                     Compartilhante6 = 0;
                     
 
-                    if (fil.user != null )
+                    if (fil.usuarios.Count != 0 )
                     {
                         //compartilhante ganha 2 pts                        
                         Compartilhante = fil.Id;                        
@@ -717,7 +717,7 @@ namespace BlazorCms.Client.Pages
                         Compartilhante6 = 0;
 
                         fil2 = verificarFiltros(fil);
-                        if (fil2.user != null)
+                        if (fil2.usuarios.Count != 0)
                         {
                             //compartilhante ganha 3 pts                            
                             Compartilhante = fil2.Id;                            
@@ -728,7 +728,7 @@ namespace BlazorCms.Client.Pages
                             Compartilhante6 = 0;
 
                             fil3 = verificarFiltros(fil2);
-                            if (fil3.user != null)
+                            if (fil3.usuarios.Count != 0)
                             {
                                 //compartilhante ganha 4 pts                                
                                 Compartilhante = fil3.Id;                                
@@ -739,7 +739,7 @@ namespace BlazorCms.Client.Pages
                                 Compartilhante6 = 0;
 
                                 fil4 = verificarFiltros(fil3);
-                                if (fil4.user != null)
+                                if (fil4.usuarios.Count != 0)
                                 {
                                     //compartilhante ganha 5 pts                                    
                                     Compartilhante = fil4.Id;                                    
@@ -750,7 +750,7 @@ namespace BlazorCms.Client.Pages
                                     Compartilhante6 = 0;
 
                                     fil5 = verificarFiltros(fil4);
-                                    if (fil5.user != null)
+                                    if (fil5.usuarios.Count != 0)
                                     {
                                         //compartilhante ganha 6 pts                                        
                                         Compartilhante = fil5.Id;                                        

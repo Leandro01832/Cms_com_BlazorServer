@@ -6,7 +6,7 @@ using business.business;
 
 namespace business.Group
 {
-    public class SubSubGrupo : PastaCompartilhada
+    public class SubSubGrupo : Filtro
     {
         public virtual List<CamadaSeis>? CamadaSeis { get; set; }
          public Int64 SubGrupoId { get; set; }

@@ -1,4 +1,4 @@
-﻿@page "/pastas/{capitulo:long}/{verso:int}/{dominio}/{compartilhante}"
+﻿@page "/pastas/{capitulo:long}/{verso:int}"
 @inject RepositoryPagina? repositoryPagina 
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -27,37 +27,36 @@
                 @foreach (var item in Model.Filtro)
                 {
                     int pasta = 0;
-                    var fil = filtros.FirstOrDefault(f => f.Id == item.FiltroId);
-                    if(fil != null)
-                    {
+                    var fil = filtros.FirstOrDefault(f =>  f.Id == item.FiltroId);
+                    
                         pasta = filtros.IndexOf(fil) + 1;
-                        condicao = user.Pastas.FirstOrDefault(f => f.FiltroId == fil.Id) != null;
-                    }
+                        condicao = user.PastaSalvas.FirstOrDefault(f => f.PastaSalvaId == fil.Id) != null;
 
-                    <div class="filtragem1">
-                        <p>
-                            pasta @pasta - @item.Filtro!.Nome
-                            <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/@dominio/@compartilhante" class="btn btn-primary">Acessar</a>
-                            <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                                @if (condicao )
-                                {
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                        <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                    </svg>
+                        <div class="filtragem1">
+                            <p>
+                                pasta @pasta - @item.Filtro!.Nome
+                                <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/dominio/comp/0/0/0/0/0/0" class="btn btn-primary">Acessar</a>
+                                <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
+                                    @if (condicao )
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                                        </svg>
 
-                                }
-                                else
-                                {
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                    </svg>
-                                }
+                                    }
+                                    else
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                        </svg>
+                                    }
 
-                            </a>
-                        </p>
+                                </a>
+                            </p>
 
-                    </div>               
+                        </div>               
 
+                    
                 }
             </div>
 
@@ -74,8 +73,6 @@
     private string? authMessage;
     [Parameter] public long capitulo { get; set; }
     [Parameter] public int verso { get; set; }
-    [Parameter] public string? dominio { get; set; }
-    [Parameter] public string? compartilhante { get; set; }
     public Pagina Model { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
@@ -91,13 +88,13 @@
         var lst = Context.Pagina!.Include(p => p.Story).Include(p => p.Filtro)!.ThenInclude(p => p.Filtro)
         .Where(p => p.StoryId == capitulo).OrderBy(p => p.Id).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
-        filtros = Context.Pagina!
-    .Include(p => p.Filtro)!
+        filtros = Context.Filtro!
+    .Include(p => p.usuarios)!
     .ThenInclude(p => p.Filtro)
     .Include(p => p.Story)
     .ThenInclude(p => p.Filtro)
     .Where(p => p.StoryId == capitulo)
-    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
+    .OrderBy(f => f.Id).ToList();
 
         var authState = await AuthenticationStateProvider
                .GetAuthenticationStateAsync();
@@ -119,31 +116,22 @@
 
     private async Task GetClaimsPrincipalData(Filtro fil)
     {
-        var saveFolder = Context.PastaSalva.FirstOrDefault(p => p.FiltroId == fil.Id);
-        if(saveFolder == null){
-            saveFolder = new PastaSalva
-            {
-                FiltroId = fil.Id
-            };
-            Context.Add(saveFolder);
-            await Context.SaveChangesAsync();
-        }
 
         if (user is not null)
         {
-            var save = Context.UserModelFiltro
+            var save = Context.UserModelPastaSalva
             .Include(uf => uf.UserModel)
-            .FirstOrDefaultAsync(s => s.FiltroId == fil.Id && s.UserModel.UserName == user.UserName);
+            .FirstOrDefaultAsync(s => s.PastaSalvaId == fil.Id && s.UserModel.UserName == user.UserName);
             if (save == null)
             {
-                user.incluirPasta(fil);
+                user.incluirPastaSalva(fil.PastaSalva);
                 await Context.SaveChangesAsync();
             }
             else
             {
-                Context.Remove(Context.UserModelFiltro.Include(uf => uf.UserModel)
-                    .First(s => s.FiltroId == fil.Id &&
-                    s.UserModel.UserName == user.UserName));
+                Context.Remove(Context.UserModelPastaSalva
+                    .First(s => s.PastaSalvaId == fil.Id &&
+                    s.UserModelId == user.Id));
                   await  Context.SaveChangesAsync();
             }
         }

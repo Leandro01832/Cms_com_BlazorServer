@@ -7,7 +7,7 @@ using business.business;
 
 namespace business.Group
 {
-    public class CamadaOito : PastaCompartilhada
+    public class CamadaOito : Filtro
     {
         public virtual List<CamadaNove>? CamadaNove { get; set; }
          public Int64 CamadaSeteId { get; set; }

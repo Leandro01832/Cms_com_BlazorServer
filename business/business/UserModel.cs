@@ -27,6 +27,8 @@ namespace business.business
 
         public virtual List<UserModelFiltro> Pastas { get; set; }
 
+        public virtual List<UserModelPastaSalva> PastaSalvas { get; set; }
+
         public virtual List<UserContent> conteudos { get; set; }
         public virtual List<UserModelContent> PageLiked { get; set; }
 
@@ -47,7 +49,13 @@ namespace business.business
             if (this.Pastas == null) this.Pastas = new List<UserModelFiltro>();
             this.Pastas!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
         }
-        
+
+        public void incluirPastaSalva(PastaSalva pasta)
+        {
+            if (this.PastaSalvas == null) this.PastaSalvas = new List<UserModelPastaSalva>();
+            this.PastaSalvas!.Add(new UserModelPastaSalva { PastaSalva = pasta, UserModel = this });
+        }
+
         public void curtir(Content page)
         {
             if (this.PageLiked == null) this.PageLiked = new List<UserModelContent>();

@@ -81,10 +81,10 @@
         <center><strong>Pastas Salvas</strong> </center>
 
 
-        @foreach (var item in usermodel.savedFolder)
+        @foreach (var item in usermodel.PastaSalvas)
         {
             var filtrs = story.Filtro;
-            var fil = filtrs.First(f => f.Id == item.FiltroId);
+            var fil = filtrs.First(f => f.Id == item.PastaSalvaId);
             var pasta = filtrs.OrderBy(f => f.Id).ToList().IndexOf(fil) + 1;
 
             <div>
@@ -124,13 +124,13 @@
     {
         Context = db.CreateDbContext(null);
         usermodel = await userManager.Users
-        .Include(u => u.Filtro)!
-        .Include(u => u.savedFolder)!
-        .ThenInclude(u => u.Filtro)!
+        .Include(u => u.Pastas)!
+        .Include(u => u.PastaSalvas)!
+        .ThenInclude(u => u.PastaSalva)!
         .FirstOrDefaultAsync(u => u.UserName == user)!;
         story = Context.Story!
         .Include(st => st.Filtro)
-        .First(st => st.Id == usermodel.Filtro.StoryId);
+        .First(st => st.Id == repositoryPagina.CapituloLivro);
 
 
         var authState = await AuthenticationStateProvider
