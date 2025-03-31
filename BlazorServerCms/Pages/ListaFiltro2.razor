@@ -106,14 +106,17 @@
     protected override async Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        var str = await Context.Story!.Include(s => s.Filtro)!
+        var str = await Context.Story!
+        .Include(s => s.Filtro)!
+        .ThenInclude(s => s.usuarios)!
+        .Include(s => s.Filtro)!
         .ThenInclude(s => s.Pagina)!
         .ThenInclude(s => s.Content).FirstAsync(s => s.PaginaPadraoLink == capitulo);
 
         if (str.Filtro == null || str.Filtro.Count == 0)
             navigation.NavigateTo("/");
 
-        lista = str.Filtro.Where(f => f.user == null).OrderBy(f => f.Id).ToList();
+        lista = str.Filtro.Where(f => f.usuarios.Count == 0).OrderBy(f => f.Id).ToList();
     }
 
     private bool NewVers(Filtro fil)

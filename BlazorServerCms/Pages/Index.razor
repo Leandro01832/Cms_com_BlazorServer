@@ -442,7 +442,7 @@
                                     else
                                     {
                                         if (pag.Versiculo == numeros[j] && url == null &&
-                                            item.user == compartilhante )
+                                            item.usuarios.Count > 0)
                                         {
                                             var pages = item.Pagina
                                             .Where(c => c.Content is Pagina)
@@ -494,7 +494,7 @@
                                 }
                                 else
                                 {
-                                    if (pag.Versiculo == num && url == null && item.user == compartilhante)
+                                    if (pag.Versiculo == num && url == null && item.usuarios.Count > 0)
                                     {
                                         var pages = item.Pagina
                                         .Where(c => c.Content is Pagina)
@@ -534,7 +534,8 @@
                 {
                     filtros = await Context.Filtro!
                     .Include(f => f.Story)
-                    .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.user == null).ToListAsync();
+                    .Include(f => f.usuarios)
+                    .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.usuarios.Count == 0).ToListAsync();
 
 
                     if (filtros.Count == 0)

@@ -1,4 +1,5 @@
 ﻿using BlazorServerCms.Data;
+using BlazorServerCms.Pages;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -67,6 +68,10 @@ namespace BlazorCms.Client.Pages
                 Compartilhante4 = 0;
                 Compartilhante5 = 0;
                 Compartilhante6 = 0;
+                Compartilhante7 = 0;
+                Compartilhante8 = 0;
+                Compartilhante9 = 0;
+                Compartilhante10 = 0;
             }
             if (dominio == null)
                 dominio = "dominio";
@@ -153,6 +158,7 @@ namespace BlazorCms.Client.Pages
             {
                 var str = await Context.Story!
                     .Include(p => p.Filtro)!
+                   .ThenInclude(p => p.usuarios)!
                    .ThenInclude(p => p.UserModel)!
                     .Include(p => p.Filtro)!
                    .ThenInclude(p => p.Pagina)!
@@ -168,10 +174,11 @@ namespace BlazorCms.Client.Pages
                 repositoryPagina.Conteudo.Count != conteudos.Count)
             {
                 conteudos = Context!.Content!
+                    .Include(c => c.Filtro)
                     .Include(c => c.Produto)
                     .ThenInclude(c => c.Produto)
+                    .Where(c => c.StoryId == storyid)
                     .ToList();
-                repositoryPagina.Conteudo.Clear();
                 repositoryPagina.Conteudo.AddRange(conteudos);
             }
 
@@ -225,13 +232,17 @@ namespace BlazorCms.Client.Pages
             List<Content> listaFiltradaComConteudo = null;
 
             Model = repositoryPagina!.Conteudo
-                    .FirstOrDefault(p =>  p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid );
-
-            
-
+                    .FirstOrDefault(p =>  p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid );  
 
             if (Model == null)
             {
+               var conteudos = Context!.Content!
+                    .Include(c => c.Filtro)
+                    .Include(c => c.Produto)
+                    .ThenInclude(c => c.Produto)
+                    .Where(c => c.StoryId == storyid)
+                    .ToList();
+                repositoryPagina.Conteudo.AddRange(conteudos);
                 Model = repositoryPagina.Conteudo
                 .FirstOrDefault(p => p is Pagina && p.StoryId == storyid);
             }
@@ -259,12 +270,12 @@ namespace BlazorCms.Client.Pages
                
             quantidadePaginas = CountPaginas(ApplicationDbContext._connectionString);
 
-            if (
-                story is PatternStory && quantidadePaginas != 99999 ||
-                story is SmallStory && quantidadePaginas != 9999 ||
-                story is ShortStory && quantidadePaginas != 999
-                )
-                repositoryPagina.erro = true;
+           // if (
+           //     story is PatternStory && quantidadePaginas != 99999 && story.Id != repositoryPagina.stories!.First().Id ||
+           //     story is SmallStory && quantidadePaginas != 9999 && story.Id != repositoryPagina.stories!.First().Id ||
+           //     story is ShortStory && quantidadePaginas != 999 && story.Id != repositoryPagina.stories!.First().Id
+           //     )
+           //     repositoryPagina.erro = true;
 
             if (quantidadePaginas == 0 && outroHorizonte == 0)
                 Mensagem = "aguarde um momento...";
@@ -501,7 +512,7 @@ namespace BlazorCms.Client.Pages
                 Filtro? group7 = null;
                 Filtro? group8 = null;
                 Filtro? group9 = null;
-                group = story!.Filtro!.Where(str => str is SubStory && str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)substory! - 1).First();
+                group = story!.Filtro!.Where(str => str is SubStory).OrderBy(str => str.Id).Skip((int)substory! - 1).First();
                 nameGroup = group!.Nome!;
                 
                     var filtropa = story.Filtro!.First(f => f.Id == group.Id);
@@ -518,7 +529,7 @@ namespace BlazorCms.Client.Pages
                 if (grupo != null)
                 {
                     var fil1 = (SubStory)story.Filtro.First(f => f.Id == group.Id);
-                    group2 = fil1.Grupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)grupo! - 1).First();
+                    group2 = fil1.Grupo.OrderBy(str => str.Id).Skip((int)grupo! - 1).First();
                     nameGroup = group2!.Nome!;
                     
                         var filtropag = story.Filtro!.First(f => f.Id == group2.Id);
@@ -537,7 +548,7 @@ namespace BlazorCms.Client.Pages
                 if (subgrupo != null)
                 {
                     var fil2 = (Grupo)story.Filtro.First(f => f.Id == group2.Id);
-                    group3 = fil2.SubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)subgrupo! - 1).First();
+                    group3 = fil2.SubGrupo.OrderBy(str => str.Id).Skip((int)subgrupo! - 1).First();
                     nameGroup = group3!.Nome!;
                   
                         var filtropag = story.Filtro!.First(f => f.Id == group3.Id);
@@ -556,7 +567,7 @@ namespace BlazorCms.Client.Pages
                 if (subsubgrupo != null)
                 {
                     var fil3 = (SubGrupo)story.Filtro.First(f => f.Id == group3.Id);
-                    group4 = fil3.SubSubGrupo.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)subsubgrupo! - 1).First();
+                    group4 = fil3.SubSubGrupo.OrderBy(str => str.Id).Skip((int)subsubgrupo! - 1).First();
                     nameGroup = group4!.Nome!;
                    
                         var filtropag = story.Filtro!.First(f => f.Id == group4.Id);
@@ -575,7 +586,7 @@ namespace BlazorCms.Client.Pages
                 if (camadaseis != null)
                 {
                     var fil4 = (SubSubGrupo)story.Filtro.First(f => f.Id == group4.Id);
-                    group5 = fil4.CamadaSeis.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadaseis! - 1).First();
+                    group5 = fil4.CamadaSeis.OrderBy(str => str.Id).Skip((int)camadaseis! - 1).First();
                     nameGroup = group5!.Nome!;
                    
                         var filtropag = story.Filtro!.First(f => f.Id == group5.Id);
@@ -594,7 +605,7 @@ namespace BlazorCms.Client.Pages
                 if (camadasete != null)
                 {
                     var fil5 = (CamadaSeis)story.Filtro.First(f => f.Id == group5.Id);
-                    group6 = fil5.CamadaSete.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadasete! - 1).First();
+                    group6 = fil5.CamadaSete.OrderBy(str => str.Id).Skip((int)camadasete! - 1).First();
                     nameGroup = group6!.Nome!;
                     
                         var filtropag = story.Filtro!.First(f => f.Id == group6.Id);
@@ -613,7 +624,7 @@ namespace BlazorCms.Client.Pages
                 if (camadaoito != null)
                 {
                     var fil6 = (CamadaSete)story.Filtro.First(f => f.Id == group6.Id);
-                    group7 = fil6.CamadaOito.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadaoito! - 1).First();
+                    group7 = fil6.CamadaOito.OrderBy(str => str.Id).Skip((int)camadaoito! - 1).First();
                     nameGroup = group7!.Nome!;
                     
                         var filtropag = story.Filtro!.First(f => f.Id == group7.Id);
@@ -632,7 +643,7 @@ namespace BlazorCms.Client.Pages
                 if (camadanove != null)
                 {
                     var fil7 = (CamadaOito)story.Filtro.First(f => f.Id == group7.Id);
-                    group8 = fil7.CamadaNove.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadanove! - 1).First();
+                    group8 = fil7.CamadaNove.OrderBy(str => str.Id).Skip((int)camadanove! - 1).First();
                     nameGroup = group8!.Nome!;
                     
                         var filtropag = story.Filtro!.First(f => f.Id == group8.Id);
@@ -651,7 +662,7 @@ namespace BlazorCms.Client.Pages
                 if (camadadez != null)
                 {
                     var fil8 = (CamadaNove)story.Filtro.First(f => f.Id == group8.Id);
-                    group9 = fil8.CamadaDez.Where(str => str.Pagina != null && str.Pagina!.Count > 0).OrderBy(str => str.Id).Skip((int)camadadez! - 1).First();
+                    group9 = fil8.CamadaDez.OrderBy(str => str.Id).Skip((int)camadadez! - 1).First();
                     nameGroup = group9!.Nome!;
                    
                         var filtropag = story.Filtro.First(f => f.Id == group.Id);                        
@@ -688,10 +699,8 @@ namespace BlazorCms.Client.Pages
                 else if (group != null)
                     Filtro = story!.Filtro!.First(f => f.Id == group!.Id);
 
-                if (Filtro.user != null)                
-                indice_Filtro = story.Filtro!.Where(f => f.user == Filtro.user).OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
-                else
-                indice_Filtro = story.Filtro!.Where(f => f.user == null).OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
+                               
+                indice_Filtro = story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Filtro) + 1;
 
                 Model2 = Filtro;
 
@@ -704,6 +713,10 @@ namespace BlazorCms.Client.Pages
                     Compartilhante4 = 0;                    
                     Compartilhante5 = 0;                    
                     Compartilhante6 = 0;
+                    Compartilhante7 = 0;
+                    Compartilhante8 = 0;
+                    Compartilhante9 = 0;
+                    Compartilhante10 = 0;
                     
 
                     if (fil.usuarios.Count != 0 )
@@ -715,6 +728,10 @@ namespace BlazorCms.Client.Pages
                         Compartilhante4 = 0;                        
                         Compartilhante5 = 0;                        
                         Compartilhante6 = 0;
+                        Compartilhante7 = 0;
+                        Compartilhante8 = 0;
+                        Compartilhante9 = 0;
+                        Compartilhante10 = 0;
 
                         fil2 = verificarFiltros(fil);
                         if (fil2.usuarios.Count != 0)
@@ -726,6 +743,10 @@ namespace BlazorCms.Client.Pages
                             Compartilhante4 = 0;                            
                             Compartilhante5 = 0;                            
                             Compartilhante6 = 0;
+                            Compartilhante7 = 0;
+                            Compartilhante8 = 0;
+                            Compartilhante9 = 0;
+                            Compartilhante10 = 0;
 
                             fil3 = verificarFiltros(fil2);
                             if (fil3.usuarios.Count != 0)
@@ -737,6 +758,10 @@ namespace BlazorCms.Client.Pages
                                 Compartilhante4 = Model2.Id;                                
                                 Compartilhante5 = 0;                                
                                 Compartilhante6 = 0;
+                                Compartilhante7 = 0;
+                                Compartilhante8 = 0;
+                                Compartilhante9 = 0;
+                                Compartilhante10 = 0;
 
                                 fil4 = verificarFiltros(fil3);
                                 if (fil4.usuarios.Count != 0)
@@ -748,6 +773,10 @@ namespace BlazorCms.Client.Pages
                                     Compartilhante4 = fil.Id;                                    
                                     Compartilhante5 = Model2.Id;                                    
                                     Compartilhante6 = 0;
+                                    Compartilhante7 = 0;
+                                    Compartilhante8 = 0;
+                                    Compartilhante9 = 0;
+                                    Compartilhante10 = 0;
 
                                     fil5 = verificarFiltros(fil4);
                                     if (fil5.usuarios.Count != 0)
@@ -759,6 +788,10 @@ namespace BlazorCms.Client.Pages
                                         Compartilhante4 = fil2.Id;                                        
                                         Compartilhante5 = fil.Id;                                        
                                         Compartilhante6 = Model2.Id;                
+                                        Compartilhante7 = 0;                
+                                        Compartilhante8 = 0;                
+                                        Compartilhante9 = 0;                
+                                        Compartilhante10 = 0;                
                                        
                                     }
 
@@ -770,7 +803,7 @@ namespace BlazorCms.Client.Pages
 
                     }
 
-                    if (fil.user != null)
+                    if (fil.usuarios.Count > 0)
                     {
                         int camada = repositoryPagina.buscarCamada();
                         instanciarTime(camada);
@@ -778,20 +811,18 @@ namespace BlazorCms.Client.Pages
                     }
                
                 }  
-                else if(Model2.user == null)
+                else if(Model2.usuarios.Count == 0)
                 {
-                    if (Compartilhante != 0)
                         Compartilhante = 0;
-                    if (Compartilhante2 != 0)
                         Compartilhante2 = 0;
-                    if (Compartilhante3 != 0)
                         Compartilhante3 = 0;
-                    if (Compartilhante4 != 0)
                         Compartilhante4 = 0;
-                    if (Compartilhante5 != 0)
                         Compartilhante5 = 0;
-                    if (Compartilhante6 != 0)
                         Compartilhante6 = 0;
+                        Compartilhante7 = 0;
+                        Compartilhante8 = 0;
+                        Compartilhante9 = 0;
+                        Compartilhante10 = 0;
 
                 }
 
@@ -873,20 +904,18 @@ namespace BlazorCms.Client.Pages
 
         private void instanciarTime(int camada)
         {
-            Filtro[] fils = new Filtro[6];
+            Filtro[] fils = new Filtro[10];
             Time time = null;
-             fils[0] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                 .FirstOrDefault(u => u.Id == Compartilhante)!;
-            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante2)!;
-            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante3)!;
-            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante4)!;
-            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante5)!;
-            fils[1] = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante6)!;
+             fils[0] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante)!;
+             fils[1] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante2)!;
+             fils[2] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante3)!;
+             fils[3] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante4)!;
+             fils[4] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante5)!;
+             fils[5] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante6)!;
+             fils[6] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante7)!;
+             fils[7] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante8)!;
+             fils[8] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante9)!;
+             fils[9] =  story.Filtro.FirstOrDefault(u => u.Id == Compartilhante10)!;
             if (camada == 7 && fils[0] is not null && fils[1] is not null &&
                     fils[2] is not null && fils[3] is not null && fils[4] is not null &&
                      fils[5] is not null)
@@ -896,17 +925,17 @@ namespace BlazorCms.Client.Pages
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => fils[3].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => fils[4].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[4].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios                                   
-                .FirstOrDefault(u => fils[5].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null)!;
+                .FirstOrDefault(u => fils[5].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
                 
             }
 
@@ -918,15 +947,15 @@ namespace BlazorCms.Client.Pages
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[3].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[4].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null)!;
+                .FirstOrDefault(u => fils[4].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
 
             }
 
@@ -938,13 +967,13 @@ namespace BlazorCms.Client.Pages
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[3].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null)!;
+                .FirstOrDefault(u => fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
 
             }
 
@@ -956,11 +985,11 @@ namespace BlazorCms.Client.Pages
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[2].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null )!;
+                .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null )!;
 
             }
 
@@ -971,9 +1000,9 @@ namespace BlazorCms.Client.Pages
                 .ThenInclude(t => t.UserModel)
                 .FirstOrDefault(t =>
                 t.usuarios
-                .FirstOrDefault(u => fils[0].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null &&
+                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
                 t.usuarios
-                .FirstOrDefault(u => fils[1].UserModel.FirstOrDefault(us => us.UserName == u.UserModel.UserName) != null) != null )!;
+                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null )!;
 
             }
 
@@ -1132,11 +1161,11 @@ namespace BlazorCms.Client.Pages
                         if (fil != null && i != 0)
                         {
                             var condicao = story.Filtro
-                             .FirstOrDefault(f => f.user == usuarios[j].UserModel.UserName);
+                             .FirstOrDefault(f => f.usuarios.FirstOrDefault(us => us.UserModelId == usuarios[j].UserModel.Id) != null );
 
                             if (condicao != null)
                             {
-                                var UserModels = condicao.UserModel;
+                                var UserModels = condicao.usuarios;
                                 if (users >= 100000 && users < 200000) multiplicador += 1;
                                 else if (users >= 200000 && users < 300000) multiplicador += 2;
                                 else if (users >= 300000 && users < 400000) multiplicador += 3;
@@ -1190,9 +1219,9 @@ namespace BlazorCms.Client.Pages
                                     var pontosGanhos = multiplicador * (pts - i);
                                     foreach(var UserModel in UserModels)
                                     {
-                                        if(usuarios[0] is not null &&  UserModel.Id == usuarios[0].UserModel.Id)
-                                        UserModel.PontosPorDia += 1000;
-                                        UserModel.PontosPorDia += pontosGanhos;
+                                        if(usuarios[0] is not null &&  UserModel.UserModel.Id == usuarios[0].UserModel.Id)
+                                        UserModel.UserModel.PontosPorDia += 1000;
+                                        UserModel.UserModel.PontosPorDia += pontosGanhos;
                                         Context.Update(usuarios[j].UserModel);
                                         Context.SaveChanges();
                                     }

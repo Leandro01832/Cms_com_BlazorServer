@@ -150,16 +150,15 @@ namespace BlazorCms.Client.Pages
         }
 
         [Parameter] public long? Compartilhante { get; set; } = 0;
-
         [Parameter] public long? Compartilhante2 { get; set; } = 0;
-
         [Parameter] public long? Compartilhante3 { get; set; } = 0;
-
         [Parameter] public long? Compartilhante4 { get; set; } = 0;
-
         [Parameter] public long? Compartilhante5 { get; set; } = 0;
-
         [Parameter] public long? Compartilhante6 { get; set; } = 0;
+        [Parameter] public long? Compartilhante7 { get; set; } = 0;
+        [Parameter] public long? Compartilhante8 { get; set; } = 0;
+        [Parameter] public long? Compartilhante9 { get; set; } = 0;
+        [Parameter] public long? Compartilhante10 { get; set; } = 0;
 
 
         [Parameter] public string? pontos { get; set; } = "";

@@ -2,7 +2,7 @@
 
 namespace BlazorServerCms.servicos
 {
-    public class BlazorTimer
+    public class BlazorTimer : IDisposable
     {
         public System.Timers.Timer? _timer = new System.Timers.Timer(1000);
         public System.Timers.Timer? _timerListaFiltro = new System.Timers.Timer(1000);
@@ -31,6 +31,14 @@ namespace BlazorServerCms.servicos
         {
             desligarAuto = new System.Timers.Timer(minutos * 60000); 
             desligarAuto.Enabled = true;
+        }
+
+        public void Dispose()
+        {
+            _timer.Dispose();
+            _timerListaFiltro.Dispose();
+            _timerVitrine.Dispose();
+            desligarAuto!.Dispose();
         }
     }
 }

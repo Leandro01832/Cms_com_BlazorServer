@@ -1149,6 +1149,7 @@ namespace BlazorCms.Client.Pages
             indice_Filtro = 0;
             setarCamadas(null);
             indice = (int) vers!;
+            ultimaPasta = false;
             acessar();
         }
 
@@ -1277,7 +1278,7 @@ namespace BlazorCms.Client.Pages
                 await js!.InvokeAsync<object>("DarAlert",
                     $"A pasta do usuario {prompted} não pussui este verso!!!");
                   else
-                await js!.InvokeAsync<object>("DarAlert", "Marque um versiculo que tenha pasta!!!");
+                await js!.InvokeAsync<object>("DarAlert", "Marque um versiculo que esta em uma pasta!!!");
             }
             else
             {
@@ -1587,8 +1588,9 @@ namespace BlazorCms.Client.Pages
         {
             criptografar = true;
             var url = $"/carrinho/{ProdutoId}/{Compartilhou}/{Compartilhante}/" +
-            $"{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}" +
-            $"{Compartilhante6}";
+            $"{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/" +
+            $"{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/" +
+            $"{Compartilhante10}";
             criptografar = false;
             acessar(url);
         }
@@ -1613,27 +1615,27 @@ namespace BlazorCms.Client.Pages
 
                 string url = null;
                 if (camadadez != null)
-                    url = $"/camada10/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada10/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (camadanove != null)
-                    url = $"/camada9/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada9/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (camadaoito != null)
-                    url = $"/camada8/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada8/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (camadasete != null)
-                    url = $"/camada7/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada7/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (camadaseis != null)
-                    url = $"/camada6/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada6/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (subsubgrupo != null)
-                    url = $"/camada5/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada5/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (subgrupo != null)
-                    url = $"/camada4/{storyid}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada4/{storyid}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (grupo != null)
-                    url = $"/camada3/{storyid}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada3/{storyid}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (substory != null)
-                    url = $"/camada2/{storyid}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/camada2/{storyid}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
                 else if (filtrar != null)
-                    url = $"/filtro/{storyid}/{filtrar}/0/0/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{redirecionar}";
+                    url = $"/filtro/{storyid}/{filtrar}/0/0/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}/{redirecionar}";
                 else
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}";
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
 
                 if (Compartilhante != 0 && outroHorizonte == 0 && pontos == null) url += "/1";
 
