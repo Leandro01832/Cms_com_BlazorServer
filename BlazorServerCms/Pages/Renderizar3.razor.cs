@@ -296,6 +296,7 @@ namespace BlazorCms.Client.Pages
 
             if (filtrar == null && substory == null)
             {
+                tellStory = false;
                 if (Model == null)
                 {
                     if (quantidadePaginas != 0)
@@ -325,6 +326,11 @@ namespace BlazorCms.Client.Pages
 
             else if (filtrar != null && condicaoFiltro || substory != null && condicaoFiltro)
             {
+                
+
+
+
+
                 if (substory != null)
                 {
                     if(rotas == null)
@@ -332,6 +338,7 @@ namespace BlazorCms.Client.Pages
                     else
                     listaFiltradaComConteudo = retornarListaFiltrada(rotas);
 
+                   
 
 
                 }
@@ -441,6 +448,9 @@ namespace BlazorCms.Client.Pages
             if (p != null)
                 liked = true;
 
+            if (!tellStory) placeholder = "digita nome";
+            else placeholder = "Nº do item";
+
             quantLiked = CountLikes(ApplicationDbContext._connectionString);
         }
 
@@ -474,25 +484,30 @@ namespace BlazorCms.Client.Pages
 
         private int?[] retornarArray(Filtro fi)
         {
+            
             int?[] arr = null;
             if (fi is CamadaDez)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaNove)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaOito)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaSete)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1, 1);
             else if (fi is CamadaSeis)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1, 1);
             else if (fi is SubSubGrupo)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1, 1);
             else if (fi is SubGrupo)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1, 1);
             else if (fi is Grupo)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1);
             else if (fi is SubStory)
-                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1);
+                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1);
+            
+
+
+
             return arr;
         }
 

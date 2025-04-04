@@ -217,16 +217,6 @@ namespace BlazorCms.Client.Pages
         
         protected void listarPasta()
         {
-            var lista = retornarListaFiltrada(null);
-            int tamanho = 0;
-
-            if (dominio == null) dominio = "dominio";
-
-            if (lista.FirstOrDefault(p => p.Html != null) != null)
-                tamanho = 5;
-            else
-                tamanho = 20;
-
             acessar($"/lista-filtro/1/{Compartilhante}/{storyid}/{indice_Filtro}/0");
         }
 
@@ -422,11 +412,12 @@ namespace BlazorCms.Client.Pages
 
             var proximo = indice + 1;
 
+
             if (camadadez != null)
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete,
                         camadaoito, camadanove, camadadez);
                     if (arr != null)                    
@@ -440,7 +431,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -452,7 +443,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
                     if (arr != null)                    
                         setarCamadas(arr);                   
@@ -464,7 +455,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -476,7 +467,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -489,7 +480,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo);
                     if (arr != null)                    
                         setarCamadas(arr);                 
@@ -501,7 +492,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -514,7 +505,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!, grupo);
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!, grupo);
                     if (arr != null)                    
                         setarCamadas(arr);                      
                     else                    
@@ -526,7 +517,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Arr.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory);
+                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory);
                     if (arr != null)                    
                         setarCamadas(arr);                   
                     else                    
@@ -584,6 +575,7 @@ namespace BlazorCms.Client.Pages
 
         private void voltarSubgrupos()
         {
+            
                 int?[] arr = null;
                 int?[] result = null;
             if (camadadez != null && camadadez != 1)
@@ -594,10 +586,10 @@ namespace BlazorCms.Client.Pages
                     var lista = story.Filtro.OrderBy(f => f.Id).Where(f => f is CamadaDez).ToList();
                     foreach(var f in lista)
                     {
-                        arr =  Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr =  Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if(arr != null )
                         {
-                            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                             if (arr[8] == camadanove && arr[7] == camadaoito && arr[6] == camadasete &&
                                 arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
                                 arr[2] == grupo && arr[1] == substory && arr[9] < camada)
@@ -624,10 +616,10 @@ namespace BlazorCms.Client.Pages
                     var lista = story.Filtro.Where(f => f is CamadaNove).OrderByDescending(f => f.Id).ToList();
                     foreach(var f in lista)
                     {
-                        arr =  Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr =  Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if(arr != null )
                         {
-                            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                             if (arr[7] == camadaoito && arr[6] == camadasete &&
                                 arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
                                 arr[2] == grupo && arr[1] == substory && arr[8] < camada)
@@ -637,7 +629,7 @@ namespace BlazorCms.Client.Pages
                                 f.Pagina!.First().Content!.Id && f is CamadaDez) != null)
                                 .LastOrDefault()!;
                                 if(fi != null)
-                                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -660,10 +652,10 @@ namespace BlazorCms.Client.Pages
                     var lista = story.Filtro.Where(f => f is CamadaOito).OrderByDescending(f => f.Id).ToList();
                     foreach (var f in lista)
                     {
-                        arr = Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if (arr != null)
                         {
-                             arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                             arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                             if (arr[6] == camadasete &&
                                arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
                                arr[2] == grupo && arr[1] == substory && arr[7] < camada)
@@ -675,9 +667,9 @@ namespace BlazorCms.Client.Pages
                                  f.Pagina!.First().Content!.Id && f is CamadaNove) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
-                                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaNove)
-                                arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -700,10 +692,10 @@ namespace BlazorCms.Client.Pages
                     var lista = story.Filtro.Where(f => f is CamadaSete).OrderByDescending(f => f.Id).ToList();
                     foreach (var f in lista)
                     {
-                        arr = Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if (arr != null)
                         {
-                             arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1);
+                             arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1);
                             if (arr != null && arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
                                arr[2] == grupo && arr[1] == substory && arr[6] < camada)
                             {
@@ -716,11 +708,11 @@ namespace BlazorCms.Client.Pages
                                  f.Pagina!.First().Content!.Id && f is CamadaOito) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaNove)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaOito)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -743,10 +735,10 @@ namespace BlazorCms.Client.Pages
                     var lista = story.Filtro.Where(f => f is CamadaSeis).OrderByDescending(f => f.Id).ToList();
                     foreach (var f in lista)
                     {
-                        arr = Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if (arr != null)
                         {
-                            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1);
+                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1);
                             if (arr[4] == subsubgrupo && arr[3] == subgrupo &&
                               arr[2] == grupo && arr[1] == substory && arr[5] < camada)
                             {
@@ -761,13 +753,13 @@ namespace BlazorCms.Client.Pages
                                  f.Pagina!.First().Content!.Id && f is CamadaSete) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaNove)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaOito)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSete)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -791,10 +783,10 @@ namespace BlazorCms.Client.Pages
                         .ToList();
                     foreach (var f in lista)
                     {
-                        arr = Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if (arr != null)
                         {
-                            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1);
+                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1);
                             if (arr[3] == subgrupo &&
                               arr[2] == grupo && arr[1] == substory && arr[4] < camada)
                             {
@@ -811,15 +803,15 @@ namespace BlazorCms.Client.Pages
                                  f.Pagina!.First().Content!.Id && f is CamadaSeis) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaNove)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaOito)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSete)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSeis)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -843,10 +835,10 @@ namespace BlazorCms.Client.Pages
                         .ToList();
                     foreach (var f in lista)
                     {
-                        arr = Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if (arr != null)
                         {
-                            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1);
+                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1);
                             if (arr[2] == grupo && arr[1] == substory && arr[3] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
@@ -864,17 +856,17 @@ namespace BlazorCms.Client.Pages
                                  f.Pagina!.First().Content!.Id && f is SubSubGrupo) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaNove)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaOito)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSete)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSeis)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is SubSubGrupo)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -898,10 +890,10 @@ namespace BlazorCms.Client.Pages
                         .ToList();
                     foreach (var f in lista)
                     {
-                        arr = Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if (arr != null)
                         {
-                            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1);
+                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1);
                             if (arr[1] == substory && arr[2] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
@@ -921,19 +913,19 @@ namespace BlazorCms.Client.Pages
                                  f.Pagina!.First().Content!.Id && f is SubGrupo) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaNove)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaOito)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSete)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSeis)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is SubSubGrupo)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is SubGrupo)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -957,10 +949,10 @@ namespace BlazorCms.Client.Pages
                     var lista = story.Filtro.Where(f => f is SubStory).OrderByDescending(f => f.Id).ToList();
                     foreach (var f in lista)
                     {
-                        arr = Arr.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
+                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
                         if (arr != null)
                         {
-                            arr = Arr.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1);
+                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1);
                             if (arr[1] < camada)
                             {
                                 var fi = story.Filtro.Where(fil => fil.Pagina
@@ -982,21 +974,21 @@ namespace BlazorCms.Client.Pages
                                  f.Pagina!.First().Content!.Id && f is Grupo) != null)
                                  .LastOrDefault()!;
                                 if (fi != null && fi is CamadaDez)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaNove)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaOito)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSete)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is CamadaSeis)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is SubSubGrupo)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
                                 if (fi != null && fi is SubGrupo)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1);
                                 if (fi != null && fi is Grupo)
-                                    arr = Arr.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1);
+                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1);
                                 result = arr;
                                 break;
                             }
@@ -1084,10 +1076,10 @@ namespace BlazorCms.Client.Pages
             else if (grupo != null)
             {
                 var fi = Context.Filtro!
-                    .Include(p => p.Pagina)
-                    .Where(p => p is SubStory && p.Pagina.Count > 0)
-                    .ToList()
-                    .LastOrDefault()!;
+                .Include(p => p.Pagina)
+                .Where(p => p is SubStory && p.Pagina.Count > 0)
+                .ToList()
+                .LastOrDefault()!;
                 result = retornarArray(fi);
                 setarCamadas(result);
             }
@@ -1095,6 +1087,8 @@ namespace BlazorCms.Client.Pages
             {
                 setarCamadas(null);
             }
+
+           
         }
 
         protected async Task DarUmLike()
@@ -1122,26 +1116,31 @@ namespace BlazorCms.Client.Pages
 
         protected void alterarQuery(ChangeEventArgs e)
         {
-            opcional = e.Value!.ToString()!;
-
-            try
+            if (!tellStory)
             {
-                var num = int.Parse(opcional);
-            }
-            catch (Exception ex)
-            {
-                foreach (var item in Model2.Pagina.Select(p => p.Content)
-                    .OfType<UserContent>().ToList())
+                opcional = e.Value!.ToString()!;
+                try
                 {
-                    var user = userManager.Users.First(u => u.Id == item.UserModelId);
-                    usuarios.Add(new UserPreferencesImage { user = user.UserName, UserModel = user });
+                    var num = int.Parse(opcional);
+                }
+                catch (Exception ex)
+                {
+                    foreach (var item in Model2.Pagina.Select(p => p.Content)
+                        .OfType<UserContent>().ToList())
+                    {
+                        var user = userManager.Users.First(u => u.Id == item.UserModelId);
+                        usuarios.Add(new UserPreferencesImage { user = user.UserName, UserModel = user });
+                    }
+
+                    if (string.IsNullOrEmpty(opcional))
+                    {
+                        usuarios.Clear();
+                    }
                 }
 
-                if (string.IsNullOrEmpty(opcional))
-                {
-                    usuarios.Clear();
-                }
             }
+            else opcional = indice.ToString();
+
         }
 
         protected void acessarVerso()
@@ -1285,6 +1284,11 @@ namespace BlazorCms.Client.Pages
                 var arr = retornarArray(fi);
                 setarCamadas(arr);
                 redirecionarParaVerso(int.Parse(opcional!));
+                string? story = await js.InvokeAsync<string>("contarHistoria", Model2.Nome);
+                if (story == "sim")
+                    tellStory = true;
+                else
+                    tellStory = false;
 
             }
 
@@ -1306,26 +1310,34 @@ namespace BlazorCms.Client.Pages
                     acessar();                   
                     return;
                 }
-                opcional = verso.ToString();
-                int indiceListaFiltrada = 0;
-                foreach (var item in list)
+                if (!tellStory)
                 {
-                    Pagina p = repositoryPagina!.Conteudo.OfType<Pagina>()!.First(p => p.Id == item.Id);
-                    if (int.Parse(opcional) == p.Versiculo)
+                    opcional = verso.ToString();
+                    int indiceListaFiltrada = 0;
+                    foreach (var item in list)
                     {
-                        indiceListaFiltrada = list.IndexOf(item) + 1;
-                        break;
+                        Pagina p = repositoryPagina!.Conteudo.OfType<Pagina>()!.First(p => p.Id == item.Id);
+                        if (int.Parse(opcional) == p.Versiculo)
+                        {
+                            indiceListaFiltrada = list.IndexOf(item) + 1;
+                            break;
+                        }
                     }
-                }
 
-                if (indiceListaFiltrada == 0)
-                {
-                    indiceListaFiltrada = indice;
-                    await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo {verso} na pasta {indice_Filtro}. O versiculo {verso} não é {Model2.Nome}.");
+                    if (indiceListaFiltrada == 0)
+                    {
+                        indiceListaFiltrada = indice;
+                        await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo {verso} na pasta {indice_Filtro}. O versiculo {verso} não é {Model2.Nome}.");
+                    }
+                    else
+                    {
+                        indice = indiceListaFiltrada;
+                        acessar();
+                    }
                 }
                 else
                 {
-                    indice = indiceListaFiltrada;
+                    indice = int.Parse(opcional);
                     acessar();
                 }
             }
@@ -1643,8 +1655,15 @@ namespace BlazorCms.Client.Pages
 
                 navigation!.NavigateTo(url);
             }
-            else            
-                navigation!.NavigateTo(url2);
+            else
+            {
+                try
+                {
+                     navigation!.NavigateTo(url2);
+                }
+                catch (Exception) { throw; }
+
+            }          
 
             
 

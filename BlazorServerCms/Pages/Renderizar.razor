@@ -136,9 +136,9 @@ else if(!repositoryPagina.erro)
                             }
                         }
 
-                        @if (substory == null)
+                        @if (substory == null || tellStory)
                         {
-                            <input data-2 type="number" placeholder="digita nome" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
+                            <input data-2 type="number" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
                             id="NumeroPaginaAcesso3" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
                             <center>
                                 <a id="acessoPaginaComInput2" onclick="@Pesquisar"
@@ -704,27 +704,18 @@ else if(!repositoryPagina.erro)
                             {
                                 <span class="TextoInformativo">Capitulo @indice de @quantidadeLista</span>
                             }
-                            else
-                            {
-                                if (outroHorizonte == 1 && cap != 0)
-                                {
-                                    <span class="TextoInformativo">Pasta @indice de @quantidadeLista</span>
+                            else if (!tellStory)
+                            {                              
+                                
+                                    if (outroHorizonte == 1 && cap != 0)
+                                    {
+                                        <span class="TextoInformativo">Pasta @indice de @quantidadeLista</span>
 
-                                }
-                                else if (outroHorizonte == 2 && cap != 0)
-                                {
-                                    <span class="TextoInformativo">Pergunta @indice de @quantidadeLista</span>
-
-                                }
-                                else if (outroHorizonte == 3 && cap != 0)
-                                {
-                                    <span class="TextoInformativo">Marcador @indice de @quantidadeLista</span>
-
-                                }
-                                else if (substory == null)
-                                {
-                                    <span class="TextoInformativo">Versiculo @indice de @quantidadeLista</span>
-                                }
+                                    }
+                                    else if (substory == null)
+                                    {
+                                        <span class="TextoInformativo">Versiculo @indice de @quantidadeLista</span>
+                                    }
 
                             }
                             if (outroHorizonte == 1)
@@ -739,6 +730,12 @@ else if(!repositoryPagina.erro)
                         }
 
                     </div>
+                                @if(tellStory)
+                                {
+                               
+                                        <span class="TextoInformativo">Item @indice de @quantidadeLista</span>
+                                    
+                                }
 
 
                     @{
@@ -827,9 +824,47 @@ else if(!repositoryPagina.erro)
                         
                         else if (substory != null)
                         {
-                            for (var i = 1; i <= quantidadeLista; i++)
+                            if(!tellStory)
                             {
-                                var condicao = indice == i;
+                                for (var i = 1; i <= quantidadeLista; i++)
+                                {
+                                    var condicao = indice == i;
+
+
+                                        <div class="DivPag@(classCss)" id="DivPagina@(indice)">
+                                            <div>
+                                                @if (Model != null && condicao)
+                                                {
+                                                    if (!Content)
+                                                    {
+                                                        <span data-first class="indice"> @vers</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="indice">0</span>
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="indices"> - </span>
+
+                                                }
+
+                                            </div>
+                                            <div class="barra">
+                                                -
+                                            </div>
+                                        </div>               
+
+                                }
+
+                            }
+                            else
+                            {
+                                for (var i = 1; i <= quantidadeLista; i++)
+                                {
+                                    var condicao = indice == i;
 
 
                                     <div class="DivPag@(classCss)" id="DivPagina@(indice)">
@@ -854,13 +889,13 @@ else if(!repositoryPagina.erro)
 
                                         </div>
                                         <div class="barra">
-                                            -
+                                            <span data-first class="indice"> @i</span>
                                         </div>
                                     </div>
 
-                                
-
+                                }
                             }
+
                         }
 
                     }

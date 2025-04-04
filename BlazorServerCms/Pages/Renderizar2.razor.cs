@@ -22,10 +22,11 @@ namespace BlazorCms.Client.Pages
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
-        public ClassArray Arr = new ClassArray();
+        public ClassArray Array = new ClassArray();
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private int? auto = 0;
+
         private int? indiceMarcador;
         private Story story = null;
         private string? title = null;
@@ -35,11 +36,14 @@ namespace BlazorCms.Client.Pages
         private Filtro fil4 = null;
         private Filtro fil5 = null;
 
+
         protected int indiceAcesso;
 
         private bool criptografar = false;
 
 
+        protected bool tellStory = true;
+        protected string placeholder = "";
         protected string preferencia = null;
         
         protected bool exemplo = false;
