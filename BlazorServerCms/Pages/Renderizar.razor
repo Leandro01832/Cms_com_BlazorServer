@@ -460,7 +460,7 @@ else if(!repositoryPagina.erro)
                             }
 
                             <input type="checkbox" id="data" name="data" @bind="Content" />
-                            Conteudo?
+                           Mais Conteudo?
                         </p>
 
                         <p>
@@ -732,8 +732,16 @@ else if(!repositoryPagina.erro)
                     </div>
                                 @if(tellStory)
                                 {
-                               
+                                    if(!Content)
+                                    {
                                         <span class="TextoInformativo">Item @indice de @quantidadeLista</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="TextoInformativo">Conteudo @indice de @quantidadeLista</span>
+
+                                    }
                                     
                                 }
 
@@ -767,7 +775,7 @@ else if(!repositoryPagina.erro)
                     }
                 </div>
 
-                <div class="DivPagina" style="background-color:white;">
+                <div class="@divPagina" style="background-color:white;">
                     @{
                         var padrao = " vermelho";
 
@@ -831,7 +839,7 @@ else if(!repositoryPagina.erro)
                                     var condicao = indice == i;
 
 
-                                        <div class="DivPag@(classCss)" id="DivPagina@(indice)">
+                                        <div class="@(DivPag) @(classCss)" id="DivPagina@(i)">
                                             <div>
                                                 @if (Model != null && condicao)
                                                 {
@@ -867,7 +875,7 @@ else if(!repositoryPagina.erro)
                                     var condicao = indice == i;
 
 
-                                    <div class="DivPag@(classCss)" id="DivPagina@(indice)">
+                                    <div class="@(DivPag) @(classCss)" id="DivPagina@(i)">
                                         <div>
                                             @if (Model != null && condicao)
                                             {
@@ -886,10 +894,10 @@ else if(!repositoryPagina.erro)
                                                 <span class="indices"> - </span>
 
                                             }
-
+                                        <div class="barra" style="background-color:darkgrey;">
+                                            <span  class="divisao"> @i</span>
                                         </div>
-                                        <div class="barra">
-                                            <span data-first class="indice"> @i</span>
+
                                         </div>
                                     </div>
 

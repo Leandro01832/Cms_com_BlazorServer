@@ -365,27 +365,29 @@
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
         dominio = repositoryPagina.buscarDominio();
-        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/0/0/0/{dominio}/{compartilhante}/user");
+        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/0/0/0/{dominio}/comp/0/0/0/0/0/0/0/0/0/0");
     }
 
     private async void buscar()
     {
-        if (marcar)
-        {
             string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario.");
-            string? url = null;
-            // Filtro[] fils = null;
             if (!string.IsNullOrEmpty(prompted))
             {
                 prompted = prompted.Replace(" ", "");
-                var us = Context.Users.FirstOrDefaultAsync(u => u.UserName == prompted);
+                var us = await Context.Users.FirstOrDefaultAsync(u => u.UserName == prompted);
                 if (us != null)
-                    compartilhante = prompted;
+                    compartilhante = us.HashUserName;
                 else
                     compartilhante = "comp";
             }
             else
                 compartilhante = "comp";
+       
+
+        if (marcar)
+        {
+            string? url = null;
+            // Filtro[] fils = null;
 
             if (Query[Query.Length - 1] == ',')
                 Query = Query.Replace(Query.Last().ToString(), "");
@@ -665,25 +667,25 @@
     {
         string url = null;
         if (camadadez != null)
-            url = $"/camada10/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada10/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (camadanove != null)
-            url = $"/camada9/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada9/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (camadaoito != null)
-            url = $"/camada8/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada8/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (camadasete != null)
-            url = $"/camada7/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada7/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (camadaseis != null)
-            url = $"/camada6/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada6/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (subsubgrupo != null)
-            url = $"/camada5/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada5/{story.Id}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (subgrupo != null)
-            url = $"/camada4/{story.Id}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada4/{story.Id}/{substory}/{grupo}/{subgrupo}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (grupo != null)
-            url = $"/camada3/{story.Id}/{substory}/{grupo}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada3/{story.Id}/{substory}/{grupo}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else if (substory != null)
-            url = $"/camada2/{story.Id}/{substory}/{verso}/0/11/1/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/camada2/{story.Id}/{substory}/{verso}/0/11/1/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         else
-            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/comp/comp/comp/comp/comp/comp/comp";
+            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         return url;
     }
 

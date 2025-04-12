@@ -35,7 +35,7 @@ namespace BlazorCms.Client.Pages
         private Filtro fil3 = null;
         private Filtro fil4 = null;
         private Filtro fil5 = null;
-
+        private bool alterouPasta = false;
 
         protected int indiceAcesso;
 
@@ -43,6 +43,7 @@ namespace BlazorCms.Client.Pages
 
 
         protected bool tellStory = true;
+        protected string divPagina = "";
         protected string placeholder = "";
         protected string preferencia = null;
         
@@ -54,6 +55,7 @@ namespace BlazorCms.Client.Pages
         protected int padroes = 0;
         protected bool erro = false;
         protected string classCss = "";
+        protected string DivPag = "";
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
@@ -124,9 +126,7 @@ namespace BlazorCms.Client.Pages
             get 
             { 
                 var user = repositoryPagina.UserModel
-                .FirstOrDefault(u => u.HashUserName != null &&
-                u.HashUserName == compartilhou &&
-                Decrypt(u.HashUserName, u.UserName));
+                .FirstOrDefault(u => u.HashUserName == compartilhou);
 
                     if (!criptografar)
                     {
@@ -140,16 +140,7 @@ namespace BlazorCms.Client.Pages
             }
             set
             {
-                var user = repositoryPagina.UserModel
-                .FirstOrDefault(u => u.UserName == value);
-                if (user != null && user.HashUserName == null)
-                {
-                    compartilhou = Encrypt(user.UserName);
-                    user.HashUserName = compartilhou;
-                    Context.Update(user);
-                }
-                else if (user != null) compartilhou = user.HashUserName;
-                else compartilhou = "comp";
+                compartilhou = value;
             }
         }
 

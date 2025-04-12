@@ -8,7 +8,7 @@ namespace business.business
     {
         public UserModel()
         {
-            
+
         }
 
 
@@ -61,5 +61,7 @@ namespace business.business
             if (this.PageLiked == null) this.PageLiked = new List<UserModelContent>();
             this.PageLiked!.Add(new UserModelContent { Content = page, UserModel = this });
         }
+
+       
     }
 }

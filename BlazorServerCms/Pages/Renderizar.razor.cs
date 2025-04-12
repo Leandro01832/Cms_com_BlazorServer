@@ -1155,7 +1155,6 @@ namespace BlazorCms.Client.Pages
         protected async void redirecionarMarcar()
         {
             int camada = repositoryPagina.buscarCamada();
-            string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario (Opcional).");
             List<Filtro> fils = null;
             Filtro fi = null;
 
@@ -1165,11 +1164,11 @@ namespace BlazorCms.Client.Pages
                 {
                     opcional = vers.ToString();
                 }
-                if (string.IsNullOrEmpty(prompted))
+                if (compartilhou == "comp")
                     fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
             else
             {
-                var usu = Context.Users.FirstOrDefault(u => u.UserName == prompted);
+                var usu = Context.Users.FirstOrDefault(u => u.UserName == compartilhou);
                 fils = repositoryPagina.retornarMarcadores(usu, story!).OrderBy(f => f.Id).ToList();
             }
 
@@ -1273,9 +1272,9 @@ namespace BlazorCms.Client.Pages
 
             if (fi == null)
             {
-                if(fi is null && !string.IsNullOrEmpty(prompted))
+                if(fi is null && compartilhou != "comp")
                 await js!.InvokeAsync<object>("DarAlert",
-                    $"A pasta do usuario {prompted} não pussui este verso!!!");
+                    $"A pasta do usuario {compartilhou} não pussui este verso!!!");
                   else
                 await js!.InvokeAsync<object>("DarAlert", "Marque um versiculo que esta em uma pasta!!!");
             }
@@ -1284,12 +1283,8 @@ namespace BlazorCms.Client.Pages
                 var arr = retornarArray(fi);
                 setarCamadas(arr);
                 redirecionarParaVerso(int.Parse(opcional!));
-                string? story = await js.InvokeAsync<string>("contarHistoria", Model2.Nome);
-                if (story == "sim")
-                    tellStory = true;
-                else
-                    tellStory = false;
 
+                
             }
 
 
@@ -1617,7 +1612,7 @@ namespace BlazorCms.Client.Pages
             if (url2 != null) Auto = 0;
 
             if(url2 == null)
-            {           
+            {
 
                 if (Content && conteudo == 0) indice = 1;
 

@@ -21,7 +21,7 @@ namespace BlazorServerCms.servicos
 
         public bool erro = false;
 
-        public int QuantMinutos { get; set; } = 10;
+        public int QuantMinutos { get; set; } = 30;
 
         public int dias { get; set; } = 1;  
         public int meta1 { get; set; } = 1;  

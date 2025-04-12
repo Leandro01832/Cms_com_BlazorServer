@@ -104,6 +104,11 @@ p {
     color: red;
 }
 
+.divisao {
+    font-size: 0.6rem !important;
+    color: darkblue;
+}
+
 .barra {
     height: 5px;
     background-color: black;
@@ -138,6 +143,17 @@ Informativo {
 }
 
 .DivPagina {
+    height: 40px;
+    opacity: 0.90;
+    margin: 6px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.DivPagina2 {
     height: 50px;
     opacity: 0.90;
     margin: 6px;
@@ -153,6 +169,18 @@ Informativo {
     height: 20px;
     opacity: 0.90;
     margin: 6px;
+    display: flex;
+    border-radius: 30px;
+    flex-direction: column;
+    background-color:white;
+}
+
+.DivPag2 {
+    width: 35px;
+    height: 20px;
+    opacity: 0.90;
+    margin: 6px;
+    margin-bottom: 15px;
     display: flex;
     border-radius: 30px;
     flex-direction: column;

@@ -50,6 +50,9 @@ namespace BlazorCms.Client.Pages
 
             }
 
+            if (substory != null)
+                alterouPasta = true;
+
             Model = new Pagina
             {
                 Story = new Story(),
@@ -59,6 +62,7 @@ namespace BlazorCms.Client.Pages
             Auto = 0;
             timeproduto = 11;
 
+            if (compartilhou == null) compartilhou = "comp";
             if (Compartilhante == null)
             {
                 
@@ -353,7 +357,7 @@ namespace BlazorCms.Client.Pages
 
                     fi = fils[indiceFiltro - 1];
 
-                    var arr = retornarArray(fi);
+                    var arr =  retornarArray(fi);
                     indice = 1;
 
                     setarCamadas(arr);
@@ -397,13 +401,43 @@ namespace BlazorCms.Client.Pages
             {
                 Console.WriteLine(ex.Message);
             }
+
+                if (alterouPasta)
+                {
+                    try
+                    {
+                        string? str = await js.InvokeAsync<string>("contarHistoria", Model2.Nome);
+
+                        if (str == "sim")
+                            tellStory = true;
+                        else
+                            tellStory = false;
+                        alterouPasta = false;
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine("Erro na mensaegem contar historia: " + ex.Message);
+                    }
+                }
+
             try
             {
-                if (indice > quantidadeLista)
-                    await js!.InvokeAsync<object>("MarcarIndice", "1");
-                else
-                    await js!.InvokeAsync<object>("MarcarIndice", $"{indice}");                   
+                if (!tellStory)
+                {
 
+                    if (indice > quantidadeLista)
+                        await js!.InvokeAsync<object>("MarcarIndice", "1");
+                    else
+                        await js!.InvokeAsync<object>("MarcarIndice", $"{indice}");                   
+                }
+                else
+                {
+                    if (indice > quantidadeLista)
+                        await js!.InvokeAsync<object>("MarcarIndice2", "1");
+                    else
+                        await js!.InvokeAsync<object>("MarcarIndice2", $"{indice}");
+                }
             }
             catch (Exception ex)
             {
@@ -450,6 +484,13 @@ namespace BlazorCms.Client.Pages
 
             if (!tellStory) placeholder = "digita nome";
             else placeholder = "Nº do item";
+            
+            if (!tellStory) divPagina = "DivPagina";
+            else divPagina = "DivPagina2";
+            
+            if (!tellStory) DivPag = "DivPag";
+            else DivPag = "DivPag2";
+
 
             quantLiked = CountLikes(ApplicationDbContext._connectionString);
         }
@@ -466,7 +507,8 @@ namespace BlazorCms.Client.Pages
                 camadasete = arr[6];
                 camadaoito = arr[7];
                 camadanove = arr[8];
-                camadadez = arr[9];                
+                camadadez = arr[9];
+                alterouPasta = true;
             }
             else
             {
@@ -480,9 +522,10 @@ namespace BlazorCms.Client.Pages
                 camadanove = null;
                 camadadez = null;
             }
+            
         }
 
-        private int?[] retornarArray(Filtro fi)
+        private  int?[] retornarArray(Filtro fi)
         {
             
             int?[] arr = null;
@@ -504,8 +547,8 @@ namespace BlazorCms.Client.Pages
                 arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1, 1);
             else if (fi is SubStory)
                 arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, story.PaginaPadraoLink, 1);
-            
 
+            
 
 
             return arr;
@@ -1104,7 +1147,6 @@ namespace BlazorCms.Client.Pages
 
         private void adicionarPontos()
         {
-
             int pts = 0;
             int multiplicador = 1;
             Filtro[] fils = new Filtro[6];

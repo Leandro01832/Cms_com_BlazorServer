@@ -114,7 +114,12 @@ using (var scope = app.Services.CreateScope())
 
     if (userASP == null)
     {
-        var user = new UserModel() { UserName = "leandro01832", Email = email, EmailConfirmed = true };
+        var user = new UserModel() 
+        { 
+            UserName = "leandro01832",
+            Email = email, EmailConfirmed = true,
+            HashUserName = BCrypt.Net.BCrypt.HashPassword("leandro01832")
+        };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
     }   

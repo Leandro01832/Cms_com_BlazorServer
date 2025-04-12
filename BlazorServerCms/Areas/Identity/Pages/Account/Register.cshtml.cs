@@ -121,6 +121,7 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.Email = Input.Email;
                 user.UserName = Input.User.Replace(" ", "").ToLower();
+                user.HashUserName = Encrypt(user.UserName);
                 user.EmailConfirmed = true;
                 await _userStore.SetUserNameAsync(user, Input.User, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -185,6 +186,18 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
                     $"Ensure that '{nameof(UserModel)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
+        }
+
+        private string Encrypt(string plainText)
+        {
+
+            string Hasheada = BCrypt.Net.BCrypt.HashPassword(plainText);
+
+            if (!Hasheada.Contains("/"))
+                return Hasheada;
+            else return Encrypt(plainText);
+
+
         }
 
         private IUserEmailStore<UserModel> GetEmailStore()
