@@ -147,6 +147,12 @@ namespace BlazorCms.Client.Pages
         {
             Auto = Convert.ToInt32(!automatico);
         }
+        
+        protected async void ativarConteudo()
+        {
+            if(indice == 1 && tellStory)
+            await js!.InvokeAsync<object>("DarAlert", "Conteudo só podera ser compartilhado quando a pessoa souber qual é a pasta");
+        }
 
         private void desabilitarAuto()
         {
@@ -1149,6 +1155,13 @@ namespace BlazorCms.Client.Pages
             setarCamadas(null);
             indice = (int) vers!;
             ultimaPasta = false;
+            acessar();
+        }
+
+        protected async void desabilitarTellStory()
+        {
+            tellStory = false;
+            await js!.InvokeAsync<object>("DarAlert", $"A contagem e divisão da história {Model2.Nome} foi desativada!!!");
             acessar();
         }
 

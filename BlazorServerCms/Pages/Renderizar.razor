@@ -73,6 +73,7 @@ else if(!repositoryPagina.erro)
                         }
                         else
                         {
+                            
                             if (rotas != null)
                             {
                                 <PageTitle>@rotas</PageTitle>
@@ -85,28 +86,55 @@ else if(!repositoryPagina.erro)
                             {
                                 <PageTitle>@nameGroup</PageTitle>
                                 <div class="capHeader">
-                                    <p class="capitulos"> <header>@nameGroup</header></p>
+                                    <p class="capitulos"> 
+                                    <header>@nameGroup </header>
+                                        @if (tellStory)
+                                        {
+                                            <b> - Capitulo @cap</b>
+                                        }
+                                    </p>
                                 </div>
                             }
                             else
                             {
                                 <PageTitle> Livro @indiceLivro - @nameGroup</PageTitle>
                                 <div class="capHeader">
-                                    <p class="capitulos"> <header>@nameGroup</header></p>
+                                    <p class="capitulos"> 
+                                    <header>@nameGroup </header>
+                                        @if (tellStory)
+                                        {
+                                            <span> - Capitulo @cap</span>
+                                        }
+                                    </p>
                                 </div>
                             }
+                            
                             @if (Model is Pagina || Model is UserContent && mudanca)
                             {
-                                <div class="capSubstory">
-                                    <span class="capitulos">
-                                        Capítulo @cap
-                                    </span>
-                                    <span class="versos">
-                                        <a onclick="@(() => acessarVerso())" class="btn btn-primary">
-                                            Versiculo @vers
-                                        </a>
-                                    </span>
-                                </div>
+                                if(!tellStory)
+                                {
+                                    <div class="capSubstory">
+                                        <span class="capitulos">
+                                            Capítulo @cap
+                                        </span>
+                                        <span class="versos">
+                                            <a onclick="@(() => acessarVerso())" class="btn btn-primary">
+                                                Versiculo @vers
+                                            </a>
+                                        </span>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="capSubstory">
+                                        <span >
+                                            <a onclick="@(() => desabilitarTellStory())" class="btn btn-primary versos">
+                                                   Verso @vers
+                                            </a>
+                                        </span>
+                                    </div>
+                                }
 
                             }
 
@@ -138,16 +166,33 @@ else if(!repositoryPagina.erro)
 
                         @if (substory == null || tellStory)
                         {
-                            <input data-2 type="number" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
-                            id="NumeroPaginaAcesso3" min="1" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
-                            <center>
-                                <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                                class="btn btn-primary ms-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                    </svg>
-                                </a>
-                            </center>
+                            if(tellStory)
+                            {
+                                <input data-2 type="number" class="tellStory" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
+                                       id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
+                                <center>
+                                    <a id="acessoPaginaComInput2" onclick="@Pesquisar"
+                                    class="btn btn-primary ms-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </a>
+                                </center>
+
+                            }
+                            else
+                            {
+                                <input data-2 type="number" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
+                                       id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
+                                <center>
+                                    <a id="acessoPaginaComInput2" onclick="@Pesquisar"
+                                    class="btn btn-primary ms-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </a>
+                                </center>
+                            }
                         }
                         else
                         {
@@ -193,7 +238,6 @@ else if(!repositoryPagina.erro)
 
                 }
 
-
                 @if (outroHorizonte == 0 && nameStory != "Padrao" && Model != null && Model!.Filtro! != null && Model!.Filtro!.Count != 0)
                 {
                     <div>
@@ -215,9 +259,6 @@ else if(!repositoryPagina.erro)
 
                     </div>
                 }
-
-
-
 
                 @if (cap != 0 && outroHorizonte == 0)
                 {
@@ -265,8 +306,6 @@ else if(!repositoryPagina.erro)
                     </div>
                 }
 
-
-
             </div>
 
 
@@ -275,7 +314,9 @@ else if(!repositoryPagina.erro)
         <br />
         <br />
 
-        <div class="share">
+        @if(!tellStory)
+        {
+            <div class="share">
 
             <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
@@ -297,6 +338,9 @@ else if(!repositoryPagina.erro)
 
 
         </div>
+
+        }
+
 
         <GuidedTour TourId="FormGuidedTour1" OverlayEnabled="true">
             <GuidedTourStep Title="Acessar story" StepName="firstStep" TourStepSequence="1"
@@ -459,13 +503,16 @@ else if(!repositoryPagina.erro)
 
                             }
 
-                            <input type="checkbox" id="data" name="data" @bind="Content" />
-                           Mais Conteudo?
+                            <input type="checkbox" id="data" name="data" @bind="Content" onclick="@ativarConteudo" />
+                            <a href="/conteudo">Mais Conteudo?</a>
                         </p>
 
-                        <p>
-                            <h5> <a href="#" onclick="@acessarItem">1º item</a>  </h5>
-                        </p>
+                        @if(!tellStory)
+                        {
+                            <p>
+                                <h5> <a  onclick="@acessarItem">1º item</a>  </h5>
+                            </p>
+                        }
 
                     }
                 </div>
