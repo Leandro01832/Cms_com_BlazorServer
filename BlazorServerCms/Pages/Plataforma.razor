@@ -1,4 +1,5 @@
 ﻿@page "/plataformas"
+@inject RepositoryPagina repositoryPagina
 
 <PageTitle> Plataformas </PageTitle>
 <h3>Canal de youtube</h3>
@@ -6,7 +7,7 @@
 <div id="youtube" class="col-md-12">  
 
     <p> <a href="https://www.youtube.com/" target="_blank">Meu canal do youtube: instagleo</a> </p>
-    
+
 </div>
 
 <h3>Redes sociais</h3>
@@ -15,8 +16,14 @@
 
     <p> <a href="https://www.facebook.com/leandroprogramador" target="_blank">Facebook</a> </p>
     <p> <a href="https://www.instagram.com/leandromaraca/" target="_blank">Instagram</a> </p>
-    
+
 
 </div>
 
+@code{
+    protected override void OnInitialized()
+    {
+        repositoryPagina.exibir = true;
+    }
+}
 

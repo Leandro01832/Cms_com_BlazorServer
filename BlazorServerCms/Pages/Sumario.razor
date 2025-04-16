@@ -1,4 +1,6 @@
 ﻿@page "/sumario"
+@inject RepositoryPagina repositoryPagina
+
 <PageTitle>Sumário</PageTitle>
 <h3>Sumário</h3>
 
@@ -30,6 +32,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        repositoryPagina.exibir = true;
         Context = db.CreateDbContext(null);
         stories = await Context.Story!.Where(str => str.Nome != "Padrao").ToListAsync();
     }

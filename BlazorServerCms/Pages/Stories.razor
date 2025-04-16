@@ -1,0 +1,350 @@
+﻿@page "/{user}"
+@inject RepositoryPagina repositoryPagina
+@inject NavigationManager navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime js
+
+<div class="conntainer">
+
+    <header>
+
+        <div class="container">
+            <br />
+            <br />
+            <div class="foto">
+                <div class="imagem">
+                    <div>
+                        <div>
+                            <div role="button" tabindex="0">
+                                <div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div>
+                                                    <div>
+                                                        Nota...
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span aria-describedby="«ra»">
+                                    <div>
+                                        <div>
+                                            <div class="circulo">
+                                                <div class="circulo2">
+                                                    @if (usermodel != null && usermodel.Image != null)
+                                                    {
+                                                        <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser" >
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="ImgUser/padrao.jpg" class="ImgUser" >
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="user">
+
+                    <div>
+                        <div>
+                            <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
+                                <h2 dir="auto" style="----base-line-clamp-line-height: 25px; --lineHeight: 25px;">
+                                    <span>
+                                        @user
+                                    </span>
+                                </h2>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>
+                                <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
+                                    Editar perfil
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="info">
+                <div class="informacao">
+                    <div>
+                        <div>
+                            <span dir="auto" style="----base-line-clamp-line-height: 18px; --lineHeight: 18px;">
+                                Leandro Luis
+                            </span>
+                        </div>
+
+                        <div>
+                            <div dir="auto">
+                                Produto/serviço
+                            </div>
+                        </div>
+                        <span dir="auto">
+                            <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
+                                <span dir="auto">
+                                    https://www.instagleo.net.br
+                                </span>
+                            </div>
+                        </span>
+                        <h1 dir="auto">
+                        </h1>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <br />
+
+
+        @if (stories.Count > 39)
+        {
+            <div class="carousel-item">
+            </div>
+            <div class="stories">
+
+                <div id="carouselIndicators" bs-pause="false">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+
+                        @for (var i = 0; i < array.Length; i++)
+                        {
+                            @if (i == 0)
+                            {
+
+                                <div class="carousel-item ativo">
+
+                                    @foreach (var item in array[i])
+                                    {
+
+                                        <div class="story">
+                                            <h6>
+                                                <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}/0/0/0/0/0/0/0/0/0/0"))">
+                                                    <div class="desc">
+                                                        <p >Story</p>
+                                                        <p > @item.Nome</p>
+                                                    </div>
+                                                    <div class="circulo">
+                                                        <div class="circulo2">
+                                                            @if (repositoryPagina!.stories!.Skip(1).ToList()[0].Image != null)
+                                                            {
+                                                                <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
+
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <p > Cap. @item.PaginaPadraoLink</p>
+                                                </a>
+                                            </h6>
+                                        </div>
+
+                                    }
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item">
+
+                                    @foreach (var item in array[i])
+                                    {
+
+                                        <div class="story">
+                                            <h6>
+                                                <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}/0/0/0/0/0/0/0/0/0/0"))">
+                                                    <div class="desc">
+                                                        <p >Story</p>
+                                                        <p > @item.Nome</p>
+                                                    </div>
+                                                    <div class="circulo">
+                                                        <div class="circulo2">
+                                                            @if (repositoryPagina!.stories!.Skip(1).ToList()[0].Image != null)
+                                                            {
+                                                                <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
+
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <p > Cap. @item.PaginaPadraoLink</p>
+                                                </a>
+                                            </h6>
+                                        </div>
+
+                                    }
+
+                                </div>
+                            }
+
+
+                        }
+
+                    </div>
+                    <a class="carousel-control-prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a class="carousel-control-next btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                </div>
+
+            </div>
+
+        }
+
+        <section>
+        </section>
+    </header>
+
+</div>
+
+<div class="listas" role="tablist">
+    <a aria-selected="true" class="" href="/@user/" role="tab" tabindex="0">
+        <div class="">
+            <svg aria-label="" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
+                <title></title>
+                <rect fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="18" x="3" y="3">
+                </rect>
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="9.015" x2="9.015" y1="3" y2="21">
+                </line>
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="14.985" x2="14.985" y1="3" y2="21">
+                </line>
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="9.015" y2="9.015">
+                </line>
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="14.985" y2="14.985">
+                </line> 
+            </svg>
+            <span class="">
+                Publicações
+            </span>
+        </div>
+    </a>
+    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/reels/" role="tab" tabindex="0">
+        <div class="">
+            <svg aria-label="" class="" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
+                <title></title>
+                <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95" y1="7.002" y2="7.002">
+                </line>
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="13.504" x2="16.362" y1="2.001" y2="7.002">
+                </line>
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.207" x2="10.002" y1="2.11" y2="7.002">
+                </line>
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                </path>
+                <path fill-rule="evenodd"></path> 
+            </svg><span class="">
+                Reels
+            </span>
+        </div>
+    </a>
+    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/saved/" role="tab" tabindex="0">
+        <div class="">
+            <svg aria-label="" class="" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
+                <title></title>
+                <polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+
+                </polygon>
+            </svg>
+            <span class="">
+                Salvos
+            </span>
+        </div>
+    </a>
+    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/tagged/" role="tab" tabindex="0">
+        <div class="">
+            <svg aria-label="" class="" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
+                <title></title>
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+
+                </path>
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+
+                </path>
+                <circle cx="12.072" cy="11.075" fill="none" r="3.556" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+
+                </circle>
+            </svg> 
+            <span class="">
+                Marcados
+            </span>
+        </div>
+    </a>
+</div>
+
+
+@code 
+{
+
+    [Parameter] public string user { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    List<Story> stories = new List<Story>();
+    private ClaimsPrincipal usuario;
+    private UserModel usermodel;
+    private int lacos = 0;
+    private int itens = 6;
+    List<Story>[] array;
+
+    protected override async Task OnInitializedAsync()
+    {
+        repositoryPagina.exibir = false;
+        Context = db.CreateDbContext(null);
+        if (stories.Count == 0)
+        {
+            stories = await Context.Story!
+            .Include(p => p.Filtro)!
+            .ThenInclude(p => p.Pagina)!
+            .ThenInclude(p => p.Content)
+            .OrderBy(st => st.Id).ToListAsync();
+            repositoryPagina.stories.Clear();
+
+            repositoryPagina.stories.AddRange(stories);
+            lacos = stories.Count / itens;
+            var resto = stories.Count % itens;
+            if (resto != 0) lacos++;
+            array = new List<Story>[lacos];
+            var lista = stories.Skip(1).ToList();
+
+            for (var i = 0; i < array.Length; i++)
+            {
+                array[i] = new List<Story>();
+                array[i].AddRange(lista.Skip(itens * i).Take(itens).ToList());
+            }
+
+        }
+
+        usermodel = await Context.Users
+        .Include(u => u.Pastas)!
+        .Include(u => u.PastaSalvas)!
+        .ThenInclude(u => u.PastaSalva)!
+        .FirstOrDefaultAsync(u => u.UserName == user)!;
+
+        var authState = await AuthenticationStateProvider
+             .GetAuthenticationStateAsync();
+        usuario = authState.User;
+
+        // marcadores = repositoryPagina.retornarMarcadores(usermodel, story);
+    }
+}

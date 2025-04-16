@@ -14,12 +14,14 @@ namespace BlazorServerCms.servicos
 {
     public class RepositoryPagina 
     {
+
         public IConfiguration Configuration { get; }
         public  HttpClient Http { get; }
 
         public Random random = new Random();
 
         public bool erro = false;
+        public bool exibir = true;
 
         public int QuantMinutos { get; set; } = 30;
 

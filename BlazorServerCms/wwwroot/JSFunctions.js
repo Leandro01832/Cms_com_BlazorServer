@@ -405,3 +405,40 @@ window.contarHistoria = (story) => {
     return prompt("Digite 'sim' se você deseja contar e dividir esta história: " + story + ". Atenção!!! Item só poderá ser compartilhado quando a pessoa já souber qual é a pasta.");
 
 }
+
+window.proximoSlide = () =>
+{
+    var slid = document.querySelectorAll('.carousel-item');
+    var slide = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
+   
+    
+    var slides = document.getElementsByClassName("carousel-item");
+    if (slide != slides.length - 1) {
+        slides[slide].classList.remove("ativo");
+        slides[slide + 1].classList.add("ativo");
+
+    }
+    else
+    {
+        slides[slide].classList.remove("ativo");
+        slides[1].classList.add("ativo");
+    }
+}
+
+window.slideAnterior = () => {
+    var slid = document.querySelectorAll('.carousel-item');
+    var slide = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
+    
+
+    var slides = document.getElementsByClassName("carousel-item");
+    if (slide != 1) {
+        slides[slide].classList.remove("ativo");
+        slides[slide - 1].classList.add("ativo");
+    }
+    else
+    {
+        slides[slide].classList.remove("ativo");
+        slides[slides.length - 1].classList.add("ativo");
+    }
+}
+

@@ -1,0 +1,136 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+.circulo 
+{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.circulo2 
+{
+    width: 75px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.stories
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+
+
+.foto
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.user
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+
+
+
+
+.info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#carouselIndicators{
+    width: 100%;
+    height: 150px;
+}
+
+.carousel-item {
+    display: none;
+}
+
+.ativo {
+    display: flex;
+    justify-content: center; /* Centraliza os itens */
+    align-items: center; /* Alinha verticalmente */
+    gap: 10px; /* Espaçamento entre os itens */
+}
+
+
+
+.story
+{
+    width: 20%;
+}
+
+.desc{
+    height:40px;
+    font-size: 12px;
+}
+
+.carousel-control-prev {
+    height: 5%;
+    width: 5%;
+    top: 50%;
+    background-color: black;
+    position: fixed;
+}
+
+.carousel-control-next {
+    height: 5%;
+    width: 5%;
+    top: 50%;
+    background-color: black;
+    position: fixed;
+}
+
+.listas {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.ImgUser {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}
+
+
+@media (max-width: 1550px) and (min-width: 550px) {
+    .carousel-control-prev {
+        height: 5%;
+        width: 5%;
+        left: 20%;
+        top: 50%;
+        background-color: black;
+        position: fixed;
+    }
+ 
+}
+

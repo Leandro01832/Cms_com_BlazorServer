@@ -88,6 +88,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        repositoryPagina.exibir = true;
         Context = db.CreateDbContext(null);
         indiceFiltro = 0;
         capitulo = 1;

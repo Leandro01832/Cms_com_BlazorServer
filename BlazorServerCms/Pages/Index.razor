@@ -298,6 +298,7 @@
         var quant = await userManager.Users.ToListAsync();
         users = quant.Count;
 
+        repositoryPagina.exibir = true;
 
         if (story == null)
         {

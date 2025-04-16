@@ -224,6 +224,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        repositoryPagina.exibir = true;
         Context = db.CreateDbContext(null);      
 
         if(user == null)
