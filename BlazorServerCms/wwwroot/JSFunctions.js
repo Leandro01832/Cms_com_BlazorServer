@@ -431,7 +431,7 @@ window.slideAnterior = () => {
     
 
     var slides = document.getElementsByClassName("carousel-item");
-    if (slide != 1) {
+    if (slide != 0) {
         slides[slide].classList.remove("ativo");
         slides[slide - 1].classList.add("ativo");
     }

@@ -3,6 +3,48 @@
     margin: 0;
 }
 
+.circuloNewStory {
+    width: 165px;
+    height: 165px;
+    border-radius: 50%;
+    background: #dc12e3;
+    background: linear-gradient(225deg, rgba(220, 18, 227, 1) 50%, rgba(240, 130, 12, 1) 70%, rgba(240, 217, 10, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circulo3 {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background-color: darkgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circulo4 
+{
+    width: 158px;
+    height: 158px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.circulo5 {
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: darkgray;
+}
+
 .circulo 
 {
     width: 80px;
@@ -12,13 +54,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
 }
 
 .circulo2 
 {
     width: 75px;
-    height: 70px;
+    height: 75px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -36,12 +78,16 @@
 
 
 
-.foto
-{
+.foto {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    gap: 200px;
+}
+
+.info {
+    align-content:flex-start;
 }
 
 .user
@@ -49,19 +95,21 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
-
-
-
-
-.info {
+.dados {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 20px;
 }
+
+
+
+
+
 
 #carouselIndicators{
     width: 100%;
@@ -116,8 +164,8 @@
 }
 
 .ImgUser {
-    width: 140px;
-    height: 140px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
 }
 

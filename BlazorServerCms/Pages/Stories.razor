@@ -11,103 +11,118 @@
         <div class="container">
             <br />
             <br />
-            <div class="foto">
-                <div class="imagem">
+            <div class="user">
+
+                <div>
+                    <div>
+                        <a href="/@user/#">
+                            <h2 dir="auto" style="----base-line-clamp-line-height: 25px; --lineHeight: 25px;">
+                                <span>
+                                    @user
+                                </span>
+                            </h2>
+                        </a>
+                    </div>
+                </div>
+                <div>
                     <div>
                         <div>
-                            <div role="button" tabindex="0">
-                                <div>
+                            <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
+                                Editar perfil
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="dados">
+
+                <div>Publicações </div>
+                <div>Seguidores</div>
+                <div>Seguindo</div>
+
+            </div>
+
+            <div class="foto">
+                <div class="img">
+                    <div class="imagem">
+                        <div>
+                            <div>
+                                <div @* role="button" tabindex="1" *@>
                                     <div>
                                         <div>
                                             <div>
                                                 <div>
                                                     <div>
-                                                        Nota...
+                                                        <div>
+                                                            Nota...
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div>
-                                <span aria-describedby="«ra»">
-                                    <div>
+                                <div>
+                                    <span aria-describedby="«ra»">
                                         <div>
-                                            <div class="circulo">
-                                                <div class="circulo2">
-                                                    @if (usermodel != null && usermodel.Image != null)
-                                                    {
-                                                        <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser" >
-                                                    }
-                                                    else
-                                                    {
-                                                        <img src="ImgUser/padrao.jpg" class="ImgUser" >
+                                            <div class="@classCircle">
+                                                <div class="circulo4">
+                                                    <div class="circulo5">
+                                                        @if (usermodel != null && usermodel.Image != null)
+                                                        {
+                                                            <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser" >
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="ImgUser/padrao.jpg" class="ImgUser" >
 
-                                                    }
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="user">
 
-                    <div>
-                        <div>
-                            <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
-                                <h2 dir="auto" style="----base-line-clamp-line-height: 25px; --lineHeight: 25px;">
-                                    <span>
-                                        @user
-                                    </span>
-                                </h2>
-                            </a>
-                        </div>
-                    </div>
-                    <div>
+
+                </div>
+
+                <div class="info">
+                    <div class="informacao">
                         <div>
                             <div>
-                                <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
-                                    Editar perfil
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="info">
-                <div class="informacao">
-                    <div>
-                        <div>
-                            <span dir="auto" style="----base-line-clamp-line-height: 18px; --lineHeight: 18px;">
-                                Leandro Luis
-                            </span>
-                        </div>
-
-                        <div>
-                            <div dir="auto">
-                                Produto/serviço
-                            </div>
-                        </div>
-                        <span dir="auto">
-                            <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
-                                <span dir="auto">
-                                    https://www.instagleo.net.br
+                                <span dir="auto" style="----base-line-clamp-line-height: 18px; --lineHeight: 18px;">
+                                    Leandro Luis
                                 </span>
                             </div>
-                        </span>
-                        <h1 dir="auto">
-                        </h1>
+
+                            <div>
+                                <div dir="auto">
+                                    Produto/serviço
+                                </div>
+                            </div>
+                            <span dir="auto">
+                                <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
+                                    <span dir="auto">
+                                        https://www.instagleo.net.br
+                                    </span>
+                                </div>
+                            </span>
+                            <h1 dir="auto">
+                            </h1>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
+
 
         </div>
 
@@ -116,8 +131,8 @@
 
         @if (stories.Count > 39)
         {
-            <div class="carousel-item">
-            </div>
+            @*  <div class="carousel-item">
+            </div> *@
             <div class="stories">
 
                 <div id="carouselIndicators" bs-pause="false">
@@ -305,10 +320,15 @@
     private UserModel usermodel;
     private int lacos = 0;
     private int itens = 6;
+    private bool newStory = true;
+    private string classCircle = "";
     List<Story>[] array;
 
     protected override async Task OnInitializedAsync()
     {
+        if (newStory) classCircle = "circuloNewStory";
+        else classCircle = "circulo3";
+
         repositoryPagina.exibir = false;
         Context = db.CreateDbContext(null);
         if (stories.Count == 0)
