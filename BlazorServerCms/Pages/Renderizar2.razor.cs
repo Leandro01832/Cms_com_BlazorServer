@@ -20,7 +20,7 @@ namespace BlazorCms.Client.Pages
         [Inject] UserManager<UserModel> userManager { get; set; }
         [Inject] HttpClient? Http { get; set; }
         [Inject] BlazorTimer? Timer { get; set; }
-        [Inject] IJSRuntime? js { get; set; }
+        [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         public ClassArray Array = new ClassArray();
         private DemoContextFactory db = new DemoContextFactory();
@@ -41,7 +41,9 @@ namespace BlazorCms.Client.Pages
 
         private bool criptografar = false;
 
-
+        protected int slideAtual = 0;
+        protected List<Content>[] array;
+        private List<Content> listaContent = new List<Content>();
         protected bool tellStory = true;
         protected string divPagina = "";
         protected string placeholder = "";
@@ -75,7 +77,7 @@ namespace BlazorCms.Client.Pages
         protected string? nameStory { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
         protected int? VersoComentario { get; set; } = null;        
-        protected long quantidadeLista { get; set; } = 0;
+        protected int quantidadeLista { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
          protected bool condicaoFiltro { get; set; } = false;
                

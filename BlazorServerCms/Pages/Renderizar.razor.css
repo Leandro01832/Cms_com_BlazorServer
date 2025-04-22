@@ -11,9 +11,40 @@
     font-size: larger;
 }
 
-.content {
-    height: 700px;
-    display : flex;
+.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+.container
+{
+    min-height: 670px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.menu
+{
+    width: 100%;
+    height: 110px;
+}
+
+.pesquisas 
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.header
+{
+    align-self: flex-start;
+
 }
 
 span {
@@ -133,19 +164,22 @@ p {
 }
 
 
-
+.render {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 .Paginacao {
-    position: fixed;
-    bottom: 1%;
-    right: 1%;
     width: 100%;
     height: 120px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     opacity: 0.90;
-    justify-content: center;
+    align-self: flex-end;
 }
 
 Informativo {
@@ -240,19 +274,47 @@ Informativo {
         width: 1%;
     }
 
-.carousel-control-prev{
-    height: 50%;
-    top: 30%;
-    background-color: black;
-    position:fixed;
-    
+#carouselIndicators {
+    width: 100%;
+    height: 100%;
 }
 
-.carousel-control-next {
-    height: 50%;
-    top: 30%;
-    background-color: black;
-    position: fixed;
+.carousel-item {
+    display: none;
+}
+
+.ativo {
+    display: flex;
+    justify-content: center; /* Centraliza os itens */
+    align-items: center; /* Alinha verticalmente */
+    /*  gap: 10px;  Espaçamento entre os itens */
+}
+
+.botoes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 400px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prev {
+    height: 60%;
+    background-color: darkgray;
+}
+
+.prox {
+    height: 60%;
+    background-color: darkgray;
+}
+
+.render
+{
+    align-self: flex-start;
+    height:auto;
+    width: 85%;
 }
 
 .capSubstory{
@@ -338,9 +400,10 @@ Informativo {
 
 .share {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 80px;
+    height: 40px;
 }
 
 .barra.vermelho {

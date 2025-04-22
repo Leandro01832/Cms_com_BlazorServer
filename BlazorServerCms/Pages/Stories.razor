@@ -4,13 +4,70 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime js
 
-<div class="conntainer">
 
-    <header>
 
-        <div class="container">
-            <br />
-            <br />
+
+<div class="container">
+
+    <div class="item" >
+
+
+        <div class="img">
+            <div class="imagem">
+                <div>
+                    <div>
+                        <div @* role="button" tabindex="1" *@>
+                            <div>
+                                <div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div>
+                                                    Nota...
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span aria-describedby="«ra»">
+                                <div>
+                                    <div class="@classCircle">
+                                        <div class="circulo4">
+                                            <div class="circulo5">
+                                                @if (usermodel != null && usermodel.Image != null)
+                                                {
+                                                    <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser" >
+                                                }
+                                                else
+                                                {
+                                                    <img src="ImgUser/padrao.jpg" class="ImgUser" >
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+    <div class="item self">
+
+
+
+        <header>
             <div class="user">
 
                 <div>
@@ -44,196 +101,152 @@
                 <div>Seguindo</div>
 
             </div>
-
-            <div class="foto">
-                <div class="img">
-                    <div class="imagem">
+            <div class="info">
+                <div class="informacao">
+                    <div>
                         <div>
-                            <div>
-                                <div @* role="button" tabindex="1" *@>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div>
-                                                        <div>
-                                                            Nota...
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <span aria-describedby="«ra»">
-                                        <div>
-                                            <div class="@classCircle">
-                                                <div class="circulo4">
-                                                    <div class="circulo5">
-                                                        @if (usermodel != null && usermodel.Image != null)
-                                                        {
-                                                            <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser" >
-                                                        }
-                                                        else
-                                                        {
-                                                            <img src="ImgUser/padrao.jpg" class="ImgUser" >
+                            <span dir="auto" style="----base-line-clamp-line-height: 18px; --lineHeight: 18px;">
+                                Leandro Luis
+                            </span>
+                        </div>
 
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </span>
-                                </div>
+                        <div>
+                            <div dir="auto">
+                                Produto/serviço
                             </div>
                         </div>
-                    </div>
-
-
-                </div>
-
-                <div class="info">
-                    <div class="informacao">
-                        <div>
-                            <div>
-                                <span dir="auto" style="----base-line-clamp-line-height: 18px; --lineHeight: 18px;">
-                                    Leandro Luis
+                        <span dir="auto">
+                            <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
+                                <span dir="auto">
+                                    https://www.instagleo.net.br
                                 </span>
                             </div>
-
-                            <div>
-                                <div dir="auto">
-                                    Produto/serviço
-                                </div>
-                            </div>
-                            <span dir="auto">
-                                <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
-                                    <span dir="auto">
-                                        https://www.instagleo.net.br
-                                    </span>
-                                </div>
-                            </span>
-                            <h1 dir="auto">
-                            </h1>
-                        </div>
+                        </span>
+                        <h1 dir="auto">
+                        </h1>
                     </div>
-
                 </div>
 
             </div>
+        </header>
 
 
-        </div>
 
-        <br />
-
-
-        @if (stories.Count > 39)
-        {
-            @*  <div class="carousel-item">
-            </div> *@
-            <div class="stories">
-
-                <div id="carouselIndicators" bs-pause="false">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-
-                        @for (var i = 0; i < array.Length; i++)
-                        {
-                            @if (i == 0)
-                            {
-
-                                <div class="carousel-item ativo">
-
-                                    @foreach (var item in array[i])
-                                    {
-
-                                        <div class="story">
-                                            <h6>
-                                                <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}/0/0/0/0/0/0/0/0/0/0"))">
-                                                    <div class="desc">
-                                                        <p >Story</p>
-                                                        <p > @item.Nome</p>
-                                                    </div>
-                                                    <div class="circulo">
-                                                        <div class="circulo2">
-                                                            @if (repositoryPagina!.stories!.Skip(1).ToList()[0].Image != null)
-                                                            {
-                                                                <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
-
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <p > Cap. @item.PaginaPadraoLink</p>
-                                                </a>
-                                            </h6>
-                                        </div>
-
-                                    }
-
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="carousel-item">
-
-                                    @foreach (var item in array[i])
-                                    {
-
-                                        <div class="story">
-                                            <h6>
-                                                <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}/0/0/0/0/0/0/0/0/0/0"))">
-                                                    <div class="desc">
-                                                        <p >Story</p>
-                                                        <p > @item.Nome</p>
-                                                    </div>
-                                                    <div class="circulo">
-                                                        <div class="circulo2">
-                                                            @if (repositoryPagina!.stories!.Skip(1).ToList()[0].Image != null)
-                                                            {
-                                                                <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
-
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <p > Cap. @item.PaginaPadraoLink</p>
-                                                </a>
-                                            </h6>
-                                        </div>
-
-                                    }
-
-                                </div>
-                            }
+    </div>
 
 
-                        }
-
-                    </div>
-                    <a class="carousel-control-prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </a>
-                    <a class="carousel-control-next btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </a>
-                </div>
-
-            </div>
-
-        }
-
-        <section>
-        </section>
-    </header>
 
 </div>
+
+
+
+
+@if (stories.Count > 39)
+{
+    @*  <div class="carousel-item">
+            </div> *@
+    <div class="stories">
+
+        <div id="carouselIndicators" bs-pause="false">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+
+                @for (var i = 0; i < array.Length; i++)
+                {
+                    @if (i == 0)
+                    {
+
+                        <div class="carousel-item ativo">
+
+                            @foreach (var item in array[i])
+                            {
+
+                                <div class="story">
+                                    <h6>
+                                        <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}/0/0/0/0/0/0/0/0/0/0"))">
+                                            <div class="desc">
+                                                <p >Story</p>
+                                                <p > @item.Nome</p>
+                                            </div>
+                                            <div class="circulo">
+                                                <div class="circulo2">
+                                                    @if (repositoryPagina!.stories!.Skip(1).ToList()[0].Image != null)
+                                                    {
+                                                        <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
+
+                                                    }
+                                                </div>
+                                            </div>
+                                            <p > Cap. @item.PaginaPadraoLink</p>
+                                        </a>
+                                    </h6>
+                                </div>
+
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item">
+
+                            @foreach (var item in array[i])
+                            {
+
+                                <div class="story">
+                                    <h6>
+                                        <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}/0/0/0/0/0/0/0/0/0/0"))">
+                                            <div class="desc">
+                                                <p >Story</p>
+                                                <p > @item.Nome</p>
+                                            </div>
+                                            <div class="circulo">
+                                                <div class="circulo2">
+                                                    @if (repositoryPagina!.stories!.Skip(1).ToList()[0].Image != null)
+                                                    {
+                                                        <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
+
+                                                    }
+                                                </div>
+                                            </div>
+                                            <p > Cap. @item.PaginaPadraoLink</p>
+                                        </a>
+                                    </h6>
+                                </div>
+
+                            }
+
+                        </div>
+                    }
+
+
+                }
+
+            </div>
+        </div>
+
+        <div class="botoes">
+            <a class="prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="prox btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
+
+        </div>
+    </div>
+
+}
+
+
+
+
 
 <div class="listas" role="tablist">
     <a aria-selected="true" class="" href="/@user/" role="tab" tabindex="0">
@@ -324,10 +337,49 @@
     private string classCircle = "";
     List<Story>[] array;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender){
+            try
+            {
+                string? num = await js.InvokeAsync<string>("retornarlargura", "url");
+                var largura = double.Parse(num);
+
+                if (largura > 200 && largura < 300)
+                    itens = 2;
+                else if (largura > 300 && largura < 400)
+                    itens = 3;
+                else if (largura > 400 && largura < 500)
+                    itens = 4;
+                else itens = 6;
+                
+                    lacos = stories.Count / itens;
+                    var resto = stories.Count % itens;
+                    if (resto != 0) lacos++;
+                    array = new List<Story>[lacos];
+                    var lista = stories.Skip(1).ToList();
+
+                    for (var i = 0; i < array.Length; i++)
+                    {
+                        array[i] = new List<Story>();
+                        array[i].AddRange(lista.Skip(itens * i).Take(itens).ToList());
+                    }
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
         if (newStory) classCircle = "circuloNewStory";
         else classCircle = "circulo3";
+
+       
 
         repositoryPagina.exibir = false;
         Context = db.CreateDbContext(null);
