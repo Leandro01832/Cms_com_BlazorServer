@@ -197,7 +197,7 @@
                             @foreach (var item in array[i])
                             {
 
-                                <div class="story">
+                                <div class="story" title="A descrição da story esta aqui!!!">
                                     <h6>
                                         <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}/0/0/0/0/0/0/0/0/0/0"))">
                                             <div class="desc">
@@ -352,18 +352,18 @@
                 else if (largura > 400 && largura < 500)
                     itens = 4;
                 else itens = 6;
-                
-                    lacos = stories.Count / itens;
-                    var resto = stories.Count % itens;
-                    if (resto != 0) lacos++;
-                    array = new List<Story>[lacos];
-                    var lista = stories.Skip(1).ToList();
 
-                    for (var i = 0; i < array.Length; i++)
-                    {
-                        array[i] = new List<Story>();
-                        array[i].AddRange(lista.Skip(itens * i).Take(itens).ToList());
-                    }
+                lacos = stories.Count / itens;
+                var resto = stories.Count % itens;
+                if (resto != 0) lacos++;
+                array = new List<Story>[lacos];
+                var lista = stories.Skip(1).ToList();
+
+                for (var i = 0; i < array.Length; i++)
+                {
+                    array[i] = new List<Story>();
+                    array[i].AddRange(lista.Skip(itens * i).Take(itens).ToList());
+                }
 
 
             }
@@ -379,20 +379,13 @@
         if (newStory) classCircle = "circuloNewStory";
         else classCircle = "circulo3";
 
-       
+
 
         repositoryPagina.exibir = false;
         Context = db.CreateDbContext(null);
         if (stories.Count == 0)
         {
-            stories = await Context.Story!
-            .Include(p => p.Filtro)!
-            .ThenInclude(p => p.Pagina)!
-            .ThenInclude(p => p.Content)
-            .OrderBy(st => st.Id).ToListAsync();
-            repositoryPagina.stories.Clear();
-
-            repositoryPagina.stories.AddRange(stories);
+            stories = repositoryPagina.stories;
             lacos = stories.Count / itens;
             var resto = stories.Count % itens;
             if (resto != 0) lacos++;

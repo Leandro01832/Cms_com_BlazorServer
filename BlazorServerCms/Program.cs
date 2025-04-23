@@ -1,5 +1,6 @@
 using BlazorServerCms.Areas.Identity;
 using BlazorServerCms.Data;
+using BlazorServerCms.Pages;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -100,6 +101,18 @@ using (var scope = app.Services.CreateScope())
     var email = builder.Configuration.GetConnectionString("Email");
     var password = builder.Configuration.GetConnectionString("Senha");
     var userASP = await userManager.FindByNameAsync(email);
+
+    if (await contexto!.Set<Story>().AnyAsync())
+    {
+        List<Story> stories = await contexto.Story!
+            .Include(p => p.Filtro)!
+            .ThenInclude(p => p.Pagina)!
+            .ThenInclude(p => p.Content)
+            .OrderBy(st => st.Id)
+            .ToListAsync();
+    repositoryPagina.stories.AddRange(stories);
+
+    }
 
 
     string[] rolesNames = { "Admin", "Manager" };

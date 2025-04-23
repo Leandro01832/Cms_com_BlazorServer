@@ -26,7 +26,8 @@ namespace BlazorCms.Client.Pages
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private int? auto = 0;
-
+        private int quantDiv = 0;
+        private int slides = 0;
         private int? indiceMarcador;
         private Story story = null;
         private string? title = null;
@@ -43,7 +44,7 @@ namespace BlazorCms.Client.Pages
 
         protected int slideAtual = 0;
         protected List<Content>[] array;
-        private List<Content> listaContent = new List<Content>();
+        protected List<Content> listaContent = new List<Content>();
         protected bool tellStory = true;
         protected string divPagina = "";
         protected string placeholder = "";

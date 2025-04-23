@@ -24,6 +24,7 @@ namespace BlazorServerCms.servicos
         public bool exibir = true;
 
         public int QuantMinutos { get; set; } = 30;
+        public int quantSlidesCarregando { get; set; } = 30;
 
         public int dias { get; set; } = 1;  
         public int meta1 { get; set; } = 1;  
@@ -66,52 +67,14 @@ namespace BlazorServerCms.servicos
                 return html;
         }
 
-        private async Task<string> texto()
-        {           
-            return await Http.GetStringAsync("Arquivotxt/default.md");  
-
-        }
 
         public static string Capa { get { return System.IO.File.ReadAllText(path + "/wwwroot/Arquivotxt/Capa.html"); } }  
         public  string textDefault {  get  { return System.IO.File.ReadAllText(path + Configuration.GetConnectionString("path")); } }
+
+
         //140 linhas
 
-        public List<Filtro> retornarMarcadores(UserModel user, Story story)
-        {
-            List<Filtro> marcadores = new List<Filtro>();
-            foreach (var item in story.Filtro.OrderBy(f => f.Id).ToList())
-            {
-                if(user != null )
-                {
-                    bool condicao = false;
-                    Filtro f = null;
-                    List<Filtro> list = new List<Filtro>();
-                    list.Add(item);
-                    f = verificarFiltros(item, story);
-                    list.Add(f);
-                    while (f is not SubStory)
-                    {
-                        f = verificarFiltros(f, story);
-                        list.Add(f);
-                        if (f is SubStory)
-                        {
-                            condicao = true;
-                            break;
-                        }
-                    }
-                    if (condicao)
-                    {
-                        foreach (var item2 in list)
-                            if (!marcadores.Contains(item2))
-                                marcadores.Add(item2);
-                    }
 
-                }
-
-            }
-
-            return marcadores;
-        }
 
         public string buscarApiYoutube()
         {

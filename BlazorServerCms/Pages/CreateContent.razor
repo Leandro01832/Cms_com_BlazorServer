@@ -58,13 +58,14 @@
 
         var usermodel = await Context.Users
                 .Include(u => u.Pastas)!
+                .ThenInclude(u => u.Filtro)!
                 .Include(u => u.PastaSalvas)!
                 .ThenInclude(u => u.PastaSalva)!
                 .FirstOrDefaultAsync(u => u.UserName == user.Identity.Name)!;
 
         
             story = Context.Story!.Include(str => str.Filtro).First(str => str.Id == repositoryPagina.CapituloLivro);
-            lista = repositoryPagina.retornarMarcadores(usermodel, story);
+            lista = usermodel.Pastas.Select(p => p.Filtro).ToList();
         
     }
 
@@ -77,7 +78,6 @@
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 
-        repositoryPagina.Conteudo.Add(exampleModel);
         await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
         navigation.NavigateTo("/");
 

@@ -6,6 +6,7 @@ using business;
 using business.business;
 using business.business.Group;
 using business.Group;
+using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -16,37 +17,24 @@ namespace BlazorCms.Client.Pages
 {
     public partial class RenderizarBase : ComponentBase
     {
-        private async void marcarIndice(int ind)
+        private async Task<int> marcarIndice(int ind)
         {
-
             try
             {
                 string? num = await js.InvokeAsync<string>("retornarlargura", "url");
-                int quantDiv = 0;
+                
                 var largura = int.Parse(num);
                 if (largura > 500)
                     quantDiv = ((19 * largura) / 1024);
                 else
                     quantDiv = ((13 * largura) / 344);
 
-                int slides = quantidadeLista / quantDiv;
-                var resto = quantidadeLista % quantDiv;
-                if (resto != 0)
-                    slides++;
-                int slideAtivo = (ind - 1) / quantDiv;
-
-                slideAtual = slideAtivo;
-                array = new List<Content>[slides];
-
-                for (var i = 0; i < array.Length; i++)
-                {
-                    array[i] = new List<Content>();
-                    array[i].AddRange(listaContent.Skip(quantDiv * i).Take(quantDiv).ToList());
-                } 
+                return quantDiv;
+               
             }
             catch (Exception ex)
             {
-
+                return 0;
             }
 
         }
@@ -129,106 +117,13 @@ namespace BlazorCms.Client.Pages
             if (indice == 0)
                 indice = 1;
 
-            var Stories = await Context.Story.OrderBy(s => s.Id).ToListAsync();
-            var conteudos = await Context!.Content!.ToListAsync();
-            var UserModel = Context!.Users!.ToList();
-            var lista = await repositoryPagina.buscarPatternStory();
-
-            if (Stories.Count == 4 || lista.Count != Stories.OfType<PatternStory>().ToList().Count)
-            {
-                if (Stories.Count == 4)
-                {
-                    foreach (var story in lista.OrderBy(str => str.PaginaPadraoLink).Skip(4).ToList())
-                    {
-                        var str = new PatternStory(story.Nome, Context.Story.ToList(), Stories.First());
-                        Context.Add(str);
-                        Context.SaveChanges();
-                    }
-
-                    var shortStory1 = new ShortStory("promoções 10% off", Context.Story.ToList(), Stories.First());
-                    Context.Add(shortStory1);
-                    var shortStory2 = new ShortStory("promoções 30% off", Context.Story.ToList(), Stories.First());
-                    Context.Add(shortStory2);
-                    var shortStory3 = new ShortStory("promoções 50% off", Context.Story.ToList(), Stories.First());
-                    Context.Add(shortStory3);
-                    var shortStory4 = new SmallStory("Logistica", Context.Story.ToList(), Stories.First());
-                    Context.Add(shortStory4);
-                    var shortStory5 = new SmallStory("Filiais", Context.Story.ToList(), Stories.First());
-                    Context.Add(shortStory5);
-                    var shortStory6 = new SmallStory("Entrega de produtos", Context.Story.ToList(), Stories.First());
-                    Context.Add(shortStory6);
-
-                    Context.SaveChanges();
-                }
-                else
-                {
-                    foreach (var item in lista)
-                    {
-                        if (Stories.OfType<PatternStory>().ToList()
-                        .FirstOrDefault(l => l.PaginaPadraoLink == item.PaginaPadraoLink) == null)
-                        {
-                            Context.Add(item);
-                            Context.SaveChanges();
-                        }
-                    }
-                    var compartilharCapitulo = Context.Story.Where(str => !(str is PatternStory))
-                        .OrderBy(str => str.Id).ToList();
-                    for (var i = 0; i < compartilharCapitulo.Count; i++)
-                    {
-                        compartilharCapitulo[i].PaginaPadraoLink =
-                        Context.PatternStory!
-                        .OrderBy(ps => ps.Id)
-                        .Last().PaginaPadraoLink + i + 1;
-                        Context.Update(compartilharCapitulo[i]);
-                        Context.SaveChanges();
-                    }
-                }
-
-
-            }
-
-            padroes = Stories.OfType<PatternStory>().ToList().Count - 1;
+            padroes = repositoryPagina.stories.OfType<PatternStory>().ToList().Count - 1;
 
             if (storyid == null)
             {
-                storyid = Stories.OrderBy(str => str.Id).First().Id;
+                storyid = repositoryPagina.stories.OrderBy(str => str.Id).First().Id;
             }
 
-            if (repositoryPagina.stories.Count == 0 ||
-                repositoryPagina.stories.Count != Stories.Count)
-            {
-                var str = await Context.Story!
-                    .Include(p => p.Filtro)!
-                   .ThenInclude(p => p.usuarios)!
-                   .ThenInclude(p => p.UserModel)!
-                    .Include(p => p.Filtro)!
-                   .ThenInclude(p => p.Pagina)!
-                   .ThenInclude(p => p.Content)
-                    .OrderBy(st => st.Id).ToListAsync();
-                repositoryPagina.stories.Clear();
-                repositoryPagina.stories.AddRange(str);
-
-            }
-
-
-            if (repositoryPagina.Conteudo.Count == 0 ||
-                repositoryPagina.Conteudo.Count != conteudos.Count)
-            {
-                conteudos = Context!.Content!
-                    .Include(c => c.Filtro)
-                    .Include(c => c.Produto)
-                    .ThenInclude(c => c.Produto)
-                    .Where(c => c.StoryId == storyid)
-                    .ToList();
-                repositoryPagina.Conteudo.AddRange(conteudos);
-            }
-
-            if (repositoryPagina.UserModel.Count == 0 ||
-                repositoryPagina.UserModel.Count != UserModel.Count)
-            {
-                repositoryPagina.UserModel.Clear();
-                repositoryPagina.UserModel.AddRange(UserModel);
-            }
 
             if (dominio != repositoryPagina.buscarDominio() && dominio != "dominio")
             {
@@ -249,7 +144,7 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        private int retornarVerso(Content c)
+        protected int retornarVerso(Content c)
         {
             Pagina pag = (Pagina)c;
             return pag.Versiculo;
@@ -257,7 +152,6 @@ namespace BlazorCms.Client.Pages
 
         protected async Task renderizar()
         {
-
             try
             {
                 await js!.InvokeAsync<object>("zerar", "1");
@@ -271,31 +165,88 @@ namespace BlazorCms.Client.Pages
             ultimaPasta = false;
             var quantidadeFiltros = 0;
             var quantidadePaginas = 0;
-            List<Content> listaFiltradaComConteudo = null;
+
+            if (outroHorizonte == 0)
+            {
+                var q = repositoryPagina.Conteudo.OrderBy(c => c.Id)
+                    .LastOrDefault(c => c.StoryId == storyid && c is Pagina && c.Html != null)!;
+                if (q == null)
+                {
+                    var pa = Context.Pagina!.OrderBy(c => c.Id)
+                    .LastOrDefault(c => c.StoryId == storyid && c is Pagina && c.Html != null)!;
+                    repositoryPagina.Conteudo.Add(pa);
+                    quantidadeLista = retornarVerso(pa);
+                }
+
+                else
+                    quantidadeLista = retornarVerso(q);
+            }
+
+            
+             if (!tellStory)
+             {
+                 if (indice > quantidadeLista)
+                    quantDiv = await marcarIndice(1);
+                 else
+                    quantDiv = await marcarIndice(indice);
+                slides = quantidadeLista / quantDiv;
+                var resto = quantidadeLista % quantDiv;
+                if (resto != 0)
+                    slides++;
+                int slideAtivo = (indice - 1) / quantDiv;
+
+                slideAtual = slideAtivo;
+            }
+             else
+             {
+                 if (indice > quantidadeLista)
+                    quantDiv = await marcarIndice(1);
+                 else
+                    quantDiv = await marcarIndice(indice);
+                slides = quantidadeLista / quantDiv;
+                var resto = quantidadeLista % quantDiv;
+                if (resto != 0)
+                   slides++;
+                int slideAtivo = (indice - 1) / quantDiv;
+
+                slideAtual = slideAtivo;
+            }
+           
 
             Model = repositoryPagina!.Conteudo
-                    .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
+             .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
 
             if (Model == null)
             {
-                var conteudos = await Context!.Content!
-                     .Include(c => c.Filtro)
-                     .Include(c => c.Produto)
-                     .ThenInclude(c => c.Produto)
-                     .Where(c => c.StoryId == storyid)
-                     .ToListAsync();
+                List<Pagina> conteudos;
+
+                if(quantidadeLista > 999)
+                 conteudos = await Context!.Pagina!.OrderBy(p => p.Id)
+                .Include(c => c.Produto)
+                .ThenInclude(c => c.Produto)
+                .Where(c => c.StoryId == storyid)
+                .Skip(quantDiv * slideAtual).Take(quantDiv * repositoryPagina.quantSlidesCarregando)
+                .ToListAsync();
+                else
+                 conteudos = await Context!.Pagina!.OrderBy(p => p.Id)
+                .Include(c => c.Produto)
+                .ThenInclude(c => c.Produto)
+                .Where(c => c.StoryId == storyid)
+                .ToListAsync();
+
                 listaContent.AddRange(conteudos);
-                repositoryPagina.Conteudo.AddRange(conteudos);
+
+                foreach (var item in listaContent)
+                if (repositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
+                repositoryPagina.Conteudo.Add(item);
+
                 Model = repositoryPagina.Conteudo
-                .FirstOrDefault(p => p is Pagina && p.StoryId == storyid);
+                .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
             }
 
-            if (listaContent.Count == 0)
-            {
-                listaContent.AddRange(repositoryPagina.Conteudo.Where(c => c.StoryId == storyid).ToList());
-            }
-
-
+            listaContent = repositoryPagina.Conteudo.OrderBy(p => p.Id)
+                .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
+                .ToList();
 
             if (outroHorizonte == 1)
             {
@@ -333,16 +284,12 @@ namespace BlazorCms.Client.Pages
             var anterior = indice - 1;
 
 
-            if (outroHorizonte == 0)
-                quantidadeLista =
-                    retornarVerso(repositoryPagina.Conteudo.
-                    Where(c => c.StoryId == story.Id && c is Pagina && c.Html != null)
-                    .OrderBy(c => c.Id).LastOrDefault()!);
+            
 
             if (Model != null)
                 condicaoFiltro = CountFiltros(ApplicationDbContext._connectionString);
 
-
+            
 
             if (filtrar == null && substory == null)
             {
@@ -372,25 +319,52 @@ namespace BlazorCms.Client.Pages
                     }
                 }
 
-            }
+            }          
 
             else if (filtrar != null && condicaoFiltro || substory != null && condicaoFiltro)
             {
-
-
-
-
-
+                listaContent.Clear();
                 if (substory != null)
                 {
                     if (rotas == null)
-                        listaFiltradaComConteudo = retornarListaFiltrada(null);
+                        listaContent = retornarListaFiltrada(null);
                     else
-                        listaFiltradaComConteudo = retornarListaFiltrada(rotas);
+                        listaContent = retornarListaFiltrada(rotas);
 
+                    foreach(var item in listaContent)
+                        if(repositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
+                            repositoryPagina.Conteudo.Add(item);
 
+                    quantidadeLista = listaContent.Count;
+                    
+                        if (!tellStory)
+                        {
+                                if (indice > quantidadeLista)
+                                    quantDiv = await marcarIndice(1);
+                                else
+                                    quantDiv = await marcarIndice(indice);
+                            slides = quantidadeLista / quantDiv;
+                            var resto = quantidadeLista % quantDiv;
+                            if (resto != 0)
+                                slides++;
+                            int slideAtivo = (indice - 1) / quantDiv;
 
+                            slideAtual = slideAtivo;
+                        }
+                        else
+                        {
+                            if (indice > quantidadeLista)
+                                quantDiv = await marcarIndice(1);
+                            else
+                                quantDiv = await marcarIndice(indice);
+                        slides = quantidadeLista / quantDiv;
+                        var resto = quantidadeLista % quantDiv;
+                        if (resto != 0)
+                            slides++;
+                        int slideAtivo = (indice - 1) / quantDiv;
 
+                        slideAtual = slideAtivo;
+                    }
                 }
 
                 if (filtrar != null)
@@ -466,26 +440,22 @@ namespace BlazorCms.Client.Pages
                 }
             }
 
-            try
+            if(array == null)
+            array = new List<Content>[slides];
+            listaContent = listaContent.OrderBy(c => c.Id).ToList();
+
+            for (var i = 0; i < array.Length; i++)
             {
-                if (!tellStory)
+                if(i == slideAtual )
                 {
-                    if (indice > quantidadeLista)
-                        marcarIndice(1);
-                    else
-                        marcarIndice(indice);
+                    if(array[i] == null || array[i].Count == 0)
+                    {
+                        if (array[i] == null)
+                        array[i] = new List<Content>();
+                        array[i].AddRange(listaContent.Take(quantDiv).ToList());
+                    } 
+
                 }
-                else
-                {
-                    if (indice > quantidadeLista)
-                        marcarIndice(1);
-                    else
-                        marcarIndice(indice);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
             }
 
             if (substory == null)

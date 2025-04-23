@@ -1181,8 +1181,11 @@ namespace BlazorCms.Client.Pages
                     fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
             else
             {
-                var usu = Context.Users.FirstOrDefault(u => u.UserName == compartilhou);
-                fils = repositoryPagina.retornarMarcadores(usu, story!).OrderBy(f => f.Id).ToList();
+                var usu = Context.Users
+                    .Include(u => u.Pastas)!
+                    .ThenInclude(u => u.Filtro)!
+                    .FirstOrDefault(u => u.UserName == compartilhou);
+                    fils = usu.Pastas.Select(p => p.Filtro).ToList();
             }
 
             // 1º time
