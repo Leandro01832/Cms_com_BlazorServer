@@ -12,7 +12,7 @@ using Microsoft.JSInterop;
 
 namespace BlazorCms.Client.Pages
 {
-    public partial class RenderizarBase : ComponentBase
+    public partial class RenderizarBase : ComponentBase, IStoryService
     {
 
         private async void StartTimer(Content p)
@@ -1696,6 +1696,35 @@ namespace BlazorCms.Client.Pages
             else return false;
         }
 
+        public Task<Story?> GetStoryByIdAsync(long storyId)
+        {
+            return storyService.GetStoryByIdAsync(storyId);
+        }
+
+        public Task<List<Content>> GetContentsByStoryIdAsync(long storyId)
+        {
+            return storyService.GetContentsByStoryIdAsync(storyId);
+        }
+
+        public Task<int> CountPagesAsync(string connectionString)
+        {
+            return storyService.CountPagesAsync(connectionString);
+        }
+
+        public Task<int> CountLikesAsync(string connectionString)
+        {
+            return storyService.CountLikesAsync(connectionString);
+        }
+
+        public Task<bool> HasFiltersAsync(string connectionString)
+        {
+            return storyService.HasFiltersAsync(connectionString);
+        }
+
+        public Task<int> GetYouTubeVideoDurationAsync(string videoId)
+        {
+            return storyService.GetYouTubeVideoDurationAsync(videoId);
+        }
     }
 
     public class UserPreferencesImage

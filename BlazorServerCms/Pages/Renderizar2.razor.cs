@@ -23,6 +23,7 @@ namespace BlazorCms.Client.Pages
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         public ClassArray Array = new ClassArray();
+        private StoryService storyService = new StoryService();
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private int? auto = 0;
