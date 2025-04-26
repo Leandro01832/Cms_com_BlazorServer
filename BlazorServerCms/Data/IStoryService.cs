@@ -5,11 +5,11 @@ namespace BlazorServerCms.Data
 {
     public interface IStoryService
     {
-        Task<Story?> GetStoryByIdAsync(long storyId);
-        Task<List<Content>> GetContentsByStoryIdAsync(long storyId);
-        Task<int> CountPagesAsync(string connectionString);
-        Task<int> CountLikesAsync(string connectionString);
-        Task<bool> HasFiltersAsync(string connectionString);
+        Task<Story> GetStoryByIdAsync(long storyId);
+        Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual);
+        int CountPagesAsync(long storyId);
+        int CountLikesAsync(long ContentId);
+        bool HasFiltersAsync(long storyId);
         Task<int> GetYouTubeVideoDurationAsync(string videoId);
     }
 }

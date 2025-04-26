@@ -14,6 +14,7 @@ namespace BlazorCms.Client.Pages
 {
     public partial class RenderizarBase : ComponentBase
     {
+        [Inject] public IStoryService storyService { get; set; }
         [Inject] public RepositoryPagina? repositoryPagina { get; set; }
         [Inject] public ITourService TourService { get; set; }
         [Inject] public NavigationManager? navigation { get; set; }
@@ -23,7 +24,6 @@ namespace BlazorCms.Client.Pages
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         public ClassArray Array = new ClassArray();
-        private StoryService storyService = new StoryService();
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private int? auto = 0;

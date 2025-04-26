@@ -19,6 +19,8 @@ var config = builder.Configuration;
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
+
+builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
@@ -105,9 +107,6 @@ using (var scope = app.Services.CreateScope())
     if (await contexto!.Set<Story>().AnyAsync())
     {
         List<Story> stories = await contexto.Story!
-            .Include(p => p.Filtro)!
-            .ThenInclude(p => p.Pagina)!
-            .ThenInclude(p => p.Content)
             .OrderBy(st => st.Id)
             .ToListAsync();
     repositoryPagina.stories.AddRange(stories);

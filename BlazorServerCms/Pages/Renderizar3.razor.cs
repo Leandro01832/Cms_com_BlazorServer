@@ -216,23 +216,11 @@ namespace BlazorCms.Client.Pages
             Model = repositoryPagina!.Conteudo
              .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
 
+
             if (Model == null)
             {
-                List<Pagina> conteudos;
-
-                if(quantidadeLista > 999)
-                 conteudos = await Context!.Pagina!.OrderBy(p => p.Id)
-                .Include(c => c.Produto)
-                .ThenInclude(c => c.Produto)
-                .Where(c => c.StoryId == storyid)
-                .Skip(quantDiv * slideAtual).Take(quantDiv * repositoryPagina.quantSlidesCarregando)
-                .ToListAsync();
-                else
-                 conteudos = await Context!.Pagina!.OrderBy(p => p.Id)
-                .Include(c => c.Produto)
-                .ThenInclude(c => c.Produto)
-                .Where(c => c.StoryId == storyid)
-                .ToListAsync();
+                List<Content> conteudos =
+                await GetContentsByStoryIdAsync((long)storyid!, quantidadeLista, quantDiv, slideAtual);                
 
                 listaContent.AddRange(conteudos);
 
@@ -244,7 +232,14 @@ namespace BlazorCms.Client.Pages
                 .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
             }
 
-            listaContent = repositoryPagina.Conteudo.OrderBy(p => p.Id)
+            if (story == null || story.Id != Model!.StoryId)
+            {
+                story = await GetStoryByIdAsync(Model!.StoryId);
+            }
+            cap = repositoryPagina.stories.First(st => st.Id == Model.StoryId).PaginaPadraoLink;
+            nameStory = repositoryPagina.stories.First(st => st.Id == Model.StoryId).Nome;
+
+            listaContent = repositoryPagina.Conteudo.Where(c => c is Pagina).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
                 .ToList();
 
@@ -259,17 +254,7 @@ namespace BlazorCms.Client.Pages
                 }
             }
 
-
-            if (story == null || story.Id != Model.StoryId)
-            {
-                story = repositoryPagina.stories!
-               .First(p => p.Id == Model!.StoryId);
-            }
-
-            cap = story.PaginaPadraoLink;
-
-
-            quantidadePaginas = CountPaginas(ApplicationDbContext._connectionString);
+            quantidadePaginas =  CountPaginas();
 
             // if (
             //     story is PatternStory && quantidadePaginas != 99999 && story.Id != repositoryPagina.stories!.First().Id ||
@@ -278,18 +263,8 @@ namespace BlazorCms.Client.Pages
             //     )
             //     repositoryPagina.erro = true;
 
-            if (quantidadePaginas == 0 && outroHorizonte == 0)
-                Mensagem = "aguarde um momento...";
-            var proximo = indice + 1;
-            var anterior = indice - 1;
-
-
-            
-
             if (Model != null)
-                condicaoFiltro = CountFiltros(ApplicationDbContext._connectionString);
-
-            
+                condicaoFiltro = CountFiltros();
 
             if (filtrar == null && substory == null)
             {
@@ -303,7 +278,7 @@ namespace BlazorCms.Client.Pages
                     return;
                 }
 
-                nameStory = story.Nome;
+                
 
                 if (Model is Comment)
                 {
@@ -506,7 +481,7 @@ namespace BlazorCms.Client.Pages
             else DivPag = "DivPag2";
 
 
-            quantLiked = CountLikes(ApplicationDbContext._connectionString);
+            quantLiked = CountLikes();
         }
 
         private void setarCamadas(int?[] arr)

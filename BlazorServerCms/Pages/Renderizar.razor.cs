@@ -2,8 +2,6 @@
 using business;
 using business.business;
 using business.Group;
-using Google.Apis.Services;
-using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Data.SqlClient;
@@ -13,7 +11,10 @@ using Microsoft.JSInterop;
 namespace BlazorCms.Client.Pages
 {
     public partial class RenderizarBase : ComponentBase, IStoryService
-    {
+    {  
+        public RenderizarBase()
+        {
+        }
 
         private async void StartTimer(Content p)
         {
@@ -174,30 +175,7 @@ namespace BlazorCms.Client.Pages
 
         private async Task<int> GetYouTubeVideo(string id_video)
         {
-            int calculo = 0;
-            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
-            {
-                ApiKey = repositoryPagina.buscarApiYoutube(),
-                ApplicationName = this.GetType().ToString()
-            });
-            var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
-            searchListRequest.Id = id_video;
-            var search = await searchListRequest.ExecuteAsync();
-            var duration = search.Items[0].ContentDetails.Duration;
-            if (duration.Contains("M"))
-            {
-                duration = duration.Replace("PT", "");
-                var minutos = int.Parse(duration.Split('M')[0]);
-                var segundos = int.Parse(duration.Replace(minutos.ToString() + "M", "").Replace("S", ""));
-                var minutosEmMileSegundos = minutos * 60 * 1000;
-                var segundosEmMileSegundos = segundos * 1000;
-                calculo = minutosEmMileSegundos + segundosEmMileSegundos;
-            }
-            else
-                calculo = int.Parse(duration.Replace("PT", "").Replace("S", "")) * 1000;
-
-
-            return calculo;
+            return await GetYouTubeVideoDurationAsync(id_video);
         }
 
         protected async void acessarPasta()
@@ -347,13 +325,13 @@ namespace BlazorCms.Client.Pages
                 return null;
         }
 
-        protected void buscarProximo()
+        protected  void buscarProximo()
         {
             Timer!._timer!.Elapsed -= _timer_Elapsed;
 
             long quant = 0;
             if (substory == null && outroHorizonte == 0)
-                quant = CountPaginas(ApplicationDbContext._connectionString);
+                quant =  CountPaginas();
             else if (outroHorizonte == 1)
             {
                 quant = QuantFiltros();
@@ -405,11 +383,11 @@ namespace BlazorCms.Client.Pages
             }              
         }
 
-        private void navegarSubgrupos(bool somenteSubgrupos)
+        private  void navegarSubgrupos(bool somenteSubgrupos)
         {
             var quant = 0;
             if (substory == null)
-                quant = CountPaginas(ApplicationDbContext._connectionString);
+                quant =  CountPaginas();
             else
             {
                 var lista = retornarListaFiltrada(null);
@@ -1362,56 +1340,14 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        private int CountLikes(string conexao)
+        private int CountLikes()
         {
-
-            var _TotalRegistros = 0;
-            try
-            {
-                using (var con = new SqlConnection(conexao))
-                {
-                    SqlCommand cmd = null;
-                    if (substory == null)
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={story.PaginaPadraoLink} and P.verso={indice}", con);
-                    else
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={story.PaginaPadraoLink} and P.verso={vers}", con);
-
-                    con.Open();
-                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
-                    con.Close();
-                }
-            }
-            catch (Exception)
-            {
-                _TotalRegistros = 0;
-            }
-            return _TotalRegistros;
+            return CountLikesAsync(Model!.Id);
         }
 
-        private bool CountFiltros(string conexao)
+        private bool CountFiltros()
         {
-
-            var _TotalRegistros = 0;
-            try
-            {
-                using (var con = new SqlConnection(conexao))
-                {
-                    SqlCommand cmd = null;
-                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={Model.StoryId}", con);
-
-                    con.Open();
-                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
-                    con.Close();
-                }
-            }
-            catch (Exception)
-            {
-                _TotalRegistros = 0;
-            }
-            if (_TotalRegistros > 0)
-                return true;
-            else
-                return false;
+          return  HasFiltersAsync((long)storyid!);
         }
 
         private int QuantFiltros()
@@ -1424,38 +1360,9 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        private int CountPaginas(string conexao)
+        private int CountPaginas()
         {
-
-            var _TotalRegistros = 0;
-            try
-            {
-                using (var con = new SqlConnection(conexao))
-                {
-                    SqlCommand cmd = null;
-                    if (Model != null)
-                    {
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
-                            $" where P.StoryId={Model.StoryId} and P.Discriminator='Pagina' or " +
-                            $" P.StoryId={Model.StoryId} and P.Discriminator='AdminContent' or " +
-                            $" P.StoryId={Model.StoryId} and P.Discriminator='ProductContent' or " +
-                            $" P.StoryId={Model.StoryId} and P.Discriminator='ChangeContent'  ", con);
-                        con.Open();
-                        _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
-                        con.Close();
-                    }
-                    else
-                        _TotalRegistros = 0;
-
-
-                }
-            }
-            catch (Exception)
-            {
-                _TotalRegistros = 0;
-            }
-
-            return _TotalRegistros;
+            return  CountPagesAsync((long)storyid!);
         }
 
         private string colocarAutoPlay(string html)
@@ -1696,35 +1603,35 @@ namespace BlazorCms.Client.Pages
             else return false;
         }
 
-        public Task<Story?> GetStoryByIdAsync(long storyId)
+        public Task<Story> GetStoryByIdAsync(long storyId)
         {
             return storyService.GetStoryByIdAsync(storyId);
         }
 
-        public Task<List<Content>> GetContentsByStoryIdAsync(long storyId)
+        public Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual)
         {
-            return storyService.GetContentsByStoryIdAsync(storyId);
+            return storyService.GetContentsByStoryIdAsync(storyId, quantidadeLista, quantDiv, slideAtual);
         }
 
-        public Task<int> CountPagesAsync(string connectionString)
+        public int CountPagesAsync(long storyId)
         {
-            return storyService.CountPagesAsync(connectionString);
+            return storyService.CountPagesAsync(storyId);
         }
-
-        public Task<int> CountLikesAsync(string connectionString)
-        {
-            return storyService.CountLikesAsync(connectionString);
-        }
-
-        public Task<bool> HasFiltersAsync(string connectionString)
-        {
-            return storyService.HasFiltersAsync(connectionString);
-        }
-
         public Task<int> GetYouTubeVideoDurationAsync(string videoId)
         {
             return storyService.GetYouTubeVideoDurationAsync(videoId);
         }
+
+        public int CountLikesAsync(long ContentId)
+        {
+            return storyService.CountLikesAsync(ContentId);
+        }
+
+        public bool HasFiltersAsync(long storyId)
+        {
+            return storyService.HasFiltersAsync(storyId);
+        }
+
     }
 
     public class UserPreferencesImage
