@@ -396,12 +396,14 @@ namespace BlazorCms.Client.Pages
 
             var proximo = indice + 1;
 
+            Filtro proximoSubgrupo = buscarProximoSubGrupo(Model2);
+
 
             if (camadadez != null)
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete,
                         camadaoito, camadanove, camadadez);
                     if (arr != null)                    
@@ -415,7 +417,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -427,7 +429,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
                     if (arr != null)                    
                         setarCamadas(arr);                   
@@ -439,7 +441,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -451,7 +453,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo, camadaseis);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -464,7 +466,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo, subsubgrupo);
                     if (arr != null)                    
                         setarCamadas(arr);                 
@@ -476,7 +478,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!,
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
                         grupo, subgrupo);
                     if (arr != null)                    
                         setarCamadas(arr);                    
@@ -489,7 +491,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory!, grupo);
+                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!, grupo);
                     if (arr != null)                    
                         setarCamadas(arr);                      
                     else                    
@@ -501,7 +503,11 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice >= quant || somenteSubgrupos)
                 {
-                    var arr = Array.RetornarArray(story.Filtro, story, 1, 0, story.PaginaPadraoLink, (int)substory);
+                    int?[]? arr;
+                    if (proximoSubgrupo != null)
+                        arr = Array.RetornarArray(story.Filtro!, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory);
+                    else
+                        arr = null;
                     if (arr != null)                    
                         setarCamadas(arr);                   
                     else                    
@@ -511,6 +517,8 @@ namespace BlazorCms.Client.Pages
             indice = 1;
             acessar();
         }
+
+       
 
         protected void buscarAnterior()
         {

@@ -28,24 +28,6 @@ namespace BlazorServerCms.servicos
                  indiceSubStory, indiceGrupo, indiceSubGrupo, indiceSubSubGrupo,
                 indiceCamadaSeis, indiceCamadaSete, indiceCamadaOito, indiceCamadaNove, indiceCamadaDez);
 
-            if(result[1] == null)
-            {
-                firstLoop = true;
-                if (indiceCamadaDez != null)    indiceCamadaDez = null;   else
-                if(indiceCamadaNove != null)   indiceCamadaNove =  null; else
-                if(indiceCamadaOito != null)   indiceCamadaOito =  null; else
-                if(indiceCamadaSete != null)   indiceCamadaSete =  null; else
-                if(indiceCamadaSeis != null)   indiceCamadaSeis =  null; else
-                if(indiceSubSubGrupo != null)  indiceSubSubGrupo = null; else
-                if(indiceSubGrupo != null)     indiceSubGrupo =    null; else
-                if(indiceGrupo != null)        indiceGrupo =       null; else
-                if(indiceSubStory != null)     {indiceSubStory =    null; firstLoop = false;  }
-
-                TraverseHierarchy(filtros, story, comparacao, filtro, currentNum, firstLoop, result, indice,
-                indiceSubStory, indiceGrupo, indiceSubGrupo, indiceSubSubGrupo,
-               indiceCamadaSeis, indiceCamadaSete, indiceCamadaOito, indiceCamadaNove, indiceCamadaDez);
-            }
-
             result[0] = indice;
             return result;
         }
@@ -61,137 +43,200 @@ namespace BlazorServerCms.servicos
         }
 
         private void TraverseHierarchy(List<Filtro> filtros, Story story, int comparacao, long filtro, long currentNum, bool firstLoop, int?[] result, params int?[] indices)
-        {
-            foreach (var subStory in story.Filtro.OfType<SubStory>().Where(HasPages))
+        {           
+            if (comparacao == 4)            
             {
-                var subStoryIndex = GetIndex(story.Filtro, subStory);
-                if (subStory.Grupo != null && indices[2] != null)
-                foreach (var grupo in subStory.Grupo.Where(HasPages))
+                if (indices[9] != null)
                 {
-                    var grupoIndex = GetIndex(subStory.Grupo, grupo);
-                    if(grupo.SubGrupo != null && indices[3] != null)
-                    foreach (var subGrupo in grupo.SubGrupo.Where(HasPages))
+                    foreach (var camadadez in story.Filtro.OfType<CamadaDez>().Where(HasPages))
                     {
-                        var subGrupoIndex = GetIndex(grupo.SubGrupo, subGrupo);
-                        if (subGrupo.SubSubGrupo != null && indices[4] != null)
-                        foreach (var subSubGrupo in subGrupo.SubSubGrupo.Where(HasPages))
+                        if (camadadez.Id == filtro)
                         {
-                            var subSubGrupoIndex = GetIndex(subGrupo.SubSubGrupo, subSubGrupo);
-                            if (subSubGrupo.CamadaSeis != null && indices[5] != null)
-                            foreach (var camadaSeis in subSubGrupo.CamadaSeis.Where(HasPages))
-                            {
-                                var camadaSeisIndex = GetIndex(subSubGrupo.CamadaSeis, camadaSeis);
-                                if (camadaSeis.CamadaSete != null && indices[6] != null)
-                                foreach (var camadaSete in camadaSeis.CamadaSete.Where(HasPages))
-                                {
-                                    var camadaSeteIndex = GetIndex(camadaSeis.CamadaSete, camadaSete);
-                                    if (camadaSete.CamadaOito != null && indices[7] != null)
-                                    foreach (var camadaOito in camadaSete.CamadaOito.Where(HasPages))
-                                    {
-                                        var camadaOitoIndex = GetIndex(camadaSete.CamadaOito, camadaOito);
-                                        if (camadaOito.CamadaNove != null && indices[8] != null)
-                                        foreach (var camadaNove in camadaOito.CamadaNove.Where(HasPages))
-                                        {
-                                            var camadaNoveIndex = GetIndex(camadaOito.CamadaNove, camadaNove);
-                                            if (camadaNove.CamadaDez != null && indices[9] != null)
-                                            foreach (var camadaDez in camadaNove.CamadaDez.Where(HasPages))
-                                            {
-                                                var camadaDezIndex = GetIndex(camadaNove.CamadaDez, camadaDez);
-                                                long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                    camadaSeisIndex, camadaSeteIndex, camadaOitoIndex, camadaNoveIndex, camadaDezIndex);
-                                                    if (IsMatch(comparacao, filtro, currentNum, newNum, camadaDez.Id) || firstLoop)
-                                                    {
-                                                        PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                            camadaSeisIndex, camadaSeteIndex, camadaOitoIndex, camadaNoveIndex, camadaDezIndex);
-                                                        return;
-                                                    }
-                                                
-                                            }
-                                           else
-                                           {
-                                                long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                    camadaSeisIndex, camadaSeteIndex, camadaOitoIndex, camadaNoveIndex);
-                                                    if (IsMatch(comparacao, filtro, currentNum, newNum, camadaNove.Id) || firstLoop)
-                                                    {
-                                                        PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                            camadaSeisIndex, camadaSeteIndex, camadaOitoIndex, camadaNoveIndex);
-                                                        return;
-                                                    }
-                                           }
-                                        }
-                                        else
-                                           {
-                                                long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                    camadaSeisIndex, camadaSeteIndex, camadaOitoIndex);
-                                                    if (IsMatch(comparacao, filtro, currentNum, newNum, camadaOito.Id) || firstLoop)
-                                                    {
-                                                        PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                            camadaSeisIndex, camadaSeteIndex, camadaOitoIndex);
-                                                        return;
-                                                    }
-                                           }
-                                    }
-                                    else
-                                           {
-                                                long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                    camadaSeisIndex, camadaSeteIndex);
-                                                    if (IsMatch(comparacao, filtro, currentNum, newNum, camadaSete.Id) || firstLoop)
-                                                    {
-                                                        PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                            camadaSeisIndex, camadaSeteIndex);
-                                                        return;
-                                                    }
-                                           }
-                                }
-                                else
-                                           {
-                                                long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                    camadaSeisIndex);
-                                                    if (IsMatch(comparacao, filtro, currentNum, newNum, camadaSeis.Id) || firstLoop)
-                                                    {
-                                                        PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex,
-                                                            camadaSeisIndex);
-                                                        return;
-                                                    }
-                                           }
-                            }
-                             else
-                                 {
-                                     long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex);
-                                     if (IsMatch(comparacao, filtro, currentNum, newNum, subSubGrupo.Id) || firstLoop)
-                                     {
-                                         PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex);
-                                         return;
-                                     }
-                                 }
-                             }
-                            else
-                            {
-                                long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex, subGrupoIndex);
-                                if (IsMatch(comparacao, filtro, currentNum, newNum, subGrupo.Id) || firstLoop)
-                                {
-                                    PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex);
-                                    return;
-                                }
-                            }
+                            var camada9 = story.Filtro.OfType<CamadaNove>().First(str => str.Id == camadadez.CamadaNoveId);
+                            var camada8 = story.Filtro.OfType<CamadaOito>().First(str => str.Id == camada9.CamadaOitoId);
+                            var camada7 = story.Filtro.OfType<CamadaSete>().First(str => str.Id == camada8.CamadaSeteId);
+                            var camada6 = story.Filtro.OfType<CamadaSeis>().First(str => str.Id == camada7.CamadaSeisId);
+                            var camada5 = story.Filtro.OfType<SubSubGrupo>().First(str => str.Id == camada6.SubSubGrupoId);
+                            var camada4 = story.Filtro.OfType<SubGrupo>().First(str => str.Id == camada5.SubGrupoId);
+                            var camada3 = story.Filtro.OfType<Grupo>().First(str => str.Id == camada4.GrupoId);
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var dezIndex = GetIndex(camada9.CamadaDez!, camadadez);
+                            var noveIndex = GetIndex(camada8.CamadaNove!, camada9);
+                            var oitoIndex = GetIndex(camada7.CamadaOito!, camada8);
+                            var seteIndex = GetIndex(camada6.CamadaSete!, camada7);
+                            var seisIndex = GetIndex(camada5.CamadaSeis!, camada6);
+                            var subSubGrupoIndex = GetIndex(camada4.SubSubGrupo!, camada5);
+                            var subGrupoIndex = GetIndex(camada3.SubGrupo!, camada4);
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex,
+                              subSubGrupoIndex, seisIndex, seteIndex, oitoIndex, noveIndex, dezIndex);
+                            return;
+
+                        }                    
+                    }
+                }
+                else if (indices[8] != null)
+                {
+                    foreach (var camada9 in story.Filtro.OfType<CamadaNove>())
+                    {
+                        if (camada9.Id == filtro)
+                        {
+                            var camada8 = story.Filtro.OfType<CamadaOito>().First(str => str.Id == camada9.CamadaOitoId);
+                            var camada7 = story.Filtro.OfType<CamadaSete>().First(str => str.Id == camada8.CamadaSeteId);
+                            var camada6 = story.Filtro.OfType<CamadaSeis>().First(str => str.Id == camada7.CamadaSeisId);
+                            var camada5 = story.Filtro.OfType<SubSubGrupo>().First(str => str.Id == camada6.SubSubGrupoId);
+                            var camada4 = story.Filtro.OfType<SubGrupo>().First(str => str.Id == camada5.SubGrupoId);
+                            var camada3 = story.Filtro.OfType<Grupo>().First(str => str.Id == camada4.GrupoId);
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var noveIndex = GetIndex(camada8.CamadaNove!, camada9);
+                            var oitoIndex = GetIndex(camada7.CamadaOito!, camada8);
+                            var seteIndex = GetIndex(camada6.CamadaSete!, camada7);
+                            var seisIndex = GetIndex(camada5.CamadaSeis!, camada6);
+                            var subSubGrupoIndex = GetIndex(camada4.SubSubGrupo!, camada5);
+                            var subGrupoIndex = GetIndex(camada3.SubGrupo!, camada4);
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex,
+                              subSubGrupoIndex, seisIndex, seteIndex, oitoIndex, noveIndex);
+                            return;
                         }
-                    else
+                    }
+                }
+                else if (indices[7] != null)
+                {
+                    foreach (var camada8 in story.Filtro.OfType<CamadaOito>())
                     {
-                        long newNum = BuildNumber(indices[0], subStoryIndex, grupoIndex);
-                        if (IsMatch(comparacao, filtro, currentNum, newNum, grupo.Id) || firstLoop)
+                        if (camada8.Id == filtro)
                         {
+                            var camada7 = story.Filtro.OfType<CamadaSete>().First(str => str.Id == camada8.CamadaSeteId);
+                            var camada6 = story.Filtro.OfType<CamadaSeis>().First(str => str.Id == camada7.CamadaSeisId);
+                            var camada5 = story.Filtro.OfType<SubSubGrupo>().First(str => str.Id == camada6.SubSubGrupoId);
+                            var camada4 = story.Filtro.OfType<SubGrupo>().First(str => str.Id == camada5.SubGrupoId);
+                            var camada3 = story.Filtro.OfType<Grupo>().First(str => str.Id == camada4.GrupoId);
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var oitoIndex = GetIndex(camada7.CamadaOito!, camada8);
+                            var seteIndex = GetIndex(camada6.CamadaSete!, camada7);
+                            var seisIndex = GetIndex(camada5.CamadaSeis!, camada6);
+                            var subSubGrupoIndex = GetIndex(camada4.SubSubGrupo!, camada5);
+                            var subGrupoIndex = GetIndex(camada3.SubGrupo!, camada4);
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex,
+                               subSubGrupoIndex, seisIndex, seteIndex, oitoIndex);
+                            return;
+                        }
+                    }
+                }
+                else if (indices[6] != null)
+                {
+                    foreach (var camada7 in story.Filtro.OfType<CamadaSete>())
+                    {
+                        if (camada7.Id == filtro)
+                        {
+                            var camada6 = story.Filtro.OfType<CamadaSeis>().First(str => str.Id == camada7.CamadaSeisId);
+                            var camada5 = story.Filtro.OfType<SubSubGrupo>().First(str => str.Id == camada6.SubSubGrupoId);
+                            var camada4 = story.Filtro.OfType<SubGrupo>().First(str => str.Id == camada5.SubGrupoId);
+                            var camada3 = story.Filtro.OfType<Grupo>().First(str => str.Id == camada4.GrupoId);
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var seteIndex = GetIndex(camada6.CamadaSete!, camada7);
+                            var seisIndex = GetIndex(camada5.CamadaSeis!, camada6);
+                            var subSubGrupoIndex = GetIndex(camada4.SubSubGrupo!, camada5);
+                            var subGrupoIndex = GetIndex(camada3.SubGrupo!, camada4);
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex,
+                                subSubGrupoIndex, seisIndex, seteIndex);
+                            return;
+                        }
+                    }
+                }
+                else if (indices[5] != null)
+                {
+                    foreach (var camada6 in story.Filtro.OfType<CamadaSeis>())
+                    {
+                        if (camada6.Id == filtro)
+                        {
+                            var camada5 = story.Filtro.OfType<SubSubGrupo>().First(str => str.Id == camada6.SubSubGrupoId);
+                            var camada4 = story.Filtro.OfType<SubGrupo>().First(str => str.Id == camada5.SubGrupoId);
+                            var camada3 = story.Filtro.OfType<Grupo>().First(str => str.Id == camada4.GrupoId);
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var seisIndex = GetIndex(camada5.CamadaSeis!, camada6);
+                            var subSubGrupoIndex = GetIndex(camada4.SubSubGrupo!, camada5);
+                            var subGrupoIndex = GetIndex(camada3.SubGrupo!, camada4);
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex, seisIndex);
+                            return;
+                        }
+                    }
+                }
+                else if (indices[4] != null)
+                {
+                    foreach (var camada5 in story.Filtro.OfType<SubSubGrupo>())
+                    {
+                        if (camada5.Id == filtro)
+                        {
+                            var camada4 = story.Filtro.OfType<SubGrupo>().First(str => str.Id == camada5.SubGrupoId);
+                            var camada3 = story.Filtro.OfType<Grupo>().First(str => str.Id == camada4.GrupoId);
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var subSubGrupoIndex = GetIndex(camada4.SubSubGrupo!, camada5);
+                            var subGrupoIndex = GetIndex(camada3.SubGrupo!, camada4);
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex, subSubGrupoIndex);
+                            return;
+                        }
+                    }
+                }
+                else if (indices[3] != null)
+                {
+                    foreach (var camada4 in story.Filtro.OfType<SubGrupo>())
+                    {
+                        if (camada4.Id == filtro)
+                        {
+                            var camada3 = story.Filtro.OfType<Grupo>().First(str => str.Id == camada4.GrupoId);
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var subGrupoIndex = GetIndex(camada3.SubGrupo!, camada4);
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex, grupoIndex, subGrupoIndex);
+                            return;
+                        }
+                    }
+                }
+                else if(indices[2] != null)
+                {
+                    foreach (var camada3 in story.Filtro.OfType<Grupo>())
+                    {
+                        if (camada3.Id == filtro)
+                        {
+                            var camada2 = story.Filtro.OfType<SubStory>().First(str => str.Id == camada3.SubStoryId);
+
+                            var grupoIndex = GetIndex(camada2.Grupo!, camada3);
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
                             PopulateResult(result, subStoryIndex, grupoIndex);
                             return;
                         }
                     }
                 }
-                else
+                else if (indices[1] != null)
                 {
-                    long newNum = BuildNumber(indices[0], subStoryIndex);
-                    if (IsMatch(comparacao, filtro, currentNum, newNum, subStory.Id) || firstLoop)
+                    foreach (var camada2 in story.Filtro.OfType<SubStory>())
                     {
-                        PopulateResult(result, subStoryIndex);
-                        return;
+                        if (camada2.Id == filtro)
+                        {
+                            var subStoryIndex = GetIndex(story.Filtro, camada2);
+                            PopulateResult(result, subStoryIndex);
+                            return;
+                        }
                     }
                 }
 
@@ -206,11 +251,6 @@ namespace BlazorServerCms.servicos
         private int GetIndex<T>(IEnumerable<T> collection, T item)
         {
             return collection.ToList().IndexOf(item) + 1;
-        }
-
-        private bool IsMatch(int comparacao, long filtro, long currentNum, long newNum, long itemId)
-        {
-            return (comparacao == 1 && newNum > currentNum) || (comparacao == 3 && itemId == filtro);
         }
 
         private void PopulateResult(int?[] result, params int?[] indices)

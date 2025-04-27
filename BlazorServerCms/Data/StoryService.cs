@@ -75,6 +75,8 @@ namespace BlazorServerCms.Data
         {
             Story story = await Context.Story!
             .Include(p => p.Filtro)!
+            .ThenInclude(p => p.usuarios)!
+            .Include(p => p.Filtro)!
             .ThenInclude(p => p.Pagina)!
             .OrderBy(st => st.Id)
             .FirstAsync(st => st.Id == storyId);
