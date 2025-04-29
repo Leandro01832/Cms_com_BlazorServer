@@ -5,10 +5,13 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: white;
-    height: 700px;
+    height: auto;
 }
 
-
+iframe {
+    height: 340px;
+    width: 650px;
+}
 
 h1:focus {
     outline: none;
@@ -66,6 +69,18 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+@media (max-width: 550px) and (min-width: 50px) {
+
+    iframe {
+        height: 400px;
+        width: 320px;
+    }
+
+
+
+}
 
 
 

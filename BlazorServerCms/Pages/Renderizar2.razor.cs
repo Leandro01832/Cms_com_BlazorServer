@@ -23,12 +23,11 @@ namespace BlazorCms.Client.Pages
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
-        public ClassArray Array = new ClassArray();
+        
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private int? auto = 0;
         private int quantDiv = 0;
-        private int slides = 0;
         private int? indiceMarcador;
         private Story story = null;
         private string? title = null;
@@ -37,7 +36,7 @@ namespace BlazorCms.Client.Pages
         private Filtro fil3 = null;
         private Filtro fil4 = null;
         private Filtro fil5 = null;
-        private bool alterouPasta = false;
+        private bool alterouPasta;
 
         protected int indiceAcesso;
 
@@ -75,6 +74,7 @@ namespace BlazorCms.Client.Pages
         protected bool Content = false;       
         protected long quantLiked = 0;
 
+
         protected string? html { get; set; } = "";
         protected string? nameStory { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
@@ -94,15 +94,17 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int indice { get; set; } = 1;
         [Parameter] public long? storyid { get; set; } = 1;
 
-        [Parameter] public int? substory { get; set; } = null; [Parameter] public int? grupo { get; set; } = null;
-
-        [Parameter] public int? subgrupo { get; set; } = null; [Parameter] public int? subsubgrupo { get; set; } = null;
-
-        [Parameter] public int? camadaseis { get; set; } = null; [Parameter] public int? camadasete { get; set; } = null;
-
-        [Parameter] public int? camadaoito { get; set; } = null; [Parameter] public int? camadanove { get; set; } = null;
-
-        [Parameter] public int? camadadez { get; set; } = null;
+        private long? filtro = null;
+        [Parameter] public long? Filtro 
+        {
+            get { return filtro; }
+            set 
+            { 
+                if(value != Filtro)
+                alterouPasta = true;
+                filtro = value;
+            }
+        } 
 
         [Parameter] public int? Auto
         {

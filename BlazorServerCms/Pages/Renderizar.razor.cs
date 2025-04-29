@@ -80,19 +80,17 @@ namespace BlazorCms.Client.Pages
         protected void TeclaPressionada(KeyboardEventArgs args)
         {
 
-            if (substory == null)
+            if (Filtro == null)
             {
 
                 if (args.Key == "Enter" && cap == 0)
                 {
-                    setarCamadas(null);
                     storyid = repositoryPagina!.stories!
                     .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
                     indice = 1;               
                 }
                 else if (args.Key == "Enter")
                 {
-                    setarCamadas(null);
                     storyid = repositoryPagina.stories.First().Id;
                     indice = repositoryPagina.stories.IndexOf(story);         
                 }
@@ -125,9 +123,8 @@ namespace BlazorCms.Client.Pages
                 condicao = false;
             }
 
-            if (substory == null && condicao)
+            if (Filtro == null && condicao)
             {
-                setarCamadas(null);
                 indice = int.Parse(opcional);
                 acessar();
             }
@@ -166,9 +163,7 @@ namespace BlazorCms.Client.Pages
 
         private void desligarAuto_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-
-            Console.WriteLine("Timer Elapsed auto.");
-            
+            Console.WriteLine("Timer Elapsed auto.");            
             automatico = false;
             acessar("/");
         }
@@ -185,16 +180,13 @@ namespace BlazorCms.Client.Pages
             if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
             {
                 automatico = false;
-                setarCamadas(null);
                 await js!.InvokeAsync<object>("DarAlert", $"Esta pasta não possui versiculos");
                 acessar();
             }
             else
             {
-                setarCamadas(null);
                 filtrar = $"pasta-{indice_Filtro}";
                 acessar();
-
             }
 
         }
@@ -214,7 +206,6 @@ namespace BlazorCms.Client.Pages
         {
             automatico = false;
             outroHorizonte = 1;
-            setarCamadas(null);
             if (i != null)
                 indice = (int)i;
             else
@@ -226,7 +217,6 @@ namespace BlazorCms.Client.Pages
         {
             automatico = false;
             outroHorizonte = 0;
-            setarCamadas(null);
             indice = 1;
             acessar();
         }
@@ -325,12 +315,12 @@ namespace BlazorCms.Client.Pages
                 return null;
         }
 
-        protected  void buscarProximo()
+        protected  async void buscarProximo()
         {
             Timer!._timer!.Elapsed -= _timer_Elapsed;
 
             long quant = 0;
-            if (substory == null && outroHorizonte == 0)
+            if (Filtro == null && outroHorizonte == 0)
                 quant =  CountPaginas();
             else if (outroHorizonte == 1)
             {
@@ -340,7 +330,7 @@ namespace BlazorCms.Client.Pages
             {
                 List<Content> lista = null;
                 if (rotas != null)
-                    lista = retornarListaFiltrada(rotas);
+                    lista = await retornarListaFiltrada(rotas);
                 else
                     quant = quantidadeLista;
             }
@@ -351,14 +341,10 @@ namespace BlazorCms.Client.Pages
 
                 if (proximo <= quant)
                 {
-                    setarCamadas(new int?[10] {story.PaginaPadraoLink,(int) substory!, null, null, null,
-                        null, null, null, null, null });
                     indice = proximo;
                 }
                 else
                 {
-                    setarCamadas(new int?[10] {story.PaginaPadraoLink, (int)substory!, null, null, null,
-                        null, null, null, null, null });
                     indice = 1;
                 }
                 
@@ -370,11 +356,10 @@ namespace BlazorCms.Client.Pages
                 indice = proximo;
                 acessar();
             }
-            else if (substory != null)
+            else if (Filtro != null)
                 navegarSubgrupos(false);
             else
             {
-                setarCamadas(null);
                 cap++;
                  storyid = repositoryPagina.stories
                  .First(str => str.PaginaPadraoLink == cap).Id;
@@ -383,143 +368,29 @@ namespace BlazorCms.Client.Pages
             }              
         }
 
-        private  void navegarSubgrupos(bool somenteSubgrupos)
+        private  async void navegarSubgrupos(bool somenteSubgrupos)
         {
             var quant = 0;
-            if (substory == null)
+            if (Filtro == null)
                 quant =  CountPaginas();
             else
             {
-                var lista = retornarListaFiltrada(null);
+                var lista = await retornarListaFiltrada(null);
                 quant = lista.Count;
             }           
+            if (somenteSubgrupos)
+            {
+                Filtro proximoSubgrupo = buscarProximoSubGrupo();
+                Filtro = proximoSubgrupo.Id;
+                indice = 1;
 
-            var proximo = indice + 1;
 
-            Filtro proximoSubgrupo = buscarProximoSubGrupo(Model2);
-
-
-            if (camadadez != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
-                        grupo, subgrupo, subsubgrupo, camadaseis, camadasete,
-                        camadaoito, camadanove, camadadez);
-                    if (arr != null)                    
-                        setarCamadas(arr);                        
-                    else                    
-                        setarCamadas(new int?[10] { 1, 1, 1, 1, 1, 1, 1, 1, 1, null });                    
-                }                
-                
             }
-            else if (camadanove != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
-                        grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito, camadanove);
-                    if (arr != null)                    
-                        setarCamadas(arr);                    
-                    else                    
-                        setarCamadas(new int?[10] { 1, 1, 1, 1, 1, 1, 1, 1, null, null });                    
-                }              
-            }
-            else if (camadaoito != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
-                        grupo, subgrupo, subsubgrupo, camadaseis, camadasete, camadaoito);
-                    if (arr != null)                    
-                        setarCamadas(arr);                   
-                    else                    
-                        setarCamadas(new int?[10] { 1,1,1,1,1,1,1, null, null, null });  
-                }                
-            }
-            else if (camadasete != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
-                        grupo, subgrupo, subsubgrupo, camadaseis, camadasete);
-                    if (arr != null)                    
-                        setarCamadas(arr);                    
-                    else                    
-                        setarCamadas(new int?[10] { 1, 1, 1, 1, 1, 1, null, null, null, null });                 
-                }              
-            }
-            else if (camadaseis != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
-                        grupo, subgrupo, subsubgrupo, camadaseis);
-                    if (arr != null)                    
-                        setarCamadas(arr);                    
-                    
-                    else                    
-                        setarCamadas(new int?[10] { 1, 1, 1, 1, 1, null, null, null, null, null });
-                }              
-            }
-            else if (subsubgrupo != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
-                        grupo, subgrupo, subsubgrupo);
-                    if (arr != null)                    
-                        setarCamadas(arr);                 
-                    else                    
-                        setarCamadas(new int?[10] { 1, 1, 1, 1, null, null, null, null, null, null });              
-                }               
-            }
-            else if (subgrupo != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!,
-                        grupo, subgrupo);
-                    if (arr != null)                    
-                        setarCamadas(arr);                    
-                    else                    
-                        setarCamadas(new int?[10] { 1, 1, 1, null, null, null, null, null, null,
-                        null});  
-                }                                
-            }
-            else if (grupo != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    var arr = Array.RetornarArray(story.Filtro, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory!, grupo);
-                    if (arr != null)                    
-                        setarCamadas(arr);                      
-                    else                    
-                        setarCamadas(new int?[10] { 1, 1, null, null, null, null, null, null, null,
-                        null});      
-                }             
-            }
-            else if (substory != null)
-            {
-                if (indice >= quant || somenteSubgrupos)
-                {
-                    int?[]? arr;
-                    if (proximoSubgrupo != null)
-                        arr = Array.RetornarArray(story.Filtro!, story, 4, proximoSubgrupo.Id, story.PaginaPadraoLink, (int)substory);
-                    else
-                        arr = null;
-                    if (arr != null)                    
-                        setarCamadas(arr);                   
-                    else                    
-                        setarCamadas(null);  
-                }               
-            }
-            indice = 1;
+            else
+                indice++;
             acessar();
         }
-
-       
-
+         
         protected void buscarAnterior()
         {
             Timer!._timer!.Elapsed -= _timer_Elapsed;
@@ -528,28 +399,25 @@ namespace BlazorCms.Client.Pages
             {
                 if (indice == 1)
                 {
-                    setarCamadas(new int?[10] { story.PaginaPadraoLink, (int)substory!, null, null, null,
-                        null, null, null, null, null });
                     indice = 1;
                 }                
                 else
                 {
-                    setarCamadas(new int?[10] { story.PaginaPadraoLink, (int)substory!, null, null, null,
-                        null, null, null, null, null });
                     indice--;
                 }               
             }
             else
             if (indice == 1 && cap != 0)
             {
-                if (substory != null)
+                if (Filtro != null)
                 {
-                    voltarSubgrupos();
+                   Filtro fi = voltarSubgrupos();
+                    Filtro = fi.Id;
                 }
 
                 indice = 1;
                 retroceder = 1;
-                if (substory == null)
+                if (Filtro == null)
                 {
                     cap--;
                     storyid = repositoryPagina.stories
@@ -564,525 +432,7 @@ namespace BlazorCms.Client.Pages
             }
                  acessar();
         }
-
-        private void voltarSubgrupos()
-        {
-            
-                int?[] arr = null;
-                int?[] result = null;
-            if (camadadez != null && camadadez != 1)
-            {
-                var camada = camadadez;
-                while(camadadez != 0)
-                {
-                    var lista = story.Filtro.OrderBy(f => f.Id).Where(f => f is CamadaDez).ToList();
-                    foreach(var f in lista)
-                    {
-                        arr =  Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if(arr != null )
-                        {
-                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                            if (arr[8] == camadanove && arr[7] == camadaoito && arr[6] == camadasete &&
-                                arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
-                                arr[2] == grupo && arr[1] == substory && arr[9] < camada)
-                            {                               
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length == 10)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    camadadez -= 1; 
-                }
-            }           
-            else if (camadanove != null && camadanove != 1)
-            {
-                var camada = camadanove;
-                while(camadanove != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is CamadaNove).OrderByDescending(f => f.Id).ToList();
-                    foreach(var f in lista)
-                    {
-                        arr =  Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if(arr != null )
-                        {
-                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                            if (arr[7] == camadaoito && arr[6] == camadasete &&
-                                arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
-                                arr[2] == grupo && arr[1] == substory && arr[8] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                .FirstOrDefault(p => p.Content!.Id ==
-                                f.Pagina!.First().Content!.Id && f is CamadaDez) != null)
-                                .LastOrDefault()!;
-                                if(fi != null)
-                                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length >= 9)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    camadanove -= 1; 
-                }
-            }
-            else if (camadaoito != null && camadaoito != 1)
-            {
-                var camada = camadaoito;
-                while (camadaoito != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is CamadaOito).OrderByDescending(f => f.Id).ToList();
-                    foreach (var f in lista)
-                    {
-                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if (arr != null)
-                        {
-                             arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                            if (arr[6] == camadasete &&
-                               arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
-                               arr[2] == grupo && arr[1] == substory && arr[7] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaNove) != null)
-                                 .LastOrDefault()!;
-                                if (fi != null && fi is CamadaDez)
-                                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaNove)
-                                arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length >= 8)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    camadaoito -= 1;
-                }
-            }
-            else if (camadasete != null && camadasete != 1)
-            {
-                var camada = camadasete;
-                while (camadasete != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is CamadaSete).OrderByDescending(f => f.Id).ToList();
-                    foreach (var f in lista)
-                    {
-                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if (arr != null)
-                        {
-                             arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1, 1);
-                            if (arr != null && arr[5] == camadaseis && arr[4] == subsubgrupo && arr[3] == subgrupo &&
-                               arr[2] == grupo && arr[1] == substory && arr[6] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaOito) != null)
-                                 .LastOrDefault()!;
-                                if (fi != null && fi is CamadaDez)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaNove)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaOito)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length >= 7)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    camadasete -= 1;
-                }
-            }
-            else if (camadaseis != null && camadaseis != 1)
-            {
-                var camada = camadaseis;
-                while (camadaseis != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is CamadaSeis).OrderByDescending(f => f.Id).ToList();
-                    foreach (var f in lista)
-                    {
-                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if (arr != null)
-                        {
-                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1, 1);
-                            if (arr[4] == subsubgrupo && arr[3] == subgrupo &&
-                              arr[2] == grupo && arr[1] == substory && arr[5] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSete) != null)
-                                 .LastOrDefault()!;
-                                if (fi != null && fi is CamadaDez)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaNove)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaOito)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSete)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length >= 6)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    camadaseis -= 1;
-                }
-            }
-            else if (subsubgrupo != null && subsubgrupo != 1)
-            {
-                var camada = subsubgrupo;
-                while (subsubgrupo != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is SubSubGrupo).OrderByDescending(f => f.Id)
-                        .ToList();
-                    foreach (var f in lista)
-                    {
-                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if (arr != null)
-                        {
-                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1, 1);
-                            if (arr[3] == subgrupo &&
-                              arr[2] == grupo && arr[1] == substory && arr[4] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSeis) != null)
-                                 .LastOrDefault()!;
-                                if (fi != null && fi is CamadaDez)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaNove)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaOito)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSete)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSeis)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length >= 5)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    subsubgrupo -= 1;
-                }
-            }
-            else if (subgrupo != null && subgrupo != 1)
-            {
-                var camada = subgrupo;
-                while (subgrupo != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is SubGrupo).OrderByDescending(f => f.Id)
-                        .ToList();
-                    foreach (var f in lista)
-                    {
-                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if (arr != null)
-                        {
-                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1, 1);
-                            if (arr[2] == grupo && arr[1] == substory && arr[3] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSeis ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is SubSubGrupo) != null)
-                                 .LastOrDefault()!;
-                                if (fi != null && fi is CamadaDez)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaNove)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaOito)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSete)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSeis)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is SubSubGrupo)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length >= 4)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    subgrupo -= 1;
-                }
-            }
-            else if (grupo != null && grupo != 1)
-            {
-                var camada = grupo;
-                while (grupo != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is Grupo).OrderByDescending(f => f.Id)
-                        .ToList();
-                    foreach (var f in lista)
-                    {
-                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if (arr != null)
-                        {
-                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1, 1);
-                            if (arr[1] == substory && arr[2] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSeis ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is SubSubGrupo ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is SubGrupo) != null)
-                                 .LastOrDefault()!;
-                                if (fi != null && fi is CamadaDez)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaNove)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaOito)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSete)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSeis)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is SubSubGrupo)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is SubGrupo)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                                
-                        }
-                    }
-
-                    if (result != null && result.Length >= 3)
-                    {
-                        setarCamadas(result);
-                        break;
-                    }
-                    grupo -= 1;
-                }
-            }
-            else if (substory != null && substory != 1)
-            {
-                var camada = substory;
-                while (substory != 0)
-                {
-                    var lista = story.Filtro.Where(f => f is SubStory).OrderByDescending(f => f.Id).ToList();
-                    foreach (var f in lista)
-                    {
-                        arr = Array.RetornarArray(story.Filtro, story, 2, (long)f.Id, 1, 1);
-                        if (arr != null)
-                        {
-                            arr = Array.RetornarArray(story.Filtro, story, 3, (long)f.Id, 1, 1);
-                            if (arr[1] < camada)
-                            {
-                                var fi = story.Filtro.Where(fil => fil.Pagina
-                                 .FirstOrDefault(p => p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaDez ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaNove ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaOito ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSete ||
-                                  p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is CamadaSeis ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is SubSubGrupo ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is SubGrupo ||
-                                 p.Content!.Id ==
-                                 f.Pagina!.First().Content!.Id && f is Grupo) != null)
-                                 .LastOrDefault()!;
-                                if (fi != null && fi is CamadaDez)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaNove)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaOito)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSete)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is CamadaSeis)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is SubSubGrupo)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1, 1);
-                                if (fi != null && fi is SubGrupo)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1, 1);
-                                if (fi != null && fi is Grupo)
-                                    arr = Array.RetornarArray(story.Filtro, story, 3, (long)fi.Id, 1, 1, 1);
-                                result = arr;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (result != null && result.Length >= 2) 
-                    {
-                        setarCamadas(result);
-                        break;
-                    } 
-                    substory -= 1;
-                }
-            }
-            else if(camadadez != null)
-            {
-                var fi = Context.Filtro!
-                    .Include(p => p.Pagina)
-                    .Where(p => p is CamadaNove && p.Pagina.Count > 0)
-                    .ToList()
-                    .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (camadanove != null)
-            {
-                var fi = Context.Filtro!
-                    .Include(p => p.Pagina)
-                    .Where(p => p is CamadaOito && p.Pagina.Count > 0)
-                    .ToList()
-                    .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (camadaoito != null)
-            {
-                var fi = Context.Filtro!
-                    .Include(p => p.Pagina)
-                    .Where(p => p is CamadaSete && p.Pagina.Count > 0)
-                    .ToList()
-                    .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (camadasete != null)
-            {
-                var fi = Context.Filtro!
-                    .Include(p => p.Pagina)
-                    .Where(p => p is CamadaSeis && p.Pagina.Count > 0)
-                    .ToList()
-                    .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (camadaseis != null)
-            {
-                var fi = Context.Filtro!
-                    .Include(p => p.Pagina)
-                    .Where(p => p is SubSubGrupo && p.Pagina.Count > 0)
-                    .ToList()
-                    .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (subsubgrupo != null)
-            {
-                var fi = Context.Filtro!
-                    .Include(p => p.Pagina)
-                    .Where(p => p is SubGrupo && p.Pagina.Count > 0) 
-                    .ToList()
-                    .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (subgrupo != null)
-            {
-                var fi = Context.Filtro!
-                   .Include(p => p.Pagina)
-                    .Where(p => p is Grupo && p.Pagina.Count > 0)
-                    .ToList()
-                    .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (grupo != null)
-            {
-                var fi = Context.Filtro!
-                .Include(p => p.Pagina)
-                .Where(p => p is SubStory && p.Pagina.Count > 0)
-                .ToList()
-                .LastOrDefault()!;
-                result = retornarArray(fi);
-                setarCamadas(result);
-            }
-            else if (substory != null)
-            {
-                setarCamadas(null);
-            }
-
-           
-        }
-
+        
         protected async Task DarUmLike()
         {            
             usuario.curtir(Model);
@@ -1138,8 +488,8 @@ namespace BlazorCms.Client.Pages
         protected void acessarVerso()
         {
             indice_Filtro = 0;
-            setarCamadas(null);
             indice = (int) vers!;
+            Filtro = null;
             ultimaPasta = false;
             acessar();
         }
@@ -1157,7 +507,7 @@ namespace BlazorCms.Client.Pages
             List<Filtro> fils = null;
             Filtro fi = null;
 
-                if (substory == null)
+                if (Filtro == null)
                     opcional = indice.ToString();
                 else
                 {
@@ -1282,15 +632,9 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                var arr = retornarArray(fi);
-                setarCamadas(arr);
-                redirecionarParaVerso(int.Parse(opcional!));
-
-                
+                Filtro = fi.Id;
+                redirecionarParaVerso(int.Parse(opcional!));                
             }
-
-
-
 
         }
 
@@ -1298,10 +642,9 @@ namespace BlazorCms.Client.Pages
         {
             if (outroHorizonte == 0)
             {
-                var list = retornarListaFiltrada(null);
+                var list = await retornarListaFiltrada(null);
                 if (list == null)
                 {
-                    setarCamadas(null);
                     indice = verso;
                     outroHorizonte = 0;
                     acessar();                   
@@ -1340,7 +683,6 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                setarCamadas(null);
                 indice = verso;
                 outroHorizonte = 1;               
                 acessar();
@@ -1392,13 +734,30 @@ namespace BlazorCms.Client.Pages
                 html = html.Replace(id_video, id_video + "?autoplay=1");
                 html = html.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
 
+                //if(quantDiv > 19)
+                //{
+                //     html = html.Replace("560", "450");
+                //     html = html.Replace("320", "530");
+                //}
+                //else if (quantDiv > 14)
+                //{
+                //     html = html.Replace("560", "450");
+                //     html = html.Replace("320", "450");
+
+                //}
+                //else 
+                //{
+                //    html = html.Replace("560", "450");
+                //    html = html.Replace("320", "320");
+                //}
+                
             return html;
         }
 
         protected async void StartTour()
         {
             automatico = false;
-            if (substory == null)
+            if (Filtro == null)
                 await TourService.StartTour("FormGuidedTour1");
             else
                 await TourService.StartTour("FormGuidedTour2");
@@ -1424,16 +783,12 @@ namespace BlazorCms.Client.Pages
                 }
                 await js!.InvokeAsync<object>("DarAlert", $"Agora Compartilhe!!!");
 
-                    if(substory != null)
+                    if(Filtro != null)
                     {
-                            if(user.Identity!.IsAuthenticated)
-                            
-                                Compartilhou = user.Identity.Name;
-                            
+                            if(user.Identity!.IsAuthenticated)                            
+                                Compartilhou = user.Identity.Name;                            
                             else
                                 Compartilhou = "comp";
-
-                        
                     }
                 acessar();
             }
@@ -1466,7 +821,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarComentarios()
         {
             automatico = false;
-            if(substory == null)
+            if(Filtro == null)
             {
                 acessar($"/comentario/{Model.Id}");
             }
@@ -1480,7 +835,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarPastas()
         {
             automatico = false;
-            if (substory == null)
+            if (Filtro == null)
             {
                 acessar($"/pastas/{storyid}/{indice}/{dominio}/{Compartilhante}");
             }
@@ -1496,7 +851,6 @@ namespace BlazorCms.Client.Pages
             indice = repositoryPagina.stories.IndexOf(story);
             storyid = repositoryPagina!.stories!.First().Id;
             outroHorizonte = 0;
-            setarCamadas(null);
 
             acessar();
         }
@@ -1505,7 +859,6 @@ namespace BlazorCms.Client.Pages
         {
             outroHorizonte = 1;
             indice = i;
-            setarCamadas(null);
 
             acessar();
         }
@@ -1517,7 +870,6 @@ namespace BlazorCms.Client.Pages
                 .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
             automatico = false;
             indice = 1;
-            setarCamadas(null);
 
             acessar();
         }
@@ -1552,24 +904,9 @@ namespace BlazorCms.Client.Pages
                 criptografar = true;
 
                 string url = null;
-                if (camadadez != null)
-                    url = $"/camada10/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{camadadez}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (camadanove != null)
-                    url = $"/camada9/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{camadanove}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (camadaoito != null)
-                    url = $"/camada8/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{camadaoito}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (camadasete != null)
-                    url = $"/camada7/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{camadasete}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (camadaseis != null)
-                    url = $"/camada6/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{camadaseis}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (subsubgrupo != null)
-                    url = $"/camada5/{storyid}/{substory}/{grupo}/{subgrupo}/{subsubgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (subgrupo != null)
-                    url = $"/camada4/{storyid}/{substory}/{grupo}/{subgrupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (grupo != null)
-                    url = $"/camada3/{storyid}/{substory}/{grupo}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
-                else if (substory != null)
-                    url = $"/camada2/{storyid}/{substory}/{indice}/{Auto}/{timeproduto}/{conteudo}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
+                if (Filtro != null)
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}/{Filtro}";
+              
                 else if (filtrar != null)
                     url = $"/filtro/{storyid}/{filtrar}/0/0/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}/{redirecionar}";
                 else
@@ -1640,6 +977,10 @@ namespace BlazorCms.Client.Pages
             return storyService.HasFiltersAsync(storyId);
         }
 
+        public Task<List<FiltroContent>> GetContentByStoryIdAsync(long FiltroId)
+        {
+            return storyService.GetContentByStoryIdAsync(FiltroId);
+        }
     }
 
     public class UserPreferencesImage

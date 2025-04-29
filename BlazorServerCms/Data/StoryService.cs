@@ -14,15 +14,15 @@ namespace BlazorServerCms.Data
     {
         public ApplicationDbContext Context { get; }
         public IConfiguration Configuration { get; }
-
-        [Inject] public RepositoryPagina? repositoryPagina { get; set; }
+        public RepositoryPagina repositoryPagina { get; }
 
         private DemoContextFactory db = new DemoContextFactory();
 
-        public StoryService(IConfiguration configuration)
+        public StoryService(IConfiguration configuration, RepositoryPagina RepositoryPagina)
         {
             Context = db.CreateDbContext(null);
             Configuration = configuration;
+            repositoryPagina = RepositoryPagina;
         }
 
         public int CountPagesAsync(long storyId)
@@ -156,6 +156,18 @@ namespace BlazorServerCms.Data
                 _TotalRegistros = 0;
             }
             return _TotalRegistros;
+        }
+
+        public async Task<List<FiltroContent>> GetContentByStoryIdAsync(long FiltroId)
+        {
+            var c = await Context!.Filtro!
+            .Include(c => c.Pagina)!
+            .ThenInclude(c => c.Content)
+            .ThenInclude(c => c.Produto)
+            .ThenInclude(c => c.Produto)
+            .FirstAsync(c => c.Id == FiltroId);
+            repositoryPagina.filtros.Add(c);
+            return c.Pagina.ToList()!;
         }
     }
 }
