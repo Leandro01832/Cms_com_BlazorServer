@@ -12,11 +12,13 @@
 @inject UserManager<UserModel> userManager
 @inject IJSRuntime js
 @inject ITourService TourService
-
+@inject AuthenticationStateProvider? AuthenticationStateProvider 
 
 <PageTitle>Instagleo</PageTitle>
 
-
+<div class="row">
+    <LoginDisplay />
+</div>
 
 
 @if(marcar)
@@ -285,6 +287,17 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthenticationStateProvider
+        .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (!user.Identity!.IsAuthenticated)
+        {
+            navigation.NavigateTo("/Identity/Account/Login");
+
+        }
+
+
         Context = db.CreateDbContext(null);
         var quant = await userManager.Users.ToListAsync();
         users = quant.Count;

@@ -3,15 +3,35 @@
     margin: 0;
 }
 
+
 .circuloNewStory {
-    width: 165px;
-    height: 165px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: #dc12e3;
     background: linear-gradient(225deg, rgba(220, 18, 227, 1) 50%, rgba(240, 130, 12, 1) 70%, rgba(240, 217, 10, 1) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.circulo4 {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.circulo5 {
+    width: 39.8px;
+    height: 39.8px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: darkgray;
 }
 
 .circulo3 {
@@ -24,29 +44,7 @@
     align-items: center;
 }
 
-.circulo4 
-{
-    width: 158px;
-    height: 158px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-}
-
-.circulo5 {
-    width: 148px;
-    height: 148px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: darkgray;
-}
-
-.circulo 
-{
+.circulo {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -57,8 +55,7 @@
     /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;*/
 }
 
-.circulo2 
-{
+.circulo2 {
     width: 75px;
     height: 75px;
     border-radius: 50%;
@@ -72,46 +69,11 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+#carouselIndicators {
     width: 100%;
-}
-
-.container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    
-    align-items: flex-end;
-    width: 80%;
-    height: auto;
-    justify-content: space-evenly;
-   
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-
-.self{
-    align-self: flex-start;
-}
-
-.user
-{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.dados {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-#carouselIndicators{
-    width: 100%;
-    height: 150px;
+    height: 60px;
 }
 
 .carousel-item {
@@ -122,17 +84,24 @@
     display: flex;
     justify-content: center; /* Centraliza os itens */
     align-items: center; /* Alinha verticalmente */
-    gap: 10px; /* Espaçamento entre os itens */
+    gap: 1px; /* Espaçamento entre os itens */
 }
 
-.story
-{
+.story {
     width: 20%;
 }
 
-.desc{
-    height:40px;
-    font-size: 12px;
+.desc {
+    height: 40px;
+    font-size: 11px;
+}
+
+.aovivo{
+    background-color: rgb(243, 1, 104);
+    width: 45%;
+    color: white;
+    border-radius: 20%;
+    text-align: center;
 }
 
 .prev {
@@ -162,7 +131,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: flex-start;
 }
 
 .ImgUser {
@@ -171,36 +140,27 @@
     border-radius: 50%;
 }
 
-@media (max-width: 1550px) and (min-width: 550px) {
-    .carousel-control-prev {
-        height: 5%;
-        width: 5%;
-        left: 20%;
-        top: 50%;
-        background-color: black;
-        position: fixed;
+
+
+@media (max-width: 1550px) and (min-width: 1050px) {
+
+
+    .aovivo {
+        background-color: rgb(243, 1, 104);
+        width: 25%;
+        color: white;
+        border-radius: 20%;
+        text-align: center;
     }
- 
+
+
+
 }
 
-@media (max-width: 550px) and (min-width: 50px) {
-    .container {
-        height: 400px;
-    }
 
-    .prev {
-        height: 80%;
-        width: 30%;
-        top: 50%;
-        background-color: black;
-    }
 
-    .prox {
-        height: 80%;
-        width: 30%;
-        top: 50%;
-        background-color: black;
-    }
- 
-}
+
+
+
+
 

@@ -4,9 +4,6 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime js
 
-
-
-
 <div class="container">
 
     <div class="item" >
@@ -138,9 +135,6 @@
 
 </div>
 
-
-
-
 @if (stories.Count > 39)
 {
     @*  <div class="carousel-item">
@@ -244,10 +238,6 @@
 
 }
 
-
-
-
-
 <div class="listas" role="tablist">
     <a aria-selected="true" class="" href="/@user/" role="tab" tabindex="0">
         <div class="">
@@ -321,7 +311,6 @@
     </a>
 </div>
 
-
 @code 
 {
 
@@ -379,8 +368,6 @@
         if (newStory) classCircle = "circuloNewStory";
         else classCircle = "circulo3";
 
-
-
         repositoryPagina.exibir = false;
         Context = db.CreateDbContext(null);
         if (stories.Count == 0)
@@ -410,6 +397,5 @@
              .GetAuthenticationStateAsync();
         usuario = authState.User;
 
-        // marcadores = repositoryPagina.retornarMarcadores(usermodel, story);
     }
 }
