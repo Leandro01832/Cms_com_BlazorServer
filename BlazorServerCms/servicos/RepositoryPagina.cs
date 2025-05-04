@@ -26,7 +26,7 @@ namespace BlazorServerCms.servicos
         public int QuantMinutos { get; set; } = 30;
         public int quantSlidesCarregando { get; set; } = 30;
 
-        public int dias { get; set; } = 1;  
+        public int dias { get; set; } = 10;  
         public int meta1 { get; set; } = 1;  
         public int meta2 { get; set; } = 1;  
         public int meta3 { get; set; } = 1;  
@@ -170,54 +170,6 @@ namespace BlazorServerCms.servicos
             ApplicationDbContext Contexto = db.CreateDbContext(null);
             return Contexto.Pagina!
              .Include(p => p.Story)!;
-        }
-
-        private Filtro verificarFiltros(Filtro f, Story story)
-        {
-            if (f is CamadaDez)
-            {
-                CamadaDez camada = (CamadaDez)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaNoveId);
-            }
-            else if (f is CamadaNove)
-            {
-                CamadaNove camada = (CamadaNove)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaOitoId);
-            }
-            else if (f is CamadaOito)
-            {
-                CamadaOito camada = (CamadaOito)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaSeteId);
-            }
-            else if (f is CamadaSete)
-            {
-                CamadaSete camada = (CamadaSete)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaSeisId);
-            }
-            else if (f is CamadaSeis)
-            {
-                CamadaSeis camada = (CamadaSeis)f;
-                return story.Filtro.First(fil => fil.Id == camada.SubSubGrupoId);
-            }
-            else if (f is SubSubGrupo)
-            {
-                SubSubGrupo camada = (SubSubGrupo)f;
-                return story.Filtro.First(fil => fil.Id == camada.SubGrupoId);
-            }
-            else if (f is SubGrupo)
-            {
-                SubGrupo camada = (SubGrupo)f;
-                return story.Filtro.First(fil => fil.Id == camada.GrupoId);
-            }
-            else if (f is Grupo)
-            {
-                Grupo camada = (Grupo)f;
-                return story.Filtro.First(fil => fil.Id == camada.SubStoryId);
-            }
-            else
-            {
-                return f;
-            }
         }
 
     }

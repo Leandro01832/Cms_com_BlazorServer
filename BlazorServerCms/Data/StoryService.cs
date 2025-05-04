@@ -68,6 +68,9 @@ namespace BlazorServerCms.Data
                .ThenInclude(c => c.Produto)
                .Where(c => c is Pagina && c.StoryId == storyId)
                .ToListAsync();
+
+
+
             return conteudos;
         }
 

@@ -16,6 +16,15 @@ else if (c != null)
 }
 @if(c != null)
 {
+    if(capitulo == null){
+        <input type="number" placeholder="Capitulo" @bind="cap" />
+        <a onclick="@filtrar" >Filtrar</a>
+
+    }
+    else{
+        <a class="btn btn-primary" onclick="@generalizar" >Capitulo @cap X</a>
+
+    }
     <center>
         @markup
     </center>
@@ -49,8 +58,9 @@ else
     private MarkupString markup;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-
-    int? verso = null;
+    int? cap = 1;
+    int? capitulo = 1;
+    int? indice = null;
     long? filtro = null;
 
     [Parameter] public long? Id { get; set; }
@@ -66,12 +76,32 @@ else
 
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        content = repositoryPagina.Conteudo.OfType<UserContent>()
-        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias)).OrderBy(co => co.Id).ToList();
-        verso = 1;
+        content = randomizar( repositoryPagina.Conteudo.OfType<UserContent>()
+        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+        .OrderBy(co => co.Id).ToList());
+
+        indice = 1;
+    }
+
+    private void filtrar()
+    {
+        capitulo = cap;
+        var story = repositoryPagina.stories.First(str => str.PaginaPadraoLink == cap);
+        content = randomizar( repositoryPagina.Conteudo.OfType<UserContent>()
+        .Where(c => c.StoryId == story.Id &&
+        c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+        .OrderBy(co => co.Id).ToList());
+    }
+
+    private void generalizar()
+    {
+        capitulo = null;
+        content = randomizar( repositoryPagina.Conteudo.OfType<UserContent>()
+        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+        .OrderBy(co => co.Id).ToList());
     }
 
     private void proximo(long Id)
@@ -97,13 +127,25 @@ else
         navigation.NavigateTo($"{url}");
     }
 
+    private List<UserContent> randomizar(List<UserContent> lista)
+    {
+        List<UserContent> retorno = new List<UserContent>();
+        while(lista.Count != 0){
+            var indice = repositoryPagina.random.Next(0, lista.Count - 1);
+            retorno.Add(lista[indice]);
+            lista.Remove(lista[indice]);
+        }
+
+        return retorno;
+    }
+
     private string retornarUrl()
     {
         string url = null;
         if (filtro != null)
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/comp/comp/comp/comp/comp/comp/{filtro}";          
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/comp/comp/comp/comp/comp/comp/{filtro}";          
         else
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{verso}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/comp/comp/comp/comp/comp/comp";
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/comp/comp/comp/comp/comp/comp";
         return url;
     }
 

@@ -96,21 +96,28 @@ app.MapFallbackToPage("/_Host");
 
 using (var scope = app.Services.CreateScope())
 {
-    var contexto = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var contexto         = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var repositoryPagina = scope.ServiceProvider.GetRequiredService<RepositoryPagina>();
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
-    var email = builder.Configuration.GetConnectionString("Email");
-    var password = builder.Configuration.GetConnectionString("Senha");
-    var userASP = await userManager.FindByNameAsync(email);
+    var roleManager      = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager      = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
+    var email            = builder.Configuration.GetConnectionString("Email");
+    var password         = builder.Configuration.GetConnectionString("Senha");
+    var userASP          = await userManager.FindByNameAsync(email);
 
     if (await contexto!.Set<Story>().AnyAsync())
     {
         List<Story> stories = await contexto.Story!
-            .OrderBy(st => st.Id)
-            .ToListAsync();
-    repositoryPagina.stories.AddRange(stories);
+        .OrderBy(st => st.Id)
+        .ToListAsync();
+        repositoryPagina.stories.AddRange(stories);
+    }
 
+    if(await contexto!.Set<Content>().AnyAsync())
+    {
+        var conteudos = await contexto.UserContent
+        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+        .OrderBy(co => co.Id).ToListAsync();
+        repositoryPagina.Conteudo.AddRange(conteudos);
     }
 
 

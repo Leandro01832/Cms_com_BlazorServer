@@ -732,25 +732,7 @@ namespace BlazorCms.Client.Pages
             }
 
                 html = html.Replace(id_video, id_video + "?autoplay=1");
-                html = html.Replace("<iframe", "<iframe" + " allow='accelerometer; autoplay; clipboard-write; encrypted-media;' ");
-
-                //if(quantDiv > 19)
-                //{
-                //     html = html.Replace("560", "450");
-                //     html = html.Replace("320", "530");
-                //}
-                //else if (quantDiv > 14)
-                //{
-                //     html = html.Replace("560", "450");
-                //     html = html.Replace("320", "450");
-
-                //}
-                //else 
-                //{
-                //    html = html.Replace("560", "450");
-                //    html = html.Replace("320", "320");
-                //}
-                
+                html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");               
             return html;
         }
 
