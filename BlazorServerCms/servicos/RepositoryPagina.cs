@@ -24,7 +24,7 @@ namespace BlazorServerCms.servicos
         public bool exibir = true;
 
         public int QuantMinutos { get; set; } = 30;
-        public int quantSlidesCarregando { get; set; } = 30;
+        public int quantSlidesCarregando { get; set; } = 50;
 
         public int dias { get; set; } = 10;  
         public int meta1 { get; set; } = 1;  

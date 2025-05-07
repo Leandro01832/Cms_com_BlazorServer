@@ -51,17 +51,52 @@ namespace BlazorServerCms.Data
 
             return _TotalRegistros;
         }
-
-        public async Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual )
+        public async Task<List<Content>> GetContentsByFiltroIdAsync(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
         {
             List<Content> conteudos;
             if (quantidadeLista > 999)
+            {
+                int carregar = 0;
+                if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)
+                    carregar = (int)carregando;
+                else carregar = repositoryPagina.quantSlidesCarregando;
+
+                conteudos = await Context!.Content!.OrderBy(p => p.Id)
+           .Include(c => c.Produto)
+           .ThenInclude(c => c.Produto)
+           .Where(c => c is Pagina && c.StoryId == filtroId)
+           .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+           .ToListAsync();
+            }
+            else
                 conteudos = await Context!.Content!.OrderBy(p => p.Id)
                .Include(c => c.Produto)
                .ThenInclude(c => c.Produto)
-               .Where(c => c is Pagina && c.StoryId == storyId)
-               .Skip(quantDiv * slideAtual).Take(quantDiv * repositoryPagina.quantSlidesCarregando)
+               .Where(c => c is Pagina && c.StoryId == filtroId)
                .ToListAsync();
+
+
+
+            return conteudos;
+        }
+
+        public async Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null )
+        {
+            List<Content> conteudos;
+            if (quantidadeLista > 999)
+            {
+                int carregar = 0;
+                if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)
+                    carregar = (int)carregando;
+                else carregar = repositoryPagina.quantSlidesCarregando;
+
+                    conteudos = await Context!.Content!.OrderBy(p => p.Id)
+               .Include(c => c.Produto)
+               .ThenInclude(c => c.Produto)
+               .Where(c => c is Pagina && c.StoryId == storyId)
+               .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+               .ToListAsync();
+            }
             else
                 conteudos = await Context!.Content!.OrderBy(p => p.Id)
                .Include(c => c.Produto)
@@ -172,5 +207,6 @@ namespace BlazorServerCms.Data
             repositoryPagina.filtros.Add(c);
             return c.Pagina.ToList()!;
         }
+
     }
 }

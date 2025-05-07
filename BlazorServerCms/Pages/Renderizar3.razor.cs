@@ -195,25 +195,29 @@ namespace BlazorCms.Client.Pages
 
             if (Model == null)
             {
-                List<Content> conteudos =
-                await GetContentsByStoryIdAsync((long)storyid!, quantidadeLista, quantDiv, slideAtual);                
+                List<Content> conteudos = null;
+                if(filtro == null)
+                {
+                    conteudos = await GetContentsByStoryIdAsync((long)storyid!, quantidadeLista, quantDiv, slideAtual, carregando);
+                                   
+                    carregando = 0;
+                    listaContent.AddRange(conteudos);
 
-                listaContent.AddRange(conteudos);
+                    foreach (var item in listaContent)
+                    if (repositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
+                    repositoryPagina.Conteudo.Add(item);
 
-                foreach (var item in listaContent)
-                if (repositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
-                repositoryPagina.Conteudo.Add(item);
-
-                Model = repositoryPagina.Conteudo
-                .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
+                    Model = repositoryPagina.Conteudo
+                    .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
+                }
             }
 
-            if (story == null || story.Id != Model!.StoryId)
+            if (story == null )
             {
-                story = await GetStoryByIdAsync(Model!.StoryId);
+                story = await GetStoryByIdAsync((long)storyid!);
             }
-            cap = repositoryPagina.stories.First(st => st.Id == Model.StoryId).PaginaPadraoLink;
-            nameStory = repositoryPagina.stories.First(st => st.Id == Model.StoryId).Nome;
+            cap = repositoryPagina.stories.First(st => st.Id == storyid).PaginaPadraoLink;
+            nameStory = repositoryPagina.stories.First(st => st.Id == storyid).Nome;
 
             listaContent = repositoryPagina.Conteudo.Where(c => c is Pagina).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
@@ -221,13 +225,11 @@ namespace BlazorCms.Client.Pages
 
             if (outroHorizonte == 1)
             {
-                if (Model != null)
-                {
+                
                     Model2 = story.Filtro.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault();
-
                     quantidadeLista = story.Filtro.ToList().Count;
                     indiceAcesso = story.Filtro.IndexOf(Model2) + 1;
-                }
+                
             }
 
             quantidadePaginas =  CountPaginas();
@@ -239,13 +241,13 @@ namespace BlazorCms.Client.Pages
             //     )
             //     repositoryPagina.erro = true;
 
-            if (Model != null)
+            
                 condicaoFiltro = CountFiltros();
 
             if (filtrar == null && Filtro == null)
             {
                 tellStory = false;
-                if (Model == null)
+                if (indice > quantidadeLista)
                 {
                     if (quantidadePaginas != 0)
                         Mensagem = $"Por favor digite um numero menor que {quantidadeLista}.";
@@ -256,7 +258,7 @@ namespace BlazorCms.Client.Pages
 
                 
 
-                if (Model is Comment)
+                if (Model != null && Model is Comment)
                 {
                     Comment pa = (Comment)Model;
                     if (pa.ContentId != null)
@@ -435,12 +437,14 @@ namespace BlazorCms.Client.Pages
                 if(repositoryPagina.filtros.FirstOrDefault(f => f.Id == this.Filtro) == null)
                 {
                     listaContent.Clear();
+                    var conteudos = await GetContentsByFiltroIdAsync((long)Filtro, quantidadeLista, quantDiv, slideAtual, carregando);
                     Fil.Pagina = await GetContentByStoryIdAsync((long)this.Filtro);
                     listaContent.AddRange(Fil.Pagina.Select<FiltroContent, Content>(c => c.Content!).ToList()!);   
 
                 }
                 else
                 {
+                    listaContent.Clear();
                     listaContent.AddRange(Fil.Pagina!.Select<FiltroContent, Content>(c => c.Content!).ToList()!);
                 }
 

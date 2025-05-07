@@ -249,6 +249,7 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private int users = 0;
+    private int? carregando = null;
     private string placeholder = "Nº do capitulo ou pesquisar";
     private bool marcar;
 
@@ -258,7 +259,6 @@
     long? filtro = null;
 
     private string erro1 = "Voce ainda não esta compartilhando nenhum livro";
-
 
     protected override async Task OnParametersSetAsync()
     {
@@ -375,6 +375,7 @@
 
     private async void buscar()
     {
+        carregando = null;
         string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario.");
         if (!string.IsNullOrEmpty(prompted))
         {
@@ -403,6 +404,7 @@
 
                 int[] numeros = new int[arr.Length];
 
+
                 for (var i = 0; i < arr.Length; i++)
                 {
                     try
@@ -419,6 +421,7 @@
 
                 if (teste)
                 {
+                    carregando = repositoryPagina.quantSlidesCarregando / arr.Length;
                     for (var j = 0; j < numeros.Length; j++)
                     {
                         url = null;
@@ -588,9 +591,7 @@
         }
 
     }
-
     
-
     private void alterarUser(ChangeEventArgs args)
     {
         var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
@@ -621,16 +622,17 @@
         else
         placeholder = "Nº do capitulo ou pesquisar";
     }
-
-    
-
-    
-
+        
     private string retornarUrl()
     {
         string url = null;
         if (filtro != null)
+        {
+            if(carregando == null)
             url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0/{filtro}";
+            else
+            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0/{filtro}/{carregando}";
+        }
         else
             url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
         return url;

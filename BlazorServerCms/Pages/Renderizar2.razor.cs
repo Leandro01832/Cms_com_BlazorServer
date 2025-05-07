@@ -92,6 +92,7 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int timeproduto { get; set; } = 11;  
         [Parameter] public int? conteudo { get; set; } = 1;  
         [Parameter] public int indice { get; set; } = 1;
+        [Parameter] public int? carregando { get; set; } = null;
         [Parameter] public long? storyid { get; set; } = 1;
 
         private long? filtro = null;

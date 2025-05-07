@@ -935,9 +935,9 @@ namespace BlazorCms.Client.Pages
             return storyService.GetStoryByIdAsync(storyId);
         }
 
-        public Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual)
+        public Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
         {
-            return storyService.GetContentsByStoryIdAsync(storyId, quantidadeLista, quantDiv, slideAtual);
+            return storyService.GetContentsByStoryIdAsync(storyId, quantidadeLista, quantDiv, slideAtual, carregando);
         }
 
         public int CountPagesAsync(long storyId)
@@ -962,6 +962,11 @@ namespace BlazorCms.Client.Pages
         public Task<List<FiltroContent>> GetContentByStoryIdAsync(long FiltroId)
         {
             return storyService.GetContentByStoryIdAsync(FiltroId);
+        }
+
+        public Task<List<Content>> GetContentsByFiltroIdAsync(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
+        {
+            return storyService.GetContentsByFiltroIdAsync(filtroId, quantidadeLista, quantDiv, slideAtual, carregando);
         }
     }
 
