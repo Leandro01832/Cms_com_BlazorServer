@@ -53,10 +53,7 @@ namespace BlazorCms.Client.Pages
             if (cap != 0)
                 StartTimer(Model);
 
-
-
-            if (Compartilhou != "comp" && pontos != null && Filtro != null ||
-                Compartilhante != 0 && pontos != null && Filtro != null)
+            if (Model2.usuarios != null && Model2.usuarios.Count > 0  && Filtro != null)
                 adicionarPontos();
 
         }
@@ -88,20 +85,7 @@ namespace BlazorCms.Client.Pages
             timeproduto = 11;
 
             if (compartilhou == null) compartilhou = "comp";
-            if (Compartilhante == null)
-            {
-
-                Compartilhante = 0;
-                Compartilhante2 = 0;
-                Compartilhante3 = 0;
-                Compartilhante4 = 0;
-                Compartilhante5 = 0;
-                Compartilhante6 = 0;
-                Compartilhante7 = 0;
-                Compartilhante8 = 0;
-                Compartilhante9 = 0;
-                Compartilhante10 = 0;
-            }
+            
             if (dominio == null)
                 dominio = "dominio";
 
@@ -448,129 +432,11 @@ namespace BlazorCms.Client.Pages
                     listaContent.AddRange(Fil.Pagina!.Select<FiltroContent, Content>(c => c.Content!).ToList()!);
                 }
 
-               
-                    
-                
-
                 if (Model2.usuarios != null && Model2.usuarios.Count != 0)
                 {
-                    var fil = verificarFiltros(Model2);
-                    Compartilhante = Model2.Id;
-                    Compartilhante2 = 0;
-                    Compartilhante3 = 0;
-                    Compartilhante4 = 0;
-                    Compartilhante5 = 0;
-                    Compartilhante6 = 0;
-                    Compartilhante7 = 0;
-                    Compartilhante8 = 0;
-                    Compartilhante9 = 0;
-                    Compartilhante10 = 0;
+                    int camada = repositoryPagina.buscarCamada();
+                    instanciarTime(camada);
 
-
-                    if (fil.usuarios.Count != 0)
-                    {
-                        //compartilhante ganha 2 pts                        
-                        Compartilhante = fil.Id;
-                        Compartilhante2 = Model2.Id;
-                        Compartilhante3 = 0;
-                        Compartilhante4 = 0;
-                        Compartilhante5 = 0;
-                        Compartilhante6 = 0;
-                        Compartilhante7 = 0;
-                        Compartilhante8 = 0;
-                        Compartilhante9 = 0;
-                        Compartilhante10 = 0;
-
-                        fil2 = verificarFiltros(fil);
-                        if (fil2.usuarios.Count != 0)
-                        {
-                            //compartilhante ganha 3 pts                            
-                            Compartilhante = fil2.Id;
-                            Compartilhante2 = fil.Id;
-                            Compartilhante3 = Model2.Id;
-                            Compartilhante4 = 0;
-                            Compartilhante5 = 0;
-                            Compartilhante6 = 0;
-                            Compartilhante7 = 0;
-                            Compartilhante8 = 0;
-                            Compartilhante9 = 0;
-                            Compartilhante10 = 0;
-
-                            fil3 = verificarFiltros(fil2);
-                            if (fil3.usuarios.Count != 0)
-                            {
-                                //compartilhante ganha 4 pts                                
-                                Compartilhante = fil3.Id;
-                                Compartilhante2 = fil2.Id;
-                                Compartilhante3 = fil.Id;
-                                Compartilhante4 = Model2.Id;
-                                Compartilhante5 = 0;
-                                Compartilhante6 = 0;
-                                Compartilhante7 = 0;
-                                Compartilhante8 = 0;
-                                Compartilhante9 = 0;
-                                Compartilhante10 = 0;
-
-                                fil4 = verificarFiltros(fil3);
-                                if (fil4.usuarios.Count != 0)
-                                {
-                                    //compartilhante ganha 5 pts                                    
-                                    Compartilhante = fil4.Id;
-                                    Compartilhante2 = fil3.Id;
-                                    Compartilhante3 = fil2.Id;
-                                    Compartilhante4 = fil.Id;
-                                    Compartilhante5 = Model2.Id;
-                                    Compartilhante6 = 0;
-                                    Compartilhante7 = 0;
-                                    Compartilhante8 = 0;
-                                    Compartilhante9 = 0;
-                                    Compartilhante10 = 0;
-
-                                    fil5 = verificarFiltros(fil4);
-                                    if (fil5.usuarios.Count != 0)
-                                    {
-                                        //compartilhante ganha 6 pts                                        
-                                        Compartilhante = fil5.Id;
-                                        Compartilhante2 = fil4.Id;
-                                        Compartilhante3 = fil3.Id;
-                                        Compartilhante4 = fil2.Id;
-                                        Compartilhante5 = fil.Id;
-                                        Compartilhante6 = Model2.Id;
-                                        Compartilhante7 = 0;
-                                        Compartilhante8 = 0;
-                                        Compartilhante9 = 0;
-                                        Compartilhante10 = 0;
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                    if (fil.usuarios.Count > 0)
-                    {
-                        int camada = repositoryPagina.buscarCamada();
-                        instanciarTime(camada);
-
-                    }
-
-                }
-                else if (Model2.usuarios.Count == 0)
-                {
-                    Compartilhante = 0;
-                    Compartilhante2 = 0;
-                    Compartilhante3 = 0;
-                    Compartilhante4 = 0;
-                    Compartilhante5 = 0;
-                    Compartilhante6 = 0;
-                    Compartilhante7 = 0;
-                    Compartilhante8 = 0;
-                    Compartilhante9 = 0;
-                    Compartilhante10 = 0;
                 }
 
                 if (retroceder == 1)
@@ -579,11 +445,8 @@ namespace BlazorCms.Client.Pages
                     retroceder = 0;
                 }
 
-
                 Model = listaContent!
                     .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
-
-
 
                 if (Model is Pagina)
                 {
@@ -592,11 +455,6 @@ namespace BlazorCms.Client.Pages
 
                 }
                 else vers = 0;
-
-                //ultimaPasta = Model2.Id == story.Filtro
-                //    .Where(f => f.Pagina
-                //    .FirstOrDefault(p => p.Content!.Id == Model.Id) != null)
-                //        .LastOrDefault()!.Id;
 
                 int cam = repositoryPagina.buscarCamada();
                 Type t = retornarPasta(cam);
@@ -626,15 +484,13 @@ namespace BlazorCms.Client.Pages
 
                 if (pag2 == null)
                 {
-                    navigation.NavigateTo($"/renderizar/{storyid}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/{Compartilhante}");
+                    navigation.NavigateTo($"/renderizar/{storyid}/{indice_Filtro}/0/11/1/1/0/0/0/{dominio}/");
                 }
 
                 if (pag2 is Pagina)
                 {
                     var p = (Pagina)pag2;
                     vers = p.Versiculo;
-                    // Model = repositoryPagina.includes()
-                    // .FirstOrDefault(p => p.Versiculo == vers && p.StoryId == storyid);
                 }
                 else vers = 0;
 
@@ -649,16 +505,16 @@ namespace BlazorCms.Client.Pages
         {
             Filtro[] fils = new Filtro[10];
             Time time = null;
-            fils[0] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante)!;
-            fils[1] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante2)!;
-            fils[2] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante3)!;
-            fils[3] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante4)!;
-            fils[4] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante5)!;
-            fils[5] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante6)!;
-            fils[6] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante7)!;
-            fils[7] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante8)!;
-            fils[8] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante9)!;
-            fils[9] = story.Filtro.FirstOrDefault(u => u.Id == Compartilhante10)!;
+            fils[0] = story.Filtro.FirstOrDefault(u => u.Id == Model2!.Id)!;
+            fils[1] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[0]).Id)!;
+            fils[2] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[1]).Id)!;
+            fils[3] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[2]).Id)!;
+            fils[4] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[3]).Id)!;
+            fils[5] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[4]).Id)!;
+            fils[6] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[5]).Id)!;
+            fils[7] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[6]).Id)!;
+            fils[8] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[7]).Id)!;
+            fils[9] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[8]).Id)!;
             if (camada == 7 && fils[0] is not null && fils[1] is not null &&
                     fils[2] is not null && fils[3] is not null && fils[4] is not null &&
                      fils[5] is not null)
@@ -784,6 +640,9 @@ namespace BlazorCms.Client.Pages
 
         private Filtro verificarFiltros(Filtro f)
         {
+            if (f == null)
+                return f;
+            else
             if (f is CamadaDez)
             {
                 CamadaDez camada = (CamadaDez)f;
@@ -819,15 +678,12 @@ namespace BlazorCms.Client.Pages
                 SubGrupo camada = (SubGrupo)f;
                 return story.Filtro.First(fil => fil.Id == camada.GrupoId);
             }
-            else if (f is Grupo)
+            else 
             {
                 Grupo camada = (Grupo)f;
                 return story.Filtro.First(fil => fil.Id == camada.SubStoryId);
             }
-            else
-            {
-                return f;
-            }
+            
         }
 
         private void adicionarPontos()
@@ -837,17 +693,17 @@ namespace BlazorCms.Client.Pages
             Filtro[] fils = new Filtro[6];
             var us = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
             var us2 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante);
+                .FirstOrDefault(u => u.Id == Model2.Id);
             var us3 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante2);
+                .FirstOrDefault(u => u.Id == verificarFiltros(us2).Id);
             var us4 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante3);
+                .FirstOrDefault(u => u.Id == verificarFiltros(us3).Id);
             var us5 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante4);
+                .FirstOrDefault(u => u.Id == verificarFiltros(us4).Id);
             var us6 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante5);
+                .FirstOrDefault(u => u.Id == verificarFiltros(us5).Id);
             var us7 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == Compartilhante6);
+                .FirstOrDefault(u => u.Id == verificarFiltros(us6).Id);
             var users = Context.Filtro.ToList().Count;
             var filtros = story.Filtro.Count();
 
@@ -992,7 +848,6 @@ namespace BlazorCms.Client.Pages
                 }
 
             }
-            pontos = null;
         }
 
         private void verificarCompartilhante(Filtro fil, Time time)
@@ -1028,6 +883,7 @@ namespace BlazorCms.Client.Pages
 
         private Filtro buscarProximoSubGrupo()
         {
+            //  var tipo = Model2.GetType();
             if (Model2 is CamadaDez)
             {
                 var indice = GetIndex(Model2);
@@ -1115,6 +971,7 @@ namespace BlazorCms.Client.Pages
 
         private Filtro voltarSubgrupos()
         {
+            //  var tipo = Model2.GetType();
             if (Model2 is CamadaDez)
             {
                 var indice = GetIndex(Model2);

@@ -370,7 +370,7 @@
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
         dominio = repositoryPagina.buscarDominio();
-        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/0/0/0/{dominio}/comp/0/0/0/0/0/0/0/0/0/0");
+        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/0/0/0/{dominio}/comp/{item.Id}");
     }
 
     private async void buscar()
@@ -629,12 +629,12 @@
         if (filtro != null)
         {
             if(carregando == null)
-            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0/{filtro}";
+            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/{filtro}";
             else
-            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0/{filtro}/{carregando}";
+            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/{filtro}/{carregando}";
         }
         else
-            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/0/0/0/0/0/0/0/0/0/0";
+            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
         return url;
     }
 

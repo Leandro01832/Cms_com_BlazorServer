@@ -148,8 +148,13 @@ namespace BlazorCms.Client.Pages
         
         protected async void ativarConteudo()
         {
-            if(indice == 1 && tellStory)
-            await js!.InvokeAsync<object>("DarAlert", "Conteudo só podera ser compartilhado quando a pessoa souber qual é a pasta");
+            if (repositoryPagina.Conteudo.FirstOrDefault(c => 
+            story.Filtro!.FirstOrDefault(f => f.Id == Model2!.Id 
+            && f.Pagina!.FirstOrDefault(p => p.ContentId == c.Id && p.Content is UserContent) != null) != null) == null)
+            {
+                Content = false;
+                await js!.InvokeAsync<object>("DarAlert", $"Não existe mais conteudo para esta história: {Model2.Nome}.");
+            }
         }
 
         private void desabilitarAuto()
@@ -193,13 +198,13 @@ namespace BlazorCms.Client.Pages
         
         protected void listarPasta()
         {
-            acessar($"/lista-filtro/1/{Compartilhante}/{storyid}/{indice_Filtro}/0");
+            acessar($"/lista-filtro/1/{Model2.Id}/{storyid}/{indice_Filtro}/0");
         }
 
         protected void listarPastas()
         {
 
-            acessar($"/listar-pasta/{storyid}/{dominio}/{Compartilhante}");
+            acessar($"/listar-pasta/{storyid}/{dominio}/{Model2.Id}");
         }
 
         protected void acessarHorizontePastas(int? i)
@@ -748,12 +753,8 @@ namespace BlazorCms.Client.Pages
         protected async void share()
         {
             automatico = false;
-            if (Compartilhante == 0 || title == null || resumo == null)
+            if ( title == null || resumo == null)
             {
-                if (Compartilhante == 0)
-                {
-                    Compartilhante =  0;
-                }
                 if (title == null)
                 {
                     title = Model.Titulo;
@@ -819,11 +820,11 @@ namespace BlazorCms.Client.Pages
             automatico = false;
             if (Filtro == null)
             {
-                acessar($"/pastas/{storyid}/{indice}/{dominio}/{Compartilhante}");
+                acessar($"/pastas/{storyid}/{indice}/{dominio}");
             }
             else
             {
-                acessar($"/pastas/{storyid}/{vers}/{dominio}/{Compartilhante}");
+                acessar($"/pastas/{storyid}/{vers}/{dominio}");
 
             }
         }
@@ -859,10 +860,7 @@ namespace BlazorCms.Client.Pages
         protected void AdicionarAoCarrinho(long ProdutoId)
         {
             criptografar = true;
-            var url = $"/carrinho/{ProdutoId}/{Compartilhou}/{Compartilhante}/" +
-            $"{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/" +
-            $"{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/" +
-            $"{Compartilhante10}";
+            var url = $"/carrinho/{ProdutoId}/{Compartilhou}/{Model2!.Id}";
             criptografar = false;
             acessar(url);
         }
@@ -887,14 +885,13 @@ namespace BlazorCms.Client.Pages
 
                 string url = null;
                 if (Filtro != null)
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}/{Filtro}";
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";
               
                 else if (filtrar != null)
-                    url = $"/filtro/{storyid}/{filtrar}/0/0/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}/{redirecionar}";
+                    url = $"/filtro/{storyid}/{filtrar}/0/0/{dominio}/{Compartilhou}/{redirecionar}";
                 else
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Compartilhante}/{Compartilhante2}/{Compartilhante3}/{Compartilhante4}/{Compartilhante5}/{Compartilhante6}/{Compartilhante7}/{Compartilhante8}/{Compartilhante9}/{Compartilhante10}";
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}";
 
-                if (Compartilhante != 0 && outroHorizonte == 0 && pontos == null) url += "/1";
 
                 criptografar = false;
 
@@ -908,9 +905,7 @@ namespace BlazorCms.Client.Pages
                 }
                 catch (Exception) { throw; }
 
-            }          
-
-            
+            }     
 
         }
 
@@ -969,7 +964,6 @@ namespace BlazorCms.Client.Pages
             return storyService.GetContentsByFiltroIdAsync(filtroId, quantidadeLista, quantDiv, slideAtual, carregando);
         }
     }
-
     public class UserPreferencesImage
     {
         public string? user { get; set; }

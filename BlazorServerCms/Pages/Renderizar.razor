@@ -1,6 +1,6 @@
 ﻿@page "/renderizar"
-@page "/filtro/{storyid:long}/{filtrar}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante:long}/{Compartilhante2:long}/{Compartilhante3:long}/{Compartilhante4:long}/{Compartilhante5:long}/{Compartilhante6:long}/{Compartilhante7:long}/{Compartilhante8:long}/{Compartilhante9:long}/{Compartilhante10:long}/{redirecionar?}"
-@page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Compartilhante:long}/{Compartilhante2:long}/{Compartilhante3:long}/{Compartilhante4:long}/{Compartilhante5:long}/{Compartilhante6:long}/{Compartilhante7:long}/{Compartilhante8:long}/{Compartilhante9:long}/{Compartilhante10:long}/{Filtro:long?}/{carregando:int?}/{pontos?}"
+@page "/filtro/{storyid:long}/{filtrar}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{redirecionar?}"
+@page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Filtro:long?}/{carregando:int?}"
 
 
 @inherits RenderizarBase
@@ -305,7 +305,7 @@ else if (!repositoryPagina.erro)
                         <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
                         @if (Filtro != null && rotas == null && ultimaPasta ||
-                       Filtro != null && rotas == null && Compartilhante != 0)
+                      Filtro != null && rotas == null)
                         {
                             <a class="compartilhar" onclick="@share">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
@@ -478,21 +478,22 @@ else if (!repositoryPagina.erro)
                 </svg>
             </a>
 
-        
+
             <div class="render">
-                    <div class="cabecalho">
+                <div class="cabecalho">
 
-                        @if (rotas != null)
-                        {
-                            <p>Versiculos encontrados</p>
-                        }
+                    @if (rotas != null)
+                    {
+                        <p>Versiculos encontrados</p>
+                    }
 
 
-                        @if (Model2 != null && Model2.usuarios.Count > 0)
-                        {
-                            <p>
+                    @if (Content)
+                    {
+                        var user = (UserContent)Model;
+                        <p>
 
-                                <h5> <a href="/@Compartilhante">  @Compartilhante</a>  </h5>
+                            <h5> <a href="/@user.UserModel.UserName">  @user.UserModel.UserName</a>  </h5>
                             </p>
                         }
 

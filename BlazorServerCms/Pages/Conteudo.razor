@@ -143,9 +143,9 @@ else
     {
         string url = null;
         if (filtro != null)
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/comp/comp/comp/comp/comp/comp/{filtro}";          
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/{filtro}";          
         else
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/comp/comp/comp/comp/comp/comp";
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}";
         return url;
     }
 
