@@ -115,6 +115,7 @@ using (var scope = app.Services.CreateScope())
     if(await contexto!.Set<Content>().AnyAsync())
     {
         var conteudos = await contexto.UserContent
+        .Include(f => f.Filtro)
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
         .OrderBy(co => co.Id).ToListAsync();
         repositoryPagina.Conteudo.AddRange(conteudos);

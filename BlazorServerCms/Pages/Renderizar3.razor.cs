@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using BlazorServerCms.Data;
-using BlazorServerCms.Pages;
-using BlazorServerCms.servicos;
+﻿using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.business.Group;
@@ -13,8 +8,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Identity;
-using NuGet.Packaging;
 
 namespace BlazorCms.Client.Pages
 {
@@ -180,11 +173,9 @@ namespace BlazorCms.Client.Pages
             if (Model == null)
             {
                 List<Content> conteudos = null;
-                if(filtro == null)
+                if(Filtro == null)
                 {
-                    conteudos = await GetContentsByStoryIdAsync((long)storyid!, quantidadeLista, quantDiv, slideAtual, carregando);
-                                   
-                    carregando = 0;
+                    conteudos = await GetContentsByStoryIdAsync((long)storyid!, quantidadeLista, quantDiv, slideAtual, carregando);                                   
                     listaContent.AddRange(conteudos);
 
                     foreach (var item in listaContent)
@@ -418,13 +409,32 @@ namespace BlazorCms.Client.Pages
                 indice_Filtro = story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Fil) + 1;
                 Model2 = Fil;
                 
-                if(repositoryPagina.filtros.FirstOrDefault(f => f.Id == this.Filtro) == null)
+                if(repositoryPagina.filtros.FirstOrDefault(f => f.Id == Filtro) == null)
                 {
                     listaContent.Clear();
-                    var conteudos = await GetContentsByFiltroIdAsync((long)Filtro, quantidadeLista, quantDiv, slideAtual, carregando);
-                    Fil.Pagina = await GetContentByStoryIdAsync((long)this.Filtro);
-                    listaContent.AddRange(Fil.Pagina.Select<FiltroContent, Content>(c => c.Content!).ToList()!);   
+                    Fil.Pagina = await GetContentsByFiltroIdAsync((long)Filtro, quantidadeLista, quantDiv, slideAtual, carregando);
+                    foreach(var item in Fil.Pagina.Select(p => p.Content).ToList())
+                        if(repositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
+                            repositoryPagina.Conteudo.Add(item!);
 
+                    foreach (var item in repositoryPagina.Conteudo
+                        .Where(c => c.Filtro != null && c is UserContent &&
+                        c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList())
+
+                        if (Fil.Pagina.Select(p => p.Content).FirstOrDefault(c => c.Id == item.Id) == null)                            
+                    Fil.Pagina.Add(new FiltroContent
+                    {
+                        Content = item,
+                         ContentId = item.Id,
+                          Filtro = Fil,
+                          FiltroId = Fil.Id
+                    });
+
+                    listaContent.AddRange(Fil.Pagina.Select<FiltroContent, Content>(c => c.Content!).ToList()!);
+                    if (carregando <= repositoryPagina.quantSlidesCarregando - 30)
+                        carregando += 10;
+                    else
+                        carregando = 40;
                 }
                 else
                 {

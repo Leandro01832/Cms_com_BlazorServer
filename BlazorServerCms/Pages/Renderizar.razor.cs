@@ -954,12 +954,9 @@ namespace BlazorCms.Client.Pages
             return storyService.HasFiltersAsync(storyId);
         }
 
-        public Task<List<FiltroContent>> GetContentByStoryIdAsync(long FiltroId)
-        {
-            return storyService.GetContentByStoryIdAsync(FiltroId);
-        }
+        
 
-        public Task<List<Content>> GetContentsByFiltroIdAsync(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
+        public Task<List<FiltroContent>> GetContentsByFiltroIdAsync(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
         {
             return storyService.GetContentsByFiltroIdAsync(filtroId, quantidadeLista, quantDiv, slideAtual, carregando);
         }
