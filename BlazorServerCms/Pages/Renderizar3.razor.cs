@@ -30,7 +30,7 @@ namespace BlazorCms.Client.Pages
             }
             catch (Exception ex)
             {
-                return 0;
+                return 10;
             }
 
         }
@@ -68,11 +68,7 @@ namespace BlazorCms.Client.Pages
 
             }
 
-            Model = new Pagina
-            {
-                Story = new Story(),
-
-            };
+            
             vers = null;
             Auto = 0;
             timeproduto = 11;
@@ -138,6 +134,7 @@ namespace BlazorCms.Client.Pages
                 Console.WriteLine(ex.Message);
             }
 
+            if(Filtro == null)
             listaContent.Clear();
             ultimaPasta = false;
             var quantidadeFiltros = 0;
@@ -166,16 +163,34 @@ namespace BlazorCms.Client.Pages
             int slideAtivo = (indice - 1) / quantDiv;
             slideAtual = slideAtivo;
 
-            Model = repositoryPagina!.Conteudo
+            
+            if(Filtro == null)
+                Model = repositoryPagina!.Conteudo
              .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
 
+            else if (Filtro != null && repositoryPagina!.Conteudo
+                .Where(c => c is Pagina && c.Filtro != null &&
+                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
+                CountPagesInFilterAsync((long)Filtro))
+            {
+                var listainFilter = repositoryPagina!.Conteudo.OrderBy(c => c.Id)
+                .Where(c => c is Pagina && c.Filtro != null &&
+                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
+                Model = listainFilter[indice - 1];
+                listaContent = repositoryPagina.Conteudo
+                    .Where(c => c is Pagina && c.Filtro != null &&
+                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).OrderBy(p => p.Id)
+                .Skip(quantDiv * slideAtual).Take(quantDiv)
+                .ToList();
+            }
 
-            if (Model == null)
+
+            if (Model == null && Filtro == null)
             {
                 List<Content> conteudos = null;
                 if(Filtro == null)
                 {
-                    conteudos = await GetContentsByStoryIdAsync((long)storyid!, quantidadeLista, quantDiv, slideAtual, carregando);                                   
+                    conteudos = await PaginarStory((long)storyid!, quantidadeLista, quantDiv, slideAtual, carregando);                                   
                     listaContent.AddRange(conteudos);
 
                     foreach (var item in listaContent)
@@ -194,17 +209,16 @@ namespace BlazorCms.Client.Pages
             cap = repositoryPagina.stories.First(st => st.Id == storyid).PaginaPadraoLink;
             nameStory = repositoryPagina.stories.First(st => st.Id == storyid).Nome;
 
+            if(Filtro == null)
             listaContent = repositoryPagina.Conteudo.Where(c => c is Pagina).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
                 .ToList();
 
             if (outroHorizonte == 1)
-            {
-                
-                    Model2 = story.Filtro.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault();
-                    quantidadeLista = story.Filtro.ToList().Count;
-                    indiceAcesso = story.Filtro.IndexOf(Model2) + 1;
-                
+            {                
+                    Model2 = story.Filtro!.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault();
+                    quantidadeLista = story.Filtro!.ToList().Count;
+                    indiceAcesso = story.Filtro!.IndexOf(Model2) + 1;                
             }
 
             quantidadePaginas =  CountPaginas();
@@ -251,7 +265,6 @@ namespace BlazorCms.Client.Pages
 
             else if (filtrar != null && condicaoFiltro || Filtro != null && condicaoFiltro)
             {
-                listaContent.Clear();
                 if (Filtro != null)
                 {
                     if (rotas == null)
@@ -259,25 +272,19 @@ namespace BlazorCms.Client.Pages
                     else
                         listaContent = await retornarListaFiltrada(rotas);
 
+                    if(listaContent.Count != 0 && listaContent[0] != null)
                     foreach(var item in listaContent)
                         if(repositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
                             repositoryPagina.Conteudo.Add(item);
 
-                    quantidadeLista = listaContent.Count;                    
-                        
-                    if (indice > quantidadeLista)
-                        quantDiv = await marcarIndice(1);
-                    else
-                        quantDiv = await marcarIndice(indice);
-                    int slideAtivo2 = (indice - 1) / quantDiv;
-                    slideAtual = slideAtivo2;
+                    quantidadeLista = listaContent.Count;      
 
-                    if(listaContent.Count >= quantDiv)
+                    if(!Content)
                     listaContent = listaContent.Where(c => c is Pagina).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
                 .ToList();
                     else
-                        listaContent = listaContent.Where(c => c is Pagina).OrderBy(p => p.Id)
+                        listaContent = listaContent.Where(c => c is UserContent).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(listaContent.Count)
                 .ToList();
 
@@ -303,7 +310,7 @@ namespace BlazorCms.Client.Pages
 
             // ultimaPasta = Model.UltimaPasta;
 
-            if (Model.Html.Contains("iframe"))
+            if (Model != null && Model.Html != null && Model.Html.Contains("iframe"))
             {
                 var conteudoHtml = Model.Html;
 
@@ -312,7 +319,7 @@ namespace BlazorCms.Client.Pages
 
                 Model.Html = conteudoHtml;
             }
-            if (Model.Html != null)
+            if (Model != null && Model.Html != null)
             {
                 try
                 {
@@ -323,7 +330,7 @@ namespace BlazorCms.Client.Pages
                     Console.WriteLine("Erro: " + ex.Message);
                 }
             }
-            else if (Model.Produto.Count == 0)
+            else if (Model != null && Model.Produto != null && Model.Produto.Count == 0)
                 html = RepositoryPagina.Capa;
 
             markup = new MarkupString(html);
@@ -340,6 +347,7 @@ namespace BlazorCms.Client.Pages
             
             
             array = new List<Content>[2];
+            if (listaContent.Count != 0 && listaContent[0] != null)
             listaContent = listaContent.OrderBy(c => c.Id).ToList();
              if (array[0] == null)
              array[0] = new List<Content>();
@@ -401,46 +409,49 @@ namespace BlazorCms.Client.Pages
         
         private async Task<List<Content>> retornarListaFiltrada(string rota)
         {
-
-
             if (outroHorizonte == 0 && Filtro != null && rota == null)
             {
                 Filtro Fil = story!.Filtro!.First(f => f.Id == Filtro);
                 indice_Filtro = story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Fil) + 1;
                 Model2 = Fil;
-                
-                if(repositoryPagina.filtros.FirstOrDefault(f => f.Id == Filtro) == null)
+
+                if (Fil.Pagina! != null && Model == null)
+                    Model = Fil.Pagina!.OrderBy(p => p.ContentId).Select(p => p.Content)
+                    .Where(c => c is Pagina).Skip((indice - 1) - (slideAtual * quantDiv)).FirstOrDefault();
+
+                if (Model == null )
                 {
-                    listaContent.Clear();
-                    Fil.Pagina = await GetContentsByFiltroIdAsync((long)Filtro, quantidadeLista, quantDiv, slideAtual, carregando);
-                    foreach(var item in Fil.Pagina.Select(p => p.Content).ToList())
-                        if(repositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
-                            repositoryPagina.Conteudo.Add(item!);
+                     if(
+                        repositoryPagina!.Conteudo
+                        .Where(c => c is Pagina && c.Filtro != null &&
+                        c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count !=
+                        CountPagesInFilterAsync((long)Filtro)
+                        )
+                    await GetFiltroByIdAsync((long)Filtro);
+                     listaContent.Clear();
+                    
+                    Fil.Pagina = await PaginarFiltro((long)Filtro, CountPagesInFilterAsync((long)Filtro),
+                            quantDiv, slideAtual, carregando);
 
-                    foreach (var item in repositoryPagina.Conteudo
-                        .Where(c => c.Filtro != null && c is UserContent &&
-                        c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList())
+                    Model = Fil.Pagina!.OrderBy(p => p.ContentId).Select(p => p.Content)
+                   .Where(c => c is Pagina)
+                   .Skip((indice - 1) - (slideAtual * quantDiv)).FirstOrDefault();
+                    listaContent.AddRange(Fil.Pagina.Select(c => c.Content!).ToList()!);  
 
-                        if (Fil.Pagina.Select(p => p.Content).FirstOrDefault(c => c.Id == item.Id) == null)                            
-                    Fil.Pagina.Add(new FiltroContent
-                    {
-                        Content = item,
-                         ContentId = item.Id,
-                          Filtro = Fil,
-                          FiltroId = Fil.Id
-                    });
-
-                    listaContent.AddRange(Fil.Pagina.Select<FiltroContent, Content>(c => c.Content!).ToList()!);
-                    if (carregando <= repositoryPagina.quantSlidesCarregando - 30)
+                    if (carregando <= repositoryPagina!.quantSlidesCarregando - 30)
                         carregando += 10;
                     else
                         carregando = 40;
                 }
-                else
-                {
-                    listaContent.Clear();
-                    listaContent.AddRange(Fil.Pagina!.Select<FiltroContent, Content>(c => c.Content!).ToList()!);
-                }
+
+                if(Content)
+                if (listaContent.FirstOrDefault(c => c is UserContent) == null)
+                    foreach (var item in repositoryPagina.Conteudo
+                        .Where(c => c.Filtro != null && c is UserContent &&
+                        c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList())
+
+                        if (listaContent.FirstOrDefault(c => c.Id == item.Id) == null)
+                            listaContent.Add(item);
 
                 if (Model2.usuarios != null && Model2.usuarios.Count != 0)
                 {
@@ -454,10 +465,7 @@ namespace BlazorCms.Client.Pages
                     indice = listaContent!.Count;
                     retroceder = 0;
                 }
-
-                Model = listaContent!
-                    .OrderBy(p => p.Id).Skip((int)indice - 1).FirstOrDefault();
-
+                
                 if (Model is Pagina)
                 {
                     var p = (Pagina)Model;
@@ -471,6 +479,8 @@ namespace BlazorCms.Client.Pages
                 ultimaPasta = Model2.GetType() == t;
 
                 quantidadeLista = listaContent!.Count;
+                
+                 return listaContent.ToList();
             }
             else if (outroHorizonte == 0 && Filtro != null && rota != null)
             {
@@ -505,10 +515,11 @@ namespace BlazorCms.Client.Pages
                 else vers = 0;
 
                 quantidadeLista = listaContent!.Count;
+                
+                 return listaContent.ToList();
             }
 
-
-            return listaContent!.OrderBy(c => c.Id).ToList();
+            return listaContent.ToList();
         }
 
         private void instanciarTime(int camada)

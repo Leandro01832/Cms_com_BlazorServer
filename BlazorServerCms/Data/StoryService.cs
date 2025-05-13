@@ -1,10 +1,10 @@
-﻿using BlazorServerCms.servicos;
+﻿using BlazorServerCms.Pages;
+using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.Group;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +12,7 @@ namespace BlazorServerCms.Data
 {
     public class StoryService : IStoryService
     {
-        public ApplicationDbContext Context { get; }
+        public ApplicationDbContext Context { get; set; }
         public IConfiguration Configuration { get; }
         public RepositoryPagina repositoryPagina { get; }
 
@@ -25,77 +25,43 @@ namespace BlazorServerCms.Data
             repositoryPagina = RepositoryPagina;
         }
 
-        public int CountPagesAsync(long storyId)
-        {
-            var _TotalRegistros = 0;
-            try
-            {
-                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
-                {
-                    SqlCommand cmd = null;                    
-                    
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
-                            $" where P.StoryId={storyId} and P.Discriminator='Pagina' or " +
-                            $" P.StoryId={storyId} and P.Discriminator='AdminContent' or " +
-                            $" P.StoryId={storyId} and P.Discriminator='ProductContent' or " +
-                            $" P.StoryId={storyId} and P.Discriminator='ChangeContent'  ", con);
-                        con.Open();
-                        _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);
-                        con.Close();
-                }
-            }
-            catch (Exception)
-            {
-                _TotalRegistros = 0;
-            }
 
-            return _TotalRegistros;
-        }
-
-        public async Task<List<FiltroContent>> GetContentsByFiltroIdAsync(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
+        public async Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
         {
+            Context = db.CreateDbContext(null);
             List<FiltroContent> conteudos;
             var fil = await Context.Filtro!.FirstAsync(f => f.Id ==  filtroId);
-            if (quantidadeLista > 999)
+            if (quantidadeLista > 1999)
             {
                 int carregar = 0;
                 if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)
                     carregar = (int)carregando;
                 else carregar = repositoryPagina.quantSlidesCarregando;
 
-                if(slideAtual >= 1 && carregar >= 2)
-                conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
-                .Include(c => c.Content)
-                .ThenInclude(c => c.Produto)
-               .ThenInclude(c => c.Produto)
-                .Where(c => c.Content is Pagina && fil.StoryId == filtroId)
-                .Skip(quantDiv * (slideAtual - 1)).Take(quantDiv * carregar)
-                .ToListAsync();
-                else
                     conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+                .Include(c => c.Filtro)
                 .Include(c => c.Content)
                 .ThenInclude(c => c.Produto)
                .ThenInclude(c => c.Produto)
-                .Where(c => c.Content is Pagina && fil.StoryId == filtroId)
+                .Where(c => c.Content is Pagina && fil.Id == filtroId)
                 .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
                 .ToListAsync();
-                repositoryPagina.filtros.Add(fil);
             }
             else
                 conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+               .Include(c => c.Filtro)
                .Include(c => c.Content)
                .ThenInclude(c => c.Produto)
                .ThenInclude(c => c.Produto)
-               .Where(c => c.Content is Pagina && fil.StoryId == filtroId)
+               .Where(c => c.Content is Pagina && c.FiltroId == filtroId)
                .ToListAsync();
-
-
 
             return conteudos;
         }
 
-        public async Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null )
+        public async Task<List<Content>> PaginarStory(long storyId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null )
         {
+            Context = db.CreateDbContext(null);
             List<Content> conteudos;
             if (quantidadeLista > 999)
             {
@@ -104,15 +70,8 @@ namespace BlazorServerCms.Data
                     carregar = (int)carregando;
                 else carregar = repositoryPagina.quantSlidesCarregando;
 
-                if(slideAtual >= 1 && carregar >= 2)
                     conteudos = await Context!.Content!.OrderBy(p => p.Id)
-               .Include(c => c.Produto)
-               .ThenInclude(c => c.Produto)
-               .Where(c => c is Pagina && c.StoryId == storyId)
-               .Skip(quantDiv * (slideAtual - 1)).Take(quantDiv * carregar)
-               .ToListAsync();
-                else
-                    conteudos = await Context!.Content!.OrderBy(p => p.Id)
+               .Include(c => c.Filtro)
                .Include(c => c.Produto)
                .ThenInclude(c => c.Produto)
                .Where(c => c is Pagina && c.StoryId == storyId)
@@ -121,6 +80,7 @@ namespace BlazorServerCms.Data
             }
             else
                 conteudos = await Context!.Content!.OrderBy(p => p.Id)
+               .Include(c => c.Filtro)
                .Include(c => c.Produto)
                .ThenInclude(c => c.Produto)
                .Where(c => c is Pagina && c.StoryId == storyId)
@@ -131,13 +91,28 @@ namespace BlazorServerCms.Data
             return conteudos;
         }
 
+        public async Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId)
+        {
+            var lista = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+                .Include(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Produto)
+                .ThenInclude(c => c.Produto)
+               .Where(c => c.Content is Pagina && c.FiltroId == filtroId)
+               .ToListAsync();
+
+            foreach (var item in lista.Select(c => c.Content).ToList())
+                if (repositoryPagina.Conteudo.FirstOrDefault() == null)
+                    repositoryPagina.Conteudo.Add(item!);
+
+            return  lista;
+        }
+
         public async Task<Story> GetStoryByIdAsync(long storyId)
         {
             Story story = await Context.Story!
             .Include(p => p.Filtro)!
             .ThenInclude(p => p.usuarios)!
-            .Include(p => p.Filtro)!
-            .ThenInclude(p => p.Pagina)!
             .OrderBy(st => st.Id)
             .FirstAsync(st => st.Id == storyId);
             return story;
@@ -218,6 +193,61 @@ namespace BlazorServerCms.Data
             return _TotalRegistros;
         }
 
+        public int CountPagesInFilterAsync(long filtroId)
+        {
+            var _TotalRegistros = 0;
+            try
+            {
+                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
+                {
+                    SqlCommand cmd = null;
+                    cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
+                             " inner join Content as C on FC.ContentId=C.Id where " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='Pagina' or " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' or " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' or " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent'  "
+                        , con);
+
+                    con.Open();
+                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
+                    con.Close();
+                }
+            }
+            catch (Exception)
+            {
+                _TotalRegistros = 0;
+            }
+            
+                return _TotalRegistros;
+        }
+       
+        public int CountPagesAsync(long storyId)
+        {
+            var _TotalRegistros = 0;
+            try
+            {
+                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
+                {
+                    SqlCommand cmd = null;                    
+                    
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
+                            $" where P.StoryId={storyId} and P.Discriminator='Pagina' or " +
+                            $" P.StoryId={storyId} and P.Discriminator='AdminContent' or " +
+                            $" P.StoryId={storyId} and P.Discriminator='ProductContent' or " +
+                            $" P.StoryId={storyId} and P.Discriminator='ChangeContent'  ", con);
+                        con.Open();
+                        _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);
+                        con.Close();
+                }
+            }
+            catch (Exception)
+            {
+                _TotalRegistros = 0;
+            }
+
+            return _TotalRegistros;
+        }
 
     }
 }

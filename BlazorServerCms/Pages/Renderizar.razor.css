@@ -209,6 +209,7 @@ Informativo {
     height: 40px;
     opacity: 0.90;
     margin: 6px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     overflow: hidden;
@@ -221,6 +222,7 @@ Informativo {
     height: 50px;
     opacity: 0.90;
     margin: 6px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     overflow: hidden;

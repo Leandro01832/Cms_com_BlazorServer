@@ -130,7 +130,7 @@ namespace BlazorCms.Client.Pages
             }
             else if (condicao)
             {
-                redirecionarParaVerso(int.Parse(opcional));
+               redirecionarParaVerso(int.Parse(opcional),(long) Filtro!);
             }
         }
 
@@ -638,27 +638,42 @@ namespace BlazorCms.Client.Pages
             else
             {
                 Filtro = fi.Id;
-                redirecionarParaVerso(int.Parse(opcional!));                
+                redirecionarParaVerso(int.Parse(opcional!), (long)Filtro);                
             }
 
         }
 
-        private async void redirecionarParaVerso(int verso)
+        private async void redirecionarParaVerso(int verso, long filtroId)
         {
+            int indiceListaFiltrada = 0;
+            List<Content> list = null;
             if (outroHorizonte == 0)
             {
-                var list = await retornarListaFiltrada(null);
+                    if(repositoryPagina!.Conteudo
+                .Where(c => c is Pagina && c.Filtro != null &&
+                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count !=
+                CountPagesInFilterAsync((long)Filtro))
+                {
+                    var lista = await GetFiltroByIdAsync(filtroId);
+                    list = lista.Select(c => c.Content).ToList()!;
+                }
+                else
+                {
+                   list = repositoryPagina!.Conteudo.OrderBy(c => c.Id)
+                    .Where(c => c is Pagina && c.Filtro != null &&
+                     c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
+                }
+                
                 if (list == null)
                 {
                     indice = verso;
                     outroHorizonte = 0;
-                    acessar();                   
-                    return;
+                    acessar();   
                 }
+
                 if (!tellStory)
                 {
                     opcional = verso.ToString();
-                    int indiceListaFiltrada = 0;
                     foreach (var item in list)
                     {
                         Pagina p = repositoryPagina!.Conteudo.OfType<Pagina>()!.First(p => p.Id == item.Id);
@@ -673,6 +688,7 @@ namespace BlazorCms.Client.Pages
                     {
                         indiceListaFiltrada = indice;
                         await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo {verso} na pasta {indice_Filtro}. O versiculo {verso} não é {Model2.Nome}.");
+                       
                     }
                     else
                     {
@@ -683,21 +699,24 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     indice = int.Parse(opcional);
-                    acessar();
+                        acessar();
                 }
             }
             else
             {
                 indice = verso;
-                outroHorizonte = 1;               
-                acessar();
+                outroHorizonte = 1;
+                    acessar();
             }
 
         }
 
         private int CountLikes()
         {
-            return CountLikesAsync(Model!.Id);
+            if (Model != null)
+                return CountLikesAsync(Model!.Id);
+            else
+                return 0;
         }
 
         private bool CountFiltros()
@@ -930,15 +949,16 @@ namespace BlazorCms.Client.Pages
             return storyService.GetStoryByIdAsync(storyId);
         }
 
-        public Task<List<Content>> GetContentsByStoryIdAsync(long storyId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
+        public Task<List<Content>> PaginarStory(long storyId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
         {
-            return storyService.GetContentsByStoryIdAsync(storyId, quantidadeLista, quantDiv, slideAtual, carregando);
+            return storyService.PaginarStory(storyId, quantidadeLista, quantDiv, slideAtual, carregando);
         }
 
         public int CountPagesAsync(long storyId)
         {
             return storyService.CountPagesAsync(storyId);
         }
+     
         public Task<int> GetYouTubeVideoDurationAsync(string videoId)
         {
             return storyService.GetYouTubeVideoDurationAsync(videoId);
@@ -954,11 +974,19 @@ namespace BlazorCms.Client.Pages
             return storyService.HasFiltersAsync(storyId);
         }
 
-        
-
-        public Task<List<FiltroContent>> GetContentsByFiltroIdAsync(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
+        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
         {
-            return storyService.GetContentsByFiltroIdAsync(filtroId, quantidadeLista, quantDiv, slideAtual, carregando);
+            return storyService.PaginarFiltro(filtroId, quantidadeLista, quantDiv, slideAtual, carregando);
+        }
+
+        public int CountPagesInFilterAsync(long filtroId)
+        {
+            return storyService.CountPagesInFilterAsync(filtroId);
+        }
+
+        public Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId)
+        {
+            return storyService.GetFiltroByIdAsync(filtroId);
         }
     }
     public class UserPreferencesImage

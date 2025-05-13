@@ -38,6 +38,7 @@ namespace BlazorCms.Client.Pages
         private Filtro fil5 = null;
         private bool alterouPasta;
 
+
         protected int indiceAcesso;
 
         private bool criptografar = false;
@@ -103,6 +104,7 @@ namespace BlazorCms.Client.Pages
             { 
                 if(value != Filtro)
                 alterouPasta = true;
+                
                 filtro = value;
             }
         } 

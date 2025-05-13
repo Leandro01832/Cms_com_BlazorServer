@@ -427,19 +427,17 @@
                         url = null;
                         foreach (var item in filtros2)
                         {
-                            foreach (var item2 in item.Pagina)
-                            {
-                                if(item2.Content is Pagina)
-                                {
+                            foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
+                            {                                
                                     var pag = (Pagina)item2.Content;
 
                                     if (compartilhante == "comp")
                                     {
                                         if (pag.Versiculo == numeros[j] && url == null )
                                         {
-                                            var pages = item.Pagina
+                                            var pages = item.Pagina!
                                             .Where(c => c.Content is Pagina)
-                                            .OrderBy(c => c.Content.Id)
+                                            .OrderBy(c => c.ContentId)
                                             .ToList();
                                             verso = pages.IndexOf(item2) + 1;
                                             filtro = item.Id;
@@ -453,9 +451,9 @@
                                         if (pag.Versiculo == numeros[j] && url == null &&
                                             item.usuarios.Count > 0)
                                         {
-                                            var pages = item.Pagina
+                                            var pages = item.Pagina!
                                             .Where(c => c.Content is Pagina)
-                                            .OrderBy(c => c.Content.Id)
+                                            .OrderBy(c => c.ContentId)
                                             .ToList();
                                             verso = pages.IndexOf(item2) + 1;
                                             filtro = item.Id;
@@ -463,7 +461,7 @@
                                             await js!.InvokeAsync<object>("AcessarSites", $"{url}");
                                         }
                                     }
-                                }
+                                
                             }
                         }
                     }
@@ -480,19 +478,17 @@
 
                     foreach(var item in filtros2)
                     {
-                        foreach (var item2 in item.Pagina)
-                        {
-                            if(item2.Content is Pagina)
-                            {
+                        foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
+                        {                   
 
                                 var pag = (Pagina)item2.Content;
                                 if (compartilhante == "comp")
                                 {
                                     if (pag.Versiculo == num && url == null)
                                     {
-                                        var pages = item.Pagina
+                                        var pages = item.Pagina!
                                         .Where(c => c.Content is Pagina)
-                                        .OrderBy(c => c.Content.Id)
+                                        .OrderBy(c => c.ContentId)
                                         .ToList();
                                         verso = pages.IndexOf(item2) + 1;
                                         filtro = item.Id;
@@ -504,9 +500,9 @@
                                 {
                                     if (pag.Versiculo == num && url == null && item.usuarios.Count > 0)
                                     {
-                                        var pages = item.Pagina
+                                        var pages = item.Pagina!
                                         .Where(c => c.Content is Pagina)
-                                        .OrderBy(c => c.Content.Id)
+                                        .OrderBy(c => c.ContentId)
                                         .ToList();
                                         verso = pages.IndexOf(item2) + 1;
                                         filtro = item.Id;
@@ -514,7 +510,7 @@
 
                                     }
                                 }
-                            }
+                            
                         }
                     }
 
