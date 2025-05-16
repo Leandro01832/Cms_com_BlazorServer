@@ -1,8 +1,6 @@
 ﻿@page "/"
-@page "/{capitulo:int}/{filtrar:int}"
 @page "/{capitulo:int}/{indice}"
 @page "/acesso/{indice}"
-@page "/{filtrar:int}"
 @page "/mensagem/{MensagemSistema}"
 @using business.business.Group
 
@@ -63,6 +61,7 @@
         </a>
     </p>
 </div>
+
 <div data-first>
 
     <p style="font-family: 'League Script', cursive; font-size:large;">
@@ -154,9 +153,9 @@
 <div class="apresentacao">
 
 
-    <img src="/story.jpg" style="width:90%" />
+    <img src="/story.jpg" style="width:70%" />
 
-    <div class="circuloCompartilhando">
+   @*  <div class="circuloCompartilhando">
         <center>
 
             <div class="circulo2Compartilhando">
@@ -176,7 +175,7 @@
                 </a>
             </div>
         </center>
-    </div>
+    </div> *@
 
 
 </div>
@@ -235,7 +234,6 @@
     [Parameter] public int? capitulo { get; set; }
 
     [Parameter] public string? indice { get; set; }
-    [Parameter] public int? filtrar { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
     [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
@@ -287,15 +285,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider
-        .GetAuthenticationStateAsync();
-        var user = authState.User;
+        // var authState = await AuthenticationStateProvider
+        // .GetAuthenticationStateAsync();
+        // var user = authState.User;
 
-        if (!user.Identity!.IsAuthenticated)
-        {
-            navigation.NavigateTo("/Identity/Account/Login");
+        // if (!user.Identity!.IsAuthenticated)
+        // {
+        //     navigation.NavigateTo("/Identity/Account/Login");
 
-        }
+        // }
 
 
         Context = db.CreateDbContext(null);
@@ -354,11 +352,7 @@
         if (capitulo != null && indice != null && indice.Contains("verso"))
         {
             navigation.NavigateTo($"/renderizar/{capitulo}/{indice.Replace("verso-", "")}/1/11/0/0/0/0/{dominio}/{compartilhante}");
-        }
-        else if (capitulo != null && filtrar != null)
-        {
-            navigation.NavigateTo($"/filtro/{capitulo}/pasta-{filtrar}/0/0/0/{dominio}/{compartilhante}/0/0/0/0/0/0/0/0/0/0/1");
-        }       
+        }    
 
 
     }

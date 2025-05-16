@@ -125,7 +125,7 @@ p {
 
 
 .versos{
-    width: 80px;
+    width: 140px;
     padding: 0;
 }
 
@@ -207,9 +207,9 @@ Informativo {
 
 .DivPagina {
     height: 40px;
+    width: 100%;
     opacity: 0.90;
     margin: 6px;
-    width: 100%;
     display: flex;
     flex-direction: row;
     overflow: hidden;
@@ -220,9 +220,9 @@ Informativo {
 
 .DivPagina2 {
     height: 50px;
+    width: 100%;
     opacity: 0.90;
     margin: 6px;
-    width: 100%;
     display: flex;
     flex-direction: row;
     overflow: hidden;
@@ -451,6 +451,15 @@ svg
 .prox svg
 {
     margin-top: 12px;
+}
+
+.inputs 
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 265px;
 }
 
 

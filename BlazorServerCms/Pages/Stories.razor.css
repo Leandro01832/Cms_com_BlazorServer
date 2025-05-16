@@ -171,6 +171,12 @@
     border-radius: 50%;
 }
 
+.ImgStory {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
 @media (max-width: 1550px) and (min-width: 550px) {
     .carousel-control-prev {
         height: 5%;

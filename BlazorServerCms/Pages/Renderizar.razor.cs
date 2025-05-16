@@ -1,4 +1,5 @@
 ﻿using BlazorServerCms.Data;
+using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.Group;
@@ -85,14 +86,14 @@ namespace BlazorCms.Client.Pages
 
                 if (args.Key == "Enter" && cap == 0)
                 {
-                    storyid = repositoryPagina!.stories!
+                    storyid = RepositoryPagina.stories!
                     .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
                     indice = 1;               
                 }
                 else if (args.Key == "Enter")
                 {
-                    storyid = repositoryPagina.stories.First().Id;
-                    indice = repositoryPagina.stories.IndexOf(story);         
+                    storyid = RepositoryPagina.stories.First().Id;
+                    indice = RepositoryPagina.stories.IndexOf(story);         
                 }
                 automatico = false;
                 acessar();
@@ -148,7 +149,7 @@ namespace BlazorCms.Client.Pages
         
         protected async void ativarConteudo()
         {
-            if (repositoryPagina.Conteudo.FirstOrDefault(c => 
+            if (RepositoryPagina.Conteudo.FirstOrDefault(c => 
             story.Filtro!.FirstOrDefault(f => f.Id == Model2!.Id 
             && f.Pagina!.FirstOrDefault(p => p.ContentId == c.Id && p.Content is UserContent) != null) != null) == null)
             {
@@ -190,7 +191,7 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                filtrar = $"pasta-{indice_Filtro}";
+                Filtro = Model2.Id;
                 acessar();
             }
 
@@ -198,7 +199,7 @@ namespace BlazorCms.Client.Pages
         
         protected void listarPasta()
         {
-            acessar($"/lista-filtro/1/{Model2.Id}/{storyid}/{indice_Filtro}/0");
+            acessar($"/lista-filtro/1/{Model2.Id}");
         }
 
         protected void listarPastas()
@@ -253,7 +254,7 @@ namespace BlazorCms.Client.Pages
         protected int? buscarPastaFiltrada(int camada)
         {
             long? IdGrupo = 0;
-            Pagina pag = repositoryPagina.Conteudo.OfType<Pagina>()
+            Pagina pag = RepositoryPagina.Conteudo.OfType<Pagina>()
                     .FirstOrDefault(p => p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
 
 
@@ -366,7 +367,7 @@ namespace BlazorCms.Client.Pages
             else
             {
                 cap++;
-                 storyid = repositoryPagina.stories
+                 storyid = RepositoryPagina.stories
                  .First(str => str.PaginaPadraoLink == cap).Id;
                 indice = 1;
                 acessar();
@@ -425,7 +426,7 @@ namespace BlazorCms.Client.Pages
                 if (Filtro == null)
                 {
                     cap--;
-                    storyid = repositoryPagina.stories
+                    storyid = RepositoryPagina.stories
                     .First(str => str.PaginaPadraoLink == cap).Id;
                 }
 
@@ -519,20 +520,24 @@ namespace BlazorCms.Client.Pages
                     opcional = vers.ToString();
                 }
                 if (compartilhou == "comp")
-                    fils = story!.Filtro!.OrderBy(f => f.Id).ToList();
+                    fils = story!.Filtro!.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
             else
             {
                 var usu = Context.Users
                     .Include(u => u.Pastas)!
                     .ThenInclude(u => u.Filtro)!
                     .FirstOrDefault(u => u.UserName == compartilhou);
+                    if(usu.Pastas != null && usu.Pastas.Count > 0)
                     fils = usu.Pastas.Select(p => p.Filtro).ToList();
+                    else
+                    fils = story!.Filtro!.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
+
             }
 
             // 1º time
             if (camada == 7)
             {                   
-                fi = fils.Where(f => f.Pagina
+                fi = fils.Where(f =>   f.Pagina
                 .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is CamadaSete).LastOrDefault()!;
                 if (fi == null)
@@ -649,7 +654,7 @@ namespace BlazorCms.Client.Pages
             List<Content> list = null;
             if (outroHorizonte == 0)
             {
-                    if(repositoryPagina!.Conteudo
+                    if(RepositoryPagina.Conteudo
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count !=
                 CountPagesInFilterAsync((long)Filtro))
@@ -659,7 +664,7 @@ namespace BlazorCms.Client.Pages
                 }
                 else
                 {
-                   list = repositoryPagina!.Conteudo.OrderBy(c => c.Id)
+                   list = RepositoryPagina.Conteudo.OrderBy(c => c.Id)
                     .Where(c => c is Pagina && c.Filtro != null &&
                      c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
                 }
@@ -676,7 +681,7 @@ namespace BlazorCms.Client.Pages
                     opcional = verso.ToString();
                     foreach (var item in list)
                     {
-                        Pagina p = repositoryPagina!.Conteudo.OfType<Pagina>()!.First(p => p.Id == item.Id);
+                        Pagina p = RepositoryPagina.Conteudo.OfType<Pagina>()!.First(p => p.Id == item.Id);
                         if (int.Parse(opcional) == p.Versiculo)
                         {
                             indiceListaFiltrada = list.IndexOf(item) + 1;
@@ -727,7 +732,7 @@ namespace BlazorCms.Client.Pages
         private int QuantFiltros()
         {
             if (story == null)
-                story = repositoryPagina.stories!
+                story = RepositoryPagina.stories!
                .First(p => p.Id == Model!.StoryId);
 
             return story.Filtro.Count;
@@ -850,8 +855,8 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarCapitulos()
         {
-            indice = repositoryPagina.stories.IndexOf(story);
-            storyid = repositoryPagina!.stories!.First().Id;
+            indice = RepositoryPagina.stories.IndexOf(story);
+            storyid = RepositoryPagina.stories!.First().Id;
             outroHorizonte = 0;
 
             acessar();
@@ -868,7 +873,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarStory()
         {
             outroHorizonte = 0;
-            storyid = repositoryPagina!.stories!
+            storyid = RepositoryPagina.stories!
                 .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
             automatico = false;
             indice = 1;
@@ -897,23 +902,16 @@ namespace BlazorCms.Client.Pages
             {
 
                 if (Content && conteudo == 0) indice = 1;
-
                 conteudo = Convert.ToInt32(Content);
-
                 criptografar = true;
 
                 string url = null;
                 if (Filtro != null)
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";
-              
-                else if (filtrar != null)
-                    url = $"/filtro/{storyid}/{filtrar}/0/0/{dominio}/{Compartilhou}/{redirecionar}";
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
                 else
                     url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}";
 
-
                 criptografar = false;
-
                 navigation!.NavigateTo(url);
             }
             else

@@ -27,7 +27,15 @@
                                                 <div class="circulo4">
                                                     <div class="circulo5">
 
-                                                        <img src="ImgUser/usuario-@(item.UserName)-@(item.Image)" class="ImgUser">
+                                                        @if (item != null && item.Image != null)
+                                                        {
+                                                            <img src="ImgUser/usuario-@(item.UserName)-@(item.Image)" class="ImgUser">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                                                        }
 
 
                                                     </div>
@@ -69,8 +77,22 @@
 
                                             <div class="circulo">
                                                 <div class="circulo2">                                               
-                                                    <img src="ImgStory/cap.@(item.UserName).@(item.Image)" class="ImgStory">                                                
+                                                   
+                                                    
+                                                    @if (item != null && item.Image != null)
+                                                    {
+                                                        <img src="ImgUser/usuario-@(item.UserName)-@(item.Image)" class="ImgUser">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                                                    }
+                                               
+                                                
                                                 </div>
+                                           
+                                            
                                             </div>
                                             @if(aoVivo){
                                                 <div class="aovivo">

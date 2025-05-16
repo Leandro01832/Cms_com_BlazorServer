@@ -134,7 +134,7 @@ namespace BlazorCms.Client.Pages
         {
             get 
             { 
-                var user = repositoryPagina.UserModel
+                var user = RepositoryPagina.UserModel
                 .FirstOrDefault(u => u.HashUserName == compartilhou);
 
                     if (!criptografar)
@@ -155,7 +155,6 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public int outroHorizonte { get; set; }
 
-        [Parameter] public string? filtrar { get; set; } = null;
         [Parameter] public string? rotas { get; set; } = null;
         
 

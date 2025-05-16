@@ -285,9 +285,6 @@ namespace BlazorServerCms.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("FiltroId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("HashUserName")
                         .HasColumnType("nvarchar(max)");
 
@@ -334,8 +331,6 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FiltroId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -469,9 +464,6 @@ namespace BlazorServerCms.Migrations
                     b.Property<long>("StoryId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("user")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("StoryId");
@@ -488,6 +480,9 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -1030,13 +1025,6 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Produto");
                 });
 
-            modelBuilder.Entity("business.business.UserModel", b =>
-                {
-                    b.HasOne("business.Filtro", null)
-                        .WithMany("UserModel")
-                        .HasForeignKey("FiltroId");
-                });
-
             modelBuilder.Entity("business.business.UserModelContent", b =>
                 {
                     b.HasOne("business.business.Content", "Content")
@@ -1410,8 +1398,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Navigation("PastaSalva")
                         .IsRequired();
-
-                    b.Navigation("UserModel");
 
                     b.Navigation("usuarios");
                 });

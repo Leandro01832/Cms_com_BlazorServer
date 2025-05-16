@@ -102,8 +102,8 @@ namespace BlazorServerCms.Data
                .ToListAsync();
 
             foreach (var item in lista.Select(c => c.Content).ToList())
-                if (repositoryPagina.Conteudo.FirstOrDefault() == null)
-                    repositoryPagina.Conteudo.Add(item!);
+                if (RepositoryPagina.Conteudo.FirstOrDefault() == null)
+                    RepositoryPagina.Conteudo.Add(item!);
 
             return  lista;
         }
@@ -111,6 +111,8 @@ namespace BlazorServerCms.Data
         public async Task<Story> GetStoryByIdAsync(long storyId)
         {
             Story story = await Context.Story!
+            .Include(p => p.Filtro)!
+            .ThenInclude(p => p.Pagina)!
             .Include(p => p.Filtro)!
             .ThenInclude(p => p.usuarios)!
             .OrderBy(st => st.Id)

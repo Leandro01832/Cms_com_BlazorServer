@@ -110,7 +110,7 @@ using (var scope = app.Services.CreateScope())
         List<Story> stories = await contexto.Story!
         .OrderBy(st => st.Id)
         .ToListAsync();
-        repositoryPagina.stories.AddRange(stories);
+        RepositoryPagina.stories.AddRange(stories);
     }
 
     if(await contexto!.Set<Content>().AnyAsync())
@@ -119,7 +119,7 @@ using (var scope = app.Services.CreateScope())
         .Include(f => f.Filtro)
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
         .OrderBy(co => co.Id).ToListAsync();
-        repositoryPagina.Conteudo.AddRange(conteudos);
+        RepositoryPagina.Conteudo.AddRange(conteudos);
     }
 
 

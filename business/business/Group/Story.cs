@@ -94,6 +94,7 @@ namespace business.Group
 
         public string? Nome { get; set; }
         public string? Image { get; set; }
+        public string? Descricao { get; set; }
 
         private List<Content>? pagina;
         public virtual List<Content>? Pagina 

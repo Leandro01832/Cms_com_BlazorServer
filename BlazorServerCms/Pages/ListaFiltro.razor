@@ -6,6 +6,7 @@
 @layout MeuLayout
 
 <PageTitle>listas de filtro</PageTitle>
+<BackPage></BackPage>
 
 <div id="configuracao">
     <p id="livro">www.instagleo.net.br</p>
@@ -39,7 +40,7 @@
                 if (pagina > 1)
                 {
                     <a href="#"
-                       onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{Capitulo}/{indiceFiltro}"))">
+                    onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina -1}/{Id}"))">
                         Lista Anterior ||
                     </a>
                 }
@@ -47,7 +48,7 @@
             }
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{Capitulo}/{indiceFiltro}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina +1}/{Id}"))">
                 Proxima lista >>>
             </a>
 
@@ -63,15 +64,15 @@
             <h4>Ordenar</h4>
 
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/nome/1/{Capitulo}/{indiceFiltro}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{Id}"))">
                 Ordenar por nome
             </a>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/preco/1/{Capitulo}/{indiceFiltro}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{Id}"))">
                 Ordenar por preço
             </a>
             <a href="#"
-               onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/descricao/1/{Capitulo}/{indiceFiltro}"))">
+            onclick="@( () => navigation.NavigateTo($"/lista-filtro/{pagina}/{Id}"))">
                 Ordenar por capitulo
             </a>
         </div>
@@ -81,21 +82,21 @@
             <h3>Tamanho da lista</h3>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{Id}"))">
                     10 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/41/{Capitulo}/{indiceFiltro}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{Id}"))">
                     40 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/81/{Capitulo}/{indiceFiltro}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{Id}"))">
                     80 itens
                 </a>
             </strong>
@@ -107,21 +108,21 @@
             <h3>Tamanho da lista</h3>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/6/{Capitulo}/{indiceFiltro}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{Id}"))">
                     5 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/11/{Capitulo}/{indiceFiltro}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{Id}"))">
                     10 itens
                 </a>
 
             </strong>
             <strong>
                 <a href="#"
-                   onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/1/16/{Capitulo}/{indiceFiltro}"))">
+                onclick="@( () => navigation.NavigateTo($"/lista-filtro/1/{Id}"))">
                     15 itens
                 </a>
             </strong>
@@ -134,7 +135,7 @@
 <h3>Lista de Filtro</h3>
 
 <a href="#" onclick="@(() => acessarPasta())" style="font-size:22px;">
-    Capitulo @Capitulo - Pasta @indiceFiltro
+    Pasta @filtro.Nome
 </a>
 
 @if (filtro != null)
@@ -193,7 +194,11 @@
                                 </div>
 
                             }
-
+                            @if (item is Pagina)
+                            {
+                                var p = (Pagina)item;
+                                <p>Versiculo @p.Versiculo</p>
+                            }
 
 
                         </div>
@@ -207,6 +212,7 @@
 
                     var markup = new MarkupString(item.Html);
 
+
                     <div class="divs">
 
 
@@ -217,6 +223,11 @@
                             <div class="content" style="width:100%; height:auto;">
                                 @markup
                             </div>
+                            @if(item is Pagina)
+                            {
+                                var p = (Pagina)item;
+                                <p>Versiculo @p.Versiculo</p>
+                            }
 
                         </div>
                         <br />
@@ -239,39 +250,30 @@
 
     Filtro filtro = new Filtro();
     List<Content> Model = new List<Content>();
-    List<Filtro>? filtros { get; set; }
+    List<Content> lista = new List<Content>();
     private int indiceMarcador;
 
-
-
     [Parameter] public long Id { get; set; }
-
-
     [Parameter] public int pagina { get; set; }
-    public int indiceFiltro { get; set; }
-    public int Capitulo { get; set; }
 
-    [Parameter] public int? redirecionar { get; set; }
-    public string? ordenar { get; set; }
-    public int? tamanho { get; set; }
+    public string? ordenar { get; set; } 
+    public int? tamanho { get; set; } 
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+    private bool repository = false;
 
     protected override async Task OnParametersSetAsync()
     {
-        filtro = filtros[indiceFiltro - 1];
+        Model.Clear();
 
-        if (Id == 0)
-        {
-            VerificarFiltro(filtro);
+        if(Model.Count == 0){
+            if(!repository)
+            Model.AddRange(filtro.Pagina!.Select(p => p.Content!).ToList()!);
+            else
+            Model.AddRange(lista);
             Model = await RetornarLista(pagina, ordenar!, (int)tamanho!);
+        }
 
-        }
-        else
-        {
-            var m = Context.Filtro.Include(h => h.Pagina).First(h => h.Id == Id);
-            Model.AddRange(m.Pagina.Select(p => (Pagina)p.Content).ToList()!);
-        }
         try
         {
             await js!.InvokeAsync<object>("ConfigurarPaginacao", "1");
@@ -286,19 +288,31 @@
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        filtro = await Context.Filtro!
-        .Include(f => f.Pagina)!
-        .ThenInclude(f => f.Content)
-        .Include(f => f.Story)
-        .FirstAsync(f => f.Id == Id);
 
-        Capitulo = filtro.Story.PaginaPadraoLink;
+
+        repository = RepositoryPagina.Conteudo
+                  .Where(c => c is Pagina && c.Filtro != null &&
+                  c.Filtro!.FirstOrDefault(f => f.FiltroId == Id) != null).ToList().Count ==
+                  CountPagesInFilterAsync();
+
+
+        if (!repository)
+            filtro = await Context.Filtro!
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)
+            .ThenInclude(f => f.Produto)
+            .ThenInclude(f => f.Produto)
+            .FirstAsync(f => f.Id == Id);
+        else
+        {
+            lista = RepositoryPagina.Conteudo
+                  .Where(c => c is Pagina && c.Filtro != null &&
+                  c.Filtro!.FirstOrDefault(f => f.FiltroId == Id) != null).ToList();
+            filtro = await Context.Filtro!.FirstAsync(f => f.Id == Id);
+        }
 
         tamanho = 10;
         ordenar = "teste";
-
-        // filtro = filtros[indiceFiltro];
-        // VerificarFiltro(filtro);
 
     }
 
@@ -339,7 +353,7 @@
                    .Take(tamanhoPagina).ToList();
         }
 
-        foreach (var item in Model)
+        foreach (var item in applicationDbContext)
         {
             if (item.Html != null && item.Html.Contains("iframe"))
             {
@@ -348,13 +362,7 @@
                 item.Html = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
 
             }
-            else if (item.Html != null && item.Html.Contains("iframe"))
-            {
-                var id = buscarId(item);
-                var url = await GetYouTubeVideo(id);
-                item.Html = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
-
-            }
+           
         }
 
         return applicationDbContext;
@@ -362,17 +370,17 @@
 
     private void desabilitar()
     {
-        navigation.NavigateTo($"/lista-filtro/1/{Capitulo}/{indiceFiltro}");
+        navigation.NavigateTo($"/lista-filtro/1/{Id}");
     }
 
     private void abilitar()
     {
-        navigation.NavigateTo($"/lista-filtro/{pagina}/{Capitulo}/{indiceFiltro}");
+        navigation.NavigateTo($"/lista-filtro/{pagina}/{Id}");
     }
 
     private void acessarPasta()
     {
-        navigation.NavigateTo($"/filtro/{Capitulo}/pasta-{indiceFiltro}/0/0/0/dominio");
+        navigation.NavigateTo($"/renderizar/{filtro.StoryId}/1/0/11/0/0/0/dominio/comp/{Id}");
     }
 
     private async void clicou()
@@ -433,7 +441,34 @@
         return id_video;
     }
 
+    private int CountPagesInFilterAsync()
+    {
+        var _TotalRegistros = 0;
+        try
+        {
+            using (var con = new SqlConnection(ApplicationDbContext._connectionString))
+            {
+                SqlCommand cmd = null;
+                cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
+                         " inner join Content as C on FC.ContentId=C.Id where " +
+                        $" FC.FiltroId={Id} and C.Discriminator='Pagina' or " +
+                        $" FC.FiltroId={Id} and C.Discriminator='AdminContent' or " +
+                        $" FC.FiltroId={Id} and C.Discriminator='ProductContent' or " +
+                        $" FC.FiltroId={Id} and C.Discriminator='ChangeContent'  "
+                    , con);
 
+                con.Open();
+                _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
+                con.Close();
+            }
+        }
+        catch (Exception)
+        {
+            _TotalRegistros = 0;
+        }
+
+        return _TotalRegistros;
+    }
 
 
 

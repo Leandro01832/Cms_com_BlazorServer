@@ -79,7 +79,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        content = randomizar( repositoryPagina.Conteudo.OfType<UserContent>()
+        content = randomizar( RepositoryPagina.Conteudo.OfType<UserContent>()
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
         .OrderBy(co => co.Id).ToList());
 
@@ -89,8 +89,8 @@ else
     private void filtrar()
     {
         capitulo = cap;
-        var story = repositoryPagina.stories.First(str => str.PaginaPadraoLink == cap);
-        content = randomizar( repositoryPagina.Conteudo.OfType<UserContent>()
+        var story = RepositoryPagina.stories.First(str => str.PaginaPadraoLink == cap);
+        content = randomizar( RepositoryPagina.Conteudo.OfType<UserContent>()
         .Where(c => c.StoryId == story.Id &&
         c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
         .OrderBy(co => co.Id).ToList());
@@ -99,7 +99,7 @@ else
     private void generalizar()
     {
         capitulo = null;
-        content = randomizar( repositoryPagina.Conteudo.OfType<UserContent>()
+        content = randomizar( RepositoryPagina.Conteudo.OfType<UserContent>()
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
         .OrderBy(co => co.Id).ToList());
     }
