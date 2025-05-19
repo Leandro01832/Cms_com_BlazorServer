@@ -1,4 +1,5 @@
-﻿using BlazorServerCms.Data;
+﻿using System;
+using BlazorServerCms.Data;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -124,22 +125,56 @@ namespace BlazorCms.Client.Pages
                 condicao = false;
             }
 
-            if (Filtro == null && condicao)
+            if (Filtro == null && condicao || tellStory && condicao)
             {
                 indice = int.Parse(opcional);
                 acessar();
             }
             else if (condicao)
             {
-               redirecionarParaVerso(int.Parse(opcional),(long) Filtro!);
+                if (Filtro != null && RepositoryPagina.Conteudo
+                .Where(c => c is Pagina && c.Filtro != null &&
+                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
+                CountPagesInFilterAsync((long)Filtro))
+                {
+                    var listainFilter = RepositoryPagina.Conteudo
+                    .Where(c => c is Pagina && c.Filtro != null &&
+                    c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
+                    var m = listainFilter.FirstOrDefault(c => retornarVerso(c) == int.Parse(opcional));
+                    if (m != null)
+                    {
+                        indice = listainFilter.IndexOf(m) + 1;
+                        acessar();
+                    }
+                    else
+                        await js!.InvokeAsync<object>("DarAlert",
+                    $"Não foi encontrado o versiculo {int.Parse(opcional)} na pasta {indice_Filtro}." +
+                    " O versiculo {int.Parse(opcional)} não é {Model2.Nome}.");
+                }
+                else
+                {
+                    var c = Context.Pagina!.Include(c => c.Filtro)
+                    .Where(c => c.Versiculo == int.Parse(opcional) &&  c.Filtro != null &&
+                    c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null ).FirstOrDefault();
+                    if (c == null)
+                        await js!.InvokeAsync<object>("DarAlert",
+                        $"Não foi encontrado o versiculo {int.Parse(opcional)} na pasta {indice_Filtro}." +
+                        $" O versiculo {int.Parse(opcional)} não é {Model2.Nome}.");
+                    else
+                    {
+                        var lista = await GetFiltroByIdAsync((long)Filtro!);
+                        var m = lista.First(content => content.Id == c.Id);
+                        indice = lista.IndexOf(m) + 1;
+                        acessar();
+                    }                    
+                }
             }
         }
 
         private void habilitarAuto()
         {          
                 Timer!.SetTimerAuto(repositoryPagina!.QuantMinutos);
-                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;      
-            
+                Timer!.desligarAuto!.Elapsed += desligarAuto_Elapsed;           
         }
 
         protected void ativar()
@@ -643,78 +678,79 @@ namespace BlazorCms.Client.Pages
             else
             {
                 Filtro = fi.Id;
-                redirecionarParaVerso(int.Parse(opcional!), (long)Filtro);                
+                indice = 0;
+                acessar();
+               // redirecionarParaVerso(int.Parse(opcional!), (long)Filtro);                
             }
 
         }
 
-        private async void redirecionarParaVerso(int verso, long filtroId)
-        {
-            int indiceListaFiltrada = 0;
-            List<Content> list = null;
-            if (outroHorizonte == 0)
-            {
-                    if(RepositoryPagina.Conteudo
-                .Where(c => c is Pagina && c.Filtro != null &&
-                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count !=
-                CountPagesInFilterAsync((long)Filtro))
-                {
-                    var lista = await GetFiltroByIdAsync(filtroId);
-                    list = lista.Select(c => c.Content).ToList()!;
-                }
-                else
-                {
-                   list = RepositoryPagina.Conteudo.OrderBy(c => c.Id)
-                    .Where(c => c is Pagina && c.Filtro != null &&
-                     c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
-                }
+        //private async void redirecionarParaVerso(int verso, long filtroId)
+        //{
+        //    int indiceListaFiltrada = 0;
+        //    List<Content> list = null;
+        //    if (outroHorizonte == 0)
+        //    {
+        //            if(RepositoryPagina.Conteudo
+        //        .Where(c => c is Pagina && c.Filtro != null &&
+        //        c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count !=
+        //        CountPagesInFilterAsync((long)Filtro))
+        //        {
+        //            var lista = await GetFiltroByIdAsync(filtroId);
+        //            list = lista.Select(c => c.Content).ToList()!;
+        //        }
+        //        else
+        //        {
+        //           list = RepositoryPagina.Conteudo.OrderBy(c => c.Id)
+        //            .Where(c => c is Pagina && c.Filtro != null &&
+        //             c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
+        //        }
                 
-                if (list == null)
-                {
-                    indice = verso;
-                    outroHorizonte = 0;
-                    acessar();   
-                }
+        //        if (list == null)
+        //        {
+        //            indice = verso;
+        //            outroHorizonte = 0;
+        //            acessar();   
+        //        }
 
-                if (!tellStory)
-                {
-                    opcional = verso.ToString();
-                    foreach (var item in list)
-                    {
-                        Pagina p = RepositoryPagina.Conteudo.OfType<Pagina>()!.First(p => p.Id == item.Id);
-                        if (int.Parse(opcional) == p.Versiculo)
-                        {
-                            indiceListaFiltrada = list.IndexOf(item) + 1;
-                            break;
-                        }
-                    }
+        //        if (!tellStory)
+        //        {
+        //            opcional = verso.ToString();
+        //            foreach (var item in list)
+        //            {
+        //                if (int.Parse(opcional) == retornarVerso(item))
+        //                {
+        //                    indiceListaFiltrada = list.IndexOf(item) + 1;
+        //                    break;
+        //                }
+        //            }
 
-                    if (indiceListaFiltrada == 0)
-                    {
-                        indiceListaFiltrada = indice;
-                        await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo {verso} na pasta {indice_Filtro}. O versiculo {verso} não é {Model2.Nome}.");
+        //            if (indiceListaFiltrada == 0)
+        //            {
+        //                indiceListaFiltrada = indice;
+        //                await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo {verso} na pasta {indice_Filtro}. O versiculo {verso} não é {Model2.Nome}.");
                        
-                    }
-                    else
-                    {
-                        indice = indiceListaFiltrada;
-                        acessar();
-                    }
-                }
-                else
-                {
-                    indice = int.Parse(opcional);
-                        acessar();
-                }
-            }
-            else
-            {
-                indice = verso;
-                outroHorizonte = 1;
-                    acessar();
-            }
+        //            }
+        //            else
+        //            {
+        //                indice = indiceListaFiltrada;
+        //                acessar();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            indice = int.Parse(opcional);
+        //                acessar();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        indice = verso;
+        //        outroHorizonte = 1;
+        //            acessar();
+        //    }
 
-        }
+        //}
 
         private int CountLikes()
         {
@@ -982,7 +1018,7 @@ namespace BlazorCms.Client.Pages
             return storyService.CountPagesInFilterAsync(filtroId);
         }
 
-        public Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId)
+        public Task<List<Content>> GetFiltroByIdAsync(long filtroId)
         {
             return storyService.GetFiltroByIdAsync(filtroId);
         }

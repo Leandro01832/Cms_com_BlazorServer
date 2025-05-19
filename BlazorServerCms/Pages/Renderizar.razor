@@ -1,7 +1,5 @@
 ﻿@page "/renderizar"
 @page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Filtro:long?}/{carregando:int?}"
-
-
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -257,7 +255,7 @@ else if (!repositoryPagina.erro)
                         @if (Model2 != null && Model2.usuarios.Count == 0 && !ultimaPasta || Filtro == null && !ultimaPasta)
 
                         {
-                            <a data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())" class="btn btn-primary" >
+                            <a data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())"  >
                                 marcar?
                             </a>
                         }

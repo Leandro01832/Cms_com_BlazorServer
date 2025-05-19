@@ -37,6 +37,7 @@ namespace BlazorCms.Client.Pages
         private Filtro fil4 = null;
         private Filtro fil5 = null;
         private bool alterouPasta;
+        private bool alterouModel;
 
 
         protected int indiceAcesso;
@@ -67,7 +68,6 @@ namespace BlazorCms.Client.Pages
         protected UserModel usuario;
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
-        protected Content? Model = null;
         protected Filtro? Model2;
         protected string[]? classificacoes = null;
         protected string opcional = "";
@@ -75,7 +75,17 @@ namespace BlazorCms.Client.Pages
         protected bool Content = false;       
         protected long quantLiked = 0;
 
-
+        private Content? model = null;
+        protected Content? Model 
+        {
+            get { return model; }
+            set
+            {
+                if (value != null && Model != null && Model!.Id != value!.Id)
+                    alterouModel = true;
+                model = value;
+            }
+        }
         protected string? html { get; set; } = "";
         protected string? nameStory { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
@@ -102,9 +112,8 @@ namespace BlazorCms.Client.Pages
             get { return filtro; }
             set 
             { 
-                if(value != Filtro)
-                alterouPasta = true;
-                
+                if(value != Filtro)                
+                alterouPasta = true;              
                 filtro = value;
             }
         } 

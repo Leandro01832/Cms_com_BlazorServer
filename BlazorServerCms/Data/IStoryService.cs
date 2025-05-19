@@ -12,7 +12,7 @@ namespace BlazorServerCms.Data
 
 
         Task<Story> GetStoryByIdAsync(long storyId);
-        Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId);
+        Task<List<Content>> GetFiltroByIdAsync(long filtroId);
         int CountPagesInFilterAsync(long filtroId);
         int CountPagesAsync(long storyId);
         int CountLikesAsync(long ContentId);

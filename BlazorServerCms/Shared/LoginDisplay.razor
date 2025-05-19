@@ -149,6 +149,8 @@
         {
             try
             {
+                if(usuarios == null)
+                    usuarios = await Context.Users.ToListAsync();
                 string? num = await js.InvokeAsync<string>("retornarlargura", "url");
                 var largura = double.Parse(num);
 

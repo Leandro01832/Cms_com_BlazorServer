@@ -56,6 +56,10 @@ namespace BlazorServerCms.Data
                .Where(c => c.Content is Pagina && c.FiltroId == filtroId)
                .ToListAsync();
 
+            foreach (var item in conteudos.Select(c => c.Content).ToList())
+                if (RepositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item!.Id) == null)
+                    RepositoryPagina.Conteudo.Add(item!);
+
             return conteudos;
         }
 
@@ -86,24 +90,20 @@ namespace BlazorServerCms.Data
                .Where(c => c is Pagina && c.StoryId == storyId)
                .ToListAsync();
 
-
+            foreach (var item in conteudos)
+                if (RepositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
+                    RepositoryPagina.Conteudo.Add(item!);
 
             return conteudos;
         }
 
-        public async Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId)
+        public async Task<List<Content>> GetFiltroByIdAsync(long filtroId)
         {
-            var lista = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+            List<Content> lista = await Context!.Content!.OrderBy(p => p.Id)
                 .Include(c => c.Filtro)
-                .Include(c => c.Content)
-                .ThenInclude(c => c.Produto)
-                .ThenInclude(c => c.Produto)
-               .Where(c => c.Content is Pagina && c.FiltroId == filtroId)
-               .ToListAsync();
-
-            foreach (var item in lista.Select(c => c.Content).ToList())
-                if (RepositoryPagina.Conteudo.FirstOrDefault() == null)
-                    RepositoryPagina.Conteudo.Add(item!);
+               .Where(c => c is Pagina && c.Filtro != null &&
+                    c.Filtro!.FirstOrDefault(f => f.FiltroId == filtroId) != null)
+               .ToListAsync();    
 
             return  lista;
         }
