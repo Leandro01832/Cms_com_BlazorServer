@@ -27,7 +27,9 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    margin-left: 5%;
     z-index:0;
 }
 
@@ -207,8 +209,8 @@ Informativo {
 
 .DivPagina {
     height: 40px;
-    opacity: 0.90;
     width: 100%;
+    opacity: 0.90;
     margin: 6px;
     display: flex;
     flex-direction: row;
@@ -220,8 +222,8 @@ Informativo {
 
 .DivPagina2 {
     height: 50px;
-    opacity: 0.90;
     width: 100%;
+    opacity: 0.90;
     margin: 6px;
     display: flex;
     flex-direction: row;
@@ -287,6 +289,7 @@ Informativo {
         border-radius: 5px;
         background-color: red;
         width: 1%;
+        align-content:flex-start;
     }
 
 #carouselIndicators {

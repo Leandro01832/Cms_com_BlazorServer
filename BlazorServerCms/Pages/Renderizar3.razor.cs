@@ -1,4 +1,5 @@
-﻿using BlazorServerCms.servicos;
+﻿using System.Reflection;
+using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.business.Group;
@@ -8,13 +9,14 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
 
 namespace BlazorCms.Client.Pages
 {
     public partial class RenderizarBase : ComponentBase
     {
-        private async Task<int> marcarIndice(int ind)
+        private async Task<int> marcarIndice()
         {
             try
             {
@@ -98,8 +100,21 @@ namespace BlazorCms.Client.Pages
                 storyid = RepositoryPagina.stories.OrderBy(str => str.Id).First().Id;
             }
 
+            if (story == null)
+            {
+                story = await GetStoryByIdAsync((long)storyid!);
+            }
 
-            if (dominio != repositoryPagina.buscarDominio() && dominio != "dominio")
+            if (nomeLivro != null)            
+                livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Nome == nomeLivro);
+
+            if (livro == null)
+                listaFiltro = story.Filtro!.Where(f => f.LivroId == null).ToList();
+            else
+                listaFiltro = story.Filtro!.Where(f => f.LivroId == livro.Id).ToList();
+
+
+            if (dominio != repositoryPagina!.buscarDominio() && dominio != "dominio")
             {
                 var domi = await Context.Compartilhante!.FirstOrDefaultAsync(l => l.Livro == dominio);
                 if (domi == null)
@@ -166,7 +181,7 @@ namespace BlazorCms.Client.Pages
             else if (Filtro != null && RepositoryPagina.Conteudo
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
-                CountPagesInFilterAsync((long)Filtro))
+                CountPagesInFilterAsync((long)Filtro, livro))
             {
                 var listainFilter = RepositoryPagina.Conteudo.OrderBy(c => c.Id)
                 .Where(c => c is Pagina && c.Filtro != null &&
@@ -183,16 +198,16 @@ namespace BlazorCms.Client.Pages
               
 
             if (indice > quantidadeLista)
-                quantDiv = await marcarIndice(1);
+                quantDiv = await marcarIndice();
             else
-                quantDiv = await marcarIndice(indice);
+                quantDiv = await marcarIndice();
             int slideAtivo = (indice - 1) / quantDiv;
             slideAtual = slideAtivo;
 
             if (Filtro != null && RepositoryPagina.Conteudo
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
-                CountPagesInFilterAsync((long)Filtro))
+                CountPagesInFilterAsync((long)Filtro, livro))
                 listaContent = RepositoryPagina.Conteudo
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).OrderBy(p => p.Id)
@@ -205,7 +220,7 @@ namespace BlazorCms.Client.Pages
                 List<Content> conteudos = null;
                 if(Filtro == null)
                 {
-                    conteudos = await PaginarStory((long)storyid!, quantidadeLista, quantDiv, slideAtual, carregando);                                   
+                    conteudos = await PaginarStory((long)storyid!, quantidadeLista, quantDiv, slideAtual, livro, carregando);                                   
                     listaContent.AddRange(conteudos);
 
                     foreach (var item in listaContent)
@@ -217,10 +232,7 @@ namespace BlazorCms.Client.Pages
                 }
             }
 
-            if (story == null )
-            {
-                story = await GetStoryByIdAsync((long)storyid!);
-            }
+            
             cap = RepositoryPagina.stories.First(st => st.Id == storyid).PaginaPadraoLink;
             nameStory = RepositoryPagina.stories.First(st => st.Id == storyid).Nome;
 
@@ -230,10 +242,10 @@ namespace BlazorCms.Client.Pages
                 .ToList();
 
             if (outroHorizonte == 1)
-            {                
-                    Model2 = story.Filtro!.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault();
-                    quantidadeLista = story.Filtro!.ToList().Count;
-                    indiceAcesso = story.Filtro!.IndexOf(Model2) + 1;                
+            {                         
+                    Model2 = listaFiltro.OrderBy(f => f.Id).Skip((int)indice - 1).FirstOrDefault();                    
+                    quantidadeLista = listaFiltro.ToList().Count;                    
+                    indiceAcesso = listaFiltro!.ToList().IndexOf(Model2) + 1;  
             }
 
             quantidadePaginas =  CountPaginas();
@@ -409,20 +421,37 @@ namespace BlazorCms.Client.Pages
             if (outroHorizonte == 0 && Filtro != null && rota == null)
             {
                 Filtro Fil = story!.Filtro!.First(f => f.Id == Filtro);
-                indice_Filtro = story.Filtro!.OrderBy(f => f.Id).ToList().IndexOf(Fil) + 1;
+                
+                indice_Filtro = listaFiltro.OrderBy(f => f.Id).ToList().IndexOf(Fil) + 1;
                 Model2 = Fil;
-                nameGroup = Model2.Nome!;                
+                nameGroup = Model2.Nome!;
+                
 
                 if (Fil.Pagina! != null && Model == null)
                     Model = Fil.Pagina!.OrderBy(p => p.ContentId).Select(p => p.Content)
                     .Where(c => c is Pagina).Skip((indice - 1) - (slideAtual * quantDiv)).FirstOrDefault();
 
-                if (Model == null )
+                if (Model == null || indice == 0)
                 {
+                    int countPages = CountPagesInFilterAsync((long)Filtro, livro);
                     listaContent.Clear();
+                   
+                    if(indice == 0)
+                    {
+                        List<FiltroContent> resultados = null;
+                        var teste = RepositoryPagina.conteudoEmFiltro
+                         .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == Model!.Id &&
+                         cf.conteudoEmFiltro!.FiltroId == Filtro);
+
+                       buscarIndice(Model, countPages, teste);                        
+                                              
+                        int slideAtivo = (indice - 1) / quantDiv;
+                        slideAtual = slideAtivo;
+                    }
+
                     
-                    Fil.Pagina = await PaginarFiltro((long)Filtro, CountPagesInFilterAsync((long)Filtro),
-                            quantDiv, slideAtual, carregando);
+                    Fil.Pagina = await PaginarFiltro((long)Filtro, countPages,
+                            quantDiv, slideAtual, livro, carregando);
 
                     Model = Fil.Pagina!.OrderBy(p => p.ContentId).Select(p => p.Content)
                    .Where(c => c is Pagina)
@@ -476,7 +505,7 @@ namespace BlazorCms.Client.Pages
             else if (outroHorizonte == 0 && Filtro != null && rota != null)
             {
                 listaContent = new List<Content>();
-                foreach (var item in story.Filtro)
+                foreach (var item in listaFiltro)
                     foreach (var item2 in item.Pagina)
                     {
                         var rotas = item2.Content.Rotas.Split(",");
@@ -517,17 +546,19 @@ namespace BlazorCms.Client.Pages
         {
             Filtro[] fils = new Filtro[10];
             Time time = null;
-            fils[0] = story.Filtro.FirstOrDefault(u => u.Id == Model2!.Id)!;
-            fils[1] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[0]).Id)!;
-            fils[2] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[1]).Id)!;
-            fils[3] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[2]).Id)!;
-            fils[4] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[3]).Id)!;
-            fils[5] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[4]).Id)!;
-            fils[6] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[5]).Id)!;
-            fils[7] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[6]).Id)!;
-            fils[8] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[7]).Id)!;
-            fils[9] = story.Filtro.FirstOrDefault(u => u.Id == verificarFiltros(fils[8]).Id)!;
-            if (camada == 7 && fils[0] is not null && fils[1] is not null &&
+
+            fils[0] = listaFiltro.FirstOrDefault(u => u.Id == Model2!.Id)!;
+            fils[1] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[0]).Id)!;
+            fils[2] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[1]).Id)!;
+            fils[3] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[2]).Id)!;
+            fils[4] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[3]).Id)!;
+            fils[5] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[4]).Id)!;
+            fils[6] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[5]).Id)!;
+            fils[7] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[6]).Id)!;
+            fils[8] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[7]).Id)!;
+            fils[9] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[8]).Id)!;
+           
+            if ( fils[0] is not null && fils[1] is not null &&
                     fils[2] is not null && fils[3] is not null && fils[4] is not null &&
                      fils[5] is not null)
             {
@@ -550,72 +581,6 @@ namespace BlazorCms.Client.Pages
 
             }
 
-            if (camada == 6 && fils[0] is not null && fils[1] is not null &&
-                    fils[2] is not null && fils[3] is not null && fils[4] is not null)
-            {
-                time = Context.Time
-                .Include(t => t.usuarios)
-                .ThenInclude(t => t.UserModel)
-                .FirstOrDefault(t =>
-                t.usuarios
-                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[4].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
-
-            }
-
-            if (camada == 5 && fils[0] is not null && fils[1] is not null &&
-                    fils[2] is not null && fils[3] is not null)
-            {
-                time = Context.Time
-                .Include(t => t.usuarios)
-                .ThenInclude(t => t.UserModel)
-                .FirstOrDefault(t =>
-                t.usuarios
-                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
-
-            }
-
-            if (camada == 4 && fils[0] is not null && fils[1] is not null &&
-                   fils[2] is not null)
-            {
-                time = Context.Time
-                .Include(t => t.usuarios)
-                .ThenInclude(t => t.UserModel)
-                .FirstOrDefault(t =>
-                t.usuarios
-                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
-
-            }
-
-            if (camada == 3 && fils[0] is not null && fils[1] is not null)
-            {
-                time = Context.Time
-                .Include(t => t.usuarios)
-                .ThenInclude(t => t.UserModel)
-                .FirstOrDefault(t =>
-                t.usuarios
-                .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-                t.usuarios
-                .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
-
-            }
 
             if (time is null)
             {
@@ -631,25 +596,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private string retornarUserContent(Content c)
-        {
-            UserContent u = (UserContent)c;
-            return u.UserModelId;
-        }
-
-        private List<Content> listarConteudos(Filtro f)
-        {
-            var fil = story.Filtro.FirstOrDefault(fi => fi.Id == f.Id);
-            if (preferencia == null)
-                return fil.Pagina!.Select(p => p.Content).ToList()!;
-            else
-            {
-                var user = userManager.Users.First(u => u.UserName == preferencia);
-                return fil.Pagina!.Select(p => p.Content)
-                    .Where(c => c is UserContent && retornarUserContent(c) == user.Id).ToList()!;
-            }
-        }
-
         private Filtro verificarFiltros(Filtro f)
         {
             if (f == null)
@@ -658,42 +604,42 @@ namespace BlazorCms.Client.Pages
             if (f is CamadaDez)
             {
                 CamadaDez camada = (CamadaDez)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaNoveId);
+                return listaFiltro.First(fil => fil.Id == camada.CamadaNoveId);
             }
             else if (f is CamadaNove)
             {
                 CamadaNove camada = (CamadaNove)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaOitoId);
+                return listaFiltro.First(fil => fil.Id == camada.CamadaOitoId);
             }
             else if (f is CamadaOito)
             {
                 CamadaOito camada = (CamadaOito)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaSeteId);
+                return listaFiltro.First(fil => fil.Id == camada.CamadaSeteId);
             }
             else if (f is CamadaSete)
             {
                 CamadaSete camada = (CamadaSete)f;
-                return story.Filtro.First(fil => fil.Id == camada.CamadaSeisId);
+                return listaFiltro.First(fil => fil.Id == camada.CamadaSeisId);
             }
             else if (f is CamadaSeis)
             {
                 CamadaSeis camada = (CamadaSeis)f;
-                return story.Filtro.First(fil => fil.Id == camada.SubSubGrupoId);
+                return listaFiltro.First(fil => fil.Id == camada.SubSubGrupoId);
             }
             else if (f is SubSubGrupo)
             {
                 SubSubGrupo camada = (SubSubGrupo)f;
-                return story.Filtro.First(fil => fil.Id == camada.SubGrupoId);
+                return listaFiltro.First(fil => fil.Id == camada.SubGrupoId);
             }
             else if (f is SubGrupo)
             {
                 SubGrupo camada = (SubGrupo)f;
-                return story.Filtro.First(fil => fil.Id == camada.GrupoId);
+                return listaFiltro.First(fil => fil.Id == camada.GrupoId);
             }
             else 
             {
                 Grupo camada = (Grupo)f;
-                return story.Filtro.First(fil => fil.Id == camada.SubStoryId);
+                return listaFiltro.First(fil => fil.Id == camada.SubStoryId);
             }
             
         }
@@ -717,7 +663,7 @@ namespace BlazorCms.Client.Pages
             var us7 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
                 .FirstOrDefault(u => u.Id == verificarFiltros(us6).Id);
             var users = Context.Filtro.ToList().Count;
-            var filtros = story.Filtro.Count();
+         
 
             if (us2 != null) { pts = 2; fils[0] = us2; } else fils[0] = null;
             if (us3 != null) { pts = 3; fils[1] = us3; } else fils[1] = null;
@@ -726,14 +672,7 @@ namespace BlazorCms.Client.Pages
             if (us6 != null) { pts = 6; fils[4] = us6; } else fils[4] = null;
             if (us7 != null) { pts = 7; fils[5] = us7; } else fils[5] = null;
 
-            if (filtros > repositoryPagina.meta1) pts++;
-            if (filtros > repositoryPagina.meta2) pts++;
-            if (filtros > repositoryPagina.meta3) pts++;
-            if (filtros > repositoryPagina.meta4) pts++;
-            if (filtros > repositoryPagina.meta5) pts++;
-            if (filtros > repositoryPagina.meta6) pts++;
-            if (filtros > repositoryPagina.meta7) pts++;
-            if (filtros > repositoryPagina.meta8) pts++;
+           
 
             for (var i = 0; i < 6; i++)
             {
@@ -770,8 +709,8 @@ namespace BlazorCms.Client.Pages
 
                             if (fil != null && i != 0)
                             {
-                                var condicao = story.Filtro
-                                 .FirstOrDefault(f => f.usuarios.FirstOrDefault(us => us.UserModelId == usuarios[j].UserModel.Id) != null);
+                                Filtro condicao = listaFiltro.FirstOrDefault(f => f.usuarios
+                                     .FirstOrDefault(us => us.UserModelId == usuarios[j].UserModel.Id) != null)!;
 
                                 if (condicao != null)
                                 {
@@ -895,85 +834,85 @@ namespace BlazorCms.Client.Pages
 
         private Filtro buscarProximoSubGrupo()
         {
-            //  var tipo = Model2.GetType();
-            var lista = story.Filtro!.Where(HasPages).ToList();
+            //  var properties = Model2!.GetType().GetProperties();
+
             if (Model2 is CamadaDez)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<CamadaDez>().ToList().Count)
-                    return lista!.OfType<CamadaNove>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<CamadaDez>().ToList().Count)
+                    return listaFiltro!.OfType<CamadaNove>().ToList().First();
                 else
                     return returnList<CamadaDez>()[indice + 1];
             }
             else if (Model2 is CamadaNove)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<CamadaNove>().ToList().Count)
-                    return lista!.OfType<CamadaOito>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<CamadaNove>().ToList().Count)
+                    return listaFiltro!.OfType<CamadaOito>().ToList().First();
                 else
                     return returnList<CamadaNove>()[indice + 1];
             }
             else if (Model2 is CamadaOito)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<CamadaOito>().ToList().Count)
-                    return lista!.OfType<CamadaSete>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<CamadaOito>().ToList().Count)
+                    return listaFiltro!.OfType<CamadaSete>().ToList().First();
                 else
                     return returnList<CamadaOito>()[indice + 1];
             }
             else if (Model2 is CamadaSete)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<CamadaSete>().ToList().Count)
-                    return lista!.OfType<CamadaSeis>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<CamadaSete>().ToList().Count)
+                    return listaFiltro!.OfType<CamadaSeis>().ToList().First();
                 else
                     return returnList<CamadaSete>()[indice + 1];
             }
             else if (Model2 is CamadaSeis)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<CamadaSeis>().ToList().Count)
-                    return lista!.OfType<SubSubGrupo>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<CamadaSeis>().ToList().Count)
+                    return listaFiltro!.OfType<SubSubGrupo>().ToList().First();
                 else
                     return returnList<CamadaSeis>()[indice + 1];
             }
             else if (Model2 is SubSubGrupo)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<SubSubGrupo>().ToList().Count)
-                    return lista!.OfType<SubGrupo>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<SubSubGrupo>().ToList().Count)
+                    return listaFiltro!.OfType<SubGrupo>().ToList().First();
                 else
                     return returnList<SubSubGrupo>()[indice + 1];
             }
             else if (Model2 is SubGrupo)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<SubGrupo>().ToList().Count)
-                    return lista!.OfType<Grupo>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<SubGrupo>().ToList().Count)
+                    return listaFiltro!.OfType<Grupo>().ToList().First();
                 else
                     return returnList<SubGrupo>()[indice + 1];
             }
             else if (Model2 is Grupo)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<Grupo>().ToList().Count)
-                    return lista!.OfType<SubStory>().ToList().First();
+                if (indice + 1 == listaFiltro!.OfType<Grupo>().ToList().Count)
+                    return listaFiltro!.OfType<SubStory>().ToList().First();
                 else
                     return returnList<Grupo>()[indice + 1];
             }
             else if (Model2 is SubStory)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice + 1 == lista!.OfType<SubStory>().ToList().Count)
+                if (indice + 1 == listaFiltro!.OfType<SubStory>().ToList().Count)
                     return null;
                 else
                     return returnList<SubStory>()[indice + 1];
@@ -985,10 +924,10 @@ namespace BlazorCms.Client.Pages
         private Filtro voltarSubgrupos()
         {
             //  var tipo = Model2.GetType();
-            var lista = story.Filtro!.Where(HasPages).ToList();
+
             if (Model2 is CamadaDez)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
                 if (indice == 0)
                     return null;
@@ -997,85 +936,80 @@ namespace BlazorCms.Client.Pages
             }
             else if (Model2 is CamadaNove)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice == 0 && HasValidFilters(lista!.OfType<CamadaDez>().ToList()))
-                    return lista!.OfType<CamadaDez>().ToList().LastOrDefault()!;
+                if (indice == 0 && HasValidFilters(listaFiltro!.OfType<CamadaDez>().ToList()))
+                    return listaFiltro!.OfType<CamadaDez>().ToList().LastOrDefault()!;
                 else
                     return returnList<CamadaNove>()[indice - 1];
             }
             else if (Model2 is CamadaOito)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice == 0 && HasValidFilters(lista!.OfType<CamadaNove>().ToList()))
-                    return lista!.OfType<CamadaNove>().ToList().LastOrDefault()!;
+                if (indice == 0 && HasValidFilters(listaFiltro!.OfType<CamadaNove>().ToList()))
+                    return listaFiltro!.OfType<CamadaNove>().ToList().LastOrDefault()!;
                 else
                     return returnList<CamadaOito>()[indice - 1];
             }
             else if (Model2 is CamadaSete)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice == 0 && HasValidFilters(lista!.OfType<CamadaOito>().ToList()))
-                    return lista!.OfType<CamadaOito>().ToList().LastOrDefault()!;
+                if (indice == 0 && HasValidFilters(listaFiltro!.OfType<CamadaOito>().ToList()))
+                    return listaFiltro!.OfType<CamadaOito>().ToList().LastOrDefault()!;
                 else
                     return returnList<CamadaSete>()[indice - 1];
             }
             else if (Model2 is CamadaSeis)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice == 0 && HasValidFilters(lista!.OfType<CamadaSete>().ToList()))
-                    return lista!.OfType<CamadaSete>().ToList().LastOrDefault()!;
+                if (indice == 0 && HasValidFilters(listaFiltro!.OfType<CamadaSete>().ToList()))
+                    return listaFiltro!.OfType<CamadaSete>().ToList().LastOrDefault()!;
                 else
                     return returnList<CamadaSeis>()[indice - 1];
             }
             else if (Model2 is SubSubGrupo)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice  == 0 && HasValidFilters(lista!.OfType<CamadaSeis>().ToList()))
-                    return lista!.OfType<CamadaSeis>().ToList().LastOrDefault()!;
+                if (indice  == 0 && HasValidFilters(listaFiltro!.OfType<CamadaSeis>().ToList()))
+                    return listaFiltro!.OfType<CamadaSeis>().ToList().LastOrDefault()!;
                 else
                     return returnList<SubSubGrupo>()[indice - 1];
             }
             else if (Model2 is SubGrupo)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice == 0 && HasValidFilters(lista!.OfType<SubSubGrupo>().ToList()))
-                    return lista!.OfType<SubSubGrupo>().ToList().LastOrDefault()!;
+                if (indice == 0 && HasValidFilters(listaFiltro!.OfType<SubSubGrupo>().ToList()))
+                    return listaFiltro!.OfType<SubSubGrupo>().ToList().LastOrDefault()!;
                 else
                     return returnList<SubGrupo>()[indice - 1];
             }
             else if (Model2 is Grupo)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice == 0 && HasValidFilters(lista!.OfType<SubGrupo>().ToList()))
-                    return lista!.OfType<SubGrupo>().ToList().LastOrDefault()!;
+                if (indice == 0 && HasValidFilters(listaFiltro!.OfType<SubGrupo>().ToList()))
+                    return listaFiltro!.OfType<SubGrupo>().ToList().LastOrDefault()!;
                 else
                     return returnList<Grupo>()[indice - 1];
             }
             else if (Model2 is SubStory)
             {
-                var indice = lista.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                var indice = listaFiltro.Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
 
-                if (indice  == 0 && HasValidFilters(lista!.OfType<Grupo>().ToList()))
-                    return lista!.OfType<Grupo>().ToList().LastOrDefault()!;
+                if (indice  == 0 && HasValidFilters(listaFiltro!.OfType<Grupo>().ToList()))
+                    return listaFiltro!.OfType<Grupo>().ToList().LastOrDefault()!;
                 else
                     return returnList<SubStory>()[indice - 1];
             }
 
             return null;
         }
-
-        private bool HasPages(Filtro filtro)
-        {
-            return filtro.Pagina != null && filtro.Pagina.Count > 0;
-        }
-        
+               
         private bool HasValidFilters<T>(IEnumerable<T> collection)
         {
             return collection.ToList().Count > 0;
@@ -1083,13 +1017,9 @@ namespace BlazorCms.Client.Pages
 
         private List<T> returnList<T>()
         {
-            
-            var lista = story.Filtro!.Where(HasPages).ToList();
-            return lista.OfType<T>().ToList();
+            return listaFiltro.OfType<T>().ToList();
         }
 
-        
-   
         private async void perguntar()
         {
             try
@@ -1112,4 +1042,5 @@ namespace BlazorCms.Client.Pages
             }
         }
     }
+
 }

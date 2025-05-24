@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.JSInterop;
 using PSC.Blazor.Components.Tours.Interfaces;
 using System.Security.Claims;
+using business.business.Book;
 
 namespace BlazorCms.Client.Pages
 {
@@ -30,6 +31,7 @@ namespace BlazorCms.Client.Pages
         private int quantDiv = 0;
         private int? indiceMarcador;
         private Story story = null;
+        private Livro? livro = null;
         private string? title = null;
         private string? resumo = null;
         private Filtro fil2 = null;
@@ -38,7 +40,7 @@ namespace BlazorCms.Client.Pages
         private Filtro fil5 = null;
         private bool alterouPasta;
         private bool alterouModel;
-
+        private List<Filtro> listaFiltro = null;
 
         protected int indiceAcesso;
 
@@ -97,7 +99,8 @@ namespace BlazorCms.Client.Pages
         protected int? indice_Filtro { get; set; }         
         protected int? vers { get; set; }
 
-        [Parameter] public int indiceLivro { get; set; } = 0;
+        [Parameter] public string? nomeLivro { get; set; } = "";
+      //  [Parameter] public int indiceLivro { get; set; } = 0;
         [Parameter] public int retroceder { get; set; } = 0;
 
         [Parameter] public int timeproduto { get; set; } = 11;  

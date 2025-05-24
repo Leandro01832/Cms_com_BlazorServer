@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using business.business.Book;
 using business.business.Contrato;
 using business.Group;
 
@@ -26,11 +27,14 @@ namespace business.business
 
         [Required(ErrorMessage = "O titulo é necessário")]
         [Display(Name = "Titulo da pagina")]
-        public string? Titulo { get; set; }
+        public string? Titulo { get; set; } = "Conteudo";
 
         [Display(Name = "Story")]
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
+
+        public Int64? LivroId { get; set; }
+        public virtual Livro? Livro { get; set; }
 
         public virtual List<FiltroContent>? Filtro { get; set; }
 

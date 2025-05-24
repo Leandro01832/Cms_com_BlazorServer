@@ -2,6 +2,7 @@
 @page "/{capitulo:int}/{indice}"
 @page "/acesso/{indice}"
 @page "/mensagem/{MensagemSistema}"
+@page "/livro/{nomeLivro}"
 @using business.business.Group
 
 
@@ -18,10 +19,27 @@
     <LoginDisplay />
 </div>
 
+@if(livro == null)
+{
+    <p>O livro é @repositoryPagina.buscarDominio()</p>
+}
+else
+{
+    <p>O livro é @livro.Nome</p>
+}
 
 @if(marcar)
 {
-    <h5>capitulo @repositoryPagina.CapituloLivro</h5>
+    if(livro == null)
+    {
+        <h5>capitulo @repositoryPagina.CapituloLivro</h5>
+
+    }
+    else
+    {
+        <h5>capitulo @livro.StandardChapter</h5>
+
+    }
 }
 
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
@@ -42,7 +60,7 @@
 
     <p>
         <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank">
-            Peça seu livro
+            Faça sua assinatura
         </a>
     </p>
 
@@ -152,10 +170,23 @@
 
 <div class="apresentacao">
 
+    @if(nomeLivro == null)
+    {
+        <img src="/story.jpg" style="width:70%" />
+    }
+    else if(livro != null)
+    {
 
-    <img src="/story.jpg" style="width:70%" />
+    }
+    else
+    {
+        <div style="text-align:center;">
+        <h1>Livro não encontrado</h1>
 
-   @*  <div class="circuloCompartilhando">
+        </div>
+    }
+
+    @*  <div class="circuloCompartilhando">
         <center>
 
             <div class="circulo2Compartilhando">
@@ -233,6 +264,7 @@
 
     [Parameter] public int? capitulo { get; set; }
 
+    [Parameter] public string? nomeLivro { get; set; } = "";
     [Parameter] public string? indice { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
     [Parameter] public string? dominio { get; set; }
@@ -252,6 +284,8 @@
     private bool marcar;
 
     private Story story = null;
+
+    private Livro livro = null;
 
     int? verso = null;
     long? filtro = null;
@@ -299,6 +333,9 @@
         Context = db.CreateDbContext(null);
         var quant = await userManager.Users.ToListAsync();
         users = quant.Count;
+
+        if (nomeLivro != null)
+            livro = await Context.Livro.FirstOrDefaultAsync(l => l.Nome == nomeLivro);
 
         repositoryPagina.exibir = true;
 
@@ -423,39 +460,39 @@
                         {
                             foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
                             {                                
-                                    var pag = (Pagina)item2.Content;
+                                var pag = (Pagina)item2.Content;
 
-                                    if (compartilhante == "comp")
+                                if (compartilhante == "comp")
+                                {
+                                    if (pag.Versiculo == numeros[j] && url == null )
                                     {
-                                        if (pag.Versiculo == numeros[j] && url == null )
-                                        {
-                                            var pages = item.Pagina!
-                                            .Where(c => c.Content is Pagina)
-                                            .OrderBy(c => c.ContentId)
-                                            .ToList();
-                                            verso = pages.IndexOf(item2) + 1;
-                                            filtro = item.Id;
-                                            url = retornarUrl();
-                                            await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                                        var pages = item.Pagina!
+                                        .Where(c => c.Content is Pagina)
+                                        .OrderBy(c => c.ContentId)
+                                        .ToList();
+                                        verso = pages.IndexOf(item2) + 1;
+                                        filtro = item.Id;
+                                        url = retornarUrl();
+                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
 
-                                        }
                                     }
-                                    else
+                                }
+                                else
+                                {
+                                    if (pag.Versiculo == numeros[j] && url == null &&
+                                        item.usuarios.Count > 0)
                                     {
-                                        if (pag.Versiculo == numeros[j] && url == null &&
-                                            item.usuarios.Count > 0)
-                                        {
-                                            var pages = item.Pagina!
-                                            .Where(c => c.Content is Pagina)
-                                            .OrderBy(c => c.ContentId)
-                                            .ToList();
-                                            verso = pages.IndexOf(item2) + 1;
-                                            filtro = item.Id;
-                                            url = retornarUrl();
-                                            await js!.InvokeAsync<object>("AcessarSites", $"{url}");
-                                        }
+                                        var pages = item.Pagina!
+                                        .Where(c => c.Content is Pagina)
+                                        .OrderBy(c => c.ContentId)
+                                        .ToList();
+                                        verso = pages.IndexOf(item2) + 1;
+                                        filtro = item.Id;
+                                        url = retornarUrl();
+                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
                                     }
-                                
+                                }
+
                             }
                         }
                     }
@@ -475,36 +512,36 @@
                         foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
                         {                   
 
-                                var pag = (Pagina)item2.Content;
-                                if (compartilhante == "comp")
+                            var pag = (Pagina)item2.Content;
+                            if (compartilhante == "comp")
+                            {
+                                if (pag.Versiculo == num && url == null)
                                 {
-                                    if (pag.Versiculo == num && url == null)
-                                    {
-                                        var pages = item.Pagina!
-                                        .Where(c => c.Content is Pagina)
-                                        .OrderBy(c => c.ContentId)
-                                        .ToList();
-                                        verso = pages.IndexOf(item2) + 1;
-                                        filtro = item.Id;
-                                        url = retornarUrl();
+                                    var pages = item.Pagina!
+                                    .Where(c => c.Content is Pagina)
+                                    .OrderBy(c => c.ContentId)
+                                    .ToList();
+                                    verso = pages.IndexOf(item2) + 1;
+                                    filtro = item.Id;
+                                    url = retornarUrl();
 
-                                    }
                                 }
-                                else
+                            }
+                            else
+                            {
+                                if (pag.Versiculo == num && url == null && item.usuarios.Count > 0)
                                 {
-                                    if (pag.Versiculo == num && url == null && item.usuarios.Count > 0)
-                                    {
-                                        var pages = item.Pagina!
-                                        .Where(c => c.Content is Pagina)
-                                        .OrderBy(c => c.ContentId)
-                                        .ToList();
-                                        verso = pages.IndexOf(item2) + 1;
-                                        filtro = item.Id;
-                                        url = retornarUrl();
+                                    var pages = item.Pagina!
+                                    .Where(c => c.Content is Pagina)
+                                    .OrderBy(c => c.ContentId)
+                                    .ToList();
+                                    verso = pages.IndexOf(item2) + 1;
+                                    filtro = item.Id;
+                                    url = retornarUrl();
 
-                                    }
                                 }
-                            
+                            }
+
                         }
                     }
 
@@ -566,9 +603,8 @@
                         else
                         {
                             var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
-                            var story = stories.First(str => str.Id == paginas[0].StoryId);
-                            var cap = stories.IndexOf(story) + 1;
-                            navigation.NavigateTo($"/camada2/{cap}/1/1/0/11/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
+                            var story = stories.First(str => str.Id == paginas[0].StoryId);                            
+                            navigation.NavigateTo($"/camada2/{story.Id}/1/1/0/11/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
                         }
                     }
                 }
@@ -582,7 +618,7 @@
         }
 
     }
-    
+
     private void alterarUser(ChangeEventArgs args)
     {
         var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
@@ -609,23 +645,28 @@
     {
         marcar = !marcar;
         if (marcar)
-        placeholder = "Nº dos versiculos";
+            placeholder = "Nº dos versiculos";
         else
-        placeholder = "Nº do capitulo ou pesquisar";
+            placeholder = "Nº do capitulo ou pesquisar";
     }
-        
+
     private string retornarUrl()
     {
+        string liv = "";
+
+        if (livro != null)
+            liv += $"/{livro.Nome}";
+
         string url = null;
         if (filtro != null)
         {
             if(carregando == null)
-            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/{filtro}";
+            url = $"/Renderizar{liv}/{story.Id}/{verso}/0/11/0/0/dominio/{compartilhante}/{filtro}";
             else
-            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}/{filtro}/{carregando}";
+            url = $"/Renderizar{liv}/{story.Id}/{verso}/0/11/0/0/dominio/{compartilhante}/{filtro}/{carregando}";
         }
         else
-            url = $"/Renderizar/{story.Id}/{verso}/0/11/0/0/0/dominio/{compartilhante}";
+            url = $"/Renderizar{liv}/{story.Id}/{verso}/0/11/0/0/dominio/{compartilhante}";
         return url;
     }
 

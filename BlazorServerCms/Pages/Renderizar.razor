@@ -1,5 +1,7 @@
 ﻿@page "/renderizar"
-@page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{indiceLivro:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Filtro:long?}/{carregando:int?}"
+@page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Filtro:long?}/{carregando:int?}"
+@* para assinantes *@
+@page "/renderizar/{nomeLivro}/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Filtro:long?}/{carregando:int?}"
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -45,8 +47,8 @@ else if (!repositoryPagina.erro)
         <PageTitle>+ Conteudo</PageTitle>
 
     }
-   
-    <div class="container">
+
+    <div class="container" >
 
         <div class="menu">
 

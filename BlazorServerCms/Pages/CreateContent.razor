@@ -19,35 +19,54 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        @if (lista != null)
-        {
-            <label>
-                Classifique o conteudo
-            </label>
-            <select @bind="@FiltroId">
+    <p>
+        <label>Story:</label>
+        <select @bind="exampleModel.StoryId">
 
-                <option value="0"> (Opcional) </option>
-                @foreach (var item in lista)
+            @if(lista2 != null)
+                @foreach (var item in lista2)
                 {
-                    <option value="@item.Id"> @item.Nome </option>
-
+                    if (item.Nome != "Padrao")
+                    {
+                        <option value="@item.Id" id="option@(item.Id)"> @item.Nome </option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id" id="option@(item.Id)"> (Opcional) </option>
+                    }
                 }
-            </select>
-            <br />
+        </select>
+    </p>
 
-        }
+    @if (lista != null)
+    {
+        <label>
+            Classifique o conteudo
+        </label>
+        <select @bind="@FiltroId">
 
-        <button type="submit">Adicionar</button>
-    </EditForm>
+            <option value="0"> (Opcional) </option>
+            @foreach (var item in lista)
+            {
+                <option value="@item.Id"> @item.Nome </option>      
+
+            }
+        </select>
+        <br />
+
+    }
+
+    <button type="submit">Adicionar</button>
+</EditForm>
 
 @code {
     private UserContent? exampleModel = new UserContent();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private List<Filtro> lista = null;
+    private List<Story> lista2 = null;
     private long FiltroId;
     private ClaimsPrincipal user = null;
-    private Story story = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,18 +82,19 @@
                 .ThenInclude(u => u.PastaSalva)!
                 .FirstOrDefaultAsync(u => u.UserName == user.Identity.Name)!;
 
-        
-            story = Context.Story!.Include(str => str.Filtro).First(str => str.Id == repositoryPagina.CapituloLivro);
-            lista = usermodel.Pastas.Select(p => p.Filtro).ToList();
-        
+        lista2 = await Context.Story!.OrderBy(st => st.Id).ToListAsync();
+
+        exampleModel.StoryId = lista2.First().Id;
+        var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
+        exampleModel.UserModelId = u.Id;
+
+            lista = usermodel.Pastas.Select(p => p.Filtro).ToList();        
     }
 
     private async void HandleSubmit()
     {
         
 
-        var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
-        exampleModel.UserModelId = u.Id;
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 

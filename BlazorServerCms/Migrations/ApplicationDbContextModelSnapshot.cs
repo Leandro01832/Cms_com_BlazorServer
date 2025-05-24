@@ -33,6 +33,10 @@ namespace BlazorServerCms.Migrations
                     b.Property<int>("BookNumber")
                         .HasColumnType("int");
 
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("StandardChapter")
                         .HasColumnType("int");
 
@@ -94,6 +98,9 @@ namespace BlazorServerCms.Migrations
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("LivroId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Rotas")
                         .HasColumnType("nvarchar(max)");
 
@@ -108,6 +115,8 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
 
                     b.HasIndex("StoryId");
 
@@ -455,6 +464,9 @@ namespace BlazorServerCms.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("LivroId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
@@ -465,6 +477,8 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
 
                     b.HasIndex("StoryId");
 
@@ -945,11 +959,17 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Content", b =>
                 {
+                    b.HasOne("business.business.Book.Livro", "Livro")
+                        .WithMany("Content")
+                        .HasForeignKey("LivroId");
+
                     b.HasOne("business.Group.Story", "Story")
                         .WithMany("Pagina")
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Livro");
 
                     b.Navigation("Story");
                 });
@@ -1122,11 +1142,17 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
+                    b.HasOne("business.business.Book.Livro", "Livro")
+                        .WithMany("Filtro")
+                        .HasForeignKey("LivroId");
+
                     b.HasOne("business.Group.Story", "Story")
                         .WithMany("Filtro")
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Livro");
 
                     b.Navigation("Story");
                 });
@@ -1344,6 +1370,10 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Book.Livro", b =>
                 {
+                    b.Navigation("Content");
+
+                    b.Navigation("Filtro");
+
                     b.Navigation("Users");
                 });
 

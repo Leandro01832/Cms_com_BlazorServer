@@ -3,31 +3,43 @@
 @layout LayoutContent
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
+@inject IJSRuntime js
 
-@if(f != null)
-{
-    <a onclick="@(() => { navigation.NavigateTo($"/{c.UserModel.UserName}"); })"> @c.UserModel.UserName </a>
-    <br />
-    <a onclick="@(() => { acessar(f); })" > @f.Nome </a>
-}
-else if (c != null)
-{
-    <a onclick="@(() => { navigation.NavigateTo($"/{c.UserModel.UserName}"); })"> @c.UserModel.UserName </a>
-}
+<div class="menu">
+    <a href="/" class="btn btn-primary" data-3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
+        </svg>
+    </a>
+
+    @if(f != null)
+    {
+        <a onclick="@(() => { navigation.NavigateTo($"/{c.UserModel.UserName}"); })"> @c.UserModel.UserName </a>
+        <br />
+        <a onclick="@(() => { acessar(f); })" > @f.Nome </a>
+    }
+    else if (c != null)
+    {
+        <a onclick="@(() => { navigation.NavigateTo($"/{c.UserModel.UserName}"); })"> @c.UserModel.UserName </a>
+    }
+</div>
 @if(c != null)
 {
-    if(capitulo == null){
-        <input type="number" placeholder="Capitulo" @bind="cap" />
-        <a onclick="@filtrar" >Filtrar</a>
+    <div class="content">
 
-    }
-    else{
-        <a class="btn btn-primary" onclick="@generalizar" >Capitulo @cap X</a>
+        @if(capitulo == null){
+            <input type="number" placeholder="Filtrar por capitulo" @bind="cap" />
+            <a onclick="@filtrar" >Filtrar</a>
 
-    }
-    <center>
-        @markup
-    </center>
+        }
+        else{
+            <a class="btn btn-primary" onclick="@generalizar" >Capitulo @cap X</a>
+
+        }
+        <div style="text-align:center; width:100%;">
+            @markup
+        </div>
+    </div>
 
 }
 else
@@ -35,14 +47,14 @@ else
     <p>No momento não existe conteudo... Aguarde!!!</p>
 }
 
-<a class="carousel-control-prev btn btn-dark" onclick="@anterior">
+<a class="prev" onclick="@anterior">
     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
         <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
     </svg>
 </a>
 
-<a class="carousel-control-next btn btn-dark" onclick="@proximo">
+<a class="prox" onclick="@proximo">
     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
         <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
@@ -58,8 +70,8 @@ else
     private MarkupString markup;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    int? cap = 1;
-    int? capitulo = 1;
+    int? cap = null;
+    int? capitulo = null;
     int? indice = null;
     long? filtro = null;
 
@@ -86,14 +98,22 @@ else
         indice = 1;
     }
 
-    private void filtrar()
+    private async void filtrar()
     {
-        capitulo = cap;
-        var story = RepositoryPagina.stories.First(str => str.PaginaPadraoLink == cap);
-        content = randomizar( RepositoryPagina.Conteudo.OfType<UserContent>()
-        .Where(c => c.StoryId == story.Id &&
-        c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
-        .OrderBy(co => co.Id).ToList());
+        if(cap != null)
+        {
+
+            capitulo = cap;
+            var story = RepositoryPagina.stories.First(str => str.PaginaPadraoLink == cap);
+            content = randomizar( RepositoryPagina.Conteudo.OfType<UserContent>()
+            .Where(c => c.StoryId == story.Id &&
+            c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+            .OrderBy(co => co.Id).ToList());
+        }
+        else        
+            await js!.InvokeAsync<object>("DarAlert", "Informe o numero do capitulo para filtrar.");
+
+
     }
 
     private void generalizar()
@@ -104,19 +124,38 @@ else
         .OrderBy(co => co.Id).ToList());
     }
 
-    private void proximo(long Id)
+    private void proximo()
     {
         var index = content.IndexOf(c);
-        c = content.Skip(index + 1).FirstOrDefault()!;
-        navigation.NavigateTo($"/content/{c.Id}");
+        if(index + 1 <= content.Count )
+        {
+            c = content.Skip(index + 1).FirstOrDefault()!;
+            navigation.NavigateTo($"/conteudo/{c.Id}");
+
+        }
+        else
+        {
+            content = randomizar(content);
+            c = content.FirstOrDefault()!;
+            navigation.NavigateTo($"/conteudo/{c.Id}");
+        }
 
     }
 
-    private void anterior(long Id)
+    private void anterior()
     {
         var index = content.IndexOf(c);
-        c = content.Skip(index - 1).FirstOrDefault()!;
-        navigation.NavigateTo($"/content/{c.Id}");
+        if(index > 0)
+        {
+            c = content.Skip(index - 1).FirstOrDefault()!;
+            navigation.NavigateTo($"/conteudo/{c.Id}");
+        }
+        else
+        {
+            content = randomizar(content);
+            c = content.LastOrDefault()!;
+            navigation.NavigateTo($"/conteudo/{c.Id}");
+        }
     }
 
     private void acessar(Filtro fi)
@@ -143,9 +182,9 @@ else
     {
         string url = null;
         if (filtro != null)
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}/{filtro}";          
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/dominio/{c.UserModel.HashUserName}/{filtro}";          
         else
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/0/dominio/{c.UserModel.HashUserName}";
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/dominio/{c.UserModel.HashUserName}";
         return url;
     }
 

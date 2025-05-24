@@ -1,5 +1,5 @@
 ﻿@page "/config"
-@attribute [Authorize(Roles = "Admin")]
+@attribute [Authorize(Roles = "Admin, Assinante")]
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject HttpClient http

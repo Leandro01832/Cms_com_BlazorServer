@@ -3,6 +3,7 @@ using BlazorServerCms.Data;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
+using business.business.Book;
 using business.Group;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -108,7 +109,10 @@ namespace BlazorCms.Client.Pages
 
         protected async void Casinha()
         {
+            if(livro == null)
             acessar("/");
+            else
+            acessar($"/livro/{livro.Nome}");
         }
 
         protected async void Pesquisar()
@@ -135,7 +139,7 @@ namespace BlazorCms.Client.Pages
                 if (Filtro != null && RepositoryPagina.Conteudo
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
-                CountPagesInFilterAsync((long)Filtro))
+                CountPagesInFilterAsync((long)Filtro, livro))
                 {
                     var listainFilter = RepositoryPagina.Conteudo
                     .Where(c => c is Pagina && c.Filtro != null &&
@@ -154,7 +158,7 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     var c = Context.Pagina!.Include(c => c.Filtro)
-                    .Where(c => c.Versiculo == int.Parse(opcional) &&  c.Filtro != null &&
+                    .Where(c => c.StoryId == storyid &&  c.Versiculo == int.Parse(opcional) &&  c.Filtro != null &&
                     c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null ).FirstOrDefault();
                     if (c == null)
                         await js!.InvokeAsync<object>("DarAlert",
@@ -162,13 +166,77 @@ namespace BlazorCms.Client.Pages
                         $" O versiculo {int.Parse(opcional)} não é {Model2.Nome}.");
                     else
                     {
-                        var lista = await GetFiltroByIdAsync((long)Filtro!);
-                        var m = lista.First(content => content.Id == c.Id);
-                        indice = lista.IndexOf(m) + 1;
+                        List<FiltroContent> resultados = null;
+                        int countPages = CountPagesInFilterAsync((long)Filtro, livro);
+                        var teste = RepositoryPagina.conteudoEmFiltro
+                         .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == c!.Id &&
+                         cf.conteudoEmFiltro!.FiltroId == Filtro);
+                         buscarIndice(c, countPages, teste);
+
                         acessar();
-                    }                    
+                    }
                 }
             }
+        }
+
+        private async void buscarIndice(Content? c, int countPages, FiltroContentIndice? teste)
+        {
+            List<FiltroContent> resultados = null;
+            if (countPages < 1000)
+            {
+                if (teste == null)
+                {
+                    resultados = await GetFiltroByIdAsync((long)Filtro, livro);
+                    
+                    var mo = resultados.FirstOrDefault(r => r.ContentId == c!.Id);
+                    indice = resultados.IndexOf(mo) + 1;
+                    foreach (var item in resultados)
+                        if (RepositoryPagina.conteudoEmFiltro
+                            .FirstOrDefault(cf => cf.conteudoEmFiltro.ContentId == item.ContentId &&
+                            cf.conteudoEmFiltro.FiltroId == item.FiltroId) == null)
+                            RepositoryPagina.conteudoEmFiltro.Add
+                                (
+                                    new BlazorServerCms.Data.FiltroContentIndice
+                                    {
+                                        conteudoEmFiltro = item,
+                                        Indice = resultados.IndexOf(item) + 1
+                                    }
+                                );
+
+                }
+                else
+                    indice = teste.Indice;
+            }
+            else
+            {
+                if (teste == null)
+                {
+                    var slide = 0;
+                    while (resultados == null || resultados.FirstOrDefault(r => r.ContentId == c!.Id) == null)
+                    {
+                        resultados = await GetFiltroByIdAsync((long)Filtro!, livro, slide, 20);
+
+                        slide++;
+                        foreach (var item in resultados)
+                            if (RepositoryPagina.conteudoEmFiltro
+                                .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == item.ContentId &&
+                                cf.conteudoEmFiltro.FiltroId == item.FiltroId) == null)
+                                RepositoryPagina.conteudoEmFiltro.Add
+                                    (
+                                        new BlazorServerCms.Data.FiltroContentIndice
+                                        {
+                                            conteudoEmFiltro = item,
+                                            Indice = resultados.IndexOf(item) + 1 + (slide * 20)
+                                        }
+                                    );
+                    }
+                    var mo = resultados.FirstOrDefault(r => r.ContentId == Model!.Id);
+                    indice = resultados.IndexOf(mo) + 1 + (slide * 20);
+                }
+                else
+                    indice = teste.Indice;
+            }
+
         }
 
         private void habilitarAuto()
@@ -185,7 +253,7 @@ namespace BlazorCms.Client.Pages
         protected async void ativarConteudo()
         {
             if (RepositoryPagina.Conteudo.FirstOrDefault(c => 
-            story.Filtro!.FirstOrDefault(f => f.Id == Model2!.Id 
+            listaFiltro!.FirstOrDefault(f => f.Id == Model2!.Id 
             && f.Pagina!.FirstOrDefault(p => p.ContentId == c.Id && p.Content is UserContent) != null) != null) == null)
             {
                 Content = false;
@@ -300,7 +368,7 @@ namespace BlazorCms.Client.Pages
                 if (camada != 0)
                 {
                     Filtro fl = null;
-                    var filtros = story.Filtro;
+                    var filtros = listaFiltro;
                     if (fil is SubStory)
                     {
                         SubStory gr = (SubStory)fil;
@@ -570,8 +638,7 @@ namespace BlazorCms.Client.Pages
             }
 
             // 1º time
-            if (camada == 7)
-            {                   
+                           
                 fi = fils.Where(f =>   f.Pagina
                 .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is CamadaSete).LastOrDefault()!;
@@ -595,78 +662,8 @@ namespace BlazorCms.Client.Pages
                     fi = fils.Where(f => f.Pagina
                 .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
                 f is SubStory).LastOrDefault()!;                
-            }
+            
            
-            else if (camada == 6)
-            {
-                 fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is CamadaSeis).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubSubGrupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubGrupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is Grupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubStory).LastOrDefault()!;
-            }
-           
-            else if (camada == 5)
-            {
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubSubGrupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubGrupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is Grupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubStory).LastOrDefault()!;
-            }
-
-            else if (camada == 4)
-            {
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubGrupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is Grupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubStory).LastOrDefault()!;
-            }
-
-            else if (camada == 3)
-            {
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is Grupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubStory).LastOrDefault()!;
-            }
-
-
-
             if (fi == null)
             {
                 if(fi is null && compartilhou != "comp")
@@ -679,90 +676,22 @@ namespace BlazorCms.Client.Pages
             {
                 Filtro = fi.Id;
                 indice = 0;
-                acessar();
-               // redirecionarParaVerso(int.Parse(opcional!), (long)Filtro);                
+                acessar();            
             }
 
         }
 
-        //private async void redirecionarParaVerso(int verso, long filtroId)
-        //{
-        //    int indiceListaFiltrada = 0;
-        //    List<Content> list = null;
-        //    if (outroHorizonte == 0)
-        //    {
-        //            if(RepositoryPagina.Conteudo
-        //        .Where(c => c is Pagina && c.Filtro != null &&
-        //        c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count !=
-        //        CountPagesInFilterAsync((long)Filtro))
-        //        {
-        //            var lista = await GetFiltroByIdAsync(filtroId);
-        //            list = lista.Select(c => c.Content).ToList()!;
-        //        }
-        //        else
-        //        {
-        //           list = RepositoryPagina.Conteudo.OrderBy(c => c.Id)
-        //            .Where(c => c is Pagina && c.Filtro != null &&
-        //             c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
-        //        }
-                
-        //        if (list == null)
-        //        {
-        //            indice = verso;
-        //            outroHorizonte = 0;
-        //            acessar();   
-        //        }
-
-        //        if (!tellStory)
-        //        {
-        //            opcional = verso.ToString();
-        //            foreach (var item in list)
-        //            {
-        //                if (int.Parse(opcional) == retornarVerso(item))
-        //                {
-        //                    indiceListaFiltrada = list.IndexOf(item) + 1;
-        //                    break;
-        //                }
-        //            }
-
-        //            if (indiceListaFiltrada == 0)
-        //            {
-        //                indiceListaFiltrada = indice;
-        //                await js!.InvokeAsync<object>("DarAlert", $"Não foi encontrado o versiculo {verso} na pasta {indice_Filtro}. O versiculo {verso} não é {Model2.Nome}.");
-                       
-        //            }
-        //            else
-        //            {
-        //                indice = indiceListaFiltrada;
-        //                acessar();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            indice = int.Parse(opcional);
-        //                acessar();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        indice = verso;
-        //        outroHorizonte = 1;
-        //            acessar();
-        //    }
-
-        //}
-
         private int CountLikes()
         {
             if (Model != null)
-                return CountLikesAsync(Model!.Id);
+                return CountLikesAsync(Model!.Id, livro);
             else
                 return 0;
         }
 
         private bool CountFiltros()
         {
-          return  HasFiltersAsync((long)storyid!);
+          return  HasFiltersAsync((long)storyid!, livro);
         }
 
         private int QuantFiltros()
@@ -771,13 +700,13 @@ namespace BlazorCms.Client.Pages
                 story = RepositoryPagina.stories!
                .First(p => p.Id == Model!.StoryId);
 
-            return story.Filtro.Count;
+            return listaFiltro.Count;
 
         }
 
         private int CountPaginas()
         {
-            return  CountPagesAsync((long)storyid!);
+            return  CountPagesAsync((long)storyid!, livro);
         }
 
         private string colocarAutoPlay(string html)
@@ -943,9 +872,19 @@ namespace BlazorCms.Client.Pages
 
                 string url = null;
                 if (Filtro != null)
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                {
+                    if(livro != null)
+                    url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                    else
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                }
                 else
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{indiceLivro}/{retroceder}/{dominio}/{Compartilhou}";
+                {
+                    if (livro != null)
+                    url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
+                    else
+                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
+                }
 
                 criptografar = false;
                 navigation!.NavigateTo(url);
@@ -983,14 +922,14 @@ namespace BlazorCms.Client.Pages
             return storyService.GetStoryByIdAsync(storyId);
         }
 
-        public Task<List<Content>> PaginarStory(long storyId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
+        public Task<List<Content>> PaginarStory(long storyId, int quantidadeLista, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
         {
-            return storyService.PaginarStory(storyId, quantidadeLista, quantDiv, slideAtual, carregando);
+            return storyService.PaginarStory(storyId, quantidadeLista, quantDiv, slideAtual, livro, carregando);
         }
 
-        public int CountPagesAsync(long storyId)
+        public int CountPagesAsync(long storyId, Livro livro)
         {
-            return storyService.CountPagesAsync(storyId);
+            return storyService.CountPagesAsync(storyId, livro);
         }
      
         public Task<int> GetYouTubeVideoDurationAsync(string videoId)
@@ -998,29 +937,29 @@ namespace BlazorCms.Client.Pages
             return storyService.GetYouTubeVideoDurationAsync(videoId);
         }
 
-        public int CountLikesAsync(long ContentId)
+        public int CountLikesAsync(long ContentId, Livro livro)
         {
-            return storyService.CountLikesAsync(ContentId);
+            return storyService.CountLikesAsync(ContentId, livro);
         }
 
-        public bool HasFiltersAsync(long storyId)
+        public bool HasFiltersAsync(long storyId, Livro livro)
         {
-            return storyService.HasFiltersAsync(storyId);
+            return storyService.HasFiltersAsync(storyId, livro);
         }
 
-        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, int? carregando = null)
+        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
         {
-            return storyService.PaginarFiltro(filtroId, quantidadeLista, quantDiv, slideAtual, carregando);
+            return storyService.PaginarFiltro(filtroId, quantidadeLista, quantDiv, slideAtual, livro, carregando);
         }
 
-        public int CountPagesInFilterAsync(long filtroId)
+        public int CountPagesInFilterAsync(long filtroId, Livro livro)
         {
-            return storyService.CountPagesInFilterAsync(filtroId);
+            return storyService.CountPagesInFilterAsync(filtroId, livro);
         }
 
-        public Task<List<Content>> GetFiltroByIdAsync(long filtroId)
+        public Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0)
         {
-            return storyService.GetFiltroByIdAsync(filtroId);
+            return storyService.GetFiltroByIdAsync(filtroId, livro, slide, quantDiv);
         }
     }
     public class UserPreferencesImage

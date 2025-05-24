@@ -46,6 +46,7 @@ namespace BlazorServerCms.servicos
         public static List<Content> Conteudo = new List<Content>();
         public static List<UserModel> UserModel = new List<UserModel>();
         public static List<Story> stories = new List<Story>();
+        public static List<FiltroContentIndice> conteudoEmFiltro = new List<FiltroContentIndice>();
 
         public RepositoryPagina(IConfiguration configuration, HttpClient http)
         {

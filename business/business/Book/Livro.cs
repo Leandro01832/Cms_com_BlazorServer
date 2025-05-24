@@ -15,6 +15,8 @@ namespace business.business.Book
             BookNumber = livros.Count + 1;
         }
 
+        public string Nome { get; set; }
+
         public int BookNumber { get; set; }
 
         public int StandardChapter { get; set; }
@@ -22,5 +24,7 @@ namespace business.business.Book
         public string? url { get; set; }
 
         public virtual List<UserModelLivro> Users { get; set; }
+        public virtual List<Content> Content { get; set; }
+        public virtual List<Filtro> Filtro { get; set; }
     }
 }

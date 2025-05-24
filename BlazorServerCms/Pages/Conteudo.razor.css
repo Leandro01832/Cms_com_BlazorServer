@@ -1,0 +1,41 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    
+}
+
+.prev {
+    z-index: 2;
+    position: absolute;
+    left: 0.1%;
+    top: 50%;
+    height: 60px;
+    background-color: darkgray;
+    border-radius: 20%;
+}
+
+.prox {
+    z-index: 2;
+    position: absolute;
+    right: 0.1%;
+    top: 50%;
+    height: 60px;
+    background-color: darkgray;
+    border-radius: 20%;
+}
