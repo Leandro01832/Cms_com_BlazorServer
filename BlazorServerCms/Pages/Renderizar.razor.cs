@@ -622,8 +622,8 @@ namespace BlazorCms.Client.Pages
                 {
                     opcional = vers.ToString();
                 }
-                if (compartilhou == "comp")
-                    fils = story!.Filtro!.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
+                if (compartilhou == "comp")                    
+                    fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
             else
             {
                 var usu = Context.Users
@@ -633,7 +633,7 @@ namespace BlazorCms.Client.Pages
                     if(usu.Pastas != null && usu.Pastas.Count > 0)
                     fils = usu.Pastas.Select(p => p.Filtro).ToList();
                     else
-                    fils = story!.Filtro!.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
+                    fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
 
             }
 
@@ -871,19 +871,30 @@ namespace BlazorCms.Client.Pages
                 criptografar = true;
 
                 string url = null;
-                if (Filtro != null)
+                if(rotas == null)
                 {
-                    if(livro != null)
-                    url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                    if (Filtro != null)
+                    {
+                        if(livro != null)
+                        url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                        else
+                        url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                    }
                     else
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                    {
+                        if (livro != null)
+                        url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
+                        else
+                        url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
+                    }
                 }
                 else
-                {
+                {                   
                     if (livro != null)
-                    url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
+                        url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{rotas}";
                     else
-                    url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
+                        url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{rotas}";                
+                    
                 }
 
                 criptografar = false;

@@ -1,7 +1,9 @@
 ﻿@page "/renderizar"
 @page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Filtro:long?}/{carregando:int?}"
+@page "/renderizar/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{retroceder:int}/{dominio}/{Compartilhou}/{rotas}"
 @* para assinantes *@
 @page "/renderizar/{nomeLivro}/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{retroceder:int}/{dominio}/{Compartilhou}/{Filtro:long?}/{carregando:int?}"
+@page "/renderizar/{nomeLivro}/{storyid:long}/{indice:int}/{auto:int}/{timeproduto:int}/{outroHorizonte:int}/{retroceder:int}/{dominio}/{Compartilhou}/{rotas}"
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -56,11 +58,8 @@ else if (!repositoryPagina.erro)
 
                 @{
                     <div class="header">
-
-
-                        @if (cap != 0)
-                        {
-                            if (Filtro == null)
+                       
+                            @if (Filtro == null)
                             {
                                 <PageTitle>@nameStory</PageTitle>
                                 <div class="capHeader">
@@ -83,7 +82,6 @@ else if (!repositoryPagina.erro)
                                     </div>
                                 }
                                 else
-                        if (indiceLivro == 0)
                                 {
                                     <PageTitle>@nameGroup</PageTitle>
                                     <div class="capHeader">
@@ -95,20 +93,9 @@ else if (!repositoryPagina.erro)
                                             }
                                         </p>
                                     </div>
+
                                 }
-                                else
-                                {
-                                    <PageTitle> Livro @indiceLivro - @nameGroup</PageTitle>
-                                    <div class="capHeader">
-                                        <p class="capitulos">
-                                            <header>@nameGroup </header>
-                                            @if (tellStory)
-                                            {
-                                                <span> - Capitulo @cap</span>
-                                            }
-                                        </p>
-                                    </div>
-                                }
+                                
 
                                 @if (Model is Pagina || Model is UserContent && mudanca)
                                 {
@@ -132,11 +119,9 @@ else if (!repositoryPagina.erro)
 
                             }
 
-                        }
-                        else
-                        {
-                            <PageTitle>Capítulos</PageTitle>
-                        }
+                        
+                        
+
                     </div>
 
                     <div class="inputs">

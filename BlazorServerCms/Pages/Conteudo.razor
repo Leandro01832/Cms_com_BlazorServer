@@ -148,12 +148,14 @@ else
         if(index > 0)
         {
             c = content.Skip(index - 1).FirstOrDefault()!;
+            colocarAutoPlay(c.Html);
             navigation.NavigateTo($"/conteudo/{c.Id}");
         }
         else
         {
             content = randomizar(content);
             c = content.LastOrDefault()!;
+            colocarAutoPlay(c.Html);
             navigation.NavigateTo($"/conteudo/{c.Id}");
         }
     }
@@ -186,6 +188,31 @@ else
         else
             url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/dominio/{c.UserModel.HashUserName}";
         return url;
+    }
+
+    private string colocarAutoPlay(string html)
+    {
+        if(html.Contains("youtube"))
+        {
+
+            var conteudoHtml = html;
+            var arr = conteudoHtml!.Split("/");
+            var id_video = "";
+            for (var index = 0; index < arr.Length; index++)
+            {
+                if (arr[index] == "embed")
+                {
+                    var text = arr[index + 1];
+                    var arr2 = text.Split('"');
+                    id_video = arr2[0];
+                    break;
+                }
+            }
+            html = html.Replace(id_video, id_video + "?autoplay=1");
+            html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");
+            return html;
+        }
+        return html;
     }
 
 

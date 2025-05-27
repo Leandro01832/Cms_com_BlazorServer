@@ -142,11 +142,7 @@
     <div class="stories">
 
         <div id="carouselIndicators" bs-pause="false">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
+           
             <div class="carousel-inner">
 
                 @for (var i = 0; i < array.Length; i++)
@@ -156,26 +152,26 @@
 
                         <div class="carousel-item ativo">
 
-                            @foreach (var item in array[i])
+                            @for (var j = 0; j < array[i].Count; j++)
                             {
-                                
-                                <div class="story" title="@item.Descricao">
+
+                                <div class="story" title="@array[i][j].Descricao">
                                     <h6>
-                                        <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}"))">
+                                        <a onclick="@(() => navigation.NavigateTo(links[j + (i * itens)]))">
                                             <div class="desc">
                                                 <p >Story</p>
-                                                <p > @item.Nome</p>
+                                                <p> @array[i][j].Nome</p>
                                             </div>
                                             <div class="circulo">
                                                 <div class="circulo2">
-                                                    @if (item.Image != null)
+                                                    @if (array[i][j].Image != null)
                                                     {
-                                                        <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
+                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
 
                                                     }
                                                 </div>
                                             </div>
-                                            <p > Cap. @item.PaginaPadraoLink</p>
+                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
                                         </a>
                                     </h6>
                                 </div>
@@ -188,26 +184,26 @@
                     {
                         <div class="carousel-item">
 
-                            @foreach (var item in array[i])
+                            @for (var j = 0; j < array[i].Count; j++)
                             {
 
-                                <div class="story" title="@item.Descricao">
+                                <div class="story" title="@array[i][j].Descricao">
                                     <h6>
-                                        <a onclick="@(() => navigation.NavigateTo($"/renderizar/{item.Id}/1/0/11/0/0/0/dominio/{user}"))">
+                                        <a onclick="@(() => navigation.NavigateTo(links[j + (i * itens)]))">
                                             <div class="desc">
                                                 <p >Story</p>
-                                                <p > @item.Nome</p>
+                                                <p> @array[i][j].Nome</p>
                                             </div>
                                             <div class="circulo">
                                                 <div class="circulo2">
-                                                    @if (item.Image != null)
+                                                    @if (array[i][j].Image != null)
                                                     {
-                                                        <img src="ImgStory/cap.@(item.PaginaPadraoLink).@(item.Image)" class="ImgStory">
+                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
 
                                                     }
                                                 </div>
                                             </div>
-                                            <p > Cap. @item.PaginaPadraoLink</p>
+                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
                                         </a>
                                     </h6>
                                 </div>
@@ -318,6 +314,7 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     List<Story> stories = new List<Story>();
+    List<string> links = new List<string>();
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
     private int lacos = 0;
@@ -387,12 +384,23 @@
 
         }
 
-        usermodel = await Context.Users
+        usermodel = await Context.Users!
+        .Include(u => u.Livro)!
+        .ThenInclude(u => u.Livro)!
         .Include(u => u.Pastas)!
         .Include(u => u.PastaSalvas)!
         .ThenInclude(u => u.PastaSalva)!
-        .FirstOrDefaultAsync(u => u.UserName == user)!;
+        .FirstOrDefaultAsync(u => u.UserName == user);
 
+        foreach (var item in array)
+            foreach (var item2 in item)
+                if (usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == item2.PaginaPadraoLink) != null)
+                    links
+                    .Add($"/renderizar/{usermodel.Livro.First(l => l.Livro.StandardChapter == item2.PaginaPadraoLink).Livro.Nome}" +
+                    $"/{item2.Id}/1/0/11/0/0/dominio/{user}");
+                    else
+                    links
+                    .Add($"/renderizar/{item2.Id}/1/0/11/0/0/dominio/{user}");
         var authState = await AuthenticationStateProvider
              .GetAuthenticationStateAsync();
         usuario = authState.User;

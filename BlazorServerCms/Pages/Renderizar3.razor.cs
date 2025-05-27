@@ -290,7 +290,7 @@ namespace BlazorCms.Client.Pages
 
             }          
 
-            else if (Filtro != null && condicaoFiltro)
+            else if (Filtro != null && condicaoFiltro || rotas != null)
             {
                 if (Filtro != null)
                 {

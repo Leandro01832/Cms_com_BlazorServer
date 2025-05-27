@@ -1,10 +1,9 @@
 ﻿@page "/"
-@page "/{capitulo:int}/{indice}"
 @page "/acesso/{indice}"
 @page "/mensagem/{MensagemSistema}"
 @page "/livro/{nomeLivro}"
+@page "/{nomeLivro}/{capitulo:int}/{indice}"
 @using business.business.Group
-
 
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
@@ -181,7 +180,7 @@ else
     else
     {
         <div style="text-align:center;">
-        <h1>Livro não encontrado</h1>
+            <h1>Livro não encontrado</h1>
 
         </div>
     }
@@ -267,7 +266,6 @@ else
     [Parameter] public string? nomeLivro { get; set; } = "";
     [Parameter] public string? indice { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
-    [Parameter] public string? dominio { get; set; }
     [Parameter] public string? compartilhante { get; set; }
     public string? Query { get; set; }
     public string? Usuario { get; set; }
@@ -361,47 +359,35 @@ else
 
         if (compartilhante == null)
             compartilhante = "comp";
-        if (dominio == null)
-            dominio = repositoryPagina.buscarDominio();
 
-        else if (dominio != repositoryPagina.buscarDominio())
-        {
-            var domi = await Context.Compartilhante!.FirstOrDefaultAsync(l => l.Livro == dominio);
-            if (domi == null)
+            if(livro != null && capitulo != null )
             {
-                var compartilhant = new business.Compartilhante
-                    {
-                        Livro = dominio,
-                        Data = DateTime.Now,
-                        Comissao = 5
-                    };
-                await Context.AddAsync(compartilhant);
-                await Context.SaveChangesAsync();
+                   var filtros = await Context.Filtro!
+                    .Include(f => f.Story)
+                    .Include(f => f.usuarios)
+                    .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == livro.Id)
+                    .ToListAsync();
+                var str = RepositoryPagina.stories.FirstOrDefault(st => st.PaginaPadraoLink == capitulo);
+                if(str != null)
+                navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/{indice}/0/11/1/0/dominio/comp");
             }
-        }
-
-        if (dominio == null)
-        {
-            dominio = "dominio";
-        }
-
-
-        if (capitulo != null && indice != null && indice.Contains("verso"))
-        {
-            navigation.NavigateTo($"/renderizar/{capitulo}/{indice.Replace("verso-", "")}/1/11/0/0/0/0/{dominio}/{compartilhante}");
-        }    
-
 
     }
 
     private async void Acessar(Filtro item)
     {
-        var cap = Context.Pagina!.Include(p => p.Story).First(p => p.StoryId == item.StoryId).Story!.PaginaPadraoLink;
-        var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro).First(p => p.StoryId == item.StoryId).Story!.Filtro;
+        List<Filtro> filtros = null;
+        if(livro == null)
+        filtros = Context.Filtro!.Where(p => p.LivroId == null).ToList();
+        else 
+        filtros = Context.Filtro!.Where(p => p.LivroId == livro.Id).ToList();
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
-        dominio = repositoryPagina.buscarDominio();
-        navigation.NavigateTo($"/renderizar/{cap}/{indiceFiltro}/0/11/1/0/0/0/{dominio}/comp/{item.Id}");
+
+        if(livro == null)
+        navigation.NavigateTo($"/renderizar/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
+        else
+        navigation.NavigateTo($"/renderizar/{livro.Nome}/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
     }
 
     private async void buscar()
@@ -560,21 +546,39 @@ else
             try
             {
                 cap = int.Parse(Query!);
-                navigation.NavigateTo($"/renderizar/{cap}/1/1/11/0/0/0/0/{dominio}/{compartilhante}");
+                var str = RepositoryPagina.stories.First(st => st.PaginaPadraoLink == cap);
+                if(livro == null)
+                navigation.NavigateTo($"/renderizar/{str.Id}/1/0/11/0/0/dominio/{compartilhante}");
+                else
+                navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/1/0/11/0/0/dominio/{compartilhante}");
             }
             catch (Exception ex)
             {
                 if (!string.IsNullOrEmpty(Query))
                 {
-                    filtros = await Context.Filtro!
-                    .Include(f => f.Story)
-                    .Include(f => f.usuarios)
-                    .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.usuarios.Count == 0).ToListAsync();
+                    if(livro == null)
+                        filtros = await Context.Filtro!
+                        .Include(f => f.Story)
+                        .Include(f => f.usuarios)
+                        .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == null)
+                        .ToListAsync();
+                    else
+                        filtros = await Context.Filtro!
+                        .Include(f => f.Story)
+                        .Include(f => f.usuarios)
+                        .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == livro.Id)
+                        .ToListAsync();
 
 
                     if (filtros.Count == 0)
                     {
-                        var paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())).ToList();
+                        List<Pagina> paginas = null;
+                        if(livro == null)
+                         paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())
+                        && r.LivroId == null).ToList();
+                        else
+                            paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())
+                           && r.LivroId == livro.Id).ToList();
                         List<Pagina> pages = new List<Pagina>();
 
                         foreach (var item in paginas)
@@ -603,8 +607,11 @@ else
                         else
                         {
                             var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
-                            var story = stories.First(str => str.Id == paginas[0].StoryId);                            
-                            navigation.NavigateTo($"/camada2/{story.Id}/1/1/0/11/0/0/0/{dominio}/{compartilhante}/{Query.ToLower()}");
+                            var story = stories.First(str => str.Id == paginas[0].StoryId); 
+                            if(livro == null)
+                            navigation.NavigateTo($"/renderizar/{story.Id}/1/0/11/0/0/dominio/{compartilhante}/{Query.ToLower()}");
+                            else
+                            navigation.NavigateTo($"/renderizar/{livro.Nome}/{story.Id}/1/0/11/0/0/dominio/{compartilhante}/{Query.ToLower()}");
                         }
                     }
                 }
