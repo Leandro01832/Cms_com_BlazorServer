@@ -22,13 +22,28 @@ namespace BlazorServerCms.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("business.business.Book.Livro", b =>
+            modelBuilder.Entity("business.business.Book.Assinatura", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("UserModelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserModelId");
+
+                    b.ToTable("Assinatura");
+                });
+
+            modelBuilder.Entity("business.business.Book.Livro", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("BookNumber")
                         .HasColumnType("int");
@@ -957,6 +972,26 @@ namespace BlazorServerCms.Migrations
                     b.HasDiscriminator().HasValue("ProductContent");
                 });
 
+            modelBuilder.Entity("business.business.Book.Assinatura", b =>
+                {
+                    b.HasOne("business.business.UserModel", "UserModel")
+                        .WithMany("Assinatura")
+                        .HasForeignKey("UserModelId");
+
+                    b.Navigation("UserModel");
+                });
+
+            modelBuilder.Entity("business.business.Book.Livro", b =>
+                {
+                    b.HasOne("business.business.Book.Assinatura", "Assinatura")
+                        .WithOne("Livro")
+                        .HasForeignKey("business.business.Book.Livro", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assinatura");
+                });
+
             modelBuilder.Entity("business.business.Content", b =>
                 {
                     b.HasOne("business.business.Book.Livro", "Livro")
@@ -1368,6 +1403,11 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("SubGrupo");
                 });
 
+            modelBuilder.Entity("business.business.Book.Assinatura", b =>
+                {
+                    b.Navigation("Livro");
+                });
+
             modelBuilder.Entity("business.business.Book.Livro", b =>
                 {
                     b.Navigation("Content");
@@ -1409,6 +1449,8 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.UserModel", b =>
                 {
+                    b.Navigation("Assinatura");
+
                     b.Navigation("Livro");
 
                     b.Navigation("PageLiked");

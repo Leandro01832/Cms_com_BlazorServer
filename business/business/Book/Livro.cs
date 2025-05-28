@@ -15,6 +15,11 @@ namespace business.business.Book
             BookNumber = livros.Count + 1;
         }
 
+        [Key, ForeignKey("Assinatura")]
+        public new Int64 Id { get; set; }
+
+        public virtual Assinatura? Assinatura { get; set; }
+
         public string Nome { get; set; }
 
         public int BookNumber { get; set; }

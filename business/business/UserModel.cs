@@ -19,7 +19,9 @@ namespace business.business
 
         public DateTime DataPontuacao { get; set; }
 
-        public int Recorde { get; set; }        
+        public int Recorde { get; set; }
+
+        public virtual  List<Assinatura> Assinatura { get; set; }
 
         public virtual List<UserModelLivro> Livro { get; set; }
 
