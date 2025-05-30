@@ -1,11 +1,63 @@
 ﻿@page "/camada2/edit/{Id:long}"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
-@attribute [Authorize(Roles = "Admin")]
+@inject AuthenticationStateProvider? AuthenticationStateProvider
+@inject UserManager<UserModel> userManager
+@attribute [Authorize(Roles = "Admin, Manager, Assinante")]
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+
+
+    @if (!EscolherUsuario)
+    {
+
+        <p>
+            <label>Livro:</label>
+            <select @bind="exampleModel.LivroId">
+
+                @foreach (var item in usuario.Assinatura)
+                {
+                    if (primeiroLoop)
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                        primeiroLoop = false;
+                    }
+                    else
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                    }
+                }
+            </select>
+        </p>
+
+    }
+    else
+    {
+        <p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
+        <p><a onclick="@escolher">Escolher</a></p>
+        <p>
+            <label>Livro:</label>
+            <select @bind="exampleModel.LivroId">
+
+                @foreach (var item in usuario.Assinatura)
+                {
+                    if (primeiroLoop)
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                        primeiroLoop = false;
+                    }
+                    else
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                    }
+                }
+            </select>
+        </p>
+    }
    
     <p>
         <label>Nome:</label>
@@ -29,6 +81,11 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
+    private UserModel usuario;
+    private string? username;
+    private bool EscolherUsuario;
+    private bool primeiroLoop = true;
+
     [Parameter]public long Id{ get; set; }
 
     protected async override Task OnParametersSetAsync()
@@ -37,7 +94,18 @@
         exampleModel = await Context.Filtro!.FirstAsync(l => l.Id == Id);
         lista = await Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
-        
+
+        var authState = await AuthenticationStateProvider!
+     .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == user.Identity!.Name);
+
+        if (await userManager.IsInRoleAsync(usuario, "Admin") || await userManager.IsInRoleAsync(usuario, "Manager"))
+            EscolherUsuario = true;        
     }
 
     private async void HandleSubmit()
@@ -46,6 +114,15 @@
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/substory");
         // Process the form
+    }
+
+    private void escolher()
+    {
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == username);
+        primeiroLoop = true;
     }
 }
 

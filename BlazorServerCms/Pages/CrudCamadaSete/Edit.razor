@@ -1,11 +1,63 @@
 ﻿@page "/camada7/edit/{Id:long}"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
-@attribute [Authorize(Roles = "Admin")]
+@inject AuthenticationStateProvider? AuthenticationStateProvider
+@inject UserManager<UserModel> userManager
+@attribute [Authorize(Roles = "Admin, Manager, Assinante")]
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+
+    @if (!EscolherUsuario)
+    {
+
+        <p>
+            <label>Livro:</label>
+            <select @bind="exampleModel.LivroId">
+
+                @foreach (var item in usuario.Assinatura)
+                {
+                    if (primeiroLoop)
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                        primeiroLoop = false;
+                    }
+                    else
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                    }
+                }
+            </select>
+        </p>
+
+    }
+    else
+    {
+        <p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
+        <p><a onclick="@escolher">Escolher</a></p>
+        <p>
+            <label>Livro:</label>
+            <select @bind="exampleModel.LivroId">
+
+                @foreach (var item in usuario.Assinatura)
+                {
+                    if (primeiroLoop)
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                        primeiroLoop = false;
+                    }
+                    else
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                    }
+                }
+            </select>
+        </p>
+    }
+
     <p>
         <label>Nome:</label>
         <InputText id="Nome" @bind-Value="exampleModel.Nome" />
@@ -22,7 +74,7 @@
     <p>
         <label>Sub-Story:</label>
         <select @bind="SubStoryId">
-            @foreach (var item in SubStory!.Where(sub => sub.StoryId == StoryId))
+            @foreach (var item in SubStory!.Where(sub => sub.StoryId == StoryId && sub.LivroId == exampleModel.LivroId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -31,7 +83,7 @@
     <p>
         <label>Grupo:</label>
         <select @bind="GrupoId">
-            @foreach (var item in Grupo!.Where(sub => sub.SubStoryId == SubStoryId))
+            @foreach (var item in Grupo!.Where(sub => sub.SubStoryId == SubStoryId && sub.LivroId == exampleModel.LivroId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -40,7 +92,7 @@
     <p>
         <label>Sub-Grupo:</label>
         <select @bind="SubGrupoId">
-            @foreach (var item in SubGrupo!.Where(sub => sub.GrupoId == GrupoId))
+            @foreach (var item in SubGrupo!.Where(sub => sub.GrupoId == GrupoId && sub.LivroId == exampleModel.LivroId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -49,7 +101,7 @@
     <p>
         <label>Sub-Sub-Grupo:</label>
         <select @bind="SubSubGrupoId">
-            @foreach (var item in SubSubGrupo!.Where(sub => sub.SubGrupoId == SubGrupoId))
+            @foreach (var item in SubSubGrupo!.Where(sub => sub.SubGrupoId == SubGrupoId && sub.LivroId == exampleModel.LivroId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -58,12 +110,12 @@
     <p>
         <label>Camada Seis:</label>
         <select @bind="exampleModel.CamadaSeisId">
-            @foreach (var item in CamadaSeis!.Where(sub => sub.SubSubGrupoId == SubSubGrupoId))
+            @foreach (var item in CamadaSeis!.Where(sub => sub.SubSubGrupoId == SubSubGrupoId && sub.LivroId == exampleModel.LivroId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
         </select>
-    </p>
+    </p>    
 
     <button type="submit">Alterar</button>
 </EditForm>
@@ -84,6 +136,11 @@
     public List<CamadaSeis> CamadaSeis = new List<CamadaSeis>();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+
+    private UserModel usuario;
+    private string? username;
+    private bool EscolherUsuario;
+    private bool primeiroLoop = true;
 
     [Parameter]public long Id{ get; set; }
 
@@ -107,6 +164,21 @@
         SubGrupo = await Context.SubGrupo!.ToListAsync();
         SubSubGrupo = await Context.SubSubGrupo!.ToListAsync();
         CamadaSeis = await Context.CamadaSeis!.ToListAsync();
+
+        var authState = await AuthenticationStateProvider!
+     .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == user.Identity!.Name);
+
+        if (await userManager.IsInRoleAsync(usuario, "Admin") || await userManager.IsInRoleAsync(usuario, "Manager"))
+            EscolherUsuario = true;
+
+        if (!EscolherUsuario)
+            exampleModel.LivroId = usuario.Assinatura.First().Livro!.Id;
     }
 
     private async void HandleSubmit()
@@ -115,6 +187,15 @@
         await Context.SaveChangesAsync();
         navigation.NavigateTo("crud/camadasete");
         // Process the form
+    }
+
+    private void escolher()
+    {
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == username);
+        primeiroLoop = true;
     }
 }
 
