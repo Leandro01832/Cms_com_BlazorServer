@@ -5,31 +5,37 @@
 
 @if (camadas == null)
 {
-<p><em>Carregando...</em></p>
+    <p><em>Carregando...</em></p>
 }
 else if (camadas.Length == 0)
 {
-<p><em>Não existem camadas cadastradas...</em></p>
+    <p><em>Não existem camadas cadastradas...</em></p>
 }
 else
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Editar</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var camada in camadas)
-        {
+    <p>
+        <input type="text" @bind="nome" placeholder="Nome do livro"  />
+        <a @onclick="buscarFiltros" > Buscar filtros </a>
+
+    </p> 
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>@camada.Nome</td>
-                <td><a class="btn btn-primary" href="camadadez/edit/@camada.Id">Editar</a> </td>
+                <th>Nome</th>
+                <th>Editar</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var camada in camadas)
+            {
+                <tr>
+                    <td>@camada.Nome</td>
+                    <td><a class="btn btn-primary" href="camadadez/edit/@camada.Id">Editar</a> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 <div>
     <label>Lista:</label>
@@ -43,6 +49,9 @@ else
     [Parameter] public int pagina { get; set; } = 1;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
+
+    private string? nome = "";
+    private long? LivroId = null;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -59,6 +68,7 @@ else
     {
         camadas = await Context.CamadaDez!
         .OrderBy(p => p.Id)
+        .Where(f => f.LivroId == LivroId)
                .Skip((pag - 1) * 10)
                .Take(10)
         .ToArrayAsync();
@@ -70,6 +80,16 @@ else
             navigation.NavigateTo($"/crud/camada10/{e.Value!.ToString()}");
         else
             navigation.NavigateTo($"/crud/camada10/1");
+    }
+
+    private async void buscarFiltros()
+    {
+        var liv = await Context.Livro!
+        .FirstOrDefaultAsync(f => f.Nome == nome);
+        if (liv != null)
+            LivroId = liv.Id;
+            else
+            LivroId = null;
     }
 
 }
