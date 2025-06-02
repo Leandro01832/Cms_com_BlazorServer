@@ -282,3 +282,8 @@ window.trocarSlide = (slide) =>
         slides[slide].classList.add("ativo");   
     }
 }
+
+window.retornarTextArea = (textArea) =>
+{
+    return document.getElementById(textArea).value;
+}

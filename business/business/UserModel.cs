@@ -13,6 +13,7 @@ namespace business.business
 
 
         public string? HashUserName { get; set; }
+        public string? Compartilhar { get; set; } = null;
         public string? Image { get; set; }
 
         public int PontosPorDia { get; set; }

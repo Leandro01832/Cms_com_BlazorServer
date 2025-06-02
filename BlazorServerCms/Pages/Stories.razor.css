@@ -85,8 +85,8 @@
     height: auto;
     justify-content: space-evenly;
    
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .self{
@@ -187,6 +187,34 @@
         position: fixed;
     }
  
+}
+
+.pensar
+{
+    position: relative;
+    z-index: 10;
+    height: 80px;
+    background-image: url('/pensar.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    
+}
+
+.pensar2
+{
+    position: relative;
+    z-index: 20;
+    text-align: right;
+    top: 20px;
+    font-size: 10px;
+}
+
+.teste2 
+{
+    position: relative;
+    z-index:1;
+    bottom: 30px;
 }
 
 @media (max-width: 550px) and (min-width: 50px) {

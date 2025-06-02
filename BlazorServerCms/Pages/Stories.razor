@@ -1,8 +1,32 @@
 ﻿@page "/{user}"
+@page "/{user}/{capitulo:int?}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime js
+
+
+
+<Modal Title="Nova nota" IsVisible="showModal" Close="() => showModal = false"
+OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
+
+    @if(confirmar == "Compartilhar")
+    {
+        <p>Compartilhe um pensamento!!! </p>
+        <Editor Id="contentextarea"
+        Inline=false
+        CloudChannel="5"
+        Disable=false
+        JsConfSrc="sample"
+        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
+        ClassName="tinymce-wrapper" @bind-Value="Html" />
+    }
+    else if (usermodel != null)
+    {
+        <p>Deseja realmente excluir este pensamento? </p>
+        @markup
+    }
+</Modal>
 
 <div class="container">
 
@@ -11,16 +35,30 @@
 
         <div class="img">
             <div class="imagem">
+                @if (usermodel != null && usermodel.Compartilhar != null)
+                {
+                    <div class="pensar2">
+                        <a @onclick="() => showModal = true"> @markup </a>
+
+                    </div>
+
+                }
                 <div>
                     <div>
-                        <div @* role="button" tabindex="1" *@>
+                        <div class="@pensamento">
                             <div>
                                 <div>
                                     <div>
                                         <div>
                                             <div>
                                                 <div>
-                                                    Nota...
+                                                    @if(usermodel != null && usermodel.Compartilhar == null)
+                                                    {
+                                                        <button @onclick="() => showModal = true">Nota...</button>
+
+                                                    }
+                                                   
+
                                                 </div>
                                             </div>
                                         </div>
@@ -28,7 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div class="teste2">
                             <span aria-describedby="«ra»">
                                 <div>
                                     <div class="@classCircle">
@@ -142,79 +180,93 @@
     <div class="stories">
 
         <div id="carouselIndicators" bs-pause="false">
-           
+
             <div class="carousel-inner">
 
-                @for (var i = 0; i < array.Length; i++)
-                {
-                    @if (i == 0)
+                @if(usermodel != null)
+                    @for (var i = 0; i < array.Length; i++)
                     {
+                        @if (i == 0 && i < array.Length)
+                        {
 
-                        <div class="carousel-item ativo">
+                            <div class="carousel-item ativo">
 
-                            @for (var j = 0; j < array[i].Count; j++)
-                            {
+                                @for (var j = 0; j < array[i].Count; j++)
+                                {
+                                    string url = ""; 
+                                    var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == array[i][j].PaginaPadraoLink);
+                                    if(strBook != null)
+                                        url = $"/{strBook.Livro.Nome}/{array[i][j].Id}/1/0/11/0/0/dominio/{user}";
+                                    else
+                                        url = $"/{user}/{array[i][j].PaginaPadraoLink}";
 
-                                <div class="story" title="@array[i][j].Descricao">
-                                    <h6>
-                                        <a onclick="@(() => navigation.NavigateTo(links[j + (i * itens)]))">
-                                            <div class="desc">
-                                                <p >Story</p>
-                                                <p> @array[i][j].Nome</p>
-                                            </div>
-                                            <div class="circulo">
-                                                <div class="circulo2">
-                                                    @if (array[i][j].Image != null)
-                                                    {
-                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
 
-                                                    }
+                                    <div class="story"  title="@array[i][j].Descricao" onmouseout="@limpar" >
+                                        <h6>
+                                            <a onclick="@(() => navigation.NavigateTo(url))">
+                                                <div class="desc">
+                                                    <p >Story</p>
+                                                    <p> @array[i][j].Nome</p>
                                                 </div>
-                                            </div>
-                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
-                                        </a>
-                                    </h6>
-                                </div>
+                                                <div class="circulo">
+                                                    <div class="circulo2">
+                                                        @if (array[i][j].Image != null)
+                                                        {
+                                                            <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
 
-                            }
-
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="carousel-item">
-
-                            @for (var j = 0; j < array[i].Count; j++)
-                            {
-
-                                <div class="story" title="@array[i][j].Descricao">
-                                    <h6>
-                                        <a onclick="@(() => navigation.NavigateTo(links[j + (i * itens)]))">
-                                            <div class="desc">
-                                                <p >Story</p>
-                                                <p> @array[i][j].Nome</p>
-                                            </div>
-                                            <div class="circulo">
-                                                <div class="circulo2">
-                                                    @if (array[i][j].Image != null)
-                                                    {
-                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
-
-                                                    }
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
-                                        </a>
-                                    </h6>
-                                </div>
+                                                <p> Cap. @array[i][j].PaginaPadraoLink</p>
+                                            </a>
+                                        </h6>
+                                    </div>
 
-                            }
+                                }
 
-                        </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="carousel-item">
+
+                                @for (var j = 0; j < array[i].Count; j++)
+                                {
+                                    string url = "";
+                                    var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == array[i][j].PaginaPadraoLink);
+                                    if (strBook != null)
+                                        url = $"/{strBook.Livro.Nome}/{array[i][j].Id}/1/0/11/0/0/dominio/{user}";
+                                    else
+                                        url = $"/{user}/{array[i][j].PaginaPadraoLink}";
+
+                                    <div class="story" title="@array[i][j].Descricao">
+                                        <h6>
+                                            <a onclick="@(() => navigation.NavigateTo(url))">
+                                                <div class="desc">
+                                                    <p >Story</p>
+                                                    <p> @array[i][j].Nome</p>
+                                                </div>
+                                                <div class="circulo">
+                                                    <div class="circulo2">
+                                                        @if (array[i][j].Image != null)
+                                                        {
+                                                            <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <p> Cap. @array[i][j].PaginaPadraoLink</p>
+                                            </a>
+                                        </h6>
+                                    </div>
+
+                                }
+
+                            </div>
+                        }
+
+
                     }
-
-
-                }
 
             </div>
         </div>
@@ -233,6 +285,8 @@
     </div>
 
 }
+
+<p>@descricao</p>
 
 <div class="listas" role="tablist">
     <a aria-selected="true" class="" href="/@user/" role="tab" tabindex="0">
@@ -311,16 +365,22 @@
 {
 
     [Parameter] public string user { get; set; }
+    [Parameter] public int? capitulo { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     List<Story> stories = new List<Story>();
-    List<string> links = new List<string>();
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
+    private MarkupString markup;
     private int lacos = 0;
     private int itens = 6;
     private bool newStory = true;
+    private bool showModal = false;
+    private string confirmar = "";
     private string classCircle = "";
+    private string Html = "";
+    private string descricao = "";
+    private string pensamento = "";
     List<Story>[] array;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -360,6 +420,13 @@
         }
     }
 
+    protected override void OnParametersSet()
+    {
+        if(capitulo != null)        
+            descricao = RepositoryPagina.stories.First(str => str.PaginaPadraoLink == capitulo).Descricao!;
+
+    }
+
     protected override async Task OnInitializedAsync()
     {
         if (newStory) classCircle = "circuloNewStory";
@@ -392,18 +459,58 @@
         .ThenInclude(u => u.PastaSalva)!
         .FirstOrDefaultAsync(u => u.UserName == user);
 
-        foreach (var item in array)
-            foreach (var item2 in item)
-                if (usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == item2.PaginaPadraoLink) != null)
-                    links
-                    .Add($"/renderizar/{usermodel.Livro.First(l => l.Livro.StandardChapter == item2.PaginaPadraoLink).Livro.Nome}" +
-                    $"/{item2.Id}/1/0/11/0/0/dominio/{user}");
-                    else
-                    links
-                    .Add($"/renderizar/{item2.Id}/1/0/11/0/0/dominio/{user}");
+        if (usermodel.Compartilhar == null)
+        {
+            confirmar = "Compartilhar";
+            pensamento = "teste";
+        }
+        else
+        {
+            markup = new MarkupString(usermodel.Compartilhar);
+            confirmar = "Excluir";
+            pensamento = "pensar";
+
+        }
+
+
         var authState = await AuthenticationStateProvider
              .GetAuthenticationStateAsync();
         usuario = authState.User;
 
     }
+
+    private void limpar()
+    {
+        descricao = "";
+    }
+
+    private async void compartilhar()
+    {
+       //  string? value = await js.InvokeAsync<string>("retornarTextArea", "contentextarea");
+        string value = Html;
+        if(!string.IsNullOrEmpty(value))
+        {
+            usermodel.Compartilhar = value;
+            Context.Update(usermodel);
+            Context.SaveChanges();
+            confirmar = "Excluir";
+            pensamento = "pensar";
+            markup = new MarkupString(usermodel.Compartilhar);
+            await js!.InvokeAsync<object>("DarAlert", "Compartilhamento feito com sucesso!!!");
+        }
+    }
+
+    private async void remover()
+    {
+        if (!string.IsNullOrEmpty(usermodel.Compartilhar))
+        {
+            usermodel.Compartilhar = null;
+            Context.Update(usermodel);
+            Context.SaveChanges();
+            confirmar = "Compartilhar";
+            pensamento = "teste";
+            await js!.InvokeAsync<object>("DarAlert", "Compartilhamento removido com sucesso!!!");
+        }
+    }
+
 }
