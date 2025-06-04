@@ -820,11 +820,15 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarCapitulos()
         {
-            indice = RepositoryPagina.stories.IndexOf(story);
-            storyid = RepositoryPagina.stories!.First().Id;
-            outroHorizonte = 0;
-
-            acessar();
+            if(compartilhou != "comp")
+                acessar($"/{compartilhou}/{story.PaginaPadraoLink}");
+            else 
+            {
+                if (livro == null)
+                    acessar("/");
+                else
+                    acessar($"/livro/{livro.Nome}");
+            }
         }
 
         protected void marcarPasta(int i)

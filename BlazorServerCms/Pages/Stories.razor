@@ -7,12 +7,12 @@
 
 
 
-<Modal Title="Nova nota" IsVisible="showModal" Close="() => showModal = false"
+<Modal Title="@title" IsVisible="showModal" Close="() => showModal = false"
 OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
-    @if(confirmar == "Compartilhar")
+    @if (confirmar == "Compartilhar")
     {
-        <p>Compartilhe um pensamento!!! </p>
+        <p> <strong>Compartilhe um pensamento.</strong>  </p>
         <Editor Id="contentextarea"
         Inline=false
         CloudChannel="5"
@@ -30,7 +30,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
 <div class="container">
 
-    <div class="item" >
+    <div class="item dobrar">
 
 
         <div class="img">
@@ -38,26 +38,32 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                 @if (usermodel != null && usermodel.Compartilhar != null)
                 {
                     <div class="pensar2">
-                        <a @onclick="() => showModal = true"> @markup </a>
+                        <div class="markup">
+                            <a @onclick="() => showModal = true"> @markup </a>
+
+                        </div>
 
                     </div>
 
                 }
                 <div>
                     <div>
-                        <div class="@pensamento">
+                        <div>
                             <div>
                                 <div>
                                     <div>
                                         <div>
                                             <div>
                                                 <div>
-                                                    @if(usermodel != null && usermodel.Compartilhar == null)
+                                                    @if (usermodel != null && usermodel.Compartilhar == null)
                                                     {
-                                                        <button @onclick="() => showModal = true">Nota...</button>
+                                                        <div class="@pensamento">
+                                                            <button @onclick="() => showModal = true">Nota...</button>
+
+                                                        </div>
 
                                                     }
-                                                   
+
 
                                                 </div>
                                             </div>
@@ -74,11 +80,11 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                                             <div class="circulo5">
                                                 @if (usermodel != null && usermodel.Image != null)
                                                 {
-                                                    <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser" >
+                                                    <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser">
                                                 }
                                                 else
                                                 {
-                                                    <img src="ImgUser/padrao.jpg" class="ImgUser" >
+                                                    <img src="ImgUser/padrao.jpg" class="ImgUser">
 
                                                 }
                                             </div>
@@ -183,7 +189,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
             <div class="carousel-inner">
 
-                @if(usermodel != null)
+                @if (usermodel != null)
                     @for (var i = 0; i < array.Length; i++)
                     {
                         @if (i == 0 && i < array.Length)
@@ -193,19 +199,15 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
                                 @for (var j = 0; j < array[i].Count; j++)
                                 {
-                                    string url = ""; 
                                     var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == array[i][j].PaginaPadraoLink);
-                                    if(strBook != null)
-                                        url = $"/{strBook.Livro.Nome}/{array[i][j].Id}/1/0/11/0/0/dominio/{user}";
-                                    else
-                                        url = $"/{user}/{array[i][j].PaginaPadraoLink}";
 
 
-                                    <div class="story"  title="@array[i][j].Descricao" onmouseout="@limpar" >
+
+                                    <div class="story" title="@array[i][j].Descricao" onmouseout="@limpar">
                                         <h6>
-                                            <a onclick="@(() => navigation.NavigateTo(url))">
+                                            <a onclick="@(() => navegar(strBook, array[i][j]))">
                                                 <div class="desc">
-                                                    <p >Story</p>
+                                                    <p>Story</p>
                                                     <p> @array[i][j].Nome</p>
                                                 </div>
                                                 <div class="circulo">
@@ -232,18 +234,14 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
                                 @for (var j = 0; j < array[i].Count; j++)
                                 {
-                                    string url = "";
                                     var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == array[i][j].PaginaPadraoLink);
-                                    if (strBook != null)
-                                        url = $"/{strBook.Livro.Nome}/{array[i][j].Id}/1/0/11/0/0/dominio/{user}";
-                                    else
-                                        url = $"/{user}/{array[i][j].PaginaPadraoLink}";
+
 
                                     <div class="story" title="@array[i][j].Descricao">
                                         <h6>
-                                            <a onclick="@(() => navigation.NavigateTo(url))">
+                                            <a onclick="@(() => navegar(strBook, array[i][j]))">
                                                 <div class="desc">
-                                                    <p >Story</p>
+                                                    <p>Story</p>
                                                     <p> @array[i][j].Nome</p>
                                                 </div>
                                                 <div class="circulo">
@@ -302,7 +300,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                 <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="9.015" y2="9.015">
                 </line>
                 <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="14.985" y2="14.985">
-                </line> 
+                </line>
             </svg>
             <span class="">
                 Publicações
@@ -321,7 +319,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                 </line>
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                 </path>
-                <path fill-rule="evenodd"></path> 
+                <path fill-rule="evenodd"></path>
             </svg><span class="">
                 Reels
             </span>
@@ -353,7 +351,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                 <circle cx="12.072" cy="11.075" fill="none" r="3.556" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
 
                 </circle>
-            </svg> 
+            </svg>
             <span class="">
                 Marcados
             </span>
@@ -361,7 +359,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
     </a>
 </div>
 
-@code 
+@code
 {
 
     [Parameter] public string user { get; set; }
@@ -376,6 +374,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
     private int itens = 6;
     private bool newStory = true;
     private bool showModal = false;
+    private string title = "";
     private string confirmar = "";
     private string classCircle = "";
     private string Html = "";
@@ -385,7 +384,8 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender){
+        if (firstRender)
+        {
             try
             {
                 string? num = await js.InvokeAsync<string>("retornarlargura", "url");
@@ -422,7 +422,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
     protected override void OnParametersSet()
     {
-        if(capitulo != null)        
+        if (capitulo != null)
             descricao = RepositoryPagina.stories.First(str => str.PaginaPadraoLink == capitulo).Descricao!;
 
     }
@@ -463,12 +463,14 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         {
             confirmar = "Compartilhar";
             pensamento = "teste";
+            title = "Nova nota";
         }
         else
         {
             markup = new MarkupString(usermodel.Compartilhar);
             confirmar = "Excluir";
             pensamento = "pensar";
+            title = "Excluir pensamento";
 
         }
 
@@ -486,15 +488,16 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
     private async void compartilhar()
     {
-       //  string? value = await js.InvokeAsync<string>("retornarTextArea", "contentextarea");
+        //  string? value = await js.InvokeAsync<string>("retornarTextArea", "contentextarea");
         string value = Html;
-        if(!string.IsNullOrEmpty(value))
+        if (!string.IsNullOrEmpty(value))
         {
             usermodel.Compartilhar = value;
             Context.Update(usermodel);
             Context.SaveChanges();
             confirmar = "Excluir";
             pensamento = "pensar";
+            title = "Excluir pensamento";
             markup = new MarkupString(usermodel.Compartilhar);
             await js!.InvokeAsync<object>("DarAlert", "Compartilhamento feito com sucesso!!!");
         }
@@ -509,8 +512,127 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
             Context.SaveChanges();
             confirmar = "Compartilhar";
             pensamento = "teste";
+            title = "Nova nota";
             await js!.InvokeAsync<object>("DarAlert", "Compartilhamento removido com sucesso!!!");
         }
+    }
+
+    private async void navegar(UserModelLivro livro, Story str)
+    {
+        string? url = null;
+        int versiculo = 1;
+        int carregando = 40;
+        Filtro? fil = null;
+        if (livro != null)
+        {
+            string prompted = await js.InvokeAsync<string>("prompt", "Informe os versiculos para marcar.");
+
+            var filtros = await Context.Filtro!
+             .OrderBy(f => f.Id)
+             .Include(f => f.Pagina)!
+             .ThenInclude(f => f.Content)
+             .Where(f => f.LivroId == livro.Livro.Id)
+             .ToListAsync();
+
+            if (prompted.Contains(","))
+            {
+                var arr = prompted.Replace(" ", "").Split(",");
+                bool teste = true;
+                int[] numeros = new int[arr.Length];
+
+                for (var i = 0; i < arr.Length; i++)
+                {
+                    try
+                    {
+                        numeros[i] = int.Parse(arr[i]);
+                    }
+                    catch (Exception)
+                    {
+                        await js!.InvokeAsync<object>("DarAlert", "Informe apenas numeros separando por virgula");
+                        teste = false;
+                        break;
+                    }
+                }
+
+                if(teste)
+                {
+                    carregando = repositoryPagina.quantSlidesCarregando / arr.Length;
+                    for(var j = 0; j < numeros.Length; j++)
+                    {
+                        if (usermodel.Compartilhar != null)
+                        {
+                            foreach (var item in filtros)
+                                if (usermodel.Compartilhar.Contains(item.Nome) && item.Pagina != null &&
+                                item.Pagina.FirstOrDefault(p => p.Content is Pagina &&
+                                    retornarVerso(p.Content) == numeros[j]) != null)
+                                {
+                                    fil = item;
+                                    break;
+                                }
+                        }
+
+                        if (fil == null)
+                            fil = filtros.Where(f => f.Pagina
+                            .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
+
+                            if(fil != null)
+                        url = $"/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
+                        if(url != null)
+                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                        url = null;
+                    }
+
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(prompted))
+                {
+                    prompted = prompted.Replace(" ", "");
+                    try
+                    {
+                        versiculo = int.Parse(prompted);
+                    }
+                    catch (Exception ex)
+                    {
+                        versiculo = 1;
+                    }
+                }
+
+                if (usermodel.Compartilhar != null)
+                {
+                    foreach (var item in filtros)
+                        if (usermodel.Compartilhar.Contains(item.Nome) && item.Pagina != null &&
+                        item.Pagina.FirstOrDefault(p => p.Content is Pagina &&
+                            retornarVerso(p.Content) == versiculo) != null)
+                        {
+                            fil = item;
+                            break;
+                        }
+                }
+
+                if (fil == null)
+                    fil = filtros.Where(f => f.Pagina
+                    .FirstOrDefault(p => retornarVerso(p.Content) == versiculo) != null).LastOrDefault()!;
+
+
+                if (fil != null)
+                    url = $"/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
+                    if(url != null)
+                    navigation.NavigateTo(url);
+            }
+        }
+        else
+        {
+            url = $"/{user}/{str.PaginaPadraoLink}";
+            navigation.NavigateTo(url);
+        }            
+    }
+
+    private int retornarVerso(Content c)
+    {
+        Pagina p = (Pagina)c;
+        return p.Versiculo;
     }
 
 }
