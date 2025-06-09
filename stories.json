@@ -1,0 +1,172 @@
+[
+	{
+		"Nome": "padrao",
+		"PaginaPadraoLink": 0,
+		"Image": "",
+		"Descricao": ""
+	},
+	{
+		"Nome": "seres vivos",
+		"PaginaPadraoLink": 1,
+		"Image": "seres-vivos.jpg",
+		"Descricao": "Esta história conta sobre todos os seres vivos do planeta terra"
+	},
+	{
+		"Nome": "comentários",
+		"PaginaPadraoLink": 2,
+		"Image": "comentario.png",
+		"Descricao": "Esta história conta e classifica todos os comentarios"
+	},
+	{
+		"Nome": "moda",
+		"PaginaPadraoLink": 3,
+		"Image": "moda.jpg",
+		"Descricao": "Esta história conta sobre roupas, chapeus, bones, calçados, e todos os outros produtos relacionados desde a matéria prima até o produto final."
+	},
+	{
+		"Nome": "veiculos",
+		"PaginaPadraoLink": 4,
+		"Image": "veiculo.jpg",
+		"Descricao": "Esta história conta sobre produtos desde a sua matéria-prima até o produto final (veiculos)."
+	},
+	{
+		"Nome": "materiais de construção",
+		"PaginaPadraoLink": 5,
+		"Image": "Material.png",
+		"Descricao": "Esta história conta sobre todos os produtos relacionados a materiais de construção desde a matéria-prima até seu produto final."
+	},
+	{
+		"Nome": "alimentos e bebidas",
+		"PaginaPadraoLink": 6,
+		"Image": "alimentos.jpg",
+		"Descricao": "Esta história conta sobre todos os produtos relacionados a alimentos e bebidas."
+	},
+	{
+		"Nome": "entretenimento",
+		"PaginaPadraoLink": 7,
+		"Image": "entretenimento.jpg",
+		"Descricao": "Esta história conta sobre todos os produtos relacionados ao entretenimento. Para descobrir todos os segmentos acesse a camada 2."
+	},
+	{
+		"Nome": "materiais de higiene",
+		"PaginaPadraoLink": 8,
+		"Image": "materiais-de-limpeza.png",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "eletrodomesticos e eletronicos",
+		"PaginaPadraoLink": 9,
+		"Image": "eletrodomesticos.jpg",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "cosméticos",
+		"PaginaPadraoLink": 10,
+		"Image": "cosmeticos.jpg",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "tecnologia",
+		"PaginaPadraoLink": 11,
+		"Image": "tecnologia.jpg",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "móveis",
+		"PaginaPadraoLink": 12,
+		"Image": "moveis.jpeg",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "saúde e bem-star",
+		"PaginaPadraoLink": 13,
+		"Image": "saude.jpg",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "ímóveis",
+		"PaginaPadraoLink": 14,
+		"Image": "imoveis.jpg",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "estudos",
+		"PaginaPadraoLink": 15,
+		"Image": "estudos.png",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "profissionais",
+		"PaginaPadraoLink": 16,
+		"Image": "profissionais.jpg",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "informática",
+		"PaginaPadraoLink": 17,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "papelaria",
+		"PaginaPadraoLink": 18,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "info-produtos",
+		"PaginaPadraoLink": 19,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "blog",
+		"PaginaPadraoLink": 20,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "livraria",
+		"PaginaPadraoLink": 21,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "Inteligencia Artificial",
+		"PaginaPadraoLink": 22,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "notícias",
+		"PaginaPadraoLink": 23,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "agronegócios",
+		"PaginaPadraoLink": 24,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "empresas",
+		"PaginaPadraoLink": 25,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "casa completa",
+		"PaginaPadraoLink": 26,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	},
+	{
+		"Nome": "filtros",
+		"PaginaPadraoLink": 27,
+		"Image": "",
+		"Descricao": "Esta história conta..."
+	}
+]
+
+
