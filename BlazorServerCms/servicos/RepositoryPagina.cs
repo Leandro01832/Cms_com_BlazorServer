@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore.Query;
 using NVelocity;
 using NVelocity.App;
 using System.Text;
+using System.Text.Json;
+
 
 namespace BlazorServerCms.servicos
 {
@@ -115,22 +117,13 @@ namespace BlazorServerCms.servicos
         }
 
 
-        public async Task<List<PatternStory>> buscarPatternStory()
+        public async Task<List<Story>?> buscarPatternStory()
         {
-            List<PatternStory> lista = new List<PatternStory>();
+            List<Story>? lista = new List<Story>();
             var dom = buscarDominio();
-            var text = await Http.GetStringAsync($"https://{dom}/Arquivotxt/stories.txt");
+            var text = await Http.GetStringAsync($"https://raw.githubusercontent.com/Leandro01832/Cms_com_BlazorServer/refs/heads/main/stories.json");
 
-            var stories = text.Split('-');
-
-            for (int i = 0; i < stories.Length; i++)
-            {
-                lista.Add(new PatternStory
-                {
-                    PaginaPadraoLink = i,
-                    Nome = stories[i].TrimStart().TrimEnd()
-                });
-            }
+           lista = JsonSerializer.Deserialize<List<Story>>(text);
 
             return lista;
         }

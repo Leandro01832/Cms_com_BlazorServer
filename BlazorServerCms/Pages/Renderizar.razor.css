@@ -209,8 +209,8 @@ Informativo {
 
 .DivPagina {
     height: 40px;
-    width: 100%;
     opacity: 0.90;
+    width: 100%;
     margin: 6px;
     display: flex;
     flex-direction: row;
@@ -222,8 +222,8 @@ Informativo {
 
 .DivPagina2 {
     height: 50px;
-    width: 100%;
     opacity: 0.90;
+    width: 100%;
     margin: 6px;
     display: flex;
     flex-direction: row;

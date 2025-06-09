@@ -144,20 +144,24 @@ else
     <div style="position:absolute; background-color:aliceblue; width:75%;">
         <table cellspacing="50" border="5" cellpadding="50" style="width:100%">
             <tr>
+                <th>Livro</th>
                 <th>Capitulo</th>
-                <th>Pasta</th>
-                <th>Nome</th>
+                <th>Nome da pasta</th>
                 <th></th>
             </tr>
             @foreach (var item in filtros!)
             {
-                var fil = filtros2
-                .Where(p => p.StoryId == item.StoryId).OrderBy(p => p.Id).ToList();
-                var f = fil!.First(fi => fi.Id == item.Id);
                 <tr>
-                    <td>Capitulo @f.Story!.PaginaPadraoLink </td>
-                    <td>Pasta @(fil!.IndexOf(f) + 1) </td>
-                    <td>Pasta @f.Nome </td>
+                    @if(item.Livro != null)
+                    {
+                        <td> @item.Livro.Nome </td>
+                    }
+                    else
+                    {
+                        <td>  Instagleo </td>                        
+                    }
+                    <td>Capitulo @item.Story!.PaginaPadraoLink </td>
+                    <td>Pasta @item.Nome </td>
 
                     <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
                 </tr>
@@ -266,7 +270,6 @@ else
     [Parameter] public string? nomeLivro { get; set; } = "";
     [Parameter] public string? indice { get; set; }
     [Parameter] public string? MensagemSistema { get; set; }
-    [Parameter] public string? compartilhante { get; set; }
     public string? Query { get; set; }
     public string? Usuario { get; set; }
     List<Filtro>? filtros = new List<Filtro>();
@@ -281,7 +284,7 @@ else
     private string placeholder = "Nº do capitulo ou pesquisar";
     private bool marcar;
 
-    private Story story = null;
+    private Story _story = null;
 
     private Livro livro = null;
 
@@ -292,13 +295,31 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        if (livro == null)
+            filtros2 = await Context.Filtro!
+            .Include(f => f.Story)
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)
+            .Where(f => f.StoryId == _story.Id && f.LivroId == null)
+            .OrderBy(f => f.Id)
+            .ToListAsync();
+        else
+            filtros2 = await Context.Filtro!
+           .Include(f => f.Story)
+           .Include(f => f.Pagina)!
+           .ThenInclude(f => f.Content)
+           .Where(f => f.StoryId == _story.Id && f.LivroId == livro.Id)
+           .OrderBy(f => f.Id)
+           .ToListAsync();
+
+        filtros2.Reverse();
         try
         {
             repositoryPagina.CapituloLivro = 1;
-            PatternStory padrao = null;
+            Story padrao = null;
             string? dominio = await js.InvokeAsync<string>("retornarSubdominio", "url");
 
-            var lista = await repositoryPagina.buscarPatternStory();
+            var lista =  RepositoryPagina.stories;
 
             if (dominio != null)
             {
@@ -312,6 +333,8 @@ else
         catch(Exception ex){
 
         }
+
+       
 
     }
 
@@ -337,40 +360,25 @@ else
 
         repositoryPagina.exibir = true;
 
-        if (story == null)
+        if (_story == null)
         {
-            story = await Context.Story!
-                      .Include(p => p.Filtro)!
-                     .ThenInclude(p => p.Pagina)!
-                     .ThenInclude(p => p.Content)!
+            _story = await Context.Story!
                      .FirstOrDefaultAsync(p => p.PaginaPadraoLink == repositoryPagina.CapituloLivro)!;
         }
 
+           
 
-        filtros2 = await Context.Filtro!
-                .Include(f => f.Story)
-                .Include(f => f.Pagina)!
-                .ThenInclude(f => f.Content)
-                .Where(f => f.StoryId == story.Id)
-                .OrderBy(f => f.Id)
-                .ToListAsync();
-
-        filtros2.Reverse();
-
-        if (compartilhante == null)
-            compartilhante = "comp";
-
-            if(livro != null && capitulo != null )
-            {
-                   var filtros = await Context.Filtro!
-                    .Include(f => f.Story)
-                    .Include(f => f.usuarios)
-                    .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == livro.Id)
-                    .ToListAsync();
-                var str = RepositoryPagina.stories.FirstOrDefault(st => st.PaginaPadraoLink == capitulo);
-                if(str != null)
+        if(livro != null && capitulo != null )
+        {
+            var filtros = await Context.Filtro!
+             .Include(f => f.Story)
+             .Include(f => f.usuarios)
+             .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == livro.Id)
+             .ToListAsync();
+            var str = RepositoryPagina.stories.FirstOrDefault(st => st.PaginaPadraoLink == capitulo);
+            if(str != null)
                 navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/{indice}/0/11/1/0/dominio/comp");
-            }
+        }
 
     }
 
@@ -378,34 +386,21 @@ else
     {
         List<Filtro> filtros = null;
         if(livro == null)
-        filtros = Context.Filtro!.Where(p => p.LivroId == null).ToList();
+            filtros = Context.Filtro!.Where(p => p.LivroId == null).ToList();
         else 
-        filtros = Context.Filtro!.Where(p => p.LivroId == livro.Id).ToList();
+            filtros = Context.Filtro!.Where(p => p.LivroId == livro.Id).ToList();
         var fil = filtros!.First(f => f.Id == item.Id);
         var indiceFiltro = filtros!.IndexOf(fil) + 1;
 
-        if(livro == null)
-        navigation.NavigateTo($"/renderizar/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
+        if(item.Livro == null)
+            navigation.NavigateTo($"/renderizar/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
         else
-        navigation.NavigateTo($"/renderizar/{livro.Nome}/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
+            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
     }
 
     private async void buscar()
     {
         carregando = null;
-        string prompted = await js.InvokeAsync<string>("prompt", "Informe o usuario.");
-        if (!string.IsNullOrEmpty(prompted))
-        {
-            prompted = prompted.Replace(" ", "");
-            var us = await Context.Users.FirstOrDefaultAsync(u => u.UserName == prompted);
-            if (us != null)
-                compartilhante = us.HashUserName;
-            else
-                compartilhante = "comp";
-        }
-        else
-            compartilhante = "comp";
-
 
         if (marcar)
         {
@@ -447,9 +442,7 @@ else
                             foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
                             {                                
                                 var pag = (Pagina)item2.Content;
-
-                                if (compartilhante == "comp")
-                                {
+                                
                                     if (pag.Versiculo == numeros[j] && url == null )
                                     {
                                         var pages = item.Pagina!
@@ -462,23 +455,6 @@ else
                                         await js!.InvokeAsync<object>("AcessarSites", $"{url}");
 
                                     }
-                                }
-                                else
-                                {
-                                    if (pag.Versiculo == numeros[j] && url == null &&
-                                        item.usuarios.Count > 0)
-                                    {
-                                        var pages = item.Pagina!
-                                        .Where(c => c.Content is Pagina)
-                                        .OrderBy(c => c.ContentId)
-                                        .ToList();
-                                        verso = pages.IndexOf(item2) + 1;
-                                        filtro = item.Id;
-                                        url = retornarUrl();
-                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
-                                    }
-                                }
-
                             }
                         }
                     }
@@ -497,10 +473,8 @@ else
                     {
                         foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
                         {                   
-
                             var pag = (Pagina)item2.Content;
-                            if (compartilhante == "comp")
-                            {
+                            
                                 if (pag.Versiculo == num && url == null)
                                 {
                                     var pages = item.Pagina!
@@ -510,24 +484,7 @@ else
                                     verso = pages.IndexOf(item2) + 1;
                                     filtro = item.Id;
                                     url = retornarUrl();
-
                                 }
-                            }
-                            else
-                            {
-                                if (pag.Versiculo == num && url == null && item.usuarios.Count > 0)
-                                {
-                                    var pages = item.Pagina!
-                                    .Where(c => c.Content is Pagina)
-                                    .OrderBy(c => c.ContentId)
-                                    .ToList();
-                                    verso = pages.IndexOf(item2) + 1;
-                                    filtro = item.Id;
-                                    url = retornarUrl();
-
-                                }
-                            }
-
                         }
                     }
 
@@ -548,25 +505,18 @@ else
                 cap = int.Parse(Query!);
                 var str = RepositoryPagina.stories.First(st => st.PaginaPadraoLink == cap);
                 if(livro == null)
-                navigation.NavigateTo($"/renderizar/{str.Id}/1/0/11/0/0/dominio/{compartilhante}");
+                    navigation.NavigateTo($"/renderizar/{str.Id}/1/0/11/0/0/dominio/comp");
                 else
-                navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/1/0/11/0/0/dominio/{compartilhante}");
+                    navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/1/0/11/0/0/dominio/comp");
             }
             catch (Exception ex)
             {
                 if (!string.IsNullOrEmpty(Query))
                 {
-                    if(livro == null)
                         filtros = await Context.Filtro!
                         .Include(f => f.Story)
-                        .Include(f => f.usuarios)
-                        .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == null)
-                        .ToListAsync();
-                    else
-                        filtros = await Context.Filtro!
-                        .Include(f => f.Story)
-                        .Include(f => f.usuarios)
-                        .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == livro.Id)
+                        .Include(f => f.Livro)
+                        .Where(f => f.Nome!.ToLower().Contains(Query!.ToLower()))
                         .ToListAsync();
 
 
@@ -574,8 +524,8 @@ else
                     {
                         List<Pagina> paginas = null;
                         if(livro == null)
-                         paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())
-                        && r.LivroId == null).ToList();
+                            paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())
+                           && r.LivroId == null).ToList();
                         else
                             paginas = Context.Pagina.Where(r => r.Rotas.ToLower().Contains(Query.ToLower())
                            && r.LivroId == livro.Id).ToList();
@@ -609,17 +559,23 @@ else
                             var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
                             var story = stories.First(str => str.Id == paginas[0].StoryId); 
                             if(livro == null)
-                            navigation.NavigateTo($"/renderizar/{story.Id}/1/0/11/0/0/dominio/{compartilhante}/{Query.ToLower()}");
+                                navigation.NavigateTo($"/renderizar/{story.Id}/1/0/11/0/0/dominio/comp/{Query.ToLower()}");
                             else
-                            navigation.NavigateTo($"/renderizar/{livro.Nome}/{story.Id}/1/0/11/0/0/dominio/{compartilhante}/{Query.ToLower()}");
+                                navigation.NavigateTo($"/renderizar/{livro.Nome}/{story.Id}/1/0/11/0/0/dominio/comp/{Query.ToLower()}");
                         }
                     }
+                    // else
+                    // {
+                    //     if(livro == null)
+                    //     navigation.NavigateTo($"/Renderizar/{story.Id}/1/0/11/0/0/dominio/comp/{filtros.First().Id}");
+                    //     else
+                    //     navigation.NavigateTo($"/Renderizar/{livro.Nome}/{story.Id}/1/0/11/0/0/dominio/comp/{filtros.First().Id}");
+                    // }
                 }
                 else if (string.IsNullOrEmpty(Query))
                 {
                     filtros = new List<Filtro>();
                 }
-                cap = 1;
             }
 
         }
@@ -668,12 +624,12 @@ else
         if (filtro != null)
         {
             if(carregando == null)
-            url = $"/Renderizar{liv}/{story.Id}/{verso}/0/11/0/0/dominio/{compartilhante}/{filtro}";
+            url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}";
             else
-            url = $"/Renderizar{liv}/{story.Id}/{verso}/0/11/0/0/dominio/{compartilhante}/{filtro}/{carregando}";
+            url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}/{carregando}";
         }
         else
-            url = $"/Renderizar{liv}/{story.Id}/{verso}/0/11/0/0/dominio/{compartilhante}";
+            url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp";
         return url;
     }
 

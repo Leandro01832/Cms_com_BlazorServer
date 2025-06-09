@@ -186,10 +186,6 @@ namespace BlazorServerCms.Data
         {
             Story story = null;
              story = await Context.Story!
-            .Include(p => p.Filtro)!
-            .ThenInclude(p => p.Pagina)!
-            .Include(p => p.Filtro)!
-            .ThenInclude(p => p.usuarios)!
             .OrderBy(st => st.Id)
             .FirstAsync(st => st.Id == storyId);
             return story;

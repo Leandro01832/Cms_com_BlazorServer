@@ -1,4 +1,4 @@
-﻿@page "/listar-pasta/{capitulo:int}/{dominio}/{compartilhante}"
+﻿@page "/listar-pasta/{capitulo:int}/{livroId:long}"
 @inject NavigationManager navigation
 @layout MeuLayout
 
@@ -54,7 +54,7 @@
             <center>
                 @if (condicao)
                 {
-                    <a href="/renderizar/@capitulo/@indice/0/11/1/1/0/0/0/@dominio/@compartilhante">
+                    <a href="/renderizar/@capitulo/@indice/0/11/1/1/0/0/0/dominio/comp">
 
                         <div class="item1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
@@ -94,8 +94,7 @@
 
 @code {
     [Parameter] public int capitulo{ get; set; }
-    [Parameter] public string dominio{ get; set; }
-    [Parameter] public string compartilhante{ get; set; }
+    [Parameter] public long? livroId{ get; set; }
 
     private List<Filtro> lista;
     private DemoContextFactory db = new DemoContextFactory();
@@ -106,17 +105,15 @@
     protected override async Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
-        var str = await Context.Story!
-        .Include(s => s.Filtro)!
-        .ThenInclude(s => s.usuarios)!
-        .Include(s => s.Filtro)!
-        .ThenInclude(s => s.Pagina)!
-        .ThenInclude(s => s.Content).FirstAsync(s => s.PaginaPadraoLink == capitulo);
 
-        if (str.Filtro == null || str.Filtro.Count == 0)
+        if(livroId != null)
+        lista = Context.Filtro!.Include(f => f.Pagina).Where(f => f.LivroId == livroId).OrderBy(f => f.Id).ToList();
+        else
+            lista = Context.Filtro!.Include(f => f.Pagina).Where(f => f.LivroId == null).OrderBy(f => f.Id).ToList();
+
+
+        if (lista == null || lista.Count == 0)
             navigation.NavigateTo("/");
-
-        lista = str.Filtro.Where(f => f.usuarios.Count == 0).OrderBy(f => f.Id).ToList();
     }
 
     private bool NewVers(Filtro fil)

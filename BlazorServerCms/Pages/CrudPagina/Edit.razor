@@ -1,7 +1,9 @@
 ﻿@page "/pagina/edit/{Id:long}"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
-@attribute [Authorize(Roles = "Admin")]
+@inject AuthenticationStateProvider? AuthenticationStateProvider
+@inject UserManager<UserModel> userManager
+@attribute [Authorize(Roles = "Admin, Manager, Assinante")]
 
 @if(exampleModel != null)
 {
@@ -26,6 +28,55 @@
             <InputText id="Titulo" @bind-Value="exampleModel.Titulo" />
         </p>
 
+        @if (!EscolherUsuario)
+        {
+
+            <p>
+                <label>Livro:</label>
+                <select @bind="exampleModel.LivroId">
+
+                    @foreach (var item in usuario.Assinatura)
+                    {
+                        if (primeiroLoop)
+                        {
+                            <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                            primeiroLoop = false;
+                        }
+                        else
+                        {
+                            <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                        }
+                    }
+                </select>
+            </p>
+
+        }
+        else
+        {
+            <p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
+            <p><a onclick="@escolher">Escolher</a></p>
+            <p>
+                <label>Livro:</label>
+                <select @bind="exampleModel.LivroId">
+
+                    @foreach (var item in usuario.Assinatura)
+                    {
+                        if (primeiroLoop)
+                        {
+                            <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                            primeiroLoop = false;
+                        }
+                        else
+                        {
+                            <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                        }
+                    }
+                </select>
+            </p>
+        }
+
         <p>
             <label>Camada:</label>
             <select onchange="@((ChangeEventArgs e) => alterarCamada(e))">
@@ -49,9 +100,10 @@
                 <option value="0">Selecione uma opção</option>
                 @if (exampleModel.StoryId != 0)
                 {
-                    @foreach (var item in Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId))
+                    var lista = Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId && sub.LivroId == exampleModel.LivroId).OrderBy(f => f.Id).ToList();
+                    @foreach (var item in lista)
                     {
-                        var filtros = item.Story!.Filtro;
+                        var filtros = lista;
                         var fil = filtros!.First(f => f.Id == item.Id);
                         var pasta = filtros!.IndexOf(fil) + 1;
                         if (item.Id == pasta)
@@ -67,9 +119,10 @@
                 }
                 else
                 {
-                    @foreach (var item in Filtro!.Where(sub => sub.StoryId == lista.First().Id))
+                    var lista = Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId && sub.LivroId == exampleModel.LivroId).OrderBy(f => f.Id).ToList();
+                    @foreach (var item in lista)
                     {
-                        var filtros = item.Story!.Filtro;
+                        var filtros = lista;
                         var fil = filtros!.First(f => f.Id == item.Id);
                         var pasta = filtros!.IndexOf(fil) + 1;
                         if(item.Id == pasta)
@@ -95,6 +148,11 @@
 @code {
     private Pagina? exampleModel;
     public long? pasta { get; set; }
+
+    private UserModel usuario;
+    private bool EscolherUsuario;
+    private string? username;
+    private bool primeiroLoop = true;
 
     private List<Story> lista = new List<Story>();
     public List<Filtro> Filtro = new List<Filtro>();
@@ -126,6 +184,18 @@
         else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubGrupo   ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubGrupo   )!.FiltroId;
         else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is Grupo      ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  Grupo      )!.FiltroId;
         else if (exampleModel.Filtro! != null && exampleModel.Filtro!.FirstOrDefault(f => f.Filtro is SubStory   ) != null)pasta = exampleModel.Filtro!.First(f =>  f.Filtro  is  SubStory   )!.FiltroId;
+    
+        var authState = await AuthenticationStateProvider
+      .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == user.Identity!.Name);
+
+        if (await userManager.IsInRoleAsync(usuario, "Admin") || await userManager.IsInRoleAsync(usuario, "Manager"))
+            EscolherUsuario = true;
     }
 
     private async void HandleSubmit()
@@ -351,6 +421,15 @@
 
         Filtro = Filtro
         .ToList();
+    }
+
+    private void escolher()
+    {
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == username);
+        primeiroLoop = true;
     }
 
 }

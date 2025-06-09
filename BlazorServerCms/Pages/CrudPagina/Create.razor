@@ -1,7 +1,9 @@
 ﻿@page "/pagina/create"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
-@attribute [Authorize(Roles = "Admin")]
+@inject AuthenticationStateProvider? AuthenticationStateProvider
+@inject UserManager<UserModel> userManager
+@attribute [Authorize(Roles = "Admin, Manager, Assinante")]
 
 <Editor Id="contentextarea"
         Inline=false
@@ -13,11 +15,67 @@
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
+
+
+
+
     <ValidationSummary />
     <p>
         <label>Titulo:</label>
         <InputText id="Titulo" @bind-Value="exampleModel.Titulo"  />
     </p>
+
+
+    @if (!EscolherUsuario)
+    {
+
+        <p>
+            <label>Livro:</label>
+            <select @bind="exampleModel.LivroId">
+
+                @foreach (var item in usuario.Assinatura)
+                {
+                    if (primeiroLoop)
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                        primeiroLoop = false;
+                    }
+                    else
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                    }
+                }
+            </select>
+        </p>
+
+    }
+    else
+    {
+        <p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
+        <p><a onclick="@escolher">Escolher</a></p>
+        <p>
+            <label>Livro:</label>
+            <select @bind="exampleModel.LivroId">
+
+                @foreach (var item in usuario.Assinatura)
+                {
+                    if (primeiroLoop)
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)" selected>@item.Livro.Nome</option>
+                        primeiroLoop = false;
+                    }
+                    else
+                    {
+                        <option value="@item.Livro!.Id" id="option@(item.Livro.Id)">@item.Livro.Nome</option>
+
+                    }
+                }
+            </select>
+        </p>
+    }
+
+
     <p>
         <label>Story:</label>
         <select @bind="exampleModel.StoryId">
@@ -48,9 +106,10 @@
         <select @bind="pasta">
             @if(exampleModel.StoryId != 0)
             {
-                @foreach (var item in Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId))
+                var lista = Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId && sub.LivroId == exampleModel.LivroId).ToList();
+                @foreach (var item in lista)
                 {
-                    var filtros = item.Story!.Filtro;
+                    var filtros = lista;
                     var fil = filtros!.First(f => f.Id == item.Id);
                     var pasta = filtros!.IndexOf(fil) + 1;
                     <option value="@item.Id">@item.Nome - pasta @pasta - @GetCamada(item) </option>
@@ -59,9 +118,10 @@
             }
             else
             {
-                @foreach (var item in Filtro!.Where(sub => sub.StoryId == lista.First().Id))
+                var lista = Filtro!.Where(sub => sub.StoryId == exampleModel.StoryId && sub.LivroId == exampleModel.LivroId).ToList();
+                @foreach (var item in lista)
                 {     
-                    var filtros = item.Story!.Filtro;
+                    var filtros = lista;
                     var fil = filtros!.First(f => f.Id == item.Id);
                     var pasta = filtros!.IndexOf(fil) + 1;
                     <option value="@item.Id">@item.Nome - pasta @pasta - @GetCamada(item) </option>
@@ -79,7 +139,10 @@
     private Pagina? exampleModel;
     private int pasta { get; set; } = 0;
     private string camada { get; set; }
-
+    private UserModel usuario;
+    private bool EscolherUsuario;
+    private string? username;
+    private bool primeiroLoop = true;
 
     private List<Story> lista = new List<Story>();
     public List<Filtro> Filtro = new List<Filtro>();
@@ -97,8 +160,20 @@
         lista = await Context.Story!
         .Where(str => str.Nome != "Padrao").ToListAsync();
         exampleModel.StoryId = lista.First().Id;
-        Filtro = await Context.Filtro.Include(f => f.Story)
+        Filtro = await Context.Filtro
         .ToListAsync();
+
+        var authState = await AuthenticationStateProvider
+       .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == user.Identity!.Name);
+
+        if (await userManager.IsInRoleAsync(usuario, "Admin") || await userManager.IsInRoleAsync(usuario, "Manager"))
+            EscolherUsuario = true;
 
     }
 
@@ -114,8 +189,7 @@
             await Context.SaveChangesAsync();
             exampleModel = Context.Pagina!.Include(p => p.Filtro).First(f => f.Id == pag!.Id);
             filtros = await Context.Filtro
-            .Include(f => f.Story)
-            .Where(f => f.StoryId == pag.StoryId)
+            .Where(f => f.LivroId == pag.LivroId)
             .OrderBy(f => f.Id)
             .ToListAsync();
             if(pasta != 0)
@@ -312,28 +386,37 @@
     private async void alterarCamada(ChangeEventArgs e)
     {
         if (e.Value.ToString() == "camada1")
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is SubStory).ToList();
+            Filtro =  Context.Filtro!.Where(f => f is SubStory && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada2")
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is Grupo).ToList();
+            Filtro = Context.Filtro!.Where(f => f is Grupo && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada3")                       
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is SubGrupo).ToList();
+            Filtro = Context.Filtro!.Where(f => f is SubGrupo && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada4")                      
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is SubSubGrupo).ToList();
+            Filtro = Context.Filtro!.Where(f => f is SubSubGrupo && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada5")                       
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is CamadaSeis).ToList();
+            Filtro = Context.Filtro!.Where(f => f is CamadaSeis && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada6")                      
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is CamadaSete).ToList();
+            Filtro = Context.Filtro!.Where(f => f is CamadaSete && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada7")                       
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is CamadaOito).ToList();
+            Filtro = Context.Filtro!.Where(f => f is CamadaOito && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada8")                        
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is CamadaNove).ToList();
+            Filtro = Context.Filtro!.Where(f => f is CamadaNove && f.LivroId == exampleModel.LivroId).ToList();
         else if (e.Value.ToString() == "camada9")                       
-            Filtro =  Context.Filtro!.Include(f => f.Story).Where(f => f is CamadaDez).ToList();
+            Filtro = Context.Filtro!.Where(f => f is CamadaDez && f.LivroId == exampleModel.LivroId).ToList();
 
             if(Filtro.Count == 0)
-            Filtro = Context.Filtro.Include(f => f.Story).ToList();
+            Filtro = Context.Filtro.ToList();
 
             Filtro = Filtro
             .ToList();
+    }
+
+    private void escolher()
+    {
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == username);
+        primeiroLoop = true;
     }
 }

@@ -100,18 +100,29 @@ namespace BlazorCms.Client.Pages
                 storyid = RepositoryPagina.stories.OrderBy(str => str.Id).First().Id;
             }
 
-            if (story == null)
-            {
-                story = await GetStoryByIdAsync((long)storyid!);
-            }
 
             if (nomeLivro != null)            
                 livro = await Context.Livro!.FirstOrDefaultAsync(l => l.Nome == nomeLivro);
 
+            if (_story == null)
+            {
+                _story = await GetStoryByIdAsync((long)storyid!);
+            }
+
             if (livro == null)
-                listaFiltro = story.Filtro!.Where(f => f.LivroId == null).ToList();
+                listaFiltro = await Context.Filtro!
+                     .Include(p => p.Pagina)!
+                     .ThenInclude(p => p.Content)!
+                     .Include(p => p.usuarios)!
+                     .ThenInclude(p => p.UserModel)!
+                    .Where(f => f.LivroId == null && f.StoryId == _story.Id).ToListAsync();
             else
-                listaFiltro = story.Filtro!.Where(f => f.LivroId == livro.Id).ToList();
+                listaFiltro = await Context.Filtro!
+                    .Include(p => p.Pagina)!
+                     .ThenInclude(p => p.Content)!
+                     .Include(p => p.usuarios)!
+                     .ThenInclude(p => p.UserModel)!
+                    .Where(f => f.LivroId == livro.Id && f.StoryId == _story.Id).ToListAsync();
 
 
             if (dominio != repositoryPagina!.buscarDominio() && dominio != "dominio")
@@ -420,7 +431,7 @@ namespace BlazorCms.Client.Pages
         {
             if (outroHorizonte == 0 && Filtro != null && rota == null)
             {
-                Filtro Fil = story!.Filtro!.First(f => f.Id == Filtro);
+                Filtro Fil = listaFiltro.First(f => f.Id == Filtro);
                 
                 indice_Filtro = listaFiltro.OrderBy(f => f.Id).ToList().IndexOf(Fil) + 1;
                 Model2 = Fil;
@@ -560,25 +571,25 @@ namespace BlazorCms.Client.Pages
            
             if ( fils[0] is not null && fils[1] is not null &&
                     fils[2] is not null && fils[3] is not null && fils[4] is not null &&
-                     fils[5] is not null)
+                     fils[5] is not null && fils[6] is not null && fils[7] is not null &&
+                     fils[8] is not null && fils[9] is not null)
             {
                 time = Context.Time
                .Include(t => t.usuarios)
                .ThenInclude(t => t.UserModel)
                .FirstOrDefault(t =>
                t.usuarios
-               .FirstOrDefault(u => fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-               t.usuarios
-               .FirstOrDefault(u => fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-               t.usuarios
-               .FirstOrDefault(u => fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-               t.usuarios
-               .FirstOrDefault(u => fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-               t.usuarios
-               .FirstOrDefault(u => fils[4].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null &&
-               t.usuarios
-               .FirstOrDefault(u => fils[5].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
-
+               .FirstOrDefault(u => 
+               fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[4].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[5].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[6].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[7].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[8].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
+               fils[9].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
             }
 
 

@@ -100,15 +100,7 @@ namespace business.Group
         public virtual List<Content>? Pagina 
         {
             get { return pagina.OrderBy(c => c.Id).ToList();  }
-            set 
-            {
-                if(
-                    value.Where(c => c is Pagina && this is PatternStory).ToList().Count < 99999 ||
-                      value.Where(c => c is Pagina && this is SmallStory).ToList().Count < 9999 ||
-                      value.Where(c => c is Pagina && this is ShortStory).ToList().Count < 999)
-
-                pagina = value;
-            }
+            set { pagina = value; }
         }
         public int PaginaPadraoLink
         {

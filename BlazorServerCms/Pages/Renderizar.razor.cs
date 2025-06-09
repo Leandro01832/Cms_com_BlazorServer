@@ -95,7 +95,8 @@ namespace BlazorCms.Client.Pages
                 else if (args.Key == "Enter")
                 {
                     storyid = RepositoryPagina.stories.First().Id;
-                    indice = RepositoryPagina.stories.IndexOf(story);         
+                    var str = RepositoryPagina.stories.First(st => st.Id == _story.Id);
+                    indice = RepositoryPagina.stories.IndexOf(str);         
                 }
                 automatico = false;
                 acessar();
@@ -307,8 +308,10 @@ namespace BlazorCms.Client.Pages
 
         protected void listarPastas()
         {
-
-            acessar($"/listar-pasta/{storyid}/{dominio}/{Model2.Id}");
+            if(livro != null)
+            acessar($"/listar-pasta/{_story.PaginaPadraoLink}/{livro.Id}");
+            else
+            acessar($"/listar-pasta/{_story.PaginaPadraoLink}");
         }
 
         protected void acessarHorizontePastas(int? i)
@@ -621,55 +624,14 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     opcional = vers.ToString();
-                }
-                if (compartilhou == "comp")                    
-                    fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
-            else
-            {
-                var usu = Context.Users
-                    .Include(u => u.Pastas)!
-                    .ThenInclude(u => u.Filtro)!
-                    .FirstOrDefault(u => u.UserName == compartilhou);
-                    if(usu.Pastas != null && usu.Pastas.Count > 0)
-                    fils = usu.Pastas.Select(p => p.Filtro).ToList();
-                    else
-                    fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
-
-            }
-
-            // 1º time
-                           
+                }  
+                
+                fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();                                               
                 fi = fils.Where(f =>   f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is CamadaSete).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is CamadaSeis).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubSubGrupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubGrupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is Grupo).LastOrDefault()!;
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null &&
-                f is SubStory).LastOrDefault()!;                
-            
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;           
            
             if (fi == null)
             {
-                if(fi is null && compartilhou != "comp")
-                await js!.InvokeAsync<object>("DarAlert",
-                    $"A pasta do usuario {compartilhou} não pussui este verso!!!");
-                  else
                 await js!.InvokeAsync<object>("DarAlert", "Marque um versiculo que esta em uma pasta!!!");
             }
             else
@@ -678,7 +640,6 @@ namespace BlazorCms.Client.Pages
                 indice = 0;
                 acessar();            
             }
-
         }
 
         private int CountLikes()
@@ -696,8 +657,8 @@ namespace BlazorCms.Client.Pages
 
         private int QuantFiltros()
         {
-            if (story == null)
-                story = RepositoryPagina.stories!
+            if (_story == null)
+                _story = RepositoryPagina.stories!
                .First(p => p.Id == Model!.StoryId);
 
             return listaFiltro.Count;
@@ -821,7 +782,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarCapitulos()
         {
             if(compartilhou != "comp")
-                acessar($"/{compartilhou}/{story.PaginaPadraoLink}");
+                acessar($"/{compartilhou}/{_story.PaginaPadraoLink}");
             else 
             {
                 if (livro == null)

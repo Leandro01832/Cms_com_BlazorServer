@@ -62,19 +62,11 @@
         <label>Nome:</label>
         <InputText id="Nome" @bind-Value="exampleModel.Nome" />
     </p>
-    <p>
-        <label>Story:</label>
-        <select @bind="exampleModel.StoryId">
-            @foreach (var item in lista)
-            {
-                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
-            }
-        </select>
-    </p>
+    
     <p>
         <label>Sub-Story:</label>
         <select @bind="SubStoryId">
-            @foreach (var item in SubStory!.Where(sub => sub.StoryId == StoryId && sub.LivroId == exampleModel.LivroId))
+            @foreach (var item in SubStory!.Where(sub =>  sub.LivroId == exampleModel.LivroId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }

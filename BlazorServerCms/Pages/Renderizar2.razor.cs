@@ -30,7 +30,7 @@ namespace BlazorCms.Client.Pages
         private int? auto = 0;
         private int quantDiv = 0;
         private int? indiceMarcador;
-        private Story story = null;
+        private Story _story = null;
         private Livro? livro = null;
         private string? title = null;
         private string? resumo = null;

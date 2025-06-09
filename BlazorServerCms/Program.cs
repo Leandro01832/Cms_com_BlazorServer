@@ -105,12 +105,20 @@ using (var scope = app.Services.CreateScope())
     var password         = builder.Configuration.GetConnectionString("Senha");
     var userASP          = await userManager.FindByNameAsync(email);
 
+    var lista = await repositoryPagina.buscarPatternStory();
+
     if (await contexto!.Set<Story>().AnyAsync())
     {
         List<Story> stories = await contexto.Story!
         .OrderBy(st => st.Id)
         .ToListAsync();
         RepositoryPagina.stories.AddRange(stories);
+    }
+    else 
+    {
+        foreach (var item in lista!)
+            contexto.Add(item);
+        contexto.SaveChanges();
     }
 
     if(await contexto!.Set<Content>().AnyAsync())
