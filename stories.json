@@ -8,179 +8,165 @@
 	{
 		"Nome": "seres vivos",
 		"PaginaPadraoLink": 1,
-		"Image": "",
-		"Descricao": ""
+		"Image": "seres-vivos.jpg",
+		"Descricao": "Esta história conta sobre todos os seres vivos do planeta terra"
 	},
 	{
 		"Nome": "comentários",
 		"PaginaPadraoLink": 2,
-		"Image": "",
-		"Descricao": ""
+		"Image": "comentario.png",
+		"Descricao": "Esta história conta e classifica todos os comentarios"
 	},
 	{
 		"Nome": "moda",
 		"PaginaPadraoLink": 3,
-		"Image": "",
-		"Descricao": ""
+		"Image": "moda.jpg",
+		"Descricao": "Esta história conta sobre roupas, chapeus, bones, calçados, e todos os outros produtos relacionados desde a matéria prima até o produto final."
 	},
 	{
 		"Nome": "veiculos",
 		"PaginaPadraoLink": 4,
-		"Image": "",
-		"Descricao": ""
+		"Image": "veiculo.jpg",
+		"Descricao": "Esta história conta sobre produtos desde a sua matéria-prima até o produto final (veiculos)."
 	},
 	{
 		"Nome": "materiais de construção",
 		"PaginaPadraoLink": 5,
-		"Image": "",
-		"Descricao": ""
+		"Image": "Material.png",
+		"Descricao": "Esta história conta sobre todos os produtos relacionados a materiais de construção desde a matéria-prima até seu produto final."
 	},
 	{
 		"Nome": "alimentos e bebidas",
 		"PaginaPadraoLink": 6,
-		"Image": "",
-		"Descricao": ""
+		"Image": "alimentos.jpg",
+		"Descricao": "Esta história conta sobre todos os produtos relacionados a alimentos e bebidas."
 	},
 	{
 		"Nome": "entretenimento",
 		"PaginaPadraoLink": 7,
-		"Image": "",
-		"Descricao": ""
+		"Image": "entretenimento.jpg",
+		"Descricao": "Esta história conta sobre todos os produtos relacionados ao entretenimento. Para descobrir todos os segmentos acesse a camada 2."
 	},
 	{
 		"Nome": "materiais de higiene",
 		"PaginaPadraoLink": 8,
-		"Image": "",
-		"Descricao": ""
+		"Image": "materiais-de-limpeza.png",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "eletrodomesticos e eletronicos",
 		"PaginaPadraoLink": 9,
-		"Image": "",
-		"Descricao": ""
+		"Image": "eletrodomesticos.jpg",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "cosméticos",
 		"PaginaPadraoLink": 10,
-		"Image": "",
-		"Descricao": ""
+		"Image": "cosmeticos.jpg",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "tecnologia",
 		"PaginaPadraoLink": 11,
-		"Image": "",
-		"Descricao": ""
-	},
-	{
-		"Nome": "turismo",
-		"PaginaPadraoLink": 12,
-		"Image": "",
-		"Descricao": ""
+		"Image": "tecnologia.jpg",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "móveis",
-		"PaginaPadraoLink": 13,
-		"Image": "",
-		"Descricao": ""
+		"PaginaPadraoLink": 12,
+		"Image": "moveis.jpeg",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "saúde e bem-star",
-		"PaginaPadraoLink": 14,
-		"Image": "",
-		"Descricao": ""
+		"PaginaPadraoLink": 13,
+		"Image": "saude.jpg",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "ímóveis",
-		"PaginaPadraoLink": 15,
-		"Image": "",
-		"Descricao": ""
+		"PaginaPadraoLink": 14,
+		"Image": "imoveis.jpg",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "estudos",
-		"PaginaPadraoLink": 16,
-		"Image": "",
-		"Descricao": ""
+		"PaginaPadraoLink": 15,
+		"Image": "estudos.png",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "profissionais",
-		"PaginaPadraoLink": 17,
-		"Image": "",
-		"Descricao": ""
+		"PaginaPadraoLink": 16,
+		"Image": "profissionais.jpg",
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "informática",
-		"PaginaPadraoLink": 18,
+		"PaginaPadraoLink": 17,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "papelaria",
-		"PaginaPadraoLink": 19,
+		"PaginaPadraoLink": 18,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "info-produtos",
-		"PaginaPadraoLink": 20,
+		"PaginaPadraoLink": 19,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "blog",
-		"PaginaPadraoLink": 21,
+		"PaginaPadraoLink": 20,
 		"Image": "",
-		"Descricao": ""
-	},
-	{
-		"Nome": "saúde e bem-star",
-		"PaginaPadraoLink": 22,
-		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "livraria",
-		"PaginaPadraoLink": 23,
+		"PaginaPadraoLink": 21,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "Inteligencia Artificial",
-		"PaginaPadraoLink": 24,
+		"PaginaPadraoLink": 22,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "notícias",
-		"PaginaPadraoLink": 25,
+		"PaginaPadraoLink": 23,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "agronegócios",
-		"PaginaPadraoLink": 26,
+		"PaginaPadraoLink": 24,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "empresas",
-		"PaginaPadraoLink": 27,
+		"PaginaPadraoLink": 25,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "casa completa",
-		"PaginaPadraoLink": 28,
+		"PaginaPadraoLink": 26,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	},
 	{
 		"Nome": "filtros",
-		"PaginaPadraoLink": 29,
+		"PaginaPadraoLink": 27,
 		"Image": "",
-		"Descricao": ""
+		"Descricao": "Esta história conta..."
 	}
 ]
-
-
 
 
