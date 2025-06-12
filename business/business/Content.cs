@@ -33,7 +33,7 @@ namespace business.business
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
 
-        public Int64? LivroId { get; set; }
+        public Int64? LivroId { get; set; } = null;
         public virtual Livro? Livro { get; set; }
 
         public virtual List<FiltroContent>? Filtro { get; set; }
