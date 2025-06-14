@@ -179,112 +179,121 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
 </div>
 
-@if (stories.Count > 39)
-{
-    @*  <div class="carousel-item">
+
+@*  <div class="carousel-item">
             </div> *@
-    <div class="stories">
+<div class="stories">
 
-        <div id="carouselIndicators" bs-pause="false">
+    <div id="carouselIndicators" bs-pause="false">
 
-            <div class="carousel-inner">
+        <div class="carousel-inner">
 
-                @if (usermodel != null)
-                    @for (var i = 0; i < array.Length; i++)
+            @if (usermodel != null)
+                @for (var i = 0; i < array.Length; i++)
+                {
+
+
+                    @if (i == 0 && i < array.Length)
                     {
-                        @if (i == 0 && i < array.Length)
-                        {
 
-                            <div class="carousel-item ativo">
+                        <div class="carousel-item ativo">
 
-                                @for (var j = 0; j < array[i].Count; j++)
-                                {
-                                    var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == array[i][j].PaginaPadraoLink);
-
+                            @for (var j = 0; j < array[i].Count; j++)
+                            {
+                                var str = array[i][j];
+                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.PaginaPadraoLink);
 
 
-                                    <div class="story" title="@array[i][j].Descricao" onmouseout="@limpar">
-                                        <h6>
-                                            <a onclick="@(() => navegar(strBook, array[i][j]))">
-                                                <div class="desc">
-                                                    <p>Story</p>
-                                                    <p> @array[i][j].Nome</p>
+
+                                <div class="story" title="@array[i][j].Descricao" onmouseout="@limpar">
+                                    <h6>
+
+
+                                        <a onclick="@(() => navegar(strBook, str))">
+                                            <div class="desc">
+                                                <p>Story</p>
+                                                <p> @array[i][j].Nome</p>
+                                            </div>
+                                            <div class="circulo">
+                                                <div class="circulo2">
+                                                    @if (array[i][j].Image != null)
+                                                    {
+                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
+
+                                                    }
                                                 </div>
-                                                <div class="circulo">
-                                                    <div class="circulo2">
-                                                        @if (array[i][j].Image != null)
-                                                        {
-                                                            <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
+                                            </div>
+                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
+                                        </a>
 
-                                                        }
-                                                    </div>
+
+                                    </h6>
+                                </div>
+
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item">
+
+                            @for (var j = 0; j < array[i].Count; j++)
+                            {
+                                var str = array[i][j];
+
+                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.PaginaPadraoLink);
+
+
+                                <div class="story" title="@array[i][j].Descricao">
+                                    <h6>
+                                        <a onclick="@(() => navegar(strBook, str))">
+                                            <div class="desc">
+                                                <p>Story</p>
+                                                <p> @array[i][j].Nome</p>
+                                            </div>
+                                            <div class="circulo">
+                                                <div class="circulo2">
+                                                    @if (array[i][j].Image != null)
+                                                    {
+                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
+
+                                                    }
                                                 </div>
-                                                <p> Cap. @array[i][j].PaginaPadraoLink</p>
-                                            </a>
-                                        </h6>
-                                    </div>
+                                            </div>
+                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
+                                        </a>
+                                    </h6>
+                                </div>
 
-                                }
+                            }
 
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="carousel-item">
-
-                                @for (var j = 0; j < array[i].Count; j++)
-                                {
-                                    var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == array[i][j].PaginaPadraoLink);
-
-
-                                    <div class="story" title="@array[i][j].Descricao">
-                                        <h6>
-                                            <a onclick="@(() => navegar(strBook, array[i][j]))">
-                                                <div class="desc">
-                                                    <p>Story</p>
-                                                    <p> @array[i][j].Nome</p>
-                                                </div>
-                                                <div class="circulo">
-                                                    <div class="circulo2">
-                                                        @if (array[i][j].Image != null)
-                                                        {
-                                                            <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
-
-                                                        }
-                                                    </div>
-                                                </div>
-                                                <p> Cap. @array[i][j].PaginaPadraoLink</p>
-                                            </a>
-                                        </h6>
-                                    </div>
-
-                                }
-
-                            </div>
-                        }
-
-
+                        </div>
                     }
 
-            </div>
-        </div>
 
-        <div class="botoes">
-            <a class="prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </a>
-            <a class="prox btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </a>
+                }
 
         </div>
     </div>
 
-}
+    <div class="botoes">
+        <a class="prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="prox btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
+
+    </div>
+</div>
+
+
 
 <p>@descricao</p>
+<span title="teste de title no span" >leandro</span>
 
 <div class="listas" role="tablist">
     <a aria-selected="true" class="" href="/@user/" role="tab" tabindex="0">
@@ -454,10 +463,20 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         usermodel = await Context.Users!
         .Include(u => u.Livro)!
         .ThenInclude(u => u.Livro)!
+        .ThenInclude(u => u.Filtro)!
         .Include(u => u.Pastas)!
         .Include(u => u.PastaSalvas)!
         .ThenInclude(u => u.PastaSalva)!
         .FirstOrDefaultAsync(u => u.UserName == user);
+
+        // var livro1 = await Context.Livro.FirstAsync();
+
+        // if (usermodel!.Livro.FirstOrDefault(l => l.Livro.Id == livro1.Id) == null) 
+        // {
+        //     Context.Add(new UserModelLivro { UserModelId = usermodel.Id, LivroId = livro1.Id });
+        //     Context.SaveChanges();
+        // }       
+
 
         if (usermodel.Compartilhar == null)
         {
@@ -467,6 +486,8 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         }
         else
         {
+            exibirChave(usermodel.Compartilhar);
+
             markup = new MarkupString(usermodel.Compartilhar);
             confirmar = "Excluir";
             pensamento = "pensar";
@@ -498,6 +519,9 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
             confirmar = "Excluir";
             pensamento = "pensar";
             title = "Excluir pensamento";
+
+            exibirChave(usermodel.Compartilhar);
+
             markup = new MarkupString(usermodel.Compartilhar);
             await js!.InvokeAsync<object>("DarAlert", "Compartilhamento feito com sucesso!!!");
         }
@@ -523,6 +547,17 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         int versiculo = 1;
         int carregando = 40;
         Filtro? fil = null;
+
+        if(livro == null && str.PaginaPadraoLink == 1)
+        {
+            livro = new UserModelLivro
+                {
+                    Livro = await Context.Livro!.FirstAsync(),
+                    UserModel = usermodel
+                };
+        }
+
+
         if (livro != null)
         {
             string prompted = await js.InvokeAsync<string>("prompt", "Informe os versiculos para marcar.");
@@ -575,10 +610,10 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                             fil = filtros.Where(f => f.Pagina
                             .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
 
-                            if(fil != null)
-                        url = $"/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
+                        if(fil != null)
+                            url = $"/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
                         if(url != null)
-                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                            await js!.InvokeAsync<object>("AcessarSites", $"{url}");
                         url = null;
                     }
 
@@ -618,7 +653,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
                 if (fil != null)
                     url = $"/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(url != null)
+                if(url != null)
                     navigation.NavigateTo(url);
             }
         }
@@ -633,6 +668,77 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
     {
         Pagina p = (Pagina)c;
         return p.Versiculo;
+    }
+
+    private async void exibirChave(string text)
+    {
+        string texto = text;
+        string padrao = @"\(([^)]*)\)"; // Entre parenteses
+        Match match = Regex.Match(texto, padrao);
+
+        if (match.Success)
+        {
+            var livros = usermodel.Livro;
+            if (livros.FirstOrDefault(l => l.Livro.StandardChapter == 1) == null)
+            {
+                livros.Add(new UserModelLivro
+                    {
+                        UserModel = usermodel,
+                        Livro = await Context.Livro!.Include(l => l.Filtro).FirstAsync() // Instagleo
+                    });
+            }
+            List<Filtro> lista = new List<Filtro>();
+            foreach (var livro in livros)
+                lista.AddRange(livro.Livro.Filtro);
+
+            Console.WriteLine(match.Groups[1].Value);
+
+            if (match.Groups[1].Value.Contains(','))
+            {
+                var arr = match.Groups[1].Value.Split(',');
+                foreach (var item in arr)
+                {
+                    if (lista.FirstOrDefault(f => f.Nome.ToLower().Contains(item.ToLower())) != null)
+                    {
+                        if (lista.FirstOrDefault(f => f.Nome.ToLower().Contains(item.ToLower())) != null)
+                        {
+                            var fi = lista.FirstOrDefault(f => f.Nome.ToLower().Contains(item.ToLower()));
+                            var fil = Context.Filtro!
+                            .Include(f => f.Livro)!
+                            .Include(f => f.Pagina)!
+                            .ThenInclude(f => f.Content)
+                            .First(f => f.Id == fi.Id);
+                            var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
+                            if(ch != null)
+                            {
+                                Chave chave = (Chave)ch!.Content!;
+                                usermodel.Compartilhar = usermodel.Compartilhar.Replace(item, $"<span title='capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + item + $" - {chave.Versiculo}</span>");
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var value = match.Groups[1].Value;
+                if(lista.FirstOrDefault(f => f.Nome.ToLower().Contains(value.ToLower())) != null)
+                {
+                    var fi = lista.FirstOrDefault(f => f.Nome.ToLower().Contains(value.ToLower()));
+                    var fil = Context.Filtro!
+                            .Include(f => f.Livro)!
+                            .Include(f => f.Pagina)!
+                            .ThenInclude(f => f.Content)
+                            .First(f => f.Id == fi!.Id);
+                        var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
+                        if(ch != null)
+                        {
+                            Chave chave = (Chave)ch!.Content!;
+                            usermodel.Compartilhar = usermodel.Compartilhar.Replace(value, $"<span title='capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + $" - {chave.Versiculo}</span>");
+                        }
+                }
+            }
+
+        }
     }
 
 }

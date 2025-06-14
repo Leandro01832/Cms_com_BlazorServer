@@ -162,9 +162,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
             .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-             p.Content!.Id == fc.Content!.Id) == null);
+             p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null && sub != null)
+            if (fc != null && sub == null)
                 return fc.Content!;
             else return null;
         }
@@ -188,9 +188,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
            .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-            p.Content!.Id == fc.Content!.Id) == null);
+            p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null && sub != null)
+            if (fc != null && sub == null)
                 return fc.Content!;
             else return null;
         }
@@ -214,9 +214,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
             .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-             p.Content!.Id == fc.Content!.Id) == null);
+             p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null &&  sub != null)
+            if (fc != null &&  sub == null)
                 return fc.Content!;
             else return null;
         }
@@ -239,9 +239,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
             .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-             p.Content!.Id == fc.Content!.Id) == null);
+             p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null && sub != null)
+            if (fc != null && sub == null)
                 return fc.Content!;
             else return null;
         }
@@ -265,9 +265,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
             .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-             p.Content!.Id == fc.Content!.Id) == null);
+             p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null && sub != null)
+            if (fc != null && sub == null)
                 return fc.Content!;
             else return null;
         }
@@ -291,9 +291,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
            .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-            p.Content!.Id == fc.Content!.Id) == null);
+            p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null && sub != null)
+            if (fc != null && sub == null)
                 return fc.Content!;
             else return null;
         }
@@ -317,9 +317,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
             .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-             p.Content!.Id == fc.Content!.Id) == null);
+             p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null && sub != null)
+            if (fc != null && sub == null)
                 return fc.Content!;
             else return null;
         }
@@ -343,9 +343,9 @@ else
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
             .FirstOrDefault(p => p.Pagina!.FirstOrDefault(p => fc != null && p.Content is Chave &&
-             p.Content!.Id == fc.Content!.Id) == null);
+             p.Content!.Id == fc.Content!.Id) != null);
 
-            if (fc != null && sub != null)
+            if (fc != null && sub == null)
                 return fc.Content!;
             else return null;
         }
