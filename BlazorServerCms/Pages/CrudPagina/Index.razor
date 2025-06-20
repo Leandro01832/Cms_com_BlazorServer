@@ -28,7 +28,7 @@ else
         {
             <tr>
                 <td>@camada.Titulo</td>
-                <td>@camada.Story!.PaginaPadraoLink</td>
+                <td>@camada.Story!.Capitulo</td>
                 <td>@camada.Versiculo</td>
                 <td><a class="btn btn-primary" href="pagina/edit/@camada.Id">Editar</a> </td>
                 <td><a class="btn btn-danger" @onclick="(()=> DeletarCamada(camada.Id))">Deletar</a> </td>
@@ -75,7 +75,7 @@ else
     {
         var pagina = await Context.Pagina!.Include(s => s.Story).FirstAsync(l => l.Id == Id);
         var list = Context.Pagina!
-                .Where(p => p.Story!.PaginaPadraoLink == pagina.Story!.PaginaPadraoLink).OrderBy(f => f.Id).ToList();
+                .Where(p => p.Story!.Capitulo == pagina.Story!.Capitulo).OrderBy(f => f.Id).ToList();
         var pag = list.First(l => l.Id == pagina.Id);
         var vers = list.IndexOf(pag) + 1;
         

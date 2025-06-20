@@ -160,7 +160,7 @@ else
                     {
                         <td>  Instagleo </td>                        
                     }
-                    <td>Capitulo @item.Story!.PaginaPadraoLink </td>
+                    <td>Capitulo @item.Story!.Capitulo </td>
                     <td>Pasta @item.Nome </td>
 
                     <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
@@ -328,7 +328,7 @@ else
                 padrao = lista.FirstOrDefault(i => i.Nome.Replace(" ", "").Contains(subdominio))!;
             }
 
-            if (padrao != null) repositoryPagina.CapituloLivro = padrao.PaginaPadraoLink;
+            if (padrao != null) repositoryPagina.CapituloLivro = padrao.Capitulo;
         }
         catch(Exception ex){
 
@@ -363,7 +363,7 @@ else
         if (_story == null)
         {
             _story = await Context.Story!
-                     .FirstOrDefaultAsync(p => p.PaginaPadraoLink == repositoryPagina.CapituloLivro)!;
+                     .FirstOrDefaultAsync(p => p.Capitulo == repositoryPagina.CapituloLivro)!;
         }
 
            
@@ -375,7 +375,7 @@ else
              .Include(f => f.usuarios)
              .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == livro.Id)
              .ToListAsync();
-            var str = RepositoryPagina.stories.FirstOrDefault(st => st.PaginaPadraoLink == capitulo);
+            var str = RepositoryPagina.stories.FirstOrDefault(st => st.Capitulo == capitulo);
             if(str != null)
                 navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/{indice}/0/11/1/0/dominio/comp");
         }
@@ -503,7 +503,7 @@ else
             try
             {
                 cap = int.Parse(Query!);
-                var str = RepositoryPagina.stories.First(st => st.PaginaPadraoLink == cap);
+                var str = RepositoryPagina.stories.First(st => st.Capitulo == cap);
                 if(livro == null)
                     navigation.NavigateTo($"/renderizar/{str.Id}/1/0/11/0/0/dominio/comp");
                 else

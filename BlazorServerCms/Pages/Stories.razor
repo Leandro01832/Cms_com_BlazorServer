@@ -28,18 +28,19 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
     }
 </Modal>
 
-<div class="container">
+<div class="container" id="container" >
 
     <div class="item dobrar">
 
 
         <div class="img">
             <div class="imagem">
-                @if (usermodel != null && usermodel.Compartilhar != null)
+                @if (usermodel != null && usermodel.Compartilhar != null )
                 {
                     <div class="pensar2">
                         <div class="markup">
-                            <a @onclick="() => showModal = true"> @markup </a>
+                            <a @onclick="() => showModal = usuario != null && usuario.Identity!.IsAuthenticated
+                                && usuario.Identity!.Name == usermodel.UserName"> @markup </a>
 
                         </div>
 
@@ -180,8 +181,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 </div>
 
 
-@*  <div class="carousel-item">
-            </div> *@
+
 <div class="stories">
 
     <div id="carouselIndicators" bs-pause="false">
@@ -201,11 +201,11 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                             @for (var j = 0; j < array[i].Count; j++)
                             {
                                 var str = array[i][j];
-                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.PaginaPadraoLink);
+                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.Capitulo);
 
 
 
-                                <div class="story" title="@array[i][j].Descricao" onmouseout="@limpar">
+                                <div class="story" title="@array[i][j].Descricao" onmouseout="@limpar"  >
                                     <h6>
 
 
@@ -218,12 +218,12 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                                                 <div class="circulo2">
                                                     @if (array[i][j].Image != null)
                                                     {
-                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
+                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)" class="ImgStory">
 
                                                     }
                                                 </div>
                                             </div>
-                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
+                                            <p> Cap. @array[i][j].Capitulo</p>
                                         </a>
 
 
@@ -242,7 +242,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                             {
                                 var str = array[i][j];
 
-                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.PaginaPadraoLink);
+                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.Capitulo);
 
 
                                 <div class="story" title="@array[i][j].Descricao">
@@ -256,12 +256,12 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                                                 <div class="circulo2">
                                                     @if (array[i][j].Image != null)
                                                     {
-                                                        <img src="ImgStory/cap.@(array[i][j].PaginaPadraoLink).@(array[i][j].Image)" class="ImgStory">
+                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)" class="ImgStory">
 
                                                     }
                                                 </div>
                                             </div>
-                                            <p> Cap. @array[i][j].PaginaPadraoLink</p>
+                                            <p> Cap. @array[i][j].Capitulo</p>
                                         </a>
                                     </h6>
                                 </div>
@@ -293,7 +293,6 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
 
 <p>@descricao</p>
-<span title="teste de title no span" >leandro</span>
 
 <div class="listas" role="tablist">
     <a aria-selected="true" class="" href="/@user/" role="tab" tabindex="0">
@@ -432,8 +431,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
     protected override void OnParametersSet()
     {
         if (capitulo != null)
-            descricao = RepositoryPagina.stories.First(str => str.PaginaPadraoLink == capitulo).Descricao!;
-
+            descricao = RepositoryPagina.stories.First(str => str.Capitulo == capitulo).Descricao!;
     }
 
     protected override async Task OnInitializedAsync()
@@ -507,6 +505,8 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         descricao = "";
     }
 
+   
+
     private async void compartilhar()
     {
         //  string? value = await js.InvokeAsync<string>("retornarTextArea", "contentextarea");
@@ -548,7 +548,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         int carregando = 40;
         Filtro? fil = null;
 
-        if(livro == null && str.PaginaPadraoLink == 1)
+        if(livro == null && str.Capitulo == 1)
         {
             livro = new UserModelLivro
                 {
@@ -659,7 +659,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         }
         else
         {
-            url = $"/{user}/{str.PaginaPadraoLink}";
+            url = $"/{user}/{str.Capitulo}";
             navigation.NavigateTo(url);
         }            
     }
@@ -698,11 +698,10 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                 var arr = match.Groups[1].Value.Split(',');
                 foreach (var item in arr)
                 {
-                    if (lista.FirstOrDefault(f => f.Nome.ToLower().Contains(item.ToLower())) != null)
+                    if (lista.FirstOrDefault(f => item.ToLower().Contains(f.Nome!.ToLower())) != null)
                     {
-                        if (lista.FirstOrDefault(f => f.Nome.ToLower().Contains(item.ToLower())) != null)
-                        {
-                            var fi = lista.FirstOrDefault(f => f.Nome.ToLower().Contains(item.ToLower()));
+                       
+                            var fi = lista.FirstOrDefault(f => item.ToLower().Contains(f.Nome.ToLower()));
                             var fil = Context.Filtro!
                             .Include(f => f.Livro)!
                             .Include(f => f.Pagina)!
@@ -712,18 +711,18 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                             if(ch != null)
                             {
                                 Chave chave = (Chave)ch!.Content!;
-                                usermodel.Compartilhar = usermodel.Compartilhar.Replace(item, $"<span title='capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + item + $" - {chave.Versiculo}</span>");
+                            usermodel.Compartilhar = usermodel.Compartilhar!.Replace(item, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + item + $" - {chave.Versiculo}</span>");
                             }
-                        }
+                        
                     }
                 }
             }
             else
             {
                 var value = match.Groups[1].Value;
-                if(lista.FirstOrDefault(f => f.Nome.ToLower().Contains(value.ToLower())) != null)
+                if(lista.FirstOrDefault(f => value.ToLower().Contains(f.Nome!.ToLower())) != null)
                 {
-                    var fi = lista.FirstOrDefault(f => f.Nome.ToLower().Contains(value.ToLower()));
+                    var fi = lista.FirstOrDefault(f => value.ToLower().Contains(f.Nome!.ToLower()));
                     var fil = Context.Filtro!
                             .Include(f => f.Livro)!
                             .Include(f => f.Pagina)!
@@ -733,11 +732,10 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                         if(ch != null)
                         {
                             Chave chave = (Chave)ch!.Content!;
-                            usermodel.Compartilhar = usermodel.Compartilhar.Replace(value, $"<span title='capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + $" - {chave.Versiculo}</span>");
+                        usermodel.Compartilhar = usermodel.Compartilhar!.Replace(value, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + $" - {chave.Versiculo}</span>");
                         }
                 }
             }
-
         }
     }
 

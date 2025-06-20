@@ -1,5 +1,29 @@
 ﻿var porcentagem = 0;
 var funcaoCarregarPagina2 = null;
+var teste = 1;
+
+document.addEventListener('touchstart', function (event) {
+
+    const container = document.getElementById('container');
+
+    // Delegação de evento
+    container.addEventListener('touchstart', function (event) {
+        if (event.target.classList.contains('toolip')) {
+            if (teste == 1) {
+                const elementos = document.querySelectorAll('span[title]');
+
+                elementos.forEach((el, index) => {
+                    el.addEventListener("touchstart", () => {
+                        alert(el.getAttribute('title'));
+                    });
+                });
+                teste = 2;
+            }
+        }
+    });
+});
+
+
 
 function codificarUri(uri) {
     return btoa(uri);
@@ -287,3 +311,4 @@ window.retornarTextArea = (textArea) =>
 {
     return document.getElementById(textArea).value;
 }
+

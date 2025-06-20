@@ -89,7 +89,7 @@ namespace BlazorCms.Client.Pages
                 if (args.Key == "Enter" && cap == 0)
                 {
                     storyid = RepositoryPagina.stories!
-                    .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
+                    .OrderBy(str => str.Capitulo).Skip(1).ToList()[indice - 1].Id;
                     indice = 1;               
                 }
                 else if (args.Key == "Enter")
@@ -309,9 +309,9 @@ namespace BlazorCms.Client.Pages
         protected void listarPastas()
         {
             if(livro != null)
-            acessar($"/listar-pasta/{_story.PaginaPadraoLink}/{livro.Id}");
+            acessar($"/listar-pasta/{_story.Capitulo}/{livro.Id}");
             else
-            acessar($"/listar-pasta/{_story.PaginaPadraoLink}");
+            acessar($"/listar-pasta/{_story.Capitulo}");
         }
 
         protected void acessarHorizontePastas(int? i)
@@ -474,7 +474,7 @@ namespace BlazorCms.Client.Pages
             {
                 cap++;
                  storyid = RepositoryPagina.stories
-                 .First(str => str.PaginaPadraoLink == cap).Id;
+                 .First(str => str.Capitulo == cap).Id;
                 indice = 1;
                 acessar();
             }              
@@ -533,7 +533,7 @@ namespace BlazorCms.Client.Pages
                 {
                     cap--;
                     storyid = RepositoryPagina.stories
-                    .First(str => str.PaginaPadraoLink == cap).Id;
+                    .First(str => str.Capitulo == cap).Id;
                 }
 
             }
@@ -782,7 +782,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarCapitulos()
         {
             if(compartilhou != "comp")
-                acessar($"/{compartilhou}/{_story.PaginaPadraoLink}");
+                acessar($"/{compartilhou}/{_story.Capitulo}");
             else 
             {
                 if (livro == null)
@@ -804,7 +804,7 @@ namespace BlazorCms.Client.Pages
         {
             outroHorizonte = 0;
             storyid = RepositoryPagina.stories!
-                .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[indice - 1].Id;
+                .OrderBy(str => str.Capitulo).Skip(1).ToList()[indice - 1].Id;
             automatico = false;
             indice = 1;
 

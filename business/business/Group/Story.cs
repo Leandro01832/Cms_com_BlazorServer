@@ -47,7 +47,7 @@ namespace business.Group
         public Story(string nome, List<Story> stories, Story padrao)
         {
 
-            PaginaPadraoLink = stories.Count;
+            Capitulo = stories.Count;
             Nome = nome;
             Content[] pages = null;
             if (this is PatternStory) pages = new Content[99999];
@@ -102,7 +102,7 @@ namespace business.Group
             get { return pagina.OrderBy(c => c.Id).ToList();  }
             set { pagina = value; }
         }
-        public int PaginaPadraoLink
+        public int Capitulo
         {
             get
             {

@@ -42,7 +42,7 @@
         await Context.SaveChangesAsync();
         if (file != null)
         {
-            var path = Path.Combine(Environment.ContentRootPath, "wwwroot", "ImgStory", "cap." + exampleModel.PaginaPadraoLink + "." + file.Name);
+            var path = Path.Combine(Environment.ContentRootPath, "wwwroot", "ImgStory", "cap." + exampleModel.Capitulo + "." + file.Name);
             await using FileStream fs = new(path, FileMode.Create);
             await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
         }

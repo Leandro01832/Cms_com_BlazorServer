@@ -151,7 +151,7 @@
     private async void HandleSubmit()
     {
         var story = await Context.Story!.FirstAsync(str => str.Id == data.StoryId);
-        var cap = story.PaginaPadraoLink;
+        var cap = story.Capitulo;
         Pagina pag = null;
         if (data.Usuario.Contains("@"))
             data.Usuario.Replace("@", "");
@@ -171,7 +171,7 @@
                 if (cap != 0)
                 {
                     pag = await Context!.Pagina!.Include(pa => pa!.Story!)
-                   .FirstOrDefaultAsync(pa => pa!.Html == null && pa!.Produto!.Count == 0 && pa!.Story!.PaginaPadraoLink == cap);
+                   .FirstOrDefaultAsync(pa => pa!.Html == null && pa!.Produto!.Count == 0 && pa!.Story!.Capitulo == cap);
                     if (pag == null)
                         break;
 
@@ -225,7 +225,7 @@
                 teste = true;
 
         if (teste)
-            return $"Existem paginas sem conteudo no capitulo {story.PaginaPadraoLink}";
+            return $"Existem paginas sem conteudo no capitulo {story.Capitulo}";
         else
             return "Story Completo";
     }

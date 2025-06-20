@@ -40,9 +40,9 @@ namespace BlazorCms.Client.Pages
 
         protected override async Task OnParametersSetAsync()
         {
-            if (cap > RepositoryPagina.stories!.Last().PaginaPadraoLink)
+            if (cap > RepositoryPagina.stories!.Last().Capitulo)
                 storyid = RepositoryPagina.stories!
-                .OrderBy(str => str.PaginaPadraoLink).Skip(1).ToList()[0].Id;
+                .OrderBy(str => str.Capitulo).Skip(1).ToList()[0].Id;
 
             await renderizar();
 
@@ -244,7 +244,7 @@ namespace BlazorCms.Client.Pages
             }
 
             
-            cap = RepositoryPagina.stories.First(st => st.Id == storyid).PaginaPadraoLink;
+            cap = RepositoryPagina.stories.First(st => st.Id == storyid).Capitulo;
             nameStory = RepositoryPagina.stories.First(st => st.Id == storyid).Nome;
 
             if(Filtro == null)
@@ -292,7 +292,7 @@ namespace BlazorCms.Client.Pages
                     {
                         var c = RepositoryPagina.Conteudo.First(c => c.Id == pa.ContentId);
                         var s = RepositoryPagina.stories.First(s => s.Id == c.StoryId);
-                        CapituloComentario = s.PaginaPadraoLink;
+                        CapituloComentario = s.Capitulo;
                         VersoComentario = RepositoryPagina.Conteudo
                         .Where(con => con.StoryId == s.Id).OrderBy(con => con.Id)
                         .ToList().IndexOf(c) + 1;

@@ -74,6 +74,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    margin-top: 40px;
 }
 
 .container {
@@ -86,8 +87,7 @@
     height: auto;
     justify-content: flex-start;
    gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .item {
@@ -216,7 +216,7 @@
     z-index: 20;
    
     font-size: 10px;
-    color: red;
+    
     height: auto;
     width: 80%;
     background-image: url('/pensar.png');
@@ -232,14 +232,25 @@
     height: auto;
     width: 80%;
     text-align: right;
+    color: blue;
     /*background-color: rgb(127,127,127, 0.5);*/
 }
+
+
 
 .teste2 {
     position: relative;
     z-index: 1;
     bottom: 30px;
 }
+
+.toolip {
+    font-size:9px;
+    min-height:10px;
+    height:auto;
+}
+
+
 
 @media (max-width: 550px) and (min-width: 50px) {
     .container {

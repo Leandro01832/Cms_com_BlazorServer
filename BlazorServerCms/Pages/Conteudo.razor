@@ -104,7 +104,7 @@ else
         {
 
             capitulo = cap;
-            var story = RepositoryPagina.stories.First(str => str.PaginaPadraoLink == cap);
+            var story = RepositoryPagina.stories.First(str => str.Capitulo == cap);
             content = randomizar( RepositoryPagina.Conteudo.OfType<UserContent>()
             .Where(c => c.StoryId == story.Id &&
             c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))

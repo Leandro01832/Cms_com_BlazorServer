@@ -903,13 +903,13 @@ using (var scope = app.Services.CreateScope())
         Story padrao = null;
         padrao = new PatternStory("Padrao", padrao)
         {
-            PaginaPadraoLink = 0
+            Capitulo = 0
         };
         contexto.Add(padrao);
         contexto.SaveChanges();
         var str = new PatternStory("seres vivos", contexto.Story.Include(s => s.Pagina).OrderBy(s => s.Id).First())
         {
-            PaginaPadraoLink = 1
+            Capitulo = 1
         };
         contexto.Add(str);
         contexto.SaveChanges();
@@ -1534,14 +1534,14 @@ using (var scope = app.Services.CreateScope())
        
         var str2 = new PatternStory("comentários", contexto.Story.Include(s => s.Pagina).OrderBy(s => s.Id).First())
         {
-            PaginaPadraoLink = 2
+            Capitulo = 2
         };
         contexto.Add(str2);
         contexto.SaveChanges();
 
         var str3 = new PatternStory("roupas", contexto.Story.Include(s => s.Pagina).OrderBy(s => s.Id).First())
         {
-            PaginaPadraoLink = 3
+            Capitulo = 3
         };
         contexto.Add(str3);
         contexto.SaveChanges();

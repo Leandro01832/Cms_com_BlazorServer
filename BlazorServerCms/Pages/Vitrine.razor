@@ -40,7 +40,7 @@
                         var largura = item2.Produto!.Imagem!.First().WidthImagem;
                     var identifica = item2.Produto.Id;
                     List<Content> lista = item2.Content.Story!.Pagina!.OrderBy(p => p.Id).ToList();
-                    var Capitulo = paginaItem.Story.PaginaPadraoLink;
+                    var Capitulo = paginaItem.Story.Capitulo;
 
                     var Versiculo = lista.IndexOf(lista.First(l => l.Id == identifica)) + 1;
 
@@ -98,7 +98,7 @@
         .ThenInclude(p => p.Filtro)!
         .ThenInclude(p => p.Pagina)!
         .ThenInclude(p => p.Content)
-        .Where(p => p.Story!.PaginaPadraoLink == capitulo)
+        .Where(p => p.Story!.Capitulo == capitulo)
                    .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
 
 
@@ -110,7 +110,7 @@
     private int retornarCap(Filtro fil)
     {
         return Context.Pagina!.Include(p => p.Story)
-        .First(p => p.StoryId == fil.StoryId).Story!.PaginaPadraoLink;
+        .First(p => p.StoryId == fil.StoryId).Story!.Capitulo;
     }
 
     private int retornarPasta(Filtro fil)
