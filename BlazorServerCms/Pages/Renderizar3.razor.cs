@@ -261,12 +261,12 @@ namespace BlazorCms.Client.Pages
 
             quantidadePaginas =  CountPaginas();
 
-            // if (
-            //     story is PatternStory && quantidadePaginas != 99999 && story.Id != repositoryPagina.stories!.First().Id ||
-            //     story is SmallStory && quantidadePaginas != 9999 && story.Id != repositoryPagina.stories!.First().Id ||
-            //     story is ShortStory && quantidadePaginas != 999 && story.Id != repositoryPagina.stories!.First().Id
-            //     )
-            //     repositoryPagina.erro = true;
+             if (
+                 _story is PatternStory && quantidadePaginas != 99999 && _story.Id != RepositoryPagina.stories!.First().Id ||
+                 _story is SmallStory && quantidadePaginas != 9999 && _story.Id != RepositoryPagina.stories!.First().Id ||
+                 _story is ShortStory && quantidadePaginas != 999 && _story.Id != RepositoryPagina.stories!.First().Id
+                 )
+                 repositoryPagina.erro = true;
 
             
                 condicaoFiltro = CountFiltros();
@@ -343,6 +343,28 @@ namespace BlazorCms.Client.Pages
             {
                 try
                 {
+                    if (Model is Chave && Filtro != null)
+                        Model.Html = $"<p> Seja bem-vindo a sub-story {Model2!.Nome} </p>";
+                    else if (Model is Chave)
+                    {
+                        var verso = retornarVerso(Model);
+                        var fils = listaFiltro
+                        .Where(f => f.Pagina!.FirstOrDefault(p => p.Content is Chave &&
+                        retornarVerso(p.Content) == verso ) != null).ToList();
+
+                        Model.Html = $"<p> O versiculo {verso} é a chave que abre ";
+                        if(fils.Count == 1)
+                        Model.Html = $"a sub-story (pasta): ";
+                        else
+                        Model.Html = $"as sub-stories (pastas): ";
+                        foreach (var item in fils)
+                         Model.Html += item.Nome + ", ";
+
+                        Model.Html += "</p>";
+
+                        Model.Html = Model.Html.Replace(", </p>", "</p>");
+                    }
+
                     html = await repositoryPagina!.renderizarPagina(Model);
                 }
                 catch (Exception ex)

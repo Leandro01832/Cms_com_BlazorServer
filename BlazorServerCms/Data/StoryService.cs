@@ -298,7 +298,8 @@ namespace BlazorServerCms.Data
                             $" FC.FiltroId={filtroId} and C.Discriminator='Pagina' and C.LivroId is null or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId is null or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' and C.LivroId is null or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId is null  "
+                            $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId is null or " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId is null  "
                         , con);
                     else
                         cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
@@ -306,7 +307,8 @@ namespace BlazorServerCms.Data
                             $" FC.FiltroId={filtroId} and C.Discriminator='Pagina' and C.LivroId={livro.Id} or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId={livro.Id} or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' and C.LivroId={livro.Id} or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId={livro.Id}  "
+                            $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId={livro.Id} or  " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId={livro.Id}  "
                         , con);
 
                     con.Open();
@@ -335,13 +337,17 @@ namespace BlazorServerCms.Data
                             $" where P.StoryId={storyId} and P.Discriminator='Pagina' and P.LivroId is null or " +
                             $" P.StoryId={storyId} and P.Discriminator='AdminContent' and P.LivroId is null or " +
                             $" P.StoryId={storyId} and P.Discriminator='ProductContent' and P.LivroId is null or " +
-                            $" P.StoryId={storyId} and P.Discriminator='ChangeContent' and P.LivroId is null  ", con);
+                            $" P.StoryId={storyId} and P.Discriminator='ChangeContent' and P.LivroId is null or " +
+                            $" P.StoryId={storyId} and P.Discriminator='Chave' and P.LivroId is null  "
+                            , con);
                     else
                         cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
                            $" where P.StoryId={storyId} and P.Discriminator='Pagina' and P.LivroId={livro.Id} or " +
                            $" P.StoryId={storyId} and P.Discriminator='AdminContent' and P.LivroId={livro.Id} or " +
                            $" P.StoryId={storyId} and P.Discriminator='ProductContent' and P.LivroId={livro.Id} or " +
-                           $" P.StoryId={storyId} and P.Discriminator='ChangeContent' and P.LivroId={livro.Id}  ", con);
+                           $" P.StoryId={storyId} and P.Discriminator='ChangeContent' and P.LivroId={livro.Id} or " +
+                           $" P.StoryId={storyId} and P.Discriminator='Chave' and P.LivroId={livro.Id}  "
+                           , con);
                     con.Open();
                         _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);
                         con.Close();

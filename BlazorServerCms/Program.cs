@@ -110,7 +110,7 @@ using (var scope = app.Services.CreateScope())
     if (await contexto!.Set<Story>().AnyAsync())
     {
         List<Story> stories = await contexto.Story!
-        .OrderBy(st => st.Id)
+        .OrderBy(st => st.Capitulo)
         .ToListAsync();
         RepositoryPagina.stories.AddRange(stories);
     }
