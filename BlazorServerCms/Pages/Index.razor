@@ -1,6 +1,5 @@
 ﻿@page "/"
 @page "/acesso/{indice}"
-@page "/mensagem/{MensagemSistema}"
 @page "/livro/{nomeLivro}"
 @page "/{nomeLivro}/{capitulo:int}/{indice}"
 @using business.business.Group
@@ -44,24 +43,7 @@ else
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
 
-
-<h3>@Mensagem</h3>
-
-
-
-@if (MensagemSistema != null)
-{
-    <h3>@MensagemSistema</h3>
-}
 <div class="info">
-
-
-
-    <p>
-        <a href="https://api.whatsapp.com/send/?phone=5532999884958" class="btn btn-success" target="_blank">
-            Faça sua assinatura
-        </a>
-    </p>
 
     <p>
         Usuarios inscritos: @users
@@ -142,26 +124,26 @@ else
 @if (filtros!.Count > 0)
 {
     <div style="position:absolute; background-color:aliceblue; width:75%;">
-        <table cellspacing="50" border="5" cellpadding="50" style="width:100%">
+        <table  style="width:100%; border: 6px solid black; border-collapse: collapse; text-align:center;">
             <tr>
-                <th>Livro</th>
-                <th>Capitulo</th>
-                <th>Nome da pasta</th>
-                <th></th>
+                <th style="border: 3px solid black;">Livro</th>
+                <th style="border: 3px solid black;">Capitulo</th>
+                <th style="border: 3px solid black;">Verso</th>
+                <th style="border: 3px solid black;"> <a onclick="@limparFiltros">(Close X)</a> </th>
             </tr>
             @foreach (var item in filtros!)
             {
                 <tr>
                     @if(item.Livro != null)
                     {
-                        <td> @item.Livro.Nome </td>
+                        <td style="border: 1px solid black;"> @item.Livro.Nome </td>
                     }
                     else
                     {
-                        <td>  Instagleo </td>                        
+                        <td style="border: 1px solid black;">  Instagleo </td>
                     }
-                    <td>Capitulo @item.Story!.Capitulo </td>
-                    <td>Pasta @item.Nome </td>
+                    <td style="border: 1px solid black;"> @item.Story!.Capitulo </td>
+                    <td style="border: 1px solid black;"> @item.Nome - versiculo @retornarVerso(item.Pagina!.First(p => p.Content is Chave).Content!) </td>
 
                     <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
                 </tr>
@@ -269,14 +251,12 @@ else
 
     [Parameter] public string? nomeLivro { get; set; } = "";
     [Parameter] public string? indice { get; set; }
-    [Parameter] public string? MensagemSistema { get; set; }
     public string? Query { get; set; }
     public string? Usuario { get; set; }
     List<Filtro>? filtros = new List<Filtro>();
     List<Filtro>? filtros2 = new List<Filtro>();
     List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
     int cap = 1;
-    string? Mensagem { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private int users = 0;
@@ -334,7 +314,7 @@ else
 
         }
 
-       
+
 
     }
 
@@ -366,7 +346,7 @@ else
                      .FirstOrDefaultAsync(p => p.Capitulo == repositoryPagina.CapituloLivro)!;
         }
 
-           
+
 
         if(livro != null && capitulo != null )
         {
@@ -442,19 +422,19 @@ else
                             foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
                             {                                
                                 var pag = (Pagina)item2.Content;
-                                
-                                    if (pag.Versiculo == numeros[j] && url == null )
-                                    {
-                                        var pages = item.Pagina!
-                                        .Where(c => c.Content is Pagina)
-                                        .OrderBy(c => c.ContentId)
-                                        .ToList();
-                                        verso = pages.IndexOf(item2) + 1;
-                                        filtro = item.Id;
-                                        url = retornarUrl();
-                                        await js!.InvokeAsync<object>("AcessarSites", $"{url}");
 
-                                    }
+                                if (pag.Versiculo == numeros[j] && url == null )
+                                {
+                                    var pages = item.Pagina!
+                                    .Where(c => c.Content is Pagina)
+                                    .OrderBy(c => c.ContentId)
+                                    .ToList();
+                                    verso = pages.IndexOf(item2) + 1;
+                                    filtro = item.Id;
+                                    url = retornarUrl();
+                                    await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+
+                                }
                             }
                         }
                     }
@@ -474,17 +454,17 @@ else
                         foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
                         {                   
                             var pag = (Pagina)item2.Content;
-                            
-                                if (pag.Versiculo == num && url == null)
-                                {
-                                    var pages = item.Pagina!
-                                    .Where(c => c.Content is Pagina)
-                                    .OrderBy(c => c.ContentId)
-                                    .ToList();
-                                    verso = pages.IndexOf(item2) + 1;
-                                    filtro = item.Id;
-                                    url = retornarUrl();
-                                }
+
+                            if (pag.Versiculo == num && url == null)
+                            {
+                                var pages = item.Pagina!
+                                .Where(c => c.Content is Pagina)
+                                .OrderBy(c => c.ContentId)
+                                .ToList();
+                                verso = pages.IndexOf(item2) + 1;
+                                filtro = item.Id;
+                                url = retornarUrl();
+                            }
                         }
                     }
 
@@ -513,11 +493,13 @@ else
             {
                 if (!string.IsNullOrEmpty(Query))
                 {
-                        filtros = await Context.Filtro!
-                        .Include(f => f.Story)
-                        .Include(f => f.Livro)
-                        .Where(f => f.Nome!.ToLower().Contains(Query!.ToLower()))
-                        .ToListAsync();
+                    filtros = await Context.Filtro!
+                    .Include(f => f.Pagina)!
+                    .ThenInclude(f => f.Content)
+                    .Include(f => f.Story)
+                    .Include(f => f.Livro)
+                .Where(f => Query!.ToLower().Contains(f.Nome.ToLower()))
+                    .ToListAsync();
 
 
                     if (filtros.Count == 0)
@@ -624,13 +606,24 @@ else
         if (filtro != null)
         {
             if(carregando == null)
-            url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}";
+                url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}";
             else
-            url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}/{carregando}";
+                url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}/{carregando}";
         }
         else
             url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp";
         return url;
+    }
+
+    private void limparFiltros()
+    {
+        filtros.Clear();
+    }
+
+    private int retornarVerso(Content c)
+    {
+        Pagina pag = (Pagina)c;
+        return pag.Versiculo;
     }
 
 }
