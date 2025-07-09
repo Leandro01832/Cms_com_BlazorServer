@@ -31,9 +31,9 @@ namespace business.business
         public virtual List<UserModelFiltro> Pastas { get; set; }
 
         public virtual List<UserModelPastaSalva> PastaSalvas { get; set; }
+        public virtual List<UserModelContent> PageLiked { get; set; }
 
         public virtual List<UserContent> conteudos { get; set; }
-        public virtual List<UserModelContent> PageLiked { get; set; }
 
         public void IncluiTime(Time time)
         {

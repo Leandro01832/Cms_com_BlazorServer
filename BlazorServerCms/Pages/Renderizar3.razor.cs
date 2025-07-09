@@ -372,8 +372,13 @@ namespace BlazorCms.Client.Pages
                     Console.WriteLine("Erro: " + ex.Message);
                 }
             }
-            else if (Model != null && Model.Produto != null && Model.Produto.Count == 0)
+            else if (Model != null && Model.Produto != null && Model.Produto.Count == 0) 
+            {
+                if(livro != null)
+                html = livro.Capa;
+                else
                 html = RepositoryPagina.Capa;
+            }
 
             markup = new MarkupString(html);
 

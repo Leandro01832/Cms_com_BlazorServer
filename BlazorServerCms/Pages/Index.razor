@@ -17,31 +17,7 @@
     <LoginDisplay />
 </div>
 
-@if(livro == null)
-{
-    <p>O livro é @repositoryPagina.buscarDominio()</p>
-}
-else
-{
-    <p>O livro é @livro.Nome</p>
-}
-
-@if(marcar)
-{
-    if(livro == null)
-    {
-        <h5>capitulo @repositoryPagina.CapituloLivro</h5>
-
-    }
-    else
-    {
-        <h5>capitulo @livro.StandardChapter</h5>
-
-    }
-}
-
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
-
 
 <div class="info">
 
@@ -83,15 +59,12 @@ else
             </svg>
         </a>
     </div>
-    <div>
-        <input type="checkbox"  onchange="@(() => alterarPlaceholder())" /> Marcar?
-    </div>
+    
 
 </div>
 
 @if (usuarios!.Count > 0)
 {
-
     <div class="users">
 
         @foreach (var item in usuarios!)
@@ -123,33 +96,31 @@ else
 
 @if (filtros!.Count > 0)
 {
-    <div style="position:absolute; background-color:aliceblue; width:75%;">
-        <table  style="width:100%; border: 6px solid black; border-collapse: collapse; text-align:center;">
-            <tr>
-                <th style="border: 3px solid black;">Livro</th>
-                <th style="border: 3px solid black;">Capitulo</th>
-                <th style="border: 3px solid black;">Verso</th>
-                <th style="border: 3px solid black;"> <a onclick="@limparFiltros">(Close X)</a> </th>
-            </tr>
-            @foreach (var item in filtros!)
-            {
-                <tr>
-                    @if(item.Livro != null)
+    <div class="filtros">
+
+        <p style="text-align: center;"> <strong>Livro - capitulo - verso</strong> </p>
+
+        <hr />
+
+        @foreach (var item in filtros!)
+        {
+            <p>
+                <a  onclick="@(() => Acessar(item))" >
+
+                    @if (item.Livro != null)
                     {
-                        <td style="border: 1px solid black;"> @item.Livro.Nome </td>
+                        <span> @item.Livro.Nome - </span>
                     }
                     else
                     {
-                        <td style="border: 1px solid black;">  Instagleo </td>
+                        <span>Instagleo - </span>
                     }
-                    <td style="border: 1px solid black;"> @item.Story!.Capitulo </td>
-                    <td style="border: 1px solid black;"> @item.Nome - versiculo @retornarVerso(item.Pagina!.First(p => p.Content is Chave).Content!) </td>
+                    <span> Cap. @item.Story!.Capitulo - </span>
+                    <span> ( @item.Nome ) Versículo @retornarVerso(item.Pagina!.First(p => p.Content is Chave).Content!)</span>
 
-                    <td><a href="#" onclick="@(() => Acessar(item))">Acessar</a></td>
-                </tr>
-            }
-
-        </table>
+                </a>
+            </p>
+        }
     </div>
 }
 
@@ -161,7 +132,7 @@ else
     }
     else if(livro != null)
     {
-
+        @markup
     }
     else
     {
@@ -171,27 +142,7 @@ else
         </div>
     }
 
-    @*  <div class="circuloCompartilhando">
-        <center>
-
-            <div class="circulo2Compartilhando">
-                <a href="/comentario/0" >
-                    Compartilhe seu comentário
-                </a>
-            </div>
-        </center>
-    </div>
-
-    <div class="circuloCompartilhando">
-        <center>
-
-            <div class="circulo2Compartilhando">
-                <a href="#">
-                    Ganhe descontos, prêmios e dinheiro compartilhando!!!
-                </a>
-            </div>
-        </center>
-    </div> *@
+   
 
 
 </div>
@@ -245,7 +196,8 @@ else
     </GuidedTourStep>
 </GuidedTour>
 
-@code {
+@code
+{
 
     [Parameter] public int? capitulo { get; set; }
 
@@ -256,13 +208,15 @@ else
     List<Filtro>? filtros = new List<Filtro>();
     List<Filtro>? filtros2 = new List<Filtro>();
     List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
-    int cap = 1;
+   
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private int users = 0;
     private int? carregando = null;
-    private string placeholder = "Nº do capitulo ou pesquisar";
-    private bool marcar;
+    private string placeholder = "Pesquisar";
+   //private bool marcar;
+
+    private MarkupString markup;
 
     private Story _story = null;
 
@@ -310,7 +264,8 @@ else
 
             if (padrao != null) repositoryPagina.CapituloLivro = padrao.Capitulo;
         }
-        catch(Exception ex){
+        catch(Exception ex)
+        {
 
         }
 
@@ -360,6 +315,9 @@ else
                 navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/{indice}/0/11/1/0/dominio/comp");
         }
 
+        if(livro != null)
+        markup = new MarkupString(livro.Capa);
+
     }
 
     private async void Acessar(Filtro item)
@@ -382,123 +340,14 @@ else
     {
         carregando = null;
 
-        if (marcar)
-        {
-            string? url = null;
-            // Filtro[] fils = null;
-
-            if (Query[Query.Length - 1] == ',')
-                Query = Query.Replace(Query.Last().ToString(), "");
-            if (Query.Contains(","))
-            {
-                var arr = Query.Replace(" ", "").Split(",");
-                bool teste = true;
-
-                int[] numeros = new int[arr.Length];
-
-
-                for (var i = 0; i < arr.Length; i++)
-                {
-                    try
-                    {
-                        numeros[i] = int.Parse(arr[i]);
-                    }
-                    catch (Exception)
-                    {
-                        await js!.InvokeAsync<object>("DarAlert", "Informe apenas numeros separando por virgula");
-                        teste = false;
-                        break;
-                    }
-                }
-
-                if (teste)
-                {
-                    carregando = repositoryPagina.quantSlidesCarregando / arr.Length;
-                    for (var j = 0; j < numeros.Length; j++)
-                    {
-                        url = null;
-                        foreach (var item in filtros2)
-                        {
-                            foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
-                            {                                
-                                var pag = (Pagina)item2.Content;
-
-                                if (pag.Versiculo == numeros[j] && url == null )
-                                {
-                                    var pages = item.Pagina!
-                                    .Where(c => c.Content is Pagina)
-                                    .OrderBy(c => c.ContentId)
-                                    .ToList();
-                                    verso = pages.IndexOf(item2) + 1;
-                                    filtro = item.Id;
-                                    url = retornarUrl();
-                                    await js!.InvokeAsync<object>("AcessarSites", $"{url}");
-
-                                }
-                            }
-                        }
-                    }
-                }
-
-
-            }
-            else
-            {
-                carregando = 40;
-                try
-                {
-                    var num = int.Parse(Query);
-
-                    foreach(var item in filtros2)
-                    {
-                        foreach (var item2 in item.Pagina!.Where(c => c.Content is Pagina).OrderBy(c => c.ContentId).ToList())
-                        {                   
-                            var pag = (Pagina)item2.Content;
-
-                            if (pag.Versiculo == num && url == null)
-                            {
-                                var pages = item.Pagina!
-                                .Where(c => c.Content is Pagina)
-                                .OrderBy(c => c.ContentId)
-                                .ToList();
-                                verso = pages.IndexOf(item2) + 1;
-                                filtro = item.Id;
-                                url = retornarUrl();
-                            }
-                        }
-                    }
-
-                    await js!.InvokeAsync<object>("AcessarSites", $"{url}");
-                    url = null;
-                }
-                catch (Exception)
-                {
-                    await js!.InvokeAsync<object>("DarAlert", $"Informe apenas numeros separando por virgula");
-
-                }
-            }
-        }
-        else
-        {
-            try
-            {
-                cap = int.Parse(Query!);
-                var str = RepositoryPagina.stories.First(st => st.Capitulo == cap);
-                if(livro == null)
-                    navigation.NavigateTo($"/renderizar/{str.Id}/1/0/11/0/0/dominio/comp");
-                else
-                    navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/1/0/11/0/0/dominio/comp");
-            }
-            catch (Exception ex)
-            {
-                if (!string.IsNullOrEmpty(Query))
+        if (!string.IsNullOrEmpty(Query))
                 {
                     filtros = await Context.Filtro!
                     .Include(f => f.Pagina)!
                     .ThenInclude(f => f.Content)
                     .Include(f => f.Story)
                     .Include(f => f.Livro)
-                .Where(f => Query!.ToLower().Contains(f.Nome.ToLower()))
+                .Where(f => f.Nome!.ToLower().Contains(Query.ToLower()))
                     .ToListAsync();
 
 
@@ -554,18 +403,15 @@ else
                     //     navigation.NavigateTo($"/Renderizar/{livro.Nome}/{story.Id}/1/0/11/0/0/dominio/comp/{filtros.First().Id}");
                     // }
                 }
-                else if (string.IsNullOrEmpty(Query))
+        else if (string.IsNullOrEmpty(Query))
                 {
                     filtros = new List<Filtro>();
-                }
-            }
-
-        }
-
+                }            
     }
 
     private void alterarUser(ChangeEventArgs args)
     {
+        usuarios.Clear();
         var users = userManager.Users.Where(u => u.UserName.Contains(args.Value!.ToString()!)).ToList();
         foreach (var item in users)
 
@@ -584,15 +430,6 @@ else
     private async Task StartTour()
     {
         await TourService.StartTour("FormGuidedTour");
-    }
-
-    private void alterarPlaceholder()
-    {
-        marcar = !marcar;
-        if (marcar)
-            placeholder = "Nº dos versiculos";
-        else
-            placeholder = "Nº do capitulo ou pesquisar";
     }
 
     private string retornarUrl()

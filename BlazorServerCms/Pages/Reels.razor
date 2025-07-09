@@ -369,9 +369,10 @@
 
 <div class="container">
 
+    @if (usermodel != null)
     @foreach (var item in usermodel.conteudos)
     {
-        if (item.Html.Contains("iframe"))
+        if (item.Html != null && item.Html.Contains("iframe"))
         {
             <div class="content">
             </div>

@@ -106,14 +106,14 @@
 
 .prev {
     height: 80%;
-    width: 4%;
+    width: 40px;
     top: 50%;
     background-color: black;
 }
 
 .prox {
     height: 80%;
-    width: 4%;
+    width: 40px;
     top: 50%;
     background-color: black;
 }
@@ -123,6 +123,9 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    margin-top: 35px;
+    margin-left: 25px;
+    margin-right: 25px;
     justify-content: space-between;
 }
 

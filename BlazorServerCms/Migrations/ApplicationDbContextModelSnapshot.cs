@@ -48,6 +48,10 @@ namespace BlazorServerCms.Migrations
                     b.Property<int>("BookNumber")
                         .HasColumnType("int");
 
+                    b.Property<string>("Capa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

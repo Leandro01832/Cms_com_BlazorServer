@@ -21,10 +21,13 @@ namespace business.business.Book
         public virtual Assinatura? Assinatura { get; set; }
 
         public string Nome { get; set; }
+        public string Capa { get; set; }
 
         public int BookNumber { get; set; }
 
         public int StandardChapter { get; set; }
+
+
 
         public string? url { get; set; }
 

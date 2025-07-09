@@ -363,6 +363,7 @@
 
 <div class="container">
 
+    @if (usermodel != null)
     @foreach (var item in usermodel.PastaSalvas)
     {
         if (usuario != null && usuario.Identity!.IsAuthenticated

@@ -100,7 +100,6 @@ namespace BlazorCms.Client.Pages
         protected int? vers { get; set; }
 
         [Parameter] public string? nomeLivro { get; set; } = "";
-      //  [Parameter] public int indiceLivro { get; set; } = 0;
         [Parameter] public int retroceder { get; set; } = 0;
 
         [Parameter] public int timeproduto { get; set; } = 11;  
