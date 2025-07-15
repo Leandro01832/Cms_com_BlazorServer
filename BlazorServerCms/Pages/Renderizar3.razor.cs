@@ -170,13 +170,13 @@ namespace BlazorCms.Client.Pages
 
             if (outroHorizonte == 0)
             {
-                var q = RepositoryPagina.Conteudo.OrderBy(c => c.Id)
+                var q = RepositoryPagina.Conteudo!
                     .LastOrDefault(c => c.StoryId == storyid && c is Pagina && c.Html != null)!;
                 if (q == null)
                 {
-                    var pa = Context.Pagina!.OrderBy(c => c.Id)
+                    var pa = Context.Pagina!
                     .LastOrDefault(c => c.StoryId == storyid && c is Pagina && c.Html != null)!;
-                    RepositoryPagina.Conteudo.Add(pa);
+                    RepositoryPagina.Conteudo!.Add(pa);
                     quantidadeLista = retornarVerso(pa);
                 }
 
@@ -186,15 +186,15 @@ namespace BlazorCms.Client.Pages
 
 
             if (Filtro == null)
-                Model = RepositoryPagina.Conteudo
+                Model = RepositoryPagina.Conteudo!
              .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
 
-            else if (Filtro != null && RepositoryPagina.Conteudo
+            else if (Filtro != null && RepositoryPagina.Conteudo!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
                 CountPagesInFilterAsync((long)Filtro, livro))
             {
-                var listainFilter = RepositoryPagina.Conteudo.OrderBy(c => c.Id)
+                var listainFilter = RepositoryPagina.Conteudo!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
 
@@ -215,11 +215,11 @@ namespace BlazorCms.Client.Pages
             int slideAtivo = (indice - 1) / quantDiv;
             slideAtual = slideAtivo;
 
-            if (Filtro != null && RepositoryPagina.Conteudo
+            if (Filtro != null && RepositoryPagina.Conteudo!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
                 CountPagesInFilterAsync((long)Filtro, livro))
-                listaContent = RepositoryPagina.Conteudo
+                listaContent = RepositoryPagina.Conteudo!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(quantDiv)
@@ -235,10 +235,10 @@ namespace BlazorCms.Client.Pages
                     listaContent.AddRange(conteudos);
 
                     foreach (var item in listaContent)
-                    if (RepositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
-                    RepositoryPagina.Conteudo.Add(item);
+                    if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
+                    RepositoryPagina.Conteudo!.Add(item);
 
-                    Model = RepositoryPagina.Conteudo
+                    Model = RepositoryPagina.Conteudo!
                     .FirstOrDefault(p => p is Pagina && retornarVerso(p) == indice && p.StoryId == storyid);
                 }
             }
@@ -248,7 +248,7 @@ namespace BlazorCms.Client.Pages
             nameStory = RepositoryPagina.stories.First(st => st.Id == storyid).Nome;
 
             if(Filtro == null)
-            listaContent = RepositoryPagina.Conteudo.Where(c => c is Pagina).OrderBy(p => p.Id)
+            listaContent = RepositoryPagina.Conteudo!.Where(c => c is Pagina).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
                 .ToList();
 
@@ -290,7 +290,7 @@ namespace BlazorCms.Client.Pages
                     Comment pa = (Comment)Model;
                     if (pa.ContentId != null)
                     {
-                        var c = RepositoryPagina.Conteudo.First(c => c.Id == pa.ContentId);
+                        var c = RepositoryPagina.Conteudo!.First(c => c.Id == pa.ContentId);
                         var s = RepositoryPagina.stories.First(s => s.Id == c.StoryId);
                         CapituloComentario = s.Capitulo;
                         VersoComentario = RepositoryPagina.Conteudo
@@ -312,8 +312,8 @@ namespace BlazorCms.Client.Pages
 
                     if(listaContent.Count != 0 && listaContent[0] != null)
                     foreach(var item in listaContent)
-                        if(RepositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
-                            RepositoryPagina.Conteudo.Add(item);
+                        if(RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
+                            RepositoryPagina.Conteudo!.Add(item);
 
                     quantidadeLista = listaContent.Count;      
 
@@ -504,7 +504,7 @@ namespace BlazorCms.Client.Pages
 
                 if(Content)
                 if (listaContent.FirstOrDefault(c => c is UserContent) == null)
-                    foreach (var item in RepositoryPagina.Conteudo
+                    foreach (var item in RepositoryPagina.Conteudo!
                         .Where(c => c.Filtro != null && c is UserContent &&
                         c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList())
 

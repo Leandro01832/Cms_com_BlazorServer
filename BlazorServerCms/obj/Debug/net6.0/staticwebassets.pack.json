@@ -42,7 +42,7 @@
     },
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
-      "PackagePath": "staticwebassets\\BlazorServerCms.1ptktmlg31.bundle.scp.css"
+      "PackagePath": "staticwebassets\\BlazorServerCms.agpu0but36.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\Capa.html",
@@ -53,12 +53,92 @@
       "PackagePath": "staticwebassets\\Arquivotxt\\default.html"
     },
     {
-      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.txt",
-      "PackagePath": "staticwebassets\\Arquivotxt\\stories.txt"
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.json",
+      "PackagePath": "staticwebassets\\Arquivotxt\\stories.json"
     },
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.1.seres-vivos.jpg",
       "PackagePath": "staticwebassets\\ImgStory\\cap.1.seres-vivos.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.10.cosmeticos.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.10.cosmeticos.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.11.tecnologia.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.11.tecnologia.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.12.moveis.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.12.moveis.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.13.saude.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.13.saude.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.14.imoveis.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.14.imoveis.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.15.estudos.png",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.15.estudos.png"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.16.profissionais.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.16.profissionais.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.17.informatica.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.17.informatica.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.2.comentario.png",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.2.comentario.png"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.21.livraria.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.21.livraria.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.22.musicas.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.22.musicas.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.23.Eventos.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.23.Eventos.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.3.moda.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.3.moda.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.30.estudos.jpeg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.30.estudos.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.4.veiculo.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.4.veiculo.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.5.Material.png",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.5.Material.png"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.6.alimentos.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.6.alimentos.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.7.entretenimento.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.7.entretenimento.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.8.materiais-de-limpeza.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.8.materiais-de-limpeza.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.9.eletrodomesticos.jpg",
+      "PackagePath": "staticwebassets\\ImgStory\\cap.9.eletrodomesticos.jpg"
     },
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\seres-vivos.jpg",
@@ -67,6 +147,10 @@
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\padrao.jpg",
       "PackagePath": "staticwebassets\\ImgUser\\padrao.jpg"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg",
+      "PackagePath": "staticwebassets\\ImgUser\\usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg"
     },
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg",
@@ -159,6 +243,10 @@
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\pasta-user.png",
       "PackagePath": "staticwebassets\\pasta-user.png"
+    },
+    {
+      "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\pensar.png",
+      "PackagePath": "staticwebassets\\pensar.png"
     },
     {
       "Id": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\story.jpg",

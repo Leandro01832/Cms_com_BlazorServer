@@ -128,7 +128,7 @@ using (var scope = app.Services.CreateScope())
         .Include(f => f.UserModel)
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
         .OrderBy(co => co.Id).ToListAsync();
-        RepositoryPagina.Conteudo.AddRange(conteudos);
+        RepositoryPagina.Conteudo!.AddRange(conteudos);
     }
     
     

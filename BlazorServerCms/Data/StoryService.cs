@@ -80,8 +80,8 @@ namespace BlazorServerCms.Data
             }
 
             foreach (var item in conteudos.Select(c => c.Content).ToList())
-                if (RepositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item!.Id) == null)
-                    RepositoryPagina.Conteudo.Add(item!);
+                if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.Id) == null)
+                    RepositoryPagina.Conteudo!.Add(item!);
 
             return conteudos;
         }
@@ -135,8 +135,8 @@ namespace BlazorServerCms.Data
             }
 
             foreach (var item in conteudos)
-                if (RepositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item.Id) == null)
-                    RepositoryPagina.Conteudo.Add(item!);
+                if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
+                    RepositoryPagina.Conteudo!.Add(item!);
 
             return conteudos;
         }
@@ -192,8 +192,8 @@ namespace BlazorServerCms.Data
             }
 
             foreach (var item in resultados.Select(c => c.Content).ToList())
-                if (RepositoryPagina.Conteudo.FirstOrDefault(c => c.Id == item!.Id) == null)
-                    RepositoryPagina.Conteudo.Add(item!);
+                if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.Id) == null)
+                    RepositoryPagina.Conteudo!.Add(item!);
 
             return resultados;
         }

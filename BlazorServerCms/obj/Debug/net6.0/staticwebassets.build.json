@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/f4CeaCz99PEOH6mRfTIFv/Iz9CwBDq3sEsqRMbTHmQ=",
+  "Hash": "qie9q3Gj4zUhH3Tq+qYZs8bjBf9oP/Cbir2yUOvK5WA=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -1774,8 +1774,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "17qiw7kes2",
-      "Integrity": "HbG0X2+pF/oIVLpukgwjwUxQ0t1U2zGy3h/ExRBfWXk=",
+      "Fingerprint": "a2rhe2hf9k",
+      "Integrity": "Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css"
@@ -1795,8 +1795,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "1ptktmlg31",
-      "Integrity": "q4d45AAtUj2dCdfVy0Kqaiwbbu0vbMwZ5HgGVqkCbFQ=",
+      "Fingerprint": "agpu0but36",
+      "Integrity": "WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css"
@@ -1837,19 +1837,19 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "uxavlyeltt",
-      "Integrity": "ImY5HNAG4mp8ElUO6eiEg1/cF00ImRDugeaTEIHJAfo=",
+      "Fingerprint": "88wg1qarkx",
+      "Integrity": "2E9WeLtla+6255MU5E2lSyF/5CVCPbB/aVxHiMdKQ2w=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Arquivotxt\\default.html"
     },
     {
-      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.txt",
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.json",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
       "BasePath": "_content/BlazorServerCms",
-      "RelativePath": "Arquivotxt/stories#[.{fingerprint}]?.txt",
+      "RelativePath": "Arquivotxt/stories#[.{fingerprint}]?.json",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1858,11 +1858,11 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "8yhwc7pj56",
-      "Integrity": "IIVGQWc4rN2hdVS1lvbPRnAVvkvOFV4LKeGMoH/SnCw=",
+      "Fingerprint": "u77p32jwj6",
+      "Integrity": "NrTqXdG8H9z3toGb/LCZHf8LOqbWwlWGrZycHiyDGmU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Arquivotxt\\stories.txt"
+      "OriginalItemSpec": "wwwroot\\Arquivotxt\\stories.json"
     },
     {
       "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
@@ -2110,8 +2110,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "9w7cnsd0kc",
-      "Integrity": "BxZo1+WadB3Nr3fJ0BH4O7W9UDrRWz2TJx5oA9tKLLk=",
+      "Fingerprint": "daziv4xb6b",
+      "Integrity": "253dWt0p6LKW/ZkXX/urhhSrgrjS6Ym26mPNMD/0ovA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -2222,6 +2222,426 @@
       "OriginalItemSpec": "wwwroot\\ImgStory\\cap.1.seres-vivos.jpg"
     },
     {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.10.cosmeticos.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.10.cosmeticos#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "pxsspzg722",
+      "Integrity": "g5l3LqxTUs/zT+C3UDNlfQOEgigT6HTSihj+9fRWfR4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.10.cosmeticos.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.11.tecnologia.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.11.tecnologia#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ucxkl4ered",
+      "Integrity": "IrUmcFypyjv+LYm/k9CzQsO+yxvL5kP0RWFyXv3AGgA=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.11.tecnologia.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.12.moveis.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.12.moveis#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "a6pqpa2t5s",
+      "Integrity": "8oKu/u6PbL5h8CG6LLr1iganN/JmNpSlicTgFZWpFgE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.12.moveis.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.13.saude.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.13.saude#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "3qf70bue8f",
+      "Integrity": "W7d50Amzf5kVB0EIf29GG0wqWEXIVna2IYPbKvsSXME=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.13.saude.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.14.imoveis.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.14.imoveis#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "5rlnbkoavb",
+      "Integrity": "H3ctcxrDBk74sfMUsKVGIlujuRJ3DK4pwE1G/5Lcn+Q=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.14.imoveis.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.15.estudos.png",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.15.estudos#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "plqzu4t85h",
+      "Integrity": "k1DrQuZ+BE3EYXMq8Eyi9dhrEkXE4t8Y7HtrB5Urr2k=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.15.estudos.png"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.16.profissionais.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.16.profissionais#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "r0f8bxyjue",
+      "Integrity": "C+2zvwxBOWgvJGIz4REP50GZjWgBGX1zK83IW5oIsIo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.16.profissionais.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.17.informatica.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.17.informatica#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "vxq3enwr7q",
+      "Integrity": "3QpQMcnU9c606gA4ukF8Qp9uzCvR8ggzPOHgUdsCOEM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.17.informatica.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.2.comentario.png",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.2.comentario#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "2ocfglh0yz",
+      "Integrity": "4oFStQ3KmfcssSUJR9Y0AMWvHotq2+8LSMu2RQfkjfc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.2.comentario.png"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.21.livraria.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.21.livraria#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ab3t0fr08p",
+      "Integrity": "+v1IDxtTfJfMCv8p+RknWnJ6cVsGWOPr3fUnItPPasw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.21.livraria.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.22.musicas.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.22.musicas#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "4dwnrrnvtm",
+      "Integrity": "mHoN8bUNsXgpMpU4kMiXhi6u6ewGg/0Xzrr0yug7eE0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.22.musicas.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.23.Eventos.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.23.Eventos#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "7py5le7ivp",
+      "Integrity": "FaRPyQfLS//w3uDiSeykA7E6o6hcQIJviZw05YAfC8Q=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.23.Eventos.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.3.moda.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.3.moda#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "eaf7mrmkw4",
+      "Integrity": "JsuAKkcvNZJ13hp95zNgUfr+S6oj5rtW0tG/LmBtAMI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.3.moda.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.30.estudos.jpeg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.30.estudos#[.{fingerprint}]?.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "oizwbma2nn",
+      "Integrity": "0J5xr7eHXmBlYBEYaXdKWQ151q2b9jbrt82v8dCV/p0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.30.estudos.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.4.veiculo.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.4.veiculo#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "esenwbz7xm",
+      "Integrity": "nsZFmkYJPvAmMtS3obHMuxBycFUgWmHdWsQJ72vWjhk=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.4.veiculo.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.5.Material.png",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.5.Material#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "vvtadpalun",
+      "Integrity": "y8YKH7NzU7pJ+EAcX19KKhHboierJ7T4NgGG+fC6CI8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.5.Material.png"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.6.alimentos.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.6.alimentos#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "mztm0vy71y",
+      "Integrity": "rgLZ+NeIsQfqOA8Fp5rjYuFUcim2EVgPz6Me9K+7mS0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.6.alimentos.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.7.entretenimento.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.7.entretenimento#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "sradei8iei",
+      "Integrity": "ODKxQ32t28yclp0571gAI4Wc3b9dGgg0STdKNZhJljo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.7.entretenimento.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.8.materiais-de-limpeza.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.8.materiais-de-limpeza#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "lnxy060e9a",
+      "Integrity": "H8m+JzywszOREVePYfHZuTZFgDQ96xE2UXBiROuB0CY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.8.materiais-de-limpeza.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.9.eletrodomesticos.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgStory/cap.9.eletrodomesticos#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1b8f75xjli",
+      "Integrity": "M72fcSV2pwH4P7g2UIbeqS7CpeMtL7WfxVDOTOKqpsc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgStory\\cap.9.eletrodomesticos.jpg"
+    },
+    {
       "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\seres-vivos.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
@@ -2264,6 +2684,27 @@
       "OriginalItemSpec": "wwwroot\\ImgUser\\padrao.jpg"
     },
     {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "ImgUser/usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "x8g5g805cu",
+      "Integrity": "f67RUOXtZJ6vWd9Iw9324HWOIY1aIEt4xc1JdOacF+Q=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImgUser\\usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg"
+    },
+    {
       "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-FB_IMG_16129905677283571.jpg",
       "SourceId": "BlazorServerCms",
       "SourceType": "Discovered",
@@ -2299,8 +2740,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ypmlnm5vdi",
-      "Integrity": "RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ=",
+      "Fingerprint": "txym3zahkp",
+      "Integrity": "YYki5l4Xpq1TskGeviFtv3x6dvpUC7gEw3EODOEZ3XE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JSFunctions.js"
@@ -2388,6 +2829,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\pasta-user.png"
+    },
+    {
+      "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\pensar.png",
+      "SourceId": "BlazorServerCms",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\",
+      "BasePath": "_content/BlazorServerCms",
+      "RelativePath": "pensar#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "c1n3aub3pd",
+      "Integrity": "oHbg6EPugJD6CqJsYlPc358+TWgchGCCT2aDfrF6W+o=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\pensar.png"
     },
     {
       "Identity": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\story.jpg",
@@ -2958,7 +3420,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3003,7 +3465,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3018,6 +3480,51 @@
       ]
     },
     {
+      "Route": "Arquivotxt/default.88wg1qarkx.html",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\default.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "294"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"2E9WeLtla+6255MU5E2lSyF/5CVCPbB/aVxHiMdKQ2w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 03 May 2025 23:19:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "88wg1qarkx"
+        },
+        {
+          "Name": "label",
+          "Value": "Arquivotxt/default.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-2E9WeLtla+6255MU5E2lSyF/5CVCPbB/aVxHiMdKQ2w="
+        }
+      ]
+    },
+    {
       "Route": "Arquivotxt/default.html",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\default.html",
       "Selectors": [],
@@ -3028,7 +3535,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "440"
+          "Value": "294"
         },
         {
           "Name": "Content-Type",
@@ -3036,11 +3543,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ImY5HNAG4mp8ElUO6eiEg1/cF00ImRDugeaTEIHJAfo=\""
+          "Value": "\"2E9WeLtla+6255MU5E2lSyF/5CVCPbB/aVxHiMdKQ2w=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 11 Jan 2025 23:03:40 GMT"
+          "Value": "Sat, 03 May 2025 23:19:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3050,13 +3557,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ImY5HNAG4mp8ElUO6eiEg1/cF00ImRDugeaTEIHJAfo="
+          "Value": "sha256-2E9WeLtla+6255MU5E2lSyF/5CVCPbB/aVxHiMdKQ2w="
         }
       ]
     },
     {
-      "Route": "Arquivotxt/default.uxavlyeltt.html",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\default.html",
+      "Route": "Arquivotxt/stories.json",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.json",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3065,109 +3572,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "440"
+          "Value": "3926"
         },
         {
           "Name": "Content-Type",
-          "Value": "text/html"
+          "Value": "application/json"
         },
         {
           "Name": "ETag",
-          "Value": "\"ImY5HNAG4mp8ElUO6eiEg1/cF00ImRDugeaTEIHJAfo=\""
+          "Value": "\"NrTqXdG8H9z3toGb/LCZHf8LOqbWwlWGrZycHiyDGmU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 11 Jan 2025 23:03:40 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "uxavlyeltt"
-        },
-        {
-          "Name": "label",
-          "Value": "Arquivotxt/default.html"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-ImY5HNAG4mp8ElUO6eiEg1/cF00ImRDugeaTEIHJAfo="
-        }
-      ]
-    },
-    {
-      "Route": "Arquivotxt/stories.8yhwc7pj56.txt",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.txt",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "565"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/plain"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"IIVGQWc4rN2hdVS1lvbPRnAVvkvOFV4LKeGMoH/SnCw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 18 Dec 2024 12:55:08 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "8yhwc7pj56"
-        },
-        {
-          "Name": "label",
-          "Value": "Arquivotxt/stories.txt"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-IIVGQWc4rN2hdVS1lvbPRnAVvkvOFV4LKeGMoH/SnCw="
-        }
-      ]
-    },
-    {
-      "Route": "Arquivotxt/stories.txt",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.txt",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "565"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/plain"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"IIVGQWc4rN2hdVS1lvbPRnAVvkvOFV4LKeGMoH/SnCw=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Wed, 18 Dec 2024 12:55:08 GMT"
+          "Value": "Sun, 22 Jun 2025 00:25:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3177,12 +3594,57 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-IIVGQWc4rN2hdVS1lvbPRnAVvkvOFV4LKeGMoH/SnCw="
+          "Value": "sha256-NrTqXdG8H9z3toGb/LCZHf8LOqbWwlWGrZycHiyDGmU="
         }
       ]
     },
     {
-      "Route": "BlazorServerCms.17qiw7kes2.styles.css",
+      "Route": "Arquivotxt/stories.u77p32jwj6.json",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\Arquivotxt\\stories.json",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3926"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/json"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"NrTqXdG8H9z3toGb/LCZHf8LOqbWwlWGrZycHiyDGmU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 22 Jun 2025 00:25:28 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u77p32jwj6"
+        },
+        {
+          "Name": "label",
+          "Value": "Arquivotxt/stories.json"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-NrTqXdG8H9z3toGb/LCZHf8LOqbWwlWGrZycHiyDGmU="
+        }
+      ]
+    },
+    {
+      "Route": "BlazorServerCms.a2rhe2hf9k.styles.css",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3196,7 +3658,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "20178"
+          "Value": "43621"
         },
         {
           "Name": "Content-Type",
@@ -3204,11 +3666,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"HbG0X2+pF/oIVLpukgwjwUxQ0t1U2zGy3h/ExRBfWXk=\""
+          "Value": "\"Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 18 Dec 2024 16:47:42 GMT"
+          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
         },
         {
           "Name": "Link",
@@ -3218,11 +3680,11 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "17qiw7kes2"
+          "Value": "a2rhe2hf9k"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-HbG0X2+pF/oIVLpukgwjwUxQ0t1U2zGy3h/ExRBfWXk="
+          "Value": "sha256-Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws="
         },
         {
           "Name": "label",
@@ -3231,7 +3693,7 @@
       ]
     },
     {
-      "Route": "BlazorServerCms.1ptktmlg31.bundle.scp.css",
+      "Route": "BlazorServerCms.agpu0but36.bundle.scp.css",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3241,7 +3703,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "20084"
+          "Value": "43527"
         },
         {
           "Name": "Content-Type",
@@ -3249,11 +3711,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"q4d45AAtUj2dCdfVy0Kqaiwbbu0vbMwZ5HgGVqkCbFQ=\""
+          "Value": "\"WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 18 Dec 2024 16:47:42 GMT"
+          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3263,7 +3725,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "1ptktmlg31"
+          "Value": "agpu0but36"
         },
         {
           "Name": "label",
@@ -3271,7 +3733,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-q4d45AAtUj2dCdfVy0Kqaiwbbu0vbMwZ5HgGVqkCbFQ="
+          "Value": "sha256-WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM="
         }
       ]
     },
@@ -3286,7 +3748,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "20084"
+          "Value": "43527"
         },
         {
           "Name": "Content-Type",
@@ -3294,11 +3756,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"q4d45AAtUj2dCdfVy0Kqaiwbbu0vbMwZ5HgGVqkCbFQ=\""
+          "Value": "\"WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 18 Dec 2024 16:47:42 GMT"
+          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3308,7 +3770,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-q4d45AAtUj2dCdfVy0Kqaiwbbu0vbMwZ5HgGVqkCbFQ="
+          "Value": "sha256-WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM="
         }
       ]
     },
@@ -3327,7 +3789,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "20178"
+          "Value": "43621"
         },
         {
           "Name": "Content-Type",
@@ -3335,11 +3797,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"HbG0X2+pF/oIVLpukgwjwUxQ0t1U2zGy3h/ExRBfWXk=\""
+          "Value": "\"Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 18 Dec 2024 16:47:42 GMT"
+          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
         },
         {
           "Name": "Link",
@@ -3349,7 +3811,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-HbG0X2+pF/oIVLpukgwjwUxQ0t1U2zGy3h/ExRBfWXk="
+          "Value": "sha256-Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws="
         }
       ]
     },
@@ -3376,7 +3838,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3421,7 +3883,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3458,7 +3920,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3503,7 +3965,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3704,7 +4166,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3749,7 +4211,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3786,7 +4248,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3831,7 +4293,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3868,7 +4330,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3913,7 +4375,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3958,7 +4420,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3995,7 +4457,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4040,7 +4502,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4077,7 +4539,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4114,7 +4576,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4159,7 +4621,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4196,7 +4658,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4233,7 +4695,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4278,7 +4740,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4315,7 +4777,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4360,7 +4822,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4405,7 +4867,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4420,51 +4882,6 @@
       ]
     },
     {
-      "Route": "css/site.9w7cnsd0kc.css",
-      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\site.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2837"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"BxZo1+WadB3Nr3fJ0BH4O7W9UDrRWz2TJx5oA9tKLLk=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "9w7cnsd0kc"
-        },
-        {
-          "Name": "label",
-          "Value": "css/site.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-BxZo1+WadB3Nr3fJ0BH4O7W9UDrRWz2TJx5oA9tKLLk="
-        }
-      ]
-    },
-    {
       "Route": "css/site.css",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\site.css",
       "Selectors": [],
@@ -4475,7 +4892,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2837"
+          "Value": "2965"
         },
         {
           "Name": "Content-Type",
@@ -4483,11 +4900,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"BxZo1+WadB3Nr3fJ0BH4O7W9UDrRWz2TJx5oA9tKLLk=\""
+          "Value": "\"253dWt0p6LKW/ZkXX/urhhSrgrjS6Ym26mPNMD/0ovA=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Sat, 03 May 2025 23:32:31 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4497,7 +4914,52 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-BxZo1+WadB3Nr3fJ0BH4O7W9UDrRWz2TJx5oA9tKLLk="
+          "Value": "sha256-253dWt0p6LKW/ZkXX/urhhSrgrjS6Ym26mPNMD/0ovA="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.daziv4xb6b.css",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\css\\site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2965"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"253dWt0p6LKW/ZkXX/urhhSrgrjS6Ym26mPNMD/0ovA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 03 May 2025 23:32:31 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "daziv4xb6b"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-253dWt0p6LKW/ZkXX/urhhSrgrjS6Ym26mPNMD/0ovA="
         }
       ]
     },
@@ -4606,7 +5068,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4651,7 +5113,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4688,7 +5150,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4733,7 +5195,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4770,7 +5232,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4815,7 +5277,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4852,7 +5314,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4889,7 +5351,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7154,7 +7616,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7199,7 +7661,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7210,6 +7672,1646 @@
         {
           "Name": "integrity",
           "Value": "sha256-RoXzH+8J99UHEboJqOw7s73G666ZWW/h9vB7CnZx2lo="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.10.cosmeticos.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.10.cosmeticos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "504874"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"g5l3LqxTUs/zT+C3UDNlfQOEgigT6HTSihj+9fRWfR4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:49:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-g5l3LqxTUs/zT+C3UDNlfQOEgigT6HTSihj+9fRWfR4="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.10.cosmeticos.pxsspzg722.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.10.cosmeticos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "504874"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"g5l3LqxTUs/zT+C3UDNlfQOEgigT6HTSihj+9fRWfR4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:49:09 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pxsspzg722"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.10.cosmeticos.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-g5l3LqxTUs/zT+C3UDNlfQOEgigT6HTSihj+9fRWfR4="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.11.tecnologia.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.11.tecnologia.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "143033"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IrUmcFypyjv+LYm/k9CzQsO+yxvL5kP0RWFyXv3AGgA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:56:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IrUmcFypyjv+LYm/k9CzQsO+yxvL5kP0RWFyXv3AGgA="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.11.tecnologia.ucxkl4ered.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.11.tecnologia.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "143033"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IrUmcFypyjv+LYm/k9CzQsO+yxvL5kP0RWFyXv3AGgA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:56:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ucxkl4ered"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.11.tecnologia.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-IrUmcFypyjv+LYm/k9CzQsO+yxvL5kP0RWFyXv3AGgA="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.12.moveis.a6pqpa2t5s.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.12.moveis.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162765"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8oKu/u6PbL5h8CG6LLr1iganN/JmNpSlicTgFZWpFgE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:59:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "a6pqpa2t5s"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.12.moveis.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8oKu/u6PbL5h8CG6LLr1iganN/JmNpSlicTgFZWpFgE="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.12.moveis.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.12.moveis.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "162765"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8oKu/u6PbL5h8CG6LLr1iganN/JmNpSlicTgFZWpFgE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:59:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8oKu/u6PbL5h8CG6LLr1iganN/JmNpSlicTgFZWpFgE="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.13.saude.3qf70bue8f.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.13.saude.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "302166"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W7d50Amzf5kVB0EIf29GG0wqWEXIVna2IYPbKvsSXME=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:12:43 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "3qf70bue8f"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.13.saude.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-W7d50Amzf5kVB0EIf29GG0wqWEXIVna2IYPbKvsSXME="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.13.saude.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.13.saude.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "302166"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"W7d50Amzf5kVB0EIf29GG0wqWEXIVna2IYPbKvsSXME=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:12:43 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-W7d50Amzf5kVB0EIf29GG0wqWEXIVna2IYPbKvsSXME="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.14.imoveis.5rlnbkoavb.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.14.imoveis.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43559"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H3ctcxrDBk74sfMUsKVGIlujuRJ3DK4pwE1G/5Lcn+Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:40:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5rlnbkoavb"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.14.imoveis.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-H3ctcxrDBk74sfMUsKVGIlujuRJ3DK4pwE1G/5Lcn+Q="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.14.imoveis.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.14.imoveis.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "43559"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H3ctcxrDBk74sfMUsKVGIlujuRJ3DK4pwE1G/5Lcn+Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:40:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-H3ctcxrDBk74sfMUsKVGIlujuRJ3DK4pwE1G/5Lcn+Q="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.15.estudos.plqzu4t85h.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.15.estudos.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "377552"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"k1DrQuZ+BE3EYXMq8Eyi9dhrEkXE4t8Y7HtrB5Urr2k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:44:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "plqzu4t85h"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.15.estudos.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-k1DrQuZ+BE3EYXMq8Eyi9dhrEkXE4t8Y7HtrB5Urr2k="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.15.estudos.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.15.estudos.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "377552"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"k1DrQuZ+BE3EYXMq8Eyi9dhrEkXE4t8Y7HtrB5Urr2k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:44:56 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-k1DrQuZ+BE3EYXMq8Eyi9dhrEkXE4t8Y7HtrB5Urr2k="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.16.profissionais.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.16.profissionais.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "223072"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"C+2zvwxBOWgvJGIz4REP50GZjWgBGX1zK83IW5oIsIo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:46:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-C+2zvwxBOWgvJGIz4REP50GZjWgBGX1zK83IW5oIsIo="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.16.profissionais.r0f8bxyjue.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.16.profissionais.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "223072"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"C+2zvwxBOWgvJGIz4REP50GZjWgBGX1zK83IW5oIsIo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:46:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "r0f8bxyjue"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.16.profissionais.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-C+2zvwxBOWgvJGIz4REP50GZjWgBGX1zK83IW5oIsIo="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.17.informatica.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.17.informatica.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "143784"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3QpQMcnU9c606gA4ukF8Qp9uzCvR8ggzPOHgUdsCOEM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 22 Jun 2025 00:21:19 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3QpQMcnU9c606gA4ukF8Qp9uzCvR8ggzPOHgUdsCOEM="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.17.informatica.vxq3enwr7q.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.17.informatica.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "143784"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3QpQMcnU9c606gA4ukF8Qp9uzCvR8ggzPOHgUdsCOEM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 22 Jun 2025 00:21:19 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "vxq3enwr7q"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.17.informatica.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3QpQMcnU9c606gA4ukF8Qp9uzCvR8ggzPOHgUdsCOEM="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.2.comentario.2ocfglh0yz.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.2.comentario.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "14906"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4oFStQ3KmfcssSUJR9Y0AMWvHotq2+8LSMu2RQfkjfc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:03:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "2ocfglh0yz"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.2.comentario.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-4oFStQ3KmfcssSUJR9Y0AMWvHotq2+8LSMu2RQfkjfc="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.2.comentario.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.2.comentario.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "14906"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"4oFStQ3KmfcssSUJR9Y0AMWvHotq2+8LSMu2RQfkjfc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:03:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-4oFStQ3KmfcssSUJR9Y0AMWvHotq2+8LSMu2RQfkjfc="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.21.livraria.ab3t0fr08p.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.21.livraria.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "265131"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+v1IDxtTfJfMCv8p+RknWnJ6cVsGWOPr3fUnItPPasw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:38:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ab3t0fr08p"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.21.livraria.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+v1IDxtTfJfMCv8p+RknWnJ6cVsGWOPr3fUnItPPasw="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.21.livraria.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.21.livraria.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "265131"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+v1IDxtTfJfMCv8p+RknWnJ6cVsGWOPr3fUnItPPasw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:38:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-+v1IDxtTfJfMCv8p+RknWnJ6cVsGWOPr3fUnItPPasw="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.22.musicas.4dwnrrnvtm.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.22.musicas.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "70006"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mHoN8bUNsXgpMpU4kMiXhi6u6ewGg/0Xzrr0yug7eE0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:41:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4dwnrrnvtm"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.22.musicas.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mHoN8bUNsXgpMpU4kMiXhi6u6ewGg/0Xzrr0yug7eE0="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.22.musicas.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.22.musicas.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "70006"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mHoN8bUNsXgpMpU4kMiXhi6u6ewGg/0Xzrr0yug7eE0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:41:17 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mHoN8bUNsXgpMpU4kMiXhi6u6ewGg/0Xzrr0yug7eE0="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.23.Eventos.7py5le7ivp.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.23.Eventos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "136581"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FaRPyQfLS//w3uDiSeykA7E6o6hcQIJviZw05YAfC8Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:42:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "7py5le7ivp"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.23.Eventos.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-FaRPyQfLS//w3uDiSeykA7E6o6hcQIJviZw05YAfC8Q="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.23.Eventos.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.23.Eventos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "136581"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"FaRPyQfLS//w3uDiSeykA7E6o6hcQIJviZw05YAfC8Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 16:42:42 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-FaRPyQfLS//w3uDiSeykA7E6o6hcQIJviZw05YAfC8Q="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.3.moda.eaf7mrmkw4.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.3.moda.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7411"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"JsuAKkcvNZJ13hp95zNgUfr+S6oj5rtW0tG/LmBtAMI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:14:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "eaf7mrmkw4"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.3.moda.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-JsuAKkcvNZJ13hp95zNgUfr+S6oj5rtW0tG/LmBtAMI="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.3.moda.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.3.moda.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "7411"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"JsuAKkcvNZJ13hp95zNgUfr+S6oj5rtW0tG/LmBtAMI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:14:10 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-JsuAKkcvNZJ13hp95zNgUfr+S6oj5rtW0tG/LmBtAMI="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.30.estudos.jpeg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.30.estudos.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "52017"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0J5xr7eHXmBlYBEYaXdKWQ151q2b9jbrt82v8dCV/p0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:57:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-0J5xr7eHXmBlYBEYaXdKWQ151q2b9jbrt82v8dCV/p0="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.30.estudos.oizwbma2nn.jpeg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.30.estudos.jpeg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "52017"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"0J5xr7eHXmBlYBEYaXdKWQ151q2b9jbrt82v8dCV/p0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:57:30 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "oizwbma2nn"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.30.estudos.jpeg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-0J5xr7eHXmBlYBEYaXdKWQ151q2b9jbrt82v8dCV/p0="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.4.veiculo.esenwbz7xm.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.4.veiculo.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "155726"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nsZFmkYJPvAmMtS3obHMuxBycFUgWmHdWsQJ72vWjhk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:16:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "esenwbz7xm"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.4.veiculo.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-nsZFmkYJPvAmMtS3obHMuxBycFUgWmHdWsQJ72vWjhk="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.4.veiculo.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.4.veiculo.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "155726"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nsZFmkYJPvAmMtS3obHMuxBycFUgWmHdWsQJ72vWjhk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:16:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-nsZFmkYJPvAmMtS3obHMuxBycFUgWmHdWsQJ72vWjhk="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.5.Material.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.5.Material.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "900566"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y8YKH7NzU7pJ+EAcX19KKhHboierJ7T4NgGG+fC6CI8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:23:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-y8YKH7NzU7pJ+EAcX19KKhHboierJ7T4NgGG+fC6CI8="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.5.Material.vvtadpalun.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.5.Material.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "900566"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"y8YKH7NzU7pJ+EAcX19KKhHboierJ7T4NgGG+fC6CI8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:23:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "vvtadpalun"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.5.Material.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-y8YKH7NzU7pJ+EAcX19KKhHboierJ7T4NgGG+fC6CI8="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.6.alimentos.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.6.alimentos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "568497"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rgLZ+NeIsQfqOA8Fp5rjYuFUcim2EVgPz6Me9K+7mS0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:27:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-rgLZ+NeIsQfqOA8Fp5rjYuFUcim2EVgPz6Me9K+7mS0="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.6.alimentos.mztm0vy71y.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.6.alimentos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "568497"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rgLZ+NeIsQfqOA8Fp5rjYuFUcim2EVgPz6Me9K+7mS0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:27:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "mztm0vy71y"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.6.alimentos.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-rgLZ+NeIsQfqOA8Fp5rjYuFUcim2EVgPz6Me9K+7mS0="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.7.entretenimento.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.7.entretenimento.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "135592"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ODKxQ32t28yclp0571gAI4Wc3b9dGgg0STdKNZhJljo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:43:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ODKxQ32t28yclp0571gAI4Wc3b9dGgg0STdKNZhJljo="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.7.entretenimento.sradei8iei.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.7.entretenimento.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "135592"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ODKxQ32t28yclp0571gAI4Wc3b9dGgg0STdKNZhJljo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:43:18 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "sradei8iei"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.7.entretenimento.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ODKxQ32t28yclp0571gAI4Wc3b9dGgg0STdKNZhJljo="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.8.materiais-de-limpeza.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.8.materiais-de-limpeza.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "314357"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H8m+JzywszOREVePYfHZuTZFgDQ96xE2UXBiROuB0CY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:44:41 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-H8m+JzywszOREVePYfHZuTZFgDQ96xE2UXBiROuB0CY="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.8.materiais-de-limpeza.lnxy060e9a.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.8.materiais-de-limpeza.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "314357"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"H8m+JzywszOREVePYfHZuTZFgDQ96xE2UXBiROuB0CY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:44:41 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "lnxy060e9a"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.8.materiais-de-limpeza.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-H8m+JzywszOREVePYfHZuTZFgDQ96xE2UXBiROuB0CY="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.9.eletrodomesticos.1b8f75xjli.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.9.eletrodomesticos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "196348"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"M72fcSV2pwH4P7g2UIbeqS7CpeMtL7WfxVDOTOKqpsc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:45:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1b8f75xjli"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgStory/cap.9.eletrodomesticos.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-M72fcSV2pwH4P7g2UIbeqS7CpeMtL7WfxVDOTOKqpsc="
+        }
+      ]
+    },
+    {
+      "Route": "ImgStory/cap.9.eletrodomesticos.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgStory\\cap.9.eletrodomesticos.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "196348"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"M72fcSV2pwH4P7g2UIbeqS7CpeMtL7WfxVDOTOKqpsc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 15 May 2025 15:45:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-M72fcSV2pwH4P7g2UIbeqS7CpeMtL7WfxVDOTOKqpsc="
         }
       ]
     },
@@ -7236,7 +9338,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7281,7 +9383,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7318,7 +9420,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7355,7 +9457,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7374,6 +9476,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-0C96eZNhXdsrnunllu6rDdFu18X6pcmk6IQPe6ESZG8="
+        }
+      ]
+    },
+    {
+      "Route": "ImgUser/usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "45989"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"f67RUOXtZJ6vWd9Iw9324HWOIY1aIEt4xc1JdOacF+Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 16 Apr 2025 20:32:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-f67RUOXtZJ6vWd9Iw9324HWOIY1aIEt4xc1JdOacF+Q="
+        }
+      ]
+    },
+    {
+      "Route": "ImgUser/usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.x8g5g805cu.jpg",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\ImgUser\\usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "45989"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"f67RUOXtZJ6vWd9Iw9324HWOIY1aIEt4xc1JdOacF+Q=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 16 Apr 2025 20:32:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "x8g5g805cu"
+        },
+        {
+          "Name": "label",
+          "Value": "ImgUser/usuario-leandro01832-408983827_3799460220282377_1028238013293599857_n.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-f67RUOXtZJ6vWd9Iw9324HWOIY1aIEt4xc1JdOacF+Q="
         }
       ]
     },
@@ -7400,7 +9584,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -7445,7 +9629,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8044,7 +10228,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9279"
+          "Value": "9207"
         },
         {
           "Name": "Content-Type",
@@ -8052,11 +10236,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ=\""
+          "Value": "\"YYki5l4Xpq1TskGeviFtv3x6dvpUC7gEw3EODOEZ3XE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 13:42:31 GMT"
+          "Value": "Fri, 20 Jun 2025 13:39:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8066,12 +10250,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ="
+          "Value": "sha256-YYki5l4Xpq1TskGeviFtv3x6dvpUC7gEw3EODOEZ3XE="
         }
       ]
     },
     {
-      "Route": "JSFunctions.ypmlnm5vdi.js",
+      "Route": "JSFunctions.txym3zahkp.js",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\JSFunctions.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -8081,7 +10265,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "9279"
+          "Value": "9207"
         },
         {
           "Name": "Content-Type",
@@ -8089,11 +10273,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ=\""
+          "Value": "\"YYki5l4Xpq1TskGeviFtv3x6dvpUC7gEw3EODOEZ3XE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Jan 2025 13:42:31 GMT"
+          "Value": "Fri, 20 Jun 2025 13:39:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8103,7 +10287,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ypmlnm5vdi"
+          "Value": "txym3zahkp"
         },
         {
           "Name": "label",
@@ -8111,7 +10295,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-RgVxsppwLWA7ZmLlTEaTpfM2dPXSVr/IpSnxtzAEAPQ="
+          "Value": "sha256-YYki5l4Xpq1TskGeviFtv3x6dvpUC7gEw3EODOEZ3XE="
         }
       ]
     },
@@ -8138,7 +10322,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8183,7 +10367,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8220,7 +10404,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8257,7 +10441,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8302,7 +10486,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8339,7 +10523,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8384,7 +10568,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8429,7 +10613,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8440,6 +10624,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-WPqLiL9n02HQbkUP9KhoozmlRvJakl1hfA7lJXW9tE4="
+        }
+      ]
+    },
+    {
+      "Route": "pensar.c1n3aub3pd.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\pensar.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "25237"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oHbg6EPugJD6CqJsYlPc358+TWgchGCCT2aDfrF6W+o=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:49:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "c1n3aub3pd"
+        },
+        {
+          "Name": "label",
+          "Value": "pensar.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-oHbg6EPugJD6CqJsYlPc358+TWgchGCCT2aDfrF6W+o="
+        }
+      ]
+    },
+    {
+      "Route": "pensar.png",
+      "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\wwwroot\\pensar.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "25237"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oHbg6EPugJD6CqJsYlPc358+TWgchGCCT2aDfrF6W+o=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:49:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oHbg6EPugJD6CqJsYlPc358+TWgchGCCT2aDfrF6W+o="
         }
       ]
     },
@@ -8466,7 +10732,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8511,7 +10777,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8548,7 +10814,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8593,7 +10859,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:40 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8630,7 +10896,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -8667,7 +10933,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 29 Nov 2024 13:20:39 GMT"
+          "Value": "Tue, 04 Mar 2025 19:22:02 GMT"
         },
         {
           "Name": "Cache-Control",

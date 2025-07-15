@@ -290,7 +290,7 @@
         Context = db.CreateDbContext(null);
 
 
-        repository = RepositoryPagina.Conteudo
+        repository = RepositoryPagina.Conteudo!
                   .Where(c => c is Pagina && c.Filtro != null &&
                   c.Filtro!.FirstOrDefault(f => f.FiltroId == Id) != null).ToList().Count ==
                   CountPagesInFilterAsync();
@@ -305,7 +305,7 @@
             .FirstAsync(f => f.Id == Id);
         else
         {
-            lista = RepositoryPagina.Conteudo
+            lista = RepositoryPagina.Conteudo!
                   .Where(c => c is Pagina && c.Filtro != null &&
                   c.Filtro!.FirstOrDefault(f => f.FiltroId == Id) != null).ToList();
             filtro = await Context.Filtro!.FirstAsync(f => f.Id == Id);

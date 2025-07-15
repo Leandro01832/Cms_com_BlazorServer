@@ -137,12 +137,12 @@ namespace BlazorCms.Client.Pages
             }
             else if (condicao)
             {
-                if (Filtro != null && RepositoryPagina.Conteudo
+                if (Filtro != null && RepositoryPagina.Conteudo!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
                 CountPagesInFilterAsync((long)Filtro, livro))
                 {
-                    var listainFilter = RepositoryPagina.Conteudo
+                    var listainFilter = RepositoryPagina.Conteudo!
                     .Where(c => c is Pagina && c.Filtro != null &&
                     c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
                     var m = listainFilter.FirstOrDefault(c => retornarVerso(c) == int.Parse(opcional));
@@ -253,12 +253,12 @@ namespace BlazorCms.Client.Pages
         
         protected async void ativarConteudo()
         {
-            if (RepositoryPagina.Conteudo.FirstOrDefault(c => 
+            if (RepositoryPagina.Conteudo!.FirstOrDefault(c => 
             listaFiltro!.FirstOrDefault(f => f.Id == Model2!.Id 
             && f.Pagina!.FirstOrDefault(p => p.ContentId == c.Id && p.Content is UserContent) != null) != null) == null)
             {
                 Content = false;
-                await js!.InvokeAsync<object>("DarAlert", $"Não existe mais conteudo para esta história: {Model2.Nome}.");
+                await js!.InvokeAsync<object>("DarAlert", $"Não existe mais conteudo para esta história: {Model2!.Nome}.");
             }
         }
 
@@ -360,7 +360,7 @@ namespace BlazorCms.Client.Pages
         protected int? buscarPastaFiltrada(int camada)
         {
             long? IdGrupo = 0;
-            Pagina pag = RepositoryPagina.Conteudo.OfType<Pagina>()
+            Pagina pag = RepositoryPagina.Conteudo!.OfType<Pagina>()
                     .FirstOrDefault(p => p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
 
 
@@ -609,26 +609,86 @@ namespace BlazorCms.Client.Pages
         protected async void desabilitarTellStory()
         {
             tellStory = false;
-            await js!.InvokeAsync<object>("DarAlert", $"A contagem e divisão da história {Model2.Nome} foi desativada!!!");
+            await js!.InvokeAsync<object>("DarAlert", $"A história {Model2.Nome} não esta sendo mais contada e dividida!!!");
             acessar();
         }
 
         protected async void redirecionarMarcar()
         {
-            int camada = repositoryPagina.buscarCamada();
+            int camada = 0;
             List<Filtro> fils = null;
             Filtro fi = null;
 
                 if (Filtro == null)
+                {
                     opcional = indice.ToString();
+                    try 
+                    {
+                        camada = int.Parse(await js.InvokeAsync<string>("prompt", "marcar em qual camada?"));
+                    if (camada > 10 || camada <= 1)
+                        camada = 0;
+                    }
+                    catch (Exception ex) 
+                    {
+                        camada = 0;
+                    }
+
+                }
                 else
                 {
                     opcional = vers.ToString();
                 }  
+
+                    fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();                                               
+                if(camada == 0) 
+                {
+                    fi = fils.Where(f => f.Pagina!
+                    .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;           
+
+                }
+            else 
+            {
+                if(camada == 2)
+                    fi = fils.Where(f => f is SubStory && f.Pagina
+                   .FirstOrDefault(p =>  retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                else
+                if (camada == 3)
+                    fi = fils.Where(f => f is Grupo && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;                
+                else
+                if (camada == 4)
+                    fi = fils.Where(f => f is SubGrupo && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                else
+                if (camada == 5)
+                    fi = fils.Where(f => f is SubSubGrupo && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;                
+                else
+                if (camada == 6)
+                    fi = fils.Where(f => f is CamadaSeis && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                else
+                if (camada == 7)
+                    fi = fils.Where(f => f is CamadaSete && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                else
+                if (camada == 8)
+                    fi = fils.Where(f => f is CamadaOito && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                else
+                if (camada == 9)
+                    fi = fils.Where(f => f is CamadaNove && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                else
+                if (camada == 10)
+                    fi = fils.Where(f => f is CamadaDez && f.Pagina
+                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+
+                if(fi == null)
+                    fi = fils.Where(f => f.Pagina!
+                    .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+            }
                 
-                fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();                                               
-                fi = fils.Where(f =>   f.Pagina
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;           
            
             if (fi == null)
             {

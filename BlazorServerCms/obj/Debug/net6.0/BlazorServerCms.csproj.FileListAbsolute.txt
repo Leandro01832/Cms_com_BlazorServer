@@ -1455,7 +1455,6 @@ C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\sc
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Pastas.razor.rz.scp.css
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Plataforma.razor.rz.scp.css
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Renderizar.razor.rz.scp.css
-C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Usuario.razor.rz.scp.css
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Shared\LayoutUsuario.razor.rz.scp.css
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Shared\MeuLayout.razor.rz.scp.css
@@ -1476,3 +1475,9 @@ C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\Bl
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\BlazorServerCms.genruntimeconfig.cache
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\ref\BlazorServerCms.dll
 C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\bin\Debug\net6.0\BCrypt.Net-Next.dll
+C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Conteudo.razor.rz.scp.css
+C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Publicacao.razor.rz.scp.css
+C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Reels.razor.rz.scp.css
+C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Salvo.razor.rz.scp.css
+C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Pages\Stories.razor.rz.scp.css
+C:\Users\leand\OneDrive\Documentos\BlazorCms\BlazorServerCms\obj\Debug\net6.0\scopedcss\Shared\LoginDisplay.razor.rz.scp.css

@@ -45,7 +45,12 @@ namespace BlazorServerCms.servicos
 
         public string cupomDesconto = "";
 
-        public static List<Content> Conteudo = new List<Content>();
+        private static List<Content>? conteudo = new List<Content>();
+        public static List<Content>? Conteudo 
+        {
+            get { return conteudo!.OrderBy(x => x.Id).ToList(); }
+            set { conteudo = value; }
+        } 
         public static List<UserModel> UserModel = new List<UserModel>();
         public static List<Story> stories = new List<Story>();
         public static List<FiltroContentIndice> conteudoEmFiltro = new List<FiltroContentIndice>();

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ddZsM3uCNoY=",
+  "dgSpecHash": "+KSo6/kJTlw=",
   "success": true,
   "projectFilePath": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\BlazorServerCms.csproj",
   "expectedPackageFiles": [
@@ -273,5 +273,12 @@
     "C:\\Users\\leand\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\tinymce.blazor\\1.0.4\\tinymce.blazor.1.0.4.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Ocorreu um erro ao obter os dados de vulnerabilidade do pacote: Não é possível carregar o índice de serviço para a origem https://api.nuget.org/v3/index.json."
+    }
+  ]
 }
