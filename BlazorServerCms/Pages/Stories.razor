@@ -579,7 +579,7 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                             .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
 
                         if(fil != null)
-                            url = $"/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
+                            url = $"/renderizar/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
                         if(url != null)
                             await js!.InvokeAsync<object>("AcessarSites", $"{url}");
                         url = null;
@@ -620,7 +620,10 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
 
 
                 if (fil != null)
-                    url = $"/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
+                {
+                    int posicao = retornarPosicaoVerso(fil, versiculo);
+                    url = $"/renderizar/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
+                }
                 if(url != null)
                     navigation.NavigateTo(url);
             }
@@ -706,5 +709,20 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
             }
         }
     }
+
+     private int retornarPosicaoVerso(Filtro filtro, int versiculo)
+    {
+        var fil = Context.Filtro!
+            .Include(f => f.Pagina)!
+            .ThenInclude(p => p.Content)
+            .FirstOrDefault(f => f.Id == filtro.Id);
+         
+        FiltroContent? pagina = fil!.Pagina!.FirstOrDefault(p => p.Content is Pagina && ((Pagina)p.Content!).Versiculo == versiculo);
+        if (pagina != null)
+        {
+            return filtro.Pagina!.IndexOf(pagina) + 1;
+        }
+        return 0;
+    } 
 
 }

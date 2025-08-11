@@ -335,8 +335,8 @@
 @code {
     private Pagina? exampleModel;
     private int pasta { get; set; } = 0;
-    private string camada { get; set; }
-    private UserModel usuario;
+    private string camada { get; set; } = "";
+    private UserModel usuario = null;
     private bool EscolherUsuario;
     private string? username;
     private bool primeiroLoop = true;
@@ -346,7 +346,7 @@
     public List<Filtro> filtros = new List<Filtro>();
 
     private DemoContextFactory db = new DemoContextFactory();
-    private ApplicationDbContext Context;
+    private ApplicationDbContext Context = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -605,31 +605,31 @@
         return result;
     }
 
-    private async void alterarCamada(ChangeEventArgs e)
+    private void alterarCamada(ChangeEventArgs e)
     {
         Filtro.Clear();
 
         if (e.Value.ToString() == "camada2")
-           Filtro.AddRange( Context.SubStory!.Include(Sub => Sub.Grupo).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+           Filtro.AddRange( Context.SubStory!.Include(Sub => Sub.Grupo).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada3")
-            Filtro.AddRange(Context.Grupo!.Include(Sub => Sub.SubGrupo).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context.Grupo!.Include(Sub => Sub.SubGrupo).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada4")
-            Filtro.AddRange(Context.SubGrupo!.Include(Sub => Sub.SubSubGrupo).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context.SubGrupo!.Include(Sub => Sub.SubSubGrupo).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada5")
-            Filtro.AddRange(Context.SubSubGrupo!.Include(Sub => Sub.CamadaSeis).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context.SubSubGrupo!.Include(Sub => Sub.CamadaSeis).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada6")
-            Filtro.AddRange(Context.CamadaSeis!.Include(Sub => Sub.CamadaSete).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context.CamadaSeis!.Include(Sub => Sub.CamadaSete).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada7")
-            Filtro.AddRange(Context.CamadaSete!.Include(Sub => Sub.CamadaOito).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context.CamadaSete!.Include(Sub => Sub.CamadaOito).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada8")
-            Filtro.AddRange(Context.CamadaOito!.Include(Sub => Sub.CamadaNove).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context.CamadaOito!.Include(Sub => Sub.CamadaNove).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada9")
-            Filtro.AddRange(Context.CamadaNove!.Include(Sub => Sub.CamadaDez).Where(f => f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context.CamadaNove!.Include(Sub => Sub.CamadaDez).Where(f => f.LivroId == exampleModel!.LivroId).ToList());
         else if (e.Value.ToString() == "camada10")
-            Filtro.AddRange(Context.CamadaDez!.Where(f =>  f.LivroId == exampleModel.LivroId).ToList());
+            Filtro.AddRange(Context!.CamadaDez!.Where(f =>  f.LivroId == exampleModel!.LivroId).ToList());
 
         if(Filtro.Count == 0)
-            Filtro = Context.Filtro.Where(f => f.LivroId == exampleModel.LivroId).ToList();
+            Filtro = Context!.Filtro.Where(f => f.LivroId == exampleModel!.LivroId).ToList();
 
         Filtro = Filtro
         .ToList();

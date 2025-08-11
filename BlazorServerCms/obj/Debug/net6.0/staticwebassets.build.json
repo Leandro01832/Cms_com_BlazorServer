@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Rjac1KlvE7DmHhwoJheSsW1X4qyD4C9FdK6oAXciw8M=",
+  "Hash": "b0/vHbixMU2a0QEYfzQpWQVStcUEuBDISTbasSeWsfk=",
   "Source": "BlazorServerCms",
   "BasePath": "_content/BlazorServerCms",
   "Mode": "Default",
@@ -1774,8 +1774,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "a2rhe2hf9k",
-      "Integrity": "Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws=",
+      "Fingerprint": "0tkr3mmfxs",
+      "Integrity": "7EKzdrIPP6nteBJEqo0fuh9TLvC+IR0BEf1XFxSzn0I=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css"
@@ -1795,8 +1795,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "agpu0but36",
-      "Integrity": "WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM=",
+      "Fingerprint": "3jexcr202s",
+      "Integrity": "z79aPvDe5YhC6Quo9OO1kZhE4acQzWDeQl00eEJA4f8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css"
@@ -3644,7 +3644,7 @@
       ]
     },
     {
-      "Route": "BlazorServerCms.a2rhe2hf9k.styles.css",
+      "Route": "BlazorServerCms.0tkr3mmfxs.styles.css",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\bundle\\BlazorServerCms.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3658,7 +3658,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "43621"
+          "Value": "47638"
         },
         {
           "Name": "Content-Type",
@@ -3666,11 +3666,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws=\""
+          "Value": "\"7EKzdrIPP6nteBJEqo0fuh9TLvC+IR0BEf1XFxSzn0I=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
+          "Value": "Mon, 11 Aug 2025 00:24:28 GMT"
         },
         {
           "Name": "Link",
@@ -3680,11 +3680,11 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "a2rhe2hf9k"
+          "Value": "0tkr3mmfxs"
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws="
+          "Value": "sha256-7EKzdrIPP6nteBJEqo0fuh9TLvC+IR0BEf1XFxSzn0I="
         },
         {
           "Name": "label",
@@ -3693,7 +3693,7 @@
       ]
     },
     {
-      "Route": "BlazorServerCms.agpu0but36.bundle.scp.css",
+      "Route": "BlazorServerCms.3jexcr202s.bundle.scp.css",
       "AssetFile": "C:\\Users\\leand\\OneDrive\\Documentos\\BlazorCms\\BlazorServerCms\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\BlazorServerCms.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3703,7 +3703,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "43527"
+          "Value": "47544"
         },
         {
           "Name": "Content-Type",
@@ -3711,11 +3711,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM=\""
+          "Value": "\"z79aPvDe5YhC6Quo9OO1kZhE4acQzWDeQl00eEJA4f8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
+          "Value": "Mon, 11 Aug 2025 00:24:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3725,7 +3725,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "agpu0but36"
+          "Value": "3jexcr202s"
         },
         {
           "Name": "label",
@@ -3733,7 +3733,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM="
+          "Value": "sha256-z79aPvDe5YhC6Quo9OO1kZhE4acQzWDeQl00eEJA4f8="
         }
       ]
     },
@@ -3748,7 +3748,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "43527"
+          "Value": "47544"
         },
         {
           "Name": "Content-Type",
@@ -3756,11 +3756,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM=\""
+          "Value": "\"z79aPvDe5YhC6Quo9OO1kZhE4acQzWDeQl00eEJA4f8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
+          "Value": "Mon, 11 Aug 2025 00:24:28 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3770,7 +3770,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-WgjnNAoeXXV+BBnr9oPE+l8abrVz+h8pjDQe02RvxxM="
+          "Value": "sha256-z79aPvDe5YhC6Quo9OO1kZhE4acQzWDeQl00eEJA4f8="
         }
       ]
     },
@@ -3789,7 +3789,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "43621"
+          "Value": "47638"
         },
         {
           "Name": "Content-Type",
@@ -3797,11 +3797,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws=\""
+          "Value": "\"7EKzdrIPP6nteBJEqo0fuh9TLvC+IR0BEf1XFxSzn0I=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sat, 12 Jul 2025 11:57:13 GMT"
+          "Value": "Mon, 11 Aug 2025 00:24:28 GMT"
         },
         {
           "Name": "Link",
@@ -3811,7 +3811,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-Qokn+xP/FyIRgSCTI62Rei06vTOL2+YqrXz81QhCKws="
+          "Value": "sha256-7EKzdrIPP6nteBJEqo0fuh9TLvC+IR0BEf1XFxSzn0I="
         }
       ]
     },

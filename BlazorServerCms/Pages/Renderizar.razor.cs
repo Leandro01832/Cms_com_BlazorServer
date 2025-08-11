@@ -172,7 +172,7 @@ namespace BlazorCms.Client.Pages
                         var teste = RepositoryPagina.conteudoEmFiltro
                          .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == c!.Id &&
                          cf.conteudoEmFiltro!.FiltroId == Filtro);
-                         buscarIndice(c, countPages, teste);
+                        indice = await buscarIndice(c, countPages, teste);
 
                         acessar();
                     }
@@ -180,29 +180,17 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private async void buscarIndice(Content? c, int countPages, FiltroContentIndice? teste)
+        private async Task<int> buscarIndice(Content? c, int countPages, FiltroContentIndice? teste)
         {
-            List<FiltroContent> resultados = null;
+            List<Content> resultados = null;
             if (countPages < 1000)
             {
                 if (teste == null)
                 {
                     resultados = await GetFiltroByIdAsync((long)Filtro, livro);
-                    
-                    var mo = resultados.FirstOrDefault(r => r.ContentId == c!.Id);
-                    indice = resultados.IndexOf(mo) + 1;
-                    foreach (var item in resultados)
-                        if (RepositoryPagina.conteudoEmFiltro
-                            .FirstOrDefault(cf => cf.conteudoEmFiltro.ContentId == item.ContentId &&
-                            cf.conteudoEmFiltro.FiltroId == item.FiltroId) == null)
-                            RepositoryPagina.conteudoEmFiltro.Add
-                                (
-                                    new BlazorServerCms.Data.FiltroContentIndice
-                                    {
-                                        conteudoEmFiltro = item,
-                                        Indice = resultados.IndexOf(item) + 1
-                                    }
-                                );
+
+                    var mo = resultados.FirstOrDefault(r => r.Id == c!.Id);
+                    indice = resultados.IndexOf(mo) + 1;                  
 
                 }
                 else
@@ -213,31 +201,21 @@ namespace BlazorCms.Client.Pages
                 if (teste == null)
                 {
                     var slide = 0;
-                    while (resultados == null || resultados.FirstOrDefault(r => r.ContentId == c!.Id) == null)
+                    while (resultados == null || resultados.FirstOrDefault(r => r.Id == c!.Id) == null)
                     {
                         resultados = await GetFiltroByIdAsync((long)Filtro!, livro, slide, 20);
 
                         slide++;
-                        foreach (var item in resultados)
-                            if (RepositoryPagina.conteudoEmFiltro
-                                .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == item.ContentId &&
-                                cf.conteudoEmFiltro.FiltroId == item.FiltroId) == null)
-                                RepositoryPagina.conteudoEmFiltro.Add
-                                    (
-                                        new BlazorServerCms.Data.FiltroContentIndice
-                                        {
-                                            conteudoEmFiltro = item,
-                                            Indice = resultados.IndexOf(item) + 1 + (slide * 20)
-                                        }
-                                    );
+                        
                     }
-                    var mo = resultados.FirstOrDefault(r => r.ContentId == Model!.Id);
+                    var mo = resultados.FirstOrDefault(r => r.Id == Model!.Id);
                     indice = resultados.IndexOf(mo) + 1 + (slide * 20);
                 }
                 else
                     indice = teste.Indice;
             }
 
+            return indice;
         }
 
         private void habilitarAuto()
@@ -871,6 +849,12 @@ namespace BlazorCms.Client.Pages
             acessar();
         }
 
+        protected void acessarChave()
+        { 
+            indice = indiceChave;
+            acessar();
+        }
+
         protected void AdicionarAoCarrinho(long ProdutoId)
         {
             criptografar = true;
@@ -901,14 +885,14 @@ namespace BlazorCms.Client.Pages
                     if (Filtro != null)
                     {
                         if(livro != null)
-                        url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                        url = $"/Renderizar/{livro.Nome}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
                         else
                         url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
                     }
                     else
                     {
                         if (livro != null)
-                        url = $"/Renderizar/{livro}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
+                        url = $"/Renderizar/{livro.Nome}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
                         else
                         url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}";
                     }
@@ -993,7 +977,7 @@ namespace BlazorCms.Client.Pages
             return storyService.CountPagesInFilterAsync(filtroId, livro);
         }
 
-        public Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0)
+        public Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0)
         {
             return storyService.GetFiltroByIdAsync(filtroId, livro, slide, quantDiv);
         }

@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
 }
+
 .users[b-ybvjv7whh6] {
     font-size: 12px;
     position: absolute;
@@ -14,6 +15,27 @@
     border-radius: 10%;
     background-color: rgb(208, 146, 61);
 }
+
+.filtros[b-ybvjv7whh6] {
+    font-size: 15px;
+    position: absolute;
+    background-color: black;
+    margin-left: 10%;
+    margin-top: 1%;
+    padding: 2%;
+    height: 300px;
+    overflow: auto;
+    border-radius: 10%;
+    background-color: rgb(208, 146, 61);
+    color: rgb(95, 56, 23);
+    
+}
+
+    .filtros p a:hover[b-ybvjv7whh6] 
+    {
+        cursor: pointer;
+        text-decoration: underline;
+    }
 
 #messagesList[b-ybvjv7whh6] {
     font-size: 18px;

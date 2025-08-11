@@ -29,23 +29,21 @@ namespace BlazorCms.Client.Pages
         private ApplicationDbContext Context;
         private int? auto = 0;
         private int quantDiv = 0;
-        private int? indiceMarcador;
         private Story _story = null;
         private Livro? livro = null;
         private string? title = null;
-        private string? resumo = null;
-        private Filtro fil2 = null;
-        private Filtro fil3 = null;
-        private Filtro fil4 = null;
-        private Filtro fil5 = null;
+        private string? resumo = null;        
         private bool alterouPasta;
         private bool alterouModel;
         private List<Filtro> listaFiltro = null;
+        private int indiceChave = 0;
+        private List<FiltroContent> result = null;
 
         protected int indiceAcesso;
 
         private bool criptografar = false;
 
+        protected int chave = 0;
         protected int slideAtual = 0;
         protected List<Content>[] array;
         protected List<Content> listaContent = new List<Content>();

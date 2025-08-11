@@ -3,6 +3,7 @@
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject IJSRuntime js
+
 @layout MeuLayout
 
 <PageTitle>listas de filtro</PageTitle>
@@ -132,6 +133,14 @@
 
 </div>
 
+<div class="marcados" >
+ <p><strong>Compartilhando itens</strong></p>
+    <p>
+     @Marcacao.resultado
+      </p>
+   
+</div>
+
 <h3>Lista de Filtro</h3>
 
 <a href="#" onclick="@(() => acessarPasta())" style="font-size:22px;">
@@ -157,6 +166,9 @@
 
             @foreach (var item in Model)
             {
+                string classe = " ";
+                if(Marcacao.Marcados.FirstOrDefault(m => m.Id == item.Id ) != null)
+                classe = " marcar";
                 if (item.Produto.Count != 0)
                 {
                     foreach (var item2 in item.Produto)
@@ -166,7 +178,7 @@
                         var markup = new MarkupString(item.Html);
                         var largura = item2.Produto!.Imagem!.First().WidthImagem;
 
-                        <div class="divs">
+                        <div class="divs@(classe)">
 
                             @if (item.Html.Contains("ContentIframe"))
                             {
@@ -197,7 +209,10 @@
                             @if (item is Pagina)
                             {
                                 var p = (Pagina)item;
-                                <p>Versiculo @p.Versiculo</p>
+                                <p>Versiculo @p.Versiculo</p> 
+                                <a class="marcar2" onclick="@( () => Marcar(p.Versiculo))">
+                                    Marcar
+                                </a>
                             }
 
 
@@ -213,7 +228,7 @@
                     var markup = new MarkupString(item.Html);
 
 
-                    <div class="divs">
+                    <div class="divs@(classe)" >
 
 
                         <div class="conteudo" onclick="cancelar()">
@@ -227,6 +242,9 @@
                             {
                                 var p = (Pagina)item;
                                 <p>Versiculo @p.Versiculo</p>
+                                 <a class="marcar2" onclick="@(() => { Marcar(p.Versiculo); })">
+                                    Marcar
+                                </a>
                             }
 
                         </div>
@@ -251,7 +269,7 @@
     Filtro filtro = new Filtro();
     List<Content> Model = new List<Content>();
     List<Content> lista = new List<Content>();
-    private int indiceMarcador;
+    
 
     [Parameter] public long Id { get; set; }
     [Parameter] public int pagina { get; set; }
@@ -261,6 +279,7 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private bool repository = false;
+    private string resultado = "";
 
     protected override async Task OnParametersSetAsync()
     {
@@ -287,8 +306,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Context = db.CreateDbContext(null);
-
+        Context = db.CreateDbContext(null);       
 
         repository = RepositoryPagina.Conteudo!
                   .Where(c => c is Pagina && c.Filtro != null &&
@@ -470,8 +488,32 @@
         return _TotalRegistros;
     }
 
+    private async void Marcar(int versiculo)
+    {
+        var mo = filtro.Pagina!
+         .First(c => c.Content is Pagina &&
+          retornarVerso(c.Content) == versiculo
+          );
+          if(!Marcacao.Marcados.Contains(mo.Content!))
+         Marcacao.Marcados.Add(mo.Content!);
 
+        Marcacao.resultado = "";
+         foreach(var item in Marcacao.Marcados)
+            {
+                var lista = filtro.Pagina;
+                var m = lista.FirstOrDefault(i => i.ContentId == item.Id);
+                int itemLista = lista.IndexOf(m) + 1;
+                Marcacao.resultado += $"item {itemLista}, ";
+            }            
+            Marcacao.resultado = Marcacao.resultado.Substring(0, Marcacao.resultado.Length - 2); 
+            await js!.InvokeAsync<object>("ExecutarReload", $"teste");
+           
+    }
 
-
+     private int retornarVerso(Content c)
+        {
+            Pagina pag = (Pagina)c;
+            return pag.Versiculo;
+        }
 
 }

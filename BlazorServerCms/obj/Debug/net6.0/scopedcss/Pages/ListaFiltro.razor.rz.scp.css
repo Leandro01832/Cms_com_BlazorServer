@@ -130,7 +130,25 @@ img[b-622vkbnu9r] {
     justify-content: space-between;
 }
 
+.marcar[b-622vkbnu9r]
+{
+    border: 5px solid rgb(0,0,0);
+    background-color: yellow;
+}
 
+.marcar2[b-622vkbnu9r]
+{
+    border: 2px solid rgb(0,0,0);
+    background-color: yellow;
+}
+
+.marcados[b-622vkbnu9r]
+{
+    border: 3px solid rgb(0,0,0);
+    background-color: yellow;
+    position: fixed;
+    top: 100px;
+}
 
 @media (max-width: 500px) and (min-width: 50px) {
 

@@ -31,9 +31,7 @@ namespace BlazorServerCms.Data
         {
             Context = db.CreateDbContext(null);
             List<FiltroContent> conteudos;
-            var fil = await Context.Filtro!.FirstAsync(f => f.Id ==  filtroId);
-            if (quantidadeLista > 1999)
-            {
+           
                 int carregar = 0;
                 if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)
                     carregar = (int)carregando;
@@ -45,7 +43,9 @@ namespace BlazorServerCms.Data
                 .Include(c => c.Content)
                 .ThenInclude(c => c.Produto)
                .ThenInclude(c => c.Produto)
-                .Where(c => c.Content is Pagina && fil.Id == filtroId && c.Content.LivroId == null)
+                .Where(c => c.Content is Pagina &&
+                 c.FiltroId == filtroId &&
+                 c.Content.LivroId == null)
                 .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
                 .ToListAsync();
                 else
@@ -54,31 +54,13 @@ namespace BlazorServerCms.Data
                .Include(c => c.Content)
                .ThenInclude(c => c.Produto)
               .ThenInclude(c => c.Produto)
-               .Where(c => c.Content is Pagina && fil.Id == filtroId && c.Content.LivroId == livro.Id)
+               .Where(c => c.Content is Pagina
+                && c.FiltroId == filtroId
+                 && c.Content.LivroId == livro.Id)
                .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
                .ToListAsync();
-            }
-            else
-            {
-                if(livro == null)
-                conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
-               .Include(c => c.Filtro)
-               .Include(c => c.Content)
-               .ThenInclude(c => c.Produto)
-               .ThenInclude(c => c.Produto)
-               .Where(c => c.Content is Pagina && c.FiltroId == filtroId && c.Content.LivroId == null)
-               .ToListAsync();
-                else
-                    conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
-               .Include(c => c.Filtro)
-               .Include(c => c.Content)
-               .ThenInclude(c => c.Produto)
-               .ThenInclude(c => c.Produto)
-               .Where(c => c.Content is Pagina && c.FiltroId == filtroId && c.Content.LivroId == livro.Id)
-               .ToListAsync();
-
-            }
-
+            
+           
             foreach (var item in conteudos.Select(c => c.Content).ToList())
                 if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.Id) == null)
                     RepositoryPagina.Conteudo!.Add(item!);
@@ -141,57 +123,49 @@ namespace BlazorServerCms.Data
             return conteudos;
         }
 
-        public async Task<List<FiltroContent>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0)
+        public async Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0)
         {
-            List<FiltroContent> resultados = null;
+            List<Content> resultados = null;
             int Count = CountPagesInFilterAsync(filtroId, livro);
             if(Count < 1000)
             {
                 if (livro == null)
-                    resultados = await Context.FiltroContent
-                        .Include(c => c.Filtro)
-                         .Include(c => c.Content)
-                         .ThenInclude(c => c.Produto)
-                        .ThenInclude(c => c.Produto)
-                       .OrderBy(c => c.ContentId)
-                       .Where(f => f.FiltroId == filtroId && f.Content!.LivroId == null)
+                    resultados = await Context.Content                       
+                         .Include(c => c.Filtro)
+                       .OrderBy(c => c.Id)
+                       .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
+                        f.LivroId == null)
                        .AsNoTracking().ToListAsync();
                 else
-                    resultados = await Context.FiltroContent
+                    resultados = await Context.Content                         
                          .Include(c => c.Filtro)
-                     .Include(c => c.Content)
-                     .ThenInclude(c => c.Produto)
-                    .ThenInclude(c => c.Produto)
-                   .OrderBy(c => c.ContentId)
-                   .Where(f => f.FiltroId == filtroId && f.Content!.LivroId == livro.Id)
+                   .OrderBy(c => c.Id)
+                   .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
+                        f.LivroId == livro.Id)
                    .AsNoTracking().ToListAsync();
             }
             else
             {
                 if (livro == null)
-                    resultados = await Context.FiltroContent
-                        .Include(c => c.Filtro)
-                         .Include(c => c.Content)
-                         .ThenInclude(c => c.Produto)
-                        .ThenInclude(c => c.Produto)
-                       .OrderBy(c => c.ContentId)
-                       .Where(f => f.FiltroId == filtroId && f.Content!.LivroId == null)
+                    resultados = await Context.Content                       
+                         .Include(c => c.Filtro)
+                       .OrderBy(c => c.Id)
+                       .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
+                        f.LivroId == null)
                        .Skip(slide * quantDiv).Take(quantDiv * repositoryPagina!.quantSlidesCarregando)
                        .AsNoTracking().ToListAsync();
                 else
-                    resultados = await Context.FiltroContent
-                    .Include(c => c.Filtro)
-                     .Include(c => c.Content)
-                     .ThenInclude(c => c.Produto)
-                    .ThenInclude(c => c.Produto)
-                   .OrderBy(c => c.ContentId)
-                   .Where(f => f.FiltroId == filtroId && f.Content!.LivroId == livro.Id)
+                    resultados = await Context.Content                         
+                         .Include(c => c.Filtro)
+                   .OrderBy(c => c.Id)
+                   .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
+                        f.LivroId == livro.Id)
                    .Skip(slide * quantDiv).Take(quantDiv * repositoryPagina!.quantSlidesCarregando)
                    .AsNoTracking().ToListAsync();
 
             }
 
-            foreach (var item in resultados.Select(c => c.Content).ToList())
+            foreach (var item in resultados.ToList())
                 if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.Id) == null)
                     RepositoryPagina.Conteudo!.Add(item!);
 

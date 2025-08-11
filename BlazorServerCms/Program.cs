@@ -22,6 +22,7 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add services to the container.
 
 builder.Services.AddScoped<IStoryService, StoryService>();
+builder.Services.AddScoped<Marcacao>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();

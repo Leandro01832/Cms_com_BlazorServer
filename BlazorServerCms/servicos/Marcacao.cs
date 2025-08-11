@@ -1,9 +1,11 @@
-﻿using business;
+﻿
+using business.business;
 
 namespace BlazorServerCms.servicos
 {
     public class Marcacao
     {
-        public List<Pagina> Marcados = new List<Pagina>();
+        public static List<Content> Marcados = new List<Content>();
+       public static string resultado = "";
     }
 }
