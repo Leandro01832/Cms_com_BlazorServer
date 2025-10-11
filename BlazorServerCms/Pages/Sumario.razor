@@ -34,6 +34,8 @@
     {
         repositoryPagina.exibir = true;
         Context = db.CreateDbContext(null);
-        stories = await Context.Story!.Where(str => str.Nome != "Padrao").ToListAsync();
+        stories = await Context.Story!.Where(str => str.Nome != "Padrao")
+        .OrderBy(str => str.Capitulo)
+        .ToListAsync();
     }
 }

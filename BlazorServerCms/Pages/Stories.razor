@@ -5,28 +5,28 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime js
 
+    <Modal Title="@title" IsVisible="showModal" Close="() => showModal = false"
+    OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
+
+        @if (confirmar == "Compartilhar")
+        {
+            <p> <strong>Compartilhe um pensamento.</strong>  </p>
+            <Editor Id="contentextarea"
+            Inline=false
+            CloudChannel="5"
+            Disable=false
+            JsConfSrc="sample"
+            ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l"
+            ClassName="tinymce-wrapper" @bind-Value="Html" />
+        }
+        else if (usermodel != null)
+        {
+            <p>Deseja realmente excluir este pensamento? </p>
+            @markup
+        }
+    </Modal>
 
 
-<Modal Title="@title" IsVisible="showModal" Close="() => showModal = false"
-OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
-
-    @if (confirmar == "Compartilhar")
-    {
-        <p> <strong>Compartilhe um pensamento.</strong>  </p>
-        <Editor Id="contentextarea"
-        Inline=false
-        CloudChannel="5"
-        Disable=false
-        JsConfSrc="sample"
-        ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
-        ClassName="tinymce-wrapper" @bind-Value="Html" />
-    }
-    else if (usermodel != null)
-    {
-        <p>Deseja realmente excluir este pensamento? </p>
-        @markup
-    }
-</Modal>
 
 <div class="container" id="container" >
 
@@ -40,7 +40,14 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                     <div class="pensar2">
                         <div class="markup">
                             <a @onclick="() => showModal = usuario != null && usuario.Identity!.IsAuthenticated
-                                && usuario.Identity!.Name == usermodel.UserName"> @markup </a>
+                                && usuario.Identity!.Name == usermodel.UserName">
+                                 @if(teste)
+                                 {
+                                    @markup 
+                                   
+                                 }
+                                 
+                                 </a>
 
                         </div>
 
@@ -59,7 +66,8 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                                                     @if (usermodel != null && usermodel.Compartilhar == null)
                                                     {
                                                         <div class="@pensamento">
-                                                            <button @onclick="() => showModal = true">Nota...</button>
+                                                            <button @onclick="() => showModal = usuario != null && usuario.Identity!.IsAuthenticated
+                                                            && usuario.Identity!.Name == usermodel.UserName">Nota...</button>
 
                                                         </div>
 
@@ -365,12 +373,14 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
     private string Html = "";
     private string descricao = "";
     private string pensamento = "";
+    private bool teste = false;
     List<Story>[] array;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+
             try
             {
                 string? num = await js.InvokeAsync<string>("retornarlargura", "url");
@@ -396,13 +406,13 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                     array[i].AddRange(lista.Skip(itens * i).Take(itens).ToList());
                 }
 
-
             }
             catch (Exception ex)
             {
 
             }
         }
+        
     }
 
     protected override void OnParametersSet()
@@ -439,9 +449,6 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
         .Include(u => u.Livro)!
         .ThenInclude(u => u.Livro)!
         .ThenInclude(u => u.Filtro)!
-        .Include(u => u.Pastas)!
-        .Include(u => u.PastaSalvas)!
-        .ThenInclude(u => u.PastaSalva)!
         .FirstOrDefaultAsync(u => u.UserName == user);
         
         if (usermodel.Compartilhar == null)
@@ -472,8 +479,6 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
     {
         descricao = "";
     }
-
-   
 
     private async void compartilhar()
     {
@@ -708,6 +713,8 @@ OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
                 }
             }
         }
+        markup = new MarkupString(usermodel.Compartilhar);
+        teste = true;
     }
 
      private int retornarPosicaoVerso(Filtro filtro, int versiculo)

@@ -137,8 +137,25 @@ namespace BlazorServerCms.servicos
         public async Task<string> renderizarPagina(Content content)
         {
             var dom = buscarDominio();
-            var text = await Http.GetStringAsync($"https://{dom}/Arquivotxt/default.html");
-           
+            //var text = await Http.GetStringAsync("https://www.instagleo.net.br/Arquivotxt/default.txt");
+            var text = @"<style>
+                        img {
+                            margin: auto;
+                        }
+
+                        .blocos {
+                            width: 100%;
+                            height: 100%;
+                            justify-content: center;
+                        } 
+                    </style>
+
+                    <meta charset='UTF-8'> 
+
+                    <div id='bloco$model.Pagina.Id' class='blocos' >
+                    
+                        <div>$model.Pagina.Html</div>   
+                    </div>";
             var resultado = renderizar(content, text!);
             return resultado;
         }       

@@ -62,3 +62,16 @@ C:\Users\leand\OneDrive\Documentos\BlazorCms\business\obj\Debug\net6.0\business.
 C:\Users\leand\OneDrive\Documentos\BlazorCms\business\obj\Debug\net6.0\refint\business.dll
 C:\Users\leand\OneDrive\Documentos\BlazorCms\business\obj\Debug\net6.0\business.pdb
 C:\Users\leand\OneDrive\Documentos\BlazorCms\business\obj\Debug\net6.0\ref\business.dll
+C:\Users\DELL\Documents\BlazorCms\business\bin\Debug\net6.0\business.deps.json
+C:\Users\DELL\Documents\BlazorCms\business\bin\Debug\net6.0\business.dll
+C:\Users\DELL\Documents\BlazorCms\business\bin\Debug\net6.0\business.pdb
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.csproj.AssemblyReference.cache
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.AssemblyInfoInputs.cache
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.AssemblyInfo.cs
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.sourcelink.json
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.dll
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\refint\business.dll
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\business.pdb
+C:\Users\DELL\Documents\BlazorCms\business\obj\Debug\net6.0\ref\business.dll

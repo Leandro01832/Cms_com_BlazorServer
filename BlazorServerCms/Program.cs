@@ -1,17 +1,13 @@
 using BlazorServerCms.Areas.Identity;
 using BlazorServerCms.Data;
-using BlazorServerCms.Pages;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.business.Group;
 using business.Group;
-using Google;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Models;
-using Newtonsoft.Json;
 using PSC.Blazor.Components.Tours;
 
 
@@ -27,18 +23,26 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
 builder.Services.AddSingleton<ChatGpt>();
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString =
+builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services
+.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserModel>>();
+builder.Services.AddScoped<IEmailSender<UserModel>, EmailSender>();
 
 builder.Services.UseTour();
+
+// builder.Services.AddServerSideBlazor().AddHubOptions(options =>
+// {
+//     options.MaximumReceiveMessageSize = 64 * 1024;
+// });
 
 //builder.Services.AddAuthentication()
 //               .AddGoogle(options =>
@@ -51,7 +55,13 @@ builder.Services.UseTour();
 //                   options.ClientSecret = googleAuthNSection["ClientSecret"];
 //               });
 
-builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
+// builder.Services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
+
+// builder.Services.AddSignalR().AddStackExchangeRedis(builder.Configuration.GetConnectionString("dominio")!, options =>
+// {
+//     options.Configuration.ChannelPrefix = "BlazorServerCms";
+// });
+
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(options =>
@@ -106,7 +116,7 @@ using (var scope = app.Services.CreateScope())
     var password         = builder.Configuration.GetConnectionString("Senha");
     var userASP          = await userManager.FindByNameAsync(email);
 
-    var lista = await repositoryPagina.buscarPatternStory();
+   // var lista = await repositoryPagina.buscarPatternStory();
 
     if (await contexto!.Set<Story>().AnyAsync())
     {
@@ -117,9 +127,9 @@ using (var scope = app.Services.CreateScope())
     }
     else 
     {
-        foreach (var item in lista!)
-            contexto.Add(item);
-        contexto.SaveChanges();
+       // foreach (var item in lista!)
+       //     contexto.Add(item);
+       // contexto.SaveChanges();
     }
 
     if(await contexto!.Set<Content>().AnyAsync())

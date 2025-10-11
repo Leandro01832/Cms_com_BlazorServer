@@ -1,5 +1,39 @@
-﻿    var porcentagem = 0;
-    var funcaoCarregarPagina2 = null;
+﻿var porcentagem = 0;
+var funcaoCarregarPagina2 = null;
+var teste = 1;
+
+document.addEventListener('touchstart', function (event) {
+
+    const container = document.getElementById('container');
+
+    // Delegação de evento
+    container.addEventListener('touchstart', function (event) {
+        if (event.target.classList.contains('toolip')) {
+            if (teste == 1) {
+                const elementos = document.querySelectorAll('span[title]');
+
+                elementos.forEach((el, index) => {
+                    el.addEventListener("touchstart", () => {
+                        alert(el.getAttribute('title'));
+                    });
+                });
+                teste = 2;
+            }
+        }
+    });
+});
+
+
+
+function codificarUri(uri) {
+    return btoa(uri);
+    // Codifica a URI em Base64
+}
+function decodificarUri(encodedUri)
+{
+    return atob(encodedUri);
+    // Decodifica a URI de Base64
+}
 
 window.zerar = (m) => {
     porcentagem = 0;
@@ -7,7 +41,6 @@ window.zerar = (m) => {
     prog.setAttribute("style", "width: " + porcentagem + "%");
     clearInterval(funcaoCarregarPagina2);
 }
-
 
 window.ExecutarReload = (m) => {
     location.reload();
@@ -102,35 +135,20 @@ window.Clicou = (m) => {
     element.style.display = "flex";
 }
 
-window.MarcarIndice = (id) => {
-    var divs = document.getElementsByClassName("DivPag");
+window.GeminiResponse = (p) => {
 
-    for (var i = 0; i < divs.length; i++)
-    {
-        divs[i].style.color = "black";
-    }
-    var largura = window.screen.width;
-    var tamanho = 0;
-    var scrolando = 0;
-    if (largura > 500) {
-        tamanho = parseInt((27 * largura) / 1280);
-         scrolando = 32;
-    }
-    else  {
-        tamanho = parseInt((14 * largura) / 360);
-        scrolando = 28;
-    }
-    var indice = parseInt(id);
-    var r = parseInt(indice / tamanho);
-    if(r  > 0)
-        var calculo = (scrolando * r);
+    //const prompt = p;
+    
+    //const result = await model.generateContent(prompt);
+    //const response = await result.response;
+    //const text = response.text();
+    //console.log(text);
 
-    console.log(largura);
+    return p;
 
-    document.getElementById("DivPagina" + id).style.color = "red";
-    document.getElementsByClassName("DivPagina")[0].scrollBy(0, -2000);
-    document.getElementsByClassName("DivPagina")[0].scrollBy(0, calculo);
 }
+
+
 
 window.FullScreen =(teste) => {
     var elem = document.getElementById("corpoPagina");
@@ -184,6 +202,113 @@ window.sairFullScreen = (url) => {
     document.exitFullscreen();
 }
 
+window.share = (config) => {
+
+    var arr = config.split("/");
+
+    var endereco = window.location.href;
+    var titulo = arr[0];
+    var resumo = arr[1];    
+
+    if (navigator.share !== undefined) {
+        navigator.share({
+            title: titulo,
+            text: resumo,
+            url: endereco,
+        })
+            .then(() => alert('Compartilhamento feito com sucesso!!!'))
+            .catch((error) => alert('Erro ao compartilhar!!! ' + error, error));
+    }
+}
+
+window.retornarSubdominio = (url) =>
+{
+    var endereco = window.location.href;
+    // Cria um objeto URL a partir da string URL fornecida
+    const urlObj = new URL(endereco);
+
+    // Obtém o hostname da URL
+    const hostname = urlObj.hostname;
+    
+
+    // Divide o hostname em partes, separadas por pontos
+    const parts = hostname.split('.');
+
+    // Verifica se o hostname possui mais de duas partes (subdomínio.dominio.tld)
+    if (parts.length > 2) {
+        // Retorna a parte do subdomínio (todas as partes exceto as duas últimas)
+        return parts.slice(0, parts.length - 2).join('.');
+    } else {
+        // Se não houver subdomínio, retorna uma string vazia
+        return null;
+    }
 
 
+}
+
+window.contarHistoria = (story) => {
+
+    return prompt("Digite 'sim' se você deseja contar e dividir esta história: " + story + ". Atenção!!! Item só poderá ser compartilhado quando a pessoa já souber qual é a pasta.");
+
+}
+
+window.proximoSlide = () =>
+{
+    var slid = document.querySelectorAll('.carousel-item');
+    var slide = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
+   
+    
+    var slides = document.getElementsByClassName("carousel-item");
+    if (slide != slides.length - 1) {
+        slides[slide].classList.remove("ativo");
+        slides[slide + 1].classList.add("ativo");
+
+    }
+    else
+    {
+        slides[slide].classList.remove("ativo");
+        slides[0].classList.add("ativo");
+    }
+}
+
+window.slideAnterior = () => {
+    var slid = document.querySelectorAll('.carousel-item');
+    var slide = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
+    
+
+    var slides = document.getElementsByClassName("carousel-item");
+    if (slide != 0) {
+        slides[slide].classList.remove("ativo");
+        slides[slide - 1].classList.add("ativo");
+    }
+    else
+    {
+        slides[slide].classList.remove("ativo");
+        slides[slides.length - 1].classList.add("ativo");
+    }
+}
+
+window.retornarlargura = (url) => {
+
+    return window.screen.width.toString();
+}
+
+window.trocarSlide = (slide) =>
+{
+    var slid = document.querySelectorAll('.carousel-item');
+    debugger;
+    if (slid.length != 0)
+    {
+        var slideAtual = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
+        var slides = document.getElementsByClassName("carousel-item");    
+
+        slides[slideAtual].classList.remove("ativo");
+        slides[slide].classList.add("ativo");   
+    }
+}
+
+window.retornarTextArea = (textArea) =>
+{
+    return document.getElementById(textArea).value;
+}
 

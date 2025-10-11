@@ -30,14 +30,14 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
         private readonly IUserStore<UserModel> _userStore;
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSender<UserModel> _emailSender;
 
         public RegisterModel(
             UserManager<UserModel> userManager,
             IUserStore<UserModel> userStore,
             SignInManager<UserModel> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender<UserModel> emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -143,7 +143,7 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirme seu email",
+                    await _emailSender.SendConfirmationLinkAsync(user, Input.Email, 
                         $"Por favor confirme sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
