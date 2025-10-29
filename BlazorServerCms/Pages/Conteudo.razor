@@ -78,8 +78,8 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id == null)
-            c = content.First();
+        if (Id == null)        
+            c = content.FirstOrDefault()!;        
         else
             c = content.First(co => co.Id == Id);
 

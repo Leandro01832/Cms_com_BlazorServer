@@ -2,6 +2,8 @@
 var funcaoCarregarPagina2 = null;
 var teste = 1;
 
+
+
  window.minhaFuncaoOnLoad = () => {
         console.log("Função JS chamada após renderização!");
     

@@ -792,7 +792,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarComentarios()
         {
             automatico = false;
-            if(Filtro == null)
+            if (Filtro == null)
             {
                 acessar($"/comentario/{Model.Id}");
             }
@@ -802,7 +802,8 @@ namespace BlazorCms.Client.Pages
 
             }
         }
-
+        
+       
         protected void acessarPastas()
         {
             automatico = false;

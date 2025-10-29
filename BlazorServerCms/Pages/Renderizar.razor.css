@@ -22,7 +22,7 @@
 
 .container
 {
-    min-height: 670px;
+    min-height: 600px; 
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -37,7 +37,9 @@
 {
     z-index:1;
     width: 100%;
-    height: 110px;
+    height: 33px;
+     position: fixed; 
+     background-color: rgba(250, 247, 247, 0.689); 
 }
 
 .pesquisas 
@@ -45,13 +47,28 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: flex-end;
+    align-items: flex-start;
+    justify-content: flex-start; 
+    height:auto; 
+}
+
+.actions 
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start; 
+    justify-content: flex-start; 
+    
 }
 
 .header
 {
-    align-self: flex-start;
-
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start; 
+    justify-content: flex-start;
 }
 
 span {
@@ -64,7 +81,7 @@ h3 {
 }
 
 p {
-    background-color: rgb(227, 196, 101);
+    background-color: rgb(255, 255, 255); 
 }
 
 .paragrafo2{
@@ -116,18 +133,12 @@ p {
     width: 100%;
 }
 
-.capitulos {
-    font-size: 17px;
-    background-color: transparent;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
 
 
 
-.versos{
-    width: 140px;
+
+.versos{    
+    width: auto; 
     padding: 0;
 }
 
@@ -165,19 +176,21 @@ p {
     color: darkblue;
 }
 
-.barra {
+.barra 
+{
     height: 5px;
     background-color: black;
 }
 
 
-.render {
+.render 
+{
     position: relative;
-    top: 6%;
+    top: 14%;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    z-index: 1;
+    object-fit: cover; 
+    z-index: 0;
     justify-content: center;
     overflow: scroll;
 }
@@ -340,21 +353,27 @@ Informativo {
     top: 50%;
     height: 60px;
     background-color: darkgray;
-    border-radius: 20%;
+    border-radius: 20%; 
 }
 
-.capSubstory {
-    width: 90px;
+.capSubstory 
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
-header{
+.heade{
     background-color: white;
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 
-.capHeader {
-    flex-grow: 3;
-}
+
 
 .circulo {
     width: 150px;
@@ -410,11 +429,17 @@ header{
     border-radius: 50%;
 }
 
-.cabecalho {
+.cabecalho 
+{
+    position: fixed;
+    top: 15%;
+    left: 1%;
+    /* 
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-between; 
+    */ 
 }
 
 #horizontes {
@@ -458,15 +483,56 @@ svg
 
 .inputs 
 {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 265px;
+    display: block;
+    width: 130px;
 }
+
+.dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+       display: none; 
+      position: absolute;       
+      background-color: #f9f9f9;
+      min-width: 100px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 0;  
+    }
+
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f1f1f1; 
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content:hover .dropdown-content  {
+      display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+      background-color: #e2f605;
+    }
 
 
 @media (max-width: 550px) and (min-width: 50px) {
+
+    iframe {
+  pointer-events: none; 
+} 
+
+
+
     .prev {
         height: 10%;
         background-color: rgb(0, 0, 0, 0,5);
@@ -483,22 +549,15 @@ svg
     }
 
     .render {
-        top: 0;
+        top: 130px;
         left: 0;
-        width: 100%;
+        width: 90%; 
         height: 100%;
         object-fit: cover;
         z-index: 0;
         justify-content: center;
         overflow: scroll;
-    }
-
-   
-
-    .capitulos {
-        font-size: 12px;
-        background-color: transparent;
-    }
+    }   
     
     .carousel-control-next{
         width: 10%;

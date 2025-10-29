@@ -52,47 +52,49 @@ else if (!repositoryPagina.erro)
 
     <div class="container" >
 
-        <div class="menu">
+        <div class="menu row">
 
-            <div id="pesquisas">
+            <div  class="pesquisas col-md-6" >
 
-                @{
-                    <div class="header">
+                    <div class="heade col-md-12">
                        
                             @if (Filtro == null)
                             {
-                                <PageTitle>@nameStory</PageTitle>
-                                <div class="capHeader">
+                                <PageTitle>@nameStory</PageTitle> 
+                                <span>
+                                
                                     <header>Story: @nameStory</header>
-                                </div>
-                                <span class="capitulos">
-                                    <a data-first onclick="@(() => acessarCapitulos() )" class="btn btn-primary">
-                                        Capítulo @cap
+                                
+                                    <a data-first onclick="@(() => acessarCapitulos() )" class="btn">
+                                        Capítulo @cap 
                                     </a>
                                 </span>
-                            }
+                            } 
                             else
                             {
 
                                 if (rotas != null)
                                 {
                                     <PageTitle>@rotas</PageTitle>
-                                    <div class="capHeader">
-                                        <p class="capitulos"> <header>@rotas</header></p>
-                                    </div>
+                                    
+                                        <p > <header>@rotas</header></p>
+                                    
                                 }
                                 else
                                 {
                                     <PageTitle>@nameGroup</PageTitle>
-                                    <div class="capHeader">
-                                        <p class="capitulos">
-                                            <header>@nameGroup </header>
+                                    
+                                        <p >
+                                            <header>
+                                                @nameGroup
                                             @if (tellStory)
                                             {
                                                 <b> - Capitulo @cap</b>
-                                            }
+                                            } 
+
+                                             </header>
                                         </p>
-                                    </div>
+                                    
 
                                 }
                                 
@@ -101,14 +103,14 @@ else if (!repositoryPagina.erro)
                                 {
                                     if (!tellStory)
                                     {
-                                        <div class="capSubstory">
-                                            <span class="capitulos">
-                                                Capítulo @cap
-                                            </span>
+                                        <div>
+                                            <span>
+                                                - Capítulo @cap 
                                             <span class="versos">
-                                                <a onclick="@(() => acessarVerso())" class="btn btn-primary">
-                                                    Versiculo @vers
+                                                <a onclick="@(() => acessarVerso())" class="btn">
+                                                    Versículo @vers
                                                 </a>
+                                            </span>
                                             </span>
                                         </div>
 
@@ -122,9 +124,7 @@ else if (!repositoryPagina.erro)
                         
                         
 
-                    </div>
-
-                    <div class="inputs">
+                    </div>                     
 
                         @if (cap == 0)
                         {
@@ -140,86 +140,92 @@ else if (!repositoryPagina.erro)
                             {
                                 <span class="ms-3">Pasta</span>
                             }
-                        }
-
-                        @if(tellStory){
-                            <div class="capSubstory">
-                                <span>
-                                    <a onclick="@(() => desabilitarTellStory())" class="btn btn-primary versos">
-                                        Versiculo @vers
-                                    </a>
-                                </span>
-                            </div>
-                        }
-
-                        <div class="pesquisa">                        
-
-                        @if (Filtro == null || tellStory)
-                        {
-                            if (tellStory)
-                            {
-                                <input data-2 type="number" class="tellStory" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
-                                id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
-                                <center>
-                                    <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                                    class="btn btn-primary ms-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                        </svg>
-                                    </a>
-                                </center>
-
-                            }
-                            else
-                            {
-                                <input data-2 type="number" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
-                                id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
-                                <center>
-                                    <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                                    class="btn btn-primary ms-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                        </svg>
-                                    </a>
-                                </center>
-                            }
-                        }
-                        else
-                        {
-                            <input type="text" placeholder="verso ou user" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
-                            id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
-                            <center>
-                                <a id="acessoPaginaComInput2" onclick="@Pesquisar"
-                                class="btn btn-primary ms-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                    </svg>
-                                </a>
-                            </center>
-                        }
-
-                        </div>
-                    
-                    </div>
-
-
-                }
-
+                        }                       
 
             </div>
 
-            <div class="navegacao">
+            <div class="actions col-md-6"> 
+                       
+              
+                @{
 
-                <a onclick="@Casinha" class="btn btn-primary" data-3>
+                    @if(tellStory)
+                        {
+                            <div class="capSubstory">
+                                <span>
+                                    <a onclick="@(() => desabilitarTellStory())" class="btn versos">
+                                        Versiculo @vers
+                                    </a>
+                                </span>
+                            </div> 
+                        }
+
+                         <div class="inputs"> 
+                         
+                         
+
+                            @if (Filtro == null || tellStory)
+                            {
+                                if (tellStory)
+                                {
+                                    <input data-2 type="number" class="tellStory" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
+                                    id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
+                                    <center>
+                                        <a id="acessoPaginaComInput2" onclick="@Pesquisar"
+                                        class="btn btn-primary ms-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                            </svg>
+                                        </a>
+                                    </center>
+
+                                }
+                                else
+                                {
+                                    <input data-2 type="number" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
+                                    id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
+                                    <center>
+                                        <a id="acessoPaginaComInput2" onclick="@Pesquisar"
+                                        class="btn btn-primary ms-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                            </svg>
+                                        </a>
+                                    </center>
+                                }
+                            }
+                            else
+                            {
+                                <input type="text" placeholder="verso ou user" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
+                                id="NumeroPaginaAcesso3" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
+                                <center>
+                                    <a id="acessoPaginaComInput2" onclick="@Pesquisar"
+                                    class="btn btn-primary ms-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </a>
+                                </center>
+                            }
+
+                        </div>
+   
+
+<div class="dropdown" id="myDropdown" > 
+    <button class="dropbtn" >Actions</button>
+    <div class="dropdown-content">
+
+                <a onclick="@Casinha"  data-3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
+                       <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
                     </svg>
+                    Home
                 </a>
 
                 @if (nameStory != "Padrao" && outroHorizonte == 0)
                 {
 
-                    <a data-4 href="" class="btn btn-primary" onclick="@(() => acessarComentarios())">
+                    <a data-4 href=""  onclick="@(() => acessarComentarios())">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
                             <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                             <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z" />
@@ -229,82 +235,35 @@ else if (!repositoryPagina.erro)
 
                 }
 
-                @if (outroHorizonte == 0 && nameStory != "Padrao" && Model != null && Model!.Filtro! != null && Model!.Filtro!.Count != 0)
-                {
-                    <div>
-
-                        <a data-5 href="#" class="btn btn-primary" onclick="@(() => acessarPastas())">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
-                                <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
-                            </svg>
-                        </a>
-
-                        @if (Model2 != null && Model2.usuarios.Count == 0 && !ultimaPasta || Filtro == null && !ultimaPasta)
-
-                        {
-                            <a data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())"  >
-                                marcar?
-                            </a>
-                        }
-
-
-                    </div>
-                }
 
                 @if (cap != 0 && outroHorizonte == 0)
                 {
-                    <div style="background-color:rgb(27,110,194); border-radius: 20%; color: white;">
-
-
-                        @if (!liked)
-                        {
-                            if (ultimaPasta)
-                            {
-                                <a onclick="@DarUmLike" class="btn btn-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                                    </svg>
-                                </a>
-                            }
-                            else
-                            {
-                                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                                </svg>
-
-                            }
-
-                        }
-                        else
-                        {
-                            if (ultimaPasta)
-                            {
-                                <a onclick="@Unlike" class="btn btn-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                                    </svg>
-                                </a>
-                            }
-                            else
-                            {
-                                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                </svg>
-
-                            }
-                        }
-                        @quantLiked
-                    </div>
+                    @if (!liked) 
+                    {                           
+                        <a href="#" onclick="@DarUmLike"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                            </svg>
+                         @quantLiked 
+                        </a>
+                    }
+                    else
+                    {                            
+                        <a href="#" onclick="@Unlike" class="btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                            </svg>
+                        @quantLiked                          
+                        </a>
+                    }
+                                       
                 }
 
+               
                 @if (!tellStory)
-                {
-                    <div class="share">
-
-                        <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
-
-                        @if (Filtro != null && rotas == null && ultimaPasta ||
-                      Filtro != null && rotas == null)
+                { 
+                     
+                        @if (Filtro != null && rotas == null)
                         {
                             <a class="compartilhar" onclick="@share">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
@@ -320,125 +279,39 @@ else if (!repositoryPagina.erro)
                             </a>
                         }
 
-
-                    </div>
-
-                    <div class="tour">
-                        <GuidedTour TourId="FormGuidedTour1" OverlayEnabled="true">
-                            <GuidedTourStep Title="Acessar story" StepName="firstStep" TourStepSequence="1"
-                            ElementSelector="[data-first]">
-                                <span>Acesse a story e altere o capitulo se for necessário</span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Acessando" StepName="Step2" TourStepSequence="2"
-                            ElementSelector="[data-2]">
-                                @if (outroHorizonte == 0)
-                                {
-                                    <span>Informe o numero do versiculo e acesse qualquer pagina desta story. (Horizonte versiculos).</span>
-
-                                }
-                                else if (outroHorizonte == 1)
-                                {
-                                    <span>Informe o numero da pasta e acesse qualquer filtro desta story criado pelo admin. (Horizonte pastas).</span>
-
-                                }
-                                else if (outroHorizonte == 2)
-                                {
-                                    <span>Informe o numero da pergunta que se refere a esta story. (Horizonte perguntas).</span>
-
-                                }
-                                else if (outroHorizonte == 3)
-                                {
-                                    <span>Informe o numero do marcador e acesse qualquer filtro desta story criado pelo usuario. (Horizonte marcador).</span>
-
-                                }
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Home" StepName="Step3" TourStepSequence="3"
-                            ElementSelector="[data-3]">
-                                <span>Neste link você acessará a home ou a capa do livro </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Comentários" StepName="Step4" TourStepSequence="4"
-                            ElementSelector="[data-4]">
-                                <span>
-                                    Clique neste link para visualizar comentarios deste versiculo ou fazer um comentário.
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Pastas" StepName="Step5" TourStepSequence="5"
-                            ElementSelector="[data-5]">
-                                <span>
-                                    Visualise todas as pastas deste versiculo clicando neste link.
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Ultima pasta" StepName="Step6" TourStepSequence="6"
-                            ElementSelector="[data-6]">
-                                <span>
-                                    Neste link você será redirecionado para ultima pasta onde vão estar todos os versiculos marcados,
-                                    perguntas, respostas, marcadores etc.
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Automático" StepName="Step7" TourStepSequence="7"
-                            ElementSelector="[data-7]">
-                                <span>
-                                    Clique aqui para mostrar as paginas automaticamente.
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Marcador" StepName="Step8" TourStepSequence="8"
-                            ElementSelector="[data-8]">
-                                <span>
-                                    Clique aqui para acessar o horizonte marcador
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Perguntas" StepName="Step9" TourStepSequence="9"
-                            ElementSelector="[data-9]">
-                                <span>
-                                    Clique aqui para acessar o horizonte perguntas
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Pastas" StepName="Step10" TourStepSequence="10"
-                            ElementSelector="[data-10]">
-                                <span>
-                                    Clique aqui para acessar o horizonte pastas
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Versiculos" StepName="Step11" TourStepSequence="11"
-                            ElementSelector="[data-11]">
-                                <span>
-                                    Clique aqui para acessar o horizonte versiculos
-                                </span>
-                            </GuidedTourStep>
-                        </GuidedTour>
-
-                        <GuidedTour TourId="FormGuidedTour2" OverlayEnabled="true">
-                            <GuidedTourStep Title="Marcar" StepName="firstStep" TourStepSequence="1"
-                            ElementSelector="[data-first]">
-                                <span>
-                                    Quando aparecer apenas um versiculo significa que você esta dentro da pasta.
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Criar filtro" StepName="Step2" TourStepSequence="2"
-                            ElementSelector="[data-2]">
-                                <span>
-                                    Clique aqui e crie seu filtro.
-                                </span>
-                            </GuidedTourStep>
-                            <GuidedTourStep Title="Numero" StepName="Step3" TourStepSequence="3"
-                            ElementSelector="[data-3]">
-                                <span>
-                                    Este é o numero da pasta que foi acessado.
-                                </span>
-                            </GuidedTourStep>
-                        </GuidedTour>
-                    </div>
+                        <button  type="button" @onclick="StartTour">Start Tour</button>
                 }
 
-           
-           <a onclick="@acessarChave" class="chave">  
+                <a data-5 href="#" class="btn" onclick="@(() => acessarPastas())">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                        <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
+                    </svg> Pastas
+                </a>
+    </div>
+  </div> 
+
+            @if (outroHorizonte == 0 && nameStory != "Padrao" && Model != null && Model!.Filtro! != null && Model!.Filtro!.Count != 0)
+                {
+                    @if (Model2 != null && Model2.usuarios.Count == 0 && !ultimaPasta || Filtro == null && !ultimaPasta)
+                    {
+                        <a data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())"  >
+                            marcar?
+                        </a>
+                    }
+                } 
+           <a onclick="@acessarChave" class="chave btn btn-primary"> 
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
                 <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                 </svg>
                 @chave
            </a>
-            </div>
+
+            }
+            
+            
+            </div> 
+             
 
         </div>
 
@@ -495,29 +368,24 @@ else if (!repositoryPagina.erro)
                         <p>Versiculos encontrados</p>
                     }
 
-
                     @if (Content)
                     {
                         var user = (UserContent)Model;
                         <p>
-
                             <h5> <a href="/@user.UserModel.UserName">  @user.UserModel.UserName</a>  </h5>
-                            </p>
-                        }
+                        </p>
+                    }
 
                         @if (Filtro != null)
                         {
                             <p>
-                                @if (Model != null && Content == false)
+                                @* @if (Model != null && Content == false)
                                 {
                                     @Model.Data.ToString("dd/MM/yyyy")
-
-                                }
-
+                                } *@
                                 <input type="checkbox" id="data" name="data" @bind="Content" onclick="@ativarConteudo" />
                                 <a href="/conteudo">Mais Conteudo?</a>
-                            </p>            
-
+                            </p>
                         }
                     </div>
 
