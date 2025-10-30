@@ -452,6 +452,7 @@ namespace BlazorCms.Client.Pages
                         .Include(umpl => umpl.UserModel)
                         .FirstOrDefault(p => p.ContentId == Model.Id &&
                         p.UserModel.UserName == user.Identity!.Name)!;
+                        
                 }
 
 
@@ -463,6 +464,8 @@ namespace BlazorCms.Client.Pages
 
             if (p != null)
                 liked = true;
+            else
+                liked = false;
 
             if (!tellStory) placeholder = "digita nome";
             else placeholder = "Nº do item";
