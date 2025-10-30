@@ -71,9 +71,11 @@ namespace BlazorCms.Client.Pages
         protected Filtro? Model2;
         protected string[]? classificacoes = null;
         protected string opcional = "";
-        protected bool liked = false;       
-        protected bool Content = false;       
-        protected long quantLiked = 0;
+        protected bool liked = false;
+        protected bool Content = false;   
+        
+            
+        
 
         private Content? model = null;
         protected Content? Model 

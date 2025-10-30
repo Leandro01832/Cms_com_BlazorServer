@@ -120,6 +120,12 @@ namespace BlazorServerCms.Migrations
                     b.Property<long?>("LivroId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("QuantLiked")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantShared")
+                        .HasColumnType("int");
+
                     b.Property<string>("Rotas")
                         .HasColumnType("nvarchar(max)");
 

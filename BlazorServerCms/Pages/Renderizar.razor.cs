@@ -524,13 +524,18 @@ namespace BlazorCms.Client.Pages
         }
         
         protected async Task DarUmLike()
-        {            
+        {
+            Model!.QuantLiked++; 
+            Context.Update(Model);          
             usuario.curtir(Model);
             await Context.SaveChangesAsync();
         }
 
         protected async Task Unlike()
-        {          
+        { 
+            Model!.QuantLiked--;
+            Context.Update(Model);
+            await Context.SaveChangesAsync();        
             var page =  usuario.PageLiked
             .FirstOrDefault(p => p.ContentId == Model.Id);
 
@@ -680,13 +685,7 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private int CountLikes()
-        {
-            if (Model != null)
-                return CountLikesAsync(Model!.Id, livro);
-            else
-                return 0;
-        }
+        
 
         private bool CountFiltros()
         {
@@ -768,6 +767,9 @@ namespace BlazorCms.Client.Pages
             {
                 try
                 {
+                    Model.QuantShared++;
+                    Context.Update(Model);
+                    await Context.SaveChangesAsync();
 
                     await js!.InvokeAsync<object>("share", $"{title} / {resumo}");
                     title = null;
@@ -956,12 +958,7 @@ namespace BlazorCms.Client.Pages
         public Task<int> GetYouTubeVideoDurationAsync(string videoId)
         {
             return storyService.GetYouTubeVideoDurationAsync(videoId);
-        }
-
-        public int CountLikesAsync(long ContentId, Livro livro)
-        {
-            return storyService.CountLikesAsync(ContentId, livro);
-        }
+        }        
 
         public bool HasFiltersAsync(long storyId, Livro livro)
         {

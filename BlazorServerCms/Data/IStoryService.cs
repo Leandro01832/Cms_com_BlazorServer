@@ -15,8 +15,7 @@ namespace BlazorServerCms.Data
         Task<Story> GetStoryByIdAsync(long storyId);
         Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0);
         int CountPagesInFilterAsync(long filtroId, Livro livro);
-        int CountPagesAsync(long storyId, Livro livro);
-        int CountLikesAsync(long ContentId, Livro livro);
+        int CountPagesAsync(long storyId, Livro livro);        
         bool HasFiltersAsync(long storyId , Livro livro);
         Task<int> GetYouTubeVideoDurationAsync(string videoId);
     }

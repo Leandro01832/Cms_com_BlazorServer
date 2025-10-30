@@ -49,6 +49,9 @@ namespace business.business
 
         public virtual List<Comment> Comentario { get; set; }
 
+        public int QuantLiked { get; set; } = 0;
+        public int QuantShared { get; set; } = 0;
+
         public string? Html
         {
             get { return html; }

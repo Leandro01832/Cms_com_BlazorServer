@@ -126,6 +126,8 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.UserModel)!
                     .Where(f => f.LivroId == livro.Id && f.StoryId == _story.Id).ToListAsync();
 
+            
+
             if (Filtro != null && livro != null)
             {
                 Model = Context.Pagina!
@@ -190,7 +192,7 @@ namespace BlazorCms.Client.Pages
                     .LastOrDefault(c => c.StoryId == storyid && c is Pagina && c.Html != null)!;
                 if (q == null)
                 {
-                    var pa = Context.Pagina!.OrderBy(p => p.Id)
+                    var pa = Context.Pagina!.Include(p => p.Comentario).OrderBy(p => p.Id)
                     .LastOrDefault(c => c.StoryId == storyid && c is Pagina && c.Html != null)!;
                     RepositoryPagina.Conteudo!.Add(pa);
                     quantidadeLista = retornarVerso(pa);
@@ -472,7 +474,6 @@ namespace BlazorCms.Client.Pages
             else DivPag = "DivPag2";
 
             perguntar();
-            quantLiked = CountLikes();
         }
         
         private async Task<List<Content>> retornarListaFiltrada(string rota)

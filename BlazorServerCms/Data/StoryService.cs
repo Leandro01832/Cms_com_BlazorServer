@@ -43,6 +43,8 @@ namespace BlazorServerCms.Data
                 .Include(c => c.Content)
                 .ThenInclude(c => c.Produto)
                .ThenInclude(c => c.Produto)
+               .Include(c => c.Content)
+               .ThenInclude(c => c.Comentario)
                 .Where(c => c.Content is Pagina &&
                  c.FiltroId == filtroId &&
                  c.Content.LivroId == null)
@@ -54,6 +56,8 @@ namespace BlazorServerCms.Data
                .Include(c => c.Content)
                .ThenInclude(c => c.Produto)
               .ThenInclude(c => c.Produto)
+              .Include(c => c.Content)
+               .ThenInclude(c => c.Comentario)
                .Where(c => c.Content is Pagina
                 && c.FiltroId == filtroId
                  && c.Content.LivroId == livro.Id)
@@ -82,6 +86,7 @@ namespace BlazorServerCms.Data
                 if(livro == null)
                     conteudos = await Context!.Content!.OrderBy(p => p.Id)
                .Include(c => c.Filtro)
+               .Include(c => c.Comentario)
                .Include(c => c.Produto)
                .ThenInclude(c => c.Produto)
                .Where(c => c is Pagina && c.StoryId == storyId && c.LivroId == null)
@@ -102,6 +107,7 @@ namespace BlazorServerCms.Data
                 if (livro == null)
                 conteudos = await Context!.Content!.OrderBy(p => p.Id)
                .Include(c => c.Filtro)
+               .Include(c => c.Comentario)
                .Include(c => c.Produto)
                .ThenInclude(c => c.Produto)
                .Where(c => c is Pagina && c.StoryId == storyId && c.LivroId == null)
@@ -236,28 +242,7 @@ namespace BlazorServerCms.Data
                 return false;
         }
 
-        public int CountLikesAsync(long ContentId, Livro livro)
-        {
-            var _TotalRegistros = 0;
-            try
-            {
-                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
-                {
-                    SqlCommand cmd = null;
-                    cmd = new SqlCommand($"SELECT COUNT(*) FROM PageLiked as P  where P.capitulo={ContentId} ", con);
-
-                    con.Open();
-                    _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
-                    con.Close();
-                }
-            }
-            catch (Exception)
-            {
-                _TotalRegistros = 0;
-            }
-            return _TotalRegistros;
-        }
-
+        
         public int CountPagesInFilterAsync(long filtroId, Livro livro)
         {
             var _TotalRegistros = 0;
