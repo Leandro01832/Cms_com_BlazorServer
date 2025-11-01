@@ -73,11 +73,10 @@ namespace BlazorCms.Client.Pages
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            if (automatico) 
+              //  Console.WriteLine("Timer Elapsed.");
+              //  Timer!._timer!.Elapsed -= _timer_Elapsed;
+                if (automatico)
                 buscarProximo();
-
-            Console.WriteLine("Timer Elapsed.");
-            Timer!._timer!.Elapsed -= _timer_Elapsed;
         }
 
         protected void TeclaPressionada(KeyboardEventArgs args)
@@ -118,6 +117,8 @@ namespace BlazorCms.Client.Pages
 
         protected async void Pesquisar()
         {
+            Timer!._timer!.Elapsed -= _timer_Elapsed;
+
             bool condicao = false;
             try
             {
@@ -447,7 +448,7 @@ namespace BlazorCms.Client.Pages
                 acessar();
             }
             else if (Filtro != null)
-                navegarSubgrupos(false);
+                navegarSubgrupos(true);
             else
             {
                 cap++;
@@ -472,10 +473,8 @@ namespace BlazorCms.Client.Pages
             {
                 Filtro proximoSubgrupo = buscarProximoSubGrupo();
                 Filtro = proximoSubgrupo.Id;
-                indice = 1;
-
-
-            }
+                indice = 1;             
+            }           
             else
                 indice++;
             acessar();
@@ -723,8 +722,10 @@ namespace BlazorCms.Client.Pages
                 }
             }
 
-                html = html.Replace(id_video, id_video + "?autoplay=1");
-                html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");               
+            html = html.Replace(id_video, id_video + "?autoplay=1");
+                if(Auto == 0)
+            html = html.Replace("?autoplay=1", "?autoplay=1" + "&loop=1" + "&playlist=" + id_video);
+            html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");               
             return html;
         }
 

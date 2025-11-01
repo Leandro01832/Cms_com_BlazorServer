@@ -202,8 +202,10 @@ namespace BlazorServerCms.Data
             if (duration.Contains("M"))
             {
                 duration = duration.Replace("PT", "");
+                int segundos = 0;
                 var minutos = int.Parse(duration.Split('M')[0]);
-                var segundos = int.Parse(duration.Replace(minutos.ToString() + "M", "").Replace("S", ""));
+                if(duration.Contains("S") == true)
+                segundos = int.Parse(duration.Replace(minutos.ToString() + "M", "").Replace("S", ""));
                 var minutosEmMileSegundos = minutos * 60 * 1000;
                 var segundosEmMileSegundos = segundos * 1000;
                 calculo = minutosEmMileSegundos + segundosEmMileSegundos;
@@ -267,7 +269,7 @@ namespace BlazorServerCms.Data
                             $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId={livro.Id} or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' and C.LivroId={livro.Id} or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId={livro.Id} or  " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId={livro.Id}  "
+                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId={livro.Id} "
                         , con);
 
                     con.Open();

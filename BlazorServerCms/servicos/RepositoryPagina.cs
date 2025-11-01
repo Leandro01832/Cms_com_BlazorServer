@@ -22,6 +22,8 @@ namespace BlazorServerCms.servicos
 
         public Random random = new Random();
 
+        public static bool Perguntar { get; set; } = true;
+
         public bool erro = false;
         public bool exibir = true;
 

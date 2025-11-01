@@ -27,17 +27,18 @@ namespace BlazorCms.Client.Pages
         
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
+      // private bool _executado = false;
         private int? auto = 0;
         private int quantDiv = 0;
         private Story _story = null;
         private Livro? livro = null;
         private string? title = null;
-        private string? resumo = null;        
-        private bool alterouPasta;
+        private string? resumo = null;     
+        
         private bool alterouModel;
         private List<Filtro> listaFiltro = null;
         private int indiceChave = 0;
-        private List<FiltroContent> result = null;
+        private List<FiltroContent> result = new List<FiltroContent>();
 
         protected int indiceAcesso;
 
@@ -113,9 +114,9 @@ namespace BlazorCms.Client.Pages
         {
             get { return filtro; }
             set 
-            { 
-                if(value != Filtro)                
-                alterouPasta = true;              
+            {               
+                if (value != Filtro && value != null)
+                    perguntar((long)value!);              
                 filtro = value;
             }
         } 
@@ -124,15 +125,11 @@ namespace BlazorCms.Client.Pages
         {
             get { return auto; }
             set { 
-                    if (auto == 0)
+                    if (value == 1)
                     habilitarAuto();
                     else
                     desabilitarAuto();
-
-                    if (auto == null)
-                        auto = 0;
-                    else
-                        auto = value;
+                    auto = value;
                 }
         
         } 

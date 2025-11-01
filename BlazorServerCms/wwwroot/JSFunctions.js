@@ -66,7 +66,8 @@ window.ConfigurarPaginacao = (m) => {
         clearInterval(funcaoCarregarPagina);
     }
 
-    if (parseInt(element2.value) == 1) {
+    if (parseInt(element2.value) == 1)
+    {
        funcaoCarregarPagina = setInterval(function () {
             ss += 1000;
             porcentagem = parseInt((ss / time) * 100);
