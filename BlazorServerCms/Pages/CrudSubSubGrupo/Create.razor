@@ -16,6 +16,7 @@
             <label>Livro:</label>
             <select @bind="exampleModel.LivroId">
 
+                @if(usuario != null)
                 @foreach (var item in usuario.Assinatura)
                 {
                     if (primeiroLoop)

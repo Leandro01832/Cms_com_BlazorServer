@@ -95,6 +95,7 @@ namespace BlazorServerCms.Data
                 else
                     conteudos = await Context!.Content!.OrderBy(p => p.Id)
               .Include(c => c.Filtro)
+              .Include(c => c.Comentario)
               .Include(c => c.Produto)
               .ThenInclude(c => c.Produto)
               .Where(c => c is Pagina && c.StoryId == storyId && c.LivroId == livro.Id)
@@ -115,6 +116,7 @@ namespace BlazorServerCms.Data
                 else
                 conteudos = await Context!.Content!.OrderBy(p => p.Id)
                .Include(c => c.Filtro)
+               .Include(c => c.Comentario)
                .Include(c => c.Produto)
                .ThenInclude(c => c.Produto)
                .Where(c => c is Pagina && c.StoryId == storyId && c.LivroId == livro.Id)
@@ -137,13 +139,15 @@ namespace BlazorServerCms.Data
             {
                 if (livro == null)
                     resultados = await Context.Content                       
+                         .Include(c => c.Comentario)
                          .Include(c => c.Filtro)
                        .OrderBy(c => c.Id)
                        .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
                         f.LivroId == null)
                        .AsNoTracking().ToListAsync();
                 else
-                    resultados = await Context.Content                         
+                    resultados = await Context.Content    
+                        .Include(c => c.Comentario)                     
                          .Include(c => c.Filtro)
                    .OrderBy(c => c.Id)
                    .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
@@ -153,7 +157,8 @@ namespace BlazorServerCms.Data
             else
             {
                 if (livro == null)
-                    resultados = await Context.Content                       
+                    resultados = await Context.Content      
+                    .Include(c => c.Comentario)                 
                          .Include(c => c.Filtro)
                        .OrderBy(c => c.Id)
                        .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
@@ -161,7 +166,8 @@ namespace BlazorServerCms.Data
                        .Skip(slide * quantDiv).Take(quantDiv * repositoryPagina!.quantSlidesCarregando)
                        .AsNoTracking().ToListAsync();
                 else
-                    resultados = await Context.Content                         
+                    resultados = await Context.Content   
+                    .Include(c => c.Comentario)                      
                          .Include(c => c.Filtro)
                    .OrderBy(c => c.Id)
                    .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&

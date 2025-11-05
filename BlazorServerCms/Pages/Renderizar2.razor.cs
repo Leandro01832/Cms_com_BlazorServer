@@ -10,6 +10,7 @@ using Microsoft.JSInterop;
 using PSC.Blazor.Components.Tours.Interfaces;
 using System.Security.Claims;
 using business.business.Book;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BlazorCms.Client.Pages
 {
@@ -34,11 +35,13 @@ namespace BlazorCms.Client.Pages
         private Livro? livro = null;
         private string? title = null;
         private string? resumo = null;     
-        
-        private bool alterouModel;
+        private bool alterouPasta = false;
+        private bool alterouModel = true;
         private List<Filtro> listaFiltro = null;
         private int indiceChave = 0;
         private List<FiltroContent> result = new List<FiltroContent>();
+
+        
 
         protected int indiceAcesso;
 
@@ -48,7 +51,7 @@ namespace BlazorCms.Client.Pages
         protected int slideAtual = 0;
         protected List<Content>[] array;
         protected List<Content> listaContent = new List<Content>();
-        protected bool tellStory = true;
+        protected bool tellStory = false;
         protected string divPagina = "";
         protected string placeholder = "";
         protected string preferencia = null;
@@ -116,7 +119,10 @@ namespace BlazorCms.Client.Pages
             set 
             {               
                 if (value != Filtro && value != null)
-                    perguntar((long)value!);              
+                {
+                    alterouPasta = true; 
+                    perguntar((long)value!);                   
+                }
                 filtro = value;
             }
         } 

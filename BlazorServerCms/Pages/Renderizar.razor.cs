@@ -89,19 +89,21 @@ namespace BlazorCms.Client.Pages
                 {
                     storyid = RepositoryPagina.stories!
                     .OrderBy(str => str.Capitulo).Skip(1).ToList()[indice - 1].Id;
-                    indice = 1;               
+                    indice = 1;
                 }
                 else if (args.Key == "Enter")
                 {
                     storyid = RepositoryPagina.stories.First().Id;
                     var str = RepositoryPagina.stories.First(st => st.Id == _story.Id);
-                    indice = RepositoryPagina.stories.IndexOf(str);         
+                    indice = RepositoryPagina.stories.IndexOf(str);
                 }
-                automatico = false;
+              //  automatico = false;
+              Timer!._timer!.Elapsed -= _timer_Elapsed; 
                 acessar();
             }
             else if (args.Key == "Enter")
             {
+                Timer!._timer!.Elapsed -= _timer_Elapsed; 
                 navegarSubgrupos(true);
             }
 
@@ -679,6 +681,13 @@ namespace BlazorCms.Client.Pages
             else
             {
                 Filtro = fi.Id;
+                var name = listaFiltro.First(f => f.Id == Filtro).Nome; 
+                string? str = await js.InvokeAsync<string>("contarHistoria", name);
+
+                        if (str == "sim")
+                            tellStory = true;
+                        else
+                            tellStory = false;
                 indice = 0;
                 acessar();            
             }
@@ -889,9 +898,28 @@ namespace BlazorCms.Client.Pages
                     if (Filtro != null)
                     {
                         if(livro != null)
-                        url = $"/Renderizar/{livro.Nome}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                        {
+                            if(Model2 is SubSubGrupo)
+                            url = $"/camada5/{livro.Nome}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                            if(Model2 is SubGrupo)
+                            url = $"/camada4/{livro.Nome}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                            if(Model2 is Grupo)
+                            url = $"/camada3/{livro.Nome}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                            if(Model2 is SubStory)
+                            url = $"/camada2/{livro.Nome}/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                            
+                        }
                         else
-                        url = $"/Renderizar/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";               
+                        {
+                            if (Model2 is SubSubGrupo)
+                                url = $"/camada5/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";
+                            if (Model2 is SubGrupo)
+                                url = $"/camada4/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";
+                            if (Model2 is Grupo)
+                                url = $"/camada3/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";
+                            if (Model2 is SubStory)
+                                url = $"/camada2/{storyid}/{indice}/{Auto}/{timeproduto}/{outroHorizonte}/{retroceder}/{dominio}/{Compartilhou}/{Filtro}";
+                        }              
                     }
                     else
                     {
