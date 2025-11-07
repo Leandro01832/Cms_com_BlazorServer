@@ -206,16 +206,16 @@
                                 </div>
 
                             }
-                            @if (item is Pagina)
-                            {
-                                var p = (Pagina)item;
-                                <p>Versiculo @p.Versiculo</p> 
+                            @{
+                                var p = (Chave)item;                               
+                                @if (item is Chave)
+                                {
+                                    <p>Versiculo @p.Versiculo</p> 
+                                }
                                 <a class="marcar2" onclick="@( () => Marcar(p.Versiculo))">
-                                    Marcar
+                                    Marcar Conteudo
                                 </a>
                             }
-
-
                         </div>
 
 
@@ -238,12 +238,14 @@
                             <div class="content" style="width:100%; height:auto;">
                                 @markup
                             </div>
-                            @if(item is Pagina)
-                            {
-                                var p = (Pagina)item;
-                                <p>Versiculo @p.Versiculo</p>
-                                 <a class="marcar2" onclick="@(() => { Marcar(p.Versiculo); })">
-                                    Marcar
+                            @{
+                                var p = (Chave)item;                               
+                                @if (item is Chave)
+                                {
+                                    <p>Versiculo @p.Versiculo</p> 
+                                }
+                                <a class="marcar2" onclick="@( () => Marcar(p.Versiculo))">
+                                    Marcar Conteudo
                                 </a>
                             }
 

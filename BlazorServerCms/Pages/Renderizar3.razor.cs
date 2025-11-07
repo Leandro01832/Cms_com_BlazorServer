@@ -377,12 +377,12 @@ namespace BlazorCms.Client.Pages
             {
                 try
                 {
-                    if (Model is Chave && Filtro != null)
+                    if (retornarVerso(Model) == chave && Filtro != null)
                     {
                         Model.Html = $"<p> Seja bem-vindo a sub-story {Model2!.Nome} </p>";
                         html = await repositoryPagina!.renderizarPagina(Model);
                     }
-                    else if (Model is Chave)
+                    else if (Model is Chave && Model.Titulo == "chave" && Filtro == null)
                     {
                         var verso = retornarVerso(Model);
                         var fils = listaFiltro
@@ -489,7 +489,18 @@ namespace BlazorCms.Client.Pages
             else divPagina = "DivPagina2";
 
             if (!tellStory) DivPag = "DivPag";
-            else DivPag = "DivPag2";           
+            else DivPag = "DivPag2";
+
+
+            var ultimoVerso = RepositoryPagina.Conteudo!
+            .OfType<Pagina>().Last(p => p.StoryId == storyid).Versiculo;
+            if (Model is Chave && Filtro != null && vers <= ultimoVerso)
+            Versiculo = (int)vers!;
+            else if (Model is Chave && Filtro == null)
+            Versiculo = retornarVerso(Model);
+            else 
+            Versiculo = chave;
+                
         }
         
         private async Task<List<Content>> retornarListaFiltrada(string rota)
@@ -499,7 +510,7 @@ namespace BlazorCms.Client.Pages
                 Filtro Fil = listaFiltro.First(f => f.Id == Filtro);
                  var lista = Fil.Pagina.Select(p => p.Content).ToList();
 
-                chave = retornarVerso(lista.FirstOrDefault(p => p is Chave)!);
+                chave = retornarVerso(lista.LastOrDefault(p => p is Chave)!);
                  var ch = lista.FirstOrDefault(c => c is Chave);
                  indiceChave = lista.IndexOf(ch) + 1;
                   quantidadeLista = lista.Count;

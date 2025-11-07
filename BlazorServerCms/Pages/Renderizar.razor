@@ -68,9 +68,9 @@
 }
 else if (!repositoryPagina.erro)
 {
-    if(Model is Pagina)
+    if(Model is Chave)
     {
-        <PageTitle>Verso @retornarVerso(Model)</PageTitle>
+        <PageTitle>Verso @Versiculo</PageTitle>
     }
     else
     {
@@ -136,7 +136,7 @@ else if (!repositoryPagina.erro)
                                                 - Capítulo @cap 
                                             <span class="versos">
                                                 <a onclick="@(() => acessarVerso())" class="btn">
-                                                    Versículo @vers
+                                                    Versículo @Versiculo
                                                 </a>
                                             </span>
                                             </span>
@@ -179,7 +179,7 @@ else if (!repositoryPagina.erro)
                             <div class="capSubstory">
                                 <span>
                                     <a onclick="@(() => desabilitarTellStory())" class="btn versos">
-                                        Versiculo @vers
+                                        Versiculo @Versiculo
                                     </a>
                                 </span>
                             </div> 
@@ -717,7 +717,7 @@ else if (!repositoryPagina.erro)
                                                                 {
                                                                     if (!Content)
                                                                     {
-                                                                        <span data-first class="indice"> @vers</span>
+                                                                        <span data-first class="indice"> @Versiculo</span>
                                                                     }
                                                                     else
                                                                     {
@@ -747,7 +747,7 @@ else if (!repositoryPagina.erro)
                                                                     {
                                                                         if (!Content)
                                                                         {
-                                                                            <span data-first class="indice"> @vers</span>
+                                                                            <span data-first class="indice"> @Versiculo</span>
                                                                         }
                                                                         else
                                                                         {

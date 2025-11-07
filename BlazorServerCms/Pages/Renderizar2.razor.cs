@@ -48,6 +48,7 @@ namespace BlazorCms.Client.Pages
         private bool criptografar = false;
 
         protected int chave = 0;
+        protected int Versiculo = 0;
         protected int slideAtual = 0;
         protected List<Content>[] array;
         protected List<Content> listaContent = new List<Content>();
