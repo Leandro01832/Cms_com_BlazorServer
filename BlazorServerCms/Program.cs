@@ -114,7 +114,8 @@ using (var scope = app.Services.CreateScope())
     var userManager      = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
     var email            = builder.Configuration.GetConnectionString("Email");
     var password         = builder.Configuration.GetConnectionString("Senha");
-    var userASP          = await userManager.FindByNameAsync(email);
+    var userASP = await userManager.FindByNameAsync(email);   
+    
 
    // var lista = await repositoryPagina.buscarPatternStory();
 
@@ -1558,18 +1559,7 @@ using (var scope = app.Services.CreateScope())
         contexto.Add(str3);
         contexto.SaveChanges();
 
-        for (var i = 1; i <= 2000; i++)
-        {
-            pages2[i - 1] = new Pagina(i);
-            pages2[i - 1].Html = $"<br /> <br /> <br /> <p> <h1> conteudo {pages2[i - 1].Versiculo}  </h1> </p>";
-            pages2[i - 1].Titulo = "pagina";
-            pages2[i - 1].StoryId = str2.Id;
-            pages2[i - 1].Titulo += $" {i}";
-
-            contexto.Add(pages2[i - 1]);
-            contexto.SaveChanges();
-
-        }
+       
 
         for (var i = 1; i <= 12000; i++)
         {

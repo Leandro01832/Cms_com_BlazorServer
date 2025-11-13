@@ -25,24 +25,23 @@ namespace BlazorCms.Client.Pages
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
-        
+
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
-      // private bool _executado = false;
+        // private bool _executado = false;
         private int? auto = 0;
-        private int quantDiv = 0;
+        protected int quantDiv = 0;
         private Story _story = null;
         private Livro? livro = null;
         private string? title = null;
-        private string? resumo = null;     
+        private string? resumo = null;
         private bool alterouPasta = false;
         private bool alterouModel = true;
         private List<Filtro> listaFiltro = null;
         private int indiceChave = 0;
         private List<FiltroContent> result = new List<FiltroContent>();
 
-        
-
+        protected string? id_video = null;
         protected int indiceAcesso;
 
         private bool criptografar = false;
@@ -53,10 +52,11 @@ namespace BlazorCms.Client.Pages
         protected List<Content>[] array;
         protected List<Content> listaContent = new List<Content>();
         protected bool tellStory = false;
+        protected string inputs = "";
         protected string divPagina = "";
         protected string placeholder = "";
         protected string preferencia = null;
-        
+
         protected bool exemplo = false;
         protected bool mudanca = false;
         protected int cap = 1;
@@ -77,101 +77,74 @@ namespace BlazorCms.Client.Pages
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;
-        protected bool Content = false;   
+        protected bool Content = false;        
         
-            
-        
-
-        private Content? model = null;
-        protected Content? Model 
-        {
-            get { return model; }
-            set
-            {
-                if (value != null && Model != null && Model!.Id != value!.Id)
-                    alterouModel = true;
-                model = value;
-            }
-        }
+        protected Content? Model { get; set; } = null;
         protected string? html { get; set; } = "";
         protected string? nameStory { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
-        protected int? VersoComentario { get; set; } = null;        
+        protected int? VersoComentario { get; set; } = null;
         protected int quantidadeLista { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
-         protected bool condicaoFiltro { get; set; } = false;
-               
-        protected int? indice_Filtro { get; set; }         
+        protected bool condicaoFiltro { get; set; } = false;
+
+        protected int? indice_Filtro { get; set; }
         protected int? vers { get; set; }
 
         [Parameter] public string? nomeLivro { get; set; } = "";
         [Parameter] public int retroceder { get; set; } = 0;
 
-        [Parameter] public int timeproduto { get; set; } = 11;  
-        [Parameter] public int? conteudo { get; set; } = 1;  
-        [Parameter] public int indice { get; set; } = 1;
+        [Parameter] public int timeproduto { get; set; } = 11;
+        [Parameter] public int? conteudo { get; set; } = 1;
+
+       
+        [Parameter]
+        public int Indice { get; set; } = 1;
         [Parameter] public int? carregando { get; set; } = null;
         [Parameter] public long? storyid { get; set; } = 1;
 
         private long? filtro = null;
-        [Parameter] public long? Filtro 
+        [Parameter]
+        public long? Filtro
         {
             get { return filtro; }
-            set 
-            {               
+            set
+            {
                 if (value != Filtro && value != null)
                 {
-                    alterouPasta = true; 
-                    perguntar((long)value!);                   
+                    alterouPasta = true;
+                    perguntar((long)value!);
                 }
                 filtro = value;
             }
-        } 
+        }
 
-        [Parameter] public int? Auto
+        [Parameter]
+        public int? Auto
         {
             get { return auto; }
-            set { 
-                    if (value == 1)
+            set
+            {
+                if (value == 1)
                     habilitarAuto();
-                    else
+                else
                     desabilitarAuto();
-                    auto = value;
-                }
-        
-        } 
-      
+                auto = value;
+            }
+
+        }
+
         [Parameter] public string? redirecionar { get; set; } = "";
         [Parameter] public string? dominio { get; set; } = "dominio";
 
-        private string? compartilhou = null; 
-        [Parameter] public string? Compartilhou 
-        {
-            get 
-            { 
-                var user = RepositoryPagina.UserModel
-                .FirstOrDefault(u => u.HashUserName == compartilhou);
-
-                    if (!criptografar)
-                    {
-                        if (user != null)
-                            return user.UserName;
-                        else return "comp";
-
-                    }
-                else if (user != null) return user.HashUserName;
-                else return "comp";
-            }
-            set
-            {
-                compartilhou = value;
-            }
-        }
+        private string? compartilhou = null;
+        [Parameter]
+        public string? Compartilhou { get; set; } = "comp";
 
         [Parameter] public int outroHorizonte { get; set; }
 
         [Parameter] public string? rotas { get; set; } = null;
-        
+
 
     }
 }

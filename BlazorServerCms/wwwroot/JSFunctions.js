@@ -1,6 +1,86 @@
 ﻿var porcentagem = 0;
 var funcaoCarregarPagina2 = null;
 var teste = 1;
+var currentTime;
+var player;
+
+function onYouTubeIframeAPIReady(id_video) {
+        player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: id_video, // Substitua pelo ID do seu vídeo
+        playerVars: {
+        autoplay: 1, // inicia automaticamente
+        controls: 1,
+        mute: 1      // necessário em muitos navegadores para autoplay funcionar
+      },
+        events: {
+            'onStateChange': onPlayerStateChange,
+            'onReady': onPlayerReady
+        }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+    setInterval(() => {
+      currentTime = player.getCurrentTime();
+      console.log("Tempo atual do vídeo:", currentTime);
+    }, 1000); // Atualiza a cada segundo
+  }
+   
+
+  // 3. Detecta quando o vídeo termina
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+        
+      console.log("O vídeo terminou!");
+      // remove o player da tela
+      var playerDiv = document.getElementById('player');
+        if (playerDiv)
+             {
+            playerDiv.parentNode.removeChild(playerDiv);
+            }
+
+    }
+  }
+
+//   function callCSharpMethod() {
+//     DotNet.invokeMethodAsync('BlazorServerCms', 'ShowMessage')
+//       .then(() => console.log("Método C# executado com sucesso"))
+//       .catch(err => console.error("Erro ao chamar método C#", err));
+//   }
+
+  window.carregarVideo = (id_video) => {
+   // criar div player children de class render se não existir
+    var renderDiv = document.querySelector('.render');
+    if (!document.getElementById('player')) {
+        var playerDiv = document.createElement('div');
+        playerDiv.id = 'player';
+        renderDiv.appendChild(playerDiv);
+    }
+   
+
+    onYouTubeIframeAPIReady(id_video);
+  }
+
+  window.removerPlayer = () => {
+        if (player) {
+            player.destroy();
+        }
+    }
+
+    window.exibirTempoAtual = () => {
+        alert ("Tempo atual do vídeo: " + currentTime + " segundos");
+        return currentTime.toString();
+    }
+
+    window.retornarTempoAtual = () => {
+        return currentTime;
+    }
+
+  // Exemplo: chama o método ao carregar a página
+ // window.onload = callCSharpMethod;
 
 
 
@@ -24,23 +104,20 @@ var teste = 1;
         });
         // outras ações JS aqui
     };
-
-
-
-
-
-
+    
 function codificarUri(uri) {
     return btoa(uri);
     // Codifica a URI em Base64
 }
+
 function decodificarUri(encodedUri)
 {
     return atob(encodedUri);
     // Decodifica a URI de Base64
 }
 
-window.zerar = (m) => {
+window.zerar = (m) =>
+{
     porcentagem = 0;
     var prog = document.querySelector(".progressbar div");
     prog.setAttribute("style", "width: " + porcentagem + "%");
@@ -113,23 +190,47 @@ window.ConfigurarPaginacao = (m) => {
             }
 }
 
+function myStopFunction2() {    
+    clearInterval(funcaoCarregarPagina2);
+}
+
 window.PreencherProgressBar = (m) =>
 {
     var time = parseInt(m);
     var ss = 0;
-    const progresso = document.querySelector(".progressbar div"); 
+    let progresso = document.querySelector(".progressbar div"); 
 
-    function myStopFunction2() {
-        clearInterval(funcaoCarregarPagina2);
-    }
-    
+        let tentativas = 0;
+const intervalo = setInterval(() => {
+   progresso = document.querySelector(".progressbar div");
+
+  if (progresso) {
+    console.log("Elemento encontrado!");
+    clearInterval(intervalo);
+    while (porcentagem > 0) 
+        debugger;
         funcaoCarregarPagina2 = setInterval(function () {
             ss += 1000;
             porcentagem = parseInt((ss / time) * 100);
             progresso.setAttribute("style", "width: " + porcentagem + "%");
             if (porcentagem > 99)
-                myStopFunction2();
-        }, 1000);    
+                {
+                    
+                    myStopFunction2();
+                }
+        }, 1000); 
+  } else {
+    tentativas++;
+    console.warn("Tentativa " + tentativas + ": elemento '.progressbar div' ainda não encontrado.");
+    if (tentativas > 10) {
+      clearInterval(intervalo);
+      console.error("Elemento não encontrado após várias tentativas.");
+    }
+  }
+}, 300); // tenta a cada 300ms
+        
+
+           
 }
 
 window.Clicou = (m) => {

@@ -102,13 +102,18 @@ p {
     display: none;
 }
 
+.dropdown
+{
+    margin-left: 60px;
+}
+
 #NumeroPaginaAcesso2 {
-    width: 60px;
+    width: 130px;
     font-size: large;
 }
 
 #NumeroPaginaAcesso3 {
-    width: 120px;
+    width: 65px;
     font-size: large;
 }
 
@@ -485,6 +490,12 @@ svg
 {
     display: block;
     width: 130px;
+}
+
+.inputs2 
+{
+    display: block;
+    width: 75px;
 }
 
 .dropdown {
