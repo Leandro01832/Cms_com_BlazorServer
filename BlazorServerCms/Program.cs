@@ -18,7 +18,7 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add services to the container.
 
 builder.Services.AddScoped<IStoryService, StoryService>();
-builder.Services.AddScoped<Marcacao>();
+builder.Services.AddScoped<MarcacaoVideoFilter>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
@@ -108,16 +108,16 @@ app.MapFallbackToPage("/_Host");
 
 using (var scope = app.Services.CreateScope())
 {
-    var contexto         = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var contexto = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var repositoryPagina = scope.ServiceProvider.GetRequiredService<RepositoryPagina>();
-    var roleManager      = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager      = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
-    var email            = builder.Configuration.GetConnectionString("Email");
-    var password         = builder.Configuration.GetConnectionString("Senha");
-    var userASP = await userManager.FindByNameAsync(email);   
-    
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserModel>>();
+    var email = builder.Configuration.GetConnectionString("Email");
+    var password = builder.Configuration.GetConnectionString("Senha");
+    var userASP = await userManager.FindByNameAsync(email);
 
-   // var lista = await repositoryPagina.buscarPatternStory();
+
+    // var lista = await repositoryPagina.buscarPatternStory();
 
     if (await contexto!.Set<Story>().AnyAsync())
     {
@@ -126,14 +126,14 @@ using (var scope = app.Services.CreateScope())
         .ToListAsync();
         RepositoryPagina.stories.AddRange(stories);
     }
-    else 
+    else
     {
-       // foreach (var item in lista!)
-       //     contexto.Add(item);
-       // contexto.SaveChanges();
+        // foreach (var item in lista!)
+        //     contexto.Add(item);
+        // contexto.SaveChanges();
     }
 
-    if(await contexto!.Set<Content>().AnyAsync())
+    if (await contexto!.Set<Content>().AnyAsync())
     {
         var conteudos = await contexto.UserContent
         .Include(f => f.Filtro)
@@ -143,740 +143,740 @@ using (var scope = app.Services.CreateScope())
         .OrderBy(co => co.Id).ToListAsync();
         RepositoryPagina.Conteudo!.AddRange(conteudos);
     }
-    
-    
-    if(!await contexto!.Set<UserContent>().AnyAsync())
+
+
+    if (!await contexto!.Set<UserContent>().AnyAsync())
     {
         UserContent[] pages = new UserContent[145];
-            pages[0] = new UserContent();
-            pages[0].Data = DateTime.Now;
-            pages[0].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02jZ4HpoAWv77nwj3k9jfsRzVvW8GbXQ2BK91w8iF1gZEUbSYKtLowcimZBjjWTxQAl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[0].StoryId = 5;
-            
-            pages[1] = new UserContent();
-            pages[1].Data = DateTime.Now;
-            pages[1].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0YZpNdTBjJx4bq2HhyV1LxnU7fzMqW7HP3Y1Rbzoudd7XDzXNLZoSzinumCmWmXTWl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[1].StoryId = 13;            
-            
-            pages[2] = new UserContent();
-            pages[2].Data = DateTime.Now;
-            pages[2].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026igxqSgMzHej1uhcnjtPkUTWX7NQAsSWETgWSfnsQFucZ8xHJzAvUpszoWwYoKAZl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[2].StoryId = 14;
-
-            pages[3] = new UserContent();
-            pages[3].Data = DateTime.Now;
-            pages[3].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0HZ5uXagdRPSTvRmMg247yu9KbztCsN6sVx1V2Hs2wb8hFeSAsopKVk5aFY7Rj8Xfl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[3].StoryId = 13;
-            
-            pages[4] = new UserContent();
-            pages[4].Data = DateTime.Now;
-            pages[4].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0HZ5uXagdRPSTvRmMg247yu9KbztCsN6sVx1V2Hs2wb8hFeSAsopKVk5aFY7Rj8Xfl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[4].StoryId = 13;
-            
-            pages[5] = new UserContent();
-            pages[5].Data = DateTime.Now;
-            pages[5].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02kcemj6qQWnagpgFYtRveFLKzsBGfYwtLux2WnYkZccNhFgSiMPAPDvTT5wCXTfYVl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[5].StoryId = 4;
-
-            pages[6] = new UserContent();
-            pages[6].Data = DateTime.Now;
-            pages[6].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0Jc2P8fpsT1MfpJC9LdcV2YhczFZsSN6zZkSKkeqEooLbxEy5FZcXUUc4st4yx31Xl&show_text=true&width=500\" width=\"500\" height=\"464\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[6].StoryId = 2;
-            
-            pages[7] = new UserContent();
-            pages[7].Data = DateTime.Now;
-            pages[7].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0CPXEVfSpuK3eK9MjtSd2Nycfzo87eySm9SRnWbMhxaqezapa9bveUfpcCL9wj7TZl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[7].StoryId = 17;
-            
-            pages[8] = new UserContent();
-            pages[8].Data = DateTime.Now;
-            pages[8].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid036YRVPAqPHgr7goNNr1yfM8jtLzDANpuQio1R1214tYbyowwn9RB8X1KJe5yJqHE3l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[8].StoryId = 4;
-            
-            pages[9] = new UserContent();
-            pages[9].Data = DateTime.Now;
-            pages[9].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02w3TVhUZHpqd8gHq1pMkiqXfPNm7TJVftfAUPvBv7jxzPA6rFVf7EzNpca8jrNyjHl&show_text=true&width=500\" width=\"500\" height=\"363\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[9].StoryId = 13;
-            
-            pages[10] = new UserContent();
-            pages[10].Data = DateTime.Now;
-            pages[10].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02u8PepbdbWgVK8MFCHytJqX52WbZiw5x53vAsNxKaUJdAJmz4xUmD3hx3e5uQGCmol&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[10].StoryId = 34;
-            
-            pages[11] = new UserContent();
-            pages[11].Data = DateTime.Now;
-            pages[11].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0T4ba8HjbXQuog6nG4UujWPyHwkVCHfo7abZjqqV5wm89EdP6eznv1sFQRnv2YmYQl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[11].StoryId = 5;
-            
-            pages[12] = new UserContent();
-            pages[12].Data = DateTime.Now;
-            pages[12].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02eZKigMVXnfP8FJeVXA76gmgn4Ndcu5863T5dPdJtaYcyqhothAyxwhjfFXV5CRsil&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[12].StoryId = 4;
-            
-            pages[13] = new UserContent();
-            pages[13].Data = DateTime.Now;
-            pages[13].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0FhJ4hYm57u3gJeAbrXPRTSbmyCb2MtafVGcxcedSn6C2mcHvAb4StGjasr2U6Supl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[13].StoryId = 25;
-            
-            pages[14] = new UserContent();
-            pages[14].Data = DateTime.Now;
-            pages[14].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0QaL61L6DJqfHEUT7Vhese6V8FwVizcYwPtufjC33bWzTM2u114Rj5Jxf8LGJBXn1l&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[14].StoryId = 14;
-            
-            pages[15] = new UserContent();
-            pages[15].Data = DateTime.Now;
-            pages[15].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid021PQYjVGcqxdbhZVQhY451Cn2eXLhxmGbdSbC49nbSjfToZR2Jjohuqd8YpfswkVcl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[15].StoryId = 14;
-            
-            pages[16] = new UserContent();
-            pages[16].Data = DateTime.Now;
-            pages[16].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02DA5XD8UiFE6pABzjhAqeCMoKXLjh97Ph5cgWeRfmymRdgd2H23hPzAAvzBWNRf8xl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[16].StoryId = 4;
-            
-            pages[17] = new UserContent();
-            pages[17].Data = DateTime.Now;
-            pages[17].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0fLY7CFDHjEHR7xKqHfXASzJcC2cna4nQaraT6nNRkSszJms4BH2crqpD2ZUHwR3xl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[17].StoryId = 5;
-            
-            pages[18] = new UserContent();
-            pages[18].Data = DateTime.Now;
-            pages[18].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02muF2BXKUbBn5g4pXon6YbF7kXJkN5BDC1cq6pdCvLE23MAhLcdr3R1rffWDCe5Aml&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[18].StoryId = 1;
-            
-            pages[19] = new UserContent();
-            pages[19].Data = DateTime.Now;
-            pages[19].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02J5SmuwEuuusvpqzVbJncwpYDzg1R79GGD7Dvvqt3NKZFY4nHezuXkfWNxf6w3DBRl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[19].StoryId = 1;
-            
-            pages[20] = new UserContent();
-            pages[20].Data = DateTime.Now;
-            pages[20].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02NCBJiy6FL14fooYEGFu3avfKdCqh3MwKKyjV7kYWDrLC3cPt5qMGn8DaEvwMhDaGl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[20].StoryId = 23;
-            
-            pages[21] = new UserContent();
-            pages[21].Data = DateTime.Now;
-            pages[21].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0mRPtUJQD8NBAbWax73pZ4v4Fnz3xPG2aHgzUg8g877ffCTZNCUqYaAucD674kPuCl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[21].StoryId = 2;
-            
-            pages[22] = new UserContent();
-            pages[22].Data = DateTime.Now;
-            pages[22].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0hSJj2DjzrnuJ8CHLvvUUuLdqKxMsWvdfTX85ADtDc5F4Bp6jVt6jXmJHsHP2YZATl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[22].StoryId = 1;
-            
-            pages[23] = new UserContent();
-            pages[23].Data = DateTime.Now;
-            pages[23].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0Yoo9dPnt9CNRiGQrTJy9FPdeqSD1vQTeQmCi7Q1qz1dWFb778CKVxAzAQSGg3kJhl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[23].StoryId = 17;            
-            
-            pages[24] = new UserContent();
-            pages[24].Data = DateTime.Now;
-            pages[24].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid037HZVbDxMzibh2cMeH8n9wkX6G2SsyQK4yRrQ7TuqnUrfexCJLsbymJP47EBTCKnZl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[24].StoryId = 7;
-            
-            pages[25] = new UserContent();
-            pages[25].Data = DateTime.Now;
-            pages[25].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0gQtvmyAbpt2TEf33uo8Sm6DknEkXfxNJf2j2MDHvuN4woLpWEEcwEuQDGCbSwY2sl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[25].StoryId = 16;
-            
-            pages[26] = new UserContent();
-            pages[26].Data = DateTime.Now;
-            pages[26].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0R6ugdK4D6HkdRCr4wqyFYMPSVrJ7GBo9m9sRNob4SSV3ZKEKP1xYShCAc4TkzwSBl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[26].StoryId = 26;
-            
-            pages[27] = new UserContent();
-            pages[27].Data = DateTime.Now;
-            pages[27].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02VB28nFtno9dS9FVoCGZPnWC6LzN5Dv4B8CQSDsfuQXToRgGR4vUpqic5ELKaRmhol&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[27].StoryId = 34;
-            
-            pages[28] = new UserContent();
-            pages[28].Data = DateTime.Now;
-            pages[28].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid06JLUWEdgZ1p782H79xL1q3V56pZZyWm99pHmKDVJWBVr6c9FSCSDLH2imFrchJcFl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";            
-            pages[28].StoryId = 5;
-
-            pages[29] = new UserContent();
-            pages[29].Data = DateTime.Now;
-            pages[29].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02waamEUJAFYnmFeeDSgZkcHi4CsYjeN4bZDiztH4zjErjftPmRqGgpDy36UPJXmzWl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[29].StoryId = 14;
-
-            pages[30] = new UserContent();
-            pages[30].Data = DateTime.Now;
-            pages[30].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02wSW2uUSqYr3G5nxE9S172P8XSGLZA2KEDrvNo95UfuinjFsG2pMHh4GfJaNWJBVyl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[30].StoryId = 25;
-
-            pages[31] = new UserContent();
-            pages[31].Data = DateTime.Now;
-            pages[31].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid03111ynief6eSy3h7DnnRZ8x1r3it4U4eyZZ94PTMGjWfUJFSh6k9e15FUK4MZ6FEGl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[31].StoryId = 5;
-
-            pages[32] = new UserContent();
-            pages[32].Data = DateTime.Now;
-            pages[32].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02ZTh5RjRch9m2qa947WYmLAcFTW1hN33zX6Ha8RxZc2zGKJgM8NQpsZLuSwSS4shWl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[32].StoryId = 25;
-
-            pages[33] = new UserContent();
-            pages[33].Data = DateTime.Now;
-            pages[33].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02L3MLBKRrCfycrmSwd8jiBDbYg3jBVWU2QNURPzihYdWjN1YSFjVtfcyde3LnnAfhl&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[33].StoryId = 34;
-
-            pages[34] = new UserContent();
-            pages[34].Data = DateTime.Now;
-            pages[34].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02kycxfFPEbp3vZ42QrspdLPkvfmHbgbHaj7fN8tWXYw4gmmiT4eXYejDpp8tNSrqel&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[34].StoryId = 2;
-
-            pages[35] = new UserContent();
-            pages[35].Data = DateTime.Now;
-            pages[35].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Tivnay7E7ND4se6jfm8CZLXDbxjZUJYCQNtkahUTuQgbdtQypfUSfZre2N4cxbdjl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[35].StoryId = 2;
-
-            pages[36] = new UserContent();
-            pages[36].Data = DateTime.Now;
-            pages[36].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vrRoWEEDVYjTzYSK7QiHjTTnwsFYZ9nSt78sF2bvfqL31A6CnrWb9QPjUGwii2jql&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[36].StoryId = 2;
-
-            pages[37] = new UserContent();
-            pages[37].Data = DateTime.Now;
-            pages[37].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02hA9ELEnHsGUBqNQpaPEbWmJVgpqFhKngwLpozwJu2ycE22E3FrKBTDaXWgSHUjXPl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[37].StoryId = 5;
-
-            pages[38] = new UserContent();
-            pages[38].Data = DateTime.Now;
-            pages[38].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid05D6yrteB2dShxds8NYYsPLQjdtevbppj82gRXZo9xiuKyA54h1RuH2EUnJxyP4kNl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[38].StoryId = 25;
-
-            pages[39] = new UserContent();
-            pages[39].Data = DateTime.Now;
-            pages[39].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02DKMvkMdZA4G8gKDZXqJcyHGPeEJQ4pUdXQe2zvNLanNx1WdyWranfemqucJM3NeCl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[39].StoryId = 7;
-
-            pages[40] = new UserContent();
-            pages[40].Data = DateTime.Now;
-            pages[40].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0WU3nEiJ81syVoWhDYkVpQXBsSa5Q3KgHj23eTkF2NpGCojinyWaYtUuKk4FtsTStl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[40].StoryId = 1;
-
-            pages[41] = new UserContent();
-            pages[41].Data = DateTime.Now;
-            pages[41].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02H6ezrYn7AEMvrDtLUwXXNWMciZakiyDGW6vgtAy6e8LVWvk4KkfoCinM8VZRZMVkl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[41].StoryId = 26;
-
-            pages[42] = new UserContent();
-            pages[42].Data = DateTime.Now;
-            pages[42].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0u6eNAaTN6NQ5ZS75uUZr27nemyZfzSxRMcveLcvoafHbemzj6Vo7MwcVwkNWTD7Dl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[42].StoryId = 30;
-
-            pages[43] = new UserContent();
-            pages[43].Data = DateTime.Now;
-            pages[43].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02qq4A9XLT1bJf2XYkH3eLQuxmoiY2fr6UZ7ZBNBaY9t7Envd1W5SkkoWKSehAd2e9l&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[43].StoryId = 1;
-
-            pages[44] = new UserContent();
-            pages[44].Data = DateTime.Now;
-            pages[44].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02oQq4dJFpyvbyHHk9awr5Vo6U7HPFKQhVA1sAjV8JsswgVRrEZfr28a9q5erMwnn1l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[44].StoryId = 1;
-
-            pages[45] = new UserContent();
-            pages[45].Data = DateTime.Now;
-            pages[45].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0nLMy8bSuPZ3iHRLcLv6gZdTLm1wA75aosWjJDLQkMKVLLrPiYUz66zoJVAiP2z6Rl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[45].StoryId = 1;
-
-            pages[46] = new UserContent();
-            pages[46].Data = DateTime.Now;
-            pages[46].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02bNYFYCqm9WyUzCNtDVEHVUGtc9SoGeckDf7SdKKYY2jBG9tkJQnpCF6fTFN3Ghjrl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[46].StoryId = 10;
-
-            pages[47] = new UserContent();
-            pages[47].Data = DateTime.Now;
-            pages[47].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02AtGAAWWjhjaFcrAUEeSp9zDnUSoreUEGFSfo5iYmH4Q6c5L8bwxDqjChVqPjuvF6l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[47].StoryId = 14;
-
-            pages[48] = new UserContent();
-            pages[48].Data = DateTime.Now;
-            pages[48].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0f6826jE92KZFCPoP97mAnFRn8ND7ppEPfQ8k17eaHwtsCjMoCgJTg3XaMpRTPedsl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[48].StoryId = 1;
-
-            pages[49] = new UserContent();
-            pages[49].Data = DateTime.Now;
-            pages[49].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0BXWBAqn3i2AJaEXuiQDxxjsBE838yTQDo8bmVGhUBSy7JM3MK7tCDeG1QWhaCbC5l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[49].StoryId = 14;
-
-            pages[50] = new UserContent();
-            pages[50].Data = DateTime.Now;
-            pages[50].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid023uy2TU8AiVrvZpRRLJH3kX8dTjy6hC5b3q8qBNMSsPsyyWZXKj4kDdxaz6KLVT6cl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[50].StoryId = 26;
-
-            pages[51] = new UserContent();
-            pages[51].Data = DateTime.Now;
-            pages[51].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026g4weaZmi3vZAw6S7etMx4XjcTbc36NJtm9CWhn8c1atXg2qFaxYCeV2vDjgWAful&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[51].StoryId = 1;
-
-            pages[52] = new UserContent();
-            pages[52].Data = DateTime.Now;
-            pages[52].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid022NrL66G5AmJao3R8HUHNmQR7yo4aNZhiqYyK31VPAfK15Mxx5rAL45j14swKyqyql&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[52].StoryId = 1;
-
-            pages[53] = new UserContent();
-            pages[53].Data = DateTime.Now;
-            pages[53].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0nna9ZzwiMbCjRro6SmaweKc8oU1JMbw8yd65hpHypBmusaJJccGcxUPuwyhDr6SGl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[53].StoryId = 4;
-
-            pages[54] = new UserContent();
-            pages[54].Data = DateTime.Now;
-            pages[54].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0pwBUnUjfTzLjzCacpEJaX2h5cLoUjKbLq4JRp1fLcxjrePB3EYcfjALQzTSe8k6Sl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[54].StoryId = 26;
-
-            pages[55] = new UserContent();
-            pages[55].Data = DateTime.Now;
-            pages[55].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vkkT2vd34KxxaNJppePo1pufcTGzff97M4Siqhq7vEm3AWWzCMdLuYXJZDam2tvdl&show_text=true&width=500\" width=\"500\" height=\"442\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[55].StoryId = 1;
-
-            pages[56] = new UserContent();
-            pages[56].Data = DateTime.Now;
-            pages[56].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0rzf5aCR76tqkD98bt1ryzPTQGRyebM53kMvwDxjUWKMbP4QjgrVRUuEVNP7uUd9Nl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[56].StoryId = 1;
-
-            pages[57] = new UserContent();
-            pages[57].Data = DateTime.Now;
-            pages[57].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0MeQ6MyitmVnyWtVLkXMUSGGePaaR86gbpGThyP6oK7hpGpkoHqABNKPvnRY6YnKDl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[57].StoryId = 1;
-
-            pages[58] = new UserContent();
-            pages[58].Data = DateTime.Now;
-            pages[58].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02p1ffjx1w8h9THFBJqJ99sw8Jx3kbxxVwdXQP9bqmpSGJX9CdjhPP2j2iCr4gDjtPl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[58].StoryId = 26;
-
-            pages[59] = new UserContent();
-            pages[59].Data = DateTime.Now;
-            pages[59].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0zTTTdNRxEPZj6Hz9B7kP1jSoZXjzcivo2NbBpkJDt4AgfKWQ57WhcjiynukYtnrrl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[59].StoryId = 1;
-
-            pages[60] = new UserContent();
-            pages[60].Data = DateTime.Now;
-            pages[60].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026WMCaYPq5fXHGCpCevkKFWqCS5SNRtn2BSvkSNTnxyeGZEmCCPPBaJPfSvbF8U1ol&show_text=true&width=500\" width=\"500\" height=\"404\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[60].StoryId = 10;
-
-            pages[61] = new UserContent();
-            pages[61].Data = DateTime.Now;
-            pages[61].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vVtyY8LaxZNRhwtfNwCEqTS95H52tKZUFXenZEasgvdUXAAD1tQrwMt6dLgsoixpl&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[61].StoryId = 34;
-
-            pages[62] = new UserContent();
-            pages[62].Data = DateTime.Now;
-            pages[62].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02nYV19sKj1CGKVsFqmLhtvPuceigNbkJq2QDCi7YWDkmBkKXcXd2yVqswLFwpb8ral&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[62].StoryId = 26;
-
-            pages[63] = new UserContent();
-            pages[63].Data = DateTime.Now;
-            pages[63].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02d9R5aMSZWnEwEVkKm798z8VnQzgR4tyDzwGRX6EeD1y75tzfnVfw4kc4nMbLhsQnl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[63].StoryId = 1;
-
-            pages[64] = new UserContent();
-            pages[64].Data = DateTime.Now;
-            pages[64].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02qdv56rMSKKp6CsT8DSykoQq5RQ7H7PnM2Go6jvPiFgp2aXX6vthkKydZxZ6FXiiLl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[64].StoryId = 1;
-
-            pages[65] = new UserContent();
-            pages[65].Data = DateTime.Now;
-            pages[65].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0Eus4tURvkvrFWX4ku69EEgKeNroaBS9mkZM7111N2vUDtrNduWUn3LEbg7jqZCKjl&show_text=true&width=500\" width=\"500\" height=\"516\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[65].StoryId = 14;
-
-            pages[66] = new UserContent();
-            pages[66].Data = DateTime.Now;
-            pages[66].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02y3DkuYDVjeGJmvrYiQRy4QvpqcB39Tp26grHBnYFwhfDqLr3drFgSQRzTYf3RoDjl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[66].StoryId = 14;
-
-            pages[67] = new UserContent();
-            pages[67].Data = DateTime.Now;
-            pages[67].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid027wTVTY7DjYQdYMkzcyatTf4qE7V2XV378XU3poHPTUGYmM9mPBvARK4BMZ7tB5ykl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[67].StoryId = 1;
-
-            pages[68] = new UserContent();
-            pages[68].Data = DateTime.Now;
-            pages[68].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02nKVEbkWYXfU9V8jrwJjdNmcEsKmjBGjmx3M9HMJV6ZpVCGBnrRRUMxNi7ZDFR73Rl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[68].StoryId = 25;
-
-            pages[69] = new UserContent();
-            pages[69].Data = DateTime.Now;
-            pages[69].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02HEjjBYdRrvN32QgozDs6b1s55PeRX27hYC96n66WNtxrasAUNUrvHoGLY2eUcL4Dl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[69].StoryId = 7;
-
-            pages[70] = new UserContent();
-            pages[70].Data = DateTime.Now;
-            pages[70].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0bazQeXnER4EPdBgn2VEdRGwPNmS1po8c2Cixevgt7gcq9nGZyfx1V5ufo1snBh2ql&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[70].StoryId = 25;
-
-            pages[71] = new UserContent();
-            pages[71].Data = DateTime.Now;
-            pages[71].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02X751YCFZJdLa9dPxM2fsRawmPU2EDL8bivG6pmW52BHKFbNnGyGUxMdEZBZNyKJNl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[71].StoryId = 1;
-
-            pages[72] = new UserContent();
-            pages[72].Data = DateTime.Now;
-            pages[72].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02rrMd1aA57h9qoyRvWKHeR8RVW6WP7pYQ1xo2k16p3MLncfRtZDd6Qo8kb8LBm4Ztl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[72].StoryId = 1;
-
-            pages[73] = new UserContent();
-            pages[73].Data = DateTime.Now;
-            pages[73].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0bbeSNywypter881KuYQiXpyjYo8t1YSuDL1FYKDFaimS9iM3FNbsyJXHvWKUbZ44l&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[73].StoryId = 1;
-
-            pages[74] = new UserContent();
-            pages[74].Data = DateTime.Now;
-            pages[74].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02ciqB41cWFCHLVpu85813n9dY6mLtcm3fuBHFMcDcGFe13CrvWz9Xi3ADWzUrBcbl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[74].StoryId = 1;
-
-            pages[75] = new UserContent();
-            pages[75].Data = DateTime.Now;
-            pages[75].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid031jcK5kzmAGnvTLLTTSPt2YHgpHuG3sn1JRZwEWzafeLXjWhHvsyptGsN83ZmwBKAl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[75].StoryId = 22;
-
-            pages[76] = new UserContent();
-            pages[76].Data = DateTime.Now;
-            pages[76].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid038CCa6ujjUJgNEKLg634Hby4jedBu1wV2Y8ipxb43wnJX2kF8rFqVKbnuJ3KGpobnl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[76].StoryId = 7;
-
-            pages[77] = new UserContent();
-            pages[77].Data = DateTime.Now;
-            pages[77].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02HHKbk2dR3fkzrnzWo67okuBfvTdRRub7XWFNzatfW6AJoYpwGpb15pNujigTZPNl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[77].StoryId = 25;
-
-            pages[78] = new UserContent();
-            pages[78].Data = DateTime.Now;
-            pages[78].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026vGPQvgUPzMJ7AGK29KHMPuokVChfyAAZACDe8Ls8PB848uRKpfowF5RwpcridpZl&show_text=true&width=500\" width=\"500\" height=\"516\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[78].StoryId = 35;
-
-            pages[79] = new UserContent();
-            pages[79].Data = DateTime.Now;
-            pages[79].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Y7pn3zfCvje1J7jrrLuZBtboJkhD2gh5r4q5cokPb4LKMUXsqxcTs4vv319LXPDil&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[79].StoryId = 14;
-
-            pages[80] = new UserContent();
-            pages[80].Data = DateTime.Now;
-            pages[80].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0sxuBia73DNgx4isXS5dD53hzj4UUT6AEAdRkmZw4Guv5CDiW78Yrm1TH4mKRJdjgl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[80].StoryId = 14;
-
-            pages[81] = new UserContent();
-            pages[81].Data = DateTime.Now;
-            pages[81].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02vXrxPnfU5R7qj7qWQyvU5C4UmHj2KHmmefj8DRT1HyMMPy5ek1MGM2KE2T7wHiNnl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[81].StoryId = 26;
-
-            pages[82] = new UserContent();
-            pages[82].Data = DateTime.Now;
-            pages[82].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0LdKKha3vMieVnZdiz7eFPjwn4fensvaDUhwTJaDxKq7fBy6mv8i2Z8Sn814jyvFsl&show_text=true&width=500\" width=\"500\" height=\"442\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[82].StoryId = 26;
-
-            pages[83] = new UserContent();
-            pages[83].Data = DateTime.Now;
-            pages[83].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02UG447xr6Y4Paz1wmexGvkH7yk5i8n5mXM5sCSKdMphhye1UfrDt98T66ZnMnASLel&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[83].StoryId = 1;            
-            
-            pages[84] = new UserContent();
-            pages[84].Data = DateTime.Now;
-            pages[84].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Csb5qm9quFKXxomiUiSDZq7A5WiaRsj1fJhj7xJV33bVsLZWkYMrKUCQDQ4rzQTLl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[84].StoryId = 34;
-            
-            pages[85] = new UserContent();
-            pages[85].Data = DateTime.Now;
-            pages[85].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02vbaKQgKoeG6BYRWb4tzJdGRuQ4NA1kkRzbcar4WRigP1q78gb24e7UY8BXTbHcAWl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[85].StoryId = 1;
-            
-            pages[86] = new UserContent();
-            pages[86].Data = DateTime.Now;
-            pages[86].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02zK3fgYR9K8gXtqUGKfuMN9RHKQtNv34VngoJPEVjXBC76obTDqu1RfEBo73AHBQ8l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[86].StoryId = 1;
-
-            pages[87] = new UserContent();
-            pages[87].Data = DateTime.Now;
-            pages[87].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02GQ2gTA1wow6AB6yauDMp4ufg2ViqjG6P4v98iKUk4B5T2b3hiSsF8HhEnkxxxMePl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[87].StoryId = 1;
-
-            pages[88] = new UserContent();
-            pages[88].Data = DateTime.Now;
-            pages[88].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0w23EdJHV2bGNg2ZZYBPntE6ycHVc8rZYmr6xAVDPNhZCAeHw5s8ZWL59hUtErsKjl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[88].StoryId = 1;
-
-            pages[89] = new UserContent();
-            pages[89].Data = DateTime.Now;
-            pages[89].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0ggx5Uzka8uiJq9qtGJyptYUxKjMFQSoN9gcUQB4nhUmMjrnjmKc1CTzLoqUsqzxVl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[89].StoryId = 1;
-
-            pages[90] = new UserContent();
-            pages[90].Data = DateTime.Now;
-            pages[90].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0dsnoaDBH9jv2zvkrHfr39Akwbxaim2iWf2FTReY8utu6iEtHN1iam8yhvM92zjgkl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[90].StoryId = 25;
-
-            pages[91] = new UserContent();
-            pages[91].Data = DateTime.Now;
-            pages[91].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02MgUQbqoYp2qtt5i45oJxGBuLZyFBcNTmpzgpwnCQrqgDiBVpEDv9xyZmiXkxwZKgl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[91].StoryId = 1;
-
-            pages[92] = new UserContent();
-            pages[92].Data = DateTime.Now;
-            pages[92].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0M7GshTGE2CVSD6b1Ab8i1ysJo53mVyAdNyjGMEd9MD4Pfkv2QQ1nngYf66D7oeTCl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[92].StoryId = 27;
-
-            pages[93] = new UserContent();
-            pages[93].Data = DateTime.Now;
-            pages[93].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026WZsLwuNwWZ1NcT24ANtGLn1Zi4cvb2gitC1iFsh4VqEcrbFMUBzWNw6KDPkLH3Gl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[93].StoryId = 23;
-
-            pages[94] = new UserContent();
-            pages[94].Data = DateTime.Now;
-            pages[94].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02bSoHU7GyMUK9rPwDhKa4JPY4NSWVWN3c1Y2QLEPrBgQMWZiH9dhCCGMpNTkVSF93l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[94].StoryId = 7;
-
-            pages[95] = new UserContent();
-            pages[95].Data = DateTime.Now;
-            pages[95].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02dicfwxt3jh4b15YkxrJGySf5DJkikWXiMvbqgHnVaqLPJiC8YV3tMtmdmnj3xHuKl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[95].StoryId = 23;
-
-            pages[96] = new UserContent();
-            pages[96].Data = DateTime.Now;
-            pages[96].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid07QzLZT5MzH7bhNkUeTjCStmhGtWQPZH2Mt8oBsF7XgMHhJyFWuyDWV4nnqEtNpBPl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[96].StoryId = 1;
-
-            pages[97] = new UserContent();
-            pages[97].Data = DateTime.Now;
-            pages[97].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0181VE8kZNrfkxZbzHRRFg3XtFgo3vwj7w3VL3YX1Qrgu3FnFUijamuajGgC6YWXVl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[97].StoryId = 26;
-
-            pages[98] = new UserContent();
-            pages[98].Data = DateTime.Now;
-            pages[98].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02y5d7KzpYACyQadbhuQ2ZNq2q7oCw9btNSRn7D7CPekqo8jaAD9dE2GQ9u625jzMNl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[98].StoryId = 32;
-
-            pages[99] = new UserContent();
-            pages[99].Data = DateTime.Now;
-            pages[99].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02JGFrozxbpj3S8NVExrJe2j1MbGRLZFV8wTCY4C2NxkMfd2joG96NXuCVPdjMnykcl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[99].StoryId = 33;
-
-            pages[100] = new UserContent();
-            pages[100].Data = DateTime.Now;
-            pages[100].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02ZEhJsccSDV8dFzdt3uwZSa31hzz4iKhDtUYWUrUviPK8XNzPgnN6Lj2D6kUfhwbhl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[100].StoryId = 1;
-
-            pages[101] = new UserContent();
-            pages[101].Data = DateTime.Now;
-            pages[101].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0C9YUvxUmufECDGL8iwh3QLsbLQM4hvwxH4a2rYPskdqS6Sxz4QMZhGw93Rg3FR2Ul&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[101].StoryId = 26;
-
-            pages[102] = new UserContent();
-            pages[102].Data = DateTime.Now;
-            pages[102].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02hRm25Di4dB1xqQNnqR2pJKDJedLVX1ttY5rAHdHPbyzAdwXsoF3iTgwzcG8KiVDCl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[102].StoryId = 1;
-
-            pages[103] = new UserContent();
-            pages[103].Data = DateTime.Now;
-            pages[103].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid04tKXTGU3Bp4brZN4Sd6N2zU76AdqicRikZxYMhM4MK6k5YUnJ8SmqKvk43U7V2vgl&show_text=true&width=500\" width=\"500\" height=\"378\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[103].StoryId = 34;
-
-            pages[104] = new UserContent();
-            pages[104].Data = DateTime.Now;
-            pages[104].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0e1eqhZsx9wmDoyoCF44r1XHG3TSxnNTnAU6NWkh2kErj7RHPZCMAEZSVm715TcKsl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[104].StoryId = 25;
-
-            pages[105] = new UserContent();
-            pages[105].Data = DateTime.Now;
-            pages[105].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0rHNksb8JBHVCg3X6LABCkYu5YTF4q3ThVJGGeUJRQyBzm1LjtYFg4441MLNn5ft2l&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[105].StoryId = 1;
-
-            pages[106] = new UserContent();
-            pages[106].Data = DateTime.Now;
-            pages[106].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02NyPdmduqqQswBWitTipioiJd6V44oKnktUL4Jr4Qkuf9CaRTBNkpwgNDJSSQVxf4l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[106].StoryId = 1;
-
-            pages[107] = new UserContent();
-            pages[107].Data = DateTime.Now;
-            pages[107].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid06oPPmP2qLi5FekTHvBaJv6ccY3PnjzcMpnAVQNK1gN9UEg6NVDzm5WDXe8b8my1Bl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[107].StoryId = 7;
-
-            pages[108] = new UserContent();
-            pages[108].Data = DateTime.Now;
-            pages[108].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0G9ixmq3ddCb3sTDLvKho1sKPPZFai9ytftoXc93sAk5wQmGMoUSxrundLNmkpKcRl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[108].StoryId = 25;
-
-            pages[109] = new UserContent();
-            pages[109].Data = DateTime.Now;
-            pages[109].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02UsSL9dP5KxSH71caoUtKiFy7xeNcCktY4uxYcQgYgqX4SRxjwx3zTxVBfBqh9jzal&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[109].StoryId = 11;
-
-            pages[110] = new UserContent();
-            pages[110].Data = DateTime.Now;
-            pages[110].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid07HTH9TzuvxDziMwA5T3v9qst7SkqCxKSvVJ1a86SCWWarDThxBSv2LAgD1FLP9USl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[110].StoryId = 4;
-
-            pages[111] = new UserContent();
-            pages[111].Data = DateTime.Now;
-            pages[111].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02LqL2LeAy3jezAYZztToqVCZEhEo3JmAsA8XqQ39CfSeDNXocnaBXiThCLxPvjycgl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[111].StoryId = 5;
-
-            pages[112] = new UserContent();
-            pages[112].Data = DateTime.Now;
-            pages[112].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid022UK3EDzoavs7ZhevN9NEot3hc7tCHNgWYR7xnzGwQfEzhJq8seJ4dPazyCich7YHl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[112].StoryId = 30;
-
-            pages[113] = new UserContent();
-            pages[113].Data = DateTime.Now;
-            pages[113].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0335uvZ59AoTTtrv2s58mPpMBaAzrLAeCB2ff7naWfgFt7cZxFBHpupuXLVa7oXr3jl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[113].StoryId = 9;
-
-            pages[114] = new UserContent();
-            pages[114].Data = DateTime.Now;
-            pages[114].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02TvBET5V7aKAM2S8Uh8yJRGtoZHUjYrXDcvrHki6HP4J9LzZLrcLTJE6xr9YnN4Val&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[114].StoryId = 25;
-
-            pages[115] = new UserContent();
-            pages[115].Data = DateTime.Now;
-            pages[115].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0qyTx6MMFviJ1mE1Dokiqh8Ae8BWMrSo71aLda9zm4JnWggKM19K6iCdCih5XdJUnl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[115].StoryId = 14;
-
-            pages[116] = new UserContent();
-            pages[116].Data = DateTime.Now;
-            pages[116].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0b9SEWLp51rfGJuFs3ChaVQEyc9wZdDy1fnRh7cA6jdYZgrdR3yGQm4yhbxxiaPkUl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[116].StoryId = 7;
-
-            pages[117] = new UserContent();
-            pages[117].Data = DateTime.Now;
-            pages[117].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02qk97vQNbEVoFsVk2YY4F5tH5eGDPqkXjz4Lk1UEHLqspUZGPjeBLYXauynsvoAHDl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[117].StoryId = 33;
-
-            pages[118] = new UserContent();
-            pages[118].Data = DateTime.Now;
-            pages[118].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02mzp696T5n9eXaJRZ78gAkrT7pTPnEtrNhLRvsesudZ8eJ2rPFtrGSxbASxsAESFwl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[118].StoryId = 14;
-
-            pages[119] = new UserContent();
-            pages[119].Data = DateTime.Now;
-            pages[119].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02EVj9pTja9vnVrZBLKTW6kuKAFFcerWJmQtNWmsTfvy3rFvKvwpzL5P35NDDZKp7jl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[119].StoryId = 14;
-
-            pages[120] = new UserContent();
-            pages[120].Data = DateTime.Now;
-            pages[120].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02P1ggF8QDAoZuMcZUSsktNxCv5tPG71DEQ9HiEocNXLLWDCN2wosJvhyThgkud9USl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[120].StoryId = 9;
-
-            pages[121] = new UserContent();
-            pages[121].Data = DateTime.Now;
-            pages[121].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02z2ECjLBrM5qazo2jkuQ6kL8CbGwBgaqsoTJgvH81kC3SQKVZS2RAvMADuEFWDka4l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[121].StoryId = 5;
-
-            pages[122] = new UserContent();
-            pages[122].Data = DateTime.Now;
-            pages[122].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0NH6RrYbNNr5B3Crx8bK8JKpPsCMeU2pjDFyJF1TrJNZeRH59BwbKhQHc4YLpazpQl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[122].StoryId = 1;
-
-            pages[123] = new UserContent();
-            pages[123].Data = DateTime.Now;
-            pages[123].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02MMubXPVrzNLDHpnJz3MwFpNP2rcuWgWWAFhiYFvp7fJMAMvT5xae2apz8NtMWywdl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[123].StoryId = 14;
-
-            pages[124] = new UserContent();
-            pages[124].Data = DateTime.Now;
-            pages[124].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Um6wwsc9UtUaLrzs3Pk1h3SfbM1FzqrkmGE1WCxu7oVHf111B3E9H1vqahLp8Lc4l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[124].StoryId = 5;
-
-            pages[125] = new UserContent();
-            pages[125].Data = DateTime.Now;
-            pages[125].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid024ipR7eYaq2hWFVGkawyZNcLwrJzdY2HiVCK7jD3nzK1xbWWiTLdnvJfLAe4GpMNMl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[125].StoryId = 5;
-
-            pages[126] = new UserContent();
-            pages[126].Data = DateTime.Now;
-            pages[126].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Q4dBHTBZ3HjrTtNa8kykhrsLDBakMeDmehNSMKAYPqx2mHyDh3JjmdJTc9sJrDmfl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[126].StoryId = 1;
-
-            pages[127] = new UserContent();
-            pages[127].Data = DateTime.Now;
-            pages[127].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02adjGuzdD4wnFwxXf71oXfQqiXHxQJQzPBHU7KAfMucyTzm1FQnsw4TMX5a41pYUAl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[127].StoryId = 34;
-
-            pages[128] = new UserContent();
-            pages[128].Data = DateTime.Now;
-            pages[128].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02NcKBkzXYLWwX6qtWqJ4azgPeHw4oMbhoMKX7GpcmfG1u4NXHbTrg69Re3Pxb2wCwl&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[128].StoryId = 1;
-
-            pages[129] = new UserContent();
-            pages[129].Data = DateTime.Now;
-            pages[129].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0CYofU8EmereJb4FzEHz3kq5CVFG5HWoj4i8BFhKc17YYCqecnjqMpvTcn8jr6YWQl&show_text=true&width=500\" width=\"500\" height=\"575\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[129].StoryId = 1;
-
-            pages[130] = new UserContent();
-            pages[130].Data = DateTime.Now;
-            pages[130].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0hWTUSPhdpFAQ6ym6U5Sk9vUQ3PdsyS4ybdMTtwMR7En9KdsWDQC28XxK2fBerDkKl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[130].StoryId = 4;
-
-            pages[131] = new UserContent();
-            pages[131].Data = DateTime.Now;
-            pages[131].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02LTbXAJypJPz39XfzTLs6PYF4oXqASaNxFHc5sr556HMcujbYsq6db6WGsDtyLwuPl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[131].StoryId = 4;
-
-            pages[132] = new UserContent();
-            pages[132].Data = DateTime.Now;
-            pages[132].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Re2sFrFpFCtVNejp4LXCsk7MacHGUU796ztoebBeZSs2XfvjR3Bss2YKkAXWMhzql&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[132].StoryId = 1;
-
-            pages[133] = new UserContent();
-            pages[133].Data = DateTime.Now;
-            pages[133].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02hTqNM53nGHXA6WiyPJG37HBPnZPq45BcpWK7qLdx6QRQ77EHKVA9ey4Z1AeUKs1Zl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[133].StoryId = 1;
-
-            pages[134] = new UserContent();
-            pages[134].Data = DateTime.Now;
-            pages[134].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02yanLY7LN37ubqCn8f4ZKkrqzU2csnzkFjfsnUBPLrsjCewCWDxcbegTfGuicvnmWl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[134].StoryId = 14;
-
-            pages[135] = new UserContent();
-            pages[135].Data = DateTime.Now;
-            pages[135].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0xJX9hX1nBGYWbRPKT9mc298D2hfXScYrv2X5mSoqXi3BJ2r8NEvUx1rSgHkJ3bShl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[135].StoryId = 17;
-
-            pages[136] = new UserContent();
-            pages[136].Data = DateTime.Now;
-            pages[136].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02pdFu9H3hPtYCE2oncFDnpb9ky9ukvs8JLkvgWdUpiUi1zcM3WydYwuYzSZn1LMGl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[136].StoryId = 20;
-
-            pages[137] = new UserContent();
-            pages[137].Data = DateTime.Now;
-            pages[137].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0bSFhTZ3Mz6YH3MW8KqvZrF92mPngqfPoXGCdoWNFPSZ7wizigStZrS7XKhTHLyo5l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[137].StoryId = 7;
-
-            pages[138] = new UserContent();
-            pages[138].Data = DateTime.Now;
-            pages[138].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0w5XxK25NaJFu459UWZdFCPtEH2PY1Mc2vDagCw7nPWk258p4AsZ2AUqhpPdUA2Lzl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[138].StoryId = 1;
-
-            pages[139] = new UserContent();
-            pages[139].Data = DateTime.Now;
-            pages[139].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vLwbak6AfxBidWom3AjHz6RQ5wu7XepHkMMbqGk9WN7G4ghziWEjLf1TN6fPZCtAl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[139].StoryId = 7;
-
-            pages[140] = new UserContent();
-            pages[140].Data = DateTime.Now;
-            pages[140].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0oBcgmzqG5neBpNo6RcTcGzLK3BnWcP17d7QJfUyzggtye8uVhW5mJ3oSBjJH6GjRl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[140].StoryId = 25;
-
-            pages[141] = new UserContent();
-            pages[141].Data = DateTime.Now;
-            pages[141].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0coeektjWueq1mf2uATiVACpZtM6JEQz6Jy9WE4B1Pj7AAkdn7dAG8tQEbvg5rVE3l&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[141].StoryId = 25;
-
-            pages[142] = new UserContent();
-            pages[142].Data = DateTime.Now;
-            pages[142].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0h2VvSWVL9ueC5ATA2KXmbnMQdHgBuKXkLs8JdybpPZhwugizYxifXZwfoy6qB3gCl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[142].StoryId = 25;
-
-            pages[143] = new UserContent();
-            pages[143].Data = DateTime.Now;
-            pages[143].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0xRQCpHZafWdVdvcUpB8QUN65dBX8kCkjCwG9sMB5b5tsGEeeaxHrPBfB1uAUGGvVl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[143].StoryId = 1;
-
-            pages[144] = new UserContent();
-            pages[144].Data = DateTime.Now;
-            pages[144].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0q71ZEifP292bbDj9ubBRYNcCcmuxENPNRW5b66XbLvvg2UZyG3VN6qj3f3LovLBFl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
-            pages[144].StoryId = 7;
-
-           // pages[i - 1] = new UserContent();
-           // pages[i - 1].Data = DateTime.Now;
-           // pages[i - 1].Html = "";
-           // pages[i - 1].StoryId = 17;
+        pages[0] = new UserContent();
+        pages[0].Data = DateTime.Now;
+        pages[0].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02jZ4HpoAWv77nwj3k9jfsRzVvW8GbXQ2BK91w8iF1gZEUbSYKtLowcimZBjjWTxQAl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[0].StoryId = 5;
+
+        pages[1] = new UserContent();
+        pages[1].Data = DateTime.Now;
+        pages[1].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0YZpNdTBjJx4bq2HhyV1LxnU7fzMqW7HP3Y1Rbzoudd7XDzXNLZoSzinumCmWmXTWl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[1].StoryId = 13;
+
+        pages[2] = new UserContent();
+        pages[2].Data = DateTime.Now;
+        pages[2].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026igxqSgMzHej1uhcnjtPkUTWX7NQAsSWETgWSfnsQFucZ8xHJzAvUpszoWwYoKAZl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[2].StoryId = 14;
+
+        pages[3] = new UserContent();
+        pages[3].Data = DateTime.Now;
+        pages[3].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0HZ5uXagdRPSTvRmMg247yu9KbztCsN6sVx1V2Hs2wb8hFeSAsopKVk5aFY7Rj8Xfl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[3].StoryId = 13;
+
+        pages[4] = new UserContent();
+        pages[4].Data = DateTime.Now;
+        pages[4].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0HZ5uXagdRPSTvRmMg247yu9KbztCsN6sVx1V2Hs2wb8hFeSAsopKVk5aFY7Rj8Xfl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[4].StoryId = 13;
+
+        pages[5] = new UserContent();
+        pages[5].Data = DateTime.Now;
+        pages[5].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02kcemj6qQWnagpgFYtRveFLKzsBGfYwtLux2WnYkZccNhFgSiMPAPDvTT5wCXTfYVl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[5].StoryId = 4;
+
+        pages[6] = new UserContent();
+        pages[6].Data = DateTime.Now;
+        pages[6].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0Jc2P8fpsT1MfpJC9LdcV2YhczFZsSN6zZkSKkeqEooLbxEy5FZcXUUc4st4yx31Xl&show_text=true&width=500\" width=\"500\" height=\"464\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[6].StoryId = 2;
+
+        pages[7] = new UserContent();
+        pages[7].Data = DateTime.Now;
+        pages[7].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0CPXEVfSpuK3eK9MjtSd2Nycfzo87eySm9SRnWbMhxaqezapa9bveUfpcCL9wj7TZl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[7].StoryId = 17;
+
+        pages[8] = new UserContent();
+        pages[8].Data = DateTime.Now;
+        pages[8].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid036YRVPAqPHgr7goNNr1yfM8jtLzDANpuQio1R1214tYbyowwn9RB8X1KJe5yJqHE3l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[8].StoryId = 4;
+
+        pages[9] = new UserContent();
+        pages[9].Data = DateTime.Now;
+        pages[9].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02w3TVhUZHpqd8gHq1pMkiqXfPNm7TJVftfAUPvBv7jxzPA6rFVf7EzNpca8jrNyjHl&show_text=true&width=500\" width=\"500\" height=\"363\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[9].StoryId = 13;
+
+        pages[10] = new UserContent();
+        pages[10].Data = DateTime.Now;
+        pages[10].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02u8PepbdbWgVK8MFCHytJqX52WbZiw5x53vAsNxKaUJdAJmz4xUmD3hx3e5uQGCmol&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[10].StoryId = 34;
+
+        pages[11] = new UserContent();
+        pages[11].Data = DateTime.Now;
+        pages[11].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0T4ba8HjbXQuog6nG4UujWPyHwkVCHfo7abZjqqV5wm89EdP6eznv1sFQRnv2YmYQl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[11].StoryId = 5;
+
+        pages[12] = new UserContent();
+        pages[12].Data = DateTime.Now;
+        pages[12].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02eZKigMVXnfP8FJeVXA76gmgn4Ndcu5863T5dPdJtaYcyqhothAyxwhjfFXV5CRsil&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[12].StoryId = 4;
+
+        pages[13] = new UserContent();
+        pages[13].Data = DateTime.Now;
+        pages[13].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0FhJ4hYm57u3gJeAbrXPRTSbmyCb2MtafVGcxcedSn6C2mcHvAb4StGjasr2U6Supl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[13].StoryId = 25;
+
+        pages[14] = new UserContent();
+        pages[14].Data = DateTime.Now;
+        pages[14].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0QaL61L6DJqfHEUT7Vhese6V8FwVizcYwPtufjC33bWzTM2u114Rj5Jxf8LGJBXn1l&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[14].StoryId = 14;
+
+        pages[15] = new UserContent();
+        pages[15].Data = DateTime.Now;
+        pages[15].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid021PQYjVGcqxdbhZVQhY451Cn2eXLhxmGbdSbC49nbSjfToZR2Jjohuqd8YpfswkVcl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[15].StoryId = 14;
+
+        pages[16] = new UserContent();
+        pages[16].Data = DateTime.Now;
+        pages[16].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02DA5XD8UiFE6pABzjhAqeCMoKXLjh97Ph5cgWeRfmymRdgd2H23hPzAAvzBWNRf8xl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[16].StoryId = 4;
+
+        pages[17] = new UserContent();
+        pages[17].Data = DateTime.Now;
+        pages[17].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0fLY7CFDHjEHR7xKqHfXASzJcC2cna4nQaraT6nNRkSszJms4BH2crqpD2ZUHwR3xl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[17].StoryId = 5;
+
+        pages[18] = new UserContent();
+        pages[18].Data = DateTime.Now;
+        pages[18].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02muF2BXKUbBn5g4pXon6YbF7kXJkN5BDC1cq6pdCvLE23MAhLcdr3R1rffWDCe5Aml&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[18].StoryId = 1;
+
+        pages[19] = new UserContent();
+        pages[19].Data = DateTime.Now;
+        pages[19].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02J5SmuwEuuusvpqzVbJncwpYDzg1R79GGD7Dvvqt3NKZFY4nHezuXkfWNxf6w3DBRl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[19].StoryId = 1;
+
+        pages[20] = new UserContent();
+        pages[20].Data = DateTime.Now;
+        pages[20].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02NCBJiy6FL14fooYEGFu3avfKdCqh3MwKKyjV7kYWDrLC3cPt5qMGn8DaEvwMhDaGl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[20].StoryId = 23;
+
+        pages[21] = new UserContent();
+        pages[21].Data = DateTime.Now;
+        pages[21].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0mRPtUJQD8NBAbWax73pZ4v4Fnz3xPG2aHgzUg8g877ffCTZNCUqYaAucD674kPuCl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[21].StoryId = 2;
+
+        pages[22] = new UserContent();
+        pages[22].Data = DateTime.Now;
+        pages[22].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0hSJj2DjzrnuJ8CHLvvUUuLdqKxMsWvdfTX85ADtDc5F4Bp6jVt6jXmJHsHP2YZATl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[22].StoryId = 1;
+
+        pages[23] = new UserContent();
+        pages[23].Data = DateTime.Now;
+        pages[23].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0Yoo9dPnt9CNRiGQrTJy9FPdeqSD1vQTeQmCi7Q1qz1dWFb778CKVxAzAQSGg3kJhl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[23].StoryId = 17;
+
+        pages[24] = new UserContent();
+        pages[24].Data = DateTime.Now;
+        pages[24].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid037HZVbDxMzibh2cMeH8n9wkX6G2SsyQK4yRrQ7TuqnUrfexCJLsbymJP47EBTCKnZl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[24].StoryId = 7;
+
+        pages[25] = new UserContent();
+        pages[25].Data = DateTime.Now;
+        pages[25].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0gQtvmyAbpt2TEf33uo8Sm6DknEkXfxNJf2j2MDHvuN4woLpWEEcwEuQDGCbSwY2sl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[25].StoryId = 16;
+
+        pages[26] = new UserContent();
+        pages[26].Data = DateTime.Now;
+        pages[26].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0R6ugdK4D6HkdRCr4wqyFYMPSVrJ7GBo9m9sRNob4SSV3ZKEKP1xYShCAc4TkzwSBl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[26].StoryId = 26;
+
+        pages[27] = new UserContent();
+        pages[27].Data = DateTime.Now;
+        pages[27].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02VB28nFtno9dS9FVoCGZPnWC6LzN5Dv4B8CQSDsfuQXToRgGR4vUpqic5ELKaRmhol&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[27].StoryId = 34;
+
+        pages[28] = new UserContent();
+        pages[28].Data = DateTime.Now;
+        pages[28].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid06JLUWEdgZ1p782H79xL1q3V56pZZyWm99pHmKDVJWBVr6c9FSCSDLH2imFrchJcFl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[28].StoryId = 5;
+
+        pages[29] = new UserContent();
+        pages[29].Data = DateTime.Now;
+        pages[29].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02waamEUJAFYnmFeeDSgZkcHi4CsYjeN4bZDiztH4zjErjftPmRqGgpDy36UPJXmzWl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[29].StoryId = 14;
+
+        pages[30] = new UserContent();
+        pages[30].Data = DateTime.Now;
+        pages[30].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02wSW2uUSqYr3G5nxE9S172P8XSGLZA2KEDrvNo95UfuinjFsG2pMHh4GfJaNWJBVyl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[30].StoryId = 25;
+
+        pages[31] = new UserContent();
+        pages[31].Data = DateTime.Now;
+        pages[31].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid03111ynief6eSy3h7DnnRZ8x1r3it4U4eyZZ94PTMGjWfUJFSh6k9e15FUK4MZ6FEGl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[31].StoryId = 5;
+
+        pages[32] = new UserContent();
+        pages[32].Data = DateTime.Now;
+        pages[32].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02ZTh5RjRch9m2qa947WYmLAcFTW1hN33zX6Ha8RxZc2zGKJgM8NQpsZLuSwSS4shWl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[32].StoryId = 25;
+
+        pages[33] = new UserContent();
+        pages[33].Data = DateTime.Now;
+        pages[33].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02L3MLBKRrCfycrmSwd8jiBDbYg3jBVWU2QNURPzihYdWjN1YSFjVtfcyde3LnnAfhl&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[33].StoryId = 34;
+
+        pages[34] = new UserContent();
+        pages[34].Data = DateTime.Now;
+        pages[34].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02kycxfFPEbp3vZ42QrspdLPkvfmHbgbHaj7fN8tWXYw4gmmiT4eXYejDpp8tNSrqel&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[34].StoryId = 2;
+
+        pages[35] = new UserContent();
+        pages[35].Data = DateTime.Now;
+        pages[35].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Tivnay7E7ND4se6jfm8CZLXDbxjZUJYCQNtkahUTuQgbdtQypfUSfZre2N4cxbdjl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[35].StoryId = 2;
+
+        pages[36] = new UserContent();
+        pages[36].Data = DateTime.Now;
+        pages[36].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vrRoWEEDVYjTzYSK7QiHjTTnwsFYZ9nSt78sF2bvfqL31A6CnrWb9QPjUGwii2jql&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[36].StoryId = 2;
+
+        pages[37] = new UserContent();
+        pages[37].Data = DateTime.Now;
+        pages[37].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02hA9ELEnHsGUBqNQpaPEbWmJVgpqFhKngwLpozwJu2ycE22E3FrKBTDaXWgSHUjXPl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[37].StoryId = 5;
+
+        pages[38] = new UserContent();
+        pages[38].Data = DateTime.Now;
+        pages[38].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid05D6yrteB2dShxds8NYYsPLQjdtevbppj82gRXZo9xiuKyA54h1RuH2EUnJxyP4kNl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[38].StoryId = 25;
+
+        pages[39] = new UserContent();
+        pages[39].Data = DateTime.Now;
+        pages[39].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02DKMvkMdZA4G8gKDZXqJcyHGPeEJQ4pUdXQe2zvNLanNx1WdyWranfemqucJM3NeCl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[39].StoryId = 7;
+
+        pages[40] = new UserContent();
+        pages[40].Data = DateTime.Now;
+        pages[40].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0WU3nEiJ81syVoWhDYkVpQXBsSa5Q3KgHj23eTkF2NpGCojinyWaYtUuKk4FtsTStl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[40].StoryId = 1;
+
+        pages[41] = new UserContent();
+        pages[41].Data = DateTime.Now;
+        pages[41].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02H6ezrYn7AEMvrDtLUwXXNWMciZakiyDGW6vgtAy6e8LVWvk4KkfoCinM8VZRZMVkl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[41].StoryId = 26;
+
+        pages[42] = new UserContent();
+        pages[42].Data = DateTime.Now;
+        pages[42].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0u6eNAaTN6NQ5ZS75uUZr27nemyZfzSxRMcveLcvoafHbemzj6Vo7MwcVwkNWTD7Dl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[42].StoryId = 30;
+
+        pages[43] = new UserContent();
+        pages[43].Data = DateTime.Now;
+        pages[43].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02qq4A9XLT1bJf2XYkH3eLQuxmoiY2fr6UZ7ZBNBaY9t7Envd1W5SkkoWKSehAd2e9l&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[43].StoryId = 1;
+
+        pages[44] = new UserContent();
+        pages[44].Data = DateTime.Now;
+        pages[44].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02oQq4dJFpyvbyHHk9awr5Vo6U7HPFKQhVA1sAjV8JsswgVRrEZfr28a9q5erMwnn1l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[44].StoryId = 1;
+
+        pages[45] = new UserContent();
+        pages[45].Data = DateTime.Now;
+        pages[45].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0nLMy8bSuPZ3iHRLcLv6gZdTLm1wA75aosWjJDLQkMKVLLrPiYUz66zoJVAiP2z6Rl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[45].StoryId = 1;
+
+        pages[46] = new UserContent();
+        pages[46].Data = DateTime.Now;
+        pages[46].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02bNYFYCqm9WyUzCNtDVEHVUGtc9SoGeckDf7SdKKYY2jBG9tkJQnpCF6fTFN3Ghjrl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[46].StoryId = 10;
+
+        pages[47] = new UserContent();
+        pages[47].Data = DateTime.Now;
+        pages[47].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02AtGAAWWjhjaFcrAUEeSp9zDnUSoreUEGFSfo5iYmH4Q6c5L8bwxDqjChVqPjuvF6l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[47].StoryId = 14;
+
+        pages[48] = new UserContent();
+        pages[48].Data = DateTime.Now;
+        pages[48].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0f6826jE92KZFCPoP97mAnFRn8ND7ppEPfQ8k17eaHwtsCjMoCgJTg3XaMpRTPedsl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[48].StoryId = 1;
+
+        pages[49] = new UserContent();
+        pages[49].Data = DateTime.Now;
+        pages[49].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0BXWBAqn3i2AJaEXuiQDxxjsBE838yTQDo8bmVGhUBSy7JM3MK7tCDeG1QWhaCbC5l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[49].StoryId = 14;
+
+        pages[50] = new UserContent();
+        pages[50].Data = DateTime.Now;
+        pages[50].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid023uy2TU8AiVrvZpRRLJH3kX8dTjy6hC5b3q8qBNMSsPsyyWZXKj4kDdxaz6KLVT6cl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[50].StoryId = 26;
+
+        pages[51] = new UserContent();
+        pages[51].Data = DateTime.Now;
+        pages[51].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026g4weaZmi3vZAw6S7etMx4XjcTbc36NJtm9CWhn8c1atXg2qFaxYCeV2vDjgWAful&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[51].StoryId = 1;
+
+        pages[52] = new UserContent();
+        pages[52].Data = DateTime.Now;
+        pages[52].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid022NrL66G5AmJao3R8HUHNmQR7yo4aNZhiqYyK31VPAfK15Mxx5rAL45j14swKyqyql&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[52].StoryId = 1;
+
+        pages[53] = new UserContent();
+        pages[53].Data = DateTime.Now;
+        pages[53].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0nna9ZzwiMbCjRro6SmaweKc8oU1JMbw8yd65hpHypBmusaJJccGcxUPuwyhDr6SGl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[53].StoryId = 4;
+
+        pages[54] = new UserContent();
+        pages[54].Data = DateTime.Now;
+        pages[54].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0pwBUnUjfTzLjzCacpEJaX2h5cLoUjKbLq4JRp1fLcxjrePB3EYcfjALQzTSe8k6Sl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[54].StoryId = 26;
+
+        pages[55] = new UserContent();
+        pages[55].Data = DateTime.Now;
+        pages[55].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vkkT2vd34KxxaNJppePo1pufcTGzff97M4Siqhq7vEm3AWWzCMdLuYXJZDam2tvdl&show_text=true&width=500\" width=\"500\" height=\"442\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[55].StoryId = 1;
+
+        pages[56] = new UserContent();
+        pages[56].Data = DateTime.Now;
+        pages[56].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0rzf5aCR76tqkD98bt1ryzPTQGRyebM53kMvwDxjUWKMbP4QjgrVRUuEVNP7uUd9Nl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[56].StoryId = 1;
+
+        pages[57] = new UserContent();
+        pages[57].Data = DateTime.Now;
+        pages[57].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0MeQ6MyitmVnyWtVLkXMUSGGePaaR86gbpGThyP6oK7hpGpkoHqABNKPvnRY6YnKDl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[57].StoryId = 1;
+
+        pages[58] = new UserContent();
+        pages[58].Data = DateTime.Now;
+        pages[58].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02p1ffjx1w8h9THFBJqJ99sw8Jx3kbxxVwdXQP9bqmpSGJX9CdjhPP2j2iCr4gDjtPl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[58].StoryId = 26;
+
+        pages[59] = new UserContent();
+        pages[59].Data = DateTime.Now;
+        pages[59].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0zTTTdNRxEPZj6Hz9B7kP1jSoZXjzcivo2NbBpkJDt4AgfKWQ57WhcjiynukYtnrrl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[59].StoryId = 1;
+
+        pages[60] = new UserContent();
+        pages[60].Data = DateTime.Now;
+        pages[60].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026WMCaYPq5fXHGCpCevkKFWqCS5SNRtn2BSvkSNTnxyeGZEmCCPPBaJPfSvbF8U1ol&show_text=true&width=500\" width=\"500\" height=\"404\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[60].StoryId = 10;
+
+        pages[61] = new UserContent();
+        pages[61].Data = DateTime.Now;
+        pages[61].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vVtyY8LaxZNRhwtfNwCEqTS95H52tKZUFXenZEasgvdUXAAD1tQrwMt6dLgsoixpl&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[61].StoryId = 34;
+
+        pages[62] = new UserContent();
+        pages[62].Data = DateTime.Now;
+        pages[62].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02nYV19sKj1CGKVsFqmLhtvPuceigNbkJq2QDCi7YWDkmBkKXcXd2yVqswLFwpb8ral&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[62].StoryId = 26;
+
+        pages[63] = new UserContent();
+        pages[63].Data = DateTime.Now;
+        pages[63].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02d9R5aMSZWnEwEVkKm798z8VnQzgR4tyDzwGRX6EeD1y75tzfnVfw4kc4nMbLhsQnl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[63].StoryId = 1;
+
+        pages[64] = new UserContent();
+        pages[64].Data = DateTime.Now;
+        pages[64].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02qdv56rMSKKp6CsT8DSykoQq5RQ7H7PnM2Go6jvPiFgp2aXX6vthkKydZxZ6FXiiLl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[64].StoryId = 1;
+
+        pages[65] = new UserContent();
+        pages[65].Data = DateTime.Now;
+        pages[65].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0Eus4tURvkvrFWX4ku69EEgKeNroaBS9mkZM7111N2vUDtrNduWUn3LEbg7jqZCKjl&show_text=true&width=500\" width=\"500\" height=\"516\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[65].StoryId = 14;
+
+        pages[66] = new UserContent();
+        pages[66].Data = DateTime.Now;
+        pages[66].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02y3DkuYDVjeGJmvrYiQRy4QvpqcB39Tp26grHBnYFwhfDqLr3drFgSQRzTYf3RoDjl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[66].StoryId = 14;
+
+        pages[67] = new UserContent();
+        pages[67].Data = DateTime.Now;
+        pages[67].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid027wTVTY7DjYQdYMkzcyatTf4qE7V2XV378XU3poHPTUGYmM9mPBvARK4BMZ7tB5ykl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[67].StoryId = 1;
+
+        pages[68] = new UserContent();
+        pages[68].Data = DateTime.Now;
+        pages[68].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02nKVEbkWYXfU9V8jrwJjdNmcEsKmjBGjmx3M9HMJV6ZpVCGBnrRRUMxNi7ZDFR73Rl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[68].StoryId = 25;
+
+        pages[69] = new UserContent();
+        pages[69].Data = DateTime.Now;
+        pages[69].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02HEjjBYdRrvN32QgozDs6b1s55PeRX27hYC96n66WNtxrasAUNUrvHoGLY2eUcL4Dl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[69].StoryId = 7;
+
+        pages[70] = new UserContent();
+        pages[70].Data = DateTime.Now;
+        pages[70].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0bazQeXnER4EPdBgn2VEdRGwPNmS1po8c2Cixevgt7gcq9nGZyfx1V5ufo1snBh2ql&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[70].StoryId = 25;
+
+        pages[71] = new UserContent();
+        pages[71].Data = DateTime.Now;
+        pages[71].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02X751YCFZJdLa9dPxM2fsRawmPU2EDL8bivG6pmW52BHKFbNnGyGUxMdEZBZNyKJNl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[71].StoryId = 1;
+
+        pages[72] = new UserContent();
+        pages[72].Data = DateTime.Now;
+        pages[72].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02rrMd1aA57h9qoyRvWKHeR8RVW6WP7pYQ1xo2k16p3MLncfRtZDd6Qo8kb8LBm4Ztl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[72].StoryId = 1;
+
+        pages[73] = new UserContent();
+        pages[73].Data = DateTime.Now;
+        pages[73].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0bbeSNywypter881KuYQiXpyjYo8t1YSuDL1FYKDFaimS9iM3FNbsyJXHvWKUbZ44l&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[73].StoryId = 1;
+
+        pages[74] = new UserContent();
+        pages[74].Data = DateTime.Now;
+        pages[74].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02ciqB41cWFCHLVpu85813n9dY6mLtcm3fuBHFMcDcGFe13CrvWz9Xi3ADWzUrBcbl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[74].StoryId = 1;
+
+        pages[75] = new UserContent();
+        pages[75].Data = DateTime.Now;
+        pages[75].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid031jcK5kzmAGnvTLLTTSPt2YHgpHuG3sn1JRZwEWzafeLXjWhHvsyptGsN83ZmwBKAl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[75].StoryId = 22;
+
+        pages[76] = new UserContent();
+        pages[76].Data = DateTime.Now;
+        pages[76].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid038CCa6ujjUJgNEKLg634Hby4jedBu1wV2Y8ipxb43wnJX2kF8rFqVKbnuJ3KGpobnl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[76].StoryId = 7;
+
+        pages[77] = new UserContent();
+        pages[77].Data = DateTime.Now;
+        pages[77].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02HHKbk2dR3fkzrnzWo67okuBfvTdRRub7XWFNzatfW6AJoYpwGpb15pNujigTZPNl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[77].StoryId = 25;
+
+        pages[78] = new UserContent();
+        pages[78].Data = DateTime.Now;
+        pages[78].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026vGPQvgUPzMJ7AGK29KHMPuokVChfyAAZACDe8Ls8PB848uRKpfowF5RwpcridpZl&show_text=true&width=500\" width=\"500\" height=\"516\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[78].StoryId = 35;
+
+        pages[79] = new UserContent();
+        pages[79].Data = DateTime.Now;
+        pages[79].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Y7pn3zfCvje1J7jrrLuZBtboJkhD2gh5r4q5cokPb4LKMUXsqxcTs4vv319LXPDil&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[79].StoryId = 14;
+
+        pages[80] = new UserContent();
+        pages[80].Data = DateTime.Now;
+        pages[80].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0sxuBia73DNgx4isXS5dD53hzj4UUT6AEAdRkmZw4Guv5CDiW78Yrm1TH4mKRJdjgl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[80].StoryId = 14;
+
+        pages[81] = new UserContent();
+        pages[81].Data = DateTime.Now;
+        pages[81].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02vXrxPnfU5R7qj7qWQyvU5C4UmHj2KHmmefj8DRT1HyMMPy5ek1MGM2KE2T7wHiNnl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[81].StoryId = 26;
+
+        pages[82] = new UserContent();
+        pages[82].Data = DateTime.Now;
+        pages[82].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0LdKKha3vMieVnZdiz7eFPjwn4fensvaDUhwTJaDxKq7fBy6mv8i2Z8Sn814jyvFsl&show_text=true&width=500\" width=\"500\" height=\"442\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[82].StoryId = 26;
+
+        pages[83] = new UserContent();
+        pages[83].Data = DateTime.Now;
+        pages[83].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02UG447xr6Y4Paz1wmexGvkH7yk5i8n5mXM5sCSKdMphhye1UfrDt98T66ZnMnASLel&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[83].StoryId = 1;
+
+        pages[84] = new UserContent();
+        pages[84].Data = DateTime.Now;
+        pages[84].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Csb5qm9quFKXxomiUiSDZq7A5WiaRsj1fJhj7xJV33bVsLZWkYMrKUCQDQ4rzQTLl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[84].StoryId = 34;
+
+        pages[85] = new UserContent();
+        pages[85].Data = DateTime.Now;
+        pages[85].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02vbaKQgKoeG6BYRWb4tzJdGRuQ4NA1kkRzbcar4WRigP1q78gb24e7UY8BXTbHcAWl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[85].StoryId = 1;
+
+        pages[86] = new UserContent();
+        pages[86].Data = DateTime.Now;
+        pages[86].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02zK3fgYR9K8gXtqUGKfuMN9RHKQtNv34VngoJPEVjXBC76obTDqu1RfEBo73AHBQ8l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[86].StoryId = 1;
+
+        pages[87] = new UserContent();
+        pages[87].Data = DateTime.Now;
+        pages[87].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02GQ2gTA1wow6AB6yauDMp4ufg2ViqjG6P4v98iKUk4B5T2b3hiSsF8HhEnkxxxMePl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[87].StoryId = 1;
+
+        pages[88] = new UserContent();
+        pages[88].Data = DateTime.Now;
+        pages[88].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0w23EdJHV2bGNg2ZZYBPntE6ycHVc8rZYmr6xAVDPNhZCAeHw5s8ZWL59hUtErsKjl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[88].StoryId = 1;
+
+        pages[89] = new UserContent();
+        pages[89].Data = DateTime.Now;
+        pages[89].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0ggx5Uzka8uiJq9qtGJyptYUxKjMFQSoN9gcUQB4nhUmMjrnjmKc1CTzLoqUsqzxVl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[89].StoryId = 1;
+
+        pages[90] = new UserContent();
+        pages[90].Data = DateTime.Now;
+        pages[90].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0dsnoaDBH9jv2zvkrHfr39Akwbxaim2iWf2FTReY8utu6iEtHN1iam8yhvM92zjgkl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[90].StoryId = 25;
+
+        pages[91] = new UserContent();
+        pages[91].Data = DateTime.Now;
+        pages[91].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02MgUQbqoYp2qtt5i45oJxGBuLZyFBcNTmpzgpwnCQrqgDiBVpEDv9xyZmiXkxwZKgl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[91].StoryId = 1;
+
+        pages[92] = new UserContent();
+        pages[92].Data = DateTime.Now;
+        pages[92].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0M7GshTGE2CVSD6b1Ab8i1ysJo53mVyAdNyjGMEd9MD4Pfkv2QQ1nngYf66D7oeTCl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[92].StoryId = 27;
+
+        pages[93] = new UserContent();
+        pages[93].Data = DateTime.Now;
+        pages[93].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid026WZsLwuNwWZ1NcT24ANtGLn1Zi4cvb2gitC1iFsh4VqEcrbFMUBzWNw6KDPkLH3Gl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[93].StoryId = 23;
+
+        pages[94] = new UserContent();
+        pages[94].Data = DateTime.Now;
+        pages[94].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02bSoHU7GyMUK9rPwDhKa4JPY4NSWVWN3c1Y2QLEPrBgQMWZiH9dhCCGMpNTkVSF93l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[94].StoryId = 7;
+
+        pages[95] = new UserContent();
+        pages[95].Data = DateTime.Now;
+        pages[95].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02dicfwxt3jh4b15YkxrJGySf5DJkikWXiMvbqgHnVaqLPJiC8YV3tMtmdmnj3xHuKl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[95].StoryId = 23;
+
+        pages[96] = new UserContent();
+        pages[96].Data = DateTime.Now;
+        pages[96].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid07QzLZT5MzH7bhNkUeTjCStmhGtWQPZH2Mt8oBsF7XgMHhJyFWuyDWV4nnqEtNpBPl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[96].StoryId = 1;
+
+        pages[97] = new UserContent();
+        pages[97].Data = DateTime.Now;
+        pages[97].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0181VE8kZNrfkxZbzHRRFg3XtFgo3vwj7w3VL3YX1Qrgu3FnFUijamuajGgC6YWXVl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[97].StoryId = 26;
+
+        pages[98] = new UserContent();
+        pages[98].Data = DateTime.Now;
+        pages[98].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02y5d7KzpYACyQadbhuQ2ZNq2q7oCw9btNSRn7D7CPekqo8jaAD9dE2GQ9u625jzMNl&show_text=true&width=500\" width=\"500\" height=\"250\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[98].StoryId = 32;
+
+        pages[99] = new UserContent();
+        pages[99].Data = DateTime.Now;
+        pages[99].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02JGFrozxbpj3S8NVExrJe2j1MbGRLZFV8wTCY4C2NxkMfd2joG96NXuCVPdjMnykcl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[99].StoryId = 33;
+
+        pages[100] = new UserContent();
+        pages[100].Data = DateTime.Now;
+        pages[100].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02ZEhJsccSDV8dFzdt3uwZSa31hzz4iKhDtUYWUrUviPK8XNzPgnN6Lj2D6kUfhwbhl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[100].StoryId = 1;
+
+        pages[101] = new UserContent();
+        pages[101].Data = DateTime.Now;
+        pages[101].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0C9YUvxUmufECDGL8iwh3QLsbLQM4hvwxH4a2rYPskdqS6Sxz4QMZhGw93Rg3FR2Ul&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[101].StoryId = 26;
+
+        pages[102] = new UserContent();
+        pages[102].Data = DateTime.Now;
+        pages[102].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02hRm25Di4dB1xqQNnqR2pJKDJedLVX1ttY5rAHdHPbyzAdwXsoF3iTgwzcG8KiVDCl&show_text=true&width=500\" width=\"500\" height=\"329\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[102].StoryId = 1;
+
+        pages[103] = new UserContent();
+        pages[103].Data = DateTime.Now;
+        pages[103].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid04tKXTGU3Bp4brZN4Sd6N2zU76AdqicRikZxYMhM4MK6k5YUnJ8SmqKvk43U7V2vgl&show_text=true&width=500\" width=\"500\" height=\"378\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[103].StoryId = 34;
+
+        pages[104] = new UserContent();
+        pages[104].Data = DateTime.Now;
+        pages[104].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0e1eqhZsx9wmDoyoCF44r1XHG3TSxnNTnAU6NWkh2kErj7RHPZCMAEZSVm715TcKsl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[104].StoryId = 25;
+
+        pages[105] = new UserContent();
+        pages[105].Data = DateTime.Now;
+        pages[105].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0rHNksb8JBHVCg3X6LABCkYu5YTF4q3ThVJGGeUJRQyBzm1LjtYFg4441MLNn5ft2l&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[105].StoryId = 1;
+
+        pages[106] = new UserContent();
+        pages[106].Data = DateTime.Now;
+        pages[106].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02NyPdmduqqQswBWitTipioiJd6V44oKnktUL4Jr4Qkuf9CaRTBNkpwgNDJSSQVxf4l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[106].StoryId = 1;
+
+        pages[107] = new UserContent();
+        pages[107].Data = DateTime.Now;
+        pages[107].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid06oPPmP2qLi5FekTHvBaJv6ccY3PnjzcMpnAVQNK1gN9UEg6NVDzm5WDXe8b8my1Bl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[107].StoryId = 7;
+
+        pages[108] = new UserContent();
+        pages[108].Data = DateTime.Now;
+        pages[108].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0G9ixmq3ddCb3sTDLvKho1sKPPZFai9ytftoXc93sAk5wQmGMoUSxrundLNmkpKcRl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[108].StoryId = 25;
+
+        pages[109] = new UserContent();
+        pages[109].Data = DateTime.Now;
+        pages[109].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02UsSL9dP5KxSH71caoUtKiFy7xeNcCktY4uxYcQgYgqX4SRxjwx3zTxVBfBqh9jzal&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[109].StoryId = 11;
+
+        pages[110] = new UserContent();
+        pages[110].Data = DateTime.Now;
+        pages[110].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid07HTH9TzuvxDziMwA5T3v9qst7SkqCxKSvVJ1a86SCWWarDThxBSv2LAgD1FLP9USl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[110].StoryId = 4;
+
+        pages[111] = new UserContent();
+        pages[111].Data = DateTime.Now;
+        pages[111].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02LqL2LeAy3jezAYZztToqVCZEhEo3JmAsA8XqQ39CfSeDNXocnaBXiThCLxPvjycgl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[111].StoryId = 5;
+
+        pages[112] = new UserContent();
+        pages[112].Data = DateTime.Now;
+        pages[112].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid022UK3EDzoavs7ZhevN9NEot3hc7tCHNgWYR7xnzGwQfEzhJq8seJ4dPazyCich7YHl&show_text=true&width=500\" width=\"500\" height=\"497\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[112].StoryId = 30;
+
+        pages[113] = new UserContent();
+        pages[113].Data = DateTime.Now;
+        pages[113].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0335uvZ59AoTTtrv2s58mPpMBaAzrLAeCB2ff7naWfgFt7cZxFBHpupuXLVa7oXr3jl&show_text=true&width=500\" width=\"500\" height=\"481\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[113].StoryId = 9;
+
+        pages[114] = new UserContent();
+        pages[114].Data = DateTime.Now;
+        pages[114].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02TvBET5V7aKAM2S8Uh8yJRGtoZHUjYrXDcvrHki6HP4J9LzZLrcLTJE6xr9YnN4Val&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[114].StoryId = 25;
+
+        pages[115] = new UserContent();
+        pages[115].Data = DateTime.Now;
+        pages[115].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0qyTx6MMFviJ1mE1Dokiqh8Ae8BWMrSo71aLda9zm4JnWggKM19K6iCdCih5XdJUnl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[115].StoryId = 14;
+
+        pages[116] = new UserContent();
+        pages[116].Data = DateTime.Now;
+        pages[116].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0b9SEWLp51rfGJuFs3ChaVQEyc9wZdDy1fnRh7cA6jdYZgrdR3yGQm4yhbxxiaPkUl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[116].StoryId = 7;
+
+        pages[117] = new UserContent();
+        pages[117].Data = DateTime.Now;
+        pages[117].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02qk97vQNbEVoFsVk2YY4F5tH5eGDPqkXjz4Lk1UEHLqspUZGPjeBLYXauynsvoAHDl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[117].StoryId = 33;
+
+        pages[118] = new UserContent();
+        pages[118].Data = DateTime.Now;
+        pages[118].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02mzp696T5n9eXaJRZ78gAkrT7pTPnEtrNhLRvsesudZ8eJ2rPFtrGSxbASxsAESFwl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[118].StoryId = 14;
+
+        pages[119] = new UserContent();
+        pages[119].Data = DateTime.Now;
+        pages[119].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02EVj9pTja9vnVrZBLKTW6kuKAFFcerWJmQtNWmsTfvy3rFvKvwpzL5P35NDDZKp7jl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[119].StoryId = 14;
+
+        pages[120] = new UserContent();
+        pages[120].Data = DateTime.Now;
+        pages[120].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02P1ggF8QDAoZuMcZUSsktNxCv5tPG71DEQ9HiEocNXLLWDCN2wosJvhyThgkud9USl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[120].StoryId = 9;
+
+        pages[121] = new UserContent();
+        pages[121].Data = DateTime.Now;
+        pages[121].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02z2ECjLBrM5qazo2jkuQ6kL8CbGwBgaqsoTJgvH81kC3SQKVZS2RAvMADuEFWDka4l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[121].StoryId = 5;
+
+        pages[122] = new UserContent();
+        pages[122].Data = DateTime.Now;
+        pages[122].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0NH6RrYbNNr5B3Crx8bK8JKpPsCMeU2pjDFyJF1TrJNZeRH59BwbKhQHc4YLpazpQl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[122].StoryId = 1;
+
+        pages[123] = new UserContent();
+        pages[123].Data = DateTime.Now;
+        pages[123].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02MMubXPVrzNLDHpnJz3MwFpNP2rcuWgWWAFhiYFvp7fJMAMvT5xae2apz8NtMWywdl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[123].StoryId = 14;
+
+        pages[124] = new UserContent();
+        pages[124].Data = DateTime.Now;
+        pages[124].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Um6wwsc9UtUaLrzs3Pk1h3SfbM1FzqrkmGE1WCxu7oVHf111B3E9H1vqahLp8Lc4l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[124].StoryId = 5;
+
+        pages[125] = new UserContent();
+        pages[125].Data = DateTime.Now;
+        pages[125].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid024ipR7eYaq2hWFVGkawyZNcLwrJzdY2HiVCK7jD3nzK1xbWWiTLdnvJfLAe4GpMNMl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[125].StoryId = 5;
+
+        pages[126] = new UserContent();
+        pages[126].Data = DateTime.Now;
+        pages[126].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Q4dBHTBZ3HjrTtNa8kykhrsLDBakMeDmehNSMKAYPqx2mHyDh3JjmdJTc9sJrDmfl&show_text=true&width=500\" width=\"500\" height=\"358\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[126].StoryId = 1;
+
+        pages[127] = new UserContent();
+        pages[127].Data = DateTime.Now;
+        pages[127].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02adjGuzdD4wnFwxXf71oXfQqiXHxQJQzPBHU7KAfMucyTzm1FQnsw4TMX5a41pYUAl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[127].StoryId = 34;
+
+        pages[128] = new UserContent();
+        pages[128].Data = DateTime.Now;
+        pages[128].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02NcKBkzXYLWwX6qtWqJ4azgPeHw4oMbhoMKX7GpcmfG1u4NXHbTrg69Re3Pxb2wCwl&show_text=true&width=500\" width=\"500\" height=\"599\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[128].StoryId = 1;
+
+        pages[129] = new UserContent();
+        pages[129].Data = DateTime.Now;
+        pages[129].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0CYofU8EmereJb4FzEHz3kq5CVFG5HWoj4i8BFhKc17YYCqecnjqMpvTcn8jr6YWQl&show_text=true&width=500\" width=\"500\" height=\"575\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[129].StoryId = 1;
+
+        pages[130] = new UserContent();
+        pages[130].Data = DateTime.Now;
+        pages[130].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0hWTUSPhdpFAQ6ym6U5Sk9vUQ3PdsyS4ybdMTtwMR7En9KdsWDQC28XxK2fBerDkKl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[130].StoryId = 4;
+
+        pages[131] = new UserContent();
+        pages[131].Data = DateTime.Now;
+        pages[131].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02LTbXAJypJPz39XfzTLs6PYF4oXqASaNxFHc5sr556HMcujbYsq6db6WGsDtyLwuPl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[131].StoryId = 4;
+
+        pages[132] = new UserContent();
+        pages[132].Data = DateTime.Now;
+        pages[132].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02Re2sFrFpFCtVNejp4LXCsk7MacHGUU796ztoebBeZSs2XfvjR3Bss2YKkAXWMhzql&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[132].StoryId = 1;
+
+        pages[133] = new UserContent();
+        pages[133].Data = DateTime.Now;
+        pages[133].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02hTqNM53nGHXA6WiyPJG37HBPnZPq45BcpWK7qLdx6QRQ77EHKVA9ey4Z1AeUKs1Zl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[133].StoryId = 1;
+
+        pages[134] = new UserContent();
+        pages[134].Data = DateTime.Now;
+        pages[134].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02yanLY7LN37ubqCn8f4ZKkrqzU2csnzkFjfsnUBPLrsjCewCWDxcbegTfGuicvnmWl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[134].StoryId = 14;
+
+        pages[135] = new UserContent();
+        pages[135].Data = DateTime.Now;
+        pages[135].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0xJX9hX1nBGYWbRPKT9mc298D2hfXScYrv2X5mSoqXi3BJ2r8NEvUx1rSgHkJ3bShl&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[135].StoryId = 17;
+
+        pages[136] = new UserContent();
+        pages[136].Data = DateTime.Now;
+        pages[136].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid02pdFu9H3hPtYCE2oncFDnpb9ky9ukvs8JLkvgWdUpiUi1zcM3WydYwuYzSZn1LMGl&show_text=true&width=500\" width=\"500\" height=\"452\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[136].StoryId = 20;
+
+        pages[137] = new UserContent();
+        pages[137].Data = DateTime.Now;
+        pages[137].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0bSFhTZ3Mz6YH3MW8KqvZrF92mPngqfPoXGCdoWNFPSZ7wizigStZrS7XKhTHLyo5l&show_text=true&width=500\" width=\"500\" height=\"384\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[137].StoryId = 7;
+
+        pages[138] = new UserContent();
+        pages[138].Data = DateTime.Now;
+        pages[138].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0w5XxK25NaJFu459UWZdFCPtEH2PY1Mc2vDagCw7nPWk258p4AsZ2AUqhpPdUA2Lzl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[138].StoryId = 1;
+
+        pages[139] = new UserContent();
+        pages[139].Data = DateTime.Now;
+        pages[139].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0vLwbak6AfxBidWom3AjHz6RQ5wu7XepHkMMbqGk9WN7G4ghziWEjLf1TN6fPZCtAl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[139].StoryId = 7;
+
+        pages[140] = new UserContent();
+        pages[140].Data = DateTime.Now;
+        pages[140].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0oBcgmzqG5neBpNo6RcTcGzLK3BnWcP17d7QJfUyzggtye8uVhW5mJ3oSBjJH6GjRl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[140].StoryId = 25;
+
+        pages[141] = new UserContent();
+        pages[141].Data = DateTime.Now;
+        pages[141].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0coeektjWueq1mf2uATiVACpZtM6JEQz6Jy9WE4B1Pj7AAkdn7dAG8tQEbvg5rVE3l&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[141].StoryId = 25;
+
+        pages[142] = new UserContent();
+        pages[142].Data = DateTime.Now;
+        pages[142].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0h2VvSWVL9ueC5ATA2KXmbnMQdHgBuKXkLs8JdybpPZhwugizYxifXZwfoy6qB3gCl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[142].StoryId = 25;
+
+        pages[143] = new UserContent();
+        pages[143].Data = DateTime.Now;
+        pages[143].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0xRQCpHZafWdVdvcUpB8QUN65dBX8kCkjCwG9sMB5b5tsGEeeaxHrPBfB1uAUGGvVl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[143].StoryId = 1;
+
+        pages[144] = new UserContent();
+        pages[144].Data = DateTime.Now;
+        pages[144].Html = "<iframe src=\"https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fleandroprogramador%2Fposts%2Fpfbid0q71ZEifP292bbDj9ubBRYNcCcmuxENPNRW5b66XbLvvg2UZyG3VN6qj3f3LovLBFl&show_text=true&width=500\" width=\"500\" height=\"458\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\"></iframe>";
+        pages[144].StoryId = 7;
+
+        // pages[i - 1] = new UserContent();
+        // pages[i - 1].Data = DateTime.Now;
+        // pages[i - 1].Html = "";
+        // pages[i - 1].StoryId = 17;
         for (var i = 0; i < pages.Length; i++)
         {
             contexto.Add(pages[i]);
@@ -900,15 +900,16 @@ using (var scope = app.Services.CreateScope())
 
     if (userASP == null)
     {
-        var user = new UserModel() 
-        { 
+        var user = new UserModel()
+        {
             UserName = "leandro01832",
-            Email = email, EmailConfirmed = true,
+            Email = email,
+            EmailConfirmed = true,
             HashUserName = BCrypt.Net.BCrypt.HashPassword("leandro01832")
         };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
-    }   
+    }
 
     if (!await contexto!.Set<Story>().AnyAsync())
     {
@@ -931,7 +932,7 @@ using (var scope = app.Services.CreateScope())
         Pagina[] pages = new Pagina[99];
         Pagina[] pages2 = new Pagina[2000];
         Pagina[] pages3 = new Pagina[12000];
-       
+
         for (var i = 1; i <= 99; i++)
         {
 
@@ -940,7 +941,7 @@ using (var scope = app.Services.CreateScope())
             pages[i - 1].Titulo = "pagina";
             pages[i - 1].StoryId = 2;
             pages[i - 1].Titulo += $" {i}";
-            
+
 
 
 
@@ -1544,7 +1545,7 @@ using (var scope = app.Services.CreateScope())
                 contexto.SaveChanges();
             }
         }
-       
+
         var str2 = new PatternStory("comentários", contexto.Story.Include(s => s.Pagina).OrderBy(s => s.Id).First())
         {
             Capitulo = 2
@@ -1559,7 +1560,7 @@ using (var scope = app.Services.CreateScope())
         contexto.Add(str3);
         contexto.SaveChanges();
 
-       
+
 
         for (var i = 1; i <= 12000; i++)
         {

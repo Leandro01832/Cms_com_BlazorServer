@@ -672,6 +672,27 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Telefone");
                 });
 
+            modelBuilder.Entity("MarcacaoVideoFilter", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Segundos")
+                        .HasColumnType("int");
+
+                    b.Property<long>("VideoFilterId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VideoFilterId");
+
+                    b.ToTable("MarcacaoVideoFilter");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -803,6 +824,19 @@ namespace BlazorServerCms.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("VideoFilter", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VideoFilter");
                 });
 
             modelBuilder.Entity("business.business.Group.PatternStory", b =>
@@ -1264,6 +1298,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("MarcacaoVideoFilter", b =>
+                {
+                    b.HasOne("VideoFilter", "VideoFilter")
+                        .WithMany("Marcacao")
+                        .HasForeignKey("VideoFilterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("VideoFilter");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1513,6 +1558,11 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Imagem");
 
                     b.Navigation("Itens");
+                });
+
+            modelBuilder.Entity("VideoFilter", b =>
+                {
+                    b.Navigation("Marcacao");
                 });
 
             modelBuilder.Entity("business.Group.CamadaNove", b =>

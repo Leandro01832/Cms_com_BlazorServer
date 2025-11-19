@@ -26,6 +26,8 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<MarcacaoVideoFilter> MarcacaoVideoFilter { get; set; }
+        public DbSet<VideoFilter> VideoFilter { get; set; }
         public DbSet<MudancaEstado> MudancaEstado { get; set; }
         public DbSet<Time> Time { get; set; }
         public DbSet<Content> Content { get; set; }

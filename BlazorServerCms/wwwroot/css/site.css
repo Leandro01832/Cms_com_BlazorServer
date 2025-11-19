@@ -15,6 +15,10 @@ iframe {
     height: 400px;
 }
 
+.ytp-autohide .ytp-chrome-bottom {
+  opacity: 1 !important;
+}
+
 h1:focus {
     outline: none;
 }

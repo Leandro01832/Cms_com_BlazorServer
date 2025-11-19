@@ -21,8 +21,11 @@ function onYouTubeIframeAPIReady(id_video) {
     });
   }
 
+
+
   function onPlayerReady(event) {
     event.target.playVideo();
+    
     setInterval(() => {
       currentTime = player.getCurrentTime();
       console.log("Tempo atual do vídeo:", currentTime);
@@ -36,20 +39,33 @@ function onYouTubeIframeAPIReady(id_video) {
         
       console.log("O vídeo terminou!");
       // remove o player da tela
-      var playerDiv = document.getElementById('player');
-        if (playerDiv)
-             {
-            playerDiv.parentNode.removeChild(playerDiv);
-            }
-
+      const checkbox = document.getElementById('automatico');
+     if (checkbox.checked)         
+            removerPlayer();
     }
   }
+
+  function removerPlayer()
+  {
+     var playerDiv = document.getElementById('player');
+       
+        if (playerDiv)         
+        playerDiv.parentNode.removeChild(playerDiv);
+            
+  }
+
+window.removerVideo = (a) =>
+    {
+        removerPlayer();
+    }
 
 //   function callCSharpMethod() {
 //     DotNet.invokeMethodAsync('BlazorServerCms', 'ShowMessage')
 //       .then(() => console.log("Método C# executado com sucesso"))
 //       .catch(err => console.error("Erro ao chamar método C#", err));
 //   }
+
+
 
   window.carregarVideo = (id_video) => {
    // criar div player children de class render se não existir
@@ -59,25 +75,17 @@ function onYouTubeIframeAPIReady(id_video) {
         playerDiv.id = 'player';
         renderDiv.appendChild(playerDiv);
     }
-   
 
     onYouTubeIframeAPIReady(id_video);
   }
 
-  window.removerPlayer = () => {
-        if (player) {
-            player.destroy();
-        }
-    }
 
     window.exibirTempoAtual = () => {
         alert ("Tempo atual do vídeo: " + currentTime + " segundos");
         return currentTime.toString();
     }
 
-    window.retornarTempoAtual = () => {
-        return currentTime;
-    }
+
 
   // Exemplo: chama o método ao carregar a página
  // window.onload = callCSharpMethod;
@@ -210,12 +218,14 @@ const intervalo = setInterval(() => {
     while (porcentagem > 0) 
         debugger;
         funcaoCarregarPagina2 = setInterval(function () {
+            if(document.getElementById("player"))
+            ss = currentTime * 1000;
+            else
             ss += 1000;
             porcentagem = parseInt((ss / time) * 100);
             progresso.setAttribute("style", "width: " + porcentagem + "%");
             if (porcentagem > 99)
-                {
-                    
+                {                    
                     myStopFunction2();
                 }
         }, 1000); 

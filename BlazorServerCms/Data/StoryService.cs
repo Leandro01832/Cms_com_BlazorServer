@@ -184,14 +184,7 @@ namespace BlazorServerCms.Data
             return resultados;
         }
 
-        public async Task<Story> GetStoryByIdAsync(long storyId)
-        {
-            Story story = null;
-             story = await Context.Story!
-            .OrderBy(st => st.Id)
-            .FirstAsync(st => st.Id == storyId);
-            return story;
-        }
+       
 
         public async Task<int> GetYouTubeVideoDurationAsync(string videoId)
         {
@@ -225,6 +218,7 @@ namespace BlazorServerCms.Data
 
         public bool HasFiltersAsync(long storyId, Livro livro)
         {
+            var str = RepositoryPagina.stories.Skip(1).ToList()[(int)storyId -1];
             var _TotalRegistros = 0;
             try
             {
@@ -232,9 +226,9 @@ namespace BlazorServerCms.Data
                 {
                     SqlCommand cmd = null;
                     if(livro == null)
-                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={storyId} and p.LivroId is null", con);
+                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={str.Id} and p.LivroId is null", con);
                     else
-                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={storyId} and p.LivroId={livro.Id}", con);
+                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={str.Id} and p.LivroId={livro.Id}", con);
                     con.Open();
                     _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
                     con.Close();
@@ -266,7 +260,8 @@ namespace BlazorServerCms.Data
                             $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId is null or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' and C.LivroId is null or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId is null or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId is null  "
+                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId is null or " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='VideoFilter' and C.LivroId is null "
                         , con);
                     else
                         cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
@@ -275,7 +270,8 @@ namespace BlazorServerCms.Data
                             $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId={livro.Id} or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' and C.LivroId={livro.Id} or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId={livro.Id} or  " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId={livro.Id} "
+                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId={livro.Id} or " +
+                            $" FC.FiltroId={filtroId} and C.Discriminator='VideoFilter' and C.LivroId={livro.Id} "
                         , con);
 
                     con.Open();
@@ -305,7 +301,8 @@ namespace BlazorServerCms.Data
                             $" P.StoryId={storyId} and P.Discriminator='AdminContent' and P.LivroId is null or " +
                             $" P.StoryId={storyId} and P.Discriminator='ProductContent' and P.LivroId is null or " +
                             $" P.StoryId={storyId} and P.Discriminator='ChangeContent' and P.LivroId is null or " +
-                            $" P.StoryId={storyId} and P.Discriminator='Chave' and P.LivroId is null  "
+                            $" P.StoryId={storyId} and P.Discriminator='Chave' and P.LivroId is null or " +
+                            $" P.StoryId={storyId} and P.Discriminator='VideoFilter' and P.LivroId is null  "
                             , con);
                     else
                         cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
@@ -313,7 +310,8 @@ namespace BlazorServerCms.Data
                            $" P.StoryId={storyId} and P.Discriminator='AdminContent' and P.LivroId={livro.Id} or " +
                            $" P.StoryId={storyId} and P.Discriminator='ProductContent' and P.LivroId={livro.Id} or " +
                            $" P.StoryId={storyId} and P.Discriminator='ChangeContent' and P.LivroId={livro.Id} or " +
-                           $" P.StoryId={storyId} and P.Discriminator='Chave' and P.LivroId={livro.Id}  "
+                           $" P.StoryId={storyId} and P.Discriminator='Chave' and P.LivroId={livro.Id} or " +
+                           $" P.StoryId={storyId} and P.Discriminator='VideoFilter' and P.LivroId={livro.Id}  " 
                            , con);
                     con.Open();
                         _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);

@@ -12,7 +12,7 @@ namespace BlazorServerCms.Data
         int quantDiv, int slideAtual, Livro livro, int? carregando = null);
 
 
-        Task<Story> GetStoryByIdAsync(long storyId);
+       
         Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0);
         int CountPagesInFilterAsync(long filtroId, Livro livro);
         int CountPagesAsync(long storyId, Livro livro);        
