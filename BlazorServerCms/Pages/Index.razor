@@ -194,7 +194,7 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private int users = 0;
-    private int? carregando = null;
+   // private int? carregando = null; 
     private string placeholder = "Pesquisar";
    //private bool marcar;
 
@@ -204,8 +204,8 @@
 
     private Livro livro = null;
 
-    int? verso = null;
-    long? filtro = null;
+    //int? verso = null;
+    //long? filtro = null;
 
    
 
@@ -294,7 +294,9 @@
              .ToListAsync();
             var str = RepositoryPagina.stories.FirstOrDefault(st => st.Capitulo == capitulo);
             if(str != null)
-                navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Id}/{indice}/0/11/1/0/dominio/comp");
+                navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Capitulo}/{indice}/comp");
+                else
+                navigation.NavigateTo($"/renderizar/{str.Capitulo}/{indice}/comp");
         }
 
         if(livro != null)
@@ -308,19 +310,28 @@
         if(livro == null)
             filtros = Context.Filtro!.Where(p => p.LivroId == null).ToList();
         else 
-            filtros = Context.Filtro!.Where(p => p.LivroId == livro.Id).ToList();
+            filtros = Context.Filtro!
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)            
+            .Where(p => p.LivroId == livro.Id).ToList();
         var fil = filtros!.First(f => f.Id == item.Id);
-        var indiceFiltro = filtros!.IndexOf(fil) + 1;
+        var chave = fil.Pagina.FirstOrDefault(p => p.Content is Chave);
 
-        if(item.Livro == null)
-            navigation.NavigateTo($"/renderizar/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
+        if(chave != null)
+        {
+            Chave ch = (Chave)chave.Content!;
+            var str = Context.Story.First(s => s.Id == item.StoryId);
+
+        if(item.Livro == null && chave != null)
+            navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/comp/{fil.Id}");
         else
-            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{item.StoryId}/{indiceFiltro}/0/11/1/0/dominio/comp/{item.Id}");
+            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/comp/{fil.Id}");
+        }
+
     }
 
     private async void buscar()
     {
-        carregando = null;
 
         if (!string.IsNullOrEmpty(Query))
                 {
@@ -372,9 +383,9 @@
                             var stories = await Context.Story!.Where(str => str.Nome != "Padrao").OrderBy(st => st.Id).ToListAsync();
                             var story = stories.First(str => str.Id == paginas[0].StoryId); 
                             if(livro == null)
-                                navigation.NavigateTo($"/renderizar/{story.Id}/1/0/11/0/0/dominio/comp/{Query.ToLower()}");
+                                navigation.NavigateTo($"/renderizar/{story.Capitulo}/1/comp/{Query.ToLower()}");
                             else
-                                navigation.NavigateTo($"/renderizar/{livro.Nome}/{story.Id}/1/0/11/0/0/dominio/comp/{Query.ToLower()}");
+                                navigation.NavigateTo($"/renderizar/{livro.Nome}/{story.Capitulo}/1/comp/{Query.ToLower()}");
                         }
                     }
                     // else
@@ -414,25 +425,7 @@
         await TourService.StartTour("FormGuidedTour");
     }
 
-    private string retornarUrl()
-    {
-        string liv = "";
-
-        if (livro != null)
-            liv += $"/{livro.Nome}";
-
-        string url = null;
-        if (filtro != null)
-        {
-            if(carregando == null)
-                url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}";
-            else
-                url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp/{filtro}/{carregando}";
-        }
-        else
-            url = $"/Renderizar{liv}/{_story.Id}/{verso}/0/11/0/0/dominio/comp";
-        return url;
-    }
+   
 
     private void limparFiltros()
     {

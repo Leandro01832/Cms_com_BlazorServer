@@ -184,8 +184,6 @@ namespace BlazorServerCms.Data
             return resultados;
         }
 
-       
-
         public async Task<int> GetYouTubeVideoDurationAsync(string videoId)
         {
             int calculo = 0;
@@ -243,7 +241,6 @@ namespace BlazorServerCms.Data
             else
                 return false;
         }
-
         
         public int CountPagesInFilterAsync(long filtroId, Livro livro)
         {

@@ -3,7 +3,17 @@
     margin: 0;
 }
 
+.Camadas
+{
+    font-size: 8px;
+}
 
+.marker
+{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+}
 
 .tellStory {
     border-bottom: 5px solid black;
@@ -295,6 +305,7 @@ Informativo {
 }
 
 .progressbar {
+    position: relative;
     width: 100%;
     height: 10px;
     border-radius: 5px;

@@ -26,6 +26,26 @@ namespace BlazorCms.Client.Pages
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
 
+        [Parameter] public string? nomeLivro { get; set; } = "";
+        [Parameter] public int? storyid { get; set; } = 1;
+        [Parameter] public int Indice { get; set; } = 1;
+        [Parameter] public string? Compartilhou { get; set; } = "comp";
+        [Parameter] public string? rotas { get; set; } = null;
+        [Parameter] public long? contentid { get; set; } = null;
+        private long? filtro = null;
+        [Parameter]
+        public long? Filtro
+        {
+            get { return filtro; }
+            set
+            {
+                if (value != Filtro && value != null)
+                {
+                    
+                }
+                filtro = value;
+            }
+        }
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         // private bool _executado = false;
@@ -36,10 +56,26 @@ namespace BlazorCms.Client.Pages
         private string? title = null;
         private string? resumo = null;
         private bool alterouPasta = false;
-        private bool alterouModel = true;
         private List<Filtro> listaFiltro = null;
         private int indiceChave = 0;
+        private int tempoVideo = 0;
         private List<FiltroContent> result = new List<FiltroContent>();
+
+        protected List<int> porcentagens = new List<int>();
+
+        public bool AlterouCamada { get; set; }
+
+        private bool alterouModel = true;
+        private bool AlterouModel 
+        {
+            get{return alterouModel;}
+            set
+            {
+                if(value && !AlterouCamada)
+                RemoverPlay();
+                alterouModel = value;
+            }
+        }
 
         protected string? id_video = null;
         protected int indiceAcesso;
@@ -56,7 +92,6 @@ namespace BlazorCms.Client.Pages
         protected string divPagina = "";
         protected string placeholder = "";
         protected string preferencia = null;
-
         protected bool exemplo = false;
         protected bool mudanca = false;
         protected int cap = 1;
@@ -87,39 +122,20 @@ namespace BlazorCms.Client.Pages
         protected int quantidadeLista { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
         protected bool condicaoFiltro { get; set; } = false;
+        protected int Camada = 0;
 
         protected int? indice_Filtro { get; set; }
         protected int? vers { get; set; }
 
-        [Parameter] public string? nomeLivro { get; set; } = "";
-        [Parameter] public int retroceder { get; set; } = 0;
+        public int retroceder { get; set; } = 0;
 
-        [Parameter] public int timeproduto { get; set; } = 11;
-        [Parameter] public int? conteudo { get; set; } = 1;
+        public int timeproduto { get; set; } = 11;
+        public int? conteudo { get; set; } = 1;
 
        
-        [Parameter]
-        public int Indice { get; set; } = 1;
-        [Parameter] public int? carregando { get; set; } = null;
-        [Parameter] public long? storyid { get; set; } = 1;
+        public int? carregando { get; set; } = 40;
 
-        private long? filtro = null;
-        [Parameter]
-        public long? Filtro
-        {
-            get { return filtro; }
-            set
-            {
-                if (value != Filtro && value != null)
-                {
-                    alterouPasta = true;
-                    perguntar((long)value!);
-                }
-                filtro = value;
-            }
-        }
 
-        [Parameter]
         public int? Auto
         {
             get { return auto; }
@@ -134,16 +150,13 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        [Parameter] public string? redirecionar { get; set; } = "";
-        [Parameter] public string? dominio { get; set; } = "dominio";
+        public string? redirecionar { get; set; } = "";
+        public string? dominio { get; set; } = "dominio";
 
-        private string? compartilhou = null;
-        [Parameter]
-        public string? Compartilhou { get; set; } = "comp";
+        
 
-        [Parameter] public int outroHorizonte { get; set; }
+        protected int outroHorizonte { get; set; }
 
-        [Parameter] public string? rotas { get; set; } = null;
 
 
     }

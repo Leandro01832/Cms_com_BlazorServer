@@ -583,28 +583,10 @@
                             fil = filtros.Where(f => f.Pagina
                             .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
 
-                        if(fil != null)
-                        {
-                            url = $"/renderizar/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is CamadaDez)
-                            url = $"/camada10/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is CamadaNove)
-                            url = $"/camada9/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is CamadaOito)
-                            url = $"/camada8/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is CamadaSete)
-                            url = $"/camada7/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is CamadaSeis)
-                            url = $"/camada6/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is SubSubGrupo)
-                            url = $"/camada5/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is SubGrupo)
-                            url = $"/camada4/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is Grupo)
-                            url = $"/camada3/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                            if(fil is SubStory)
-                            url = $"/camada2/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                        }
+                        if(fil != null)                        
+                            url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{numeros[j]}/{user}/{fil.Id}";
+                            
+                        
                         if(url != null)
                             await js!.InvokeAsync<object>("AcessarSites", $"{url}");
                         url = null;
@@ -647,25 +629,8 @@
                 if (fil != null)
                 {
                     int posicao = retornarPosicaoVerso(fil, versiculo);
-                    url = $"/renderizar/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is CamadaDez)
-                    url = $"/camada10/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is CamadaNove)
-                    url = $"/camada9/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is CamadaOito)
-                    url = $"/camada8/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is CamadaSete)
-                    url = $"/camada7/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is CamadaSeis)
-                    url = $"/camada6/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is SubSubGrupo)
-                    url = $"/camada5/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is SubGrupo)
-                    url = $"/camada4/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is Grupo)
-                    url = $"/camada3/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                    if(fil is SubStory)
-                    url = $"/camada2/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
+                    url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{user}/{fil.Id}";
+                   
                 }
                 if(url != null)
                     navigation.NavigateTo(url);
