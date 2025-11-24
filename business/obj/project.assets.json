@@ -2589,11 +2589,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DELL\\Documents\\BlazorCms\\business\\business.csproj",
+      "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
       "projectName": "business",
-      "projectPath": "C:\\Users\\DELL\\Documents\\BlazorCms\\business\\business.csproj",
+      "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\DELL\\Documents\\BlazorCms\\business\\obj\\",
+      "outputPath": "C:\\Users\\DELL\\Documents\\teste\\business\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2666,7 +2666,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307\\RuntimeIdentifierGraph.json"
       }
     }
   },

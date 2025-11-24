@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL\\Documents\\BlazorCms\\Tests\\Tests.csproj": {}
+    "C:\\Users\\DELL\\Documents\\teste\\Tests\\Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL\\Documents\\BlazorCms\\Tests\\Tests.csproj": {
+    "C:\\Users\\DELL\\Documents\\teste\\Tests\\Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Documents\\BlazorCms\\Tests\\Tests.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\Tests\\Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "C:\\Users\\DELL\\Documents\\BlazorCms\\Tests\\Tests.csproj",
+        "projectPath": "C:\\Users\\DELL\\Documents\\teste\\Tests\\Tests.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Documents\\BlazorCms\\Tests\\obj\\",
+        "outputPath": "C:\\Users\\DELL\\Documents\\teste\\Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -72,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307\\RuntimeIdentifierGraph.json"
         }
       }
     }

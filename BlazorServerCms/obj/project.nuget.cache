@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0QNuWcarWZU=",
+  "dgSpecHash": "fbZ49txAz+s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\DELL\\Documents\\BlazorCms\\BlazorServerCms\\BlazorServerCms.csproj",
+  "projectFilePath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DELL\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\google.apis\\1.61.0\\google.apis.1.61.0.nupkg.sha512",

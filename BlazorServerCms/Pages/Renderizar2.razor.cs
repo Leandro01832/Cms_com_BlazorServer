@@ -80,6 +80,9 @@ namespace BlazorCms.Client.Pages
         protected string? id_video = null;
         protected int indiceAcesso;
 
+        private double Progress { get; set; } = 0;
+
+
         private bool criptografar = false;
 
         protected int chave = 0;

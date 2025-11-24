@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "P5gv8TmhjKA=",
+  "dgSpecHash": "iNp2VqV6ulA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\DELL\\Documents\\BlazorCms\\business\\business.csproj",
+  "projectFilePath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DELL\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
@@ -73,9 +73,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'Newtonsoft.Json' 12.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
-      "projectPath": "C:\\Users\\DELL\\Documents\\BlazorCms\\business\\business.csproj",
+      "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\DELL\\Documents\\BlazorCms\\business\\business.csproj",
+      "filePath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
       "libraryId": "Newtonsoft.Json",
       "targetGraphs": [
         "net6.0"

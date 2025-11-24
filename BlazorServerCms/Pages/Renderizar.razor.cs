@@ -109,13 +109,9 @@ namespace BlazorCms.Client.Pages
                 AlterouModel = true;
                 navegarSubgrupos(true);
             }
-            else if (args.Key == "ArrowRight")
+            else if (args.Key == "c")
             {
-                buscarProximo();
-            }
-            else if (args.Key == "ArrowLeft")
-            {
-                buscarAnterior();
+                perguntar(Model2!.Id);
             }
             else if (args.Key == "p")
             {
@@ -123,37 +119,9 @@ namespace BlazorCms.Client.Pages
                 {
                     AlterouModel = true;
                     AlterouCamada = true;
-                   var time = await js.InvokeAsync<string>("exibirTempoAtual"); 
-                   var timeNumber = int.Parse(time);
-                   if(Model is VideoFilter)
-                   {
-                        var marcacoes = Context.MarcacaoVideoFilter
-                        .Where(m => m.VideoFilterId == Model.Id)
-                        .OrderBy(m => m.Segundos)
-                        .ToList();
-                        foreach(var item in marcacoes)
-                        porcentagens.Add(item.Segundos / tempoVideo);
-
-                            if(marcacoes.Count >=9 && timeNumber > marcacoes[8].Segundos)                    
-                                acessarCamada(typeof(CamadaDez));                     
-                            else if(marcacoes.Count >=8 && timeNumber > marcacoes[7].Segundos)                    
-                                acessarCamada(typeof(CamadaNove));                    
-                            else if(marcacoes.Count >=7 && timeNumber > marcacoes[6].Segundos)                    
-                                acessarCamada(typeof(CamadaOito));                     
-                            else if(marcacoes.Count >=6 && timeNumber > marcacoes[5].Segundos)                    
-                                acessarCamada(typeof(CamadaSete));                    
-                            else if(marcacoes.Count >=5 && timeNumber > marcacoes[4].Segundos)                
-                                acessarCamada(typeof(CamadaSeis));                      
-                            else if(marcacoes.Count >=4 && timeNumber > marcacoes[3].Segundos)                    
-                                acessarCamada(typeof(SubSubGrupo));                     
-                            else if(marcacoes.Count >=3 && timeNumber > marcacoes[2].Segundos)                    
-                                acessarCamada(typeof(SubGrupo));                         
-                            else if(marcacoes.Count >=2 && timeNumber > marcacoes[1].Segundos )                    
-                                acessarCamada(typeof(Grupo));                          
-                            else if(marcacoes.Count >=1 && timeNumber > marcacoes[0].Segundos)                    
-                                acessarCamada(typeof(SubStory));
-
-                   }
+                    var time = await js.InvokeAsync<string>("exibirTempoAtual");
+                    var timeNumber = int.Parse(time);
+                    AlterarCamada(timeNumber);
                 }
                 catch (Exception ex)
                 {
@@ -163,6 +131,8 @@ namespace BlazorCms.Client.Pages
             
 
         }
+
+       
 
         protected async void Casinha()
         {
@@ -980,6 +950,27 @@ namespace BlazorCms.Client.Pages
             preferencia = null;
         }
 
+         protected async void OnClick(MouseEventArgs e) 
+            {
+                try
+                {
+                    var containerWidth = await js.InvokeAsync<string>("retornarLargura");
+                    var percent = (e.OffsetX / int.Parse(containerWidth)) * 100;
+                    Progress = Math.Round(percent);
+                    var duracao = tempoVideo;
+                    var segundos = duracao / 1000;
+                    double seconds = (Progress / 100) * segundos;
+                    await js.InvokeVoidAsync("seekToVideo", (int) seconds);
+                    AlterouModel = true;
+                    AlterouCamada = true;
+                    AlterarCamada((int) seconds);                    
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
         private async void acessar(string url2 = null)
         {
             if (url2 != null) Auto = 0;
@@ -1032,25 +1023,7 @@ namespace BlazorCms.Client.Pages
 
             }
 
-        }
-
-        private string Encrypt(string plainText)
-        {
-            string Hasheada = BCrypt.Net.BCrypt.HashPassword(plainText);
-
-            if (!Hasheada.Contains("/"))
-                return Hasheada;
-            else return Encrypt(plainText);
-        }
-
-        private bool Decrypt(string cipherText, string usuario)
-        {
-            if (BCrypt.Net.BCrypt.Verify(usuario, cipherText))
-                return true;
-            else return false;
-        }
-
-        
+        }        
 
         public Task<List<Content>> PaginarStory(long storyId, int quantidadeLista, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
         {
@@ -1097,19 +1070,7 @@ namespace BlazorCms.Client.Pages
             catch(Exception){
 
             }
-        }
-
-        private void acessarCamada(Type tipo)
-        {
-            foreach(var item in listaFiltro.Where(l => l.GetType() == tipo).ToList())
-            if(item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id) != null)
-            {
-                Filtro = item.Id;
-                var m = item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id);
-                Indice = item.Pagina.IndexOf(m) + 1;
-                acessar();
-            }
-        }
+        }        
 
             private List<UserContent> randomizar(List<UserContent> lista)
             {
@@ -1121,7 +1082,54 @@ namespace BlazorCms.Client.Pages
                 }
 
                 return retorno;
+            }           
+
+             private void AlterarCamada(int timeNumber)
+        {
+            if (Model is VideoFilter)
+            {
+                var marcacoes = Context.MarcacaoVideoFilter
+                .Where(m => m.VideoFilterId == Model.Id)
+                .OrderBy(m => m.Segundos)
+                .ToList();
+                foreach (var item in marcacoes)
+                    porcentagens.Add(item.Segundos / tempoVideo);
+
+                if (marcacoes.Count >= 9 && timeNumber > marcacoes[8].Segundos)
+                    acessarCamada(typeof(CamadaDez));
+                else if (marcacoes.Count >= 8 && timeNumber > marcacoes[7].Segundos)
+                    acessarCamada(typeof(CamadaNove));
+                else if (marcacoes.Count >= 7 && timeNumber > marcacoes[6].Segundos)
+                    acessarCamada(typeof(CamadaOito));
+                else if (marcacoes.Count >= 6 && timeNumber > marcacoes[5].Segundos)
+                    acessarCamada(typeof(CamadaSete));
+                else if (marcacoes.Count >= 5 && timeNumber > marcacoes[4].Segundos)
+                    acessarCamada(typeof(CamadaSeis));
+                else if (marcacoes.Count >= 4 && timeNumber > marcacoes[3].Segundos)
+                    acessarCamada(typeof(SubSubGrupo));
+                else if (marcacoes.Count >= 3 && timeNumber > marcacoes[2].Segundos)
+                    acessarCamada(typeof(SubGrupo));
+                else if (marcacoes.Count >= 2 && timeNumber > marcacoes[1].Segundos)
+                    acessarCamada(typeof(Grupo));
+                else if (marcacoes.Count >= 1 && timeNumber > marcacoes[0].Segundos)
+                    acessarCamada(typeof(SubStory));
+
             }
+            AlterouCamada = false;
+        }
+
+        private void acessarCamada(Type tipo)
+        {
+            if(Model2!.GetType() != tipo)            
+            foreach(var item in listaFiltro.Where(l => l.GetType() == tipo).ToList())
+            if(item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id) != null)
+            {
+                Filtro = item.Id;
+                var m = item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id);
+                Indice = item.Pagina.IndexOf(m) + 1;
+                acessar();
+            }
+        }
     }
     public class UserPreferencesImage
     {

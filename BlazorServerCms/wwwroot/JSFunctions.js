@@ -59,11 +59,10 @@ window.removerVideo = (a) =>
         removerPlayer();
     }
 
-//   function callCSharpMethod() {
-//     DotNet.invokeMethodAsync('BlazorServerCms', 'ShowMessage')
-//       .then(() => console.log("Método C# executado com sucesso"))
-//       .catch(err => console.error("Erro ao chamar método C#", err));
-//   }
+    
+
+
+
 
 
 
@@ -136,6 +135,10 @@ window.ExecutarReload = (m) => {
     location.reload();
 }
 
+function myStopFunction() {
+    clearInterval(funcaoCarregarPagina);
+}
+
 window.ConfigurarPaginacao = (m) => {
     var elements2 = document.getElementsByClassName("produto");
     var elements3 = document.getElementsByClassName("caps");
@@ -147,9 +150,6 @@ window.ConfigurarPaginacao = (m) => {
     var funcaoCarregarPagina = null;
     const progresso = document.querySelector(".progressbar div")  
 
-    function myStopFunction() {
-        clearInterval(funcaoCarregarPagina);
-    }
 
     if (parseInt(element2.value) == 1)
     {
@@ -213,10 +213,11 @@ const intervalo = setInterval(() => {
    progresso = document.querySelector(".progressbar div");
 
   if (progresso) {
+      
     console.log("Elemento encontrado!");
     clearInterval(intervalo);
     while (porcentagem > 0) 
-        debugger;
+       debugger;
         funcaoCarregarPagina2 = setInterval(function () {
             if(document.getElementById("player"))
             ss = currentTime * 1000;
@@ -413,7 +414,7 @@ window.retornarlargura = (url) => {
 window.trocarSlide = (slide) =>
 {
     var slid = document.querySelectorAll('.carousel-item');
-    debugger;
+    
     if (slid.length != 0)
     {
         var slideAtual = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
@@ -427,5 +428,20 @@ window.trocarSlide = (slide) =>
 window.retornarTextArea = (textArea) =>
 {
     return document.getElementById(textArea).value;
+}
+
+window.retornarLargura = function () 
+{
+    return document.getElementById("progressbarContainer").offsetWidth.toString();
+};
+
+window.seekToVideo = (seconds) => {
+   // alert("Indo para o segundo: " + seconds);
+    if (player)
+    {
+        const segundos = parseFloat(seconds);
+        player.seekTo(segundos, true); // O segundo parâmetro indica 
+                                      // se deve iniciar a reprodução imediatamente
+    }
 }
 
