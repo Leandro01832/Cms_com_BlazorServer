@@ -26,6 +26,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<SubFiltro> SubFiltro { get; set; }
         public DbSet<MarcacaoVideoFilter> MarcacaoVideoFilter { get; set; }
         public DbSet<VideoFilter> VideoFilter { get; set; }
         public DbSet<MudancaEstado> MudancaEstado { get; set; }
@@ -50,11 +51,7 @@ namespace BlazorServerCms.Data
         public DbSet<Produto>? Produto { get; set; }
         public DbSet<ImagemProduto>? ImagemProduto { get; set; }
         public DbSet<Pedido>? Pedido { get; set; }
-        public DbSet<ItemPedido>? ItemPedido { get; set; }
-        public DbSet<SubSubGrupo>? SubSubGrupo { get; set; }
-        public DbSet<SubGrupo>? SubGrupo { get; set; }
-        public DbSet<Grupo>? Grupo { get; set; }
-        public DbSet<SubStory>? SubStory { get; set; }
+        public DbSet<ItemPedido>? ItemPedido { get; set; }       
         public DbSet<Story>? Story { get; set; }
         public DbSet<ShortStory>? ShortStory { get; set; }
         public DbSet<SmallStory>? SmallStory { get; set; }
@@ -62,11 +59,7 @@ namespace BlazorServerCms.Data
         public DbSet<Telefone>? Telefone { get; set; }
         public DbSet<Livro>? Livro { get; set; }
         public DbSet<Comment>? Comentario { get; set; }
-        public DbSet<CamadaSeis>? CamadaSeis { get; set; }
-        public DbSet<CamadaSete>? CamadaSete { get; set; }
-        public DbSet<CamadaOito>? CamadaOito { get; set; }
-        public DbSet<CamadaNove>? CamadaNove { get; set; }
-        public DbSet<CamadaDez>? CamadaDez { get; set; }
+       
         public DbSet<Compartilhante>? Compartilhante { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

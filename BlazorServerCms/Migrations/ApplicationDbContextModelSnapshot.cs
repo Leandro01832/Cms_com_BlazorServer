@@ -488,6 +488,9 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<int>("Camada")
+                        .HasColumnType("int");
+
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -672,6 +675,29 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Telefone");
                 });
 
+            modelBuilder.Entity("Criterio", b =>
+                {
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Camada")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Criterio");
+                });
+
             modelBuilder.Entity("MarcacaoVideoFilter", b =>
                 {
                     b.Property<long>("Id")
@@ -826,19 +852,6 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("VideoFilter", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VideoFilter");
-                });
-
             modelBuilder.Entity("business.business.Group.PatternStory", b =>
                 {
                     b.HasBaseType("business.Group.Story");
@@ -885,107 +898,16 @@ namespace BlazorServerCms.Migrations
                     b.HasDiscriminator().HasValue("Comment");
                 });
 
-            modelBuilder.Entity("business.Group.CamadaDez", b =>
+            modelBuilder.Entity("business.Group.SubFiltro", b =>
                 {
                     b.HasBaseType("business.Filtro");
 
-                    b.Property<long>("CamadaNoveId")
+                    b.Property<long>("FiltroId")
                         .HasColumnType("bigint");
 
-                    b.HasIndex("CamadaNoveId");
+                    b.HasIndex("FiltroId");
 
-                    b.HasDiscriminator().HasValue("CamadaDez");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaNove", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.Property<long>("CamadaOitoId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("CamadaOitoId");
-
-                    b.HasDiscriminator().HasValue("CamadaNove");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaOito", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.Property<long>("CamadaSeteId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("CamadaSeteId");
-
-                    b.HasDiscriminator().HasValue("CamadaOito");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSeis", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.Property<long>("SubSubGrupoId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("SubSubGrupoId");
-
-                    b.HasDiscriminator().HasValue("CamadaSeis");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSete", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.Property<long>("CamadaSeisId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("CamadaSeisId");
-
-                    b.HasDiscriminator().HasValue("CamadaSete");
-                });
-
-            modelBuilder.Entity("business.Group.Grupo", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.Property<long>("SubStoryId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("SubStoryId");
-
-                    b.HasDiscriminator().HasValue("Grupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubGrupo", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.Property<long>("GrupoId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("GrupoId");
-
-                    b.HasDiscriminator().HasValue("SubGrupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubStory", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.HasDiscriminator().HasValue("SubStory");
-                });
-
-            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
-                {
-                    b.HasBaseType("business.Filtro");
-
-                    b.Property<long>("SubGrupoId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("SubGrupoId");
-
-                    b.HasDiscriminator().HasValue("SubSubGrupo");
+                    b.HasDiscriminator().HasValue("SubFiltro");
                 });
 
             modelBuilder.Entity("business.Pagina", b =>
@@ -1024,6 +946,13 @@ namespace BlazorServerCms.Migrations
                     b.HasBaseType("business.Pagina");
 
                     b.HasDiscriminator().HasValue("ProductContent");
+                });
+
+            modelBuilder.Entity("VideoFilter", b =>
+                {
+                    b.HasBaseType("business.Pagina");
+
+                    b.HasDiscriminator().HasValue("VideoFilter");
                 });
 
             modelBuilder.Entity("business.business.Book.Assinatura", b =>
@@ -1298,6 +1227,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("Criterio", b =>
+                {
+                    b.HasOne("business.Filtro", "Filtro")
+                        .WithOne("Criterio")
+                        .HasForeignKey("Criterio", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Filtro");
+                });
+
             modelBuilder.Entity("MarcacaoVideoFilter", b =>
                 {
                     b.HasOne("VideoFilter", "VideoFilter")
@@ -1380,92 +1320,15 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Content");
                 });
 
-            modelBuilder.Entity("business.Group.CamadaDez", b =>
+            modelBuilder.Entity("business.Group.SubFiltro", b =>
                 {
-                    b.HasOne("business.Group.CamadaNove", "CamadaNove")
-                        .WithMany("CamadaDez")
-                        .HasForeignKey("CamadaNoveId")
+                    b.HasOne("business.Filtro", "Filtro")
+                        .WithMany("SubFiltro")
+                        .HasForeignKey("FiltroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CamadaNove");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaNove", b =>
-                {
-                    b.HasOne("business.Group.CamadaOito", "CamadaOito")
-                        .WithMany("CamadaNove")
-                        .HasForeignKey("CamadaOitoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CamadaOito");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaOito", b =>
-                {
-                    b.HasOne("business.Group.CamadaSete", "CamadaSete")
-                        .WithMany("CamadaOito")
-                        .HasForeignKey("CamadaSeteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CamadaSete");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSeis", b =>
-                {
-                    b.HasOne("business.Group.SubSubGrupo", "SubSubGrupo")
-                        .WithMany("CamadaSeis")
-                        .HasForeignKey("SubSubGrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubSubGrupo");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSete", b =>
-                {
-                    b.HasOne("business.Group.CamadaSeis", "CamadaSeis")
-                        .WithMany("CamadaSete")
-                        .HasForeignKey("CamadaSeisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CamadaSeis");
-                });
-
-            modelBuilder.Entity("business.Group.Grupo", b =>
-                {
-                    b.HasOne("business.Group.SubStory", "SubStory")
-                        .WithMany("Grupo")
-                        .HasForeignKey("SubStoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubStory");
-                });
-
-            modelBuilder.Entity("business.Group.SubGrupo", b =>
-                {
-                    b.HasOne("business.Group.Grupo", "Grupo")
-                        .WithMany("SubGrupo")
-                        .HasForeignKey("GrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Grupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
-                {
-                    b.HasOne("business.Group.SubGrupo", "SubGrupo")
-                        .WithMany("SubSubGrupo")
-                        .HasForeignKey("SubGrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubGrupo");
+                    b.Navigation("Filtro");
                 });
 
             modelBuilder.Entity("business.business.Book.Assinatura", b =>
@@ -1531,10 +1394,15 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
+                    b.Navigation("Criterio")
+                        .IsRequired();
+
                     b.Navigation("Pagina");
 
                     b.Navigation("PastaSalva")
                         .IsRequired();
+
+                    b.Navigation("SubFiltro");
 
                     b.Navigation("usuarios");
                 });
@@ -1560,55 +1428,15 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Itens");
                 });
 
-            modelBuilder.Entity("VideoFilter", b =>
-                {
-                    b.Navigation("Marcacao");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaNove", b =>
-                {
-                    b.Navigation("CamadaDez");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaOito", b =>
-                {
-                    b.Navigation("CamadaNove");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSeis", b =>
-                {
-                    b.Navigation("CamadaSete");
-                });
-
-            modelBuilder.Entity("business.Group.CamadaSete", b =>
-                {
-                    b.Navigation("CamadaOito");
-                });
-
-            modelBuilder.Entity("business.Group.Grupo", b =>
-                {
-                    b.Navigation("SubGrupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubGrupo", b =>
-                {
-                    b.Navigation("SubSubGrupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubStory", b =>
-                {
-                    b.Navigation("Grupo");
-                });
-
-            modelBuilder.Entity("business.Group.SubSubGrupo", b =>
-                {
-                    b.Navigation("CamadaSeis");
-                });
-
             modelBuilder.Entity("business.business.ChangeContent", b =>
                 {
                     b.Navigation("MudancaEstado")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("VideoFilter", b =>
+                {
+                    b.Navigation("Marcacao");
                 });
 #pragma warning restore 612, 618
         }

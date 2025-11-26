@@ -13,12 +13,10 @@
     if (Model == null)
     {
         <PageTitle>Carregando...</PageTitle>
-        <center>
-            <h1>
-                Carregando história...
-            </h1>
+        <div class="centralizar">
+            <h1> Carregando história... </h1>
             <img src="/Loading.gif" />
-        </center>
+        </div>
     }
     else 
     if (Mensagem.Contains("digite um numero menor"))
@@ -170,42 +168,42 @@ else if (!repositoryPagina.erro)
                                 {
                                     <input data-2 type="number" class="tellStory" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
                                     id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@Indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
-                                    <center>
+                                    <div>
                                         <a id="acessoPaginaComInput2" onclick="@Pesquisar"
                                         class="btn btn-primary ms-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                             </svg>
                                         </a>
-                                    </center>
+                                    </div>
 
                                 }
                                 else
                                 {
                                     <input data-2 type="number" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
-                                    id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@Indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
-                                    <center>
+                                    id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista"  onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
+                                    <div class="centralizar">
                                         <a id="acessoPaginaComInput2" onclick="@Pesquisar"
                                         class="btn btn-primary ms-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                             </svg>
                                         </a>
-                                    </center>
+                                    </div>
                                 }
                             }
                             else
                             {
                                 <input type="text" placeholder="usuario" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
                                 id="NumeroPaginaAcesso2" onchange="@((ChangeEventArgs e) => alterarQuery(e))" />
-                                <center>
+                                <div class="centralizar">
                                     <a id="acessoPaginaComInput2" onclick="@Pesquisar"
                                     class="btn btn-primary ms-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                         </svg>
                                     </a>
-                                </center>
+                                </div>
                             }
 
                         </div>
@@ -298,9 +296,18 @@ else if (!repositoryPagina.erro)
                 @chave
            </a>
 
-           <div class="Camadas">
-           camada @Camada
-           </div>
+                @if (Filtro != null && Model2!.Criterio != null)
+                {   
+                    <div class="Camadas">
+                    camada @Model2!.Criterio.Camada
+                    </div>
+                }
+                else if(Filtro != null)
+                {
+                    <div class="Camadas">
+                    camada @Model2!.Camada
+                    </div>
+                }
 
             }
             
@@ -461,8 +468,8 @@ else if (!repositoryPagina.erro)
                 }
                 else if (outroHorizonte == 1 && Model2 != null)
                 {
-                    var cam = buscarCamada(Model2);
-                    <center>
+                    var cam = Model2.Camada;
+                    <div class="centralizar">
                         <a onclick="@acessarPasta">
                             <h3> Pasta @Model2!.Nome </h3>
                         </a>
@@ -490,7 +497,7 @@ else if (!repositoryPagina.erro)
 
                         }
 
-                    </center>
+                    </div>
                 }
 
 
@@ -799,9 +806,9 @@ else if (!repositoryPagina.erro)
 
 else
 {
-    <center>
+    <div class="centralizar">
         <h3>Aconteceu um erro. Entre em contato com a suporte da empresa!!!</h3>
-    </center>
+    </div>
 
 }
 

@@ -375,99 +375,19 @@ namespace BlazorCms.Client.Pages
             Indice = 1;
             acessar();
         }
-
-        protected int buscarCamada(Filtro fil)
-        {
-            if (fil is SubStory)
-                return 1;
-            else if (fil is Grupo)
-                return 2;
-            else if (fil is SubGrupo)
-                return 3;
-            else if (fil is SubSubGrupo)
-                return 4;
-            else if (fil is CamadaSeis)
-                return 5;
-            else if (fil is CamadaSete)
-                return 6;
-            else if (fil is CamadaOito)
-                return 7;
-            else if (fil is CamadaNove)
-                return 8;
-            else if (fil is CamadaDez)
-                return 9;
-
-            return 0;
-        }
-
+       
         protected int? buscarPastaFiltrada(int camada)
         {
-            long? IdGrupo = 0;
-            Pagina pag = RepositoryPagina.Conteudo!.OfType<Pagina>()
-                    .FirstOrDefault(p => p.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null)!;
-
-
-            if (pag != null)
+            if (camada != 0)
             {
-                Filtro fil = pag.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id)!.Filtro!;
-
-                if (camada != 0)
-                {
-                    Filtro fl = null;
-                    var filtros = listaFiltro;
-                    if (fil is SubStory)
-                    {
-                        SubStory gr = (SubStory)fil;
-                        fl = filtros!.First(f => f.Id == gr.Id);
-                    }
-                    if (fil is Grupo)
-                    {
-                        Grupo gr = (Grupo)fil;
-                        fl = filtros!.First(f => f.Id == gr.SubStoryId);
-                    }
-                    if (fil is SubGrupo)
-                    {
-                        SubGrupo gr = (SubGrupo)fil;
-                        fl = filtros!.First(f => f.Id == gr.GrupoId);
-                    }
-                    if (fil is SubSubGrupo)
-                    {
-                        SubSubGrupo gr = (SubSubGrupo)fil;
-                        fl = filtros!.First(f => f.Id == gr.SubGrupoId);
-                    }
-                    if (fil is CamadaSeis)
-                    {
-                        CamadaSeis gr = (CamadaSeis)fil;
-                        fl = filtros!.First(f => f.Id == gr.SubSubGrupoId);
-                    }
-                    if (fil is CamadaSete)
-                    {
-                        CamadaSete gr = (CamadaSete)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaSeisId);
-                    }
-                    if (fil is CamadaOito)
-                    {
-                        CamadaOito gr = (CamadaOito)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaSeteId);
-                    }
-                    if (fil is CamadaNove)
-                    {
-                        CamadaNove gr = (CamadaNove)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaOitoId);
-                    }
-                    if (fil is CamadaDez)
-                    {
-                        CamadaDez gr = (CamadaDez)fil;
-                        fl = filtros!.First(f => f.Id == gr.CamadaNoveId);
-                    }
-                    var pasta = filtros!.IndexOf(fl) + 1;
-
-                    return pasta;
-                }
-                return 0;
+                Filtro fl = null;
+                var fil = listaFiltro.FirstOrDefault(f => f.Id == Model2!.Id);
+                fl = listaFiltro!.First(f => f.Id == fil.Id);                    
+                var pasta = listaFiltro!.IndexOf(fl) + 1;
+                return pasta;
             }
             else
-                return null;
+            return null;
         }
 
         protected async void buscarProximo()
@@ -700,41 +620,16 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                if (camada == 2)
-                    fi = fils.Where(f => f is SubStory && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 3)
-                    fi = fils.Where(f => f is Grupo && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 4)
-                    fi = fils.Where(f => f is SubGrupo && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 5)
-                    fi = fils.Where(f => f is SubSubGrupo && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 6)
-                    fi = fils.Where(f => f is CamadaSeis && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 7)
-                    fi = fils.Where(f => f is CamadaSete && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 8)
-                    fi = fils.Where(f => f is CamadaOito && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 9)
-                    fi = fils.Where(f => f is CamadaNove && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                else
-                if (camada == 10)
-                    fi = fils.Where(f => f is CamadaDez && f.Pagina
-                   .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                for(var i = 1; i <11; i++)
+                {
+                    if(camada == i)
+                    {
+                          fi = fils.Where(f => f.Camada==i && f.Pagina
+                        .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                        break;
+                    }
+                }
+                
 
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina!
@@ -999,16 +894,7 @@ namespace BlazorCms.Client.Pages
                     else
                         url = $"/Renderizar/{storyid}/{Indice}/{Compartilhou}/{rotas}";
 
-                }
-
-                if (Model2 is SubSubGrupo)
-                Camada = 5;
-                if (Model2 is SubGrupo)
-                Camada = 4;
-                if (Model2 is Grupo)
-                Camada = 3;
-                if (Model2 is SubStory)
-                Camada = 2;
+                }               
 
                // criptografar = false;
                 navigation!.NavigateTo(url);
@@ -1075,7 +961,8 @@ namespace BlazorCms.Client.Pages
             private List<UserContent> randomizar(List<UserContent> lista)
             {
                 List<UserContent> retorno = new List<UserContent>();
-                while(lista.Count != 0){
+                while(lista.Count != 0)
+                {
                     var indice = repositoryPagina.random.Next(0, lista.Count - 1);
                     retorno.Add(lista[indice]);
                     lista.Remove(lista[indice]);
@@ -1096,32 +983,32 @@ namespace BlazorCms.Client.Pages
                     porcentagens.Add(item.Segundos / tempoVideo);
 
                 if (marcacoes.Count >= 9 && timeNumber > marcacoes[8].Segundos)
-                    acessarCamada(typeof(CamadaDez));
+                    acessarCamada(10);
                 else if (marcacoes.Count >= 8 && timeNumber > marcacoes[7].Segundos)
-                    acessarCamada(typeof(CamadaNove));
+                    acessarCamada(9);
                 else if (marcacoes.Count >= 7 && timeNumber > marcacoes[6].Segundos)
-                    acessarCamada(typeof(CamadaOito));
+                    acessarCamada(8);
                 else if (marcacoes.Count >= 6 && timeNumber > marcacoes[5].Segundos)
-                    acessarCamada(typeof(CamadaSete));
+                    acessarCamada(7);
                 else if (marcacoes.Count >= 5 && timeNumber > marcacoes[4].Segundos)
-                    acessarCamada(typeof(CamadaSeis));
+                    acessarCamada(6);
                 else if (marcacoes.Count >= 4 && timeNumber > marcacoes[3].Segundos)
-                    acessarCamada(typeof(SubSubGrupo));
+                    acessarCamada(5);
                 else if (marcacoes.Count >= 3 && timeNumber > marcacoes[2].Segundos)
-                    acessarCamada(typeof(SubGrupo));
+                    acessarCamada(4);
                 else if (marcacoes.Count >= 2 && timeNumber > marcacoes[1].Segundos)
-                    acessarCamada(typeof(Grupo));
+                    acessarCamada(3);
                 else if (marcacoes.Count >= 1 && timeNumber > marcacoes[0].Segundos)
-                    acessarCamada(typeof(SubStory));
+                    acessarCamada(2);
 
             }
             AlterouCamada = false;
         }
 
-        private void acessarCamada(Type tipo)
+        private void acessarCamada(int camada)
         {
-            if(Model2!.GetType() != tipo)            
-            foreach(var item in listaFiltro.Where(l => l.GetType() == tipo).ToList())
+            if(Model2!.Camada != camada)            
+            foreach(var item in listaFiltro.Where(l => l.Camada == camada).ToList())
             if(item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id) != null)
             {
                 Filtro = item.Id;

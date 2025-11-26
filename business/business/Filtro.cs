@@ -14,6 +14,8 @@ namespace business
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
 
+        public int Camada { get; set; }
+
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
 
@@ -21,11 +23,14 @@ namespace business
         public virtual Livro? Livro { get; set; }
 
         public virtual List<FiltroContent>? Pagina { get; set; }
+        public virtual List<SubFiltro>? SubFiltro { get; set; }
         
 
         public virtual List<UserModelFiltro> usuarios { get; set; }
 
         public virtual PastaSalva PastaSalva { get; set; }
+
+        public virtual Criterio Criterio { get; set; }
 
         public void IncluiPagina(Pagina pag)
         {

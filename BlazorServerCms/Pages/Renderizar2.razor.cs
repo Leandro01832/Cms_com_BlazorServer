@@ -25,7 +25,6 @@ namespace BlazorCms.Client.Pages
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
-
         [Parameter] public string? nomeLivro { get; set; } = "";
         [Parameter] public int? storyid { get; set; } = 1;
         [Parameter] public int Indice { get; set; } = 1;
@@ -39,11 +38,11 @@ namespace BlazorCms.Client.Pages
             get { return filtro; }
             set
             {
-                if (value != Filtro && value != null)
-                {
-                    
-                }
+                if ( Filtro != value && value != null)                
+                perguntar((long)value);
                 filtro = value;
+                alterouPasta = true;
+                
             }
         }
         private DemoContextFactory db = new DemoContextFactory();
@@ -60,11 +59,8 @@ namespace BlazorCms.Client.Pages
         private int indiceChave = 0;
         private int tempoVideo = 0;
         private List<FiltroContent> result = new List<FiltroContent>();
-
         protected List<int> porcentagens = new List<int>();
-
         public bool AlterouCamada { get; set; }
-
         private bool alterouModel = true;
         private bool AlterouModel 
         {
@@ -79,12 +75,8 @@ namespace BlazorCms.Client.Pages
 
         protected string? id_video = null;
         protected int indiceAcesso;
-
         private double Progress { get; set; } = 0;
-
-
         private bool criptografar = false;
-
         protected int chave = 0;
         protected int Versiculo = 0;
         protected int slideAtual = 0;
@@ -99,7 +91,6 @@ namespace BlazorCms.Client.Pages
         protected bool mudanca = false;
         protected int cap = 1;
         protected bool automatico = false;
-
         protected int padroes = 0;
         protected bool erro = false;
         protected string classCss = "";
@@ -125,7 +116,7 @@ namespace BlazorCms.Client.Pages
         protected int quantidadeLista { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
         protected bool condicaoFiltro { get; set; } = false;
-        protected int Camada = 0;
+        
 
         protected int? indice_Filtro { get; set; }
         protected int? vers { get; set; }
@@ -134,10 +125,8 @@ namespace BlazorCms.Client.Pages
 
         public int timeproduto { get; set; } = 11;
         public int? conteudo { get; set; } = 1;
-
        
         public int? carregando { get; set; } = 40;
-
 
         public int? Auto
         {
@@ -154,13 +143,9 @@ namespace BlazorCms.Client.Pages
         }
 
         public string? redirecionar { get; set; } = "";
-        public string? dominio { get; set; } = "dominio";
-
-        
+        public string? dominio { get; set; } = "dominio";        
 
         protected int outroHorizonte { get; set; }
-
-
 
     }
 }

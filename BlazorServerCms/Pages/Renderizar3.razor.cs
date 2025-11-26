@@ -20,8 +20,10 @@ namespace BlazorCms.Client.Pages
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if ( id_video is not null)
+        if ( id_video is not null && ! AlterouCamada)
         {
+             if (AlterouModel)
+                await js!.InvokeAsync<object>("zerar", "1");
                 await js.InvokeVoidAsync("carregarVideo", id_video);           
 
                 id_video = null;
@@ -179,7 +181,7 @@ namespace BlazorCms.Client.Pages
             try
             {               
 
-                if (AlterouModel)
+                if (AlterouModel && ! AlterouCamada)
                 await js!.InvokeAsync<object>("zerar", "1");
             }
             catch (Exception ex)
@@ -384,7 +386,7 @@ namespace BlazorCms.Client.Pages
             }
 
             // ultimaPasta = Model.UltimaPasta;
-            if (cap != 0 && AlterouModel)
+            if (cap != 0 && AlterouModel && !AlterouCamada)
                 StartTimer(Model);
 
             if (Model != null && Model.Html != null && AlterouModel)
@@ -397,7 +399,6 @@ namespace BlazorCms.Client.Pages
                     Model.Html = conteudoHtml;
                 html = await repositoryPagina!.renderizarPagina(Model);
                 AlterouModel = false;
-
             }
             if (Model != null && Model.Html != null)
             {
@@ -637,8 +638,7 @@ namespace BlazorCms.Client.Pages
                 else vers = 0;
 
                 int cam = repositoryPagina.buscarCamada();
-                Type t = retornarPasta(cam);
-                ultimaPasta = Model2.GetType() == t;
+                ultimaPasta = Model2.Camada == cam;
 
                 // quantidadeLista = listaContent!.Count;
 
@@ -743,45 +743,9 @@ namespace BlazorCms.Client.Pages
             if (f == null)
                 return f;
             else
-            if (f is CamadaDez)
             {
-                CamadaDez camada = (CamadaDez)f;
-                return listaFiltro.First(fil => fil.Id == camada.CamadaNoveId);
-            }
-            else if (f is CamadaNove)
-            {
-                CamadaNove camada = (CamadaNove)f;
-                return listaFiltro.First(fil => fil.Id == camada.CamadaOitoId);
-            }
-            else if (f is CamadaOito)
-            {
-                CamadaOito camada = (CamadaOito)f;
-                return listaFiltro.First(fil => fil.Id == camada.CamadaSeteId);
-            }
-            else if (f is CamadaSete)
-            {
-                CamadaSete camada = (CamadaSete)f;
-                return listaFiltro.First(fil => fil.Id == camada.CamadaSeisId);
-            }
-            else if (f is CamadaSeis)
-            {
-                CamadaSeis camada = (CamadaSeis)f;
-                return listaFiltro.First(fil => fil.Id == camada.SubSubGrupoId);
-            }
-            else if (f is SubSubGrupo)
-            {
-                SubSubGrupo camada = (SubSubGrupo)f;
-                return listaFiltro.First(fil => fil.Id == camada.SubGrupoId);
-            }
-            else if (f is SubGrupo)
-            {
-                SubGrupo camada = (SubGrupo)f;
-                return listaFiltro.First(fil => fil.Id == camada.GrupoId);
-            }
-            else
-            {
-                Grupo camada = (Grupo)f;
-                return listaFiltro.First(fil => fil.Id == camada.SubStoryId);
+                SubFiltro camada = (SubFiltro)f;
+                return listaFiltro.First(fil => fil.Id == camada.FiltroId);
             }
 
         }
@@ -949,123 +913,25 @@ namespace BlazorCms.Client.Pages
                 item.UserModel.IncluiTime(time);
             Context.SaveChanges();
 
-        }
-
-        private Type retornarPasta(int camada)
-        {
-            if (camada == 10)
-                return new CamadaDez().GetType();
-            if (camada == 9)
-                return new CamadaNove().GetType();
-            if (camada == 8)
-                return new CamadaOito().GetType();
-            if (camada == 7)
-                return new CamadaSete().GetType();
-            if (camada == 6)
-                return new CamadaSeis().GetType();
-            if (camada == 5)
-                return new SubSubGrupo().GetType();
-            if (camada == 4)
-                return new SubGrupo().GetType();
-            if (camada == 3)
-                return new Grupo().GetType();
-            if (camada == 2)
-                return new SubStory().GetType();
-            return null;
-        }
+        }        
 
         private Filtro buscarProximoSubGrupo()
         {
-            if (Model2 is CamadaDez)
+            for(var i = 1; i < 11; i++)
             {
-                var indice = returnList<CamadaDez>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((CamadaDez)Model2);
+                 if (Model2.Camada == i)
+                {
+                    var indice = returnList(true)
+                    .Where(f => f.Camada == i).OrderBy(f => f.Id).ToList().IndexOf(Model2);
 
-                if (indice + 1 == returnList<CamadaDez>().ToList().Count)
-                    return returnList<CamadaNove>().ToList().First();
-                else
-                    return returnList<CamadaDez>()[indice + 1];
-            }
-            else if (Model2 is CamadaNove)
-            {
-                var indice = returnList<CamadaNove>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((CamadaNove)Model2);
-
-                if (indice + 1 == returnList<CamadaNove>().ToList().Count)
-                    return returnList<CamadaOito>().ToList().First();
-                else
-                    return returnList<CamadaNove>()[indice + 1];
-            }
-            else if (Model2 is CamadaOito)
-            {
-                var indice = returnList<CamadaOito>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((CamadaOito)Model2);
-
-                if (indice + 1 == returnList<CamadaOito>().ToList().Count)
-                    return returnList<CamadaSete>().ToList().First();
-                else
-                    return returnList<CamadaOito>()[indice + 1];
-            }
-            else if (Model2 is CamadaSete)
-            {
-                var indice = returnList<CamadaSete>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((CamadaSete)Model2);
-
-                if (indice + 1 == returnList<CamadaSete>().ToList().Count)
-                    return returnList<CamadaSeis>().ToList().First();
-                else
-                    return returnList<CamadaSete>()[indice + 1];
-            }
-            else if (Model2 is CamadaSeis)
-            {
-                var indice = returnList<CamadaSeis>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((CamadaSeis)Model2);
-
-                if (indice + 1 == returnList<CamadaSeis>().ToList().Count)
-                    return returnList<SubSubGrupo>().ToList().First();
-                else
-                    return returnList<CamadaSeis>()[indice + 1];
-            }
-            else if (Model2 is SubSubGrupo)
-            {
-                var indice = returnList<SubSubGrupo>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((SubSubGrupo)Model2);
-
-                if (indice + 1 == returnList<SubSubGrupo>().ToList().Count)
-                    return returnList<SubGrupo>().ToList().First();
-                else
-                    return returnList<SubSubGrupo>()[indice + 1];
-            }
-            else if (Model2 is SubGrupo)
-            {
-                var indice = returnList<SubGrupo>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((SubGrupo)Model2);
-
-                if (indice + 1 == returnList<SubGrupo>().ToList().Count)
-                    return returnList<Grupo>().ToList().First();
-                else
-                    return returnList<SubGrupo>()[indice + 1];
-            }
-            else if (Model2 is Grupo)
-            {
-                var indice = returnList<Grupo>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((Grupo)Model2);
-
-                if (indice + 1 == returnList<Grupo>().ToList().Count)
-                    return returnList<SubStory>().ToList().First();
-                else
-                    return returnList<Grupo>()[indice + 1];
-            }
-            else if (Model2 is SubStory)
-            {
-                var indice = returnList<SubStory>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf((SubStory)Model2);
-
-                if (indice + 1 == returnList<SubStory>().ToList().Count)
-                    return null;
-                else
-                    return returnList<SubStory>()[indice + 1];
-            }
+                    if (indice + 1 == returnList(true).Where(f => f.Camada == i)
+                    .OrderBy(f => f.Id).ToList().Count)
+                        return returnList(false, true).First();
+                    else
+                        return returnList(true)
+                        .Where(f => f.Camada == i).OrderBy(f => f.Id).ToList()[indice + 1];
+                }
+            }           
 
             return null;
         }
@@ -1074,109 +940,41 @@ namespace BlazorCms.Client.Pages
         {
             //  var tipo = Model2.GetType();
 
-            if (Model2 is CamadaDez)
+            for(var i = 10; i > 0; i--)
             {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
+                if (Model2.Camada == i)
+                {
+                    var indice = returnList(true)
+                    .Where(f => f.Camada == i).ToList().IndexOf(Model2);
 
-                if (indice == 0)
-                    return null;
-                else
-                    return returnList<CamadaDez>()[indice - 1];
-            }
-            else if (Model2 is CamadaNove)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<CamadaDez>().ToList()))
-                    return returnList<Filtro>()!.OfType<CamadaDez>().ToList().LastOrDefault()!;
-                else
-                    return returnList<CamadaNove>()[indice - 1];
-            }
-            else if (Model2 is CamadaOito)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<CamadaNove>().ToList()))
-                    return returnList<Filtro>()!.OfType<CamadaNove>().ToList().LastOrDefault()!;
-                else
-                    return returnList<CamadaOito>()[indice - 1];
-            }
-            else if (Model2 is CamadaSete)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<CamadaOito>().ToList()))
-                    return returnList<Filtro>()!.OfType<CamadaOito>().ToList().LastOrDefault()!;
-                else
-                    return returnList<CamadaSete>()[indice - 1];
-            }
-            else if (Model2 is CamadaSeis)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<CamadaSete>().ToList()))
-                    return returnList<Filtro>()!.OfType<CamadaSete>().ToList().LastOrDefault()!;
-                else
-                    return returnList<CamadaSeis>()[indice - 1];
-            }
-            else if (Model2 is SubSubGrupo)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<CamadaSeis>().ToList()))
-                    return returnList<Filtro>()!.OfType<CamadaSeis>().ToList().LastOrDefault()!;
-                else
-                    return returnList<SubSubGrupo>()[indice - 1];
-            }
-            else if (Model2 is SubGrupo)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<SubSubGrupo>().ToList()))
-                    return returnList<Filtro>()!.OfType<SubSubGrupo>().ToList().LastOrDefault()!;
-                else
-                    return returnList<SubGrupo>()[indice - 1];
-            }
-            else if (Model2 is Grupo)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<SubGrupo>().ToList()))
-                    return returnList<Filtro>()!.OfType<SubGrupo>().ToList().LastOrDefault()!;
-                else
-                    return returnList<Grupo>()[indice - 1];
-            }
-            else if (Model2 is SubStory)
-            {
-                var indice = returnList<Filtro>()
-                .Where(f => f.GetType() == Model2.GetType()).ToList().IndexOf(Model2);
-
-                if (indice == 0 && HasValidFilters(returnList<Filtro>()!.OfType<Grupo>().ToList()))
-                    return returnList<Filtro>()!.OfType<Grupo>().ToList().LastOrDefault()!;
-                else
-                    return returnList<SubStory>()[indice - 1];
-            }
-
+                    if (indice == 0)
+                        return returnList(false, false)!.ToList().LastOrDefault()!;
+                    else
+                        return returnList(true)
+                        .Where(f => f.Camada == i).ToList()[indice - 1];
+                }
+            }   
             return null;
         }
 
-        private bool HasValidFilters<T>(IEnumerable<T> collection)
-        {
-            return collection.ToList().Count > 0;
-        }
+        
 
-        private List<T> returnList<T>()
+        private List<Filtro> returnList(bool todos, bool subir = false)
         {
-            return listaFiltro.Where(c => c.Pagina.Count > 0)
-            .OfType<T>().ToList();
+            if(todos)
+                return listaFiltro.Where(c => c.Pagina.Count > 0)
+                .OrderBy(c => c.Id).ToList();
+            else
+            {
+                if(subir)
+                return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada == Model2.Camada - 1)
+                    .OrderBy(c => c.Id).ToList();
+                else
+                    return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada == Model2.Camada + 1)
+                .OrderBy(c => c.Id).ToList();
+                
+            }
+
         }
 
         private async void perguntar(long pasta)
