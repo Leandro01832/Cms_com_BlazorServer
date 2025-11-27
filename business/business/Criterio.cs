@@ -8,7 +8,9 @@ public class Criterio : BaseModel
     public new Int64 Id { get; set; }
 
     public virtual Filtro Filtro { get; set; }
-    public int Camada { get; set; }
+   // public int Camada { get; set; }
+    public long CamadaId { get; set; }
+    public virtual Camada Camada { get; set; }
     public string Descricao { get; set; }
     public DateTime DataCriacao { get; set; }
     public bool Ativo { get; set; }

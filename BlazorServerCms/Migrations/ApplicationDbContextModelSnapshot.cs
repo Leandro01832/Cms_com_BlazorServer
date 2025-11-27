@@ -675,6 +675,22 @@ namespace BlazorServerCms.Migrations
                     b.ToTable("Telefone");
                 });
 
+            modelBuilder.Entity("Camada", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("Numero")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Camada");
+                });
+
             modelBuilder.Entity("Criterio", b =>
                 {
                     b.Property<long>("Id")
@@ -683,8 +699,8 @@ namespace BlazorServerCms.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Camada")
-                        .HasColumnType("int");
+                    b.Property<long>("CamadaId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2");
@@ -694,6 +710,8 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CamadaId");
 
                     b.ToTable("Criterio");
                 });
@@ -1229,11 +1247,19 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("Criterio", b =>
                 {
+                    b.HasOne("Camada", "Camada")
+                        .WithMany("Criterio")
+                        .HasForeignKey("CamadaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("business.Filtro", "Filtro")
                         .WithOne("Criterio")
                         .HasForeignKey("Criterio", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Camada");
 
                     b.Navigation("Filtro");
                 });
@@ -1426,6 +1452,11 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Imagem");
 
                     b.Navigation("Itens");
+                });
+
+            modelBuilder.Entity("Camada", b =>
+                {
+                    b.Navigation("Criterio");
                 });
 
             modelBuilder.Entity("business.business.ChangeContent", b =>
