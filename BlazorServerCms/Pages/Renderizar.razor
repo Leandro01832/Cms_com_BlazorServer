@@ -102,7 +102,7 @@ else if (!repositoryPagina.erro)
 
                                 @if (Model is Pagina || Model is UserContent && mudanca)
                                 {
-                                    if (!tellStory)
+                                    if (!tellStory && Model2.Criterio != null)
                                     {
                                         <div>
                                             <span>
@@ -114,7 +114,19 @@ else if (!repositoryPagina.erro)
                                             </span>
                                             </span>
                                         </div>
-
+                                    }
+                                    else if (!tellStory)
+                                    {
+                                        <div>
+                                            <span>
+                                                - Capítulo @cap 
+                                            <span class="versos">
+                                                <a onclick="@(() => acessarComCriterio())" class="btn">
+                                                    Com Critério
+                                                </a>
+                                            </span>
+                                            </span>
+                                        </div>
                                     }
                                   
 
@@ -147,7 +159,7 @@ else if (!repositoryPagina.erro)
                         <span class="ms-3">Pasta</span> 
                     }
 
-                    @if(tellStory)
+                    @if(tellStory && Model2.Criterio != null)
                         {
                             <div class="capSubstory">
                                 <span>
@@ -156,6 +168,16 @@ else if (!repositoryPagina.erro)
                                     </a>
                                 </span>
                             </div> 
+                        }
+                        else if(tellStory)
+                        {
+                            <div class="capSubstory">
+                                <span>
+                                    <a onclick="@(() => acessarComCriterio())" class="btn versos">
+                                        Com Critério
+                                    </a>
+                                </span>
+                            </div>
                         }
 
                          <div class="@inputs"> 
@@ -305,7 +327,7 @@ else if (!repositoryPagina.erro)
                 else if(Filtro != null)
                 {
                     <div class="Camadas">
-                    camada @Model2!.Camada
+                    camada @Model2!.Camada.Numero
                     </div>
                 }
 
@@ -468,7 +490,7 @@ else if (!repositoryPagina.erro)
                 }
                 else if (outroHorizonte == 1 && Model2 != null)
                 {
-                    var cam = Model2.Camada;
+                    var cam = Model2.Camada.Numero;
                     <div class="centralizar">
                         <a onclick="@acessarPasta">
                             <h3> Pasta @Model2!.Nome </h3>
@@ -710,7 +732,14 @@ else if (!repositoryPagina.erro)
                                                                 {
                                                                     if (!Content)
                                                                     {
-                                                                        <span data-first class="indice"> @Versiculo</span>
+                                                                        if(Model2.Criterio != null)
+                                                                        {
+                                                                            <span data-first class="indice"> @Versiculo</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span data-first class="indice"> X</span>
+                                                                        }
                                                                     }
                                                                     else
                                                                     {
@@ -740,12 +769,18 @@ else if (!repositoryPagina.erro)
                                                                     {
                                                                         if (!Content)
                                                                         {
-                                                                            <span data-first class="indice"> @Versiculo</span>
+                                                                            if(Model2.Criterio != null)
+                                                                            {
+                                                                                <span data-first class="indice"> @Versiculo</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span data-first class="indice"> X</span>
+                                                                            }
                                                                         }
                                                                         else
                                                                         {
                                                                             <span class="indice">0</span>
-
                                                                         }
                                                                     }
                                                                     else

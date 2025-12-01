@@ -638,7 +638,7 @@ namespace BlazorCms.Client.Pages
                 else vers = 0;
 
                 int cam = repositoryPagina.buscarCamada();
-                ultimaPasta = Model2.Camada == cam;
+                ultimaPasta = Model2.Camada.Numero == cam;
 
                 // quantidadeLista = listaContent!.Count;
 
@@ -919,17 +919,17 @@ namespace BlazorCms.Client.Pages
         {
             for(var i = 1; i < 11; i++)
             {
-                 if (Model2.Camada == i)
+                 if (Model2.Camada.Numero == i)
                 {
                     var indice = returnList(true)
-                    .Where(f => f.Camada == i).OrderBy(f => f.Id).ToList().IndexOf(Model2);
+                    .Where(f => f.Camada.Numero == i).OrderBy(f => f.Id).ToList().IndexOf(Model2);
 
-                    if (indice + 1 == returnList(true).Where(f => f.Camada == i)
+                    if (indice + 1 == returnList(true).Where(f => f.Camada.Numero == i)
                     .OrderBy(f => f.Id).ToList().Count)
                         return returnList(false, true).First();
                     else
                         return returnList(true)
-                        .Where(f => f.Camada == i).OrderBy(f => f.Id).ToList()[indice + 1];
+                        .Where(f => f.Camada.Numero == i).OrderBy(f => f.Id).ToList()[indice + 1];
                 }
             }           
 
@@ -942,16 +942,16 @@ namespace BlazorCms.Client.Pages
 
             for(var i = 10; i > 0; i--)
             {
-                if (Model2.Camada == i)
+                if (Model2.Camada.Numero == i)
                 {
                     var indice = returnList(true)
-                    .Where(f => f.Camada == i).ToList().IndexOf(Model2);
+                    .Where(f => f.Camada.Numero == i).ToList().IndexOf(Model2);
 
                     if (indice == 0)
                         return returnList(false, false)!.ToList().LastOrDefault()!;
                     else
                         return returnList(true)
-                        .Where(f => f.Camada == i).ToList()[indice - 1];
+                        .Where(f => f.Camada.Numero == i).ToList()[indice - 1];
                 }
             }   
             return null;
@@ -967,10 +967,10 @@ namespace BlazorCms.Client.Pages
             else
             {
                 if(subir)
-                return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada == Model2.Camada - 1)
+                return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada.Numero == Model2.Camada.Numero - 1)
                     .OrderBy(c => c.Id).ToList();
                 else
-                    return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada == Model2.Camada + 1)
+                    return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada.Numero == Model2.Camada.Numero + 1)
                 .OrderBy(c => c.Id).ToList();
                 
             }

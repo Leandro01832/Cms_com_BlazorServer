@@ -14,7 +14,10 @@ namespace business
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
 
-        public int Camada { get; set; }
+      //  public int Camada { get; set; }
+
+      public long? CamadaId { get; set; }
+    public virtual Camada Camada { get; set; }
 
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
@@ -30,6 +33,7 @@ namespace business
 
         public virtual PastaSalva PastaSalva { get; set; }
 
+        public Int64? CriterioId { get; set; }
         public virtual Criterio Criterio { get; set; }
 
         public void IncluiPagina(Pagina pag)

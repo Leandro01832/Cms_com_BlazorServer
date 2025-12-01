@@ -488,8 +488,11 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<int>("Camada")
-                        .HasColumnType("int");
+                    b.Property<long?>("CamadaId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CriterioId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -508,6 +511,10 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CamadaId");
+
+                    b.HasIndex("CriterioId");
 
                     b.HasIndex("LivroId");
 
@@ -694,7 +701,10 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("Criterio", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
@@ -1178,6 +1188,14 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
+                    b.HasOne("Camada", "Camada")
+                        .WithMany("Filtro")
+                        .HasForeignKey("CamadaId");
+
+                    b.HasOne("Criterio", "Criterio")
+                        .WithMany("Filtro")
+                        .HasForeignKey("CriterioId");
+
                     b.HasOne("business.business.Book.Livro", "Livro")
                         .WithMany("Filtro")
                         .HasForeignKey("LivroId");
@@ -1187,6 +1205,10 @@ namespace BlazorServerCms.Migrations
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Camada");
+
+                    b.Navigation("Criterio");
 
                     b.Navigation("Livro");
 
@@ -1253,15 +1275,7 @@ namespace BlazorServerCms.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("business.Filtro", "Filtro")
-                        .WithOne("Criterio")
-                        .HasForeignKey("Criterio", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Camada");
-
-                    b.Navigation("Filtro");
                 });
 
             modelBuilder.Entity("MarcacaoVideoFilter", b =>
@@ -1420,9 +1434,6 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.Filtro", b =>
                 {
-                    b.Navigation("Criterio")
-                        .IsRequired();
-
                     b.Navigation("Pagina");
 
                     b.Navigation("PastaSalva")
@@ -1457,6 +1468,13 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("Camada", b =>
                 {
                     b.Navigation("Criterio");
+
+                    b.Navigation("Filtro");
+                });
+
+            modelBuilder.Entity("Criterio", b =>
+                {
+                    b.Navigation("Filtro");
                 });
 
             modelBuilder.Entity("business.business.ChangeContent", b =>

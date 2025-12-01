@@ -3,12 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using business;
 
 public class Criterio : BaseModel
-{
-    [Key, ForeignKey("Filtro")]
-    public new Int64 Id { get; set; }
+{   
 
-    public virtual Filtro Filtro { get; set; }
-   // public int Camada { get; set; }
+    public virtual List<Filtro> Filtro { get; set; }
     public long CamadaId { get; set; }
     public virtual Camada Camada { get; set; }
     public string Descricao { get; set; }

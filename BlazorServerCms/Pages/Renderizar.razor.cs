@@ -578,6 +578,14 @@ namespace BlazorCms.Client.Pages
             acessar();
         }
 
+        protected void acessarComCriterio()
+        {
+            var sub = Context.SubFiltro.FirstOrDefault(s => s.Id == Model2!.Id);
+            Indice = 1;
+            Filtro = sub.FiltroId;
+            acessar();
+        }
+
         protected async void desabilitarTellStory()
         {
             tellStory = false;
@@ -624,7 +632,7 @@ namespace BlazorCms.Client.Pages
                 {
                     if(camada == i)
                     {
-                          fi = fils.Where(f => f.Camada==i && f.Pagina
+                          fi = fils.Where(f => f.Camada.Numero==i && f.Pagina
                         .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
                         break;
                     }
@@ -1007,8 +1015,8 @@ namespace BlazorCms.Client.Pages
 
         private void acessarCamada(int camada)
         {
-            if(Model2!.Camada != camada)            
-            foreach(var item in listaFiltro.Where(l => l.Camada == camada).ToList())
+            if(Model2!.Camada.Numero != camada)            
+            foreach(var item in listaFiltro.Where(l => l.Camada.Numero == camada).ToList())
             if(item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id) != null)
             {
                 Filtro = item.Id;
