@@ -55,7 +55,7 @@ namespace BlazorCms.Client.Pages
         private string? title = null;
         private string? resumo = null;
         private bool alterouPasta = false;
-        private List<Filtro> listaFiltro = null;
+        protected List<Filtro> listaFiltro = null;
         private int indiceChave = 0;
         private int tempoVideo = 0;
         private List<FiltroContent> result = new List<FiltroContent>();
@@ -72,6 +72,9 @@ namespace BlazorCms.Client.Pages
                 alterouModel = value;
             }
         }
+
+        protected bool InfoSemCriterio = false;
+        protected bool showModal = false;
 
         protected string? id_video = null;
         protected int indiceAcesso;

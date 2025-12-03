@@ -114,9 +114,6 @@ namespace BlazorServerCms.Migrations
                     b.Property<string>("Html")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long?>("LivroId")
                         .HasColumnType("bigint");
 
@@ -131,9 +128,6 @@ namespace BlazorServerCms.Migrations
 
                     b.Property<long>("StoryId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("TextoLink")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -965,6 +959,9 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("business.business.Chave", b =>
                 {
                     b.HasBaseType("business.Pagina");
+
+                    b.Property<int>("Posicao")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Chave");
                 });

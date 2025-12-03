@@ -25,7 +25,33 @@ namespace business
         public Int64? LivroId { get; set; } = null;
         public virtual Livro? Livro { get; set; }
 
-        public virtual List<FiltroContent>? Pagina { get; set; }
+      // public virtual List<FiltroContent>? Pagina { get; set; }
+        private List<FiltroContent> pagina = new List<FiltroContent>
+        {
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+            new FiltroContent { Content = new Pagina() }, 
+        };
+
+        public virtual List<FiltroContent> Pagina
+        {
+            get => pagina;
+            set
+            {
+                if (value == null || value.Count < 10)
+                    throw new ArgumentException("A lista deve conter pelo menos 10 conteudos.");
+                
+                pagina = value;
+            }
+        }
+
         public virtual List<SubFiltro>? SubFiltro { get; set; }
         
 

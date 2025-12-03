@@ -4,6 +4,7 @@
 @page "/renderizar/{nomeLivro}/{storyid:int}/{Indice:int}/{Compartilhou}/{Filtro:long?}"
 @page "/renderizar/{nomeLivro}/{storyid:int}/{Indice:int}/{Compartilhou}/{rotas}"
 @page "/renderizar/{storyid:int}/{Indice:int}/{Compartilhou}/{rotas}"
+@using NVelocity.Runtime.Directive
 @inherits RenderizarBase
 @layout MeuLayout
 
@@ -78,7 +79,7 @@ else if (!repositoryPagina.erro)
                                 {
                                     <PageTitle>@rotas</PageTitle>
                                     
-                                        <p > <header>@rotas</header></p>
+                                        <p> <header>@rotas</header></p>
                                     
                                 }
                                 else
@@ -87,7 +88,16 @@ else if (!repositoryPagina.erro)
                                     
                                         <p >
                                             <header>
-                                                @nameGroup
+                                                @if(InfoSemCriterio)
+                                                {
+                                                  <a onclick="@ativarModal">@nameGroup</a>  
+                                                }
+                                                else
+                                                {
+                                                    @nameGroup
+
+                                                }
+
                                             @if (tellStory)
                                             {
                                                 <b> - Capitulo @cap</b>
@@ -242,7 +252,8 @@ else if (!repositoryPagina.erro)
                     Home
                 </a>
 
-                @if (nameStory != "Padrao" && outroHorizonte == 0)
+                @if (nameStory != "Padrao" && outroHorizonte == 0 && Model != null 
+                && Model!.Comentario != null)
                 {
                     <a data-4 href=""  onclick="@(() => acessarComentarios())">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
@@ -318,13 +329,7 @@ else if (!repositoryPagina.erro)
                 @chave
            </a>
 
-                @if (Filtro != null && Model2!.Criterio != null)
-                {   
-                    <div class="Camadas">
-                    camada @Model2!.Criterio.Camada.Numero
-                    </div>
-                }
-                else if(Filtro != null)
+                 if(Filtro != null)
                 {
                     <div class="Camadas">
                     camada @Model2!.Camada.Numero
@@ -451,14 +456,9 @@ else if (!repositoryPagina.erro)
 
                     }
                     else if (Model != null)
-                    {
-                        if (!string.IsNullOrEmpty(Model.Link))
-                        {
-                            <a href="@Model.Link"> @Model.TextoLink </a>
-                        }
-                        
-                            
-                            if(id_video == null && !Model.Html!.Contains("iframe"))
+                    {                                   
+                            if(id_video == null && Model != null 
+                            && !Model.Html!.Contains("iframe"))
                             {
                                 @markup 
                             }
@@ -846,5 +846,26 @@ else
     </div>
 
 }
+
+
+ <Modal Title="Sem Critério" IsVisible="showModal" Close="() => showModal = false" ShowConfirmButton ="false">
+
+        @if(Model2 != null)
+        {
+            <h4><strong>Informações de @Model2.Nome</strong></h4>
+
+            @foreach(var item in listaFiltro.OfType<SubFiltro>()
+            .Where(f => f.CriterioId == null && f.FiltroId == Model2.Id).ToList())
+            {
+                if(item.CriterioId == null)
+                {
+                    <a onclick="@(() => acessarSemCriterio(item.Id))" >  @item.Nome </a>
+                    <hr />
+                }
+            }
+            
+        }        
+       
+</Modal>
 
 

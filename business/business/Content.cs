@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using business.business.Book;
 using business.business.Contrato;
 using business.Group;
@@ -63,13 +64,17 @@ namespace business.business
             }
         }
 
-        public string? Link { get; set; } = null;
-
-        private string? textoLink = null;
-        public string? TextoLink
-        {
-            get { if (string.IsNullOrEmpty(textoLink)) return "Link"; else return textoLink; }
-            set { textoLink = value; }
+        private int ordenar = 0;
+        [NotMapped]
+        public int Ordenar
+         { 
+            get{
+                if(ordenar == 0)
+                    return (int)Id;
+                else
+                return ordenar;
+                }
+            set{ordenar = value;}
         }
 
         public void IncluiFiltro(Filtro fil)

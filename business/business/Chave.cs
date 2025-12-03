@@ -18,5 +18,7 @@ namespace business.business
         public Chave(int count) : base(count)
         {
         }
+
+        public int Posicao { get; set; }
     }
 }

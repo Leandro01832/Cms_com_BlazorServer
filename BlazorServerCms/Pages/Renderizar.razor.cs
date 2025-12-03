@@ -580,10 +580,26 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarComCriterio()
         {
-            var sub = Context.SubFiltro.FirstOrDefault(s => s.Id == Model2!.Id);
+            Timer!._timer!.Elapsed -= _timer_Elapsed;
+            AlterouModel = true;
+            var sub = listaFiltro.OfType<SubFiltro>().FirstOrDefault(s => s.Id == Model2!.Id);
             Indice = 1;
             Filtro = sub.FiltroId;
             acessar();
+        }
+
+        protected void acessarSemCriterio(long filtro)
+        {
+            Timer!._timer!.Elapsed -= _timer_Elapsed;
+            AlterouModel = true;
+            Indice = 1;
+            Filtro = filtro;
+            acessar();
+        }
+        
+        protected void ativarModal()
+        {
+           showModal = true;
         }
 
         protected async void desabilitarTellStory()

@@ -125,6 +125,9 @@ namespace BlazorCms.Client.Pages
 
             if (livro == null)
                 listaFiltro = await Context.Filtro!
+                     .Include(p => p.Camada)!
+                     .Include(p => p.Criterio)!
+                     .ThenInclude(p => p.Filtro)!
                      .Include(p => p.Pagina)!
                      .ThenInclude(p => p.Content)!
                      .ThenInclude(p => p.Comentario)!
@@ -133,6 +136,9 @@ namespace BlazorCms.Client.Pages
                     .Where(f => f.LivroId == null && f.StoryId == _story.Id).ToListAsync();
             else
                 listaFiltro = await Context.Filtro!
+                     .Include(p => p.Camada)!
+                    .Include(p => p.Criterio)!
+                     .ThenInclude(p => p.Filtro)!
                     .Include(p => p.Pagina)!
                      .ThenInclude(p => p.Content)!
                      .ThenInclude(p => p.Comentario)!
@@ -244,6 +250,9 @@ namespace BlazorCms.Client.Pages
                     Model2 = listaFiltro.First(f => f.Id == Filtro);
 
                     nameGroup = Model2.Nome!;
+
+                    InfoSemCriterio = listaFiltro.OfType<SubFiltro>()
+                .FirstOrDefault(f => f.CriterioId == null && f.FiltroId == Model2.Id) != null; // mesma camada de com criterio
 
                     if (Indice != 0)
                         Model = listaContent[Indice - 1];
@@ -540,14 +549,17 @@ namespace BlazorCms.Client.Pages
                 Filtro Fil = listaFiltro.First(f => f.Id == Filtro);
                 var lista = Fil.Pagina.Select(p => p.Content).ToList();
 
-                chave = retornarVerso(lista.LastOrDefault(p => p is Chave)!);
-                var ch = lista.FirstOrDefault(c => c is Chave);
-                indiceChave = lista.IndexOf(ch) + 1;
+                var cha = lista.OfType<Chave>().LastOrDefault(p => p is Chave);
+                chave = retornarVerso(cha);
+                indiceChave = lista.IndexOf(cha) + 1;
                 quantidadeLista = lista.Count;
+              //  cha.Ordenar = (int)lista[cha.Posicao]!.Id;
 
                 indice_Filtro = listaFiltro.OrderBy(f => f.Id).ToList().IndexOf(Fil) + 1;
                 Model2 = Fil;
                 nameGroup = Model2.Nome!;
+                InfoSemCriterio = listaFiltro.OfType<SubFiltro>()
+                .FirstOrDefault(f => f.CriterioId == null && f.FiltroId == Model2.Id) != null; // mesma camada de com criterio
 
 
                 if (Fil.Pagina! != null && Model == null)
