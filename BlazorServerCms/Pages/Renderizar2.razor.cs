@@ -49,6 +49,7 @@ namespace BlazorCms.Client.Pages
         private ApplicationDbContext Context;
         // private bool _executado = false;
         private int? auto = 0;
+        private int quantidadePaginas = 0;
         protected int quantDiv = 0;
         private Story _story = null;
         private Livro? livro = null;

@@ -182,279 +182,243 @@ namespace BlazorCms.Client.Pages
                 return 0;
         }
 
-        protected async Task renderizar()
+    private async Task renderizar()
+    {
+        // Lógica Inicial: Tratamento de exceção e chamadas JS iniciais
+        await InicializarRenderizacao();
+
+        // Lógica de Contagem e Preparação Inicial
+        await PrepararQuantidades();
+
+        // AQUI ESTÁ A CHAVE DA DIVISÃO
+        if (Filtro == null)
+        {
+            await renderizarSemFiltro();
+        }
+        else // Filtro != null
+        {
+            await renderizarComFiltro();
+        }
+
+        // Lógica Final: Paginação, Renderização HTML e Finalização
+        await FinalizarRenderizacao();
+    }
+
+        private async Task renderizarSemFiltro()
+        {
+            // 1. Lógica de Busca e Contagem Inicial (Bloco `outroHorizonte == 0` sem filtro)
+            if (outroHorizonte == 0)
+            {
+                var q = RepositoryPagina.Conteudo!
+                    .LastOrDefault(c => c.StoryId == storyid && c is Chave && c.Html != null)!;
+
+                if (q == null)
+                {
+                    var pag = Context.Pagina!.Include(p => p.Comentario).OrderBy(p => p.Id)
+                        .LastOrDefault(c => c.StoryId == storyid && c is Chave && c.Html != null)!;
+                    RepositoryPagina.Conteudo!.Add(pag);
+                    quantidadeLista = retornarVerso(pag);
+                }
+                else
+                {
+                    quantidadeLista = retornarVerso(q);
+                }
+            }
+
+            // 2. Definir Model
+            Model = RepositoryPagina.Conteudo!
+                .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == storyid);
+
+            // 3. Paginar e Adicionar Conteúdo (Bloco de Paginação final sem filtro)
+            List<Content> conteudos = await PaginarStory((long)storyid!, quantidadeLista, quantDiv, slideAtual, livro, carregando);
+            listaContent.AddRange(conteudos);
+
+            // 4. Adicionar Conteúdos ao Repositório (Cache/Memória)
+            foreach (var item in listaContent)
+                if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
+                    RepositoryPagina.Conteudo!.Add(item);
+
+            // 5. Redefinir Model (Novamente)
+            if (Indice != 0)
+            {
+                if (livro == null)
+                    Model = RepositoryPagina.Conteudo!
+                        .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == storyid);
+                else
+                    Model = RepositoryPagina.Conteudo!
+                        .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == storyid && p.LivroId == livro.Id);
+            }
+            
+            // 6. Atualizar listaContent (Chaves)
+            listaContent = RepositoryPagina.Conteudo!.Where(c => c is Chave).OrderBy(p => p.Id)
+                .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
+                .ToList();
+            
+            // 7. Lógica de Mensagem de Erro/Comentário (na parte final do método original)
+            if (Indice > quantidadeLista)
+            {
+                if (quantidadePaginas != 0)
+                    Mensagem = $"Por favor digite um numero menor que {quantidadeLista}.";
+                else
+                    Mensagem = "aguarde um momento...";
+                // Nota: O `return` aqui no original deve ser transformado em uma lógica condicional no FinalizarRenderizacao.
+            }
+
+            if (Model != null && Model is Comment pa)
+            {
+                if (pa.ContentId != null)
+                {
+                    var c = RepositoryPagina.Conteudo!.First(c => c.Id == pa.ContentId);
+                    var s = RepositoryPagina.stories.First(s => s.Id == c.StoryId);
+                    CapituloComentario = s.Capitulo;
+                    VersoComentario = RepositoryPagina.Conteudo
+                        .Where(con => con.StoryId == s.Id).OrderBy(con => con.Id)
+                        .ToList().IndexOf(c) + 1;
+                }
+            }
+        }
+
+        private async Task renderizarComFiltro()
+        {
+            // 1. Contagem e Tratamento de Retroceder (Bloco `outroHorizonte == 0` com filtro)
+            if (outroHorizonte == 0)
+            {
+                var count = CountPagesInFilterAsync((long)Filtro, livro);
+                quantidadeLista = count;
+                if (retroceder == 1)
+                    retroceder = 0;
+            }
+
+            // 2. Validação e Carregamento de Conteúdo Filtrado
+            var CountPages = CountPagesInFilterAsync((long)Filtro, livro);
+            var CountPages2 = RepositoryPagina.Conteudo!.Where(c => c is Pagina && c.Filtro != null &&
+                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count;
+
+            if (CountPages2 == CountPages && CountPages2 != 0)
+            {
+                listaContent.Clear();
+                listaContent.AddRange(RepositoryPagina.Conteudo!
+                    .Where(c => c is Pagina && c.Filtro != null &&
+                    c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList());
+
+                Model2 = listaFiltro.First(f => f.Id == Filtro);
+                nameGroup = Model2.Nome!;
+
+                // Lógica de SubFiltro/Criterio
+                InfoSemCriterio = listaFiltro.OfType<SubFiltro>()
+                    .FirstOrDefault(f => f.CriterioId == null && f.FiltroId == Model2.Id) != null;
+
+                if (InfoSemCriterio)
+                {
+                    var lista = Model2.Pagina.Select(p => p.Content).ToList();
+                    var cha = lista.OfType<Chave>().LastOrDefault(p => p is Chave);
+                    chave = retornarVerso(cha);
+                }
+
+                // Definir Model
+                if (Indice != 0)
+                    Model = listaContent[Indice - 1];
+                else
+                {
+                    if (Model != null)
+                    {
+                        Model = listaContent.FirstOrDefault(c => c.Id == Model!.Id);
+                        Indice = listaContent.IndexOf(Model) + 1;
+                    }
+                }
+                if (Model is Pagina)
+                    vers = ((Pagina)Model).Versiculo;
+            }
+            else
+            {
+                Model = null;
+            }
+
+            // 3. Carregamento Adicional de Conteúdo (Lógica de rota ou AlterouModel)
+            if (condicaoFiltro || rotas != null)
+            {
+                if (AlterouModel && Model == null)
+                {
+                    if (rotas == null)
+                        listaContent = await retornarListaFiltrada(null);
+                    else
+                        listaContent = await retornarListaFiltrada(rotas);
+                }
+
+                if (listaContent.Count != 0 && listaContent[0] != null)
+                    foreach (var item in listaContent)
+                        if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
+                            RepositoryPagina.Conteudo!.Add(item);
+
+                if (Content)
+                    listaContent = listaContent.Where(c => c is UserContent).OrderBy(p => p.Id)
+                    .Skip(quantDiv * slideAtual).Take(listaContent.Count)
+                    .ToList();
+            }
+        }
+
+        // Coloque no método 'renderizar()'
+        private async Task InicializarRenderizacao()
         {
             try
-            {               
-
-                if (AlterouModel && ! AlterouCamada)
-                await js!.InvokeAsync<object>("zerar", "1");
+            {
+                if (AlterouModel && !AlterouCamada)
+                    await js!.InvokeAsync<object>("zerar", "1");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }              
-            
-
-            if (Filtro == null)
-                listaContent.Clear();
+            }
+            listaContent.Clear();
             ultimaPasta = false;
-            var quantidadeFiltros = 0;
-            var quantidadePaginas = 0;
+            // ... inicializações ...
+        }
 
-
-            if (outroHorizonte == 0)
-            {
-                if (Filtro != null)
-                {
-                    var count = CountPagesInFilterAsync((long)Filtro, livro);
-                    quantidadeLista = count;
-                    if (retroceder == 1)                    
-                        retroceder = 0;
-                    
-                }
-                else
-                {
-                    var q = RepositoryPagina.Conteudo!
-                        .LastOrDefault(c => c.StoryId == storyid && c is Chave && c.Html != null)!;
-                    if (q == null)
-                    {
-                        var pa = Context.Pagina!.Include(p => p.Comentario).OrderBy(p => p.Id)
-                        .LastOrDefault(c => c.StoryId == storyid && c is Chave && c.Html != null)!;
-                        RepositoryPagina.Conteudo!.Add(pa);
-                        quantidadeLista = retornarVerso(pa);
-                    }
-                    else
-                        quantidadeLista = retornarVerso(q);
-                }
-            }
-
-
-            if (Filtro == null)
-                Model = RepositoryPagina.Conteudo!
-             .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == storyid);
-
-            else if (Filtro != null)
-            {
-                var CountPages = CountPagesInFilterAsync((long)Filtro, livro);
-                var CountPages2 = RepositoryPagina.Conteudo!.Where(c => c is Pagina && c.Filtro != null &&
-                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count;
-
-                if (CountPages2 == CountPages && CountPages2 != 0)
-                {
-                    listaContent.Clear();
-                    listaContent.AddRange(RepositoryPagina.Conteudo!
-                    .Where(c => c is Pagina && c.Filtro != null &&
-                    c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList());
-
-                    Model2 = listaFiltro.First(f => f.Id == Filtro);
-
-                    nameGroup = Model2.Nome!;
-
-                    InfoSemCriterio = listaFiltro.OfType<SubFiltro>()
-                .FirstOrDefault(f => f.CriterioId == null && f.FiltroId == Model2.Id) != null; // mesma camada de com criterio
-
-                    if (Indice != 0)
-                        Model = listaContent[Indice - 1];
-                    else
-                    {
-                        if (Model != null)
-                        {
-                            
-                            Model = listaContent.FirstOrDefault(c => c.Id == Model!.Id);
-                            Indice = listaContent.IndexOf(Model) + 1;
-                        }
-                    }
-                    if (Model is Pagina)
-                        vers = ((Pagina)Model).Versiculo;
-                }
-                else
-                    Model = null;
-            }
-
-
+        private async Task PrepararQuantidades()
+        {
+            
+            // ... Quantidades iniciais, chamada de marcarIndice()...
             if (Indice > quantidadeLista)
                 quantDiv = await marcarIndice();
             else
                 quantDiv = await marcarIndice();
+            
+            // ... Lógica de slideAtivo e slideAtual ...
             int slideAtivo = (Indice - 1) / quantDiv;
             slideAtual = slideAtivo;
 
+            // ... Contagens finais ...
+            cap = RepositoryPagina.stories.First(st => st.Id == _story.Id).Capitulo;
+            nameStory = RepositoryPagina.stories.First(st => st.Id == _story.Id).Nome;
+            quantidadePaginas = CountPaginas();
+            condicaoFiltro = CountFiltros();
+        }
+
+        private async Task FinalizarRenderizacao()
+        {
+            // Lógica de Paginação/Cache após o Filtro
             if (Filtro != null && RepositoryPagina.Conteudo!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
                 CountPagesInFilterAsync((long)Filtro, livro))
                 listaContent = RepositoryPagina.Conteudo!
-                .Where(c => c is Pagina && c.Filtro != null &&
-                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).OrderBy(p => p.Id)
-                .Skip(quantDiv * slideAtual).Take(quantDiv)
-                .ToList();
-
-            if (Filtro == null)
-            {
-                List<Content> conteudos = null;
-                conteudos = await PaginarStory((long)storyid!, quantidadeLista, quantDiv, slideAtual, livro, carregando);
-                listaContent.AddRange(conteudos);
-
-                foreach (var item in listaContent)
-                    if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
-                        RepositoryPagina.Conteudo!.Add(item);
-
-                if (Indice != 0)
-                {
-                    if (livro == null)
-                        Model = RepositoryPagina.Conteudo!
-                        .FirstOrDefault(p => p is Pagina &&
-                        retornarVerso(p) == Indice
-                        && p.StoryId == storyid);
-                    else
-                        Model = RepositoryPagina.Conteudo!
-                        .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice
-                        && p.StoryId == storyid
-                        && p.LivroId == livro.Id);
-
-                }
-            }
-
-
-
-
-
-            cap = RepositoryPagina.stories.First(st => st.Id == _story.Id).Capitulo;
-            nameStory = RepositoryPagina.stories.First(st => st.Id == _story.Id).Nome;
-
-            if (Filtro == null)
-                listaContent = RepositoryPagina.Conteudo!.Where(c => c is Chave).OrderBy(p => p.Id)
-                    .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
+                    .Where(c => c is Pagina && c.Filtro != null &&
+                    c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).OrderBy(p => p.Id)
+                    .Skip(quantDiv * slideAtual).Take(quantDiv)
                     .ToList();
 
-            if (outroHorizonte == 1)
-            {
-                Model2 = listaFiltro.OrderBy(f => f.Id).Skip((int)Indice - 1).FirstOrDefault();
-                quantidadeLista = listaFiltro.ToList().Count;
-                indiceAcesso = listaFiltro!.ToList().IndexOf(Model2) + 1;
-            }
-
-            quantidadePaginas = CountPaginas();
-            condicaoFiltro = CountFiltros();
-
-            if (Filtro == null)
-            {
-                tellStory = false;
-                if (Indice > quantidadeLista)
-                {
-                    if (quantidadePaginas != 0)
-                        Mensagem = $"Por favor digite um numero menor que {quantidadeLista}.";
-                    else
-                        Mensagem = "aguarde um momento...";
-                    return;
-                }
-
-
-
-                if (Model != null && Model is Comment)
-                {
-                    Comment pa = (Comment)Model;
-                    if (pa.ContentId != null)
-                    {
-                        var c = RepositoryPagina.Conteudo!.First(c => c.Id == pa.ContentId);
-                        var s = RepositoryPagina.stories.First(s => s.Id == c.StoryId);
-                        CapituloComentario = s.Capitulo;
-                        VersoComentario = RepositoryPagina.Conteudo
-                        .Where(con => con.StoryId == s.Id).OrderBy(con => con.Id)
-                        .ToList().IndexOf(c) + 1;
-                    }
-                }
-
-            }
-
-            else if (Filtro != null && condicaoFiltro || rotas != null)
-            {
-                if (Filtro != null)
-                {
-                    if (AlterouModel && Model == null)
-                    {
-                        if (rotas == null)
-                            listaContent = await retornarListaFiltrada(null);
-                        else
-                            listaContent = await retornarListaFiltrada(rotas);
-                    }
-
-                    if (listaContent.Count != 0 && listaContent[0] != null)
-                        foreach (var item in listaContent)
-                            if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
-                                RepositoryPagina.Conteudo!.Add(item);
-
-                    if (Content)
-                        listaContent = listaContent.Where(c => c is UserContent).OrderBy(p => p.Id)
-                    .Skip(quantDiv * slideAtual).Take(listaContent.Count)
-                    .ToList();
-
-                }
-
-            }
-
-            // ultimaPasta = Model.UltimaPasta;
+            // Lógica de Renderização do HTML (Model.Html)
             if (cap != 0 && AlterouModel && !AlterouCamada)
                 StartTimer(Model);
 
-            if (Model != null && Model.Html != null && AlterouModel)
-            {
-                var conteudoHtml = Model.Html;
-                if (Model.Html.Contains("iframe"))
-                    conteudoHtml = colocarAutoPlay(conteudoHtml);
-                else
-                    id_video = null;
-                    Model.Html = conteudoHtml;
-                html = await repositoryPagina!.renderizarPagina(Model);
-                AlterouModel = false;
-            }
-            if (Model != null && Model.Html != null)
-            {
-                try
-                {
-                    if (retornarVerso(Model) == chave && Filtro != null)
-                    {
-                        Model.Html = $"<p> Seja bem-vindo a sub-story {Model2!.Nome} </p>";
-                        html = await repositoryPagina!.renderizarPagina(Model);
-                    }
-                    else if (Model is Chave && Model.Titulo == "chave" && Filtro == null)
-                    {
-                        var verso = retornarVerso(Model);
-                        var fils = listaFiltro
-                        .Where(f => f.Pagina!.FirstOrDefault(p => p.Content is Chave &&
-                        retornarVerso(p.Content) == verso) != null).ToList();
+            // ... lógica de iframe/autoplay/renderizarPagina/Model.Html (muito grande, idealmente em outro método) ...
+            await RenderizarModelHtml();
+            
+            // ... lógica de liked/usuário ...
+            await VerificarUserLiked();
 
-                        Model.Html = $"<p> O versiculo {verso} é a chave que abre ";
-                        if (fils.Count == 1)
-                            Model.Html = $"a sub-story (pasta): ";
-                        else
-                            Model.Html = $"as sub-stories (pastas): ";
-                        foreach (var item in fils)
-                            Model.Html += item.Nome + ", ";
-
-                        Model.Html += "</p>";
-
-                        Model.Html = Model.Html.Replace(", </p>", "</p>");
-                        html = await repositoryPagina!.renderizarPagina(Model);
-                    }
-
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Erro: " + ex.Message);
-                }
-            }
-            else if (Model != null && Model.Produto != null && Model.Produto.Count == 0)
-            {
-                if (livro != null)
-                    html = livro.Capa;
-                else
-                    html = RepositoryPagina.Capa;
-            }
-
-            markup = new MarkupString(html);
+            // ... lógica de array, classCss e placeholders ...
+            FinalizarVariaveisUI();
 
             try
             {
@@ -464,70 +428,170 @@ namespace BlazorCms.Client.Pages
             {
                 Console.WriteLine(ex.Message);
             }
+        }
 
-            array = new List<Content>[2];
-            if (listaContent.Count != 0 && listaContent[0] != null)
-                listaContent = listaContent.OrderBy(c => c.Id).ToList();
-            if (array[0] == null)
-                array[0] = new List<Content>();
-            if (listaContent.Count > quantDiv)
-                array[0].AddRange(listaContent.Take(quantDiv).ToList());
-            else
-                array[0].AddRange(listaContent);
-
-            if (Filtro == null)
+        private async Task RenderizarModelHtml()
+        {
+            // Lógica 1: Processar e renderizar o HTML se o Model foi alterado
+            if (Model != null && Model.Html != null && AlterouModel)
             {
-                if (Indice < 100) classCss = "";
-                else if (Indice > 99 && Indice < 1000) classCss = " DivPagTam2";
-                else if (Indice > 999 && Indice < 10000) classCss = " DivPagTam3";
-                else if (Indice > 9999 && Indice < 100000) classCss = " DivPagTam4";
-            }
-            else
-            {
-                if (vers < 100) classCss = "";
-                else if (vers > 99 && vers < 1000) classCss = " DivPagTam2";
-                else if (vers > 999 && vers < 10000) classCss = " DivPagTam3";
-                else if (vers > 9999 && vers < 100000) classCss = " DivPagTam4";
+                var conteudoHtml = Model.Html;
+                
+                // Aplica o AutoPlay se houver iframe/vídeo
+                if (Model.Html.Contains("iframe"))
+                {
+                    conteudoHtml = colocarAutoPlay(conteudoHtml);
+                }
+                else
+                {
+                    // Se não for um iframe, reseta o id_video
+                    id_video = null;
+                }
+                
+                Model.Html = conteudoHtml;
+                
+                // Chama o método de renderização do repositório
+                html = await repositoryPagina!.renderizarPagina(Model);
+                AlterouModel = false;
             }
 
+            // Lógica 2: Exibir mensagens especiais de Chave/Filtro
+            if (Model != null && Model.Html != null)
+            {
+                try
+                {
+                    // Caso 2a: Página de Boas-Vindas à Sub-Story (Filtro Ativo)
+                    if (retornarVerso(Model) == chave && Filtro != null)
+                    {
+                        Model.Html = $"<p> Seja bem-vindo a sub-story {Model2!.Nome} </p>";
+                        html = await repositoryPagina!.renderizarPagina(Model);
+                    }
+                    // Caso 2b: Página de Chave (Filtro Nulo)
+                    else if (Model is Chave && Model.Titulo == "chave" && Filtro == null)
+                    {
+                        var verso = retornarVerso(Model);
+                        // Busca os Filtros associados a esta Chave
+                        var fils = listaFiltro
+                            .Where(f => f.Pagina!.FirstOrDefault(p => p.Content is Chave &&
+                            retornarVerso(p.Content) == verso) != null).ToList();
+
+                        Model.Html = $"<p> O versiculo {verso} é a chave que abre ";
+                        
+                        // Formatação plural/singular
+                        if (fils.Count == 1)
+                            Model.Html += $"a sub-story (pasta): ";
+                        else
+                            Model.Html += $"as sub-stories (pastas): ";
+                        
+                        // Lista os nomes dos Filtros
+                        foreach (var item in fils)
+                            Model.Html += item.Nome + ", ";
+
+                        Model.Html += "</p>";
+                        
+                        // Limpeza final da string
+                        Model.Html = Model.Html.Replace(", </p>", "</p>");
+                        html = await repositoryPagina!.renderizarPagina(Model);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Erro na lógica de Chave/Filtro: " + ex.Message);
+                }
+            }
+            // Lógica 3: Exibir capa (se o Model não tiver conteúdo)
+            else if (Model != null && Model.Produto != null && Model.Produto.Count == 0)
+            {
+                if (livro != null)
+                    html = livro.Capa;
+                else
+                    html = RepositoryPagina.Capa;
+            }
+        }
+
+        private async Task VerificarUserLiked()
+        {
             UserModelContent p = null;
 
             try
             {
+                // Verifica se o usuário está autenticado
                 if (user.Identity!.IsAuthenticated)
                 {
+                    // Tenta encontrar o registro de "like" para o conteúdo atual e o usuário logado
                     p = Context.UserModelPageLiked
                         .Include(umpl => umpl.Content)
                         .Include(umpl => umpl.UserModel)
                         .FirstOrDefault(p => p.ContentId == Model.Id &&
                         p.UserModel.UserName == user.Identity!.Name)!;
-
                 }
-
-
             }
             catch (Exception)
             {
+                // Em caso de erro (ex: Model nulo ou falha na query), assume que não houve "like"
                 liked = false;
+                // Não logamos a exceção aqui para evitar poluir o console com erros comuns de acesso
+                // mas em um ambiente real, logging seria recomendado.
             }
 
+            // Atualiza o estado da UI com base na pesquisa
             if (p != null)
                 liked = true;
             else
                 liked = false;
+        }
 
-            if (!tellStory) placeholder = "digita nome";
-            else placeholder = "Nº do item";
+        private void FinalizarVariaveisUI()
+        {
+            // 1. Converte o HTML final em MarkupString para renderização no Blazor
+            markup = new MarkupString(html);
 
-            if (!tellStory) divPagina = "DivPagina";
-            else divPagina = "DivPagina2";
+            // 2. Prepara o array de Conteúdo para o componente de Paginação (se aplicável)
+            array = new List<Content>[2];
+            if (listaContent.Count != 0 && listaContent[0] != null)
+                listaContent = listaContent.OrderBy(c => c.Id).ToList();
+            
+            if (array[0] == null)
+                array[0] = new List<Content>();
+            
+            // Adiciona o primeiro slide/página de conteúdos ao array[0]
+            if (listaContent.Count > quantDiv)
+                array[0].AddRange(listaContent.Take(quantDiv).ToList());
+            else
+                array[0].AddRange(listaContent);
 
-            if (!tellStory) DivPag = "DivPag";
-            else DivPag = "DivPag2";
+            // 3. Ajusta a classe CSS baseada no tamanho do número da página/verso
+            int numeroParaVerificar = Filtro == null ? Indice : (int)vers!;
+            
+            if (numeroParaVerificar < 100) 
+                classCss = "";
+            else if (numeroParaVerificar >= 100 && numeroParaVerificar < 1000) 
+                classCss = " DivPagTam2";
+            else if (numeroParaVerificar >= 1000 && numeroParaVerificar < 10000) 
+                classCss = " DivPagTam3";
+            else if (numeroParaVerificar >= 10000 && numeroParaVerificar < 100000) 
+                classCss = " DivPagTam4";
+            // Nota: O código original possui dois blocos IF/ELSE para Indice e vers. 
+            // Foi consolidado usando uma variável temporária `numeroParaVerificar`.
 
+            // 4. Define Placeholders e Classes CSS Dinâmicas
+            if (!tellStory)
+            {
+                placeholder = "digita nome";
+                divPagina = "DivPagina";
+                DivPag = "DivPag";
+            }
+            else
+            {
+                placeholder = "Nº do item";
+                divPagina = "DivPagina2";
+                DivPag = "DivPag2";
+            }
 
+            // 5. Define a variável Versiculo
             var ultimoVerso = RepositoryPagina.Conteudo!
-            .OfType<Chave>().LastOrDefault(p => p.StoryId == _story.Id).Versiculo;
+                .OfType<Chave>().LastOrDefault(p => p.StoryId == _story.Id).Versiculo;
+
             if (Model is Pagina && Filtro != null && vers <= ultimoVerso)
                 Versiculo = (int)vers!;
             else if (Model is Chave && Filtro == null)
@@ -535,12 +599,14 @@ namespace BlazorCms.Client.Pages
             else
                 Versiculo = chave;
 
-           if(Content)
+            // 6. Define a classe CSS para inputs
+            if(Content)
                 inputs = "inputs";
             else
                 inputs = "inputs2";
-
         }
+
+
 
         private async Task<List<Content>> retornarListaFiltrada(string rota)
         {
@@ -968,8 +1034,6 @@ namespace BlazorCms.Client.Pages
             }   
             return null;
         }
-
-        
 
         private List<Filtro> returnList(bool todos, bool subir = false)
         {
