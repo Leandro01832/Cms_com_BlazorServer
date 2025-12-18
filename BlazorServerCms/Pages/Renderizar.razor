@@ -723,13 +723,15 @@ else if (!repositoryPagina.erro)
                                                 else if (Filtro != null)
                                                 {
                                                         var condicao = (slideAtual * quantDiv) + (ind + 1) == Indice;
+                                                       
                                                     if (!tellStory)
                                                     {
                                                        // var condicao = vers == retornarVerso(array[i][ind]);
                                                         <div class="@(DivPag) @(classCss)" >
                                                             <div>
-                                                                @if (Model != null && condicao)
-                                                                {
+                                                                @if (Model != null && condicao )
+                                                                {                                                                  
+
                                                                     if (!Content)
                                                                     {
                                                                         if(Model2.Criterio != null)
@@ -818,8 +820,7 @@ else if (!repositoryPagina.erro)
 
             <div class="progressbar" id="progressbarContainer" onclick="@((MouseEventArgs e) =>  { OnClick(e);})"   >
                 <div> 
-                <div class="marker" title="Aqui é Camada 2" style="left:80%; background-color:black;" >
-                </div>
+                
                 @if(Model is VideoFilter) 
                 {
                     foreach(var item in porcentagens)

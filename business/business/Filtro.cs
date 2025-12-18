@@ -11,10 +11,17 @@ namespace business
         {
             PastaSalva = new PastaSalva();
         }
+        public Filtro(List<FiltroContent> pagina)
+        {
+            if (pagina == null || pagina.Count < 10)
+            throw new ArgumentException("A lista deve conter pelo menos 10 conteudos.");
+            this.pagina = pagina;
+            PastaSalva = new PastaSalva();
+        }
+
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
-
-      //  public int Camada { get; set; }
+        
 
       public long? CamadaId { get; set; }
     public virtual Camada Camada { get; set; }
@@ -26,19 +33,7 @@ namespace business
         public virtual Livro? Livro { get; set; }
 
       // public virtual List<FiltroContent>? Pagina { get; set; }
-        private List<FiltroContent> pagina = new List<FiltroContent>
-        {
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-            new FiltroContent { Content = new Pagina() }, 
-        };
+        private List<FiltroContent> pagina ;
 
         public virtual List<FiltroContent> Pagina
         {

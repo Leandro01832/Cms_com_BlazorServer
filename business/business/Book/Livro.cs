@@ -34,5 +34,7 @@ namespace business.business.Book
         public virtual List<UserModelLivro> Users { get; set; }
         public virtual List<Content> Content { get; set; }
         public virtual List<Filtro> Filtro { get; set; }
+        public virtual List<Camada> Camada { get; set; }
+        public virtual List<Criterio> Criterio { get; set; }
     }
 }
