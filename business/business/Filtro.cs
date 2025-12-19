@@ -2,6 +2,7 @@ using business.business;
 using business.business.Book;
 using business.Group;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace business
 {
@@ -22,7 +23,6 @@ namespace business
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
         
-
       public long? CamadaId { get; set; }
     public virtual Camada Camada { get; set; }
 

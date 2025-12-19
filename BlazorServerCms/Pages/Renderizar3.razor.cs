@@ -110,9 +110,7 @@ namespace BlazorCms.Client.Pages
             if (Indice == 0)
                 Indice = 1;
 
-            padroes = RepositoryPagina.stories.OfType<PatternStory>().ToList().Count - 1;
-
-            
+            padroes = RepositoryPagina.stories.OfType<PatternStory>().ToList().Count - 1;  
 
 
             if (nomeLivro != null)
@@ -124,7 +122,7 @@ namespace BlazorCms.Client.Pages
             }
 
             if (livro == null)
-                listaFiltro = await Context.Filtro!
+                listaFiltro = await Context.SubFiltro!
                      .Include(p => p.Camada)!
                      .Include(p => p.Criterio)!
                      .ThenInclude(p => p.Filtro)!
@@ -133,9 +131,12 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.Comentario)!
                      .Include(p => p.usuarios)!
                      .ThenInclude(p => p.UserModel)!
-                    .Where(f => f.LivroId == null && f.StoryId == _story.Id).ToListAsync();
+                    .Where(f => f.LivroId == null && f.StoryId == _story.Id)
+                    .OrderBy(p => p.FiltroId)
+                    .ThenBy(p => p.Id)
+                    .ToListAsync();
             else
-                listaFiltro = await Context.Filtro!
+                listaFiltro = await Context.SubFiltro
                      .Include(p => p.Camada)!
                     .Include(p => p.Criterio)!
                      .ThenInclude(p => p.Filtro)!
@@ -144,8 +145,11 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.Comentario)!
                      .Include(p => p.usuarios)!
                      .ThenInclude(p => p.UserModel)!
-                    .Where(f => f.LivroId == livro.Id && f.StoryId == _story.Id).ToListAsync();
-
+                    .Where(f => f.LivroId == livro.Id && f.StoryId == _story.Id)
+                    .OrderBy(p => p.FiltroId)
+                    .ThenBy(p => p.Id)
+                    .ToListAsync();
+                    
             List<Chave> chaves = new List<Chave>();
             if(livro == null)
                 chaves = Context.Chave
@@ -205,7 +209,7 @@ namespace BlazorCms.Client.Pages
                 return 0;
         }
 
-    private async Task renderizar()
+        private async Task renderizar()
     {
         // Lógica Inicial: Tratamento de exceção e chamadas JS iniciais
         await InicializarRenderizacao();        
@@ -637,7 +641,7 @@ namespace BlazorCms.Client.Pages
         {
             if (outroHorizonte == 0 && Filtro != null && rota == null)
             {
-                Filtro Fil = listaFiltro.First(f => f.Id == Filtro);
+                SubFiltro Fil = listaFiltro.First(f => f.Id == Filtro);
                 var lista = Fil.Pagina.Select(p => p.Content).ToList();
 
                 var cha = lista.OfType<Chave>().LastOrDefault(p => p is Chave);
@@ -1025,14 +1029,19 @@ namespace BlazorCms.Client.Pages
                  if (Model2.Camada.Numero == i)
                 {
                     var indice = returnList(true)
-                    .Where(f => f.Camada.Numero == i).OrderBy(f => f.Id).ToList().IndexOf(Model2);
+                    .Where(f => f.Camada.Numero == i)
+                    .OrderBy(c => c.FiltroId).ThenBy(c => c.Id)
+                    .ToList().IndexOf(Model2);
 
                     if (indice + 1 == returnList(true).Where(f => f.Camada.Numero == i)
-                    .OrderBy(f => f.Id).ToList().Count)
+                    .OrderBy(c => c.FiltroId).ThenBy(c => c.Id)
+                    .ToList().Count)
                         return returnList(false, true).First();
                     else
                         return returnList(true)
-                        .Where(f => f.Camada.Numero == i).OrderBy(f => f.Id).ToList()[indice + 1];
+                        .Where(f => f.Camada.Numero == i)
+                        .OrderBy(c => c.FiltroId).ThenBy(c => c.Id)
+                        .ToList()[indice + 1];
                 }
             }           
 
@@ -1060,19 +1069,19 @@ namespace BlazorCms.Client.Pages
             return null;
         }
 
-        private List<Filtro> returnList(bool todos, bool subir = false)
+        private List<SubFiltro> returnList(bool todos, bool subir = false)
         {
             if(todos)
                 return listaFiltro.Where(c => c.Pagina.Count > 0)
-                .OrderBy(c => c.Id).ToList();
+                .OrderBy(c => c.FiltroId).ThenBy(c => c.Id).ToList();
             else
             {
                 if(subir)
                 return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada.Numero == Model2.Camada.Numero - 1)
-                    .OrderBy(c => c.Id).ToList();
+                    .OrderBy(c => c.FiltroId).ThenBy(c => c.Id).ToList();
                 else
                     return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada.Numero == Model2.Camada.Numero + 1)
-                .OrderBy(c => c.Id).ToList();
+                .OrderBy(c => c.FiltroId).ThenBy(c => c.Id).ToList();
                 
             }
 

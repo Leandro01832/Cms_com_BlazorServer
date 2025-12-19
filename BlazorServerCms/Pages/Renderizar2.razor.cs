@@ -56,7 +56,7 @@ namespace BlazorCms.Client.Pages
         private string? title = null;
         private string? resumo = null;
         private bool alterouPasta = false;
-        protected List<Filtro> listaFiltro = null;
+        protected List<SubFiltro> listaFiltro = null;
         private int indiceChave = 0;
         private int tempoVideo = 0;
         private List<FiltroContent> result = new List<FiltroContent>();
@@ -106,7 +106,7 @@ namespace BlazorCms.Client.Pages
         protected UserModel usuario;
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
-        protected Filtro? Model2;
+        protected SubFiltro? Model2;
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;

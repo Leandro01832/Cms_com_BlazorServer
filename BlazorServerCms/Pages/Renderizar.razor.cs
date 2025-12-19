@@ -380,7 +380,7 @@ namespace BlazorCms.Client.Pages
         {
             if (camada != 0)
             {
-                Filtro fl = null;
+                SubFiltro fl = null;
                 var fil = listaFiltro.FirstOrDefault(f => f.Id == Model2!.Id);
                 fl = listaFiltro!.First(f => f.Id == fil.Id);                    
                 var pasta = listaFiltro!.IndexOf(fl) + 1;
@@ -612,7 +612,7 @@ namespace BlazorCms.Client.Pages
         protected async void redirecionarMarcar()
         {
             int camada = 0;
-            List<Filtro> fils = null;
+            List<SubFiltro> fils = null;
             Filtro fi = null;
 
             if (Filtro == null)
