@@ -38,7 +38,7 @@ namespace business.business
 
         public virtual List<FiltroContent>? Filtro { get; set; }
 
-        
+        public virtual Criterio? Criterio { get; set; }
 
         public string? Rotas { get; set; }
 

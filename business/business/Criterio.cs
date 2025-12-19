@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using business;
+using business.business;
 using business.business.Book;
 
 public class Criterio : BaseModel
@@ -13,6 +14,7 @@ public class Criterio : BaseModel
     public DateTime DataCriacao { get; set; }
     public Int64? LivroId { get; set; } = null;
         public virtual Livro? Livro { get; set; }
+        
     public bool Ativo { get; set; }
 
     public Criterio()

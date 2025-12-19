@@ -104,6 +104,9 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<long?>("CriterioId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
@@ -134,6 +137,8 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CriterioId");
 
                     b.HasIndex("LivroId");
 
@@ -684,10 +689,15 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<long?>("LivroId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LivroId");
 
                     b.ToTable("Camada");
                 });
@@ -713,9 +723,14 @@ namespace BlazorServerCms.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("LivroId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CamadaId");
+
+                    b.HasIndex("LivroId");
 
                     b.ToTable("Criterio");
                 });
@@ -1002,6 +1017,10 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Content", b =>
                 {
+                    b.HasOne("Criterio", "Criterio")
+                        .WithMany()
+                        .HasForeignKey("CriterioId");
+
                     b.HasOne("business.business.Book.Livro", "Livro")
                         .WithMany("Content")
                         .HasForeignKey("LivroId");
@@ -1011,6 +1030,8 @@ namespace BlazorServerCms.Migrations
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Criterio");
 
                     b.Navigation("Livro");
 
@@ -1264,6 +1285,15 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("Camada", b =>
+                {
+                    b.HasOne("business.business.Book.Livro", "Livro")
+                        .WithMany("Camada")
+                        .HasForeignKey("LivroId");
+
+                    b.Navigation("Livro");
+                });
+
             modelBuilder.Entity("Criterio", b =>
                 {
                     b.HasOne("Camada", "Camada")
@@ -1272,7 +1302,13 @@ namespace BlazorServerCms.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("business.business.Book.Livro", "Livro")
+                        .WithMany("Criterio")
+                        .HasForeignKey("LivroId");
+
                     b.Navigation("Camada");
+
+                    b.Navigation("Livro");
                 });
 
             modelBuilder.Entity("MarcacaoVideoFilter", b =>
@@ -1368,6 +1404,17 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("Filtro");
                 });
 
+            modelBuilder.Entity("business.business.Chave", b =>
+                {
+                    b.HasOne("business.business.Content", "Content")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Content");
+                });
+
             modelBuilder.Entity("business.business.Book.Assinatura", b =>
                 {
                     b.Navigation("Livro");
@@ -1375,7 +1422,11 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Book.Livro", b =>
                 {
+                    b.Navigation("Camada");
+
                     b.Navigation("Content");
+
+                    b.Navigation("Criterio");
 
                     b.Navigation("Filtro");
 
