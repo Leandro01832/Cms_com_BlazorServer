@@ -939,6 +939,9 @@ namespace BlazorServerCms.Migrations
                 {
                     b.HasBaseType("business.Filtro");
 
+                    b.Property<long?>("ComCriterio")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("FiltroId")
                         .HasColumnType("bigint");
 

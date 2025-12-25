@@ -55,8 +55,7 @@ namespace BlazorCms.Client.Pages
                     }
                     else
                     {
-                          await js!.InvokeAsync<object>("PreencherProgressBar", timeproduto * 1000);
-                        
+                        await js!.InvokeAsync<object>("PreencherProgressBar", timeproduto * 1000);                        
                         Timer!.SetTimer(timeproduto * 1000);
                     }
                 }
@@ -75,8 +74,6 @@ namespace BlazorCms.Client.Pages
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            //  Console.WriteLine("Timer Elapsed.");
-            //  Timer!._timer!.Elapsed -= _timer_Elapsed;
             if (automatico)
                 buscarProximo();
         }
@@ -105,7 +102,6 @@ namespace BlazorCms.Client.Pages
             }
             else if (args.Key == "Enter")
             {
-                Timer!._timer!.Elapsed -= _timer_Elapsed;
                 AlterouModel = true;
                 navegarSubgrupos(true);
             }
@@ -144,7 +140,6 @@ namespace BlazorCms.Client.Pages
 
         protected async void Pesquisar()
         {
-            Timer!._timer!.Elapsed -= _timer_Elapsed;
             AlterouModel = true;
 
             bool condicao = false;
@@ -392,7 +387,6 @@ namespace BlazorCms.Client.Pages
 
         protected async void buscarProximo()
         {
-            Timer!._timer!.Elapsed -= _timer_Elapsed;
             AlterouModel = true;
 
             long quant = 0;
@@ -467,7 +461,6 @@ namespace BlazorCms.Client.Pages
 
         protected void buscarAnterior()
         {
-            Timer!._timer!.Elapsed -= _timer_Elapsed;
             AlterouModel = true;
 
             bool alterouIdice = false;
@@ -580,20 +573,20 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarComCriterio()
         {
-            Timer!._timer!.Elapsed -= _timer_Elapsed;
             AlterouModel = true;
-            var sub = listaFiltro.OfType<SubFiltro>().FirstOrDefault(s => s.Id == Model2!.Id);
+            SubFiltro sub = listaFiltro.FirstOrDefault(s => s.Id == Model2!.Id);
             Indice = 1;
-            Filtro = sub.FiltroId;
+            Filtro = sub.ComCriterio;
             acessar();
         }
 
         protected void acessarSemCriterio(long filtro)
         {
-            Timer!._timer!.Elapsed -= _timer_Elapsed;
             AlterouModel = true;
             Indice = 1;
             Filtro = filtro;
+            showModal = false;
+            chave = Versiculo;
             acessar();
         }
         
@@ -613,7 +606,7 @@ namespace BlazorCms.Client.Pages
         {
             int camada = 0;
             List<SubFiltro> fils = null;
-            Filtro fi = null;
+            SubFiltro fi = null;
 
             if (Filtro == null)
             {
@@ -635,7 +628,10 @@ namespace BlazorCms.Client.Pages
                 opcional = vers.ToString();
             }
 
-            fils = listaFiltro.Where(f => f.Pagina != null).OrderBy(f => f.Id).ToList();
+            fils = listaFiltro.Where(f => f.Pagina != null)
+            .OrderBy(f => f.FiltroId)
+            .ThenBy(f => f.Id)
+            .ToList();
             if (camada == 0)
             {
                 fi = fils.Where(f => f.Pagina!
@@ -676,7 +672,11 @@ namespace BlazorCms.Client.Pages
                 else
                     tellStory = false;
                 Indice = 0;
-                acessar();
+                indice_Filtro = listaFiltro
+                .OrderBy(f => f.FiltroId)
+                .ThenBy(f => f.Id)
+                .ToList().IndexOf(fi) + 1;
+                acessar(); 
             }
         }
 
@@ -892,6 +892,7 @@ namespace BlazorCms.Client.Pages
 
         private async void acessar(string url2 = null)
         {
+            Timer!._timer!.Elapsed -= _timer_Elapsed;
             if (url2 != null) Auto = 0;
 
             if (url2 == null)

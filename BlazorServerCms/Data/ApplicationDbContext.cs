@@ -10,7 +10,7 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
-        public static string _connectionString = "Server=DESKTOP-7FH9109\\SQLEXPRESS;Database=cms;Trusted_Connection=True;";
+        public static string _connectionString = "";
 
         public ApplicationDbContext(string connectionString)
         {

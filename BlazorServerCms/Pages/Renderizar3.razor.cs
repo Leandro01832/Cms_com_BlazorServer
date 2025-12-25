@@ -30,7 +30,6 @@ namespace BlazorCms.Client.Pages
         }
     }
 
-
         private async Task<int> marcarIndice()
         {
             try
@@ -315,11 +314,11 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     var q = RepositoryPagina.Conteudo!
-                        .LastOrDefault(c => c.StoryId == storyid && c is Chave && c.Html != null)!;
+                        .LastOrDefault(c => c.StoryId == _story.Id && c is Chave && c.Html != null)!;
                     if (q == null)
                     {
                         var pa = Context.Pagina!.Include(p => p.Comentario).OrderBy(p => p.Id)
-                        .LastOrDefault(c => c.StoryId == storyid && c is Chave && c.Html != null)!;
+                        .LastOrDefault(c => c.StoryId == _story.Id && c is Chave && c.Html != null)!;
                         RepositoryPagina.Conteudo!.Add(pa);
                         quantidadeLista = retornarVerso(pa);
                     }
@@ -331,7 +330,7 @@ namespace BlazorCms.Client.Pages
 
             if (Filtro == null)
                 Model = RepositoryPagina.Conteudo!
-             .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == storyid);
+             .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == _story.Id);
 
             else if (Filtro != null)
             {
@@ -351,8 +350,8 @@ namespace BlazorCms.Client.Pages
 
                     nameGroup = Model2.Nome!;
 
-                    InfoSemCriterio = listaFiltro.OfType<SubFiltro>()
-                .FirstOrDefault(f => f.CriterioId == null && f.FiltroId == Model2.Id) != null; // mesma camada de com criterio
+                    InfoSemCriterio = listaFiltro
+                .FirstOrDefault(f => f.CriterioId == null && f.ComCriterio == Model2.Id) != null; // mesma camada de com criterio
 
                     if (Indice != 0)
                         Model = listaContent[Indice - 1];
@@ -392,8 +391,9 @@ namespace BlazorCms.Client.Pages
 
                  if (Filtro == null)
             {
-                List<Content> conteudos = null;
-                conteudos = await PaginarStory((long)storyid!, quantidadeLista, quantDiv, slideAtual, livro, carregando);
+                List<Content> conteudos = RepositoryPagina.Conteudo!.Where(c => c is Chave)
+                .OrderBy(p => p.Id).ToList();
+              //  conteudos = await PaginarStory(_story.Id, quantidadeLista, quantDiv, slideAtual, livro, carregando);
                 listaContent.AddRange(conteudos);
 
                 foreach (var item in listaContent)
@@ -406,11 +406,12 @@ namespace BlazorCms.Client.Pages
                         Model = RepositoryPagina.Conteudo!
                         .FirstOrDefault(p => p is Pagina &&
                         retornarVerso(p) == Indice
-                        && p.StoryId == storyid);
+                        && p.StoryId == _story.Id
+                        && p.LivroId == null);
                     else
                         Model = RepositoryPagina.Conteudo!
                         .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice
-                        && p.StoryId == storyid
+                        && p.StoryId == _story.Id
                         && p.LivroId == livro.Id);
 
                 }
@@ -491,6 +492,15 @@ namespace BlazorCms.Client.Pages
             {
                 try
                 {
+                    if(Model.Titulo == "item")
+                    {
+                        Model.Html = $"<p> Item {Indice} do conteudo {Model2!.Nome} </p>";
+                        html = await repositoryPagina!.renderizarPagina(Model);
+                        // Pode ser removido da lista de conteúdos, se necessário.
+                        // Somente se todos os itens forem removidos, ficando apenas as chaves.
+                        // as chaves não podem ser removidas. 
+                    }
+
                     // Caso 2a: Página de Boas-Vindas à Sub-Story (Filtro Ativo)
                     if (retornarVerso(Model) == chave && Filtro != null)
                     {
@@ -620,15 +630,19 @@ namespace BlazorCms.Client.Pages
             }
 
             // 5. Define a variável Versiculo
-            var ultimoVerso = RepositoryPagina.Conteudo!
-                .OfType<Chave>().LastOrDefault(p => p.StoryId == _story.Id).Versiculo;
+            if(Model2 != null && Model2.CriterioId != null)
+            {
+                var ultimoVerso = RepositoryPagina.Conteudo!
+                    .OfType<Chave>().LastOrDefault(p => p.StoryId == _story.Id).Versiculo;
 
-            if (Model is Pagina && Filtro != null && vers <= ultimoVerso)
-                Versiculo = (int)vers!;
-            else if (Model is Chave && Filtro == null)
-                Versiculo = retornarVerso(Model);
-            else
-                Versiculo = chave;
+                if (Model is Pagina && Filtro != null && vers <= ultimoVerso)
+                    Versiculo = (int)vers!;
+                else if (Model is Chave && Filtro == null)
+                    Versiculo = retornarVerso(Model);
+                else
+                    Versiculo = chave;
+                
+            }
 
             // 6. Define a classe CSS para inputs
             if(Content)
@@ -650,11 +664,14 @@ namespace BlazorCms.Client.Pages
                 quantidadeLista = lista.Count;
               //  cha.Ordenar = (int)lista[cha.Posicao]!.Id;
 
-                indice_Filtro = listaFiltro.OrderBy(f => f.Id).ToList().IndexOf(Fil) + 1;
+                indice_Filtro = listaFiltro
+                .OrderBy(f => f.FiltroId)
+                .ThenBy(f => f.Id)
+                .ToList().IndexOf(Fil) + 1;
                 Model2 = Fil;
                 nameGroup = Model2.Nome!;
-                InfoSemCriterio = listaFiltro.OfType<SubFiltro>()
-                .FirstOrDefault(f => f.CriterioId == null && f.FiltroId == Model2.Id) != null; // mesma camada de com criterio
+                InfoSemCriterio = listaFiltro
+                .FirstOrDefault(f => f.CriterioId == null && f.ComCriterio == Model2.Id) != null; // mesma camada de com criterio
 
 
                 if (Fil.Pagina! != null && Model == null)
@@ -1073,15 +1090,18 @@ namespace BlazorCms.Client.Pages
         {
             if(todos)
                 return listaFiltro.Where(c => c.Pagina.Count > 0)
-                .OrderBy(c => c.FiltroId).ThenBy(c => c.Id).ToList();
+                .OrderBy(c => c.FiltroId).ThenBy(c => c.Id)
+                .ToList();
             else
             {
                 if(subir)
                 return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada.Numero == Model2.Camada.Numero - 1)
-                    .OrderBy(c => c.FiltroId).ThenBy(c => c.Id).ToList();
+                    .OrderBy(c => c.FiltroId).ThenBy(c => c.Id)
+                    .ToList();
                 else
                     return listaFiltro.Where(c => c.Pagina.Count > 0 && c.Camada.Numero == Model2.Camada.Numero + 1)
-                .OrderBy(c => c.FiltroId).ThenBy(c => c.Id).ToList();
+                .OrderBy(c => c.FiltroId).ThenBy(c => c.Id)
+                .ToList();
                 
             }
 

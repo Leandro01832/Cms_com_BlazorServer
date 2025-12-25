@@ -92,10 +92,14 @@ else if (!repositoryPagina.erro)
                                                 {
                                                   <a onclick="@ativarModal">@nameGroup</a>  
                                                 }
+                                                else if(Model2.CriterioId == null)
+                                                {
+                                                    <a onclick="@acessarComCriterio">@nameGroup</a>                                                
+
+                                                }
                                                 else
                                                 {
                                                     @nameGroup
-
                                                 }
 
                                             @if (tellStory)
@@ -112,7 +116,7 @@ else if (!repositoryPagina.erro)
 
                                 @if (Model is Pagina || Model is UserContent && mudanca)
                                 {
-                                    if (!tellStory && Model2.Criterio != null)
+                                    if (!tellStory)
                                     {
                                         <div>
                                             <span>
@@ -125,19 +129,7 @@ else if (!repositoryPagina.erro)
                                             </span>
                                         </div>
                                     }
-                                    else if (!tellStory)
-                                    {
-                                        <div>
-                                            <span>
-                                                - Capítulo @cap 
-                                            <span class="versos">
-                                                <a onclick="@(() => acessarComCriterio())" class="btn">
-                                                    Com Critério
-                                                </a>
-                                            </span>
-                                            </span>
-                                        </div>
-                                    }
+                                    
                                   
 
                                 }
@@ -169,7 +161,7 @@ else if (!repositoryPagina.erro)
                         <span class="ms-3">Pasta</span> 
                     }
 
-                    @if(tellStory && Model2.Criterio != null)
+                    @if(tellStory)
                         {
                             <div class="capSubstory">
                                 <span>
@@ -179,16 +171,6 @@ else if (!repositoryPagina.erro)
                                 </span>
                             </div> 
                         }
-                        else if(tellStory)
-                        {
-                            <div class="capSubstory">
-                                <span>
-                                    <a onclick="@(() => acessarComCriterio())" class="btn versos">
-                                        Com Critério
-                                    </a>
-                                </span>
-                            </div>
-                        }
 
                          <div class="@inputs"> 
                          
@@ -196,8 +178,8 @@ else if (!repositoryPagina.erro)
 
                             @if (!Content)
                             {
-                                if (tellStory)
-                                {
+                                if (tellStory || Filtro == null)
+                                { 
                                     <input data-2 type="number" class="tellStory" placeholder="@placeholder" @onkeypress="@((KeyboardEventArgs e)=> TeclaPressionada(e))" @ref="firstInput"
                                     id="NumeroPaginaAcesso3" min="1" max="@quantidadeLista" value="@Indice" onchange="@((ChangeEventArgs e) => opcional = e.Value!.ToString()!)" />
                                     <div>
@@ -371,6 +353,7 @@ else if (!repositoryPagina.erro)
             </div>
         }
 
+       
         <div class="botoes">
             <a class="prev btn btn-primary"  onclick="@buscarAnterior">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
@@ -734,14 +717,8 @@ else if (!repositoryPagina.erro)
 
                                                                     if (!Content)
                                                                     {
-                                                                        if(Model2.Criterio != null)
-                                                                        {
-                                                                            <span data-first class="indice"> @Versiculo</span>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <span data-first class="indice"> X</span>
-                                                                        }
+                                                                        <span data-first class="indice"> @Versiculo</span>
+                                                                       
                                                                     }
                                                                     else
                                                                     {
@@ -771,14 +748,8 @@ else if (!repositoryPagina.erro)
                                                                     {
                                                                         if (!Content)
                                                                         {
-                                                                            if(Model2.Criterio != null)
-                                                                            {
-                                                                                <span data-first class="indice"> @Versiculo</span>
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                <span data-first class="indice"> X</span>
-                                                                            }
+                                                                            <span data-first class="indice"> @Versiculo</span>
+                                                                            
                                                                         }
                                                                         else
                                                                         {
@@ -849,14 +820,16 @@ else
 }
 
 
- <Modal Title="Sem Critério" IsVisible="showModal" Close="() => showModal = false" ShowConfirmButton ="false">
+ <Modal Title="Critério" IsVisible="showModal" Close="() => showModal = false" ShowConfirmButton ="false">
 
-        @if(Model2 != null)
+        
+        @if(Model2 != null && Model2.Criterio != null)
         {
-            <h4><strong>Informações de @Model2.Nome</strong></h4>
+          <p>  Critério de @Model2!.Nome: @Model2.Criterio!.Descricao</p>
+            <h4><strong>Informações sem critério de @Model2!.Nome</strong></h4>
 
-            @foreach(var item in listaFiltro.OfType<SubFiltro>()
-            .Where(f => f.CriterioId == null && f.FiltroId == Model2.Id).ToList())
+            @foreach(var item in listaFiltro
+            .Where(f => f.CriterioId == null && f.ComCriterio == Model2.Id).ToList())
             {
                 if(item.CriterioId == null)
                 {
