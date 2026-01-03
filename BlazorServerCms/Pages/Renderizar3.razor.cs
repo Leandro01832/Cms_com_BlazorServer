@@ -127,7 +127,6 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.Filtro)!
                      .Include(p => p.Pagina)!
                      .ThenInclude(p => p.Content)!
-                     .ThenInclude(p => p.Comentario)!
                      .Include(p => p.usuarios)!
                      .ThenInclude(p => p.UserModel)!
                     .Where(f => f.LivroId == null && f.StoryId == _story.Id)
@@ -141,7 +140,6 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.Filtro)!
                     .Include(p => p.Pagina)!
                      .ThenInclude(p => p.Content)!
-                     .ThenInclude(p => p.Comentario)!
                      .Include(p => p.usuarios)!
                      .ThenInclude(p => p.UserModel)!
                     .Where(f => f.LivroId == livro.Id && f.StoryId == _story.Id)
@@ -155,14 +153,12 @@ namespace BlazorCms.Client.Pages
                 .Include(c => c.Filtro)!
                 .ThenInclude(c => c.Filtro)
                 .ThenInclude(c => c.Criterio)
-               .Include(c => c.Comentario)
                 .Where(c => c.StoryId == _story.Id && c.LivroId == null).ToList();
                 else                
              chaves = Context.Chave
              .Include(c => c.Filtro)!
               .ThenInclude(c => c.Filtro)
                 .ThenInclude(c => c.Criterio)
-               .Include(c => c.Comentario)
              .Where(c => c.StoryId == _story.Id && c.LivroId == livro.Id).ToList();
 
              RepositoryPagina.Conteudo.AddRange(chaves);
@@ -239,26 +235,13 @@ namespace BlazorCms.Client.Pages
                     return;
                 }
 
-                if (Model != null && Model is Comment)
-                {
-                    Comment pa = (Comment)Model;
-                    if (pa.ContentId != null)
-                    {
-                        var c = RepositoryPagina.Conteudo!.First(c => c.Id == pa.ContentId);
-                        var s = RepositoryPagina.stories.First(s => s.Id == c.StoryId);
-                        CapituloComentario = s.Capitulo;
-                        VersoComentario = RepositoryPagina.Conteudo
-                        .Where(con => con.StoryId == s.Id).OrderBy(con => con.Id)
-                        .ToList().IndexOf(c) + 1;
-                    }
-                }
         }
 
         private async Task renderizarComFiltro()
         {
             if ( condicaoFiltro || rotas != null)
             {
-                if (AlterouModel && Model == null)
+                if (Model == null)
                         {
                             if (rotas == null)
                                 listaContent = await retornarListaFiltrada(null);
@@ -317,7 +300,7 @@ namespace BlazorCms.Client.Pages
                         .LastOrDefault(c => c.StoryId == _story.Id && c is Chave && c.Html != null)!;
                     if (q == null)
                     {
-                        var pa = Context.Pagina!.Include(p => p.Comentario).OrderBy(p => p.Id)
+                        var pa = Context.Pagina!.OrderBy(p => p.Id)
                         .LastOrDefault(c => c.StoryId == _story.Id && c is Chave && c.Html != null)!;
                         RepositoryPagina.Conteudo!.Add(pa);
                         quantidadeLista = retornarVerso(pa);
@@ -367,8 +350,16 @@ namespace BlazorCms.Client.Pages
                     if (Model is Pagina)
                         vers = ((Pagina)Model).Versiculo;
                 }
-                else
-                    Model = null;
+                else if(AlterouModel)
+                Model = null;
+
+                else if(Model != null)
+                {
+                    if (rotas == null)
+                     listaContent = await retornarListaFiltrada(null);
+                     else
+                    listaContent = await retornarListaFiltrada(rotas);
+                }
             }
 
 
@@ -629,9 +620,7 @@ namespace BlazorCms.Client.Pages
                 DivPag = "DivPag2";
             }
 
-            // 5. Define a variável Versiculo
-            if(Model2 != null && Model2.CriterioId != null)
-            {
+            // 5. Define a variável Versiculo           
                 var ultimoVerso = RepositoryPagina.Conteudo!
                     .OfType<Chave>().LastOrDefault(p => p.StoryId == _story.Id).Versiculo;
 
@@ -642,7 +631,7 @@ namespace BlazorCms.Client.Pages
                 else
                     Versiculo = chave;
                 
-            }
+            
 
             // 6. Define a classe CSS para inputs
             if(Content)

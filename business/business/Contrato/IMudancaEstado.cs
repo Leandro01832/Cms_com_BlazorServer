@@ -9,6 +9,5 @@ namespace business.business.Contrato
     public interface IMudancaEstado
     {
         Pagina MudarEstado( UserContent m, long curtidas, long compartilhamentos);
-        Pagina MudarEstado2( Comment m, long curtidas, long compartilhamentos);
     }
 }

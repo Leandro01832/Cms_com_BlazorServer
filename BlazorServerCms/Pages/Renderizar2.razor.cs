@@ -76,6 +76,9 @@ namespace BlazorCms.Client.Pages
 
         protected bool InfoSemCriterio = false;
         protected bool showModal = false;
+        protected bool showModal2 = false;
+
+        protected Comment comment = new Comment();
 
         protected string? id_video = null;
         protected int indiceAcesso;

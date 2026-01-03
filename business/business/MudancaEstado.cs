@@ -30,31 +30,12 @@ namespace business.business
                 Produto = m.Produto,
                 Rotas = m.Rotas,
                   Titulo = m.Titulo,
-                   mudanca = this,
-                    Comentario = m.Comentario,
+                   mudanca = this
                      
             };
 
             return pagina;
-        }
-
-        public Pagina MudarEstado2(Comment m, long curtidas, long compartilhamentos)
-        {
-            setarPropriedades(m, curtidas, compartilhamentos, "Comment");
-
-            Pagina pagina = new Pagina(m.Story)
-            {
-                Html = m.Html,
-                Produto = m.Produto,
-                Rotas = m.Rotas,
-                Titulo = m.Titulo,
-                mudanca = this,
-                Comentario = m.Comentario,
-
-            };
-
-            return pagina;
-        }
+        }       
 
         private void setarPropriedades(Content m, long curtidas, long compartilhamentos, string tipo)
         {

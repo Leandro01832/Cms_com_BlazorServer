@@ -109,21 +109,7 @@ namespace BlazorCms.Client.Pages
             {
                 perguntar(Model2!.Id);
             }
-            else if (args.Key == "p")
-            {
-                try
-                {
-                    AlterouModel = true;
-                    AlterouCamada = true;
-                    var time = await js.InvokeAsync<string>("exibirTempoAtual");
-                    var timeNumber = int.Parse(time);
-                    AlterarCamada(timeNumber);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
+            
             
 
         }
@@ -586,7 +572,7 @@ namespace BlazorCms.Client.Pages
             Indice = 1;
             Filtro = filtro;
             showModal = false;
-            chave = Versiculo;
+          //  chave = Versiculo;
             acessar();
         }
         
@@ -791,16 +777,19 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarComentarios()
         {
-            automatico = false;
-            if (Filtro == null)
-            {
-                acessar($"/comentario/{Model.Id}");
-            }
-            else
-            {
-                acessar($"/comentario/{Model.Id}");
+            showModal2 = true;
+        }
 
-            }
+        protected void SalvarComentario()
+        {
+            comment.ContentId = Model!.Id;
+            comment.UserModelId = usuario.Id;
+            comment.LivroId = livro?.Id;
+            comment.StoryId = _story.Id;
+            Context.Add(comment);
+            Context.SaveChanges();
+            comment = new Comment();
+            showModal2 = false;
         }
 
 

@@ -438,13 +438,13 @@ else if (!repositoryPagina.erro)
                         }
 
                     }
-                    else if (Model != null)
+                    else if (Model != null && id_video == null )
                     {                                   
-                            if(id_video == null && Model != null 
-                            && !Model.Html!.Contains("iframe"))
-                            {
-                                @markup 
-                            }
+                        if(id_video == null && Model != null && Model.Html != null &&
+                         !Model.Html!.Contains("iframe"))
+                        {
+                            @markup 
+                        }
                             
                     }
 
@@ -457,19 +457,7 @@ else if (!repositoryPagina.erro)
                     }
 
                     <!-- ProdutoContent -->
-                    if (cap == 2 && Model is Comment)
-                    {
-                        Comment pa = (Comment)Model;
-                        if (pa.ContentId != null)
-                        {
-                            <p>Comentário do Capitulo @CapituloComentario Verso @VersoComentario </p>
-                        }
-                        else
-                        {
-                            <p>Apenas um comentário </p>
-
-                        }
-                    }
+                    
                 }
                 else if (outroHorizonte == 1 && Model2 != null)
                 {
@@ -837,6 +825,38 @@ else
                     <hr />
                 }
             }
+            
+        }        
+       
+</Modal>
+
+<Modal Title="Comentário" IsVisible="showModal2" Close="() => showModal2 = false" ShowConfirmButton ="false">
+
+        <h4>Fazer comentário</h4>
+        <Editor Id="contentextarea"
+        Inline=false
+        CloudChannel="5"
+        Disable=false
+        JsConfSrc="sample"
+        ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l"
+        ClassName="tinymce-wrapper" @bind-Value="comment.Html" />
+        <br />
+        <button class="btn btn-primary" onclick="@SalvarComentario">Add Comentário</button>
+        <hr />       
+        
+        <h4>Comentários</h4>
+        @if(Model != null && Model.Comentario != null && Model.Comentario.Count > 0)
+        {
+           <p> 
+            @foreach(var item in Model.Comentario)
+            {
+                <div class="comentario">
+                    <h5>@item.UserModel.UserName comentou:</h5>
+                    <p>@item.Html</p>
+                    <hr />
+                </div>
+            }
+           </p>
             
         }        
        

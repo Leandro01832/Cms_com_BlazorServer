@@ -13,8 +13,7 @@ namespace business
         public Pagina()
         {
             if(Pagina.entity)
-            {
-                Comentario = null;   
+            {  
                 Data = DateTime.Now;
             }
         }

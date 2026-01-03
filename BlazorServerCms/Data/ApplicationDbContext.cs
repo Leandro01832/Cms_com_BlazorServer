@@ -59,9 +59,7 @@ namespace BlazorServerCms.Data
         public DbSet<SmallStory>? SmallStory { get; set; }
         public DbSet<PatternStory>? PatternStory { get; set; }
         public DbSet<Telefone>? Telefone { get; set; }
-        public DbSet<Livro>? Livro { get; set; }
-        public DbSet<Comment>? Comentario { get; set; }
-       
+        public DbSet<Livro>? Livro { get; set; }       
         public DbSet<Compartilhante>? Compartilhante { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
