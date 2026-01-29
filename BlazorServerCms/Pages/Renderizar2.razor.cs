@@ -106,6 +106,7 @@ namespace BlazorCms.Client.Pages
         protected ElementReference firstInput;
         protected string? Mensagem = null;
         protected string nameGroup = "";
+        protected string nameGroup2 = "";
         protected UserModel usuario;
         protected ClaimsPrincipal user;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();

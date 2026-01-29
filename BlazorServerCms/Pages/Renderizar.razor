@@ -84,22 +84,21 @@ else if (!repositoryPagina.erro)
                                 }
                                 else
                                 {
-                                    <PageTitle>@nameGroup</PageTitle>
+                                    <PageTitle>@nameGroup2 - @nameGroup</PageTitle>
                                     
-                                        <p >
+                                        <p>
                                             <header>
                                                 @if(InfoSemCriterio)
                                                 {
-                                                  <a onclick="@ativarModal">@nameGroup</a>  
+                                                  <a onclick="@ativarModal">@nameGroup2 - @nameGroup</a>  
                                                 }
                                                 else if(Model2.CriterioId == null)
                                                 {
-                                                    <a onclick="@acessarComCriterio">@nameGroup</a>                                                
-
+                                                    <a onclick="@acessarComCriterio">@nameGroup</a> 
                                                 }
                                                 else
                                                 {
-                                                    @nameGroup
+                                                    <span>@nameGroup2 - @nameGroup</span>                                                    
                                                 }
 
                                             @if (tellStory)
