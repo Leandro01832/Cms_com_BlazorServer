@@ -10,6 +10,11 @@
 @inject IJSRuntime js
 @inject ITourService TourService
 @inject AuthenticationStateProvider? AuthenticationStateProvider 
+@inject N8nService N8nService
+
+
+
+
 
 <PageTitle>Instagleo</PageTitle>
 
@@ -18,6 +23,8 @@
 </div>
 
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
+
+<button @onclick="DispararFluxo">Executar Automação</button>
 
 <div class="info">
 
@@ -436,6 +443,17 @@
     {
         Pagina pag = (Pagina)c;
         return pag.Versiculo;
+    }
+
+    private async Task DispararFluxo()
+    {
+        var dados = new { 
+            Usuario = "João Silva", 
+            Email = "joao@exemplo.com",
+            Data = DateTime.Now 
+        };
+
+        await N8nService.EnviarDadosAsync(dados);
     }
 
 }

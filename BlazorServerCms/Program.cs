@@ -19,6 +19,7 @@ string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<MarcacaoVideoFilter>();
+builder.Services.AddScoped<N8nService>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
@@ -71,6 +72,13 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddHttpClient("n8nClient", client =>
+{
+    // A URL base deve terminar com /
+    client.BaseAddress = new Uri(""); 
+    client.DefaultRequestHeaders.Add("", "");
+});
+
 
 var app = builder.Build();
 
@@ -105,6 +113,9 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+// https://leandro01832.app.n8n.cloud/webhook-test/e605c19c-794b-4043-ba84-0f48322cdef3
+//https://leandro01832.app.n8n.cloud/webhook-test/e605c19c-794b-4043-ba84-0f48322cdef3
 
 using (var scope = app.Services.CreateScope())
 {

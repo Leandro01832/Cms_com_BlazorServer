@@ -621,7 +621,7 @@ namespace BlazorCms.Client.Pages
             if (camada == 0)
             {
                 fi = fils.Where(f => f.Pagina!
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).FirstOrDefault()!;
 
             }
             else
@@ -631,7 +631,7 @@ namespace BlazorCms.Client.Pages
                     if(camada == i)
                     {
                           fi = fils.Where(f => f.Camada.Numero==i && f.Pagina
-                        .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                        .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).FirstOrDefault()!;
                         break;
                     }
                 }
@@ -639,7 +639,7 @@ namespace BlazorCms.Client.Pages
 
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina!
-                    .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                    .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).FirstOrDefault()!;
             }
 
 
