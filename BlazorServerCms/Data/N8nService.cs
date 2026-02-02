@@ -7,10 +7,10 @@ public class N8nService
         _clientFactory = clientFactory;
     }
 
-    public async Task EnviarDadosAsync(object payload)
+   public async Task EnviarDadosAsync(object payload)
     {
         var client = _clientFactory.CreateClient("n8nClient");
-        var response = await client.PostAsJsonAsync("", payload);
+        var response = await client.PostAsJsonAsync("webhook-test/e605c19c-794b-4043-ba84-0f48322cdef3", payload);
         
         response.EnsureSuccessStatusCode();
     }

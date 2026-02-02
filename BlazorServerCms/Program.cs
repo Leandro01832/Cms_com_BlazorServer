@@ -75,9 +75,9 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpClient("n8nClient", client =>
 {
     // A URL base deve terminar com /
-    client.BaseAddress = new Uri(""); 
-    client.DefaultRequestHeaders.Add("", "");
-});
+    client.BaseAddress = new Uri("https://leandro01832.app.n8n.cloud/"); 
+    client.DefaultRequestHeaders.Add("leandro", "Leandro01832");
+}); 
 
 
 var app = builder.Build();

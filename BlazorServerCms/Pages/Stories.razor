@@ -175,6 +175,17 @@
                         <h1 dir="auto">
                         </h1>
                     </div>
+                    @if ( usuario != null && usuario.Identity != null && usuario.Identity.IsAuthenticated
+                        && usuario.Identity.Name == usermodel.UserName)
+                    {
+                        <input type="radio" value="@usermodel.UpdateShare" @onchange="async e =>
+                        {
+                            usermodel.UpdateShare = usermodel.UpdateShare ? false : true;
+                            Context.Update(usermodel);
+                            await Context.SaveChangesAsync();
+                        }" />
+                        <label>Atualizar compartilhamento</label>
+                    }
                 </div>
 
             </div>

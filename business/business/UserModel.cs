@@ -14,6 +14,9 @@ namespace business.business
 
         public string? HashUserName { get; set; }
         public string? Compartilhar { get; set; } = null;
+
+        public bool UpdateShare { get; set; } = false;
+
         public string? Image { get; set; }
 
         public int PontosPorDia { get; set; }

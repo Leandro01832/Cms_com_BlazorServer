@@ -330,10 +330,12 @@ namespace BlazorCms.Client.Pages
                     .OrderBy(c => c.Id).ToList());
 
                     Model2 = listaFiltro.First(f => f.Id == Filtro);
-                    var m = listaFiltro.First(f => f.Id == Model2.FiltroId);
+                    var m = listaFiltro.FirstOrDefault(f => f.Id == Model2.FiltroId);
 
                     nameGroup = Model2.Nome!;
+                    if(m != null)
                     nameGroup2 = m.Nome!;
+                    else nameGroup2 = "";
 
                     InfoSemCriterio = listaFiltro
                 .FirstOrDefault(f => f.CriterioId == null && f.ComCriterio == Model2.Id) != null; // mesma camada de com criterio
@@ -647,7 +649,7 @@ namespace BlazorCms.Client.Pages
             if (outroHorizonte == 0 && Filtro != null && rota == null)
             {
                 SubFiltro Fil = listaFiltro.First(f => f.Id == Filtro);
-                var m = listaFiltro.First(f => f.Id == Fil.FiltroId);
+                var m = listaFiltro.FirstOrDefault(f => f.Id == Fil.FiltroId);
                 var lista = Fil.Pagina.Select(p => p.Content).ToList();
 
                 var cha = lista.OfType<Chave>().LastOrDefault(p => p is Chave);
@@ -662,7 +664,9 @@ namespace BlazorCms.Client.Pages
                 .ToList().IndexOf(Fil) + 1;
                 Model2 = Fil;
                 nameGroup = Model2.Nome!;
+                if(m != null)
                 nameGroup2 = m.Nome!;
+                else nameGroup2 = "";
                 InfoSemCriterio = listaFiltro
                 .FirstOrDefault(f => f.CriterioId == null && f.ComCriterio == Model2.Id) != null; // mesma camada de com criterio
 
@@ -1116,6 +1120,14 @@ namespace BlazorCms.Client.Pages
                             tellStory = true;
                         else
                             tellStory = false;
+
+                            if(user!= null && user.Identity != null && user.Identity.IsAuthenticated)
+                            {
+                                var us = Context.Users.First(u => u.UserName == user.Identity.Name);
+                                if(us.UpdateShare)
+                                us.Compartilhar = "(" + name + ")";
+
+                            }
 
                     }
 

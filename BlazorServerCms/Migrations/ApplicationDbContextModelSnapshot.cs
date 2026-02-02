@@ -362,6 +362,9 @@ namespace BlazorServerCms.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("UpdateShare")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -923,18 +926,6 @@ namespace BlazorServerCms.Migrations
                     b.HasDiscriminator().HasValue("UserContent");
                 });
 
-            modelBuilder.Entity("business.Comment", b =>
-                {
-                    b.HasBaseType("business.business.Content");
-
-                    b.Property<long?>("ContentId")
-                        .HasColumnType("bigint");
-
-                    b.HasIndex("ContentId");
-
-                    b.HasDiscriminator().HasValue("Comment");
-                });
-
             modelBuilder.Entity("business.Group.SubFiltro", b =>
                 {
                     b.HasBaseType("business.Filtro");
@@ -989,6 +980,18 @@ namespace BlazorServerCms.Migrations
                     b.HasBaseType("business.Pagina");
 
                     b.HasDiscriminator().HasValue("ProductContent");
+                });
+
+            modelBuilder.Entity("business.Comment", b =>
+                {
+                    b.HasBaseType("business.business.UserContent");
+
+                    b.Property<long?>("ContentId")
+                        .HasColumnType("bigint");
+
+                    b.HasIndex("ContentId");
+
+                    b.HasDiscriminator().HasValue("Comment");
                 });
 
             modelBuilder.Entity("VideoFilter", b =>
@@ -1387,15 +1390,6 @@ namespace BlazorServerCms.Migrations
                     b.Navigation("UserModel");
                 });
 
-            modelBuilder.Entity("business.Comment", b =>
-                {
-                    b.HasOne("business.business.Content", "Content")
-                        .WithMany("Comentario")
-                        .HasForeignKey("ContentId");
-
-                    b.Navigation("Content");
-                });
-
             modelBuilder.Entity("business.Group.SubFiltro", b =>
                 {
                     b.HasOne("business.Filtro", "Filtro")
@@ -1414,6 +1408,15 @@ namespace BlazorServerCms.Migrations
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.Navigation("Content");
+                });
+
+            modelBuilder.Entity("business.Comment", b =>
+                {
+                    b.HasOne("business.business.Content", "Content")
+                        .WithMany("Comentario")
+                        .HasForeignKey("ContentId");
 
                     b.Navigation("Content");
                 });
