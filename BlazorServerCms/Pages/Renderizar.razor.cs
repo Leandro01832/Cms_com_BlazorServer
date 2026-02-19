@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using BlazorServerCms.Data;
 using BlazorServerCms.servicos;
 using business;
@@ -23,7 +24,7 @@ namespace BlazorCms.Client.Pages
         {
             try
             {
-                if (p != null && p.Html != null && outroHorizonte == 0)
+                if (p != null && p.Html != null )
                 {
                     if (p.Html.Contains("iframe"))
                     {
@@ -337,25 +338,7 @@ namespace BlazorCms.Client.Pages
             else
                 acessar($"/listar-pasta/{_story.Capitulo}");
         }
-
-        protected void acessarHorizontePastas(int? i)
-        {
-            automatico = false;
-            outroHorizonte = 1;
-            if (i != null)
-                Indice = (int)i;
-            else
-                Indice = 1;
-            acessar();
-        }
-
-        protected void acessarHorizonteVersos()
-        {
-            automatico = false;
-            outroHorizonte = 0;
-            Indice = 1;
-            acessar();
-        }
+        
        
         protected int? buscarPastaFiltrada(int camada)
         {
@@ -376,12 +359,8 @@ namespace BlazorCms.Client.Pages
             AlterouModel = true;
 
             long quant = 0;
-            if (Filtro == null && outroHorizonte == 0)
-                quant = CountPaginas();
-            else if (outroHorizonte == 1)
-            {
-                quant = QuantFiltros();
-            }
+            if (Filtro == null)
+                quant = CountPaginas();            
             else
             {
                 List<Content> lista = null;
@@ -576,6 +555,22 @@ namespace BlazorCms.Client.Pages
             acessar();
         }
         
+        protected void UsuarioContar()
+        {
+            tellStory = true;
+            string padrao = @"\(([^)]*)\)"; 
+            var c = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
+            Match match = Regex.Match(c.Compartilhar, padrao);
+            if(c.Compartilhar != null)
+            if (!match.Groups[1].Value.Contains(','))
+            {
+                Filtro = listaFiltro.FirstOrDefault(f => f.Pagina != null && f.Pagina.Count > 0
+                && f.Pagina.FirstOrDefault(p => p.Filtro.Nome.Contains(match.Value)) != null)!.Id;
+                Indice = 1;
+                acessar();                    
+            }
+        }
+
         protected void ativarModal()
         {
            showModal = true;
@@ -665,8 +660,6 @@ namespace BlazorCms.Client.Pages
                 acessar(); 
             }
         }
-
-
 
         private bool CountFiltros()
         {
@@ -792,7 +785,6 @@ namespace BlazorCms.Client.Pages
             showModal2 = false;
         }
 
-
         protected void acessarPastas()
         {
             automatico = false;
@@ -819,18 +811,10 @@ namespace BlazorCms.Client.Pages
                     acessar($"/livro/{livro.Nome}");
             }
         }
-
-        protected void marcarPasta(int i)
-        {
-            outroHorizonte = 1;
-            Indice = i;
-
-            acessar();
-        }
+   
 
         protected void acessarStory()
         {
-            outroHorizonte = 0;
             storyid = RepositoryPagina.stories!
             .OrderBy(str => str.Capitulo).Skip(1).ToList()[Indice - 1].Capitulo;
             automatico = false;
@@ -1032,6 +1016,7 @@ namespace BlazorCms.Client.Pages
             }
         }
     }
+
     public class UserPreferencesImage
     {
         public string? user { get; set; }

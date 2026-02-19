@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using BlazorServerCms.servicos;
 using business;
 using business.business;
@@ -82,6 +83,16 @@ namespace BlazorCms.Client.Pages
                 usuario = await Context.Users
                     .Include(u => u.PageLiked)
                 .FirstAsync(us => us.Id == u.Id);
+
+                if(Compartilhou != null && Compartilhou != "comp")
+                {
+                    var c = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
+                    if(c.Compartilhar != null)
+                    {
+                        string padrao = @"\(([^)]*)\)"; 
+                        Match = Regex.Match(c.Compartilhar, padrao);
+                    }
+                }
 
             }
 
@@ -284,8 +295,7 @@ namespace BlazorCms.Client.Pages
             var quantidadePaginas = 0;
 
 
-            if (outroHorizonte == 0)
-            {
+            
                 if (Filtro != null)
                 {
                     var count = CountPagesInFilterAsync((long)Filtro, livro);
@@ -308,7 +318,7 @@ namespace BlazorCms.Client.Pages
                     else
                         quantidadeLista = retornarVerso(q);
                 }
-            }
+            
 
 
             if (Filtro == null)
@@ -418,14 +428,7 @@ namespace BlazorCms.Client.Pages
              if (Filtro == null)
                 listaContent = RepositoryPagina.Conteudo!.Where(c => c is Chave).OrderBy(p => p.Id)
                     .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
-                    .ToList();
-
-            if (outroHorizonte == 1)
-            {
-                Model2 = listaFiltro.OrderBy(f => f.Id).Skip((int)Indice - 1).FirstOrDefault();
-                quantidadeLista = listaFiltro.ToList().Count;
-                indiceAcesso = listaFiltro!.ToList().IndexOf(Model2) + 1;
-            }
+                    .ToList();          
 
             quantidadePaginas = CountPaginas();
             condicaoFiltro = CountFiltros();
@@ -646,7 +649,7 @@ namespace BlazorCms.Client.Pages
 
         private async Task<List<Content>> retornarListaFiltrada(string rota)
         {
-            if (outroHorizonte == 0 && Filtro != null && rota == null)
+            if ( Filtro != null && rota == null)
             {
                 SubFiltro Fil = listaFiltro.First(f => f.Id == Filtro);
                 var m = listaFiltro.FirstOrDefault(f => f.Id == Fil.FiltroId);
@@ -765,7 +768,7 @@ namespace BlazorCms.Client.Pages
 
                 return listaContent.ToList();
             }
-            else if (outroHorizonte == 0 && Filtro != null && rota != null)
+            else if ( Filtro != null && rota != null)
             {
                 listaContent = new List<Content>();
                 foreach (var item in listaFiltro)

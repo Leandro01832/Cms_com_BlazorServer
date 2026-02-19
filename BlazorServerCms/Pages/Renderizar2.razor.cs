@@ -11,6 +11,7 @@ using PSC.Blazor.Components.Tours.Interfaces;
 using System.Security.Claims;
 using business.business.Book;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Text.RegularExpressions;
 
 namespace BlazorCms.Client.Pages
 {
@@ -109,6 +110,8 @@ namespace BlazorCms.Client.Pages
         protected string nameGroup2 = "";
         protected UserModel usuario;
         protected ClaimsPrincipal user;
+        protected UserModel user2;
+        protected Match Match;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
         protected SubFiltro? Model2;
         protected string[]? classificacoes = null;
@@ -153,7 +156,7 @@ namespace BlazorCms.Client.Pages
         public string? redirecionar { get; set; } = "";
         public string? dominio { get; set; } = "dominio";        
 
-        protected int outroHorizonte { get; set; }
+      //  protected int outroHorizonte { get; set; }
 
     }
 }
