@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: instagleo-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SuaSenhaForte123!
+    ports:
+      - "1433:1433"
+
+  web:
+    image: instagleo-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: instagleo-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=InstagleoDb;User Id=sa;Password=SuaSenhaForte123!;
+    ports:
+      - "8080:80"
+    depends_on:
+      - db

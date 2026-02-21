@@ -354,7 +354,7 @@ else if (!repositoryPagina.erro)
             @if(Compartilhou != null && Compartilhou != "comp" 
             && Match.Success
             && !Match.Value.Contains(",") 
-            && Match.Value.ToLower() == Model2.Nome.ToLower())
+            && Match.Value.ToLower() != Model2.Nome.ToLower())
             {
                 <a href="/" onclick="@UsuarioContar" >
                    <u> O usuario @Compartilhou quer contar...</u>   

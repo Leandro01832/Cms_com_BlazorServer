@@ -110,12 +110,8 @@ namespace BlazorCms.Client.Pages
             {
                 perguntar(Model2!.Id);
             }
-            
-            
-
         }
-
-       
+      
 
         protected async void Casinha()
         {
