@@ -317,6 +317,32 @@ else if (!repositoryPagina.erro)
             
             
             </div> 
+
+            <div class="criterio col-md-12">
+
+                @{
+                    foreach (var item in listaFiltro
+                    .Where(f => f.FiltroId == Model2.FiltroId)
+                    .OrderBy(p => p.FiltroId)
+                    .ThenBy(p => p.Id)
+                    .ToList())
+                {
+                    @if(item.Id == Filtro)
+                    {
+                        <div class="DivCriterio" style="background-color: rgb(5, 5, 243);">
+                            
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="DivCriterio" style="background-color: rgb(243, 5, 5);">
+                            
+                        </div>
+                    }
+                }
+
+                }
+            </div>
              
 
         </div>
@@ -351,10 +377,7 @@ else if (!repositoryPagina.erro)
        
         <div class="botoes">
 
-            @if(Compartilhou != null && Compartilhou != "comp" 
-            && Match.Success
-            && !Match.Value.Contains(",") 
-            && Match.Value.ToLower() != Model2.Nome.ToLower())
+            @if(Compartilhou != null && Compartilhou != "comp" && Match != null && Match.Success && !Match.Value.Contains(",") && Match.Value.ToLower() != Model2.Nome.ToLower())
             {
                 <a href="/" onclick="@UsuarioContar" >
                    <u> O usuario @Compartilhou quer contar...</u>   
@@ -489,31 +512,29 @@ else if (!repositoryPagina.erro)
                 </h3>
 
                 <div id="horizontes">
-
-
                     @{
-                        
-
-
-
-                        if (cap == 0)
-                        {
-                            <span class="TextoInformativo">Capitulo @Indice de @quantidadeLista</span>
-                        }
-                        else if (!tellStory)
+                         if (!tellStory)
                         {
 
-                            if ( cap != 0)
+                            if (!tellStory && Filtro != null)
                             {
                                 <span class="TextoInformativo">Pasta @Indice de @quantidadeLista</span>
-
                             }
-                            else if (Filtro == null)
+                            
+                            if (Filtro == null)
                             {
                                 <span class="TextoInformativo">Versiculo @Indice de @quantidadeLista</span>
                             }
 
                         }
+                        else
+                            {
+                                if (!Content)
+                                {
+                                    <span class="TextoInformativo">Item @Indice de @quantidadeLista</span>
+                                }
+
+                            }
                         
                             <a href="#" class="btn btn-dark" onclick="@listarPastas">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ol" viewBox="0 0 16 16">

@@ -437,6 +437,7 @@ namespace BlazorCms.Client.Pages
 
         private async Task FinalizarRenderizacao()
         {
+
             // Lógica de Renderização do HTML (Model.Html)
             if (cap != 0 && AlterouModel && !AlterouCamada)
                 StartTimer(Model);
@@ -458,6 +459,16 @@ namespace BlazorCms.Client.Pages
             {
                 Console.WriteLine(ex.Message);
             }
+
+            if(!tellStory && Filtro != null)
+            {
+                quantidadeLista = listaFiltro
+                    .Where(f => f.FiltroId == Model2.FiltroId)
+                    .OrderBy(p => p.FiltroId)
+                    .ThenBy(p => p.Id)
+                    .ToList().Count;
+            }
+            
         }
 
         private async Task RenderizarModelHtml()
