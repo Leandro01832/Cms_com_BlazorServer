@@ -142,49 +142,62 @@ namespace BlazorCms.Client.Pages
                 Indice = int.Parse(opcional);
                 acessar();
             }
-            else if (condicao)
+            else if (!tellStory && condicao)
             {
-                if (Filtro != null && RepositoryPagina.Conteudo!
-                .Where(c => c is Pagina && c.Filtro != null &&
-                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
-                CountPagesInFilterAsync((long)Filtro, livro))
-                {
-                    var listainFilter = RepositoryPagina.Conteudo!
-                    .Where(c => c is Pagina && c.Filtro != null &&
-                    c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
-                    var m = listainFilter.FirstOrDefault(c => retornarVerso(c) == int.Parse(opcional));
-                    if (m != null)
-                    {
-                        Indice = listainFilter.IndexOf(m) + 1;
-                        acessar();
-                    }
-                    else
-                        await js!.InvokeAsync<object>("DarAlert",
-                    $"Não foi encontrado o versiculo {int.Parse(opcional)} na pasta {indice_Filtro}." +
-                    " O versiculo {int.Parse(opcional)} não é {Model2.Nome}.");
-                }
-                else
-                {
-                    var c = Context.Pagina!.Include(c => c.Filtro)
-                    .Where(c => c.StoryId == storyid && c.Versiculo == int.Parse(opcional) && c.Filtro != null &&
-                    c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).FirstOrDefault();
-                    if (c == null)
-                        await js!.InvokeAsync<object>("DarAlert",
-                        $"Não foi encontrado o versiculo {int.Parse(opcional)} na pasta {indice_Filtro}." +
-                        $" O versiculo {int.Parse(opcional)} não é {Model2.Nome}.");
-                    else
-                    {
-                        List<FiltroContent> resultados = null;
-                        int countPages = CountPagesInFilterAsync((long)Filtro, livro);
-                        var teste = RepositoryPagina.conteudoEmFiltro
-                         .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == c!.Id &&
-                         cf.conteudoEmFiltro!.FiltroId == Filtro);
-                        Indice = await buscarIndice(c, countPages, teste);
+                Indice = 1;
+                int p = int.Parse(opcional);
+                Filtro = 
+                listaFiltro
+                .Where(f => f.FiltroId == Model2.FiltroId)
+                .OrderBy(p => p.FiltroId)
+                .ThenBy(p => p.Id)
+                .ToList()[p - 1].Id;
+                acessar();
 
-                        acessar();
-                    }
-                }
             }
+            // else if (condicao)
+            // {
+            //     if (Filtro != null && RepositoryPagina.Conteudo!
+            //     .Where(c => c is Pagina && c.Filtro != null &&
+            //     c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
+            //     CountPagesInFilterAsync((long)Filtro, livro))
+            //     {
+            //         var listainFilter = RepositoryPagina.Conteudo!
+            //         .Where(c => c is Pagina && c.Filtro != null &&
+            //         c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList();
+            //         var m = listainFilter.FirstOrDefault(c => retornarVerso(c) == int.Parse(opcional));
+            //         if (m != null)
+            //         {
+            //             Indice = listainFilter.IndexOf(m) + 1;
+            //             acessar();
+            //         }
+            //         else
+            //             await js!.InvokeAsync<object>("DarAlert",
+            //         $"Não foi encontrado o versiculo {int.Parse(opcional)} na pasta {indice_Filtro}." +
+            //         " O versiculo {int.Parse(opcional)} não é {Model2.Nome}.");
+            //     }
+            //     else
+            //     {
+            //         var c = Context.Pagina!.Include(c => c.Filtro)
+            //         .Where(c => c.StoryId == storyid && c.Versiculo == int.Parse(opcional) && c.Filtro != null &&
+            //         c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).FirstOrDefault();
+            //         if (c == null)
+            //             await js!.InvokeAsync<object>("DarAlert",
+            //             $"Não foi encontrado o versiculo {int.Parse(opcional)} na pasta {indice_Filtro}." +
+            //             $" O versiculo {int.Parse(opcional)} não é {Model2.Nome}.");
+            //         else
+            //         {
+            //             List<FiltroContent> resultados = null;
+            //             int countPages = CountPagesInFilterAsync((long)Filtro, livro);
+            //             var teste = RepositoryPagina.conteudoEmFiltro
+            //              .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == c!.Id &&
+            //              cf.conteudoEmFiltro!.FiltroId == Filtro);
+            //             Indice = await buscarIndice(c, countPages, teste);
+
+            //             acessar();
+            //         }
+            //     }
+            // }
         }
 
         private async Task<int> buscarIndice(Content? c, int countPages, FiltroContentIndice? teste)

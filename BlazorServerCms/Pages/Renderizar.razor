@@ -11,6 +11,7 @@
 
 @if (Mensagem != null || Model == null)
 {
+
     if (Model == null)
     {
         <PageTitle>Carregando...</PageTitle>
@@ -321,6 +322,7 @@ else if (!repositoryPagina.erro)
             <div class="criterio col-md-12">
 
                 @{
+                    int p = 1;
                     foreach (var item in listaFiltro
                     .Where(f => f.FiltroId == Model2.FiltroId)
                     .OrderBy(p => p.FiltroId)
@@ -329,16 +331,27 @@ else if (!repositoryPagina.erro)
                 {
                     @if(item.Id == Filtro)
                     {
-                        <div class="DivCriterio" style="background-color: rgb(5, 5, 243);">
-                            
+                        Pasta = p;
+                        <div class="DivCriterio text-center"
+                         style="background-color: rgb(255, 0, 0); font-size: 10px;">
+                         @if(!tellStory && Filtro != null)
+                         {
+                            @p 
+                         }
                         </div>
                     }
                     else
                     {
-                        <div class="DivCriterio" style="background-color: rgb(243, 5, 5);">
-                            
+                        <div class="DivCriterio text-center"
+                         style="background-color: rgb(255, 255, 255); border: 1px solid black; font-size: 10px;"> 
+                           @if(!tellStory && Filtro != null)
+                            {
+                                @p 
+                            }
                         </div>
+                        
                     }
+                    p++;
                 }
 
                 }
@@ -518,7 +531,7 @@ else if (!repositoryPagina.erro)
 
                             if (!tellStory && Filtro != null)
                             {
-                                <span class="TextoInformativo">Pasta @Indice de @quantidadeLista</span>
+                                <span class="TextoInformativo">Pasta @Pasta de @quantidadeLista</span>
                             }
                             
                             if (Filtro == null)
