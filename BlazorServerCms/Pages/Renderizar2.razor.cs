@@ -52,6 +52,7 @@ namespace BlazorCms.Client.Pages
         private int? auto = 0;
         private int quantidadePaginas = 0;
         protected int quantDiv = 0;
+        protected int quantDivCriterio = 0;
         private Story _story = null;
         private Livro? livro = null;
         private string? title = null;
@@ -89,7 +90,9 @@ namespace BlazorCms.Client.Pages
         protected int chave = 0;
         protected int Versiculo = 0;
         protected int slideAtual = 0;
+        protected int slideAtualCriterio = 0;
         protected List<Content>[] array;
+        protected List<Filtro>[] array2;
         protected List<Content> listaContent = new List<Content>();
         protected bool tellStory = false;
         protected string inputs = "";

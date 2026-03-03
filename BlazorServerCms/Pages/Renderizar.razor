@@ -57,6 +57,40 @@ else if (!repositoryPagina.erro)
 
         <div class="menu row">
 
+            <div class="criterio col-md-12">
+
+                
+
+                @{
+                    for (var item = 0; item <  array2[0].Count; item++)
+                {
+                    @if(array2[0][item].Id == Filtro)
+                    {
+                        Pasta = (slideAtualCriterio * quantDivCriterio) + item + 1;
+                        <div class="DivCriterio text-center"
+                         style="background-color: rgb(255, 0, 0); font-size: 10px;">
+                         @if(!tellStory && Filtro != null)
+                         {
+                            @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                         }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="DivCriterio text-center"
+                         style="background-color: rgb(255, 255, 255); border: 1px solid black; font-size: 10px;"> 
+                           @if(!tellStory && Filtro != null)
+                            {
+                                @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                            }
+                        </div>
+                        
+                    }
+                }
+
+                }
+            </div>
+
             <div  class="pesquisas col-md-6" >
 
                     <div class="heade col-md-12">
@@ -317,45 +351,8 @@ else if (!repositoryPagina.erro)
             }
             
             
-            </div> 
+            </div>  
 
-            <div class="criterio col-md-12">
-
-                @{
-                    int p = 1;
-                    foreach (var item in listaFiltro
-                    .Where(f => f.FiltroId == Model2.FiltroId)
-                    .OrderBy(p => p.FiltroId)
-                    .ThenBy(p => p.Id)
-                    .ToList())
-                {
-                    @if(item.Id == Filtro)
-                    {
-                        Pasta = p;
-                        <div class="DivCriterio text-center"
-                         style="background-color: rgb(255, 0, 0); font-size: 10px;">
-                         @if(!tellStory && Filtro != null)
-                         {
-                            @p 
-                         }
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="DivCriterio text-center"
-                         style="background-color: rgb(255, 255, 255); border: 1px solid black; font-size: 10px;"> 
-                           @if(!tellStory && Filtro != null)
-                            {
-                                @p 
-                            }
-                        </div>
-                        
-                    }
-                    p++;
-                }
-
-                }
-            </div>
              
 
         </div>

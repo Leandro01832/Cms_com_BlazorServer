@@ -31,17 +31,20 @@ namespace BlazorCms.Client.Pages
         }
     }
 
-        private async Task<int> marcarIndice()
+        private async Task<int> marcarIndice(bool criterio)
         {
             try
             {
                 string? num = await js.InvokeAsync<string>("retornarlargura", "url");
 
                 var largura = int.Parse(num);
-                if (largura > 500)
+                if (!criterio)
                     quantDiv = ((19 * largura) / 1024);
                 else
-                    quantDiv = ((13 * largura) / 344);
+                {
+                    quantDiv = ((9 * largura) / 1024);
+                    quantDivCriterio = quantDiv;
+                }
 
                 return quantDiv;
 
@@ -376,13 +379,20 @@ namespace BlazorCms.Client.Pages
                 }
             }
 
+                int slideAtivo = 0;
+                var fils = listaFiltro
+                    .Where(f => f.FiltroId == Filtro)
+                    .OrderBy(p => p.FiltroId)
+                    .ThenBy(p => p.Id)
+                    .ToList();
+                    var f = fils.FirstOrDefault(f => f.Id == Filtro);
+                    var p = fils.IndexOf(f) + 1;
 
-            if (Indice > quantidadeLista)
-                quantDiv = await marcarIndice();
-            else
-                quantDiv = await marcarIndice();
-            int slideAtivo = (Indice - 1) / quantDiv;
-            slideAtual = slideAtivo;
+                
+                slideAtual = (Indice - 1) / await marcarIndice(false);
+                
+                slideAtualCriterio = (p - 1) / await marcarIndice(true);
+
 
             if (Filtro != null && RepositoryPagina.Conteudo!
                 .Where(c => c is Pagina && c.Filtro != null &&
@@ -597,18 +607,41 @@ namespace BlazorCms.Client.Pages
             markup = new MarkupString(html);
 
             // 2. Prepara o array de Conteúdo para o componente de Paginação (se aplicável)
-            array = new List<Content>[2];
-            if (listaContent.Count != 0 && listaContent[0] != null)
-                listaContent = listaContent.OrderBy(c => c.Id).ToList();
             
-            if (array[0] == null)
-                array[0] = new List<Content>();
+            array = new List<Content>[2]; 
             
-            // Adiciona o primeiro slide/página de conteúdos ao array[0]
-            if (listaContent.Count > quantDiv)
-                array[0].AddRange(listaContent.Take(quantDiv).ToList());
-            else
-                array[0].AddRange(listaContent);
+            array2 = new List<Filtro>[2];
+
+            
+                if (listaContent.Count != 0 && listaContent[0] != null)
+                    listaContent = listaContent.OrderBy(c => c.Id).ToList();
+                
+                if (array[0] == null)
+                    array[0] = new List<Content>();
+                
+                // Adiciona o primeiro slide/página de conteúdos ao array[0]
+                if (listaContent.Count > quantDiv)
+                    array[0].AddRange(listaContent.Take(quantDiv).ToList());
+                else
+                    array[0].AddRange(listaContent);                
+            
+            
+                if (array2[0] == null)
+                    array2[0] = new List<Filtro>();
+                var fils = listaFiltro
+                    .Where(f => f.FiltroId == Model2.FiltroId)
+                    .OrderBy(p => p.FiltroId)
+                    .ThenBy(p => p.Id)
+                    .ToList();
+
+                // Adiciona o primeiro slide/página de conteúdos ao array[0]
+                if (fils.Count > quantDiv)
+                    array2[0].AddRange(fils.Skip(quantDiv * slideAtualCriterio)
+                    .Take(quantDiv).ToList());
+                else
+                    array2[0].AddRange(fils);  
+            
+
 
             // 3. Ajusta a classe CSS baseada no tamanho do número da página/verso
             int numeroParaVerificar = Filtro == null ? Indice : (int)vers!;
