@@ -150,6 +150,7 @@ namespace BlazorCms.Client.Pages
                 listaFiltro
                 .Where(f => f.FiltroId == Model2.FiltroId)
                 .OrderBy(p => p.FiltroId)
+                .OrderBy(p => p.CriterioId == null)
                 .ThenBy(p => p.Id)
                 .ToList()[p - 1].Id;
                 acessar();

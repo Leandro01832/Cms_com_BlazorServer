@@ -54,9 +54,6 @@ else if (!repositoryPagina.erro)
     <div class="container" >
 
       
-
-        <div class="menu row">
-
             <div class="criterio col-md-12">
 
                 
@@ -75,6 +72,16 @@ else if (!repositoryPagina.erro)
                          }
                         </div>
                     }
+                    else if(array2[0][item].CriterioId == null)
+                    {
+                        <div class="DivCriterio text-center"
+                         style="background-color: rgb(255, 234, 0); border: 1px solid black; font-size: 10px;"> 
+                           @if(!tellStory && Filtro != null)
+                            {
+                                @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                            }
+                        </div>                        
+                    }
                     else
                     {
                         <div class="DivCriterio text-center"
@@ -83,13 +90,15 @@ else if (!repositoryPagina.erro)
                             {
                                 @((slideAtualCriterio * quantDivCriterio) + item + 1) 
                             }
-                        </div>
-                        
+                        </div>   
                     }
                 }
 
                 }
-            </div>
+            </div> 
+
+        <div class="menu row">
+
 
             <div  class="pesquisas col-md-6" >
 

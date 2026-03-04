@@ -145,6 +145,7 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.UserModel)!
                     .Where(f => f.LivroId == null && f.StoryId == _story.Id)
                     .OrderBy(p => p.FiltroId)
+                    .OrderBy(p => p.CriterioId == null)
                     .ThenBy(p => p.Id)
                     .ToListAsync();
             else
@@ -158,6 +159,7 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.UserModel)!
                     .Where(f => f.LivroId == livro.Id && f.StoryId == _story.Id)
                     .OrderBy(p => p.FiltroId)
+                    .OrderBy(p => p.CriterioId == null)
                     .ThenBy(p => p.Id)
                     .ToListAsync();
                     
@@ -383,6 +385,7 @@ namespace BlazorCms.Client.Pages
                 var fils = listaFiltro
                     .Where(f => f.FiltroId == Filtro)
                     .OrderBy(p => p.FiltroId)
+                    .OrderBy(p => p.CriterioId == null)
                     .ThenBy(p => p.Id)
                     .ToList();
                     var f = fils.FirstOrDefault(f => f.Id == Filtro);
@@ -475,6 +478,7 @@ namespace BlazorCms.Client.Pages
                 quantidadeLista = listaFiltro
                     .Where(f => f.FiltroId == Model2.FiltroId)
                     .OrderBy(p => p.FiltroId)
+                    .OrderBy(p => p.CriterioId == null)
                     .ThenBy(p => p.Id)
                     .ToList().Count;
             }
@@ -631,6 +635,7 @@ namespace BlazorCms.Client.Pages
                 var fils = listaFiltro
                     .Where(f => f.FiltroId == Model2.FiltroId)
                     .OrderBy(p => p.FiltroId)
+                    .OrderBy(p => p.CriterioId == null)
                     .ThenBy(p => p.Id)
                     .ToList();
 
