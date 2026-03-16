@@ -40,13 +40,8 @@
                     <div class="pensar2">
                         <div class="markup">
                             <a @onclick="() => showModal = usuario != null && usuario.Identity!.IsAuthenticated
-                                && usuario.Identity!.Name == usermodel.UserName">
-                                 @if(teste)
-                                 {
-                                    @markup 
-                                   
-                                 }
-                                 
+                                && usuario.Identity!.Name == usermodel.UserName">                               
+                                    @markup                                
                                  </a>
 
                         </div>
@@ -384,7 +379,7 @@
     private string Html = "";
     private string descricao = "";
     private string pensamento = "";
-    private bool teste = false;
+    
     List<Story>[] array;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -471,7 +466,6 @@
         else
         {
             exibirChave(usermodel.Compartilhar);
-
             markup = new MarkupString(usermodel.Compartilhar);
             confirmar = "Excluir";
             pensamento = "pensar";
@@ -503,8 +497,6 @@
             confirmar = "Excluir";
             pensamento = "pensar";
             title = "Excluir pensamento";
-
-            exibirChave(usermodel.Compartilhar);
 
             markup = new MarkupString(usermodel.Compartilhar);
             await js!.InvokeAsync<object>("DarAlert", "Compartilhamento feito com sucesso!!!");
@@ -546,8 +538,9 @@
         {
             string prompted = await js.InvokeAsync<string>("prompt", "Informe os versiculos para marcar.");
 
-            var filtros = await Context.Filtro!
+            var filtros = await Context.SubFiltro!
              .OrderBy(f => f.Id)
+             .Include(f => f.Criterio)!
              .Include(f => f.Pagina)!
              .ThenInclude(f => f.Content)
              .Where(f => f.LivroId == livro.Livro.Id)
@@ -556,7 +549,7 @@
             if (prompted.Contains(","))
             {
                 var arr = prompted.Replace(" ", "").Split(",");
-                bool teste = true;
+                bool test = true;
                 int[] numeros = new int[arr.Length];
 
                 for (var i = 0; i < arr.Length; i++)
@@ -568,12 +561,12 @@
                     catch (Exception)
                     {
                         await js!.InvokeAsync<object>("DarAlert", "Informe apenas numeros separando por virgula");
-                        teste = false;
+                        test = false;
                         break;
                     }
                 }
 
-                if(teste)
+                if(test)
                 {
                     carregando = repositoryPagina.quantSlidesCarregando / arr.Length;
                     for(var j = 0; j < numeros.Length; j++)
@@ -581,11 +574,15 @@
                         if (usermodel.Compartilhar != null)
                         {
                             foreach (var item in filtros)
-                                if (usermodel.Compartilhar.Contains(item.Nome) && item.Pagina != null &&
-                                item.Pagina.FirstOrDefault(p => p.Content is Pagina &&
-                                    retornarVerso(p.Content) == numeros[j]) != null)
+                                if (usermodel.Compartilhar.Contains(item.Nome))
                                 {
-                                    fil = item;
+                                    var cri = Context.Criterio!
+                                    .Include(c => c.Filtro)
+                                    .Include(c => c.Content)
+                                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == numeros[j]);
+                                    var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
+                                    fil = filtros.FirstOrDefault(f => f.Id == fi);
+                                    versiculo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
                                     break;
                                 }
                         }
@@ -622,14 +619,14 @@
 
                 if (usermodel.Compartilhar != null)
                 {
-                    foreach (var item in filtros)
-                        if (usermodel.Compartilhar.Contains(item.Nome) && item.Pagina != null &&
-                        item.Pagina.FirstOrDefault(p => p.Content is Pagina &&
-                            retornarVerso(p.Content) == versiculo) != null)
-                        {
-                            fil = item;
-                            break;
-                        }
+                    var cri = Context.Criterio!
+                    .Include(c => c.Filtro)
+                    .Include(c => c.Content)
+                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == versiculo);
+                    var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
+                    fil = filtros.FirstOrDefault(f => f.Id == fi);
+                           versiculo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
+                    
                 }
 
                 if (fil == null)
@@ -660,7 +657,7 @@
         return p.Versiculo;
     }
 
-    private async void exibirChave(string text)
+   private async void exibirChave(string text)
     {
         string texto = text;
         string padrao = @"\(([^)]*)\)"; // Entre parenteses
@@ -688,10 +685,14 @@
                 var arr = match.Groups[1].Value.Split(',');
                 foreach (var item in arr)
                 {
-                    if (lista.FirstOrDefault(f => item.ToLower().Contains(f.Nome!.ToLower())) != null)
+                    if (int.TryParse(item, out int num))
                     {
                        
-                            var fi = lista.FirstOrDefault(f => item.ToLower().Contains(f.Nome.ToLower()));
+                            var cri = Context.Criterio!
+                    .Include(c => c.Filtro)
+                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == num);
+
+                    var fi = lista.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId);
                             var fil = Context.Filtro!
                             .Include(f => f.Livro)!
                             .Include(f => f.Pagina)!
@@ -700,8 +701,8 @@
                             var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
                             if(ch != null)
                             {
-                                Chave chave = (Chave)ch!.Content!;
-                            usermodel.Compartilhar = usermodel.Compartilhar!.Replace(item, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + item + $" - {chave.Versiculo}</span>");
+                                Chave chave = (Chave)(Chave)cri.Content!;
+                                usermodel.Compartilhar += usermodel.Compartilhar!.Replace(item, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}'>  " + item + ",  </span>");
                             }
                         
                     }
@@ -710,9 +711,14 @@
             else
             {
                 var value = match.Groups[1].Value;
-                if(lista.FirstOrDefault(f => value.ToLower().Contains(f.Nome!.ToLower())) != null)
+                if(int.TryParse(value, out int num))
                 {
-                    var fi = lista.FirstOrDefault(f => value.ToLower().Contains(f.Nome!.ToLower()));
+                    var cri = Context.Criterio!
+                    .Include(c => c.Filtro)
+                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == num);
+
+                    var fi = lista.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId);
+                   
                     var fil = Context.Filtro!
                             .Include(f => f.Livro)!
                             .Include(f => f.Pagina)!
@@ -721,14 +727,13 @@
                         var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
                         if(ch != null)
                         {
-                            Chave chave = (Chave)ch!.Content!;
-                        usermodel.Compartilhar = usermodel.Compartilhar!.Replace(value, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + $" - {chave.Versiculo}</span>");
+                            Chave chave = (Chave)cri!.Content!;
+                        usermodel.Compartilhar = usermodel.Compartilhar!.Replace(value, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + "</span>");
                         }
                 }
             }
         }
-        markup = new MarkupString(usermodel.Compartilhar);
-        teste = true;
+        markup = new MarkupString(usermodel.Compartilhar);        
     }
 
      private int retornarPosicaoVerso(Filtro filtro, int versiculo)

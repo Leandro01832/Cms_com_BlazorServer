@@ -1,15 +1,15 @@
 
--- exibe todas as pastas que não tem versiculos
+-- exibe todas as pastas que nï¿½o tem versiculos
 select F.Id, F.Nome, C.Versiculo from Filtro as F 
 left join FiltroContent as FC on F.Id=FC.FiltroId
 left join Content as C on C.Id=FC.ContentId
 where C.Versiculo is null 
 
 -- exibe todas as pastas que tem versiculos
-select F.Id, F.Nome, C.Versiculo from Filtro as F 
+select F.Id, F.Nome, F.CriterioId, C.Versiculo from Filtro as F 
 inner join FiltroContent as FC on F.Id=FC.FiltroId
 inner join Content as C on C.Id=FC.ContentId
-where C.Discriminator='Chave'
+where C.Discriminator='Chave' order by F.CriterioId
 
 select * from Content where Discriminator='Chave'
 

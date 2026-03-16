@@ -318,23 +318,7 @@ namespace BlazorCms.Client.Pages
             return await GetYouTubeVideoDurationAsync(id_video);
         }
 
-        protected async void acessarPasta()
-        {
-            indice_Filtro = Indice;
-
-            if (Model2!.Pagina == null || Model2.Pagina.Count == 0)
-            {
-                automatico = false;
-                await js!.InvokeAsync<object>("DarAlert", $"Esta pasta não possui versiculos");
-                acessar();
-            }
-            else
-            {
-                Filtro = Model2.Id;
-                acessar();
-            }
-
-        }
+        
 
         protected void listarPasta()
         {
@@ -540,7 +524,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarVerso()
         {
             indice_Filtro = 0;
-            Indice = (int)vers!;
+            Indice = Versiculo;
             Filtro = null;
             ultimaPasta = false;
             acessar();
@@ -616,7 +600,7 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                opcional = vers.ToString();
+                opcional = retornarVerso(Model2.Criterio.Content).ToString();
             }
 
             fils = listaFiltro.Where(f => f.Pagina != null)
@@ -804,7 +788,7 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                acessar($"/pastas/{storyid}/{vers}/{dominio}");
+                acessar($"/pastas/{storyid}/{retornarVerso(Model2.Criterio.Content)}/{dominio}");
 
             }
         }

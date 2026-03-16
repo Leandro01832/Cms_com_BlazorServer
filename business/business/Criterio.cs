@@ -6,7 +6,9 @@ using business.business.Book;
 
 public class Criterio : BaseModel
 {   
-
+    [Key, ForeignKey("Content")]
+    public new Int64 Id { get; set; }
+    public virtual Content Content { get; set; }
     public virtual List<Filtro> Filtro { get; set; }
     public long CamadaId { get; set; }
     public virtual Camada Camada { get; set; }

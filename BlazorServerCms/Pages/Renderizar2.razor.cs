@@ -134,7 +134,7 @@ namespace BlazorCms.Client.Pages
         
 
         protected int? indice_Filtro { get; set; }
-        protected int? vers { get; set; }
+       
 
         public int retroceder { get; set; } = 0;
 

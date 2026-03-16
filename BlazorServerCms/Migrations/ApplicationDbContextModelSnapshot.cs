@@ -104,9 +104,6 @@ namespace BlazorServerCms.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long?>("CriterioId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
@@ -137,8 +134,6 @@ namespace BlazorServerCms.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CriterioId");
 
                     b.HasIndex("LivroId");
 
@@ -708,10 +703,7 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("Criterio", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
@@ -1023,10 +1015,6 @@ namespace BlazorServerCms.Migrations
 
             modelBuilder.Entity("business.business.Content", b =>
                 {
-                    b.HasOne("Criterio", "Criterio")
-                        .WithMany()
-                        .HasForeignKey("CriterioId");
-
                     b.HasOne("business.business.Book.Livro", "Livro")
                         .WithMany("Content")
                         .HasForeignKey("LivroId");
@@ -1036,8 +1024,6 @@ namespace BlazorServerCms.Migrations
                         .HasForeignKey("StoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Criterio");
 
                     b.Navigation("Livro");
 
@@ -1308,11 +1294,19 @@ namespace BlazorServerCms.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("business.business.Content", "Content")
+                        .WithOne("Criterio")
+                        .HasForeignKey("Criterio", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("business.business.Book.Livro", "Livro")
                         .WithMany("Criterio")
                         .HasForeignKey("LivroId");
 
                     b.Navigation("Camada");
+
+                    b.Navigation("Content");
 
                     b.Navigation("Livro");
                 });
@@ -1451,6 +1445,8 @@ namespace BlazorServerCms.Migrations
             modelBuilder.Entity("business.business.Content", b =>
                 {
                     b.Navigation("Comentario");
+
+                    b.Navigation("Criterio");
 
                     b.Navigation("Filtro");
 
