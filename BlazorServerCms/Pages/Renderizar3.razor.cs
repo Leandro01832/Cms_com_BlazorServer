@@ -619,7 +619,7 @@ namespace BlazorCms.Client.Pages
                 liked = false;
         }
 
-        private void FinalizarVariaveisUI()
+        private async void FinalizarVariaveisUI()
         {
             // 1. Converte o HTML final em MarkupString para renderização no Blazor
             markup = new MarkupString(html);
@@ -717,8 +717,16 @@ namespace BlazorCms.Client.Pages
                     }
                     else
                     Versiculo = retornarVerso(Model);
-                
-            
+
+            try
+            {
+                int porc = 100 * Indice / quantidadeLista;                
+                await js!.InvokeAsync<object>("PreencherProgressBar2", porc);                
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Erro ao preencher progress bar: " + ex.Message);
+            }
 
             // 6. Define a classe CSS para inputs
             if(Content)

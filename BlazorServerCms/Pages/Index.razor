@@ -123,7 +123,7 @@
                         <span>Instagleo - </span>
                     }
                     <span> Cap. @item.Story!.Capitulo - </span>
-                    <span> ( @item.Nome ) Versículo @retornarVerso(item.Pagina!.First(p => p.Content is Chave).Content!)</span>
+                    <span> ( @item.Nome ) Versículo @retornarVersoComCriterio(item)</span>
 
                 </a>
             </p>
@@ -194,8 +194,8 @@
     [Parameter] public string? indice { get; set; }
     public string? Query { get; set; }
     public string? Usuario { get; set; }
-    List<Filtro>? filtros = new List<Filtro>();
-    List<Filtro>? filtros2 = new List<Filtro>();
+    List<SubFiltro>? filtros = new List<SubFiltro>();
+    List<SubFiltro>? filtros2 = new List<SubFiltro>();
     List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
    
     private DemoContextFactory db = new DemoContextFactory();
@@ -217,25 +217,7 @@
    
 
     protected override async Task OnParametersSetAsync()
-    {
-        if (livro == null)
-            filtros2 = await Context.Filtro!
-            .Include(f => f.Story)
-            .Include(f => f.Pagina)!
-            .ThenInclude(f => f.Content)
-            .Where(f => f.StoryId == _story.Id && f.LivroId == null)
-            .OrderBy(f => f.Id)
-            .ToListAsync();
-        else
-            filtros2 = await Context.Filtro!
-           .Include(f => f.Story)
-           .Include(f => f.Pagina)!
-           .ThenInclude(f => f.Content)
-           .Where(f => f.StoryId == _story.Id && f.LivroId == livro.Id)
-           .OrderBy(f => f.Id)
-           .ToListAsync();
-
-        filtros2.Reverse();
+    {        
         try
         {
             repositoryPagina.CapituloLivro = 1;
@@ -282,7 +264,7 @@
         if (nomeLivro != null)
             livro = await Context.Livro.FirstOrDefaultAsync(l => l.Nome == nomeLivro);
 
-        repositoryPagina.exibir = true;
+        repositoryPagina.exibir = true;        
 
         if (_story == null)
         {
@@ -290,15 +272,19 @@
                      .FirstOrDefaultAsync(p => p.Capitulo == repositoryPagina.CapituloLivro)!;
         }
 
+        filtros2 = await Context.SubFiltro!
+            .Include(f => f.Criterio)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Story)
+            .Include(f => f.Livro)
+            .ToListAsync();
 
 
         if(livro != null && capitulo != null )
         {
-            var filtros = await Context.Filtro!
-             .Include(f => f.Story)
-             .Include(f => f.usuarios)
-             .Where(f => f.Rotas!.ToLower().Contains(Query!.ToLower()) && f.LivroId == livro.Id)
-             .ToListAsync();
+            
             var str = RepositoryPagina.stories.FirstOrDefault(st => st.Capitulo == capitulo);
             if(str != null)
                 navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Capitulo}/{indice}/comp");
@@ -313,27 +299,17 @@
 
     private async void Acessar(Filtro item)
     {
-        List<Filtro> filtros = null;
-        if(livro == null)
-            filtros = Context.Filtro!.Where(p => p.LivroId == null).ToList();
-        else 
-            filtros = Context.Filtro!
-            .Include(f => f.Pagina)!
-            .ThenInclude(f => f.Content)            
-            .Where(p => p.LivroId == livro.Id).ToList();
-        var fil = filtros!.First(f => f.Id == item.Id);
-        var chave = fil.Pagina.FirstOrDefault(p => p.Content is Chave);
-
-        if(chave != null)
-        {
-            Chave ch = (Chave)chave.Content!;
+        
+       var fil = filtros2!.First(f => f.FiltroId == item.Id);
+        
+            Chave ch = (Chave)fil.Criterio.Content!;
             var str = Context.Story.First(s => s.Id == item.StoryId);
 
-        if(item.Livro == null && chave != null)
-            navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/comp/{fil.Id}");
+        if(item.Livro == null && ch != null)
+            navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/comp/{item.Id}");
         else
-            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/comp/{fil.Id}");
-        }
+            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/comp/{item.Id}");
+        
 
     }
 
@@ -342,7 +318,9 @@
 
         if (!string.IsNullOrEmpty(Query))
                 {
-                    filtros = await Context.Filtro!
+                    filtros = await Context.SubFiltro!
+                    .Include(f => f.Criterio)!
+                    .ThenInclude(f => f.Content)
                     .Include(f => f.Pagina)!
                     .ThenInclude(f => f.Content)
                     .Include(f => f.Story)
@@ -405,7 +383,7 @@
                 }
         else if (string.IsNullOrEmpty(Query))
                 {
-                    filtros = new List<Filtro>();
+                    filtros = new List<SubFiltro>();
                 }            
     }
 
@@ -443,6 +421,17 @@
     {
         Pagina pag = (Pagina)c;
         return pag.Versiculo;
+    }
+
+    private int retornarVersoComCriterio(Filtro c)
+    {
+        var f = filtros2!.FirstOrDefault(f => f.FiltroId == c.Id);
+        if (f == null) return 0;
+        else
+        {
+            var retorno = retornarVerso(f.Criterio.Content!);
+            return retorno;
+        }
     }
 
     private async Task DispararFluxo()

@@ -12,14 +12,20 @@ namespace BlazorServerCms.Data
     {
         public static string _connectionString = "";
 
-        public ApplicationDbContext(string connectionString)
+        public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
         {
-            _connectionString = connectionString;
+            Configuration = configuration;
+            Environment = environment;
+            string rootPath = Environment.ContentRootPath;
+            // 2. Define o caminho completo do arquivo .mdf (ex: na raiz do projeto)
+            string fullDbPath = Path.Combine(rootPath, "cms.mdf");
+            _connectionString = Configuration.GetConnectionString("DefaultConnection")
+            .Replace("{PATH}", fullDbPath);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlite(_connectionString);
         }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -61,6 +67,8 @@ namespace BlazorServerCms.Data
         public DbSet<Telefone>? Telefone { get; set; }
         public DbSet<Livro>? Livro { get; set; }       
         public DbSet<Compartilhante>? Compartilhante { get; set; }
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

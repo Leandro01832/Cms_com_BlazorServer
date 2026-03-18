@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {}
+    "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {
+    "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+        "projectUniqueName": "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
         "projectName": "BlazorServerCms",
-        "projectPath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+        "projectPath": "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\obj\\",
+        "outputPath": "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
-                "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj"
+              "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
+                "projectPath": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj"
               }
             }
           }
@@ -92,15 +92,25 @@
               "target": "Package",
               "version": "[9.0.8, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "Microsoft.Data.Sqlite": {
               "target": "Package",
-              "version": "[6.0.23, )"
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.23, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
@@ -142,18 +152,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
+    "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
+        "projectUniqueName": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
         "projectName": "business",
-        "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
+        "projectPath": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Documents\\teste\\business\\obj\\",
+        "outputPath": "c:\\Users\\DELL\\Documents\\teste\\business\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -233,7 +243,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312\\RuntimeIdentifierGraph.json"
         }
       }
     }

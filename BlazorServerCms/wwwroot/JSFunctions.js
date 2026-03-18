@@ -202,6 +202,8 @@ function myStopFunction2() {
     clearInterval(funcaoCarregarPagina2);
 }
 
+
+
 window.PreencherProgressBar = (m) =>
 {
     var time = parseInt(m);
@@ -242,6 +244,17 @@ const intervalo = setInterval(() => {
         
 
            
+}
+
+window.PreencherProgressBar2 = (m) =>
+{
+    let progresso = document.querySelector(".progressbar2 div"); 
+
+        if (progresso)
+        {
+            progresso.setAttribute("style", "width: " + m + "%");   
+        } 
+       
 }
 
 window.Clicou = (m) => {

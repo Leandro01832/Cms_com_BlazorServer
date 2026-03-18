@@ -466,10 +466,10 @@
         var _TotalRegistros = 0;
         try
         {
-            using (var con = new SqlConnection(ApplicationDbContext._connectionString))
+            using (var con = new SqliteConnection(ApplicationDbContext._connectionString))
             {
-                SqlCommand cmd = null;
-                cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
+                SqliteCommand cmd = null;
+                cmd = new SqliteCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
                          " inner join Content as C on FC.ContentId=C.Id where " +
                         $" FC.FiltroId={Id} and C.Discriminator='Pagina' or " +
                         $" FC.FiltroId={Id} and C.Discriminator='AdminContent' or " +

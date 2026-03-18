@@ -2588,11 +2588,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
+      "projectUniqueName": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
       "projectName": "business",
-      "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
+      "projectPath": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\DELL\\Documents\\teste\\business\\obj\\",
+      "outputPath": "c:\\Users\\DELL\\Documents\\teste\\business\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2672,7 +2672,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -2681,7 +2681,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "O pacote 'Newtonsoft.Json' 12.0.1 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
+      "message": "Package 'Newtonsoft.Json' 12.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
       "libraryId": "Newtonsoft.Json",
       "targetGraphs": [
         "net6.0"

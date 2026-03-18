@@ -15,6 +15,11 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+
+// 3. Lê a string de conexão e substitui o placeholder pelo caminho real
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    ApplicationDbContext._connectionString = connectionString;
+
 // Add services to the container.
 
 builder.Services.AddScoped<IStoryService, StoryService>();
@@ -24,10 +29,11 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<BlazorTimer>();
 builder.Services.AddSingleton<ChatGpt>();
-var connectionString =
-builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+// var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+ //  options.UseSqlServer(connectionString));
+     builder.Services.AddDbContext<ApplicationDbContext>(options => 
+     options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
 .AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -81,6 +87,14 @@ builder.Services.AddHttpClient("n8nClient", client =>
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    // Isso cria o arquivo .db e as tabelas se eles não existirem
+   // context.Database.EnsureCreated(); 
+}
 
 app.UseSession();
 

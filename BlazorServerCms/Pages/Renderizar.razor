@@ -64,11 +64,13 @@ else if (!repositoryPagina.erro)
                     @if(array2[0][item].Id == Filtro)
                     {
                         Pasta = (slideAtualCriterio * quantDivCriterio) + item + 1;
-                        <div class="DivCriterio text-center"
-                         style="background-color: rgb(255, 0, 0); font-size: 10px;">
-                         @if(!tellStory && Filtro != null)
+                        <div class="DivCriterio text-center progressbar2"
+                         style="font-size: 10px;">
+                         @if(Filtro != null)
                          {
-                            @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                            <div style="position: absolute;">
+                                 @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                            </div>
                          }
                         </div>
                     }
