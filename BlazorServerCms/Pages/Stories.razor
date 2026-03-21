@@ -523,6 +523,7 @@
         int versiculo = 1;
         int carregando = 40;
         Filtro? fil = null;
+            int itemConteudo = 0;
 
         if(livro == null && str.Capitulo == 1)
         {
@@ -537,7 +538,6 @@
         if (livro != null)
         {
             string prompted = await js.InvokeAsync<string>("prompt", "Informe os versiculos para marcar.");
-
             var filtros = await Context.SubFiltro!
              .OrderBy(f => f.Id)
              .Include(f => f.Criterio)!
@@ -582,7 +582,7 @@
                                     .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == numeros[j]);
                                     var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
                                     fil = filtros.FirstOrDefault(f => f.Id == fi);
-                                    versiculo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
+                                    itemConteudo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
                                     break;
                                 }
                         }
@@ -592,7 +592,7 @@
                             .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
 
                         if(fil != null)                        
-                            url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{numeros[j]}/{user}/{fil.Id}";
+                            url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{numeros[j]}/{itemConteudo}/{user}";
                             
                         
                         if(url != null)
@@ -625,7 +625,7 @@
                     .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == versiculo);
                     var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
                     fil = filtros.FirstOrDefault(f => f.Id == fi);
-                           versiculo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
+                           itemConteudo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
                     
                 }
 
@@ -637,7 +637,7 @@
                 if (fil != null)
                 {
                     int posicao = retornarPosicaoVerso(fil, versiculo);
-                    url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{user}/{fil.Id}";
+                    url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";
                    
                 }
                 if(url != null)

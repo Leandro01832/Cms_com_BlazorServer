@@ -301,14 +301,15 @@
     {
         
        var fil = filtros2!.First(f => f.FiltroId == item.Id);
+       var itemContent = repositoryPagina.random.Next(1, fil.Pagina.Count());
         
             Chave ch = (Chave)fil.Criterio.Content!;
             var str = Context.Story.First(s => s.Id == item.StoryId);
 
         if(item.Livro == null && ch != null)
-            navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/comp/{item.Id}");
+            navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
         else
-            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/comp/{item.Id}");
+            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}{itemContent}/comp");
         
 
     }

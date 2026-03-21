@@ -1,9 +1,9 @@
 ﻿@page "/renderizar"
 @page "/morecontent/{contentid:long?}"
-@page "/renderizar/{storyid:int}/{Indice:int}/{Compartilhou}/{Filtro:long?}"
-@page "/renderizar/{nomeLivro}/{storyid:int}/{Indice:int}/{Compartilhou}/{Filtro:long?}"
-@page "/renderizar/{nomeLivro}/{storyid:int}/{Indice:int}/{Compartilhou}/{rotas}"
-@page "/renderizar/{storyid:int}/{Indice:int}/{Compartilhou}/{rotas}"
+@page "/renderizar/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}"
+@page "/renderizar/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}"
+@page "/renderizar/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}/{rotas}"
+@page "/renderizar/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}/{rotas}"
 @using NVelocity.Runtime.Directive
 @inherits RenderizarBase
 @layout MeuLayout
@@ -136,7 +136,8 @@ else if (!repositoryPagina.erro)
                                             <header>
                                                 @if(InfoSemCriterio)
                                                 {
-                                                  <a onclick="@ativarModal">@nameGroup2 - @nameGroup</a>  
+                                                    <a onclick="@Agrupar">  @nameGroup2 -  </a>  
+                                                    <a onclick="@ativarModal">    @nameGroup</a>  
                                                 }
                                                 else if(Model2.CriterioId == null)
                                                 {
@@ -144,7 +145,8 @@ else if (!repositoryPagina.erro)
                                                 }
                                                 else
                                                 {
-                                                    <span>@nameGroup2 - @nameGroup</span>                                                    
+                                                    <a onclick="@Agrupar">@nameGroup2 - </a>                                                    
+                                                    <a onclick="@Filtrar">@nameGroup</a>                                                    
                                                 }
 
                                             @if (tellStory)
@@ -167,7 +169,10 @@ else if (!repositoryPagina.erro)
                                             <span>
                                                 - Capítulo @cap 
                                             <span class="versos">
-                                                <a onclick="@(() => acessarVerso())" class="btn">
+                                                <a onclick="@(() => acessarVerso())" class="btn btn-primary">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                                                    <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                                    </svg>
                                                     Versículo @Versiculo
                                                 </a>
                                             </span>
@@ -344,13 +349,13 @@ else if (!repositoryPagina.erro)
                         </a>
                     }
                 } 
-           <a onclick="@acessarChave" class="chave btn btn-primary"> 
+           @* <a onclick="@acessarChave" class="chave btn btn-primary"> 
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
                 <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                 </svg>
                 @chave
-           </a>
+           </a> *@
 
                  if(Filtro != null)
                 {
@@ -490,7 +495,7 @@ else if (!repositoryPagina.erro)
                     }
                     else if (Model != null && id_video == null )
                     { 
-                        if(Model is Chave && Model.Criterio != null)
+                        if(Model is Chave && Model.Criterio != null && Filtro == null)
                         {
                             <p>@Model.Criterio.Descricao</p> 
                         }     
@@ -537,7 +542,7 @@ else if (!repositoryPagina.erro)
 
                             if (!tellStory && Filtro != null)
                             {
-                                <span class="TextoInformativo">Pasta @Pasta de @quantidadeLista</span>
+                                <span class="TextoInformativo">Pasta @Pasta de @quantidadeFiltro</span>
                             }
                             
                             if (Filtro == null)
@@ -762,6 +767,7 @@ else
         
         @if(Model2 != null && Model2.Criterio != null)
         {
+             <a onclick="@Filtrar"> filtrar @nameGroup</a>  
           <p>  Critério de @Model2!.Nome: @Model2.Criterio!.Descricao</p>
             <h4><strong>Informações sem critério de @Model2!.Nome</strong></h4>
 

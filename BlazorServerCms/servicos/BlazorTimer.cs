@@ -35,10 +35,14 @@ namespace BlazorServerCms.servicos
 
         public void Dispose()
         {
+            if (_timer != null)
             _timer.Dispose();
+            if (_timerListaFiltro != null)
             _timerListaFiltro.Dispose();
+            if (_timerVitrine != null)
             _timerVitrine.Dispose();
-            desligarAuto!.Dispose();
+            if (desligarAuto != null)
+            desligarAuto.Dispose();
         }
     }
 }

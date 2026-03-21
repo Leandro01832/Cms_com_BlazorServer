@@ -23,7 +23,7 @@ namespace BlazorCms.Client.Pages
         {
             try
             {
-                if (p != null && p.Html != null )
+                if (p != null && p.Html != null)
                 {
                     if (p.Html.Contains("iframe"))
                     {
@@ -47,15 +47,15 @@ namespace BlazorCms.Client.Pages
                                 break;
                             }
                         }
-                         tempoVideo = await GetYouTubeVideo(id_video);
-                         await js!.InvokeAsync<object>("PreencherProgressBar", tempoVideo + 3000);
-                       
+                        tempoVideo = await GetYouTubeVideo(id_video);
+                        await js!.InvokeAsync<object>("PreencherProgressBar", tempoVideo + 3000);
+
                         Timer!.SetTimer(tempoVideo + 3000);
 
                     }
                     else
                     {
-                        await js!.InvokeAsync<object>("PreencherProgressBar", timeproduto * 1000);                        
+                        await js!.InvokeAsync<object>("PreencherProgressBar", timeproduto * 1000);
                         Timer!.SetTimer(timeproduto * 1000);
                     }
                 }
@@ -86,13 +86,13 @@ namespace BlazorCms.Client.Pages
 
                 if (args.Key == "Enter" && cap == 0)
                 {
-                    storyid = RepositoryPagina.stories!
+                    capitulo = RepositoryPagina.stories!
                     .OrderBy(str => str.Capitulo).Skip(1).ToList()[Indice - 1].Capitulo;
                     Indice = 1;
                 }
                 else if (args.Key == "Enter")
                 {
-                    storyid = RepositoryPagina.stories.First().Capitulo;
+                    capitulo = RepositoryPagina.stories.First().Capitulo;
                     var str = RepositoryPagina.stories.First(st => st.Id == _story.Id);
                     Indice = RepositoryPagina.stories.IndexOf(str);
                 }
@@ -110,7 +110,7 @@ namespace BlazorCms.Client.Pages
                 perguntar(Model2!.Id);
             }
         }
-      
+
 
         protected async void Casinha()
         {
@@ -145,7 +145,7 @@ namespace BlazorCms.Client.Pages
             {
                 Indice = 1;
                 int p = int.Parse(opcional);
-                Filtro = 
+                Filtro =
                 listaFiltro
                 .Where(f => f.FiltroId == Model2.FiltroId)
                 .OrderBy(p => p.FiltroId)
@@ -252,25 +252,25 @@ namespace BlazorCms.Client.Pages
         protected async void ativarConteudo()
         {
             if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c is UserContent &&
-            c.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null) != null) 
+            c.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null) != null)
             {
                 AlterouModel = true;
                 Content = true;
                 Indice = 1;
-              var resultado = await retornarListaFiltrada(null);
-              if(livro != null)
+                var resultado = await retornarListaFiltrada(null);
+                if (livro != null)
                 {
-                var lista = randomizar(resultado.OfType<UserContent>()
-                .Where(c => c is UserContent && 
-                c.LivroId == livro.Id && c.StoryId == _story.Id).ToList());
-                listaContent.AddRange(lista);
+                    var lista = randomizar(resultado.OfType<UserContent>()
+                    .Where(c => c is UserContent &&
+                    c.LivroId == livro.Id && c.StoryId == _story.Id).ToList());
+                    listaContent.AddRange(lista);
                 }
                 else
                 {
                     var lista = randomizar(resultado.OfType<UserContent>()
-                .Where(c => c is UserContent && 
+                .Where(c => c is UserContent &&
                 c.LivroId is null && c.StoryId == _story.Id).ToList());
-                listaContent.AddRange(lista);
+                    listaContent.AddRange(lista);
                 }
 
                 Model = listaContent.Where(c => c is UserContent)
@@ -283,17 +283,17 @@ namespace BlazorCms.Client.Pages
                 Content = false;
                 try
                 {
-                    await js!.InvokeAsync<object>("DarAlert", $"Não existe mais conteudo para esta história: {Model2!.Nome}.");                    
+                    await js!.InvokeAsync<object>("DarAlert", $"Não existe mais conteudo para esta história: {Model2!.Nome}.");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                
+
             }
 
             acessar();
-            
+
         }
 
         private void desabilitarAuto()
@@ -317,7 +317,7 @@ namespace BlazorCms.Client.Pages
             return await GetYouTubeVideoDurationAsync(id_video);
         }
 
-        
+
 
         protected void listarPasta()
         {
@@ -331,20 +331,20 @@ namespace BlazorCms.Client.Pages
             else
                 acessar($"/listar-pasta/{_story.Capitulo}");
         }
-        
-       
+
+
         protected int? buscarPastaFiltrada(int camada)
         {
             if (camada != 0)
             {
                 SubFiltro fl = null;
                 var fil = listaFiltro.FirstOrDefault(f => f.Id == Model2!.Id);
-                fl = listaFiltro!.First(f => f.Id == fil.Id);                    
+                fl = listaFiltro!.First(f => f.Id == fil.Id);
                 var pasta = listaFiltro!.IndexOf(fl) + 1;
                 return pasta;
             }
             else
-            return null;
+                return null;
         }
 
         protected async void buscarProximo()
@@ -353,7 +353,7 @@ namespace BlazorCms.Client.Pages
 
             long quant = 0;
             if (Filtro == null)
-                quant = CountPaginas();            
+                quant = CountPaginas();
             else
             {
                 List<Content> lista = null;
@@ -379,21 +379,21 @@ namespace BlazorCms.Client.Pages
                 acessar();
             }
             else
-            if (proximo <= quant)
-            {
-                Indice = proximo;
-                acessar();
-            }
-            else if (Filtro != null && !Content)
-                navegarSubgrupos(true);
-            else if(!Content)
-            {
-                cap++;
-                storyid = RepositoryPagina.stories
-                .First(str => str.Capitulo == cap).Capitulo;
-                Indice = 1;
-                acessar();
-            }
+                if (proximo <= quant)
+                {
+                    Indice = proximo;
+                    acessar();
+                }
+                else if (Filtro != null && !Content)
+                    navegarSubgrupos(true);
+                else if (!Content)
+                {
+                    cap++;
+                    capitulo = RepositoryPagina.stories
+                    .First(str => str.Capitulo == cap).Capitulo;
+                    Indice = 1;
+                    acessar();
+                }
         }
 
         private async void navegarSubgrupos(bool somenteSubgrupos)
@@ -434,27 +434,27 @@ namespace BlazorCms.Client.Pages
                 }
             }
             else
-            if (Indice == 1 && cap != 0)
-            {
-                if (Filtro != null)
+                if (Indice == 1 && cap != 0)
                 {
-                    Filtro fi = voltarSubgrupos();
-                    Filtro = fi.Id;
-                    var count = CountPagesInFilterAsync((long)Filtro, livro);
-                    Indice = count;
-                    retroceder = 1;
-                    alterouIdice = true;
-                }
+                    if (Filtro != null)
+                    {
+                        Filtro fi = voltarSubgrupos();
+                        Filtro = fi.Id;
+                        var count = CountPagesInFilterAsync((long)Filtro, livro);
+                        Indice = count;
+                        retroceder = 1;
+                        alterouIdice = true;
+                    }
 
-                if (Filtro == null)
-                {
-                    cap--;
-                    storyid = RepositoryPagina.stories
-                    .First(str => str.Capitulo == cap).Capitulo;
-                }
-                
+                    if (Filtro == null)
+                    {
+                        cap--;
+                        capitulo = RepositoryPagina.stories
+                        .First(str => str.Capitulo == cap).Capitulo;
+                    }
 
-            }
+
+                }
             if (Indice != 1 && rotas == null && !alterouIdice)
             {
                 var anterior = Indice - 1;
@@ -544,29 +544,45 @@ namespace BlazorCms.Client.Pages
             Indice = 1;
             Filtro = filtro;
             showModal = false;
-          //  chave = Versiculo;
+            //  chave = Versiculo;
             acessar();
         }
-        
+
         protected void UsuarioContar()
         {
             tellStory = true;
-            string padrao = @"\(([^)]*)\)"; 
+            string padrao = @"\(([^)]*)\)";
             var c = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
             Match match = Regex.Match(c.Compartilhar, padrao);
-            if(c.Compartilhar != null)
-            if (!match.Groups[1].Value.Contains(','))
-            {
-                Filtro = listaFiltro.FirstOrDefault(f => f.Pagina != null && f.Pagina.Count > 0
-                && f.Pagina.FirstOrDefault(p => p.Filtro.Nome.Contains(match.Value)) != null)!.Id;
-                Indice = 1;
-                acessar();                    
-            }
+            if (c.Compartilhar != null)
+                if (!match.Groups[1].Value.Contains(','))
+                {
+                    Filtro = listaFiltro.FirstOrDefault(f => f.Pagina != null && f.Pagina.Count > 0
+                    && f.Pagina.FirstOrDefault(p => p.Filtro.Nome.Contains(match.Value)) != null)!.Id;
+                    Indice = 1;
+                    acessar();
+                }
         }
 
         protected void ativarModal()
         {
-           showModal = true;
+            showModal = true;
+        }
+
+        protected void Agrupar()
+        {
+            AlterouModel = false;
+            Indice = 0;
+            Filtro = Model2!.FiltroId; 
+            acessar();
+        }
+
+        protected void Filtrar()
+        {
+            AlterouModel = false;
+            Indice = 0;
+            Filtro = Model2!.Criterio.Filtro.First().Id;
+            acessar();
         }
 
         protected async void desabilitarTellStory()
@@ -614,16 +630,16 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                for(var i = 1; i <11; i++)
+                for (var i = 1; i < 11; i++)
                 {
-                    if(camada == i)
+                    if (camada == i)
                     {
-                          fi = fils.Where(f => f.Camada.Numero==i && f.Pagina
-                        .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
+                        fi = fils.Where(f => f.Camada.Numero == i && f.Pagina
+                      .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
                         break;
                     }
                 }
-                
+
 
                 if (fi == null)
                     fi = fils.Where(f => f.Pagina!
@@ -650,13 +666,13 @@ namespace BlazorCms.Client.Pages
                 .OrderBy(f => f.FiltroId)
                 .ThenBy(f => f.Id)
                 .ToList().IndexOf(fi) + 1;
-                acessar(); 
+                acessar();
             }
         }
 
         private bool CountFiltros()
         {
-            return HasFiltersAsync((long)storyid!, livro);
+            return HasFiltersAsync((long)capitulo!, livro);
         }
 
         private int QuantFiltros()
@@ -671,15 +687,15 @@ namespace BlazorCms.Client.Pages
 
         private int CountPaginas()
         {
-            return CountPagesAsync((long)storyid!, livro);
+            return CountPagesAsync((long)capitulo!, livro);
         }
 
         private string colocarAutoPlay(string html)
         {
             var conteudoHtml = html;
             var arr = conteudoHtml!.Split("/");
-            
-            
+
+
             // for (var index = 0; index < arr.Length; index++)
             // {
             //     if (arr[index] == "embed")
@@ -691,7 +707,7 @@ namespace BlazorCms.Client.Pages
             //     }
             // }
 
-           // html = html.Replace(id_video, id_video + "?autoplay=1");
+            // html = html.Replace(id_video, id_video + "?autoplay=1");
             // if (Auto == 0)
             //     html = html.Replace("?autoplay=1", "?autoplay=1" + "&loop=1" + "&playlist=" + id_video);
             html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");
@@ -783,11 +799,11 @@ namespace BlazorCms.Client.Pages
             automatico = false;
             if (Filtro == null)
             {
-                acessar($"/pastas/{storyid}/{Indice}/{dominio}");
+                acessar($"/pastas/{capitulo}/{Indice}/{dominio}");
             }
             else
             {
-                acessar($"/pastas/{storyid}/{retornarVerso(Model2.Criterio.Content)}/{dominio}");
+                acessar($"/pastas/{capitulo}/{retornarVerso(Model2.Criterio.Content)}/{dominio}");
 
             }
         }
@@ -804,11 +820,11 @@ namespace BlazorCms.Client.Pages
                     acessar($"/livro/{livro.Nome}");
             }
         }
-   
+
 
         protected void acessarStory()
         {
-            storyid = RepositoryPagina.stories!
+            capitulo = RepositoryPagina.stories!
             .OrderBy(str => str.Capitulo).Skip(1).ToList()[Indice - 1].Capitulo;
             automatico = false;
             Indice = 1;
@@ -824,9 +840,9 @@ namespace BlazorCms.Client.Pages
 
         protected void AdicionarAoCarrinho(long ProdutoId)
         {
-          //  criptografar = true;
+            //  criptografar = true;
             var url = $"/carrinho/{ProdutoId}/{Compartilhou}/{Model2!.Id}";
-          //  criptografar = false;
+            //  criptografar = false;
             acessar(url);
         }
 
@@ -835,26 +851,26 @@ namespace BlazorCms.Client.Pages
             preferencia = null;
         }
 
-         protected async void OnClick(MouseEventArgs e) 
+        protected async void OnClick(MouseEventArgs e)
+        {
+            try
             {
-                try
-                {
-                    var containerWidth = await js.InvokeAsync<string>("retornarLargura");
-                    var percent = (e.OffsetX / int.Parse(containerWidth)) * 100;
-                    Progress = Math.Round(percent);
-                    var duracao = tempoVideo;
-                    var segundos = duracao / 1000;
-                    double seconds = (Progress / 100) * segundos;
-                    await js.InvokeVoidAsync("seekToVideo", (int) seconds);
-                    AlterouModel = true;
-                    AlterouCamada = true;
-                    AlterarCamada((int) seconds);                    
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                var containerWidth = await js.InvokeAsync<string>("retornarLargura");
+                var percent = (e.OffsetX / int.Parse(containerWidth)) * 100;
+                Progress = Math.Round(percent);
+                var duracao = tempoVideo;
+                var segundos = duracao / 1000;
+                double seconds = (Progress / 100) * segundos;
+                await js.InvokeVoidAsync("seekToVideo", (int)seconds);
+                AlterouModel = true;
+                AlterouCamada = true;
+                AlterarCamada((int)seconds);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
 
         private async void acessar(string url2 = null)
         {
@@ -867,27 +883,27 @@ namespace BlazorCms.Client.Pages
                 // if (Content && conteudo == 0) 
                 // Indice = 1;
                 conteudo = Convert.ToInt32(Content);
-               // criptografar = true;
+                // criptografar = true;
 
                 string url = null;
                 if (rotas == null)
                 {
                     if (livro != null)
-                        url = $"/renderizar/{livro.Nome}/{storyid}/{Indice}/{Compartilhou}/{Filtro}";
-                        else
-                        url = $"/renderizar/{storyid}/{Indice}/{Compartilhou}/{Filtro}";
-                    
+                        url = $"/renderizar/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
+                    else
+                        url = $"/renderizar/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
+
                 }
                 else
                 {
                     if (livro != null)
-                        url = $"/Renderizar/{livro.Nome}/{storyid}/{Indice}/{Compartilhou}/{rotas}";
+                        url = $"/Renderizar/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}/{rotas}";
                     else
-                        url = $"/Renderizar/{storyid}/{Indice}/{Compartilhou}/{rotas}";
+                        url = $"/Renderizar/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}/{rotas}";
 
-                }               
+                }
 
-               // criptografar = false;
+                // criptografar = false;
                 navigation!.NavigateTo(url);
             }
             else
@@ -900,7 +916,7 @@ namespace BlazorCms.Client.Pages
 
             }
 
-        }        
+        }
 
         public Task<List<Content>> PaginarStory(long storyId, int quantidadeLista, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
         {
@@ -944,25 +960,26 @@ namespace BlazorCms.Client.Pages
                 await js.InvokeVoidAsync("removerVideo");
 
             }
-            catch(Exception){
+            catch (Exception)
+            {
 
             }
-        }        
+        }
 
-            private List<UserContent> randomizar(List<UserContent> lista)
+        private List<UserContent> randomizar(List<UserContent> lista)
+        {
+            List<UserContent> retorno = new List<UserContent>();
+            while (lista.Count != 0)
             {
-                List<UserContent> retorno = new List<UserContent>();
-                while(lista.Count != 0)
-                {
-                    var indice = repositoryPagina.random.Next(0, lista.Count - 1);
-                    retorno.Add(lista[indice]);
-                    lista.Remove(lista[indice]);
-                }
+                var indice = repositoryPagina.random.Next(0, lista.Count - 1);
+                retorno.Add(lista[indice]);
+                lista.Remove(lista[indice]);
+            }
 
-                return retorno;
-            }           
+            return retorno;
+        }
 
-             private void AlterarCamada(int timeNumber)
+        private void AlterarCamada(int timeNumber)
         {
             if (Model is VideoFilter)
             {
@@ -998,15 +1015,15 @@ namespace BlazorCms.Client.Pages
 
         private void acessarCamada(int camada)
         {
-            if(Model2!.Camada.Numero != camada)            
-            foreach(var item in listaFiltro.Where(l => l.Camada.Numero == camada).ToList())
-            if(item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id) != null)
-            {
-                Filtro = item.Id;
-                var m = item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id);
-                Indice = item.Pagina.IndexOf(m) + 1;
-                acessar();
-            }
+            if (Model2!.Camada.Numero != camada)
+                foreach (var item in listaFiltro.Where(l => l.Camada.Numero == camada).ToList())
+                    if (item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id) != null)
+                    {
+                        Filtro = item.Id;
+                        var m = item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id);
+                        Indice = item.Pagina.IndexOf(m) + 1;
+                        acessar();
+                    }
         }
     }
 

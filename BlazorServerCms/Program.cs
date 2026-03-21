@@ -85,6 +85,10 @@ builder.Services.AddHttpClient("n8nClient", client =>
     client.DefaultRequestHeaders.Add("leandro", "Leandro01832");
 }); 
 
+try
+{
+    
+
 
 var app = builder.Build();
 
@@ -1629,4 +1633,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+}
+catch (Exception ex)
+{
+    System.IO.File.WriteAllText("LOG_ERRO_CRITICO.txt", ex.ToString());
+    throw;
+}
 

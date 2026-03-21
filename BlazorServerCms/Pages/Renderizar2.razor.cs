@@ -27,23 +27,26 @@ namespace BlazorCms.Client.Pages
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         [Parameter] public string? nomeLivro { get; set; } = "";
-        [Parameter] public int? storyid { get; set; } = 1;
-        [Parameter] public int Indice { get; set; } = 1;
+        [Parameter] public int? capitulo { get; set; } = 1;
+        [Parameter] public int Indice { get; set; }
         [Parameter] public string? Compartilhou { get; set; } = "comp";
         [Parameter] public string? rotas { get; set; } = null;
         [Parameter] public long? contentid { get; set; } = null;
         private long? filtro = null;
+
         [Parameter]
-        public long? Filtro
+        public int Versiculo { get; set; }
+
+        protected long? Filtro
         {
             get { return filtro; }
             set
             {
-                if ( Filtro != value && value != null)                
-                perguntar((long)value);
+                if (Filtro != value && value != null)
+                    perguntar((long)value);
                 filtro = value;
                 alterouPasta = true;
-                
+
             }
         }
         private DemoContextFactory db = new DemoContextFactory();
@@ -65,13 +68,13 @@ namespace BlazorCms.Client.Pages
         protected List<int> porcentagens = new List<int>();
         public bool AlterouCamada { get; set; }
         private bool alterouModel = true;
-        private bool AlterouModel 
+        private bool AlterouModel
         {
-            get{return alterouModel;}
+            get { return alterouModel; }
             set
             {
-                if(value && !AlterouCamada)
-                RemoverPlay();
+                if (value && !AlterouCamada)
+                    RemoverPlay();
                 alterouModel = value;
             }
         }
@@ -88,7 +91,6 @@ namespace BlazorCms.Client.Pages
         private double Progress { get; set; } = 0;
         private bool criptografar = false;
         protected int chave = 0;
-        protected int Versiculo = 0;
         protected int slideAtual = 0;
         protected int slideAtualCriterio = 0;
         protected List<Content>[] array;
@@ -121,26 +123,27 @@ namespace BlazorCms.Client.Pages
         protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;
-        protected bool Content = false;        
-        
+        protected bool Content = false;
+
         protected Content? Model { get; set; } = null;
         protected string? html { get; set; } = "";
         protected string? nameStory { get; set; } = null;
         protected int? CapituloComentario { get; set; } = null;
         protected int? VersoComentario { get; set; } = null;
         protected int quantidadeLista { get; set; } = 0;
+        protected int quantidadeFiltro { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
         protected bool condicaoFiltro { get; set; } = false;
-        
+
 
         protected int? indice_Filtro { get; set; }
-       
+
 
         public int retroceder { get; set; } = 0;
 
         public int timeproduto { get; set; } = 11;
         public int? conteudo { get; set; } = 1;
-       
+
         public int? carregando { get; set; } = 40;
 
         public int? Auto
@@ -158,9 +161,9 @@ namespace BlazorCms.Client.Pages
         }
 
         public string? redirecionar { get; set; } = "";
-        public string? dominio { get; set; } = "dominio";        
+        public string? dominio { get; set; } = "dominio";
 
-      //  protected int outroHorizonte { get; set; }
+        //  protected int outroHorizonte { get; set; }
 
     }
 }
