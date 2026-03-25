@@ -177,6 +177,12 @@ namespace BlazorCms.Client.Pages
                     .ThenBy(p => p.Id)
                     .ToListAsync();
 
+                    if(Versiculo == null)
+                    {
+                        var fil = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                        Versiculo = retornarVerso(fil.Criterio.Content);
+                    }
+
                  var cri = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave &&
                  ((Chave)f.Criterio.Content).Versiculo == Versiculo)?.Criterio;
                  Filtro = listaFiltro.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.First()).FiltroId)?.Id;

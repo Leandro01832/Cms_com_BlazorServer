@@ -1,0 +1,16 @@
+services:
+  blazor-app:
+    image: blazor-cms
+    container_name: meu-site-blazor
+    volumes:
+      # Isso garante que seu arquivo .db e outros dados fiquem salvos
+      - ./BlazorServerCms:/app/data
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+    restart: always
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    # Comando para gerar o link gratuito temporário
+    command: tunnel --no-autoupdate --url http://blazor-app:8080
+    restart: always

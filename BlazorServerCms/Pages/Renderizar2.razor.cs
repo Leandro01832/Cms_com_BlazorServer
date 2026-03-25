@@ -35,9 +35,10 @@ namespace BlazorCms.Client.Pages
         private long? filtro = null;
 
         [Parameter]
-        public int Versiculo { get; set; }
+        public int? Versiculo { get; set; }
 
-        protected long? Filtro
+        [Parameter]
+        public long? Filtro
         {
             get { return filtro; }
             set

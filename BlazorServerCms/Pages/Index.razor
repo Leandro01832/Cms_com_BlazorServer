@@ -298,20 +298,24 @@
     }
 
     private async void Acessar(Filtro item)
-    {
-        
-       var fil = filtros2!.First(f => f.FiltroId == item.Id);
+    {        
+       var fil = filtros2!.FirstOrDefault(f => f.FiltroId == item.Id);
        var itemContent = repositoryPagina.random.Next(1, fil.Pagina.Count());
-        
+
+       if(fil != null)
+       {
             Chave ch = (Chave)fil.Criterio.Content!;
             var str = Context.Story.First(s => s.Id == item.StoryId);
 
-        if(item.Livro == null && ch != null)
+            if(item.Livro == null && ch != null)
             navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
-        else
+            else
             navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}{itemContent}/comp");
+       }
+       else
+            navigation.NavigateTo($"/renderizar/{item.Id}");
         
-
+        
     }
 
     private async void buscar()
@@ -427,7 +431,10 @@
     private int retornarVersoComCriterio(Filtro c)
     {
         var f = filtros2!.FirstOrDefault(f => f.FiltroId == c.Id);
-        if (f == null) return 0;
+        if (f == null)
+        {
+            return retornarVerso(c.Criterio.Content!);
+        } 
         else
         {
             var retorno = retornarVerso(f.Criterio.Content!);

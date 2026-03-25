@@ -6,6 +6,7 @@ using business;
 using business.business;
 using business.business.Book;
 using business.Group;
+using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -523,7 +524,7 @@ namespace BlazorCms.Client.Pages
         protected void acessarVerso()
         {
             indice_Filtro = 0;
-            Indice = Versiculo;
+            Indice = (int)Versiculo!;
             Filtro = null;
             ultimaPasta = false;
             acessar();
@@ -572,17 +573,15 @@ namespace BlazorCms.Client.Pages
         protected void Agrupar()
         {
             AlterouModel = false;
-            Indice = 0;
-            Filtro = Model2!.FiltroId; 
-            acessar();
+            var cam = Model2!.Camada.Numero;
+            acessarCamada(cam - 1);
         }
 
         protected void Filtrar()
         {
             AlterouModel = false;
-            Indice = 0;
-            Filtro = Model2!.Criterio.Filtro.First().Id;
-            acessar();
+            var cam = Model2!.Camada.Numero;
+            acessarCamada(cam + 1);
         }
 
         protected async void desabilitarTellStory()
@@ -594,80 +593,36 @@ namespace BlazorCms.Client.Pages
 
         protected async void redirecionarMarcar()
         {
-            int camada = 0;
-            List<SubFiltro> fils = null;
-            SubFiltro fi = null;
-
-            if (Filtro == null)
-            {
-                opcional = Indice.ToString();
+                int Vers = 0;    
+                Filtro fi = null;       
                 try
                 {
-                    camada = int.Parse(await js.InvokeAsync<string>("prompt", "marcar em qual camada?"));
-                    if (camada > 10 || camada <= 1)
-                        camada = 0;
+                    Vers = int.Parse(await js.InvokeAsync<string>("prompt", "Informe o versículo."));
+                    var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
+                    && retornarVerso(f.Criterio.Content) == Vers);
+                    if(fil == null)
+                    {
+                        await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");                      
+                        return;
+                    }
+                    else if(listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId).Pagina.Count ==0)
+                    {
+                        await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");
+                        return;
+                    }
+                    else
+                    {                        
+                        fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
+                        Filtro = fi?.Id;
+                        Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
+                        acessar();            
+                    }
                 }
                 catch (Exception ex)
                 {
-                    camada = 0;
+                    await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");                      
+                        return;
                 }
-
-            }
-            else
-            {
-                opcional = retornarVerso(Model2.Criterio.Content).ToString();
-            }
-
-            fils = listaFiltro.Where(f => f.Pagina != null)
-            .OrderBy(f => f.FiltroId)
-            .ThenBy(f => f.Id)
-            .ToList();
-            if (camada == 0)
-            {
-                fi = fils.Where(f => f.Pagina!
-                .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-
-            }
-            else
-            {
-                for (var i = 1; i < 11; i++)
-                {
-                    if (camada == i)
-                    {
-                        fi = fils.Where(f => f.Camada.Numero == i && f.Pagina
-                      .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-                        break;
-                    }
-                }
-
-
-                if (fi == null)
-                    fi = fils.Where(f => f.Pagina!
-                    .FirstOrDefault(p => retornarVerso(p.Content) == int.Parse(opcional!)) != null).LastOrDefault()!;
-            }
-
-
-            if (fi == null)
-            {
-                await js!.InvokeAsync<object>("DarAlert", "Marque um versiculo que esta em uma pasta!!!");
-            }
-            else
-            {
-                Filtro = fi.Id;
-                var name = listaFiltro.First(f => f.Id == Filtro).Nome;
-                string? str = await js.InvokeAsync<string>("contarHistoria", name);
-
-                if (str == "sim")
-                    tellStory = true;
-                else
-                    tellStory = false;
-                Indice = 0;
-                indice_Filtro = listaFiltro
-                .OrderBy(f => f.FiltroId)
-                .ThenBy(f => f.Id)
-                .ToList().IndexOf(fi) + 1;
-                acessar();
-            }
         }
 
         private bool CountFiltros()
