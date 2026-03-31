@@ -114,7 +114,7 @@ else if (!repositoryPagina.erro)
                                 
                                     <header>Story: @nameStory</header>
                                 
-                                    <a data-first onclick="@(() => acessarCapitulos() )" class="btn">
+                                    <a  onclick="@(() => acessarCapitulos() )" class="btn">
                                         Capítulo @cap 
                                     </a>
                                 </span>
@@ -133,7 +133,7 @@ else if (!repositoryPagina.erro)
                                 {
                                     <PageTitle>@nameGroup2 - @nameGroup</PageTitle>
                                     
-                                        <p>
+                                        <p data-first>
                                             <header>
                                                 @if(InfoSemCriterio)
                                                 {
@@ -271,7 +271,7 @@ else if (!repositoryPagina.erro)
    
 
 <div class="dropdown" id="myDropdown" > 
-    <button class="dropbtn" >Actions</button>
+    <a class="dropbtn" onclick="@ativarOption" >Actions</a>
     <div class="dropdown-content">
 
                 <a onclick="@Casinha"  data-3>
@@ -331,7 +331,7 @@ else if (!repositoryPagina.erro)
                     </a>
                 }
 
-                <button  type="button" @onclick="StartTour">Start Tour</button>
+                <a  type="button" @onclick="StartTour">Start Tour</a>
 
                 <a data-5 href="#" class="btn" onclick="@(() => acessarPastas())">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
@@ -341,15 +341,13 @@ else if (!repositoryPagina.erro)
     </div>
   </div> 
 
-            @if ( nameStory != "Padrao" && Model != null && Model!.Filtro! != null && Model!.Filtro!.Count != 0)
-                {
-                    @if (Model2 != null && Model2.usuarios.Count == 0 && !ultimaPasta || Filtro == null && !ultimaPasta)
-                    {
+           
+                    
                         <a data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())"  >
-                            marcar?
+                            marcar? 
                         </a>
-                    }
-                } 
+                    
+                 
            @* <a onclick="@acessarChave" class="chave btn btn-primary"> 
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
@@ -496,9 +494,10 @@ else if (!repositoryPagina.erro)
                     }
                     else if (Model != null && id_video == null )
                     { 
-                        if(Model is Chave && Model.Criterio != null && Filtro == null)
+                        if(Model is Chave && Model.Criterio != null
+                         && Filtro == null && criterio != null)
                         {
-                            <p>@Model.Criterio.Descricao</p> 
+                            <p>@criterio.Descricao</p> 
                         }     
                         else                             
                         if(id_video == null && Model != null && Model.Html != null &&
@@ -660,7 +659,7 @@ else if (!repositoryPagina.erro)
 
                                                                     if (!Content)
                                                                     {
-                                                                        <span data-first class="indice"> @Versiculo</span>
+                                                                        <span data-2 class="indice"> @Versiculo</span>
                                                                        
                                                                     }
                                                                     else
@@ -691,7 +690,7 @@ else if (!repositoryPagina.erro)
                                                                     {
                                                                         if (!Content)
                                                                         {
-                                                                            <span data-first class="indice"> @Versiculo</span>
+                                                                            <span data-2 class="indice"> @Versiculo</span>
                                                                             
                                                                         }
                                                                         else
@@ -769,7 +768,8 @@ else
         @if(Model2 != null && Model2.Criterio != null)
         {
              <a onclick="@Filtrar"> filtrar @nameGroup</a>  
-          <p>  Critério de @Model2!.Nome: @Model2.Criterio!.Descricao</p>
+
+          
             <h4><strong>Informações sem critério de @Model2!.Nome</strong></h4>
 
             @foreach(var item in listaFiltro
@@ -817,5 +817,50 @@ else
         }        
        
 </Modal>
+
+
+<GuidedTour TourId="FormGuidedTour" OverlayEnabled="true">
+    <GuidedTourStep Title="Capitulos" StepName="firstStep" TourStepSequence="1"
+    ElementSelector="[data-first]">
+        <span>Aqui você encontra a informação que voce esta acessando, o capitulo e versiculo</span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="itens ou pastas" StepName="Step2" TourStepSequence="2" 
+    ElementSelector="[data-2]">
+             <span>
+            Acesse itens quando estiver contando uma Historia
+             ou acesse pastas quando não estiver contando uma historia.
+             </span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Home" StepName="Step3" TourStepSequence="3"
+    ElementSelector="[data-3]">
+        <span>Acesse a pagina principal da plataforma (home). </span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Comentários" StepName="Step4" TourStepSequence="4"
+    ElementSelector="[data-4]">
+        <span>
+           Leia e faça comentários dos conteudos.
+        </span>
+    </GuidedTourStep>
+    
+    <GuidedTourStep Title="Pastas" StepName="Step5" TourStepSequence="5"
+    ElementSelector="[data-5]">
+        <span>
+            Acesse pastas referentes ao conteudo atual.
+        </span>
+    </GuidedTourStep>
+    
+    <GuidedTourStep Title="Marcar" StepName="Step6" TourStepSequence="6"
+    ElementSelector="[data-6]">
+        <span>
+            Marque os versiculos para acessar qualquer pasta.
+        </span>
+    </GuidedTourStep>
+    <GuidedTourStep Title="Automatico" StepName="Step7" TourStepSequence="7"
+    ElementSelector="[data-7]">
+        <span>
+            Deixe o conteudo rolando automaticamente.
+        </span>
+    </GuidedTourStep>
+</GuidedTour>
 
 

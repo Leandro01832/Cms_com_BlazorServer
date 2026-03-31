@@ -246,43 +246,45 @@ const intervalo = setInterval(() => {
            
 }
 
+
 window.PreencherProgressBar2 = (m) =>
-{
-    let progresso = document.querySelector(".progressbar2 div"); 
+    {
+        let progresso = document.querySelector(".progressbar2 div"); 
 
         if (progresso)
         {
             progresso.setAttribute("style", "width: " + m + "%");   
         } 
-       
-}
-
-window.Clicou = (m) => {
-    var elements1 = document.getElementsByClassName("info");
-    var element = document.getElementById("cabecalho");
-    for (var i = 0; i < elements1.length; i++) {
-        elements1[i].style.display = "block";
+        
     }
-    element.style.display = "flex";
-}
-
-window.GeminiResponse = (p) => {
-
-    //const prompt = p;
     
-    //const result = await model.generateContent(prompt);
-    //const response = await result.response;
-    //const text = response.text();
-    //console.log(text);
-
-    return p;
-
-}
-
-
-
-window.FullScreen =(teste) => {
-    var elem = document.getElementById("corpoPagina");
+    
+    window.Clicou = (m) => {
+        var elements1 = document.getElementsByClassName("info");
+        var element = document.getElementById("cabecalho");
+        for (var i = 0; i < elements1.length; i++) {
+            elements1[i].style.display = "block";
+        }
+        element.style.display = "flex";
+    }
+    
+    window.GeminiResponse = (p) => {
+        
+        //const prompt = p;
+        
+        //const result = await model.generateContent(prompt);
+        //const response = await result.response;
+        //const text = response.text();
+        //console.log(text);
+        
+        return p;
+        
+    }
+    
+    
+    
+    window.FullScreen =(teste) => {
+        var elem = document.getElementById("corpoPagina");
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
     } else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -295,16 +297,16 @@ window.FullScreen =(teste) => {
 }
 
 window.SelecionarLivro = (id) =>
-{
-    var elemento = document.getElementById("select" + id);
-    var input = document.getElementById("url");
-    var lista = document.getElementById("lista");
-    input.value = elemento.innerText;
-    lista.innerHTML = "";
-}
-
-function focusById(elementId) {
-    var element = document.getElementById(elementId);    
+    {
+        var elemento = document.getElementById("select" + id);
+        var input = document.getElementById("url");
+        var lista = document.getElementById("lista");
+        input.value = elemento.innerText;
+        lista.innerHTML = "";
+    }
+    
+    function focusById(elementId) {
+        var element = document.getElementById(elementId);    
         element.focus();    
 }
 
@@ -334,21 +336,21 @@ window.sairFullScreen = (url) => {
 }
 
 window.share = (config) => {
-
+    
     var arr = config.split("/");
-
+    
     var endereco = window.location.href;
     var titulo = arr[0];
     var resumo = arr[1];    
-
+    
     if (navigator.share !== undefined) {
         navigator.share({
             title: titulo,
             text: resumo,
             url: endereco,
         })
-            .then(() => alert('Compartilhamento feito com sucesso!!!'))
-            .catch((error) => alert('Erro ao compartilhar!!! ' + error, error));
+        .then(() => alert('Compartilhamento feito com sucesso!!!'))
+        .catch((error) => alert('Erro ao compartilhar!!! ' + error, error));
     }
 }
 
@@ -357,14 +359,14 @@ window.retornarSubdominio = (url) =>
     var endereco = window.location.href;
     // Cria um objeto URL a partir da string URL fornecida
     const urlObj = new URL(endereco);
-
+    
     // Obtém o hostname da URL
     const hostname = urlObj.hostname;
     
-
+    
     // Divide o hostname em partes, separadas por pontos
     const parts = hostname.split('.');
-
+    
     // Verifica se o hostname possui mais de duas partes (subdomínio.dominio.tld)
     if (parts.length > 2) {
         // Retorna a parte do subdomínio (todas as partes exceto as duas últimas)
@@ -373,31 +375,31 @@ window.retornarSubdominio = (url) =>
         // Se não houver subdomínio, retorna uma string vazia
         return null;
     }
-
-
+    
+    
 }
 
 window.contarHistoria = (story) => {
-
+    
     return prompt("Digite 'sim' se você deseja contar e dividir esta história: " + story + ". Atenção!!! Item só poderá ser compartilhado quando a pessoa já souber qual é a pasta.");
-
+    
 }
 
 window.proximoSlide = () =>
-{
-    var slid = document.querySelectorAll('.carousel-item');
-    var slide = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
-   
+    {
+        var slid = document.querySelectorAll('.carousel-item');
+        var slide = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
+        
     
-    var slides = document.getElementsByClassName("carousel-item");
-    if (slide != slides.length - 1) {
+        var slides = document.getElementsByClassName("carousel-item");
+        if (slide != slides.length - 1) {
         slides[slide].classList.remove("ativo");
         slides[slide + 1].classList.add("ativo");
 
     }
     else
-    {
-        slides[slide].classList.remove("ativo");
+        {
+            slides[slide].classList.remove("ativo");
         slides[0].classList.add("ativo");
     }
 }
@@ -406,55 +408,63 @@ window.slideAnterior = () => {
     var slid = document.querySelectorAll('.carousel-item');
     var slide = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
     
-
+    
     var slides = document.getElementsByClassName("carousel-item");
     if (slide != 0) {
         slides[slide].classList.remove("ativo");
         slides[slide - 1].classList.add("ativo");
     }
     else
-    {
-        slides[slide].classList.remove("ativo");
-        slides[slides.length - 1].classList.add("ativo");
+        {
+            slides[slide].classList.remove("ativo");
+            slides[slides.length - 1].classList.add("ativo");
+        }
     }
-}
-
-window.retornarlargura = (url) => {
-
-    return window.screen.width.toString();
-}
-
-window.trocarSlide = (slide) =>
-{
-    var slid = document.querySelectorAll('.carousel-item');
     
+    window.retornarlargura = (url) => {
+        
+        return window.screen.width.toString();
+    }
+    
+    window.trocarSlide = (slide) =>
+        {
+            var slid = document.querySelectorAll('.carousel-item');
+            
     if (slid.length != 0)
     {
         var slideAtual = Array.from(slid).findIndex(sl => sl.classList.contains('ativo'));
         var slides = document.getElementsByClassName("carousel-item");    
-
+        
         slides[slideAtual].classList.remove("ativo");
         slides[slide].classList.add("ativo");   
     }
 }
 
 window.retornarTextArea = (textArea) =>
-{
-    return document.getElementById(textArea).value;
-}
-
-window.retornarLargura = function () 
-{
-    return document.getElementById("progressbarContainer").offsetWidth.toString();
-};
-
-window.seekToVideo = (seconds) => {
-   // alert("Indo para o segundo: " + seconds);
-    if (player)
     {
-        const segundos = parseFloat(seconds);
-        player.seekTo(segundos, true); // O segundo parâmetro indica 
-                                      // se deve iniciar a reprodução imediatamente
+        return document.getElementById(textArea).value;
     }
-}
+    
+    window.retornarLargura = function () 
+    {
+        return document.getElementById("progressbarContainer").offsetWidth.toString();
+    };
+    
+    window.seekToVideo = (seconds) => {
+        // alert("Indo para o segundo: " + seconds);
+    if (player)
+        {
+            const segundos = parseFloat(seconds);
+            player.seekTo(segundos, true); // O segundo parâmetro indica 
+            // se deve iniciar a reprodução imediatamente
+        }
+    }
+    
+    window.ExibirOpcoesTour = () => {
+    const el = document.querySelector('.dropdown-content');
+    if (!el) return; // Evita erro se a div não existir na tela
 
+    const isHidden = window.getComputedStyle(el).display === "none";
+    el.style.display = isHidden ? "block" : "none";
+};
+    

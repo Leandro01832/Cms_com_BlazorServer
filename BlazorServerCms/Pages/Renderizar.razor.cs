@@ -318,8 +318,6 @@ namespace BlazorCms.Client.Pages
             return await GetYouTubeVideoDurationAsync(id_video);
         }
 
-
-
         protected void listarPasta()
         {
             acessar($"/lista-filtro/1/{Model2.Id}");
@@ -597,7 +595,10 @@ namespace BlazorCms.Client.Pages
                 Filtro fi = null;       
                 try
                 {
+                    if(Filtro != null)
                     Vers = int.Parse(await js.InvokeAsync<string>("prompt", "Informe o versículo."));
+                    else
+                    Vers = (int) Versiculo!;
                     var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
                     && retornarVerso(f.Criterio.Content) == Vers);
                     if(fil == null)
@@ -671,11 +672,29 @@ namespace BlazorCms.Client.Pages
 
         protected async void StartTour()
         {
-            automatico = false;
-            if (Filtro == null)
-                await TourService.StartTour("FormGuidedTour1");
-            else
-                await TourService.StartTour("FormGuidedTour2");
+            automatico = false; 
+            try
+            {
+                await js!.InvokeAsync<object>("ExibirOpcoesTour");  
+                await js!.InvokeAsync<object>("ExibirOpcoesTour");
+                await TourService.StartTour("FormGuidedTour"); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        protected async void ativarOption()
+        {
+            try
+            {
+                await js!.InvokeAsync<object>("ExibirOpcoesTour"); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         protected async void share()

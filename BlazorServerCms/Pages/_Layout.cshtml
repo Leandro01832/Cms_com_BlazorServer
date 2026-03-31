@@ -19,15 +19,12 @@
 <meta property="og:site_name" content="Instagleo" />
 <meta property="og:locale" content="pt_BR" />
 
-
     <base href="~/" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
     <link href="BlazorServerCms.styles.css" rel="stylesheet" />
-   
-
      
     <link rel="stylesheet" href="/_content/PSC.Blazor.Components.Tours/css/styles.css" />
     <!-- Google tag (gtag.js) -->
@@ -35,30 +32,6 @@
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', '');</script>
    
 
-    @* <script type="importmap">
-        {
-          "imports": {
-            "@@google/generative-ai": "https://esm.run/@@google/generative-ai"
-          }
-        }
-    </script> *@
-    @* <script type="module">
-        import { GoogleGenerativeAI } from "@@google/generative-ai";
-
-        // Fetch your API_KEY
-        const API_KEY = "...";
-        // Reminder: This should only be for local testing
-
-        // Access your API key (see "Set up your API key" above)
-        const genAI = new GoogleGenerativeAI(API_KEY);
-
-        // ...
-
-        // The Gemini 1.5 models are versatile and work with most use cases
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-        // ...
-    </script> *@
 
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
@@ -80,8 +53,6 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-
-
 
     <script>
         window.sample = {
@@ -106,25 +77,9 @@
   let firstScript = document.getElementsByTagName('script')[0];
   firstScript.parentNode.insertBefore(tag, firstScript);  
 
-</script>
-   
-   <!-- TikTok Pixel Code Start -->
-<script>
-!function (w, d, t) {
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-
-
-  ttq.load('D58KJ1JC77U5DJL553H0');
-  ttq.page();
-}(window, document, 'ttq');
-</script>
-<!-- TikTok Pixel Code End -->
-
+</script> 
     <script src="_content/TinyMCE.Blazor/tinymce-blazor.js"></script>
     <script src="~/JSFunctions.js"></script>
-    <script src="_framework/blazor.server.js"></script>
-    
+    <script src="_framework/blazor.server.js"></script>    
 </body>
 </html>

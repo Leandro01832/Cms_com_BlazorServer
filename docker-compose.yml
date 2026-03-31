@@ -3,14 +3,20 @@ services:
     image: blazor-cms
     container_name: meu-site-blazor
     volumes:
-      # Isso garante que seu arquivo .db e outros dados fiquem salvos
-      - ./BlazorServerCms:/app/data
-    environment:
-      - ASPNETCORE_URLS=http://+:8080
+      - ./data:/app/data
+    networks:
+      - projeto-rede
     restart: always
 
   tunnel:
-    image: cloudflare/cloudflared:latest
-    # Comando para gerar o link gratuito temporário
-    command: tunnel --no-autoupdate --url http://blazor-app:8080
+    image: alpine
+    container_name: local-tunnel
+    networks:
+      - projeto-rede
+    # Note que usamos 'blazor-app' porque é o nome do SERVIÇO no YAML
+    command: sh -c "apk add --no-cache openssh-client && ssh -o StrictHostKeyChecking=no -R 80:meu-site-blazor:8080 serveo.net"
     restart: always
+
+networks:
+  projeto-rede:
+    driver: bridge

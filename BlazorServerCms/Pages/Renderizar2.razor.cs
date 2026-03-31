@@ -34,8 +34,16 @@ namespace BlazorCms.Client.Pages
         [Parameter] public long? contentid { get; set; } = null;
         private long? filtro = null;
 
+        private int? versiculo = null;
         [Parameter]
-        public int? Versiculo { get; set; }
+        public int? Versiculo 
+        { 
+            get { return versiculo; }
+            set 
+            { 
+                versiculo = value;
+            }
+        }
 
         [Parameter]
         public long? Filtro
@@ -43,6 +51,7 @@ namespace BlazorCms.Client.Pages
             get { return filtro; }
             set
             {
+                var teste = value;
                 if (Filtro != value && value != null)
                     perguntar((long)value);
                 filtro = value;
@@ -57,6 +66,8 @@ namespace BlazorCms.Client.Pages
         private int quantidadePaginas = 0;
         protected int quantDiv = 0;
         protected int quantDivCriterio = 0;
+
+        protected Criterio criterio = null;
         private Story _story = null;
         private Livro? livro = null;
         private string? title = null;

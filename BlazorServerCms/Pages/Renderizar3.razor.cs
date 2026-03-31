@@ -190,6 +190,8 @@ namespace BlazorCms.Client.Pages
             List<Chave> chaves = new List<Chave>();
             if (livro == null)
                 chaves = Context.Chave
+                .Include(c => c.Criterio)!
+                 .ThenInclude(c => c.Filtro)
                 .Include(c => c.Filtro)!
                 .ThenInclude(c => c.Filtro)
                 .ThenInclude(c => c.Criterio)
@@ -198,6 +200,8 @@ namespace BlazorCms.Client.Pages
                 .ToList();
             else
                 chaves = Context.Chave
+                 .Include(c => c.Criterio)!
+                 .ThenInclude(c => c.Filtro)
                 .Include(c => c.Filtro)!
                  .ThenInclude(c => c.Filtro)
                    .ThenInclude(c => c.Criterio)
@@ -712,19 +716,41 @@ namespace BlazorCms.Client.Pages
             listaFiltro.FirstOrDefault(f => Filtro != null &&
             f.FiltroId == Model2.Id) == null;
 
-            if (ultimaPasta)
+            if (Filtro != null && ultimaPasta)
             {     
                 if(Model2.Criterio != null)          
                 Versiculo = retornarVerso(Model2.Criterio.Content);
+                else
+                {
+                    var f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio);                    
+                    Versiculo = retornarVerso(f.Criterio.Content);
+                }
             }
             else if (Filtro != null)
             {
                 var f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id);
                 if(f != null && f.Criterio != null)
                 Versiculo = retornarVerso(f.Criterio.Content);
+                else if(f.Criterio == null)
+                {
+                    var f2 = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio);
+                    if (f2 != null && f2.Criterio != null)
+                    Versiculo = retornarVerso(f2.Criterio.Content);
+                }
             }
             else
                 Versiculo = retornarVerso(Model);
+
+                if(Filtro == null)
+            {
+                criterio = null;
+                var fil = RepositoryPagina.Conteudo!.FirstOrDefault(c => c is Chave &&
+                 retornarVerso(c) == Versiculo)!;
+                var m = ((SubFiltro) fil.Criterio!.Filtro.First()).FiltroId;
+                var f = listaFiltro.FirstOrDefault(f => f.Id == m);
+                if(f != null && f.Criterio != null)
+                criterio = f.Criterio; 
+            }
 
             try
             {
