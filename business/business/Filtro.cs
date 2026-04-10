@@ -1,6 +1,6 @@
 using business.business;
 using business.business.Book;
-using business.Group;
+using business.business.Group;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -48,12 +48,10 @@ namespace business
         }
 
         public virtual List<SubFiltro>? SubFiltro { get; set; }
-        
+      //  public virtual List<UltimaPasta>? UltimaPasta { get; set; }      
 
         public virtual List<UserModelFiltro> usuarios { get; set; }
-
         public virtual PastaSalva PastaSalva { get; set; }
-
         public Int64? CriterioId { get; set; }
         public virtual Criterio Criterio { get; set; }
 

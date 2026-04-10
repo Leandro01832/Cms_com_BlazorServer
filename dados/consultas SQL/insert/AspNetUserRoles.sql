@@ -1,0 +1,4 @@
+INSERT INTO AspNetUserRoles (UserId, RoleId)
+VALUES
+    ('779f69a9-aa7c-47df-bc7a-12c5934d1330', '502c4643-2763-4584-91d1-1d918cb98602');
+

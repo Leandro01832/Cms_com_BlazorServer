@@ -3,19 +3,18 @@ services:
     image: blazor-cms
     container_name: meu-site-blazor
     volumes:
-      - ./data:/app/data
+      - /mnt/projeto/data:/app/data
     networks:
       - projeto-rede
     restart: always
 
   tunnel:
-    image: alpine
-    container_name: local-tunnel
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare-tunnel
     networks:
       - projeto-rede
-    # Note que usamos 'blazor-app' porque é o nome do SERVIÇO no YAML
-    command: sh -c "apk add --no-cache openssh-client && ssh -o StrictHostKeyChecking=no -R 80:meu-site-blazor:8080 serveo.net"
     restart: always
+    command: tunnel run --token eyJhIjoiMjRiOGNmZGM3N2IyMGFiMmNlMDUzZDIwY2Q5MDlmOTQiLCJ0IjoiMGZmNGU5MWQtZWJlMC00NDU5LThlZjYtY2I0M2M5YTU1MWU3IiwicyI6Ill6SmtZVEk1WVdNdFkyWXlOaTAwTW1SakxUazFZVGd0T0Roa1kyRmtOVGd3WlRSaSJ9
 
 networks:
   projeto-rede:

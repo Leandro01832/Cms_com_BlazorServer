@@ -2,7 +2,6 @@
 using business.business;
 using business.business.Book;
 using business.business.Group;
-using business.Group;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,22 +9,21 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
-        public static string _connectionString = "";
+        public static string _connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=cms;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Command Timeout=30";
 
         public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
         {
-            Configuration = configuration;
-            Environment = environment;
-            string rootPath = Environment.ContentRootPath;
-            // 2. Define o caminho completo do arquivo .mdf (ex: na raiz do projeto)
-            string fullDbPath = Path.Combine(rootPath, "cms.mdf");
-            _connectionString = Configuration.GetConnectionString("DefaultConnection")
-            .Replace("{PATH}", fullDbPath);
+                // Configuration = configuration;
+                // Environment = environment;
+                // string rootPath = Environment.ContentRootPath;
+                // // 2. Define o caminho completo do arquivo .mdf (ex: na raiz do projeto)
+                // string fullDbPath = Path.Combine(rootPath, "cms.mdf");
+                 _connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(_connectionString);
+            optionsBuilder.UseSqlServer(_connectionString);
         }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -72,35 +70,24 @@ namespace BlazorServerCms.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
-
             base.OnModelCreating(builder);
-
             builder.Entity<ProdutoConteudo>()
          .HasKey(p => new { p.ProdutoId, p.ContentId });
-
             builder.Entity<FiltroContent>()
           .HasKey(p => new { p.FiltroId, p.ContentId });
-
             builder.Entity<UserModelTime>()
-         .HasKey(p => new { p.UserModelId, p.TimeId });
-            
+         .HasKey(p => new { p.UserModelId, p.TimeId });            
             builder.Entity<UserModelLivro>()
-         .HasKey(p => new { p.UserModelId, p.LivroId });
-            
+         .HasKey(p => new { p.UserModelId, p.LivroId });            
             builder.Entity<UserModelFiltro>()
-         .HasKey(p => new { p.UserModelId, p.FiltroId });
-            
+         .HasKey(p => new { p.UserModelId, p.FiltroId });            
             builder.Entity<UserModelContent>()
-         .HasKey(p => new { p.UserModelId, p.ContentId });
-            
+         .HasKey(p => new { p.UserModelId, p.ContentId });            
             builder.Entity<UserModelPastaSalva>()
          .HasKey(p => new { p.UserModelId, p.PastaSalvaId });
-
             builder.Entity<Time>()
             .HasIndex(u => u.nome)
             .IsUnique();
-
         }
     }
 }

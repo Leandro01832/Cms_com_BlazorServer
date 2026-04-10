@@ -657,7 +657,7 @@
         return p.Versiculo;
     }
 
-   private async void exibirChave(string text)
+    private async void exibirChave(string text)
     {
         string texto = text;
         string padrao = @"\(([^)]*)\)"; // Entre parenteses
@@ -685,12 +685,13 @@
                 var arr = match.Groups[1].Value.Split(',');
                 foreach (var item in arr)
                 {
-                    if (int.TryParse(item, out int num))
+                    if (int.TryParse(item, out int num2))
                     {
                        
                             var cri = Context.Criterio!
                     .Include(c => c.Filtro)
-                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == num);
+                    .Include(c => c.Content)
+                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == int.Parse(item));
 
                     var fi = lista.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId);
                             var fil = Context.Filtro!
@@ -711,11 +712,12 @@
             else
             {
                 var value = match.Groups[1].Value;
-                if(int.TryParse(value, out int num))
+                if(int.TryParse(value, out int num2))
                 {
                     var cri = Context.Criterio!
                     .Include(c => c.Filtro)
-                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == num);
+                    .Include(c => c.Content)
+                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == int.Parse(value));
 
                     var fi = lista.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId);
                    
@@ -728,6 +730,7 @@
                         if(ch != null)
                         {
                             Chave chave = (Chave)cri!.Content!;
+                            if(usermodel != null)
                         usermodel.Compartilhar = usermodel.Compartilhar!.Replace(value, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + "</span>");
                         }
                 }

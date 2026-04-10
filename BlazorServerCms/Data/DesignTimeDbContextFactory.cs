@@ -12,7 +12,7 @@ namespace BlazorServerCms.Data
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlite(ApplicationDbContext._connectionString);
+            optionsBuilder.UseSqlServer(ApplicationDbContext._connectionString);
             return new ApplicationDbContext(optionsBuilder.Options);
         }
     }

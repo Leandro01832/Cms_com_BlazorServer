@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using business.business.Book;
 using business.business.Contrato;
-using business.Group;
+using business.business.Group;
 
 namespace business.business
 {

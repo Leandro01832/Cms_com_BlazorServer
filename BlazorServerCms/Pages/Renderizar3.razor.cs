@@ -5,7 +5,6 @@ using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.business.Group;
-using business.Group;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -752,15 +751,7 @@ namespace BlazorCms.Client.Pages
                 criterio = f.Criterio; 
             }
 
-            try
-            {
-                int porc = 100 * Indice / quantidadeLista;
-                await js!.InvokeAsync<object>("PreencherProgressBar2", porc);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Erro ao preencher progress bar: " + ex.Message);
-            }
+           
 
             // 6. Define a classe CSS para inputs
             if (Content)
@@ -1175,7 +1166,7 @@ namespace BlazorCms.Client.Pages
             //  var tipo = Model2.GetType();
 
             for (var i = 10; i > 0; i--)
-            {
+            { 
                 if (Model2.Camada.Numero == i)
                 {
                     var indice = returnList(true)

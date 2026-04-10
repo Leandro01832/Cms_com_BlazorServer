@@ -2,7 +2,7 @@
 using business.business;
 using business.business.Group;
 
-namespace business.Group
+namespace business.business.Group
 {
     public class Story : BaseModel
     {

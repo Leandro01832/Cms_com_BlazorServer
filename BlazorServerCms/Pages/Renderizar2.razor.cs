@@ -2,7 +2,6 @@
 using BlazorServerCms.servicos;
 using business;
 using business.business;
-using business.Group;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +11,7 @@ using System.Security.Claims;
 using business.business.Book;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.RegularExpressions;
+using business.business.Group;
 
 namespace BlazorCms.Client.Pages
 {
@@ -28,7 +28,37 @@ namespace BlazorCms.Client.Pages
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         [Parameter] public string? nomeLivro { get; set; } = "";
         [Parameter] public int? capitulo { get; set; } = 1;
-        [Parameter] public int Indice { get; set; }
+        private int indice = 0;
+        [Parameter]
+         public int Indice 
+         { 
+            get{ return indice; }
+            set
+            { 
+                indice = value;
+                PreencherProgresso();
+            }
+        }
+
+        private async void PreencherProgresso()
+        {
+             try
+            {
+                // if(quantidadeLista == 0)
+                // {
+                //     var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
+                //     && retornarVerso(f.Criterio.Content) == Versiculo);
+                //     quantidadeLista = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId).Pagina.Count;
+                // }
+                int porc = 100 * Indice / quantidadeLista;
+                await js!.InvokeAsync<object>("PreencherProgressBar2", porc);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao preencher progress bar: " + ex.Message);
+            }
+        }
+
         [Parameter] public string? Compartilhou { get; set; } = "comp";
         [Parameter] public string? rotas { get; set; } = null;
         [Parameter] public long? contentid { get; set; } = null;

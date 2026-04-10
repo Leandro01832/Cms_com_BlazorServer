@@ -1,4 +1,4 @@
-namespace business.Group
+namespace business.business.Group
 {
     public class SubFiltro : Filtro
     {

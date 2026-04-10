@@ -1,6 +1,6 @@
 ﻿
 using business.business;
-using business.Group;
+using business.business.Group;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

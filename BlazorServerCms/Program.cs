@@ -4,7 +4,6 @@ using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.business.Group;
-using business.Group;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +32,7 @@ builder.Services.AddSingleton<ChatGpt>();
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
  //  options.UseSqlServer(connectionString));
      builder.Services.AddDbContext<ApplicationDbContext>(options => 
-     options.UseSqlite(connectionString));
+     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
 .AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = false)

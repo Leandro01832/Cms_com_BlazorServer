@@ -1,0 +1,27 @@
+INSERT INTO Story (Id, Modelo, Nome, Image, Descricao, Capitulo, Discriminator)
+VALUES
+    (1, 0, 'Padrao', NULL, NULL, 0, 'PatternStory'),
+    (2, 0, 'Natureza', 'seres-vivos.jpg', 'Esta história conta sobre todos os seres vivos do planeta terra', 1, 'PatternStory'),
+    (4, 0, 'Moda', 'moda.jpg', 'Esta história conta sobre roupas, chapeus, bones, calçados, e todos os outros produtos relacionados a moda', 2, 'PatternStory'),
+    (5, 0, 'veiculos', 'veiculo.jpg', 'Esta história conta sobre produtos desde a sua matéria-prima até o produto final (veiculos).', 3, 'PatternStory'),
+    (6, 0, 'materiais de construção', 'Material.png', 'Esta história conta sobre todos os produtos relacionados a materiais de construção desde a matéria-prima até seu produto final.', 4, 'PatternStory'),
+    (7, 0, 'alimentos e bebidas', 'alimentos.jpg', 'Esta história conta sobre todos os produtos relacionados a alimentos.', 7, 'PatternStory'),
+    (9, 0, 'entretenimento', 'entretenimento.jpg', 'Esta história conta sobre todos os jogos de video-game e diversidades e entretenimento.', 8, 'PatternStory'),
+    (14, 0, 'cosmeticos', 'cosmeticos.jpg', 'Esta história conta...', 9, 'PatternStory'),
+    (15, 0, 'tecnologia', 'tecnologia.jpg', 'Esta história conta...', 10, 'PatternStory'),
+    (19, 0, 'saúde e bem-star', 'saude.jpg', 'Esta história conta...', 12, 'PatternStory'),
+    (21, 0, 'Livraria', 'livraria.jpg', 'Esta história conta...', 13, 'PatternStory'),
+    (22, 0, 'imóveis', 'imoveis.jpg', 'Esta história conta...', 6, 'PatternStory'),
+    (25, 0, 'estudos(matemática, português etc)', 'estudos.png', 'Esta história conta...', 15, 'PatternStory'),
+    (27, 0, 'papelaria', 'papelaria.jpg', 'Esta história conta...', 16, 'PatternStory'),
+    (29, 0, 'Blog e Vlog', 'blog.png', 'Esta história conta...', 17, 'PatternStory'),
+    (32, 0, 'noticias urgentes', 'noticia.jpg', 'Esta história conta...', 19, 'PatternStory'),
+    (33, 0, 'agronegócios', 'agronegocio.jpg', 'Esta história conta...', 20, 'PatternStory'),
+    (34, 0, 'empresas', 'empresa.jpg', 'Esta história conta...', 18, 'PatternStory'),
+    (35, 0, 'casa completa', 'casa.jpg', 'Esta história conta...', 5, 'PatternStory'),
+    (45, 0, 'info-produtos', 'info-produto.jpg', 'Esta história conta...', 11, 'PatternStory'),
+    (47, 0, 'Arte', 'arte.jpg', 'Esta história conta...', 14, 'PatternStory'),
+    (48, 0, 'Projetos e obras', 'projeto.jpg', 'Esta história conta...', 21, 'PatternStory'),
+    (49, 0, 'Serviços', 'serviço.jpg', 'Esta história conta...', 22, 'PatternStory'),
+    (50, 0, 'Desvio de padrão', 'desvio.jpg', 'Esta história conta...', 23, 'PatternStory');
+

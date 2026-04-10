@@ -2,7 +2,7 @@
 @page "/acesso/{indice}"
 @page "/livro/{nomeLivro}"
 @page "/{nomeLivro}/{capitulo:int}/{indice}"
-@using business.business.Group
+
 
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
@@ -452,5 +452,88 @@
 
         await N8nService.EnviarDadosAsync(dados);
     }
+
+    private List<SubFiltro> PesquisarComMaisCriterio()
+        {
+            if(maisCriterio())
+            {
+                var _TotalRegistros = 0;
+                List<SubFiltro> result = new List<SubFiltro>();
+                try
+                {
+                    using (var con = new SqlConnection(ApplicationDbContext._connectionString))
+                    {
+                        SqlCommand cmd = null;
+                        var arr = Query.TrimEnd().TrimStart().Split(' ');
+                        string comando = "SELECT Id, FiltroId, CriterioId, " +
+                        " COUNT(*) as quantidade FROM Filtro as F WHERE ";
+
+                        if (arr.Length == 1)                    
+                        comando += $" F.Nome like '%{Query}%'";
+                        
+                        else if (arr.Length > 1)
+                        {
+                            foreach (var item in arr)
+                            {
+                                if (item != arr.Last())
+                                    comando += $"F.Nome like '%{item}%' or ";
+                                else
+                                    comando += $"F.Nome like '%{item}%'";
+                            }                     
+                        }
+                        else 
+                        return new List<SubFiltro>();                    
+                        comando += " group by F.Id, F.FiltroId, F.CriterioId";                    
+                        cmd = new SqlCommand(comando, con);                   
+
+                        con.Open();
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            var filtro = new SubFiltro
+                            {
+                                Id = reader.GetInt64(0),
+                                FiltroId = reader.GetInt64(1),
+                                CriterioId = reader.GetInt64(2)
+                            };
+
+                            _TotalRegistros = reader.GetInt32(3);
+                            result.Add(filtro);
+                        }
+                        con.Close();
+                    }
+                }
+                catch (Exception)
+                {
+                    _TotalRegistros = 0;
+                }            
+                return result;
+            }
+            else
+            return new List<SubFiltro>();
+        }
+
+        private bool maisCriterio()
+        {  
+            var arr = Query.TrimEnd().TrimStart().Split(' ');
+
+            if(arr.Length > 1)
+            foreach(var item in filtros)
+            {
+                string teste = Query.ToLower();
+                if(teste.Contains(item.Nome.ToLower()))
+                {
+                    teste.Replace(item.Nome.ToLower(),"");
+
+                    foreach(var item2 in filtros)
+                    if(teste.Contains(item2.Nome.ToLower()))                    
+                    return true;                        
+                    
+                }
+            }
+            
+            return false;
+        }
+       
 
 }

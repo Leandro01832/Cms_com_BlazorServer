@@ -4,10 +4,9 @@ using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.business.Book;
-using business.Group;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlazorServerCms.Data
@@ -220,13 +219,13 @@ namespace BlazorServerCms.Data
             var _TotalRegistros = 0;
             try
             {
-                using (var con = new SqliteConnection(ApplicationDbContext._connectionString))
+                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
                 {
-                    SqliteCommand cmd = null;
+                    SqlCommand cmd = null;
                     if(livro == null)
-                    cmd = new SqliteCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={str.Id} and p.LivroId is null", con);
+                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={str.Id} and p.LivroId is null", con);
                     else
-                    cmd = new SqliteCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={str.Id} and p.LivroId={livro.Id}", con);
+                    cmd = new SqlCommand($"SELECT COUNT(*) FROM Filtro as P  where P.StoryId={str.Id} and p.LivroId={livro.Id}", con);
                     con.Open();
                     _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString());
                     con.Close();
@@ -247,11 +246,11 @@ namespace BlazorServerCms.Data
             var _TotalRegistros = 0;
             try
             {
-                using (var con = new SqliteConnection(ApplicationDbContext._connectionString))
+                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
                 {
-                    SqliteCommand cmd = null;
+                    SqlCommand cmd = null;
                     if(livro == null)
-                    cmd = new SqliteCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
+                    cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
                              " inner join Content as C on FC.ContentId=C.Id where " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='Pagina' and C.LivroId is null or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId is null or " +
@@ -261,7 +260,7 @@ namespace BlazorServerCms.Data
                             $" FC.FiltroId={filtroId} and C.Discriminator='VideoFilter' and C.LivroId is null "
                         , con);
                     else
-                        cmd = new SqliteCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
                              " inner join Content as C on FC.ContentId=C.Id where " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='Pagina' and C.LivroId={livro.Id} or " +
                             $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId={livro.Id} or " +
@@ -289,11 +288,11 @@ namespace BlazorServerCms.Data
             var _TotalRegistros = 0;
             try
             {
-                using (var con = new SqliteConnection(ApplicationDbContext._connectionString))
+                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
                 {
-                    SqliteCommand cmd = null;                    
+                    SqlCommand cmd = null;                    
                     if(livro == null)
-                        cmd = new SqliteCommand($"SELECT COUNT(*) FROM Content as P " +
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
                             $" where P.StoryId={storyId} and P.Discriminator='Pagina' and P.LivroId is null or " +
                             $" P.StoryId={storyId} and P.Discriminator='AdminContent' and P.LivroId is null or " +
                             $" P.StoryId={storyId} and P.Discriminator='ProductContent' and P.LivroId is null or " +
@@ -302,7 +301,7 @@ namespace BlazorServerCms.Data
                             $" P.StoryId={storyId} and P.Discriminator='VideoFilter' and P.LivroId is null  "
                             , con);
                     else
-                        cmd = new SqliteCommand($"SELECT COUNT(*) FROM Content as P " +
+                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
                            $" where P.StoryId={storyId} and P.Discriminator='Pagina' and P.LivroId={livro.Id} or " +
                            $" P.StoryId={storyId} and P.Discriminator='AdminContent' and P.LivroId={livro.Id} or " +
                            $" P.StoryId={storyId} and P.Discriminator='ProductContent' and P.LivroId={livro.Id} or " +

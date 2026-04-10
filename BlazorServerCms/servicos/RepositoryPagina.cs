@@ -2,7 +2,6 @@
 using business;
 using business.business;
 using business.business.Group;
-using business.Group;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
