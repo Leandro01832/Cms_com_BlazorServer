@@ -105,29 +105,56 @@
 {
     <div class="filtros">
 
-        <p style="text-align: center;"> <strong>Livro - capitulo - verso</strong> </p>
-
-        <hr />
-
-        @foreach (var item in filtros!)
+        @if(maisDeUmCriterio)
         {
-            <p>
-                <a  onclick="@(() => Acessar(item))" >
+                <p style="text-align: center;"> 
+                <strong> 
+                   @filtros.First().Livro?.Nome
+                 - @filtros.First().Story?.Capitulo 
+                 - @Query
+                 </strong> 
+                 </p>
 
-                    @if (item.Livro != null)
+                <p>
+                    @foreach (var item in filtros!)
                     {
-                        <span> @item.Livro.Nome - </span>
-                    }
-                    else
-                    {
-                        <span>Instagleo - </span>
-                    }
-                    <span> Cap. @item.Story!.Capitulo - </span>
-                    <span> ( @item.Nome ) Versículo @retornarVersoComCriterio(item)</span>
+                        <a  onclick="@(() => Acessar(item))" >
+                            <span title="Acessar @(item.Nome)" >
+                                 Versículo @retornarVersoComCriterio(item)
+                            </span>
 
-                </a>
-            </p>
+                        </a>
+                    }
+                </p>
         }
+        else
+        {
+            <p style="text-align: center;"> <strong>Livro - capitulo - verso</strong> </p>
+
+            <hr />
+
+            @foreach (var item in filtros!)
+            {
+                <p>
+                    <a  onclick="@(() => Acessar(item))" >
+
+                        @if (item.Livro != null)
+                        {
+                            <span> @item.Livro.Nome - </span>
+                        }
+                        else
+                        {
+                            <span>Instagleo - </span>
+                        }
+                        <span> Cap. @item.Story!.Capitulo - </span>
+                        <span> ( @item.Nome ) Versículo @retornarVersoComCriterio(item)</span>
+
+                    </a>
+                </p>
+            }
+
+        }
+
     </div>
 }
 
@@ -210,6 +237,7 @@
     private Story _story = null;
 
     private Livro livro = null;
+    private bool maisDeUmCriterio = false;
 
     //int? verso = null;
     //long? filtro = null;
@@ -269,7 +297,7 @@
         if (_story == null)
         {
             _story = await Context.Story!
-                     .FirstOrDefaultAsync(p => p.Capitulo == repositoryPagina.CapituloLivro)!;
+            .FirstOrDefaultAsync(p => p.Capitulo == repositoryPagina.CapituloLivro)!;
         }
 
         filtros2 = await Context.SubFiltro!
@@ -320,7 +348,6 @@
 
     private async void buscar()
     {
-
         if (!string.IsNullOrEmpty(Query))
                 {
                     filtros = await Context.SubFiltro!
@@ -330,9 +357,8 @@
                     .ThenInclude(f => f.Content)
                     .Include(f => f.Story)
                     .Include(f => f.Livro)
-                .Where(f => f.Nome!.ToLower().Contains(Query.ToLower()))
+                    .Where(f => f.Nome!.ToLower().Contains(Query.ToLower()))
                     .ToListAsync();
-
 
                     if (filtros.Count == 0)
                     {
@@ -378,13 +404,10 @@
                                 navigation.NavigateTo($"/renderizar/{livro.Nome}/{story.Capitulo}/1/comp/{Query.ToLower()}");
                         }
                     }
-                    // else
-                    // {
-                    //     if(livro == null)
-                    //     navigation.NavigateTo($"/Renderizar/{story.Id}/1/0/11/0/0/dominio/comp/{filtros.First().Id}");
-                    //     else
-                    //     navigation.NavigateTo($"/Renderizar/{livro.Nome}/{story.Id}/1/0/11/0/0/dominio/comp/{filtros.First().Id}");
-                    // }
+                   
+
+                    if(maisCriterio())
+                    maisDeUmCriterio = true;
                 }
         else if (string.IsNullOrEmpty(Query))
                 {
@@ -455,10 +478,10 @@
 
     private List<SubFiltro> PesquisarComMaisCriterio()
         {
-            if(maisCriterio())
-            {
+            
                 var _TotalRegistros = 0;
                 List<SubFiltro> result = new List<SubFiltro>();
+                
                 try
                 {
                     using (var con = new SqlConnection(ApplicationDbContext._connectionString))
@@ -505,30 +528,70 @@
                 }
                 catch (Exception)
                 {
-                    _TotalRegistros = 0;
-                }            
+                    return new List<SubFiltro>();
+                } 
                 return result;
-            }
-            else
-            return new List<SubFiltro>();
+            
+            
+            
         }
 
-        private bool maisCriterio()
+    private void PesquisarComMaisCriterio2()
+        {
+            string teste = Query.ToLower();
+                Chave ch = null;
+                filtros.Clear();
+                
+                foreach(var item in filtros2)
+                if(teste.Contains(item.Nome.ToLower()))
+                {
+                    if(ch != null && retornarVerso(item.Criterio.Content)
+                     < retornarVerso(ch.Criterio.Content) )
+                   ch = (Chave)item.Criterio.Content!;                             
+                                      
+                }
+
+               SubFiltro fil = null;
+                    bool t = false;
+               var lista = PesquisarComMaisCriterio();
+                foreach(var item in lista)
+                {
+                    t = false;
+                    fil = filtros2.FirstOrDefault(f => f.Id == item.Id);
+                    
+                    while(!t)
+                    {
+                        fil = filtros2.FirstOrDefault(f => f.Id == item.FiltroId);
+                        if( retornarVerso(fil.Criterio.Content!) == retornarVerso(ch!))
+                        {
+                            t = true;                            
+                             filtros.Add(item);
+                        }
+
+                        if(item == lista.Last())
+                            t = true;
+
+                    }
+                }
+        }
+
+    private bool maisCriterio()
         {  
             var arr = Query.TrimEnd().TrimStart().Split(' ');
 
             if(arr.Length > 1)
-            foreach(var item in filtros)
+            foreach(var item in filtros2)
             {
                 string teste = Query.ToLower();
                 if(teste.Contains(item.Nome.ToLower()))
                 {
                     teste.Replace(item.Nome.ToLower(),"");
-
-                    foreach(var item2 in filtros)
-                    if(teste.Contains(item2.Nome.ToLower()))                    
-                    return true;                        
-                    
+                    foreach(var item2 in filtros2)
+                    if(teste.Contains(item2.Nome.ToLower()))
+                    {
+                        PesquisarComMaisCriterio2();
+                        return true;                   
+                    }                    
                 }
             }
             
