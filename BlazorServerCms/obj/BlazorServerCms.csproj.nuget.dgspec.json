@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {}
+    "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {}
   },
   "projects": {
-    "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {
+    "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
         "projectName": "BlazorServerCms",
-        "projectPath": "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+        "projectPath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\obj\\",
+        "outputPath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
-                "projectPath": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj"
+              "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
+                "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj"
               }
             }
           }
@@ -54,51 +54,55 @@
             },
             "Google.Apis.YouTube.v3": {
               "target": "Package",
-              "version": "[1.61.0.3064, )"
+              "version": "[1.68.0, )"
             },
             "Microsoft.AspNetCore.Authentication.Facebook": {
               "target": "Package",
-              "version": "[6.0.0, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.AspNetCore.Authentication.Google": {
               "target": "Package",
-              "version": "[6.0.0, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.AspNetCore.Authentication.MicrosoftAccount": {
               "target": "Package",
-              "version": "[6.0.0, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.AspNetCore.Authentication.OpenIdConnect": {
               "target": "Package",
-              "version": "[6.0.0, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.AspNetCore.Authentication.Twitter": {
               "target": "Package",
-              "version": "[6.0.0, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.15, )"
+              "version": "[9.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.1, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[6.0.23, )"
-            },
-            "Microsoft.AspNetCore.SignalR.Core": {
-              "target": "Package",
-              "version": "[1.1.0, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.AspNetCore.SignalR.StackExchangeRedis": {
               "target": "Package",
-              "version": "[9.0.8, )"
-            },
-            "Microsoft.Data.Sqlite": {
-              "target": "Package",
               "version": "[9.0.1, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[9.0.1, )"
             },
@@ -110,11 +114,11 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[9.0.11, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.16, )"
+              "version": "[9.0.11, )"
             },
             "NVelocity": {
               "target": "Package",
@@ -156,14 +160,14 @@
         }
       }
     },
-    "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
+    "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
         "projectName": "business",
-        "projectPath": "c:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
+        "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\DELL\\Documents\\teste\\business\\obj\\",
+        "outputPath": "C:\\Users\\DELL\\Documents\\teste\\business\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"

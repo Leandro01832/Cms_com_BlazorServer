@@ -120,12 +120,13 @@
                     {
                         <a  onclick="@(() => Acessar(item))" >
                             <span title="Acessar @(item.Nome)" >
-                                 Versículo @retornarVersoComCriterio(item)
+                                - Versículo @(retornarVersoComCriterio(item)),
                             </span>
 
                         </a>
                     }
                 </p>
+                <p> <a onclick="@compartilhar" > compartilhar com mais critério. </a> </p>
         }
         else
         {
@@ -274,9 +275,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // var authState = await AuthenticationStateProvider
-        // .GetAuthenticationStateAsync();
-        // var user = authState.User;
+         var authState = await AuthenticationStateProvider
+         .GetAuthenticationStateAsync();
+         var user = authState.User;
 
         // if (!user.Identity!.IsAuthenticated)
         // {
@@ -598,5 +599,22 @@
             return false;
         }
        
+    private async void compartilhar()
+    {
+         var authState = await AuthenticationStateProvider
+         .GetAuthenticationStateAsync();
+         var user = authState.User;
+         if (user.Identity!.IsAuthenticated)
+         {
+            var result = "";
+            foreach(var item in filtros)            
+                result += retornarVerso(item.Criterio.Content!).ToString() + ", ";
 
+             var usuario = await userManager.GetUserAsync(user);
+            usuario.Compartilhar = $"({Query} - {string.Join(",", result)})";
+            await userManager.UpdateAsync(usuario);             
+            await js.InvokeVoidAsync("alert", "Compartilhado com sucesso!");
+
+         }
+    }
 }
