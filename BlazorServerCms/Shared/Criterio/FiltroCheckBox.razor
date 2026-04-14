@@ -1,0 +1,33 @@
+<div class="form-check my-2">
+    <input class="form-check-input" type="checkbox" id="@Id" 
+           @bind="CurrentValue" @bind:event="onchange" />
+    <label class="form-check-label" for="@Id">
+        @Label
+    </label>
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+    
+    private bool _checked;
+
+    [Parameter]
+    public bool Checked { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> CheckedChanged { get; set; }
+
+    private bool CurrentValue
+    {
+        get => Checked;
+        set
+        {
+            if (Checked != value)
+            {
+                Checked = value;
+                CheckedChanged.InvokeAsync(value);
+            }
+        }
+    }
+}

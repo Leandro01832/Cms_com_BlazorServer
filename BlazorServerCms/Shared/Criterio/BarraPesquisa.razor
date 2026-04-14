@@ -1,0 +1,16 @@
+<div class="filter-group">
+    <label>@Label</label>
+    <input type="text" class="form-control" 
+           placeholder="Pesquisar..." 
+           @oninput="OnInputChanged" />
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; }
+    [Parameter] public EventCallback<string> OnSearch { get; set; }
+
+    private void OnInputChanged(ChangeEventArgs e)
+    {
+        OnSearch.InvokeAsync(e.Value?.ToString());
+    }
+}

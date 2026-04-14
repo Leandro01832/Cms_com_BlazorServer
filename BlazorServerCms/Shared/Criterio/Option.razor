@@ -1,0 +1,23 @@
+<div class="filter-group">
+    <label>@Label</label>
+    <select class="form-select" @onchange="OnValueChanged">
+        <Option value="">Selecione...</Option>
+        @foreach (var item in Opcoes)
+        {
+            <Option value="@item.Value">@item.Text</Option>
+        }
+    </select>
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; }
+    [Parameter] public List<FilterOption> Opcoes { get; set; }
+    [Parameter] public EventCallback<string> OnChanged { get; set; }
+
+    private async Task OnValueChanged(ChangeEventArgs e)
+    {
+        await OnChanged.InvokeAsync(e.Value?.ToString());
+    }
+
+   
+}

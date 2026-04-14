@@ -1,0 +1,40 @@
+<div class="filter-group shadow-sm p-2 border rounded">
+    <h6 class="fw-bold">@Titulo</h6>
+    @foreach (var opcao in Opcoes)
+    {
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" 
+                   id="@opcao.Id"
+                   @onchange="e => OnToggle(opcao.Value, e.Value)" />
+            <label class="form-check-label" for="@opcao.Id">
+                @opcao.Label
+            </label>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string Titulo { get; set; }
+    [Parameter] public List<CheckOption> Opcoes { get; set; }
+    [Parameter] public EventCallback<List<string>> OnSelectionChanged { get; set; }
+
+    private List<string> valoresSelecionados = new();
+
+    private async Task OnToggle(string value, object checkedValue)
+    {
+        bool isChecked = (bool)checkedValue;
+
+        if (isChecked)
+            valoresSelecionados.Add(value);
+        else
+            valoresSelecionados.Remove(value);
+
+        await OnSelectionChanged.InvokeAsync(valoresSelecionados);
+    }
+
+    public class CheckOption {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Label { get; set; }
+        public string Value { get; set; }
+    }
+}

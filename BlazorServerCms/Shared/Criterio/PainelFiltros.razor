@@ -1,0 +1,50 @@
+@page "/produtos"
+
+<div class="row mb-4 p-3 bg-light rounded">
+    <div class="col-md-4">
+        <FiltroTexto Label="Buscar por Nome" OnSearch="FiltrarPorNome" />
+    </div>
+    <div class="col-md-4">
+        <FiltroCombobox Label="Categoria" 
+                        Opcoes="Categorias" 
+                        OnChanged="FiltrarPorCategoria" />
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-primary" @onclick="LimparFiltros">Limpar</button>
+    </div>
+</div>
+
+<table class="table">
+    </table>
+
+@code {
+    private string filtroNome = "";
+    private string filtroCategoria = "";
+    
+    // Simulação de dados
+    List<FilterOption> Categorias = new() {
+        new() { Value = "eletronicos", Text = "Eletrônicos" },
+        new() { Value = "casa", Text = "Casa & Decoração" }
+    };
+
+    private void FiltrarPorNome(string busca) {
+        filtroNome = busca;
+        AtualizarLista();
+    }
+
+    private void FiltrarPorCategoria(string categoria) {
+        filtroCategoria = categoria;
+        AtualizarLista();
+    }
+
+    private void AtualizarLista() {
+        // Aqui você chamaria seu serviço de banco de dados
+        // Ex: produtos = await Service.GetFiltered(filtroNome, filtroCategoria);
+    }
+
+    private void LimparFiltros() {
+        filtroNome = "";
+        filtroCategoria = "";
+        AtualizarLista();
+    }
+}
