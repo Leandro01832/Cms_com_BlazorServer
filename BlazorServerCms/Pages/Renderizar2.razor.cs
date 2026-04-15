@@ -104,6 +104,7 @@ namespace BlazorCms.Client.Pages
         private string? resumo = null;
         private bool alterouPasta = false;
         protected List<SubFiltro> listaFiltro = null;
+        protected List<SubFiltro> UltimasPastas = null;
         private int indiceChave = 0;
         private int tempoVideo = 0;
         private List<FiltroContent> result = new List<FiltroContent>();

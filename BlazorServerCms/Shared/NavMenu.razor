@@ -1,4 +1,7 @@
-﻿
+﻿@inject UserManager<UserModel> userManager
+
+@using BlazorServerCms.Shared.Criterio
+
 @inject IJSRuntime js
 @inject RepositoryPagina repositoryPagina
 
@@ -33,6 +36,43 @@
                     Sobre
                 </NavLink>
             </div>
+
+            <div class="nav-item px-3">
+                <BarraPesquisaUsuario Value="" OnSearch="buscar" ></BarraPesquisaUsuario> 
+            </div> 
+
+            @if (usuarios!.Count > 0)
+            {
+                <div class="users">
+
+                    @foreach (var item in usuarios!)
+                    {
+                        <p>
+                            <a href="@item.user">
+                                Usuario @item.user
+                                <div class="circulo">
+                                    <center>
+
+                                        <div class="circulo2">
+                                            @if (item.UserModel.Image != null)
+                                            {
+                                                <img src="ImgUser/usuario-@(item.user)-@(item.UserModel.Image)" class="ImgUser">
+                                            }
+                                            else
+                                            {
+                                                <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                                            }
+                                        </div>
+                                    </center>
+                                </div>
+                            </a>
+                        </p>
+                    }
+                </div>
+            }
+
+           
 
 
             <div class="nav-item px-3" data-3 >
@@ -75,6 +115,8 @@
                 </a>
             </div>            
         }      
+            
+            
 
         <AuthorizeView>
             <Authorized>
@@ -135,6 +177,12 @@
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
 
 
     private void ToggleNavMenu()
@@ -165,5 +213,22 @@
         {
             Console.WriteLine(ex.Message);
         }
+    }
+    private void buscar(string args)
+    {
+        usuarios.Clear();
+        var users = userManager.Users.Where(u => u.UserName.Contains(args.ToString()!)).ToList();
+        foreach (var item in users)
+
+            usuarios.Add(new IdentityUserImage { user = item.UserName, UserModel = item });
+
+        if (string.IsNullOrEmpty(args.ToString()!))
+            usuarios.Clear();
+    }
+
+     private class IdentityUserImage
+    {
+        public string? user { get; set; }
+        public UserModel UserModel { get; set; }
     }
 }

@@ -144,6 +144,33 @@ namespace BlazorCms.Client.Pages
             }
 
             if (livro == null)
+            UltimasPastas = await Context.SubFiltro!                    
+                     .Include(p => p.Criterio)!
+                     .ThenInclude(p => p.Content)!
+                     .Include(p => p.Criterio)!
+                     .ThenInclude(p => p.Filtro)!
+                    .Where(f => f.LivroId == null &&
+                    f.UltimaPasta &&
+                     f.StoryId == _story.Id)
+                    .OrderBy(p => p.FiltroId)
+                    .OrderBy(p => p.CriterioId == null)
+                    .ThenBy(p => p.Id)
+                    .ToListAsync();
+                    else
+                        UltimasPastas = await Context.SubFiltro
+                        .Include(p => p.Criterio)!
+                        .ThenInclude(p => p.Content)!
+                        .Include(p => p.Criterio)!
+                        .ThenInclude(p => p.Filtro)!
+                        .Where(f => f.LivroId == livro.Id &&
+                         f.StoryId == _story.Id &&
+                         f.UltimaPasta )
+                        .OrderBy(p => p.FiltroId)
+                        .OrderBy(p => p.CriterioId == null)
+                        .ThenBy(p => p.Id)
+                        .ToListAsync();
+            
+            if (livro == null)            
                 listaFiltro = await Context.SubFiltro!
                      .Include(p => p.Camada)!
                      .Include(p => p.Criterio)!
@@ -154,7 +181,10 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.Content)!
                      .Include(p => p.usuarios)!
                      .ThenInclude(p => p.UserModel)!
-                    .Where(f => f.LivroId == null && f.StoryId == _story.Id && f.Pagina.Count > 0)
+                    .Where(f => f.LivroId == null &&
+                    !f.UltimaPasta &&
+                     f.StoryId == _story.Id &&
+                      f.Pagina.Count > 0)
                     .OrderBy(p => p.FiltroId)
                     .OrderBy(p => p.CriterioId == null)
                     .ThenBy(p => p.Id)
@@ -170,7 +200,10 @@ namespace BlazorCms.Client.Pages
                      .ThenInclude(p => p.Content)!
                      .Include(p => p.usuarios)!
                      .ThenInclude(p => p.UserModel)!
-                    .Where(f => f.LivroId == livro.Id && f.StoryId == _story.Id && f.Pagina.Count > 0)
+                    .Where(f => f.LivroId == livro.Id &&
+                     f.StoryId == _story.Id &&
+                     !f.UltimaPasta &&
+                      f.Pagina.Count > 0)
                     .OrderBy(p => p.FiltroId)
                     .OrderBy(p => p.CriterioId == null)
                     .ThenBy(p => p.Id)
@@ -182,9 +215,17 @@ namespace BlazorCms.Client.Pages
                         Versiculo = retornarVerso(fil.Criterio.Content);
                     }
 
-                 var cri = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave &&
-                 ((Chave)f.Criterio.Content).Versiculo == Versiculo)?.Criterio;
-                 Filtro = listaFiltro.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.First()).FiltroId)?.Id;
+                Criterio cri = null;
+                 var p = listaFiltro.Where(f => f.Criterio != null).FirstOrDefault(f => 
+                 retornarVerso(f.Criterio.Content) == Versiculo);
+                    if(p == null)                    
+                    p = UltimasPastas.Where(f => f.Criterio != null).FirstOrDefault(f => 
+                    retornarVerso(f.Criterio.Content) == Versiculo);
+                    
+                    cri = p.Criterio;
+                 Filtro = listaFiltro
+                 .FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.First())
+                 .FiltroId)?.Id;
 
             List<Chave> chaves = new List<Chave>();
             if (livro == null)
@@ -713,28 +754,28 @@ namespace BlazorCms.Client.Pages
             
             bool ultimaPasta =
             listaFiltro.FirstOrDefault(f => Filtro != null &&
+            f.Criterio != null &&
             f.FiltroId == Model2.Id) == null;
 
             if (Filtro != null && ultimaPasta)
             {     
-                if(Model2.Criterio != null)          
-                Versiculo = retornarVerso(Model2.Criterio.Content);
-                else
-                {
-                    var f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio);                    
-                    Versiculo = retornarVerso(f.Criterio.Content);
-                }
+              var  f = UltimasPastas.FirstOrDefault( fil => fil.FiltroId == Model2.Id);                        
+                Versiculo = retornarVerso(f.Criterio.Content);                
             }
             else if (Filtro != null)
             {
-                var f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id);
-                if(f != null && f.Criterio != null)
-                Versiculo = retornarVerso(f.Criterio.Content);
+                Filtro f = null;
+                if(Model2 != null && Model2.Criterio != null)
+                {
+                    f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id);
+                    Versiculo = retornarVerso(f.Criterio.Content);                    
+                }
+                
                 else if(f.Criterio == null)
                 {
-                    var f2 = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio);
-                    if (f2 != null && f2.Criterio != null)
-                    Versiculo = retornarVerso(f2.Criterio.Content);
+                    f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio);
+                    if (f != null && f.Criterio != null)
+                    Versiculo = retornarVerso(f.Criterio.Content);
                 }
             }
             else

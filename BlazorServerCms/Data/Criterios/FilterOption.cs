@@ -1,5 +1,5 @@
 
-namespace BlazorServerCms.Data.Criterio {
+namespace BlazorServerCms.Data.Criterios {
 
  public class FilterOption {
         public string Value { get; set; }

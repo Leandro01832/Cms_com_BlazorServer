@@ -9,7 +9,7 @@ where C.Versiculo is null
 select F.Id, F.Nome, F.CriterioId, C.Versiculo from Filtro as F 
 inner join FiltroContent as FC on F.Id=FC.FiltroId
 inner join Content as C on C.Id=FC.ContentId
-where C.Discriminator='Chave' order by F.CriterioId
+where C.Discriminator='Pagina' and F.CamadaId=4 order by F.FiltroId
 
 select * from Content where Discriminator='Chave'
 

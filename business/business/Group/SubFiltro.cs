@@ -5,5 +5,6 @@ namespace business.business.Group
         public long? ComCriterio { get; set; }
         public Int64 FiltroId { get; set; }
         public virtual Filtro? Filtro { get; set; }
+        public bool UltimaPasta { get; set; }
     }
 }

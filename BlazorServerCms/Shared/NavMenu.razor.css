@@ -50,6 +50,12 @@
     color: white;
 }
 
+.ImgUser {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+} 
+
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;
