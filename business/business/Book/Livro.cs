@@ -31,6 +31,7 @@ namespace business.business.Book
 
         public string? url { get; set; }
 
+        public virtual List<Anotacao> Anotacao { get; set; }
         public virtual List<UserModelLivro> Users { get; set; }
         public virtual List<Content> Content { get; set; }
         public virtual List<Filtro> Filtro { get; set; }
