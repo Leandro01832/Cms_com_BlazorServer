@@ -30,6 +30,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Anotacao> Anotacao { get; set; }
         public DbSet<Criterio> Criterio { get; set; }
         public DbSet<Camada> Camada { get; set; }
         public DbSet<SubFiltro> SubFiltro { get; set; }
@@ -51,6 +52,7 @@ namespace BlazorServerCms.Data
         public DbSet<UserModelFiltro> UserModelFiltro { get; set; }
         public DbSet<UserModelContent> UserModelPageLiked { get; set; }
         public DbSet<UserModelPastaSalva> UserModelPastaSalva { get; set; }
+        public DbSet<AnotacaoVersiculo> AnotacaoVersiculo { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Rota>? Rota { get; set; }
         public DbSet<Filtro>? Filtro { get; set; }
@@ -85,6 +87,8 @@ namespace BlazorServerCms.Data
          .HasKey(p => new { p.UserModelId, p.ContentId });            
             builder.Entity<UserModelPastaSalva>()
          .HasKey(p => new { p.UserModelId, p.PastaSalvaId });
+            builder.Entity<AnotacaoVersiculo>()
+         .HasKey(p => new { p.AnotacaoId, p.FiltroId });
             builder.Entity<Time>()
             .HasIndex(u => u.nome)
             .IsUnique();

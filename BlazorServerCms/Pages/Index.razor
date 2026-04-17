@@ -63,10 +63,11 @@
 
         @if(maisDeUmCriterio)
         {
+            <p><strong><u>Mais criterios</u></strong></p>
                 <p style="text-align: center;"> 
                 <strong> 
                    @filtros.First().Livro?.Nome
-                 - @filtros.First().Story?.Capitulo 
+                 - Cap. @filtros.First().Story?.Capitulo 
                  - @Query
                  </strong> 
                  </p>
@@ -82,7 +83,19 @@
                         </a>
                     }
                 </p>
-                <p> <a onclick="@compartilhar" > compartilhar com mais critério. </a> </p>
+                <br/>
+                <p> 
+                    <a onclick="@compartilhar">
+                         <strong>compartilhar</strong>
+                    </a>
+                </p>
+                <br/>
+                <p>
+                    <a onclick="@anotar">
+                         <img src="/anotar.gif" style="width:50px; margin:5px;" />
+                          <strong>Anotar...</strong>  
+                    </a>
+                </p>
         }
         else
         {
@@ -596,14 +609,41 @@
 
         }
     }
+
+    private async void anotar()
+    {
+        //aqui você pode implementar a lógica para anotar o conteúdo
+        Console.WriteLine("Anotar conteúdo");
+         var authState = await AuthenticationStateProvider
+        .GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity!.IsAuthenticated)
+        {
+            var anotacao = new Anotacao
+            {
+                UserModelId = userManager.GetUserId(user),
+                Query = Query,
+                Capitulo = filtros.FirstOrDefault()?.Story?.Capitulo ?? 0,
+                LivroId = filtros.FirstOrDefault()?.LivroId,
+                DataCriacao = DateTime.Now           
+            };
+            await Context.Anotacao.AddAsync(anotacao);
+            await Context.SaveChangesAsync();
+
+            foreach(var item in filtros)
+            anotacao.FazerAnotacao(item);
+
+            await Context.SaveChangesAsync();
+            await js.InvokeVoidAsync("alert", "Anotação criada com sucesso!");
+        }
+    }
     private void OnCriterio1Changed(bool args)
     {
         if (args)
             checkedCriterio1 = true;
         else        checkedCriterio1 = false;
     }
-   
-    
+      
     private void OnCriterio2Changed(string valorSelecionado)
     {
         Console.WriteLine($"O usuário escolheu: {valorSelecionado}");

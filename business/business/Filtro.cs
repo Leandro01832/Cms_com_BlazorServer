@@ -51,9 +51,17 @@ namespace business
       //  public virtual List<UltimaPasta>? UltimaPasta { get; set; }      
 
         public virtual List<UserModelFiltro> usuarios { get; set; }
+
+        public virtual List<AnotacaoVersiculo> AnotacaoVersiculos { get; set; }
         public virtual PastaSalva PastaSalva { get; set; }
         public Int64? CriterioId { get; set; }
         public virtual Criterio Criterio { get; set; }
+
+        public void FazerAnotacao(Anotacao anotacao)
+        {
+            if (this.AnotacaoVersiculos == null) this.AnotacaoVersiculos = new List<AnotacaoVersiculo>();
+            this.AnotacaoVersiculos!.Add(new AnotacaoVersiculo { Anotacao = anotacao, Filtro = this });
+        }
 
         public void IncluiPagina(Pagina pag)
         {
