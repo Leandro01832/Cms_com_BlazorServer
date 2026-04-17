@@ -467,4 +467,15 @@ window.retornarTextArea = (textArea) =>
     const isHidden = window.getComputedStyle(el).display === "none";
     el.style.display = isHidden ? "block" : "none";
 };
+
+window.Ocultar = (a) => {
+    const el = document.querySelector('.Criterios2');
+    if (!el) return; // Evita erro se a div não existir na tela
+    const isHidden = window.getComputedStyle(el).display === "none";
+    el.style.display = isHidden ? "block" : "none"; 
+    if(isHidden)
+        return "1";
+    else
+        return "0";
+};
     
