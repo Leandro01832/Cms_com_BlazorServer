@@ -28,5 +28,19 @@ VALUES
 Metamorfose (completa ou incompleta),
 Comportamento social (solitários ou sociais).', '2025-11-30 12:20:02.3166667', 1, 1),
     (25, 4, 'número de cotilédones no embrião e características associadas às folhas, raízes, flores e caules.', '2025-11-30 16:56:45.1700000', 1, 1),
-    (26, 4, 'Tipo de semente, presença de flores e frutos, e características das folhas', '2025-11-30 17:05:01.2200000', 1, 1);
+    (26, 4, 'Tipo de semente, presença de flores e frutos, e características das folhas', '2025-11-30 17:05:01.2200000', 1, 1),
+    (27, 5, 'Ultima pasta', '2026-04-15 08:28:40.8266667', 1, 1),
+    (28, 5, 'Ultima pasta', '2026-04-15 08:58:28.3133333', 1, 1),
+    (29, 5, 'Ultima pasta', '2026-04-15 08:59:18.5066667', 1, 1),
+    (30, 5, 'Ultima pasta', '2026-04-15 08:59:25.5300000', 1, 1),
+    (31, 5, 'Ultima pasta', '2026-04-15 08:59:30.5533333', 1, 1),
+    (32, 5, 'Ultima pasta', '2026-04-15 08:59:38.4200000', 1, 1),
+    (33, 5, 'Ultima pasta', '2026-04-15 08:59:43.6066667', 1, 1),
+    (34, 5, 'Ultima pasta', '2026-04-15 09:29:09.4133333', 1, 1),
+    (35, 5, 'Ultima pasta', '2026-04-15 09:29:14.9566667', 1, 1),
+    (36, 5, 'Ultima pasta', '2026-04-15 09:29:19.8433333', 1, 1),
+    (37, 5, 'Ultima pasta', '2026-04-15 09:29:23.9533333', 1, 1),
+    (38, 5, 'Ultima pasta', '2026-04-15 09:29:29.1066667', 1, 1),
+    (39, 5, 'Ultima pasta', '2026-04-15 09:29:33.8300000', 1, 1),
+    (40, 5, 'Ultima pasta', '2026-04-15 09:29:40.0133333', 1, 1);
 

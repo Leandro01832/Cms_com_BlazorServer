@@ -10602,11 +10602,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+      "projectUniqueName": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
       "projectName": "BlazorServerCms",
-      "projectPath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+      "projectPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
       "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\obj\\",
+      "outputPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -10621,8 +10621,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj": {
-              "projectPath": "C:\\Users\\DELL\\Documents\\teste\\business\\business.csproj"
+            "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\business.csproj": {
+              "projectPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\business.csproj"
             }
           }
         }
@@ -10751,7 +10751,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

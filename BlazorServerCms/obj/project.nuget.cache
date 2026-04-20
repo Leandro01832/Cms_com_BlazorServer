@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EETBiOpAw0s=",
+  "dgSpecHash": "vfjpqstzOw0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+  "projectFilePath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DELL\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\google.apis\\1.68.0\\google.apis.1.68.0.nupkg.sha512",
@@ -232,9 +232,9 @@
       "code": "NU1603",
       "level": "Warning",
       "message": "BlazorServerCms depende de Google.Apis.YouTube.v3 (>= 1.68.0) mas Google.Apis.YouTube.v3 1.68.0 não foi encontrado. Google.Apis.YouTube.v3 1.68.0.3394 foi resolvido.",
-      "projectPath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+      "projectPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\DELL\\Documents\\teste\\BlazorServerCms\\BlazorServerCms.csproj",
+      "filePath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
       "libraryId": "Google.Apis.YouTube.v3",
       "targetGraphs": [
         "net9.0"

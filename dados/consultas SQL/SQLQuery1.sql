@@ -5,6 +5,8 @@ left join FiltroContent as FC on F.Id=FC.FiltroId
 left join Content as C on C.Id=FC.ContentId
 where C.Versiculo is null 
 
+--select Id, Nome, CamadaId, FiltroId from Filtro ORDER BY CamadaId 
+
 -- exibe todas as pastas que tem versiculos
 select F.Id, F.Nome, F.CriterioId, C.Versiculo from Filtro as F 
 inner join FiltroContent as FC on F.Id=FC.FiltroId
