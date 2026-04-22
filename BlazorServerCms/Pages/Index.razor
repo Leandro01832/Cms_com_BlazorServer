@@ -74,9 +74,9 @@
                 <p>
                     @foreach (var item in filtros!)
                     {
-                        <a  onclick="@(() => Acessar(item))" >
-                            <span title="Acessar @(item.Nome)" >
-                                - Versículo @(retornarVersoComCriterio(item)),
+                        <a  onclick="@(() => Acessar(item))">
+                            <span title="Acessar @(item.Nome)">
+                                - Versículo @(retornarVersoComCriterio(item)), 
                             </span>
 
                         </a>
@@ -302,7 +302,7 @@
 
         Context = db.CreateDbContext(null);
         var quant = await userManager.Users.ToListAsync();
-        users = quant.Count;
+        users = quant.Count;      
 
         if (nomeLivro != null)
             livro = await Context.Livro.FirstOrDefaultAsync(l => l.Nome == nomeLivro);
@@ -436,7 +436,10 @@
 
     private int retornarVersoComCriterio(SubFiltro c)
     {
-        var f = filtros2!.FirstOrDefault(f => f.FiltroId == c.Id);
+        var f = Context!.SubFiltro
+        .Include(s => s.Criterio)
+        .ThenInclude(s => s.Content)
+        .FirstOrDefault(f => f.FiltroId == c.Id);
         if (f == null)
         {
             if(c.Criterio != null)
@@ -509,7 +512,8 @@
             using (var con = new SqlConnection(ApplicationDbContext._connectionString))
             {
                 StringBuilder sql = new StringBuilder();
-                sql.Append("SELECT Id, FiltroId, CriterioId, COUNT(*) OVER() as Total "); // OVER() é mais eficiente para totalizadores
+                sql.Append("WITH ArvoreRecursiva AS ( "); // OVER() é mais eficiente para totalizadores
+                sql.Append("SELECT Id, FiltroId, CriterioId, Nome "); // OVER() é mais eficiente para totalizadores
                 sql.Append("FROM Filtro WHERE ");
 
                 var cmd = new SqlCommand();
@@ -521,9 +525,10 @@
 
 
                 sql.Append(string.Join(" OR ", condicoes));
-                sql.Append(" GROUP BY Id, FiltroId, CriterioId");
+                sql.Append(" UNION ALL SELECT t.Id, t.FiltroId, t.CriterioId, t.Nome FROM Filtro t INNER JOIN ArvoreRecursiva r ON t.FiltroId = r.Id ");
+                sql.Append(" ) SELECT * FROM ArvoreRecursiva; "); 
 
-                cmd.CommandText = sql.ToString();
+                cmd.CommandText = sql.ToString(); 
                 cmd.Connection = con;
 
                 con.Open();
@@ -535,7 +540,8 @@
                     {
                         Id = reader.IsDBNull(0) ? 0 : reader.GetInt64(0),
                         FiltroId = reader.IsDBNull(1) ? 0 : reader.GetInt64(1),
-                        CriterioId = reader.IsDBNull(2) ? 0 : reader.GetInt64(2)
+                        CriterioId = reader.IsDBNull(2) ? 0 : reader.GetInt64(2),
+                        Nome = reader.IsDBNull(3) ? string.Empty : reader.GetString(3) 
                     });
                     }
                 }
@@ -551,46 +557,18 @@
 
     private void PesquisarComMaisCriterio2(List<string> termos)
     {
-        string teste = Query.ToLower();
-        Chave ch = filtros2
-                .LastOrDefault().Criterio.Content! as Chave;
         filtros.Clear();
-
-        foreach(var item in termos)
-            if(teste.Contains(item.ToLower()))
-            {
-                var f = filtros2
-                .FirstOrDefault(f => f.Nome.ToLower() == item.ToLower());
-                if( retornarVerso(f.Criterio.Content) < retornarVerso(ch.Criterio.Content) )
-                    ch = (Chave)f.Criterio.Content!; 
-            }
-
-        SubFiltro fil = null;
-        bool t = false;
         var lista = PesquisarComMaisCriterio(termos);
         foreach(var item in lista)
         {
-            t = false;
-            fil = filtros2.FirstOrDefault(f => f.Id == item.Id);
-
-            while(!t)
-            {
-                if(
-                 fil == null ||
-                 fil.Camada.Numero == 2 ||
-                 fil.Camada.Numero < ch.Criterio.Camada.Numero
-                 )
-                    t = true;
-                if( retornarVerso(fil.Criterio.Content!) == retornarVerso(ch!))
-                {
-                    t = true; 
-                    fil = filtros2.FirstOrDefault(f => f.Id == item.Id);                           
-                    filtros.Add(fil);
-                }
-                else
-                    fil = filtros2.FirstOrDefault(f => f.Id == fil.FiltroId); 
-            }
+            var f = Context.SubFiltro
+            .Include(s => s.Criterio)
+            .ThenInclude(s => s.Content)
+            .FirstOrDefault(f => f.Id == item.Id && !f.UltimaPasta);
+            if(f != null)
+                filtros.Add(f); 
         }
+       
     }
 
     private List<string> maisCriterio()
@@ -680,7 +658,14 @@
 
     private async void Ocultar()
     {
-      ocultar = await js!.InvokeAsync<string>("Ocultar", "1");      
+        try
+        {
+            ocultar = await js!.InvokeAsync<string>("Ocultar", "1");   
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Erro ao alternar visibilidade: {ex.Message}");
+        }
     }
 
 

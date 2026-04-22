@@ -48,6 +48,8 @@ namespace business.business
 
         public virtual List<UserModelContent> usuarios { get; set; }
 
+        public virtual List<HashtagContent> HashtagContent { get; set; }
+
         public virtual List<Comment> Comentario { get; set; }
 
         public int QuantLiked { get; set; } = 0;
