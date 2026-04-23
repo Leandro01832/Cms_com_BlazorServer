@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace business.business
 {
-    public class ProdutoConteudo : BaseModel
+    public class ProdutoConteudo 
     {
         public long ProdutoId { get; set; }
         public long ContentId { get; set; }

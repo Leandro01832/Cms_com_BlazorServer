@@ -3,12 +3,12 @@ using business;
 namespace business.business
 {
 
-public class HashtagContent 
+public class HashtagFiltro 
 {
     public virtual Hashtag Hashtag { get; set; }
     public long HashtagId { get; set; }
-    public virtual Content Content { get; set; }
-    public long ContentId { get; set; }
+    public virtual Filtro Filtro { get; set; }
+    public long FiltroId { get; set; }
 }
 
 }

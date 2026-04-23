@@ -55,6 +55,7 @@ namespace BlazorServerCms.Data
         public DbSet<UserModelPastaSalva> UserModelPastaSalva { get; set; }
         public DbSet<AnotacaoVersiculo> AnotacaoVersiculo { get; set; }
         public DbSet<HashtagContent> HashtagContent { get; set; }
+        public DbSet<HashtagFiltro> HashtagFiltro { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Rota>? Rota { get; set; }
         public DbSet<Filtro>? Filtro { get; set; }
@@ -93,6 +94,8 @@ namespace BlazorServerCms.Data
          .HasKey(p => new { p.AnotacaoId, p.FiltroId });
           builder.Entity<HashtagContent>()
          .HasKey(p => new { p.HashtagId, p.ContentId });
+             builder.Entity<HashtagFiltro>()
+         .HasKey(p => new { p.HashtagId, p.FiltroId });
             builder.Entity<Time>()
             .HasIndex(u => u.nome)
             .IsUnique();
