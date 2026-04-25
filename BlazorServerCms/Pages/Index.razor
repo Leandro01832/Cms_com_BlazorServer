@@ -15,10 +15,6 @@
 @inject AuthenticationStateProvider? AuthenticationStateProvider 
 @inject N8nService N8nService
 
-
-
-
-
 <PageTitle>Instagleo</PageTitle>
 
 <div class="row">
@@ -26,7 +22,6 @@
 </div>
 
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
-
 @* <button @onclick="DispararFluxo">Executar Automação</button> *@
 
 <div class="info">
@@ -59,10 +54,7 @@
 @if (filtros!.Count > 0)
 {
     <div class="filtros">
-
-        @if(maisDeUmCriterio)
-        {
-            <p><strong><u>Mais criterios</u></strong></p>
+        
                 <p style="text-align: center;"> 
                 <strong> 
                    @filtros.First().Livro?.Nome
@@ -83,6 +75,24 @@
                     }
                 </p>
                 <br/>
+                <div class="Hashtags">
+                    <p>
+                        @foreach(var item in hashTagContents.Select(h => h.Hashtag.Name).ToList())
+                        {
+                            <span style="margin-right:5px; font-size:small; color:blue;">
+                                #@(item)
+                            </span>
+                            @foreach(var item2 in hashTagContents.Where(h => h.Hashtag.Name == item))
+                            {
+                                <span>
+                                  Item  @(buscarItem(item2.ContentId))
+                                </span>
+                            }
+                        }
+                    </p>
+
+                </div>
+                <br/>
                 <p> 
                     <a onclick="@compartilhar">
                          <strong>compartilhar</strong>
@@ -95,38 +105,10 @@
                           <strong>Anotar...</strong>  
                     </a>
                 </p>
-        }
-        else
-        {
-            <p style="text-align: center;"> <strong>Livro - capitulo - verso</strong> </p>
-
-            <hr />
-
-            @foreach (var item in filtros!)
-            {
-                <p>
-                    <a  onclick="@(() => Acessar(item))" >
-
-                        @if (item.Livro != null)
-                        {
-                            <span> @item.Livro.Nome - </span>
-                        }
-                        else
-                        {
-                            <span>Instagleo - </span>
-                        }
-                        <span> Cap. @item.Story!.Capitulo - </span>
-                        <span> ( @item.Nome ) Versículo @retornarVersoComCriterio(item)</span>
-
-                    </a>
-                </p>
-            }
-
-        }
-
+        
+      
     </div>
 }
-
 
 <div class="Criterios" >
 <BarraPesquisa Value="@Query" OnSearch="buscar" ></BarraPesquisa> 
@@ -222,9 +204,15 @@
     </GuidedTourStep>
 </GuidedTour>
 
+
+
+
+
+
+
 @code
 {
-
+   
     [Parameter] public int? capitulo { get; set; }
 
     [Parameter] public string? nomeLivro { get; set; } = "";
@@ -233,6 +221,8 @@
     public string? Usuario { get; set; }
     List<SubFiltro>? filtros = new List<SubFiltro>();
     List<SubFiltro>? filtros2 = new List<SubFiltro>();
+
+    List<HashtagContent> hashTagContents = new List<HashtagContent>();
 
 
     List<FilterOption> options = new List<FilterOption>();
@@ -257,6 +247,11 @@
     private string criterio2 = "";
 
     private string ocultar = "1"; 
+
+    private Filtro itemFiltro = null;
+
+    HashSet<string> termosValidos = null;
+    HashSet<string> stopWords = null;
 
 
     protected override async Task OnParametersSetAsync()
@@ -302,7 +297,8 @@
 
         Context = db.CreateDbContext(null);
         var quant = await userManager.Users.ToListAsync();
-        users = quant.Count;      
+        users = quant.Count;
+      
 
         if (nomeLivro != null)
             livro = await Context.Livro.FirstOrDefaultAsync(l => l.Nome == nomeLivro);
@@ -323,11 +319,69 @@
             .ThenInclude(f => f.Content)
             .Include(f => f.Story)
             .Include(f => f.Livro)
-            .Where(f => f.Pagina.Count > 0 &&
+            .Where(f => 
+            //f.Pagina.Count > 0 &&
              !f.UltimaPasta &&
-              f.Criterio != null)
+              f.CriterioId != null)
             .ToListAsync();
 
+            termosValidos = new HashSet<string>(
+        filtros2.Select(f => f.Nome.Trim()), 
+        StringComparer.OrdinalIgnoreCase );
+
+         stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
+    { 
+        "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
+        "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
+    };
+
+             @*
+              var fils = Context.SubFiltro
+            .Where(f => f.CriterioId == 18556)
+            .ToList();
+
+            var cri = Context.Criterio
+             .Where(c => c.Id > 18622)
+             .ToList();
+
+             for(int i = 0; i < fils.Count; i++)
+             {
+                fils[i].CriterioId = cri[i].Id;
+                Context.SubFiltro.Update(fils[i]);
+             }
+                Context.SaveChanges();
+                  *@
+                
+
+                // Usando LINQ para encontrar quem não é pai de ninguém
+@* 
+var gruposFinais = await Context.SubFiltro
+    .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))
+    .ToListAsync();
+
+    foreach(var item in gruposFinais)
+    {
+        if(!item.UltimaPasta)
+        {
+            var f = new SubFiltro
+            {
+                FiltroId = item.Id,
+                Nome = item.Nome,
+                CriterioId = 18556,
+                LivroId = item.LivroId,
+                StoryId = item.StoryId,
+                UltimaPasta = true,
+                CamadaId = item.CamadaId + 1
+            };
+            await Context.SubFiltro.AddAsync(f);
+
+        }
+            
+    }      
+      
+        await Context.SaveChangesAsync();
+
+    *@
 
         if(livro != null && capitulo != null )
         {
@@ -351,31 +405,57 @@
 
     private async void Acessar(Filtro item)
     {        
-        var itemContent = 1;
-        Chave ch = null;
-        var fil = filtros2!
-        .FirstOrDefault(f => f.FiltroId == item.Id); 
-        if(fil == null)
-            itemContent = repositoryPagina.random.Next(1, item.Pagina.Count());
-        else
-            itemContent = repositoryPagina.random.Next(1, fil.Pagina.Count());
 
-        if(fil != null)        
-            ch = (Chave)fil.Criterio.Content!;
+        if(!Query.Contains("#"))
+        {
+            var itemContent = 1;
+            Chave ch = null;
+            var fil = filtros2!
+            .FirstOrDefault(f => f.FiltroId == item.Id); 
+            if(fil == null)
+                itemContent = repositoryPagina.random.Next(1, item.Pagina.Count());
+            else
+                itemContent = repositoryPagina.random.Next(1, fil.Pagina.Count());
+
+            if(fil != null)        
+                ch = (Chave)fil.Criterio.Content!;
+            else
+            {
+                var f = Context.SubFiltro
+                .Include(s => s.Criterio)
+                .ThenInclude(s => s.Content)
+                .FirstOrDefault(s => s.FiltroId == item.Id);
+                ch = (Chave)f.Criterio.Content!;
+            }
+            var str = Context.Story.First(s => s.Id == item.StoryId);
+
+            if(item.Livro == null && ch != null)
+                navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
+            else
+                navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
+
+        }
+
         else
         {
-            var f = Context.SubFiltro
-            .Include(s => s.Criterio)
-            .ThenInclude(s => s.Content)
-            .FirstOrDefault(s => s.FiltroId == item.Id);
-            ch = (Chave)f.Criterio.Content!;
+            itemFiltro = item;
+            var termos = maisCriterio(Query, filtros2);
+            hashTagContents.Clear();
+            
+            foreach(var item2 in item.Pagina)
+            {
+                var hashTagContent = await Context.HashtagContent
+                .Include(h => h.Hashtag)
+                .FirstOrDefaultAsync(c => c.ContentId == item2.ContentId && 
+                termos.Any(t => c.Hashtag.Name.Contains(t)));
+                if(hashTagContent != null)                
+                    hashTagContents.Add(hashTagContent);
+                
+            }
+            var hashTags = hashTagContents.Select(h => h.Hashtag.Name).ToList();
+            
         }
-        var str = Context.Story.First(s => s.Id == item.StoryId);
 
-        if(item.Livro == null && ch != null)
-            navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
-        else
-            navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
 
 
 
@@ -389,27 +469,13 @@
 
         if (!string.IsNullOrEmpty(Query))
         {
-            var termos = maisCriterio();
-            if(termos.Count > 1)
-            {
-                maisDeUmCriterio = true;
-                PesquisarComMaisCriterio2(termos);
-            }
-            else if(termos.Count == 1)
-            {
-                maisDeUmCriterio = false;
-                filtros = filtros2
-                .Where(f => f.Nome!.ToLower().Contains(termos[0].ToLower()))
-                .ToList();          
-            }
-            else
-            {
-                maisDeUmCriterio = false;
-                filtros = filtros2
-                .Where(f => f.Nome!.ToLower().Contains(Query.ToLower()))
-                .ToList();    
+            string teste = Query.Trim().ToLower();
+            List<string> termos = maisCriterio(teste, filtros2);
 
-            }
+                if(termos.Count > 0)
+            PesquisarComMaisCriterio2(termos);   
+            else
+            filtros = new List<SubFiltro>();
 
         }
         else if (string.IsNullOrEmpty(Query))
@@ -422,11 +488,7 @@
     {
         await TourService.StartTour("FormGuidedTour");
     }
-
-    private void limparFiltros()
-    {
-        filtros.Clear();
-    }
+   
 
     private int retornarVerso(Content c)
     {
@@ -436,9 +498,7 @@
 
     private int retornarVersoComCriterio(SubFiltro c)
     {
-        var f = Context!.SubFiltro
-        .Include(s => s.Criterio)
-        .ThenInclude(s => s.Content)
+        var f = filtros2
         .FirstOrDefault(f => f.FiltroId == c.Id);
         if (f == null)
         {
@@ -503,6 +563,7 @@
     {
         //tratando sql injection e otimizando a consulta para evitar múltiplas id's
         List<SubFiltro> result = new List<SubFiltro>();
+            
 
         if (termos == null || termos.Count == 0)
             return result;
@@ -513,20 +574,23 @@
             {
                 StringBuilder sql = new StringBuilder();
                 sql.Append("WITH ArvoreRecursiva AS ( "); // OVER() é mais eficiente para totalizadores
-                sql.Append("SELECT Id, FiltroId, CriterioId, Nome "); // OVER() é mais eficiente para totalizadores
-                sql.Append("FROM Filtro WHERE ");
+                sql.Append("SELECT g.Id, g.FiltroId, g.CriterioId, g.Nome FROM Filtro g "); // OVER() é mais eficiente para totalizadores
+                sql.Append("INNER JOIN HashtagFiltro gh ON g.Id = gh.FiltroId "); // OVER() é mais eficiente para totalizadores
+                sql.Append("INNER JOIN Hashtag ha ON gh.HashtagId = ha.Id "); // OVER() é mais eficiente para totalizadores
+                sql.Append("WHERE  "); // OVER() é mais eficiente para totalizadores
+                
 
                 var cmd = new SqlCommand();
                 List<string> condicoes = new List<string>();
 
                 // Criando parâmetros dinamicamente para cada palavra da busca
                 for (int i = 0; i < termos.Count; i++)
-                    condicoes.Add($"Nome LIKE '{termos[i]}'");
+                    condicoes.Add($" ha.Name LIKE '%{termos[i]}%' OR g.Nome LIKE '%{termos[i]}%' "); // OVER() é mais eficiente para totalizadores
 
 
                 sql.Append(string.Join(" OR ", condicoes));
                 sql.Append(" UNION ALL SELECT t.Id, t.FiltroId, t.CriterioId, t.Nome FROM Filtro t INNER JOIN ArvoreRecursiva r ON t.FiltroId = r.Id ");
-                sql.Append(" ) SELECT * FROM ArvoreRecursiva; "); 
+                sql.Append(" ) SELECT DISTINCT Id, FiltroId, CriterioId, Nome FROM ArvoreRecursiva; "); 
 
                 cmd.CommandText = sql.ToString(); 
                 cmd.Connection = con;
@@ -559,6 +623,7 @@
     {
         filtros.Clear();
         var lista = PesquisarComMaisCriterio(termos);
+        if(lista.Count > 0)
         foreach(var item in lista)
         {
             var f = Context.SubFiltro
@@ -570,33 +635,27 @@
         }
        
     }
+   
+   public List<string> maisCriterio(string query, List<SubFiltro>? filtros2)
+{
+    if (string.IsNullOrWhiteSpace(query)) return new List<string>();    
 
-    private List<string> maisCriterio()
-    {  
-        var arr = Query.Trim().Split(' ');
-        List<string> termos = new List<string>();
-        string teste = Query.ToLower();
-        int teste2 = 0;
-        if(arr.Length > 1)
-            while(teste.Contains(" "))
-            {
-                foreach(var item in filtros2)
-                    if(filtros2
-                    .FirstOrDefault(f => teste.Contains(item.Nome.ToLower())) != null)                
-                    {
-                        termos.Add(item.Nome.ToLower());
-                        teste = teste.Replace(item.Nome.ToLower(),"").Trim();                                   
-                    }
-                    else
-                        teste2++;
+    var termosEncontrados = new List<string>();
+    
+    // 2. Dividimos a query por espaços e removemos entradas vazias
+    var palavrasUsuario = query.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                if(teste2 > 100)
-                    break;
-            }
-
-        return termos;
+    // 3. Verificamos cada palavra (ou combinações)
+    foreach (var palavra in palavrasUsuario)
+    {
+        if (!stopWords.Contains(palavra) && termosValidos.Contains(palavra))
+        {
+            termosEncontrados.Add(palavra.ToLower());
+        }
     }
 
+    return termosEncontrados.Distinct().ToList();
+}
     private async void compartilhar()
     {
         var authState = await AuthenticationStateProvider
@@ -668,6 +727,13 @@
         }
     }
 
+    private string buscarItem(long contentId)
+    {
 
+        var result = itemFiltro.Pagina.OrderBy(p => p.ContentId)
+        .FirstOrDefault(p => p.ContentId == contentId);
+        var indice = itemFiltro.Pagina.OrderBy(p => p.ContentId).ToList().IndexOf(result) + 1;
 
+            return indice.ToString();
+    }
 }

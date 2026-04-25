@@ -27,6 +27,7 @@ namespace business.business
 
         public virtual  List<Assinatura> Assinatura { get; set; }
         public virtual  List<Anotacao> Anotacao { get; set; }
+        public virtual  List<Hashtag> Hashtag { get; set; }
 
         public virtual List<UserModelLivro> Livro { get; set; }
 

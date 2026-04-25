@@ -2,14 +2,17 @@
 
 <div class="filter-group">
   
-    <input type="text" class="form-control"  value="@Value"
+    <input type="text" class="form-control"  
            placeholder="Pesquisar..." 
-           @oninput="OnInputChanged" />
+        @bind="Value" 
+       @bind:event="oninput"
+           @onkeyup="OnInputChanged" />
 </div>
 
 @code {
     
     [Parameter] public string Value { get; set; }
+    private string UltimoTermoEnviado { get; set; } = "";
     [Parameter] public EventCallback<string> OnSearch { get; set; }
 
         private DemoContextFactory db = new DemoContextFactory();
@@ -23,9 +26,21 @@
     }
 
 
-    private async void OnInputChanged(ChangeEventArgs e)
+    private async void OnInputChanged(KeyboardEventArgs e)
     {
-        OnSearch.InvokeAsync(e.Value?.ToString());        
+        if (e.Key == " " || e.Key == "Enter")
+        {
+            // 1. Limpeza: Remove espaços extras (ex: "Baleia     " vira "Baleia")
+            var termoLimpo = Value.Trim();
+
+            // 2. Bloqueio: Só envia se o termo atual for diferente do último enviado
+            // E se não estiver vazio
+            if (!string.IsNullOrWhiteSpace(termoLimpo) && termoLimpo != UltimoTermoEnviado)
+            {
+                UltimoTermoEnviado = termoLimpo;
+                await OnSearch.InvokeAsync(termoLimpo);
+            }
+        }
     }
 
 
