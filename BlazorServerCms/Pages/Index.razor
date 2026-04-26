@@ -2,9 +2,9 @@
 @page "/acesso/{indice}"
 @page "/livro/{nomeLivro}"
 @page "/{nomeLivro}/{capitulo:int}/{indice}"
-@using System.Data
-@using System.Threading.Tasks
 
+
+@inject OllamaApiClient _ollamaService
 
 
 @inject NavigationManager navigation
@@ -333,7 +333,7 @@
     { 
         "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
         "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
-    };
+    };    
 
              @*
               var fils = Context.SubFiltro
@@ -382,6 +382,8 @@ var gruposFinais = await Context.SubFiltro
         await Context.SaveChangesAsync();
 
     *@
+
+ //   GerarInteligenciaDosFiltros();
 
         if(livro != null && capitulo != null )
         {
@@ -729,11 +731,54 @@ var gruposFinais = await Context.SubFiltro
 
     private string buscarItem(long contentId)
     {
-
         var result = itemFiltro.Pagina.OrderBy(p => p.ContentId)
         .FirstOrDefault(p => p.ContentId == contentId);
         var indice = itemFiltro.Pagina.OrderBy(p => p.ContentId).ToList().IndexOf(result) + 1;
 
             return indice.ToString();
     }
+
+    private async Task GerarInteligenciaDosFiltros()
+    {
+        // 1. Busca os filtros que ainda não têm vetor (ajuste conforme seu DbContext)
+        var filtrosParaProcessar = await Context.Filtro
+                                           .Where(f => f.VetorEmbedding == null)
+                                           .ToListAsync();
+
+        foreach (var filtro in filtrosParaProcessar)
+        {
+           // Criamos a requisição com o formato de lista que a biblioteca exige agora
+            var request = new EmbedRequest
+            {
+                Model = "mxbai-embed-large",
+                Input = new List<string> { filtro.Nome }
+            };
+
+            // Tente trocar .Embed por .Embeddings se o erro persistir
+            var response = await _ollamaService.EmbedAsync(request);
+
+            // O retorno costuma ser uma lista de vetores (um para cada item do Input)
+            // Pegamos o primeiro [0] e convertemos para float[]
+            var embeddingData = response.Embeddings.FirstOrDefault();
+
+            if (embeddingData != null)
+            {
+                float[] vetorOriginal = embeddingData.Select(d => (float)d).ToArray();
+
+                // Conversão para o seu campo varbinary(max) do banco
+                byte[] dadosBinarios = new byte[vetorOriginal.Length * sizeof(float)];
+                Buffer.BlockCopy(vetorOriginal, 0, dadosBinarios, 0, dadosBinarios.Length);
+
+                filtro.VetorEmbedding = dadosBinarios;
+            }
+        }
+
+        // 5. Salva tudo no banco de uma vez
+        await Context.SaveChangesAsync();
+    }
+
+    
+
+
+
 }

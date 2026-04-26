@@ -57,6 +57,8 @@ namespace business
         public Int64? CriterioId { get; set; }
         public virtual Criterio Criterio { get; set; }
 
+        public byte[]? VetorEmbedding { get; set; }
+
         public void FazerAnotacao(Anotacao anotacao)
         {
             if (this.AnotacaoVersiculos == null) this.AnotacaoVersiculos = new List<AnotacaoVersiculo>();

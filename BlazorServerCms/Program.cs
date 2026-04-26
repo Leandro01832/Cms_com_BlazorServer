@@ -21,6 +21,7 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 // Add services to the container.
 
+builder.Services.AddScoped(sp => new OllamaSharp.OllamaApiClient("http://localhost:11434"));
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<MarcacaoVideoFilter>();
 builder.Services.AddScoped<N8nService>();

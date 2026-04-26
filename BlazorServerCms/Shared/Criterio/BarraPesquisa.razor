@@ -1,5 +1,7 @@
 @inject NavigationManager navigation
 
+@inject OllamaApiClient _ollamaService
+
 <div class="filter-group">
   
     <input type="text" class="form-control"  
@@ -7,7 +9,15 @@
         @bind="Value" 
        @bind:event="oninput"
            @onkeyup="OnInputChanged" />
+           <button @onclick="() => PesquisarSemantica(Value)">Buscar com IA</button>
 </div>
+
+<ul>
+    @foreach (var item in ResultadosDaBusca)
+    {
+        <li>@item.Nome</li>
+    }
+</ul>
 
 @code {
     
@@ -28,7 +38,7 @@
 
     private async void OnInputChanged(KeyboardEventArgs e)
     {
-        if (e.Key == " " || e.Key == "Enter")
+        if (e.Key == "Enter")
         {
             // 1. Limpeza: Remove espaços extras (ex: "Baleia     " vira "Baleia")
             var termoLimpo = Value.Trim();
@@ -42,6 +52,78 @@
             }
         }
     }
+
+
+    private List<Filtro> ResultadosDaBusca = new();
+
+private async Task PesquisarSemantica(string termoBusca)
+{
+    if (string.IsNullOrWhiteSpace(termoBusca)) return;
+
+    // 1. Transforma o que o usuário digitou em um vetor (Embedding)
+    var request = new EmbedRequest
+    {
+        Model = "mxbai-embed-large",
+        Input = new List<string> { termoBusca }
+    };
+    
+    var response = await _ollamaService.EmbedAsync(request);
+    float[] vetorUsuario = response.Embeddings[0].Select(d => (float)d).ToArray();
+
+    // 2. Busca todos os filtros do banco que já possuem inteligência (vetor)
+    var todosFiltros = await Context.Filtro
+                               .Where(f => f.VetorEmbedding != null)
+                               .ToListAsync();
+
+    // 3. Calcula a similaridade e ordena
+    ResultadosDaBusca = todosFiltros
+        .Select(f => new { 
+            Filtro = f, 
+            Score = CalcularSimilaridadeCosseno(vetorUsuario, ConverterByteParaFloat(f.VetorEmbedding)) 
+        })
+        .OrderByDescending(x => x.Score) // Os mais parecidos primeiro
+        .Where(x => x.Score > 0.5)      // Filtro de corte (opcional) para evitar resultados irrelevantes
+        .Select(x => x.Filtro) 
+        .ToList();
+}
+
+private float CalcularSimilaridadeCosseno(float[] vetorA, float[] vetorB)
+{
+    float dotProduct = 0;
+    float magnitudeA = 0;
+    float magnitudeB = 0;
+
+    for (int i = 0; i < vetorA.Length; i++)
+    {
+        dotProduct += vetorA[i] * vetorB[i];
+        magnitudeA += vetorA[i] * vetorA[i];
+        magnitudeB += vetorB[i] * vetorB[i];
+    }
+
+    return dotProduct / (MathF.Sqrt(magnitudeA) * MathF.Sqrt(magnitudeB));
+}
+
+
+/// <summary>
+/// Converte o array de bytes (varbinary) vindo do SQL Server 
+/// de volta para um array de floats para cálculos matemáticos.
+/// </summary>
+private float[] ConverterByteParaFloat(byte[] bytes)
+{
+    // 1. Validamos se os bytes existem
+    if (bytes == null || bytes.Length == 0) 
+        return Array.Empty<float>();
+
+    // 2. Criamos o array de destino com o tamanho exato.
+    // Como cada float ocupa 4 bytes, dividimos o tamanho total por 4.
+    float[] floats = new float[bytes.Length / sizeof(float)];
+
+    // 3. A "Mágica" da performance: 
+    // Copia os dados bit a bit da memória, sem precisar de loops lentos ou JSON.
+    Buffer.BlockCopy(bytes, 0, floats, 0, bytes.Length);
+
+    return floats;
+}
 
 
 }
