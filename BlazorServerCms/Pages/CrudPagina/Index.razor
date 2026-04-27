@@ -24,6 +24,13 @@ else
         <input type="checkbox" onchange="@marcar" value="@marcado" /> paginas com filtro
         <input type="checkbox" onchange="@marcarUserContent" value="@UserContent" /> User content
     </div>
+    <div class="legenda-Animais" style="background-color: rgb(149, 148, 148);">
+        <span class="badge bg-info">Maíferos</span>
+        <span class="badge" style="background-color: lightpink;">Aves</span>
+        <span class="badge" style="background-color: rgb(227, 247, 4);">Peixes</span>
+        <span class="badge" style="background-color: rgb(2, 242, 54);">Anfíbios</span>
+        <span class="badge" style="background-color: rgb(217, 152, 247);">Répteis</span>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -69,7 +76,47 @@ else
                                     <option value="">Adicionar filtro</option>
                                     @foreach(var grupo in grupos)
                                     {
-                                        <option value="@grupo.Id">Grupo: @grupo.Nome</option>
+                                        var grup = lista
+                                        .FirstOrDefault(g => g.Id == grupo.FiltroId);
+                                        if(grup != null)
+                                        while (grup.CamadaId > 4)                                        
+                                            grup = lista
+                                            .FirstOrDefault(g => g.Id == grup.FiltroId);
+                                        
+                                        if(grup != null && grupo.CamadaId > 4)
+                                        if(grup.Nome == "Maíferos")
+                                        {
+                                            <option value="@grupo.Id" style="background-color: aqua;" >Grupo1: @grupo.Nome
+                                            </option> 
+
+                                        }
+                                        else if(grup.Nome == "Aves")
+                                        {
+                                            <option value="@grupo.Id" style="background-color: lightpink;" >Grupo2: @grupo.Nome</option>
+
+                                        }
+                                        else if(grup.Nome == "Peixes")
+                                        {
+                                            <option value="@grupo.Id" style="background-color: rgb(227, 247, 4);" >Grupo3: @grupo.Nome</option>
+
+                                        }
+                                        else if(grup.Nome == "Anfíbios")
+                                        {
+                                            <option value="@grupo.Id" style="background-color: rgb(2, 242, 54);" >Grupo4: @grupo.Nome</option>
+
+                                        }
+                                        else if(grup.Nome == "Répteis")
+                                        {
+                                            <option value="@grupo.Id" style="background-color: rgb(217, 152, 247);" >Grupo5: @grupo.Nome</option>
+
+                                        }
+                                        else
+                                        {
+                                            <option value="@grupo.Id">Grupo6: @grupo.Nome</option>
+
+                                        }
+                                        
+
                                     }
                                 </select>
 
@@ -102,6 +149,7 @@ else
     private bool UserContent = true;
 
     List<SubFiltro> grupos = new List<SubFiltro>();
+    List<SubFiltro> lista = new List<SubFiltro>();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -126,6 +174,10 @@ else
                .ThenInclude(f => f.Filtro)
                 .OrderBy(p => p.Id)
         .ToArrayAsync();
+
+        lista = await Context.SubFiltro
+        .Where(pai => pai.StoryId == 2 && pai.LivroId == 1)
+        .ToListAsync();
 
         var gruposFinais = await Context.SubFiltro
     .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))

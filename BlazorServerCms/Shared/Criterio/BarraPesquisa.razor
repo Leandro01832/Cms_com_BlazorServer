@@ -9,15 +9,10 @@
         @bind="Value" 
        @bind:event="oninput"
            @onkeyup="OnInputChanged" />
-           <button @onclick="() => PesquisarSemantica(Value)">Buscar com IA</button>
+           
 </div>
 
-<ul>
-    @foreach (var item in ResultadosDaBusca)
-    {
-        <li>@item.Nome</li>
-    }
-</ul>
+
 
 @code {
     
@@ -28,11 +23,38 @@
         private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
-    protected override Task OnInitializedAsync()
+    List<SubFiltro>? filtros2 = new List<SubFiltro>();
+
+    HashSet<string> termosValidos = null;
+
+        HashSet<string> stopWords = null;
+
+    protected override async  Task  OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        return base.OnInitializedAsync();
+        filtros2 = await Context.SubFiltro!
+            .Include(f => f.Camada)!
+            .Include(f => f.Criterio)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Story)
+            .Include(f => f.Livro)
+            .Where(f => 
+            //f.Pagina.Count > 0 &&
+             !f.UltimaPasta &&
+              f.CriterioId != null)
+            .ToListAsync();
 
+        termosValidos = new HashSet<string>(
+        filtros2.Select(f => f.Nome.Trim()), 
+        StringComparer.OrdinalIgnoreCase );
+
+         stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
+        { 
+            "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
+            "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
+        };  
     }
 
 
@@ -48,17 +70,88 @@
             if (!string.IsNullOrWhiteSpace(termoLimpo) && termoLimpo != UltimoTermoEnviado)
             {
                 UltimoTermoEnviado = termoLimpo;
-                await OnSearch.InvokeAsync(termoLimpo);
+
+                var apenasNumeros = Regex.IsMatch(termoLimpo
+                .Replace(" ", "")
+                .Replace(",", ""),
+                 @"^\d+$");
+
+                if(apenasNumeros)
+                {
+                    await OnSearch.InvokeAsync(termoLimpo);
+                }
+                else
+                {
+                    var lista = maisCriterio(termoLimpo, filtros2);
+
+                var lista2 = await PesquisarSemantica(termoLimpo);
+
+                bool teste = false;
+
+                if(lista.Count > lista2.Count)
+                    await OnSearch.InvokeAsync(termoLimpo);
+                    else
+                    {
+                        for(var i = 0; i < lista.Count; i++)
+                        {
+                            if(!termoLimpo.ToLower().Contains(lista2[i].Nome.ToLower()))
+                            {
+                                teste = true;
+                                await OnSearch.InvokeAsync(lista2[i].Nome);
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!teste)
+                    {
+                        foreach(var item in lista2.Skip(lista2.Count).ToList())
+                        {
+                            if(termoLimpo.ToLower().Contains(item.Nome.ToLower()))
+                            {
+                                teste = true;
+                                await OnSearch.InvokeAsync(item.Nome);
+                                break;
+                            }
+                        }
+                    }
+                    if(!teste)
+                    await OnSearch.InvokeAsync(null);
+
+                }
+
             }
         }
     }
 
 
-    private List<Filtro> ResultadosDaBusca = new();
-
-private async Task PesquisarSemantica(string termoBusca)
+      public List<string> maisCriterio(string query, List<SubFiltro>? filtros2)
 {
-    if (string.IsNullOrWhiteSpace(termoBusca)) return;
+    if (string.IsNullOrWhiteSpace(query)) return new List<string>();    
+
+    var termosEncontrados = new List<string>();
+    
+    // 2. Dividimos a query por espaços e removemos entradas vazias
+    var palavrasUsuario = query.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+    // 3. Verificamos cada palavra (ou combinações)
+    foreach (var palavra in palavrasUsuario)
+    {
+        if (!stopWords.Contains(palavra) && termosValidos.Contains(palavra))
+        {
+            termosEncontrados.Add(palavra.ToLower());
+        }
+    }
+
+    return termosEncontrados.Distinct().ToList();
+}
+
+
+    private List<SubFiltro> ResultadosDaBusca = new();
+
+private async Task<List<SubFiltro>> PesquisarSemantica(string termoBusca)
+{
+    if (string.IsNullOrWhiteSpace(termoBusca)) return new List<SubFiltro>();
 
     // 1. Transforma o que o usuário digitou em um vetor (Embedding)
     var request = new EmbedRequest
@@ -71,7 +164,7 @@ private async Task PesquisarSemantica(string termoBusca)
     float[] vetorUsuario = response.Embeddings[0].Select(d => (float)d).ToArray();
 
     // 2. Busca todos os filtros do banco que já possuem inteligência (vetor)
-    var todosFiltros = await Context.Filtro
+    var todosFiltros = await Context.SubFiltro
                                .Where(f => f.VetorEmbedding != null)
                                .ToListAsync();
 
@@ -85,6 +178,8 @@ private async Task PesquisarSemantica(string termoBusca)
         .Where(x => x.Score > 0.5)      // Filtro de corte (opcional) para evitar resultados irrelevantes
         .Select(x => x.Filtro) 
         .ToList();
+
+        return ResultadosDaBusca;
 }
 
 private float CalcularSimilaridadeCosseno(float[] vetorA, float[] vetorB)

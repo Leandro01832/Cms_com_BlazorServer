@@ -410,6 +410,7 @@ var gruposFinais = await Context.SubFiltro
 
         if(!Query.Contains("#"))
         {
+            string url = "";
             var itemContent = 1;
             Chave ch = null;
             var fil = filtros2!
@@ -432,10 +433,13 @@ var gruposFinais = await Context.SubFiltro
             var str = Context.Story.First(s => s.Id == item.StoryId);
 
             if(item.Livro == null && ch != null)
-                navigation.NavigateTo($"/renderizar/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
+                url = $"/renderizar/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
             else
-                navigation.NavigateTo($"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp");
+               url = $"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
 
+                if(!string.IsNullOrEmpty(url))
+                await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+            
         }
 
         else
@@ -469,21 +473,56 @@ var gruposFinais = await Context.SubFiltro
         Query = textoDigitado;
         //vamos la, aqui é onde a mágica acontece. Quando o usuário digita algo na barra de pesquisa, essa função é chamada. Ela verifica se a consulta (Query) não está vazia e, em seguida, realiza uma busca no banco de dados para encontrar os filtros que correspondem à consulta.
 
-        if (!string.IsNullOrEmpty(Query))
-        {
-            string teste = Query.Trim().ToLower();
-            List<string> termos = maisCriterio(teste, filtros2);
+       
+       var apenasNumeros = Regex.IsMatch(Query
+                .Replace(" ", "")
+                .Replace(",", ""),
+                 @"^\d+$");
 
-                if(termos.Count > 0)
-            PesquisarComMaisCriterio2(termos);   
-            else
-            filtros = new List<SubFiltro>();
+       if(!apenasNumeros)
+       {
+            if (!string.IsNullOrEmpty(Query))
+            {
+                string teste = Query.Trim().ToLower();
+                List<string> termos = maisCriterio(teste, filtros2);
 
-        }
-        else if (string.IsNullOrEmpty(Query))
-        {
-            filtros = new List<SubFiltro>();
-        }            
+                    if(termos.Count > 0)
+                PesquisarComMaisCriterio2(termos);   
+                else
+                filtros = new List<SubFiltro>();
+
+            }
+            else if (string.IsNullOrEmpty(Query))
+            {
+                filtros = new List<SubFiltro>();
+            }
+       }
+       else
+       {
+            if(Query.Contains(","))
+            {
+                var arr = Query
+                .Replace(" ", "")
+                .Split(',');
+
+                foreach(var item in arr)
+                {
+                    var fi =  filtros2
+                    .FirstOrDefault(f => 
+                    ((Chave)f.Criterio.Content).Versiculo == int.Parse(item));
+
+                    verificar(fi);
+                }
+            }
+
+
+            var f =  filtros2
+            .FirstOrDefault(f => 
+              ((Chave)f.Criterio.Content).Versiculo == int.Parse(Query));
+
+             verificar(f);
+       }
+      
     }
 
     private async Task StartTour()
@@ -738,46 +777,24 @@ var gruposFinais = await Context.SubFiltro
             return indice.ToString();
     }
 
-    private async Task GerarInteligenciaDosFiltros()
-    {
-        // 1. Busca os filtros que ainda não têm vetor (ajuste conforme seu DbContext)
-        var filtrosParaProcessar = await Context.Filtro
-                                           .Where(f => f.VetorEmbedding == null)
-                                           .ToListAsync();
+   private async void verificar(SubFiltro fil)
+   {
+        if(fil != null)
+              Acessar(fil);
+              else
+              {
+                    try
+                    {
+                        await js.InvokeVoidAsync("alert",
+                        $"Versiculo {retornarVerso(fil.Criterio.Content)} não encontrado!");
 
-        foreach (var filtro in filtrosParaProcessar)
-        {
-           // Criamos a requisição com o formato de lista que a biblioteca exige agora
-            var request = new EmbedRequest
-            {
-                Model = "mxbai-embed-large",
-                Input = new List<string> { filtro.Nome }
-            };
+                    }
+                    catch(Exception ex)
+                    {
 
-            // Tente trocar .Embed por .Embeddings se o erro persistir
-            var response = await _ollamaService.EmbedAsync(request);
-
-            // O retorno costuma ser uma lista de vetores (um para cada item do Input)
-            // Pegamos o primeiro [0] e convertemos para float[]
-            var embeddingData = response.Embeddings.FirstOrDefault();
-
-            if (embeddingData != null)
-            {
-                float[] vetorOriginal = embeddingData.Select(d => (float)d).ToArray();
-
-                // Conversão para o seu campo varbinary(max) do banco
-                byte[] dadosBinarios = new byte[vetorOriginal.Length * sizeof(float)];
-                Buffer.BlockCopy(vetorOriginal, 0, dadosBinarios, 0, dadosBinarios.Length);
-
-                filtro.VetorEmbedding = dadosBinarios;
-            }
-        }
-
-        // 5. Salva tudo no banco de uma vez
-        await Context.SaveChangesAsync();
-    }
-
-    
+                    }
+              }
+   }
 
 
 
