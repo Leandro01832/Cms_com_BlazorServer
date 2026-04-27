@@ -1,0 +1,112 @@
+@page "/pagina/edit/{Id:long}"
+@using business.business
+@using business.business.Book
+@using business.business.Group
+@inject NavigationManager Navigation
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
+<div class="container mt-4">
+    <h3>Editar Conteúdo</h3>
+
+    @if (conteudo == null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else
+    {
+        <EditForm Model="@conteudo" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label">Título da Página</label>
+                <InputText @bind-Value="conteudo.Titulo" class="form-control" />
+                <ValidationMessage For="@(() => conteudo.Titulo)" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">História (Story)</label>
+                <InputSelect @bind-Value="conteudo.StoryId" class="form-select">
+                    @foreach (var story in listaStories)
+                    {
+                        <option value="@story.Id">@story.Nome</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Livro</label>
+                <InputSelect @bind-Value="conteudo.LivroId" class="form-select">
+                    <option value="">Nenhum</option>
+                    @foreach (var livro in listaLivros)
+                    {
+                        <option value="@livro.Id">@livro.url</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Conteúdo HTML</label>
+                <Editor Id="contentextarea"
+            Inline=false
+            CloudChannel="5"
+            Disable=false
+            JsConfSrc="sample"
+            ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l"
+            ClassName="tinymce-wrapper" @bind-Value="conteudo.Html" />
+            </div>
+
+           
+
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <button type="button" class="btn btn-secondary" @onclick="Voltar">Cancelar</button>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public long Id { get; set; }
+    private Content? conteudo;
+    private List<Story> listaStories = new();
+    private List<Livro> listaLivros = new();
+
+         private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext context;
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = db.CreateDbContext(null);
+        
+        // 1. Carrega o registro existente pelo ID recebido no parâmetro da URL
+        conteudo = await context.Content.FirstOrDefaultAsync(c => c.Id == Id);
+
+        if (conteudo == null)
+        {
+            Navigation.NavigateTo("/crud/pagina/1");
+            return;
+        }
+
+        // 2. Carrega as listas para os dropdowns
+        listaStories = await context.Story.ToListAsync();
+        listaLivros = await context.Livro.ToListAsync(); 
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        
+        try 
+        {
+            // 3. Informa ao Entity Framework que o objeto foi modificado
+            context.Content.Update(conteudo!);
+            await context.SaveChangesAsync();
+            
+            Navigation.NavigateTo("/crud/pagina/1");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar: {ex.Message}");
+        }
+    }
+
+    private void Voltar() => Navigation.NavigateTo("/crud/pagina/1");
+}

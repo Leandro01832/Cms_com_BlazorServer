@@ -1,0 +1,102 @@
+@page "/pagina/create"
+@using business.business
+@using business.business.Book
+@using business.business.Group
+@inject NavigationManager Navigation
+ 
+
+<div class="container mt-4">
+    <h3>Novo Conteúdo</h3>
+
+     <Editor Id="contentextarea"
+            Inline=false
+            CloudChannel="5"
+            Disable=false
+            JsConfSrc="sample"
+            ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l"
+            ClassName="tinymce-wrapper" @bind-Value="novoConteudo.Html" />
+
+    <EditForm Model="@novoConteudo" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Título da Página</label>
+            <InputText @bind-Value="novoConteudo.Titulo" class="form-control" />
+            <ValidationMessage For="@(() => novoConteudo.Titulo)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">História (Story)</label>
+            <InputSelect @bind-Value="novoConteudo.StoryId" class="form-select">
+                <option value="0">Selecione uma história...</option>
+                @foreach (var story in listaStories)
+                {
+                    <option value="@story.Id">@story.Nome</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Livro (Opcional)</label>
+            <InputSelect @bind-Value="novoConteudo.LivroId" class="form-select">
+                <option value="">Nenhum</option>
+                @foreach (var livro in listaLivros)
+                {
+                    <option value="@livro.Id">@livro.url</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Rotas</label>
+            <InputText @bind-Value="novoConteudo.Rotas" class="form-control" placeholder="ex: /blog/post-1" />
+        </div>
+
+       
+
+     
+
+        <button type="submit" class="btn btn-primary">Salvar Conteúdo</button>
+        <button type="button" class="btn btn-secondary" @onclick="Voltar">Cancelar</button>
+    </EditForm>
+</div>
+
+@code {
+    private Content novoConteudo = new Content();
+    private List<Story> listaStories = new();
+    private List<Livro> listaLivros = new();
+
+         private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext context;
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = db.CreateDbContext(null);
+        
+        // Carrega dados para os Dropdowns
+        listaStories = await context.Story.ToListAsync();
+        listaLivros = await context.Livro.ToListAsync();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        
+        try 
+        {
+            // A classe Content já inicializa a Data como DateTime.Now no set do Html
+            context.Content.Add(novoConteudo);
+            await context.SaveChangesAsync();
+            
+            // Navega para a listagem após o sucesso
+            Navigation.NavigateTo("/crud/pagina/1");
+        }
+        catch (Exception ex)
+        {
+            // Lógica de tratamento de erro aqui
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private void Voltar() => Navigation.NavigateTo("/crud/pagina/1");
+}

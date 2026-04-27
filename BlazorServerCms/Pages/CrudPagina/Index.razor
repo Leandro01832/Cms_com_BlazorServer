@@ -1,0 +1,322 @@
+@page "/crud/pagina/{pagina:int}"
+
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<UserModel> userManager
+@inject IJSRuntime? js
+
+@inject NavigationManager navigation
+
+
+
+@if (camadas == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else if (camadas.Length == 0)
+{
+    <p><em>Não existem paginas cadastradas...</em></p>
+}
+else
+{
+    <div>
+        <a class="btn btn-success" href="pagina/create">Nova pagina</a>
+        <input type="checkbox" onchange="@marcar" value="@marcado" /> paginas com filtro
+        <input type="checkbox" onchange="@marcarUserContent" value="@UserContent" /> User content
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data de Criação</th>
+                <th>Camada</th>
+              
+                    <th>
+                        Edita || Deletar
+                        </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pagina in paginas)
+            {
+
+                <tr>
+                    <td>@pagina.Data</td>
+                    <td>
+                        @if(pagina.Filtro.Count > 0)
+                        {
+                            @pagina.Filtro.Last().Filtro.CamadaId
+                        }
+                        else
+                        {
+                            <em>Sem filtro</em>
+                        }
+                        
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="pagina/edit/@pagina.Id">Editar</a>
+                        <a class="btn btn-danger" href="pagina/delete/@pagina.Id">Deletar</a>
+                        @if(!marcado)
+                        {
+                            if(UserContent)
+                            {
+                                <button class="btn btn-secondary" @onclick="() => mudarEstado(pagina.Id)">
+                                Mudar estado para pagina (item)
+                                </button> 
+                            }
+                            
+                                <select class="form-select" @onchange="e => adicionarFiltro(e, pagina)">
+                                    <option value="">Adicionar filtro</option>
+                                    @foreach(var grupo in grupos)
+                                    {
+                                        <option value="@grupo.Id">Grupo: @grupo.Nome</option>
+                                    }
+                                </select>
+
+
+                        }
+                   
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+<div>
+    <label>Lista:</label>
+    <input type="number" onchange="@acessarPagina" min="1" />
+    <a class="btn btn-success" href="pagina/create">Nova pagina</a>
+</div>
+
+@code {
+
+    protected Content[] camadas { get; set; }
+    protected List<Content> paginas { get; set; }
+    [Parameter] public int pagina { get; set; } = 1;
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private ClaimsPrincipal usuario = null;
+    private UserModel user = null;
+    private bool marcado = true;
+    private bool UserContent = true;
+
+    List<SubFiltro> grupos = new List<SubFiltro>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await CarregaCamadas(pagina);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);
+        await CarregaCamadas(pagina);
+
+        var authState = await AuthenticationStateProvider
+               .GetAuthenticationStateAsync();
+        usuario = authState.User;
+
+        var u = await userManager.GetUserAsync(usuario);
+        user = await Context.Users.Include(u => u.Livro).ThenInclude(u => u.Livro)
+        .FirstAsync(us => us.Id == u.Id);
+
+         camadas = await Context.Pagina!
+               .Include(p => p.Filtro)
+               .ThenInclude(f => f.Filtro)
+                .OrderBy(p => p.Id)
+        .ToArrayAsync();
+
+        var gruposFinais = await Context.SubFiltro
+    .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))
+    .ToListAsync();
+
+        foreach (var grupo in gruposFinais)
+        {
+            var subFiltro = await Context.SubFiltro
+                .FirstOrDefaultAsync(sf => sf.Id == grupo.FiltroId);
+
+            if (subFiltro != null)
+            {
+                grupos.Add(subFiltro);
+            }
+        }
+
+    }
+
+    async Task CarregaCamadas(int pag)
+    {
+        if(camadas == null) return;
+        paginas = camadas
+                .OrderBy(p => p.Id)
+               .Skip((pag - 1) * 10)
+               .Take(10)
+                .ToList();
+    }
+
+    private async void mudarEstado(long Id)
+    {
+        var pagina = await Context.Pagina.FirstAsync(p => p.Id == Id);
+
+        if(pagina is Pagina)
+        {
+            var userContent = new UserContent
+            {
+                Id = pagina.Id,
+                Data = pagina.Data,
+                Html = pagina.Html,
+                LivroId = pagina.LivroId,
+                Rotas = pagina.Rotas,
+                StoryId = pagina.StoryId
+            };
+
+            Context.Remove(pagina);
+            Context.Add(userContent);
+            await Context.SaveChangesAsync();
+            await js!.InvokeAsync<object>("DarAlert", $"Estado alterado com sucesso!!");
+            navigation.NavigateTo($"/crud/pagina/1");
+        }
+        else
+        {
+            var pagin = new Pagina
+            {
+                Id = pagina.Id,
+                Data = pagina.Data,
+                Html = pagina.Html,
+                LivroId = pagina.LivroId,
+                Rotas = pagina.Rotas,
+                StoryId = pagina.StoryId
+            };
+
+            Context.Remove(pagina);
+            Context.Add(pagin);
+            await Context.SaveChangesAsync();
+            await js!.InvokeAsync<object>("DarAlert", $"Estado alterado com sucesso!!");
+            navigation.NavigateTo($"/crud/pagina/1");
+        }
+    }
+
+    private async void adicionarFiltro(ChangeEventArgs e, Content pagina)
+    {
+        if (!string.IsNullOrEmpty(e.Value!.ToString()))
+        {
+            var filtroId = long.Parse(e.Value.ToString());
+            var filtro = await Context.SubFiltro
+                .FirstOrDefaultAsync(f => f.Id == filtroId);
+
+            if (filtro != null)
+            { 
+                while (filtro != null)
+                {
+                    var paginaFiltro = new FiltroContent
+                    {
+                        ContentId = pagina.Id,
+                        FiltroId = filtro.Id
+                    };
+                    Context.Add(paginaFiltro);
+                    await Context.SaveChangesAsync();
+
+                    if(filtro.CamadaId==1) break;
+                   
+                    filtro = await Context.SubFiltro
+                    .FirstOrDefaultAsync(f => f.Id == filtro.FiltroId);
+                }
+            }
+                await js!.InvokeAsync<object>("DarAlert",
+                     $"Filtro adicionado com sucesso!!");
+                    navigation.NavigateTo($"/crud/pagina/1");
+        }
+    }
+
+    private async Task marcar(ChangeEventArgs e)
+    {
+        marcado = (bool)e.Value;
+        if ((bool)e.Value)
+        {
+            paginas = camadas
+               .Where(p => p.Filtro.Count > 0)
+               .Take(10)
+                 .ToList();
+                  navigation.NavigateTo($"/crud/pagina/1"); 
+        }
+        else
+        {
+            paginas = camadas
+               .Where(p => p.Filtro.Count == 0)
+                .Take(10)
+                 .ToList();
+                  navigation.NavigateTo($"/crud/pagina/1"); 
+        }
+    }
+
+     private async Task marcarUserContent(ChangeEventArgs e)
+    {
+        if(!marcado)
+        {
+            if ((bool)e.Value)
+            {
+                paginas = camadas
+                .Where(p => p.Filtro.Count == 0 && p is Pagina)
+                .Take(10)
+                    .ToList();
+                    navigation.NavigateTo($"/crud/pagina/1"); 
+            }
+            else
+            {
+                paginas = camadas
+                .Where(p => p.Filtro.Count == 0 && p is UserContent)
+                    .Take(10)
+                    .ToList();
+                    navigation.NavigateTo($"/crud/pagina/1"); 
+            }
+
+        }
+    }
+
+
+    private void acessarPagina(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
+            navigation.NavigateTo($"/crud/pagina/{e.Value!.ToString()}");
+        else
+            navigation.NavigateTo($"/crud/pagina/1"); 
+    }
+
+    private async void Incluir(long Id)
+    {
+        var livro = await Context.Livro!.FirstAsync(l => l.Id == Id);
+
+        if(user.Livro != null && user.Livro.FirstOrDefault(l => l.Livro.StandardChapter == livro.StandardChapter) == null)
+        {
+            user.IncluiLivro(livro);
+            await Context.SaveChangesAsync();
+            await js!.InvokeAsync<object>("DarAlert", $"Livro incluido com sucesso!!");
+            await js!.InvokeAsync<object>("ExecutarReload", $"teste");
+        }
+        else
+        {
+            await js!.InvokeAsync<object>("DarAlert", $"Só poderá ser incluido apenas um livro para cada segmento ou capitulo");
+        }
+        
+    }
+
+    private async void Remover(long Id)
+    {
+        var obj = await Context.UserModelLivro!
+        .FirstAsync(l => l.LivroId == Id && l.UserModelId == user.Id);
+
+        Context.Remove(obj);
+        await Context.SaveChangesAsync();
+        await js!.InvokeAsync<object>("DarAlert", $"Livro removido com sucesso!!");
+        await js!.InvokeAsync<object>("ExecutarReload", $"teste");
+    }
+
+    private bool verificarLivro(Livro livro)
+    {
+        var liv = user.Livro.FirstOrDefault(l => l.LivroId == livro.Id);
+
+        if (liv != null) return true;
+        else return false;
+    }
+
+}
