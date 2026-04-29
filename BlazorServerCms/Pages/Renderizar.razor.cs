@@ -635,10 +635,10 @@ namespace BlazorCms.Client.Pages
 
                 if (Filtro != null)
                 {
-                    if (user.Identity!.IsAuthenticated && user.Identity.Name == Compartilhou)
+                    if (profile != null && visitante != null && profile.Id == visitante.Id)
                     {
                         //atualizar #Id
-                        var c = Context.Users.FirstOrDefault(u => u.UserName == user.Identity.Name);
+                        var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
                         var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id);
                         var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
                         if (lista.Count == 0)
@@ -662,11 +662,11 @@ namespace BlazorCms.Client.Pages
                         await Context.SaveChangesAsync();
                         await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id atualizada.");
                     }                        
-                    else
+                    else if(profile != null)
                     {
                         // aceessar hashtag #Id
-                        var c = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
-                        var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id);
+                        var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
+                        var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
                         var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
                         if (item != null)
                         {
@@ -689,7 +689,15 @@ namespace BlazorCms.Client.Pages
                         }
                         else
                         {
-                            await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada.");
+                            try
+                            {
+                                await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada. Marque o versículo correto.");
+                                
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                         }
                     }
                         

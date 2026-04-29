@@ -94,11 +94,20 @@ namespace BlazorCms.Client.Pages
                 var u = await userManager.GetUserAsync(user);
                 usuario = await Context.Users
                     .Include(u => u.PageLiked)
-                .FirstAsync(us => us.Id == u.Id);
+                .FirstAsync(us => us.Id == u.Id);               
 
                 if (Compartilhou != null && Compartilhou != "comp")
                 {
-                    var c = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
+                    var c = Context.Users
+                    .FirstOrDefault(u => u.UserName == Compartilhou);
+                    profile = c;
+                    if(user.Identity.Name != Compartilhou)
+                        visitante = Context.Users
+                    .FirstOrDefault(u => u.UserName == user.Identity.Name)!;
+                    else
+                    visitante = c;
+                                        
+                    
                     if (c.Compartilhar != null)
                     {
                         string padrao = @"\(([^)]*)\)";
@@ -106,6 +115,18 @@ namespace BlazorCms.Client.Pages
                     }
                 }
 
+            }
+            else
+            {
+                if (Compartilhou != null && Compartilhou != "comp")
+                {
+                    var c = Context.Users
+                    .FirstOrDefault(u => u.UserName == Compartilhou);
+                    profile = c;
+                }
+                else
+                profile = null;
+                visitante = null;
             }
 
             Marcacao.Marcados.Clear();

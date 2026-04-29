@@ -12,6 +12,7 @@ using business.business.Book;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.RegularExpressions;
 using business.business.Group;
+using BlazorServerCms.Pages;
 
 namespace BlazorCms.Client.Pages
 {
@@ -39,6 +40,8 @@ namespace BlazorCms.Client.Pages
                 PreencherProgresso();
             }
         }
+
+        
 
         private async void PreencherProgresso()
         {
@@ -98,6 +101,10 @@ namespace BlazorCms.Client.Pages
         protected int quantDivCriterio = 0;
 
         protected Criterio criterio = null;
+
+        protected UserModel profile = null;
+        protected UserModel visitante = null;
+
         private Story _story = null;
         private Livro? livro = null;
         private string? title = null;
