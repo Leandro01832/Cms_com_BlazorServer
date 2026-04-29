@@ -627,6 +627,75 @@ namespace BlazorCms.Client.Pages
             return html;
         }
 
+        protected async void AcessarHashtagId()
+        {
+            // Todos os usuarios vão ter a hashtag #Id 
+            // que irá ajudar a compartilhar quando for apenas uma pagina
+            // e não precisará agrupar
+
+                if (Filtro != null)
+                {
+                    if (user.Identity!.IsAuthenticated && user.Identity.Name == Compartilhou)
+                    {
+                        //atualizar #Id
+                        var c = Context.Users.FirstOrDefault(u => u.UserName == user.Identity.Name);
+                        var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id);
+                        var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
+                        if (lista.Count == 0)
+                        {
+                            Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
+                        }
+                        else if(lista.Count == 1)
+                        {
+                            var item = lista.First();
+                            item.ContentId = Model.Id;
+                            Context.Update(item);
+                        }
+                        else
+                        {
+                            foreach (var item in lista)
+                            {
+                                Context.Remove(item);
+                            }
+                            Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
+                        }
+                        await Context.SaveChangesAsync();
+                        await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id atualizada.");
+                    }                        
+                    else
+                    {
+                        // aceessar hashtag #Id
+                        var c = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
+                        var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id);
+                        var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
+                        if (item != null)
+                        {
+                            var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
+                            if(content is UserContent)
+                            {
+                                navigation.NavigateTo($"/morecontent/{content.Id}");
+                            }
+                            else
+                            {
+                                var m = Model2.Pagina.OrderBy(p => p.ContentId)
+                                .FirstOrDefault(p => p.ContentId == content.Id);
+                                Indice = Model2.Pagina
+                                .OrderBy(p => p.ContentId)
+                                .ToList()
+                                .IndexOf(m) + 1;
+                                acessar();
+
+                            }
+                        }
+                        else
+                        {
+                            await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada.");
+                        }
+                    }
+                        
+                }
+        }
+
         protected async void StartTour()
         {
             automatico = false; 
