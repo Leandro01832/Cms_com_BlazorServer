@@ -17,17 +17,22 @@
 @code {
     
     [Parameter] public string Value { get; set; }
+
     private string UltimoTermoEnviado { get; set; } = "";
+
+     private List<SubFiltro> ResultadosDaBusca = new();
+
     [Parameter] public EventCallback<string> OnSearch { get; set; }
 
-        private DemoContextFactory db = new DemoContextFactory();
+    private DemoContextFactory db = new DemoContextFactory();
+
     private ApplicationDbContext Context;
 
     List<SubFiltro>? filtros2 = new List<SubFiltro>();
 
     HashSet<string> termosValidos = null;
 
-        HashSet<string> stopWords = null;
+    HashSet<string> stopWords = null;
 
     protected override async  Task  OnInitializedAsync()
     {
@@ -56,8 +61,7 @@
             "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
         };  
     }
-
-
+    
     private async void OnInputChanged(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
@@ -76,45 +80,25 @@
                 .Replace(",", ""),
                  @"^\d+$");
 
-                if(apenasNumeros)
-                {
-                    await OnSearch.InvokeAsync(termoLimpo);
-                }
+                if(apenasNumeros)                
+                    await OnSearch.InvokeAsync(termoLimpo);                
                 else
                 {
-                    var lista = maisCriterio(termoLimpo, filtros2);
 
-                var lista2 = await PesquisarSemantica(termoLimpo);
-
-                bool teste = false;
-
-                if(lista.Count > lista2.Count)
-                    await OnSearch.InvokeAsync(termoLimpo);
-                    else
-                    {
+                    var lista = await PesquisarSemantica(termoLimpo);
+                    bool teste = false;
+                    
                         for(var i = 0; i < lista.Count; i++)
                         {
-                            if(!termoLimpo.ToLower().Contains(lista2[i].Nome.ToLower()))
+                            if(i < 10)
                             {
                                 teste = true;
-                                await OnSearch.InvokeAsync(lista2[i].Nome);
+                                await OnSearch.InvokeAsync(lista[i].Nome);
                                 break;
                             }
                         }
-                    }
 
-                    if(!teste)
-                    {
-                        foreach(var item in lista2.Skip(lista2.Count).ToList())
-                        {
-                            if(termoLimpo.ToLower().Contains(item.Nome.ToLower()))
-                            {
-                                teste = true;
-                                await OnSearch.InvokeAsync(item.Nome);
-                                break;
-                            }
-                        }
-                    }
+                   
                     if(!teste)
                     await OnSearch.InvokeAsync(null);
 
@@ -123,8 +107,7 @@
             }
         }
     }
-
-
+    
       public List<string> maisCriterio(string query, List<SubFiltro>? filtros2)
 {
     if (string.IsNullOrWhiteSpace(query)) return new List<string>();    
@@ -147,7 +130,7 @@
 }
 
 
-    private List<SubFiltro> ResultadosDaBusca = new();
+   
 
 private async Task<List<SubFiltro>> PesquisarSemantica(string termoBusca)
 {
@@ -155,10 +138,11 @@ private async Task<List<SubFiltro>> PesquisarSemantica(string termoBusca)
 
     // 1. Transforma o que o usuário digitou em um vetor (Embedding)
     var request = new EmbedRequest
-    {
-        Model = "mxbai-embed-large",
-        Input = new List<string> { termoBusca }
-    };
+{
+    Model = "mxbai-embed-large",
+    // Use um formato de "etiqueta" que ajude a IA a focar no tema
+    Input = new List<string> { $"Taxonomia biológica animal: {termoBusca}" }
+};
     
     var response = await _ollamaService.EmbedAsync(request);
     float[] vetorUsuario = response.Embeddings[0].Select(d => (float)d).ToArray();

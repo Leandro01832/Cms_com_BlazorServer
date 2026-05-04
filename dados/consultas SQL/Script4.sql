@@ -13,3 +13,28 @@ WITH ArvorePorHashtag AS (
 )
 -- 3. RESULTADO: Todos os IDs relacionados �quela hashtag e seus subgrupos
 SELECT DISTINCT Id, Nome, CamadaId FROM ArvorePorHashtag ;
+
+
+-- Consulta para extrair os links das tags <img> e identificar
+-- quais são compartilhados entre diferentes conteúdos
+WITH LinksProcessados AS (
+    SELECT 
+        Id, 
+        Titulo, StoryId,
+        -- Extrai o texto entre src=" e a próxima aspas
+        SUBSTRING(
+            Html, 
+            CHARINDEX('src="', Html) + 5, 
+            CHARINDEX('"', Html, CHARINDEX('src="', Html) + 5) - (CHARINDEX('src="', Html) + 5)
+        ) AS Link
+    FROM Content
+    WHERE Html LIKE '%src="%' 
+)
+SELECT a.Id, a.Titulo, a.StoryId, a.Link
+FROM LinksProcessados a
+WHERE EXISTS (
+    SELECT 1 
+    FROM LinksProcessados b 
+    WHERE a.Link = b.Link AND a.Id <> b.Id 
+)
+ORDER BY a.Link;

@@ -299,6 +299,19 @@ namespace BlazorCms.Client.Pages
                 dominio = "dominio";
             }
 
+            // 1. Pega o "Assembly" (o seu programa/projeto executável)
+        var assembly = Assembly.GetExecutingAssembly();
+
+        // 2. Filtra todos os tipos que são subclasses de Animal
+         tipos = assembly.GetTypes()
+            .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
+
+            // 3. Imprime o nome de cada tipo encontrado
+            // foreach (var tipo in tipos)
+            // {
+            //     Console.WriteLine("Tipo encontrado: " + tipo.Name);
+            // }
+
         }
 
         protected int retornarVerso(Content c)

@@ -2,6 +2,7 @@
 @page "/acesso/{indice}"
 @page "/livro/{nomeLivro}"
 @page "/{nomeLivro}/{capitulo:int}/{indice}"
+@using System.Reflection
 
 
 @inject OllamaApiClient _ollamaService
@@ -403,6 +404,33 @@ var gruposFinais = await Context.SubFiltro
 
         Ocultar();
 
+         // 1. Pega o "Assembly" (o seu programa/projeto executável)
+        var assembly = typeof(Content).Assembly;
+
+        // 2. Filtra todos os tipos que são subclasses de Content e que não são abstratos
+        var tipos = assembly.GetTypes()
+            .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
+
+            // 3. Imprime o nome de cada tipo encontrado
+            var impressos = new List<string>();
+             foreach (var tipo in tipos)
+             {
+                 impressos.Add("Tipo encontrado: " + tipo.Name );
+             }
+
+            try
+             {
+                await
+             js.InvokeVoidAsync("alert", string.Join("\n", impressos));
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"Erro ao exibir tipos: {ex.Message}");
+                }
+              
+
+          //  Console.WriteLine(string.Join("\n", impressos));
+
     }
 
     private async void Acessar(Filtro item)
@@ -470,11 +498,13 @@ var gruposFinais = await Context.SubFiltro
 
     private async void buscar(string textoDigitado)
     {
+        bool apenasNumeros = false;
         Query = textoDigitado;
         //vamos la, aqui é onde a mágica acontece. Quando o usuário digita algo na barra de pesquisa, essa função é chamada. Ela verifica se a consulta (Query) não está vazia e, em seguida, realiza uma busca no banco de dados para encontrar os filtros que correspondem à consulta.
 
        
-       var apenasNumeros = Regex.IsMatch(Query
+       if(Query != null)
+        apenasNumeros = Regex.IsMatch(Query
                 .Replace(" ", "")
                 .Replace(",", ""),
                  @"^\d+$");
