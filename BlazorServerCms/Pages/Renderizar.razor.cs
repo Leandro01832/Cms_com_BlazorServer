@@ -155,7 +155,7 @@ namespace BlazorCms.Client.Pages
                 .ToList()[p - 1].Id;
                 acessar();
 
-            }          
+            }
         }
 
         private async Task<int> buscarIndice(Content? c, int countPages, FiltroContentIndice? teste)
@@ -548,39 +548,39 @@ namespace BlazorCms.Client.Pages
 
         protected async void redirecionarMarcar()
         {
-                int Vers = 0;    
-                Filtro fi = null;       
-                try
-                {
-                    if(Filtro != null)
+            int Vers = 0;
+            Filtro fi = null;
+            try
+            {
+                if (Filtro != null)
                     Vers = int.Parse(await js.InvokeAsync<string>("prompt", "Informe o versículo."));
-                    else
-                    Vers = (int) Versiculo!;
-                    var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
-                    && retornarVerso(f.Criterio.Content) == Vers);
-                    if(fil == null)
-                    {
-                        await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");                      
-                        return;
-                    }
-                    else if(listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId).Pagina.Count ==0)
-                    {
-                        await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");
-                        return;
-                    }
-                    else
-                    {                        
-                        fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
-                        Filtro = fi?.Id;
-                        Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
-                        acessar();            
-                    }
-                }
-                catch (Exception ex)
+                else
+                    Vers = (int)Versiculo!;
+                var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
+                && retornarVerso(f.Criterio.Content) == Vers);
+                if (fil == null)
                 {
-                    await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");                      
-                        return;
+                    await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");
+                    return;
                 }
+                else if (listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId).Pagina.Count == 0)
+                {
+                    await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");
+                    return;
+                }
+                else
+                {
+                    fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
+                    Filtro = fi?.Id;
+                    Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
+                    acessar();
+                }
+            }
+            catch (Exception ex)
+            {
+                await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum item para este versículo {Vers}.");
+                return;
+            }
         }
 
         private bool CountFiltros()
@@ -627,91 +627,141 @@ namespace BlazorCms.Client.Pages
             return html;
         }
 
-        protected async void AcessarHashtagId()
+        private async Task AtualizarHashtagId()
         {
             // Todos os usuarios vão ter a hashtag #Id 
             // que irá ajudar a compartilhar quando for apenas uma pagina
             // e não precisará agrupar
 
-                if (Filtro != null)
+            if (Filtro != null)
+            {
+                if (user.Identity!.IsAuthenticated)
                 {
-                    if (profile != null && visitante != null && profile.Id == visitante.Id)
+                    //atualizar #Id
+                    var c = Context.Users.FirstOrDefault(u => u.UserName == user.Identity!.Name);
+                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
+                    var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
+                    if (lista.Count == 0)
                     {
-                        //atualizar #Id
-                        var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
-                        var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id);
-                        var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
-                        if (lista.Count == 0)
+                        Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
+                    }
+                    else if (lista.Count == 1)
+                    {
+                        var item = lista.First();
+                        item.ContentId = Model.Id;
+                        Context.Update(item);
+                    }
+                    else
+                    {
+                        foreach (var item in lista)
                         {
-                            Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
+                            Context.Remove(item);
                         }
-                        else if(lista.Count == 1)
+                        Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
+                    }
+                    await Context.SaveChangesAsync();
+                }
+                else if (profile != null)
+                {
+                    // aceessar hashtag #Id
+                    var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
+                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
+                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
+                    if (item != null)
+                    {
+                        var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
+                        if (content is UserContent)
                         {
-                            var item = lista.First();
-                            item.ContentId = Model.Id;
-                            Context.Update(item);
+                            navigation.NavigateTo($"/{Model.GetType().Name}/{content.Id}");
                         }
                         else
                         {
-                            foreach (var item in lista)
-                            {
-                                Context.Remove(item);
-                            }
-                            Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
-                        }
-                        await Context.SaveChangesAsync();
-                        await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id atualizada.");
-                    }                        
-                    else if(profile != null)
-                    {
-                        // aceessar hashtag #Id
-                        var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
-                        var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
-                        var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
-                        if (item != null)
-                        {
-                            var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
-                            if(content is UserContent)
-                            {
-                                navigation.NavigateTo($"/morecontent/{content.Id}");
-                            }
-                            else
-                            {
-                                var m = Model2.Pagina.OrderBy(p => p.ContentId)
-                                .FirstOrDefault(p => p.ContentId == content.Id);
-                                Indice = Model2.Pagina
-                                .OrderBy(p => p.ContentId)
-                                .ToList()
-                                .IndexOf(m) + 1;
-                                acessar();
+                            var m = Model2.Pagina.OrderBy(p => p.ContentId)
+                            .FirstOrDefault(p => p.ContentId == content.Id);
+                            Indice = Model2.Pagina
+                            .OrderBy(p => p.ContentId)
+                            .ToList()
+                            .IndexOf(m) + 1;
+                            acessar();
 
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada. Marque o versículo correto.");
-                                
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
                         }
                     }
-                        
+                    else
+                    {
+                        try
+                        {
+                            await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada. Marque o versículo correto.");
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
                 }
+
+            }
         }
+
+        protected async Task AcessarHashtagId()
+        {
+            // Todos os usuarios vão ter a hashtag #Id 
+            // que irá ajudar a compartilhar quando for apenas uma pagina
+            // e não precisará agrupar
+
+            if (Filtro != null)
+            {
+                 if (profile != null)
+                {
+                    // aceessar hashtag #Id
+                    var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
+                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
+                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
+                    if (item != null)
+                    {
+                        var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
+                        if (content is UserContent)
+                        {
+                            navigation.NavigateTo($"/morecontent/{content.Id}");
+                        }
+                        else
+                        {
+                            var m = Model2.Pagina.OrderBy(p => p.ContentId)
+                            .FirstOrDefault(p => p.ContentId == content.Id);
+                            Indice = Model2.Pagina
+                            .OrderBy(p => p.ContentId)
+                            .ToList()
+                            .IndexOf(m) + 1;
+                            acessar();
+
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada. Marque o versículo correto.");
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                }
+
+            }
+        }
+
 
         protected async void StartTour()
         {
-            automatico = false; 
+            automatico = false;
             try
             {
-                await js!.InvokeAsync<object>("ExibirOpcoesTour");  
                 await js!.InvokeAsync<object>("ExibirOpcoesTour");
-                await TourService.StartTour("FormGuidedTour"); 
+                await js!.InvokeAsync<object>("ExibirOpcoesTour");
+                await TourService.StartTour("FormGuidedTour");
             }
             catch (Exception ex)
             {
@@ -723,7 +773,7 @@ namespace BlazorCms.Client.Pages
         {
             try
             {
-                await js!.InvokeAsync<object>("ExibirOpcoesTour"); 
+                await js!.InvokeAsync<object>("ExibirOpcoesTour");
             }
             catch (Exception ex)
             {

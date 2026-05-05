@@ -128,6 +128,10 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "OllamaSharp": {
+              "target": "Package",
+              "version": "[5.4.25, )"
+            },
             "PSC.Blazor.Components.Tours": {
               "target": "Package",
               "version": "[1.0.10, )"

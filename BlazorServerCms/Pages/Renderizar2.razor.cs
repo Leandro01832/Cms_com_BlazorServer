@@ -103,8 +103,8 @@ namespace BlazorCms.Client.Pages
         protected Criterio criterio = null;
 
         protected UserModel profile = null;
-        protected UserModel visitante = null;
 
+        private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
         private Story _story = null;
         private Livro? livro = null;
         private string? title = null;

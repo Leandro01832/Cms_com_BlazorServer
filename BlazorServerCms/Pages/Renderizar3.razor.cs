@@ -94,20 +94,16 @@ namespace BlazorCms.Client.Pages
                 var u = await userManager.GetUserAsync(user);
                 usuario = await Context.Users
                     .Include(u => u.PageLiked)
-                .FirstAsync(us => us.Id == u.Id);               
+                .FirstAsync(us => us.Id == u.Id);
 
                 if (Compartilhou != null && Compartilhou != "comp")
                 {
                     var c = Context.Users
                     .FirstOrDefault(u => u.UserName == Compartilhou);
                     profile = c;
-                    if(user.Identity.Name != Compartilhou)
-                        visitante = Context.Users
-                    .FirstOrDefault(u => u.UserName == user.Identity.Name)!;
-                    else
-                    visitante = c;
-                                        
                     
+
+
                     if (c.Compartilhar != null)
                     {
                         string padrao = @"\(([^)]*)\)";
@@ -125,8 +121,7 @@ namespace BlazorCms.Client.Pages
                     profile = c;
                 }
                 else
-                profile = null;
-                visitante = null;
+                    profile = null;
             }
 
             Marcacao.Marcados.Clear();
@@ -165,33 +160,33 @@ namespace BlazorCms.Client.Pages
             }
 
             if (livro == null)
-            UltimasPastas = await Context.SubFiltro!                    
-                     .Include(p => p.Criterio)!
-                     .ThenInclude(p => p.Content)!
-                     .Include(p => p.Criterio)!
-                     .ThenInclude(p => p.Filtro)!
-                    .Where(f => f.LivroId == null &&
-                    f.UltimaPasta &&
-                     f.StoryId == _story.Id)
-                    .OrderBy(p => p.FiltroId)
-                    .OrderBy(p => p.CriterioId == null)
-                    .ThenBy(p => p.Id)
-                    .ToListAsync();
-                    else
-                        UltimasPastas = await Context.SubFiltro
-                        .Include(p => p.Criterio)!
-                        .ThenInclude(p => p.Content)!
-                        .Include(p => p.Criterio)!
-                        .ThenInclude(p => p.Filtro)!
-                        .Where(f => f.LivroId == livro.Id &&
-                         f.StoryId == _story.Id &&
-                         f.UltimaPasta )
+                UltimasPastas = await Context.SubFiltro!
+                         .Include(p => p.Criterio)!
+                         .ThenInclude(p => p.Content)!
+                         .Include(p => p.Criterio)!
+                         .ThenInclude(p => p.Filtro)!
+                        .Where(f => f.LivroId == null &&
+                        f.UltimaPasta &&
+                         f.StoryId == _story.Id)
                         .OrderBy(p => p.FiltroId)
                         .OrderBy(p => p.CriterioId == null)
                         .ThenBy(p => p.Id)
                         .ToListAsync();
-            
-            if (livro == null)            
+            else
+                UltimasPastas = await Context.SubFiltro
+                .Include(p => p.Criterio)!
+                .ThenInclude(p => p.Content)!
+                .Include(p => p.Criterio)!
+                .ThenInclude(p => p.Filtro)!
+                .Where(f => f.LivroId == livro.Id &&
+                 f.StoryId == _story.Id &&
+                 f.UltimaPasta)
+                .OrderBy(p => p.FiltroId)
+                .OrderBy(p => p.CriterioId == null)
+                .ThenBy(p => p.Id)
+                .ToListAsync();
+
+            if (livro == null)
                 listaFiltro = await Context.SubFiltro!
                      .Include(p => p.Camada)!
                      .Include(p => p.Criterio)!
@@ -230,23 +225,23 @@ namespace BlazorCms.Client.Pages
                     .ThenBy(p => p.Id)
                     .ToListAsync();
 
-                    if(Versiculo == null)
-                    {
-                        var fil = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                        Versiculo = retornarVerso(fil.Criterio.Content);
-                    }
+            if (Versiculo == null)
+            {
+                var fil = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                Versiculo = retornarVerso(fil.Criterio.Content);
+            }
 
-                Criterio cri = null;
-                 var p = listaFiltro.Where(f => f.Criterio != null).FirstOrDefault(f => 
-                 retornarVerso(f.Criterio.Content) == Versiculo);
-                    if(p == null)                    
-                    p = UltimasPastas.Where(f => f.Criterio != null).FirstOrDefault(f => 
-                    retornarVerso(f.Criterio.Content) == Versiculo);
-                    
-                    cri = p.Criterio;
-                 Filtro = listaFiltro
-                 .FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.First())
-                 .FiltroId)?.Id;
+            Criterio cri = null;
+            var p = listaFiltro.Where(f => f.Criterio != null).FirstOrDefault(f =>
+            retornarVerso(f.Criterio.Content) == Versiculo);
+            if (p == null)
+                p = UltimasPastas.Where(f => f.Criterio != null).FirstOrDefault(f =>
+                retornarVerso(f.Criterio.Content) == Versiculo);
+
+            cri = p.Criterio;
+            Filtro = listaFiltro
+            .FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.First())
+            .FiltroId)?.Id;
 
             List<Chave> chaves = new List<Chave>();
             if (livro == null)
@@ -300,11 +295,11 @@ namespace BlazorCms.Client.Pages
             }
 
             // 1. Pega o "Assembly" (o seu programa/projeto executável)
-        var assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
 
-        // 2. Filtra todos os tipos que são subclasses de Animal
-         tipos = assembly.GetTypes()
-            .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
+            // 2. Filtra todos os tipos que são subclasses de Animal
+            tipos = assembly.GetTypes()
+               .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
 
             // 3. Imprime o nome de cada tipo encontrado
             // foreach (var tipo in tipos)
@@ -589,6 +584,13 @@ namespace BlazorCms.Client.Pages
                     .ToList().Count;
             }
 
+            // Só executa se o ID realmente mudou, evitando rodar em re-renderizações bobas
+            if (Model.Id != _ultimoIdProcessado)
+            {
+                AtualizarHashtagId();
+                _ultimoIdProcessado = Model.Id; // Atualiza o último ID processado
+            }
+
         }
 
         private async Task RenderizarModelHtml()
@@ -785,48 +787,48 @@ namespace BlazorCms.Client.Pages
                 DivPag = "DivPag2";
             }
 
-            
+
             bool ultimaPasta =
             listaFiltro.FirstOrDefault(f => Filtro != null &&
             f.Criterio != null &&
             f.FiltroId == Model2.Id) == null;
 
             if (Filtro != null && ultimaPasta)
-            {     
-              var  f = UltimasPastas.FirstOrDefault( fil => fil.FiltroId == Model2.Id);                        
-                Versiculo = retornarVerso(f.Criterio.Content);                
+            {
+                var f = UltimasPastas.FirstOrDefault(fil => fil.FiltroId == Model2.Id);
+                Versiculo = retornarVerso(f.Criterio.Content);
             }
             else if (Filtro != null)
             {
                 Filtro f = null;
-                if(Model2 != null && Model2.Criterio != null)
+                if (Model2 != null && Model2.Criterio != null)
                 {
                     f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id);
-                    Versiculo = retornarVerso(f.Criterio.Content);                    
+                    Versiculo = retornarVerso(f.Criterio.Content);
                 }
-                
-                else if(f.Criterio == null)
+
+                else if (f.Criterio == null)
                 {
                     f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio);
                     if (f != null && f.Criterio != null)
-                    Versiculo = retornarVerso(f.Criterio.Content);
+                        Versiculo = retornarVerso(f.Criterio.Content);
                 }
             }
             else
                 Versiculo = retornarVerso(Model);
 
-                if(Filtro == null)
+            if (Filtro == null)
             {
                 criterio = null;
                 var fil = RepositoryPagina.Conteudo!.FirstOrDefault(c => c is Chave &&
                  retornarVerso(c) == Versiculo)!;
-                var m = ((SubFiltro) fil.Criterio!.Filtro.First()).FiltroId;
+                var m = ((SubFiltro)fil.Criterio!.Filtro.First()).FiltroId;
                 var f = listaFiltro.FirstOrDefault(f => f.Id == m);
-                if(f != null && f.Criterio != null)
-                criterio = f.Criterio; 
+                if (f != null && f.Criterio != null)
+                    criterio = f.Criterio;
             }
 
-           
+
 
             // 6. Define a classe CSS para inputs
             if (Content)
@@ -1241,7 +1243,7 @@ namespace BlazorCms.Client.Pages
             //  var tipo = Model2.GetType();
 
             for (var i = 10; i > 0; i--)
-            { 
+            {
                 if (Model2.Camada.Numero == i)
                 {
                     var indice = returnList(true)
