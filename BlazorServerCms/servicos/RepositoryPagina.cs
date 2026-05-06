@@ -47,6 +47,7 @@ namespace BlazorServerCms.servicos
         public string cupomDesconto = "";
 
         public static List<Content>? Conteudo = new List<Content>();
+        public static List<Content>? Conteudo2 = new List<Content>();
         
         public static List<UserModel> UserModel = new List<UserModel>();
         public static List<Story> stories = new List<Story>();

@@ -62,7 +62,7 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        [Parameter] public string? Compartilhou { get; set; } = "comp";
+        [Parameter] public string? Compartilhou { get; set; } = null;
         [Parameter] public string? rotas { get; set; } = null;
         [Parameter] public long? contentid { get; set; } = null;
         private long? filtro = null;
@@ -103,6 +103,8 @@ namespace BlazorCms.Client.Pages
         protected Criterio criterio = null;
 
         protected UserModel profile = null;
+
+        private string typeClass = "Pagina";
 
         private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
         private Story _story = null;

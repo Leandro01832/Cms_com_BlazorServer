@@ -295,17 +295,11 @@ namespace BlazorCms.Client.Pages
             }
 
             // 1. Pega o "Assembly" (o seu programa/projeto executável)
-            var assembly = Assembly.GetExecutingAssembly();
+            var assembly = typeof(Content).Assembly;
 
             // 2. Filtra todos os tipos que são subclasses de Animal
             tipos = assembly.GetTypes()
                .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
-
-            // 3. Imprime o nome de cada tipo encontrado
-            // foreach (var tipo in tipos)
-            // {
-            //     Console.WriteLine("Tipo encontrado: " + tipo.Name);
-            // }
 
         }
 
@@ -323,6 +317,23 @@ namespace BlazorCms.Client.Pages
 
         private async Task renderizar()
         {
+            Type type = null;
+            // Pega o caminho relativo (ex: "videofilter/1/2/3")
+            var relativePath = navigation.ToBaseRelativePath(navigation.Uri); 
+            var ti = relativePath.Split('/')[0].ToLower(); 
+            if(ti != typeClass.ToLower())          
+            type = tipos
+            .FirstOrDefault(t => t.Name.ToLower() == ti)!;
+            else
+            type = tipos
+            .FirstOrDefault(t => t.Name.ToLower() == typeClass.ToLower())!;
+            RepositoryPagina.Conteudo2.Clear();
+            RepositoryPagina.Conteudo2
+            .AddRange(RepositoryPagina.Conteudo!.Where(c => c.GetType() == type)
+            .OrderBy(c => c.Id)
+            .ToList());
+            
+
             // Lógica Inicial: Tratamento de exceção e chamadas JS iniciais
             await InicializarRenderizacao();
 
@@ -368,8 +379,8 @@ namespace BlazorCms.Client.Pages
 
                 if (listaContent.Count != 0 && listaContent[0] != null)
                     foreach (var item in listaContent)
-                        if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
-                            RepositoryPagina.Conteudo!.Add(item);
+                        if (RepositoryPagina.Conteudo2!.FirstOrDefault(c => c.Id == item.Id) == null)
+                            RepositoryPagina.Conteudo2!.Add(item);
 
                 if (Content)
                     listaContent = listaContent.Where(c => c is UserContent).OrderBy(p => p.Id)
@@ -412,13 +423,13 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                var q = RepositoryPagina.Conteudo!
+                var q = RepositoryPagina.Conteudo2!
                     .LastOrDefault(c => c.StoryId == _story.Id && c is Chave && c.Html != null)!;
                 if (q == null)
                 {
                     var pa = Context.Pagina!.OrderBy(p => p.Id)
                     .LastOrDefault(c => c.StoryId == _story.Id && c is Chave && c.Html != null)!;
-                    RepositoryPagina.Conteudo!.Add(pa);
+                    RepositoryPagina.Conteudo2!.Add(pa);
                     quantidadeLista = retornarVerso(pa);
                 }
                 else
@@ -428,19 +439,19 @@ namespace BlazorCms.Client.Pages
 
 
             if (Filtro == null)
-                Model = RepositoryPagina.Conteudo!
+                Model = RepositoryPagina.Conteudo2!
              .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == _story.Id);
 
             else if (Filtro != null)
             {
                 var CountPages = CountPagesInFilterAsync((long)Filtro, livro);
-                var CountPages2 = RepositoryPagina.Conteudo!.Where(c => c is Pagina && c.Filtro != null &&
+                var CountPages2 = RepositoryPagina.Conteudo2!.Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count;
 
                 if (CountPages2 == CountPages && CountPages2 != 0)
                 {
                     listaContent.Clear();
-                    listaContent.AddRange(RepositoryPagina.Conteudo!
+                    listaContent.AddRange(RepositoryPagina.Conteudo2!
                     .Where(c => c is Pagina && c.Filtro != null &&
                     c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null)
                     .OrderBy(c => c.Id).ToList());
@@ -498,11 +509,11 @@ namespace BlazorCms.Client.Pages
             slideAtualCriterio = (p - 1) / await marcarIndice(true);
 
 
-            if (Filtro != null && RepositoryPagina.Conteudo!
+            if (Filtro != null && RepositoryPagina.Conteudo2!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count ==
                 CountPagesInFilterAsync((long)Filtro, livro))
-                listaContent = RepositoryPagina.Conteudo!
+                listaContent = RepositoryPagina.Conteudo2!
                 .Where(c => c is Pagina && c.Filtro != null &&
                 c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).OrderBy(p => p.Id)
                 .Skip(quantDiv * slideAtual).Take(quantDiv)
@@ -510,25 +521,25 @@ namespace BlazorCms.Client.Pages
 
             if (Filtro == null)
             {
-                List<Content> conteudos = RepositoryPagina.Conteudo!.Where(c => c is Chave)
+                List<Content> conteudos = RepositoryPagina.Conteudo2!.Where(c => c is Chave)
                 .OrderBy(p => p.Id).ToList();
                 //  conteudos = await PaginarStory(_story.Id, quantidadeLista, quantDiv, slideAtual, livro, carregando);
                 listaContent.AddRange(conteudos);
 
                 foreach (var item in listaContent)
-                    if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item.Id) == null)
-                        RepositoryPagina.Conteudo!.Add(item);
+                    if (RepositoryPagina.Conteudo2!.FirstOrDefault(c => c.Id == item.Id) == null)
+                        RepositoryPagina.Conteudo2!.Add(item);
 
                 if (Indice != 0)
                 {
                     if (livro == null)
-                        Model = RepositoryPagina.Conteudo!
+                        Model = RepositoryPagina.Conteudo2!
                         .FirstOrDefault(p => p is Pagina &&
                         retornarVerso(p) == Indice
                         && p.StoryId == _story.Id
                         && p.LivroId == null);
                     else
-                        Model = RepositoryPagina.Conteudo!
+                        Model = RepositoryPagina.Conteudo2!
                         .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice
                         && p.StoryId == _story.Id
                         && p.LivroId == livro.Id);
@@ -540,7 +551,7 @@ namespace BlazorCms.Client.Pages
             nameStory = RepositoryPagina.stories.First(st => st.Id == _story.Id).Nome;
 
             if (Filtro == null)
-                listaContent = RepositoryPagina.Conteudo!.Where(c => c is Chave).OrderBy(p => p.Id)
+                listaContent = RepositoryPagina.Conteudo2!.Where(c => c is Chave).OrderBy(p => p.Id)
                     .Skip(quantDiv * slideAtual).Take(quantDiv * 2)
                     .ToList();
 
@@ -820,7 +831,7 @@ namespace BlazorCms.Client.Pages
             if (Filtro == null)
             {
                 criterio = null;
-                var fil = RepositoryPagina.Conteudo!.FirstOrDefault(c => c is Chave &&
+                var fil = RepositoryPagina.Conteudo2!.FirstOrDefault(c => c is Chave &&
                  retornarVerso(c) == Versiculo)!;
                 var m = ((SubFiltro)fil.Criterio!.Filtro.First()).FiltroId;
                 var f = listaFiltro.FirstOrDefault(f => f.Id == m);
@@ -927,7 +938,7 @@ namespace BlazorCms.Client.Pages
 
                 if (Content)
                     if (listaContent.FirstOrDefault(c => c is UserContent) == null)
-                        foreach (var item in RepositoryPagina.Conteudo!
+                        foreach (var item in RepositoryPagina.Conteudo2!
                             .Where(c => c.Filtro != null && c is UserContent &&
                             c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList())
 

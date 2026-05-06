@@ -587,7 +587,7 @@
                             .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
 
                         if(fil != null)                        
-                            url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{numeros[j]}/{itemConteudo}/{user}";
+                            url = $"/pagina/{livro.Livro.Nome}/{str.Capitulo}/{numeros[j]}/{itemConteudo}/{user}";
                             
                         
                         if(url != null)
@@ -631,9 +631,27 @@
 
                 if (fil != null)
                 {
-                    int posicao = retornarPosicaoVerso(fil, versiculo);
-                    url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";
-                   
+                    FiltroContent? item = null;
+                    HashtagContent? hashtagContent = null;
+                    var hashtag = await Context.Hashtag!.FirstAsync(h => h.Name == $"#Id"
+                     && h.UserModelId == usermodel.Id);
+                     hashtagContent = await Context.HashtagContent!
+                     .Include(h => h.Content)
+                        .FirstOrDefaultAsync(h => h.HashtagId == hashtag.Id);
+                        if (hashtagContent != null)
+                        {
+                            item = fil.Pagina!.FirstOrDefault(p => p.ContentId == hashtagContent.ContentId);
+                            if(item != null)
+                            itemConteudo = fil.Pagina!.IndexOf(item) + 1;
+                        }
+
+                        if(hashtagContent != null || item != null)
+                        {
+                            var  content = Context.Content!.FirstOrDefault(c => c.Id == hashtagContent.ContentId);
+                            url = $"/{content.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";                   
+                        }
+                        else
+                        url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";                   
                 }
                 if(url != null)
                     navigation.NavigateTo(url);

@@ -391,9 +391,9 @@ var gruposFinais = await Context.SubFiltro
 
             var str = RepositoryPagina.stories.FirstOrDefault(st => st.Capitulo == capitulo);
             if(str != null)
-                navigation.NavigateTo($"/renderizar/{livro.Nome}/{str.Capitulo}/{indice}/comp");
+                navigation.NavigateTo($"/pagina/{livro.Nome}/{str.Capitulo}/{indice}/comp");
             else
-                navigation.NavigateTo($"/renderizar/{str.Capitulo}/{indice}/comp");
+                navigation.NavigateTo($"/pagina/{str.Capitulo}/{indice}/comp");
         }
 
         if(livro != null)
@@ -461,9 +461,9 @@ var gruposFinais = await Context.SubFiltro
             var str = Context.Story.First(s => s.Id == item.StoryId);
 
             if(item.Livro == null && ch != null)
-                url = $"/renderizar/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
+                url = $"/pagina/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
             else
-               url = $"/renderizar/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
+               url = $"/pagina/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
 
                 if(!string.IsNullOrEmpty(url))
                 await js!.InvokeAsync<object>("AcessarSites", $"{url}");

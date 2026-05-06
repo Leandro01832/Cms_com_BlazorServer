@@ -8,7 +8,10 @@ namespace business.business
     {
         public UserModel()
         {
-
+            Hashtag = new List<Hashtag>
+            {
+                new Hashtag { Name = "Id" }
+            };
         }
 
 

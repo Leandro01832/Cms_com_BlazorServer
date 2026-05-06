@@ -206,54 +206,7 @@ namespace BlazorCms.Client.Pages
         {
             Auto = Convert.ToInt32(!automatico);
         }
-
-        protected async void ativarConteudo()
-        {
-            if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c is UserContent &&
-            c.Filtro!.FirstOrDefault(f => f.FiltroId == Model2!.Id) != null) != null)
-            {
-                AlterouModel = true;
-                Content = true;
-                Indice = 1;
-                var resultado = await retornarListaFiltrada(null);
-                if (livro != null)
-                {
-                    var lista = randomizar(resultado.OfType<UserContent>()
-                    .Where(c => c is UserContent &&
-                    c.LivroId == livro.Id && c.StoryId == _story.Id).ToList());
-                    listaContent.AddRange(lista);
-                }
-                else
-                {
-                    var lista = randomizar(resultado.OfType<UserContent>()
-                .Where(c => c is UserContent &&
-                c.LivroId is null && c.StoryId == _story.Id).ToList());
-                    listaContent.AddRange(lista);
-                }
-
-                Model = listaContent.Where(c => c is UserContent)
-                .ToList()[Indice - 1];
-                contentid = Model.Id;
-            }
-            else
-            {
-                contentid = null;
-                Content = false;
-                try
-                {
-                    await js!.InvokeAsync<object>("DarAlert", $"Não existe mais conteudo para esta história: {Model2!.Nome}.");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-            }
-
-            acessar();
-
-        }
-
+     
         private void desabilitarAuto()
         {
             if (Timer!.desligarAuto != null)
@@ -703,6 +656,15 @@ namespace BlazorCms.Client.Pages
             }
         }
 
+      private async Task<HashtagContent?> retornarHashtagContent()
+        {
+             var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
+                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
+                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
+                   
+                    return item;
+        }
+      
         protected async Task AcessarHashtagId()
         {
             // Todos os usuarios vão ter a hashtag #Id 
@@ -714,27 +676,14 @@ namespace BlazorCms.Client.Pages
                  if (profile != null)
                 {
                     // aceessar hashtag #Id
-                    var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
-                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
-                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
+                   
+                    var item = await retornarHashtagContent();
                     if (item != null)
                     {
-                        var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
-                        if (content is UserContent)
-                        {
-                            navigation.NavigateTo($"/morecontent/{content.Id}");
-                        }
-                        else
-                        {
-                            var m = Model2.Pagina.OrderBy(p => p.ContentId)
-                            .FirstOrDefault(p => p.ContentId == content.Id);
-                            Indice = Model2.Pagina
-                            .OrderBy(p => p.ContentId)
-                            .ToList()
-                            .IndexOf(m) + 1;
-                            acessar();
-
-                        }
+                        var i = Model2.Pagina.OrderBy(p => p.ContentId)
+                        .FirstOrDefault(p => p.ContentId == item.ContentId);
+                        Indice = Model2.Pagina.OrderBy(p => p.ContentId).ToList().IndexOf(i) + 1;
+                        acessar();                     
                     }
                     else
                     {
@@ -947,17 +896,17 @@ namespace BlazorCms.Client.Pages
                 if (rotas == null)
                 {
                     if (livro != null)
-                        url = $"/renderizar/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
+                        url = $"/{Model.GetType().Name.ToLower()}/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
                     else
-                        url = $"/renderizar/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
+                        url = $"/{Model.GetType().Name.ToLower()}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
 
                 }
                 else
                 {
                     if (livro != null)
-                        url = $"/Renderizar/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}/{rotas}";
+                        url = $"/{Model.GetType().Name.ToLower()}/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}/{rotas}";
                     else
-                        url = $"/Renderizar/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}/{rotas}";
+                        url = $"/{Model.GetType().Name.ToLower()}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}/{rotas}";
 
                 }
 
@@ -1083,6 +1032,27 @@ namespace BlazorCms.Client.Pages
                         acessar();
                     }
         }
+   
+        protected async void atualizarFiltro(ChangeEventArgs e)
+        {
+            var valor = e.Value!.ToString()!;
+            typeClass = valor;
+            var item = await retornarHashtagContent();
+            if (item != null)
+            {
+                var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
+                if (content.GetType().Name.ToLower() == valor.ToLower())
+               await AcessarHashtagId();
+                else
+                {
+                    var i = Model2.Pagina.OrderBy(p => p.ContentId)
+                        .FirstOrDefault(p => p.ContentId == item.ContentId);
+                        Indice = Model2.Pagina.OrderBy(p => p.ContentId).ToList().IndexOf(i) + 1;
+                        acessar();  
+                }
+            }
+        }
+   
     }
 
     public class UserPreferencesImage

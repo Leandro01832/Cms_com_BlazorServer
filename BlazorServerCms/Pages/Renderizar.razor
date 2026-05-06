@@ -1,9 +1,26 @@
-﻿@page "/renderizar"
-@page "/morecontent/{contentid:long?}"
-@page "/renderizar/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}"
-@page "/renderizar/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}"
-@page "/renderizar/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}/{rotas}"
-@page "/renderizar/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou}/{rotas}"
+﻿@page "/renderizar/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/renderizar/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+
+@page "/chave/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/chave/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+
+@page "/admincontent/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/admincontent/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+
+@page "/productcontent/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/productcontent/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+
+@page "/comment/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/comment/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+
+@page "/videofilter/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/videofilter/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+
+@page "/pagina/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/pagina/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+
+@page "/usercontent/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/usercontent/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
 
 @using NVelocity.Runtime.Directive
 @inherits RenderizarBase
@@ -453,7 +470,7 @@ else if (!repositoryPagina.erro)
                             <p>
                                 <span>Mais Conteudo?</span> 
                                 @* filtro comum para todos os capitulos *@
-                                <select>
+                                <select @onchange="atualizarFiltro" >
                                     @foreach (var item in tipos)
                                     {
                                         if (item.Name == Model.GetType().Name)
