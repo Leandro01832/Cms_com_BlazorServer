@@ -22,7 +22,26 @@ else
     <div>
         <a class="btn btn-success" href="pagina/create">Nova pagina</a>
         <input type="checkbox" onchange="@marcar" value="@marcado" /> paginas com filtro
-        <input type="checkbox" onchange="@marcarUserContent" value="@UserContent" /> User content
+       <select @onchange="selecionar" >
+             @foreach (var item in tipos)
+                                    {
+                                            <option value="@item.Name" >
+                                                @Activator.CreateInstance(item).ToString()
+                                            </option>
+                                        
+                                    }                       
+        </select>
+     
+    <label>Lista:</label>
+    <select @onchange="selecionarCapitulo">
+                <option value="0">Selecione um Capítulo...</option>
+                @foreach (var story in listaStories)
+                {
+                    <option value="@story.Id">@story.Nome</option>
+                }
+            </select>
+    <input type="number" onchange="@acessarPagina" min="1" />
+
     </div>
     <div class="legenda-Animais" style="background-color: rgb(149, 148, 148);">
         <span class="badge bg-info">Maíferos</span>
@@ -44,7 +63,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var pagina in paginas)
+            @foreach (var pagina in selecao)
             {
 
                 <tr>
@@ -139,21 +158,29 @@ else
 @code {
 
     protected Content[] camadas { get; set; }
-    protected List<Content> paginas { get; set; }
+    private List<Content> paginas { get; set; } = new List<Content>();
+    private List<Content> selecao { get; set; } = new List<Content>();
+
+        private List<Story> listaStories = new();
     [Parameter] public int pagina { get; set; } = 1;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private ClaimsPrincipal usuario = null;
     private UserModel user = null;
-    private bool marcado = true;
+    private bool marcado = false;
     private bool UserContent = true;
+
+    private Type typeSelecionado = null;
 
     List<SubFiltro> grupos = new List<SubFiltro>();
     List<SubFiltro> lista = new List<SubFiltro>();
 
+        private List<Type> tipos = null;
+
     protected override async Task OnParametersSetAsync()
     {
         await CarregaCamadas(pagina);
+       
     }
 
     protected override async Task OnInitializedAsync()
@@ -169,15 +196,17 @@ else
         user = await Context.Users.Include(u => u.Livro).ThenInclude(u => u.Livro)
         .FirstAsync(us => us.Id == u.Id);
 
-         camadas = await Context.Pagina!
-               .Include(p => p.Filtro)
+         camadas = await Context.Content!
+               .Include(p => p.Filtro)!
                .ThenInclude(f => f.Filtro)
-                .OrderBy(p => p.Id)
+                .OrderBy(p => p.Data)
         .ToArrayAsync();
 
         lista = await Context.SubFiltro
         .Where(pai => pai.StoryId == 2 && pai.LivroId == 1)
         .ToListAsync();
+
+        listaStories = await Context.Story.Skip(1).ToListAsync();
 
         var gruposFinais = await Context.SubFiltro
     .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))
@@ -194,16 +223,24 @@ else
             }
         }
 
+        // 1. Pega o "Assembly" (o seu programa/projeto executável)
+            var assembly = typeof(Content).Assembly;
+
+            // 2. Filtra todos os tipos que são subclasses de Animal
+            tipos = assembly.GetTypes()
+               .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
+
     }
 
     async Task CarregaCamadas(int pag)
     {
         if(camadas == null) return;
-        paginas = camadas
-                .OrderBy(p => p.Id)
+        selecao.Clear();
+        selecao.AddRange(paginas
+                .OrderBy(p => p.Data)
                .Skip((pag - 1) * 10)
                .Take(10)
-                .ToList();
+                .ToList());
     }
 
     private async void mudarEstado(long Id)
@@ -283,53 +320,97 @@ else
     private async Task marcar(ChangeEventArgs e)
     {
         marcado = (bool)e.Value;
+        paginas.Clear();
         if ((bool)e.Value)
         {
-            paginas = camadas
+            paginas.AddRange(camadas
                .Where(p => p.Filtro.Count > 0)
-               .Take(10)
-                 .ToList();
+              
+                 .ToList());
                   navigation.NavigateTo($"/crud/pagina/1"); 
         }
         else
         {
-            paginas = camadas
+            paginas.AddRange(camadas
                .Where(p => p.Filtro.Count == 0)
-                .Take(10)
-                 .ToList();
+               
+                 .ToList());
                   navigation.NavigateTo($"/crud/pagina/1"); 
         }
     }
 
-     private async Task marcarUserContent(ChangeEventArgs e)
+    private async Task selecionar(ChangeEventArgs e)
     {
-        if(!marcado)
+        if (!string.IsNullOrEmpty(e.Value!.ToString()))
         {
-            if ((bool)e.Value)
+            paginas.Clear();
+            var tipoSelecionado = e.Value.ToString();
+            var tipo = tipos.FirstOrDefault(t => t.Name == tipoSelecionado);
+            typeSelecionado = tipo;
+
+            if (tipo != null)
             {
-                paginas = camadas
-                .Where(p => p.Filtro.Count == 0 && p is Pagina)
-                .Take(10)
-                    .ToList();
+                if(marcado)
+                {
+                    paginas.AddRange(camadas
+                    .Where(p => p.Filtro.Count > 0 && p.GetType() == tipo)                   
+                    .ToList());
                     navigation.NavigateTo($"/crud/pagina/1"); 
+                }
+                else
+                {
+                     paginas.AddRange(camadas
+                    .Where(p => p.Filtro.Count == 0 && p.GetType() == tipo)                    
+                    .ToList());
+                    navigation.NavigateTo($"/crud/pagina/1"); 
+                }
+            }
+        }
+    }   
+
+    private async Task selecionarCapitulo(ChangeEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
+        {
+            var storyId = long.Parse(e.Value.ToString());
+            paginas.Clear();
+            if(marcado)
+            {
+                paginas.AddRange(camadas
+                .Where(p => p.StoryId == storyId &&
+                p.Filtro.Count > 0 &&
+                p.GetType().Name == 
+                Activator.CreateInstance(typeSelecionado).GetType().Name)
+                .OrderBy(p => p.Data)                 
+                .ToList());
+                navigation.NavigateTo($"/crud/pagina/1"); 
             }
             else
             {
-                paginas = camadas
-                .Where(p => p.Filtro.Count == 0 && p is UserContent)
-                    .Take(10)
-                    .ToList();
-                    navigation.NavigateTo($"/crud/pagina/1"); 
+                 paginas.AddRange(camadas
+                .Where(p => p.StoryId == storyId &&
+                p.Filtro.Count == 0 &&
+                p.GetType().Name == 
+                Activator.CreateInstance(typeSelecionado).GetType().Name)
+                .OrderBy(p => p.Data)                 
+                .ToList());
+                navigation.NavigateTo($"/crud/pagina/1"); 
             }
-
+        }
+        else
+        {
+            paginas = camadas.Take(10).ToList();
+            navigation.NavigateTo($"/crud/pagina/1"); 
         }
     }
 
-
     private void acessarPagina(ChangeEventArgs e)
     {
+
         if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
+        
             navigation.NavigateTo($"/crud/pagina/{e.Value!.ToString()}");
+        
         else
             navigation.NavigateTo($"/crud/pagina/1"); 
     }

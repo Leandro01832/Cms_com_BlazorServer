@@ -25,5 +25,10 @@ namespace business.business
         public int Posicao { get; set; }
 
         public virtual Content Content { get; set; }
+
+        public override string ToString()
+        {
+            return "Chaves";
+        }
     }
 }

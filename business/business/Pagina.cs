@@ -37,5 +37,10 @@ namespace business
 
         [NotMapped]
         public string NomeComId { get { return Titulo + " chave - " + Id.ToString(); } }       
+   
+        public override string ToString()
+        {
+            return "paginas";
+        }
     }
 }

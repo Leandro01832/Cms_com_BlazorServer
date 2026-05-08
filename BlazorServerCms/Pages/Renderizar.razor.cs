@@ -525,8 +525,15 @@ namespace BlazorCms.Client.Pages
                 {
                     fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
                     Filtro = fi?.Id;
-                    Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
-                    acessar();
+
+                    var item = await retornarHashtagContent();
+                    if (item != null && fi.Pagina.FirstOrDefault(p => p.ContentId == item.ContentId) != null)                  
+                    await AcessarHashtagId();
+                    else
+                    {
+                        Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
+                        acessar();                        
+                    }
                 }
             }
             catch (Exception ex)
@@ -1045,9 +1052,7 @@ namespace BlazorCms.Client.Pages
                await AcessarHashtagId();
                 else
                 {
-                    var i = Model2.Pagina.OrderBy(p => p.ContentId)
-                        .FirstOrDefault(p => p.ContentId == item.ContentId);
-                        Indice = Model2.Pagina.OrderBy(p => p.ContentId).ToList().IndexOf(i) + 1;
+                        Indice = 1;
                         acessar();  
                 }
             }

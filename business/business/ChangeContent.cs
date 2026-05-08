@@ -18,5 +18,10 @@ namespace business.business
         }
 
         public virtual MudancaEstado MudancaEstado { get; set; }
+
+        public override string ToString()
+        {
+            return "Mudanças de Conteúdo";
+        }
     }
 }

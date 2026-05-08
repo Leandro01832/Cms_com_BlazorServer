@@ -9,6 +9,11 @@ namespace  business
 
         public Int64? ContentId { get; set; }
         public virtual Content? Content { get; set; }
+
+        public override string ToString()
+        {
+            return "Comentários";
+        }
     }
 
 } 

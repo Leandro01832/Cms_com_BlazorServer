@@ -17,5 +17,9 @@ namespace business.business
         {
         }
 
+        public override string ToString()
+        {
+            return "Conteudos com Produtos";
+        }
     }
 }

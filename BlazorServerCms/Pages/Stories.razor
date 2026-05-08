@@ -633,11 +633,12 @@
                 {
                     FiltroContent? item = null;
                     HashtagContent? hashtagContent = null;
-                    var hashtag = await Context.Hashtag!.FirstAsync(h => h.Name == $"#Id"
-                     && h.UserModelId == usermodel.Id);
-                     hashtagContent = await Context.HashtagContent!
-                     .Include(h => h.Content)
-                        .FirstOrDefaultAsync(h => h.HashtagId == hashtag.Id);
+                    var hashtag = await Context.Hashtag!
+                    .FirstAsync(h => h.Name == $"Id"
+                    && h.UserModelId == usermodel.Id);
+                    hashtagContent = await Context.HashtagContent!
+                    .Include(h => h.Content)
+                    .FirstOrDefaultAsync(h => h.HashtagId == hashtag.Id);
                         if (hashtagContent != null)
                         {
                             item = fil.Pagina!.FirstOrDefault(p => p.ContentId == hashtagContent.ContentId);
@@ -651,7 +652,17 @@
                             url = $"/{content.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";                   
                         }
                         else
-                        url = $"/renderizar/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";                   
+                        {
+                            try
+                            {
+                                js.InvokeAsync<object>("DarAlert", "Informe o versiculo correto.");
+                                url = null;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }                   
                 }
                 if(url != null)
                     navigation.NavigateTo(url);

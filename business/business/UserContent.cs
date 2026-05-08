@@ -12,5 +12,10 @@ namespace business.business
 
         public string UserModelId { get; set; }
         public virtual UserModel UserModel { get; set; }
+
+        public override string ToString()
+        {
+            return "Conteudos do Usuário";
+        }
     }
 }
