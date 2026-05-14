@@ -8,7 +8,7 @@ WITH ArvorePeixes AS (
         CAST(Nome AS VARCHAR(MAX)) AS Caminho,
         0 AS Nivel
     FROM Filtro 
-    WHERE CamadaId = 7
+    WHERE CamadaId = 8
 
     UNION ALL
 

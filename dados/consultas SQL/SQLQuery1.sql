@@ -1,15 +1,24 @@
 
 -- exibe todas as pastas que n�o tem versiculos
 select F.Id, F.Nome, C.Versiculo from Filtro as F 
-left join FiltroContent as FC on F.Id=FC.FiltroId
-left join Content as C on C.Id=FC.ContentId
+inner join FiltroContent as FC on F.Id=FC.FiltroId
+inner join Content as C on C.Id=FC.ContentId
 where C.Versiculo is null 
 
 --Exibe filtros que tem mais de um vinculo com conteudo
-SELECT FiltroId, COUNT(*) AS TotalDeVinculos
-FROM FiltroContent 
-GROUP BY FiltroId
-HAVING COUNT(*) > 1;
+SELECT F.Id, F.Nome, COUNT(FC.FiltroId) AS Conteudos
+FROM Filtro AS F 
+LEFT JOIN FiltroContent AS FC ON F.Id = FC.FiltroId
+WHERE F.CamadaId > 4 AND F.UltimaPasta = 0
+GROUP BY F.Id, F.Nome
+HAVING COUNT(FC.FiltroId) = 0;
+
+select * from Filtro where CamadaId>4 and UltimaPasta=0
+
+SELECT DISTINCT f.FiltroId
+FROM FiltroContent f
+INNER JOIN Content c ON f.ContentId = c.Id
+WHERE c.Html IS NOT NULL;
 
 
 
@@ -17,7 +26,7 @@ HAVING COUNT(*) > 1;
 select F.Id, F.Nome, F.CriterioId, C.Versiculo from Filtro as F 
 inner join FiltroContent as FC on F.Id=FC.FiltroId
 inner join Content as C on C.Id=FC.ContentId
-where C.Discriminator='Pagina' and F.CamadaId=4 order by F.FiltroId
+where C.Discriminator='Pagina' order by F.FiltroId
 
 select * from Content where Discriminator='Chave'
 

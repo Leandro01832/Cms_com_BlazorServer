@@ -63,7 +63,7 @@
 </div>
 
 @code {
-    private Content novoConteudo = new Content();
+    private Pagina novoConteudo = new Pagina();
     private List<Story> listaStories = new();
     private List<Livro> listaLivros = new();
 
@@ -84,8 +84,8 @@
         
         try 
         {
-            // A classe Content já inicializa a Data como DateTime.Now no set do Html
-            context.Content.Add(novoConteudo);
+            // A classe Pagina já inicializa a Data como DateTime.Now no set do Html
+            context.Pagina.Add(novoConteudo);            
             await context.SaveChangesAsync();
             
             // Navega para a listagem após o sucesso

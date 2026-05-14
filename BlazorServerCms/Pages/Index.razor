@@ -355,7 +355,8 @@
                 
 
                 // Usando LINQ para encontrar quem não é pai de ninguém
-@* 
+
+    @* 
 var gruposFinais = await Context.SubFiltro
     .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))
     .ToListAsync();
@@ -367,8 +368,8 @@ var gruposFinais = await Context.SubFiltro
             var f = new SubFiltro
             {
                 FiltroId = item.Id,
-                Nome = item.Nome,
-                CriterioId = 18556,
+                Nome = "ultima pasta",
+                CriterioId = 40,
                 LivroId = item.LivroId,
                 StoryId = item.StoryId,
                 UltimaPasta = true,
@@ -380,9 +381,10 @@ var gruposFinais = await Context.SubFiltro
             
     }      
       
-        await Context.SaveChangesAsync();
+        await Context.SaveChangesAsync(); 
+        *@
 
-    *@
+    
 
  //   GerarInteligenciaDosFiltros();
 

@@ -1,3 +1,7 @@
+
+GO
+SET IDENTITY_INSERT [dbo].[Camada] ON 
+
 INSERT INTO Camada (Id, Numero, LivroId)
 VALUES
     (1, 2, 1),
@@ -9,4 +13,6 @@ VALUES
     (7, 8, 1),
     (8, 9, 1),
     (9, 10, 1);
+    GO
+SET IDENTITY_INSERT [dbo].[Camada] OFF
 

@@ -1,3 +1,7 @@
+
+GO
+SET IDENTITY_INSERT [dbo].[Story] ON 
+
 INSERT INTO Story (Id, Modelo, Nome, Image, Descricao, Capitulo, Discriminator)
 VALUES
     (1, 0, 'Padrao', NULL, NULL, 0, 'PatternStory'),
@@ -25,3 +29,5 @@ VALUES
     (49, 0, 'Serviços', 'serviço.jpg', 'Esta história conta...', 22, 'PatternStory'),
     (50, 0, 'Desvio de padrão', 'desvio.jpg', 'Esta história conta...', 23, 'PatternStory');
 
+GO
+SET IDENTITY_INSERT [dbo].[Story] OFF
