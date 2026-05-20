@@ -23,7 +23,7 @@ namespace BlazorCms.Client.Pages
         [Inject] public ITourService TourService { get; set; }
         [Inject] public NavigationManager? navigation { get; set; }
         [Inject] UserManager<UserModel> userManager { get; set; }
-        [Inject] HttpClient? Http { get; set; }
+        
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
@@ -47,12 +47,6 @@ namespace BlazorCms.Client.Pages
         {
              try
             {
-                // if(quantidadeLista == 0)
-                // {
-                //     var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
-                //     && retornarVerso(f.Criterio.Content) == Versiculo);
-                //     quantidadeLista = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId).Pagina.Count;
-                // }
                 int porc = 100 * Indice / quantidadeLista;
                 await js!.InvokeAsync<object>("PreencherProgressBar2", porc);
             }
@@ -64,7 +58,7 @@ namespace BlazorCms.Client.Pages
 
         [Parameter] public string? Compartilhou { get; set; } = null;
         [Parameter] public string? rotas { get; set; } = null;
-        [Parameter] public long? contentid { get; set; } = null;
+        
         private long? filtro = null;
 
         private int? versiculo = null;
@@ -104,7 +98,8 @@ namespace BlazorCms.Client.Pages
 
         protected UserModel profile = null;
 
-        private string typeClass = "Pagina";
+       // private string typeClass = "Pagina";
+        protected Type type = typeof(Pagina);
 
         private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
         private Story _story = null;
@@ -140,9 +135,9 @@ namespace BlazorCms.Client.Pages
         protected Comment comment = new Comment();
 
         protected string? id_video = null;
-        protected int indiceAcesso;
+        
         private double Progress { get; set; } = 0;
-        private bool criptografar = false;
+        
         protected int chave = 0;
         protected int slideAtual = 0;
         protected int slideAtualCriterio = 0;
@@ -154,12 +149,9 @@ namespace BlazorCms.Client.Pages
         protected string divPagina = "";
         protected string placeholder = "";
         protected string preferencia = null;
-        protected bool exemplo = false;
-        protected bool mudanca = false;
+        
         protected int cap = 1;
-        protected bool automatico = false;
-        protected int padroes = 0;
-        protected bool erro = false;
+        protected bool automatico = false;        
         protected string classCss = "";
         protected string DivPag = "";
         protected MarkupString markup;
@@ -169,11 +161,9 @@ namespace BlazorCms.Client.Pages
         protected string nameGroup2 = "";
         protected UserModel usuario;
         protected ClaimsPrincipal user;
-        protected UserModel user2;
         protected Match Match;
         protected List<UserPreferencesImage>? usuarios = new List<UserPreferencesImage>();
         protected SubFiltro? Model2;
-        protected string[]? classificacoes = null;
         protected string opcional = "";
         protected bool liked = false;
         protected bool Content = false;
@@ -181,15 +171,12 @@ namespace BlazorCms.Client.Pages
         protected Content? Model { get; set; } = null;
         protected string? html { get; set; } = "";
         protected string? nameStory { get; set; } = null;
-        protected int? CapituloComentario { get; set; } = null;
-        protected int? VersoComentario { get; set; } = null;
         protected int quantidadeLista { get; set; } = 0;
         protected int quantidadeFiltro { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
         protected bool condicaoFiltro { get; set; } = false;
 
 
-        protected int? indice_Filtro { get; set; }
 
 
         public int retroceder { get; set; } = 0;
@@ -213,10 +200,7 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        public string? redirecionar { get; set; } = "";
-        public string? dominio { get; set; } = "dominio";
-
-        //  protected int outroHorizonte { get; set; }
+     
 
     }
 }

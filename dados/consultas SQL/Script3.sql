@@ -1,11 +1,12 @@
 WITH SequenciaCorreta AS (
     SELECT 
         id,
-        -- Pega o valor do ID 99 (que é 98) e soma a posição na fila
-        (SELECT Versiculo FROM Content WHERE id = 99) + 
-        ROW_NUMBER() OVER (ORDER BY id) as valor_sequencial
-    FROM Content
-    WHERE id >= 100
+        -- Pega o valor do ID 99 (que ï¿½ 98) e soma a posiï¿½ï¿½o na fila
+       -- 67
+       --  + 
+        ROW_NUMBER() OVER (order by id ) as valor_sequencial
+    FROM Content 
+    WHERE Versiculo is not null
 )
 UPDATE c
 SET c.Versiculo = s.valor_sequencial

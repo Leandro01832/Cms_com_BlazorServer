@@ -10,7 +10,7 @@ namespace BlazorServerCms.servicos
     {
         public async Task<ChatGptViewModel> buscar(IConfiguration Configuration, string prompt)
         {
-            var token = Configuration.GetConnectionString("Token");
+            var token = "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";
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", token);

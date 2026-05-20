@@ -112,7 +112,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-
         protected async void Casinha()
         {
             if (livro == null)
@@ -228,32 +227,12 @@ namespace BlazorCms.Client.Pages
             return await GetYouTubeVideoDurationAsync(id_video);
         }
 
-        protected void listarPasta()
-        {
-            acessar($"/lista-filtro/1/{Model2.Id}");
-        }
-
         protected void listarPastas()
         {
             if (livro != null)
                 acessar($"/listar-pasta/{_story.Capitulo}/{livro.Id}");
             else
                 acessar($"/listar-pasta/{_story.Capitulo}");
-        }
-
-
-        protected int? buscarPastaFiltrada(int camada)
-        {
-            if (camada != 0)
-            {
-                SubFiltro fl = null;
-                var fil = listaFiltro.FirstOrDefault(f => f.Id == Model2!.Id);
-                fl = listaFiltro!.First(f => f.Id == fil.Id);
-                var pasta = listaFiltro!.IndexOf(fl) + 1;
-                return pasta;
-            }
-            else
-                return null;
         }
 
         protected async void buscarProximo()
@@ -431,7 +410,6 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarVerso()
         {
-            indice_Filtro = 0;
             Indice = (int)Versiculo!;
             Filtro = null;
             ultimaPasta = false;
@@ -548,16 +526,6 @@ namespace BlazorCms.Client.Pages
             return HasFiltersAsync((long)capitulo!, livro);
         }
 
-        private int QuantFiltros()
-        {
-            if (_story == null)
-                _story = RepositoryPagina.stories!
-               .First(p => p.Id == Model!.StoryId);
-
-            return listaFiltro.Count;
-
-        }
-
         private int CountPaginas()
         {
             return CountPagesAsync((long)capitulo!, livro);
@@ -665,11 +633,14 @@ namespace BlazorCms.Client.Pages
 
       private async Task<HashtagContent?> retornarHashtagContent()
         {
-             var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
-                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
-                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
-                   
-                    return item;
+            if(profile !=null)
+            {                
+                var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
+                var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
+                var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
+                return item;
+            }
+            return null;                   
         }
       
         protected async Task AcessarHashtagId()
@@ -708,7 +679,6 @@ namespace BlazorCms.Client.Pages
 
             }
         }
-
 
         protected async void StartTour()
         {
@@ -785,27 +755,30 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        protected void acessarItem()
-        {
-            Indice = 1;
-            acessar();
-        }
-
         protected void acessarComentarios()
         {
             showModal2 = true;
         }
 
-        protected void SalvarComentario()
+        protected async void SalvarComentario()
         {
-            comment.ContentId = Model!.Id;
-            comment.UserModelId = usuario.Id;
-            comment.LivroId = livro?.Id;
-            comment.StoryId = _story.Id;
-            Context.Add(comment);
-            Context.SaveChanges();
-            comment = new Comment();
-            showModal2 = false;
+            if(usuario != null)
+            {
+                comment.ContentId = Model!.Id;
+                comment.UserModelId = usuario.Id;
+                comment.LivroId = livro?.Id;
+                comment.StoryId = _story.Id;
+                Context.Add(comment);
+                Context.SaveChanges();
+                var FiltroContent = new FiltroContent{ContentId=comment.Id, FiltroId=Model2.Id};
+                Context.Add(FiltroContent);
+                Context.SaveChanges();
+                comment = new Comment();
+                await js!.InvokeAsync<object>("DarAlert",
+                 $"Comentário adicionado com sucesso!!!");
+                showModal2 = false;
+                
+            }
         }
 
         protected void acessarPastas()
@@ -813,11 +786,11 @@ namespace BlazorCms.Client.Pages
             automatico = false;
             if (Filtro == null)
             {
-                acessar($"/pastas/{capitulo}/{Indice}/{dominio}");
+                acessar($"/pastas/{capitulo}/{Indice}");
             }
             else
             {
-                acessar($"/pastas/{capitulo}/{retornarVerso(Model2.Criterio.Content)}/{dominio}");
+                acessar($"/pastas/{capitulo}/{retornarVerso(Model2.Criterio.Content)}");
 
             }
         }
@@ -834,24 +807,7 @@ namespace BlazorCms.Client.Pages
                     acessar($"/livro/{livro.Nome}");
             }
         }
-
-
-        protected void acessarStory()
-        {
-            capitulo = RepositoryPagina.stories!
-            .OrderBy(str => str.Capitulo).Skip(1).ToList()[Indice - 1].Capitulo;
-            automatico = false;
-            Indice = 1;
-
-            acessar();
-        }
-
-        protected void acessarChave()
-        {
-            Indice = indiceChave;
-            acessar();
-        }
-
+       
         protected void AdicionarAoCarrinho(long ProdutoId)
         {
             //  criptografar = true;
@@ -893,19 +849,16 @@ namespace BlazorCms.Client.Pages
 
             if (url2 == null)
             {
-
-                // if (Content && conteudo == 0) 
-                // Indice = 1;
+                
                 conteudo = Convert.ToInt32(Content);
-                // criptografar = true;
 
                 string url = null;
                 if (rotas == null)
                 {
                     if (livro != null)
-                        url = $"/{Model.GetType().Name.ToLower()}/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
+                        url = $"/{type.Name.ToLower()}/{livro.Nome}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
                     else
-                        url = $"/{Model.GetType().Name.ToLower()}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
+                        url = $"/{type.Name.ToLower()}/{capitulo}/{Versiculo}/{Indice}/{Compartilhou}";
 
                 }
                 else
@@ -917,7 +870,6 @@ namespace BlazorCms.Client.Pages
 
                 }
 
-                // criptografar = false;
                 navigation!.NavigateTo(url);
             }
             else
@@ -952,9 +904,9 @@ namespace BlazorCms.Client.Pages
             return storyService.HasFiltersAsync(storyId, livro);
         }
 
-        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
+        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int slideAtual, Livro livro, int? carregando = null)
         {
-            return storyService.PaginarFiltro(filtroId, quantidadeLista, quantDiv, slideAtual, livro, carregando);
+            return storyService.PaginarFiltro(filtroId, slideAtual, livro, carregando);
         }
 
         public int CountPagesInFilterAsync(long filtroId, Livro livro)
@@ -978,19 +930,6 @@ namespace BlazorCms.Client.Pages
             {
 
             }
-        }
-
-        private List<UserContent> randomizar(List<UserContent> lista)
-        {
-            List<UserContent> retorno = new List<UserContent>();
-            while (lista.Count != 0)
-            {
-                var indice = repositoryPagina.random.Next(0, lista.Count - 1);
-                retorno.Add(lista[indice]);
-                lista.Remove(lista[indice]);
-            }
-
-            return retorno;
         }
 
         private void AlterarCamada(int timeNumber)
@@ -1043,7 +982,7 @@ namespace BlazorCms.Client.Pages
         protected async void atualizarFiltro(ChangeEventArgs e)
         {
             var valor = e.Value!.ToString()!;
-            typeClass = valor;
+            type = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;
             var item = await retornarHashtagContent();
             if (item != null)
             {
@@ -1056,6 +995,11 @@ namespace BlazorCms.Client.Pages
                         acessar();  
                 }
             }
+             else
+                {
+                        Indice = 1;
+                        acessar();  
+                }
         }
    
     }

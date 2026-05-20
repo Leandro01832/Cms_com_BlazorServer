@@ -5,7 +5,6 @@
 @using System.Reflection
 
 
-@inject OllamaApiClient _ollamaService
 
 
 @inject NavigationManager navigation
@@ -112,7 +111,7 @@
 }
 
 <div class="Criterios" >
-<BarraPesquisa Value="@Query" OnSearch="buscar" ></BarraPesquisa> 
+<BarraPesquisa Value="@Query" OnSearch="buscar" filtros2="@filtros2" ></BarraPesquisa> 
 
     @{
         if ( ocultar == "1")
@@ -213,7 +212,7 @@
 
 @code
 {
-   
+
     [Parameter] public int? capitulo { get; set; }
 
     [Parameter] public string? nomeLivro { get; set; } = "";
@@ -282,6 +281,7 @@
 
 
     }
+ 
 
     protected override async Task OnInitializedAsync()
     {
@@ -323,7 +323,7 @@
             .Where(f => 
             //f.Pagina.Count > 0 &&
              !f.UltimaPasta &&
-              f.CriterioId != null)
+              f.CriterioId != null && f.Pagina.Count > 0)
             .ToListAsync();
 
             termosValidos = new HashSet<string>(
@@ -334,15 +334,63 @@
     { 
         "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
         "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
-    };    
+    };   
 
-             @*
+
+    @* 
+    int teste = 0;
+    if(teste == 0)
+    {
+        var resultado = await Context.SubFiltro
+                .Include(f => f.Pagina)
+                .Where(x => x.UltimaPasta && x.CriterioId != null) 
+                .OrderBy(sub => sub.CriterioId)
+                .ToListAsync();                
+
+                for(var h = 1; h <= resultado.Count; h++)
+                {
+                    var fil = await Context.SubFiltro.Include(s => s.Pagina)
+                    .FirstAsync(s => s.Id == resultado[h - 1].FiltroId);
+                    if(fil.Pagina.Count > 0)
+                    {
+                        var co = await Context.Pagina!
+                        .FirstAsync(c => c.Id == resultado[h - 1].CriterioId);
+                        co.Versiculo = 1000;
+                        Context.Update(co);
+                      await  Context.SaveChangesAsync();
+                    }
+                }                
+                teste = 1;
+    }
+
+
+    var contents = await Context.Content
+    .Where(c => c.StoryId==2)
+    .OrderBy(c => c.Id)
+    .Skip(50).ToListAsync();
+
+    for(var i = 0; i < 178; i++)
+    {
+        var criterio = new Criterio
+        {
+            Id = contents[i].Id,
+             CamadaId = 9,
+              Ativo = true,
+               DataCriacao = DateTime.UtcNow,
+                Descricao = "Descrição",
+                LivroId= 1                 
+        };
+        Context.Add(criterio);
+    }
+    await Context.SaveChangesAsync();
+
+             
               var fils = Context.SubFiltro
-            .Where(f => f.CriterioId == 18556)
+            .Where(f => f.CriterioId == 40)
             .ToList();
 
             var cri = Context.Criterio
-             .Where(c => c.Id > 18622)
+             .Where(c => c.Id > 40)
              .ToList();
 
              for(int i = 0; i < fils.Count; i++)
@@ -350,8 +398,8 @@
                 fils[i].CriterioId = cri[i].Id;
                 Context.SubFiltro.Update(fils[i]);
              }
-                Context.SaveChanges();
-                  *@
+                Context.SaveChanges(); *@
+                  
                 
 
                 // Usando LINQ para encontrar quem não é pai de ninguém
@@ -404,34 +452,7 @@ var gruposFinais = await Context.SubFiltro
         options.Add(new FilterOption { Value = "criterio1", Text = "Criterio 1" });
         options.Add(new FilterOption { Value = "criterio2", Text = "Criterio 2" });
 
-        Ocultar();
-
-         // 1. Pega o "Assembly" (o seu programa/projeto executável)
-        var assembly = typeof(Content).Assembly;
-
-        // 2. Filtra todos os tipos que são subclasses de Content e que não são abstratos
-        var tipos = assembly.GetTypes()
-            .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
-
-            // 3. Imprime o nome de cada tipo encontrado
-            var impressos = new List<string>();
-             foreach (var tipo in tipos)
-             {
-                 impressos.Add("Tipo encontrado: " + tipo.Name );
-             }
-
-            try
-             {
-                await
-             js.InvokeVoidAsync("alert", string.Join("\n", impressos));
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine($"Erro ao exibir tipos: {ex.Message}");
-                }
-              
-
-          //  Console.WriteLine(string.Join("\n", impressos));
+        Ocultar();       
 
     }
 
@@ -515,10 +536,10 @@ var gruposFinais = await Context.SubFiltro
        {
             if (!string.IsNullOrEmpty(Query))
             {
-                string teste = Query.Trim().ToLower();
+                string teste = Query.Split('-')[1].Trim().ToLower();
                 List<string> termos = maisCriterio(teste, filtros2);
 
-                    if(termos.Count > 0)
+                if(termos.Count > 0)
                 PesquisarComMaisCriterio2(termos);   
                 else
                 filtros = new List<SubFiltro>();
@@ -548,11 +569,13 @@ var gruposFinais = await Context.SubFiltro
             }
 
 
-            var f =  filtros2
+            var fil =  filtros2
             .FirstOrDefault(f => 
               ((Chave)f.Criterio.Content).Versiculo == int.Parse(Query));
+              var fil2 = filtros2
+            .FirstOrDefault(f => f.Id == fil.FiltroId);
 
-             verificar(f);
+             verificar(fil2);
        }
       
     }
@@ -632,7 +655,7 @@ var gruposFinais = await Context.SubFiltro
         await N8nService.EnviarDadosAsync(dados);
     }
 
-    private List<SubFiltro> PesquisarComMaisCriterio(List<string> termos)
+    private List<SubFiltro> PesquisarComMaisCriterio(List<string> termos, bool Joins)
     {
         //tratando sql injection e otimizando a consulta para evitar múltiplas id's
         List<SubFiltro> result = new List<SubFiltro>();
@@ -646,11 +669,13 @@ var gruposFinais = await Context.SubFiltro
             using (var con = new SqlConnection(ApplicationDbContext._connectionString))
             {
                 StringBuilder sql = new StringBuilder();
-                sql.Append("WITH ArvoreRecursiva AS ( "); // OVER() é mais eficiente para totalizadores
-                sql.Append("SELECT g.Id, g.FiltroId, g.CriterioId, g.Nome FROM Filtro g "); // OVER() é mais eficiente para totalizadores
-                sql.Append("INNER JOIN HashtagFiltro gh ON g.Id = gh.FiltroId "); // OVER() é mais eficiente para totalizadores
-                sql.Append("INNER JOIN Hashtag ha ON gh.HashtagId = ha.Id "); // OVER() é mais eficiente para totalizadores
-                sql.Append("WHERE  "); // OVER() é mais eficiente para totalizadores
+                sql.Append("WITH ArvoreRecursiva AS ( "); 
+                sql.Append("SELECT g.Id, g.FiltroId, g.CriterioId, g.Nome FROM Filtro g "); 
+                if(Joins)
+                sql.Append("INNER JOIN HashtagFiltro gh ON g.Id = gh.FiltroId "); 
+                if(Joins)
+                sql.Append("INNER JOIN Hashtag ha ON gh.HashtagId = ha.Id "); 
+                sql.Append("WHERE "); 
                 
 
                 var cmd = new SqlCommand();
@@ -658,8 +683,10 @@ var gruposFinais = await Context.SubFiltro
 
                 // Criando parâmetros dinamicamente para cada palavra da busca
                 for (int i = 0; i < termos.Count; i++)
-                    condicoes.Add($" ha.Name LIKE '%{termos[i]}%' OR g.Nome LIKE '%{termos[i]}%' "); // OVER() é mais eficiente para totalizadores
-
+                    if(Joins)
+                    condicoes.Add($" ha.Name LIKE '%{termos[i]}%' OR g.Nome LIKE '%{termos[i]}%' "); 
+                    else
+                    condicoes.Add($" g.Nome LIKE '%{termos[i]}%' "); 
 
                 sql.Append(string.Join(" OR ", condicoes));
                 sql.Append(" UNION ALL SELECT t.Id, t.FiltroId, t.CriterioId, t.Nome FROM Filtro t INNER JOIN ArvoreRecursiva r ON t.FiltroId = r.Id ");
@@ -695,14 +722,12 @@ var gruposFinais = await Context.SubFiltro
     private void PesquisarComMaisCriterio2(List<string> termos)
     {
         filtros.Clear();
-        var lista = PesquisarComMaisCriterio(termos);
+        var lista = PesquisarComMaisCriterio(termos, false);
         if(lista.Count > 0)
         foreach(var item in lista)
         {
-            var f = Context.SubFiltro
-            .Include(s => s.Criterio)
-            .ThenInclude(s => s.Content)
-            .FirstOrDefault(f => f.Id == item.Id && !f.UltimaPasta);
+            var f = filtros2
+            .FirstOrDefault(f => f.Id == item.Id);
             if(f != null)
                 filtros.Add(f); 
         }
@@ -718,12 +743,17 @@ var gruposFinais = await Context.SubFiltro
     // 2. Dividimos a query por espaços e removemos entradas vazias
     var palavrasUsuario = query.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
+    var termos = new List<string>();
+    foreach(var item in termosValidos)
+    termos.Add(item.ToLower());
+
     // 3. Verificamos cada palavra (ou combinações)
     foreach (var palavra in palavrasUsuario)
     {
-        if (!stopWords.Contains(palavra) && termosValidos.Contains(palavra))
+        var p = palavra.Replace(",", "").ToLower();
+        if (!stopWords.Contains(p) && termos.Contains(p))
         {
-            termosEncontrados.Add(palavra.ToLower());
+            termosEncontrados.Add(p);
         }
     }
 

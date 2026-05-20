@@ -2,19 +2,21 @@ WITH ArvorePeixes AS (
     -- 1. Ponto de partida: Convertemos o Nome para VARCHAR(MAX) logo no início
     SELECT 
         Id, 
+        UltimaPasta,
         CAST(Nome AS VARCHAR(MAX)) AS Nome, 
         CamadaId, 
         FiltroId,
         CAST(Nome AS VARCHAR(MAX)) AS Caminho,
         0 AS Nivel
     FROM Filtro 
-    WHERE CamadaId = 8
+    WHERE CamadaId = 1
 
     UNION ALL
 
     -- 2. Parte Recursiva: Usamos o alias da tabela 'p' corretamente
     SELECT 
         p.Id, 
+        p.UltimaPasta,
         CAST(p.Nome AS VARCHAR(MAX)), 
         p.CamadaId, 
         p.FiltroId,
@@ -25,9 +27,9 @@ WITH ArvorePeixes AS (
 )
 -- 3. Resultado Final
 SELECT 
-    Id,
-    REPLICATE('    ', Nivel) + Nome AS NomeFormatado,
-    CamadaId,
+  --  Id,
+  --  REPLICATE('    ', Nivel) + Nome AS NomeFormatado,
+  --  CamadaId,
     Caminho
-FROM ArvorePeixes
+FROM ArvorePeixes where UltimaPasta=0
 ORDER BY Caminho;

@@ -232,6 +232,22 @@ else
             tipos = assembly.GetTypes()
                .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
 
+                Type itemParaMover = typeof(Pagina);
+                Type itemParaMover2 = typeof(Chave);
+                Type itemParaMover3 = typeof(ChangeContent);
+
+            // 1. Verifica se o item realmente existe na lista
+            if (tipos.Contains(itemParaMover))
+            {
+                // 2. Remove o item de sua posição atual
+                tipos.Remove(itemParaMover);
+                tipos.Remove(itemParaMover2);
+                tipos.Remove(itemParaMover3);
+                
+                // 3. Insere o item na primeira posição (índice 0)
+                tipos.Insert(0, itemParaMover);
+            }
+
     }
 
     async Task CarregaCamadas(int pag)

@@ -7,8 +7,8 @@ namespace BlazorServerCms.Data
     {
         Task<List<Content>> PaginarStory(long storyId, int quantidadeLista,
         int quantDiv, int slideAtual, Livro livro, int? carregando = null);
-        Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantidadeLista,
-        int quantDiv, int slideAtual, Livro livro, int? carregando = null);
+        Task<List<FiltroContent>> PaginarFiltro(long filtroId, 
+         int slideAtual, Livro livro, int? carregando = null);
 
 
        

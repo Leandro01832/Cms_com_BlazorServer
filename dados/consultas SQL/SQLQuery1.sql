@@ -6,12 +6,12 @@ inner join Content as C on C.Id=FC.ContentId
 where C.Versiculo is null 
 
 --Exibe filtros que tem mais de um vinculo com conteudo
-SELECT F.Id, F.Nome, COUNT(FC.FiltroId) AS Conteudos
+SELECT F.Id, F.Nome, COUNT(*) AS Conteudos
 FROM Filtro AS F 
-LEFT JOIN FiltroContent AS FC ON F.Id = FC.FiltroId
-WHERE F.CamadaId > 4 AND F.UltimaPasta = 0
+inner JOIN FiltroContent AS FC ON F.Id = FC.FiltroId
+WHERE  F.UltimaPasta = 0
 GROUP BY F.Id, F.Nome
-HAVING COUNT(FC.FiltroId) = 0;
+HAVING COUNT(*) > 0;
 
 select * from Filtro where CamadaId>4 and UltimaPasta=0
 

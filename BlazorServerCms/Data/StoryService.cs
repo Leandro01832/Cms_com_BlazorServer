@@ -26,10 +26,11 @@ namespace BlazorServerCms.Data
             repositoryPagina = RepositoryPagina;
         }
 
-        public async Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantidadeLista, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
+        public async Task<List<FiltroContent>> PaginarFiltro(long filtroId,   int slideAtual, Livro livro, int? carregando = null)
         {
             Context = db.CreateDbContext(null);
             List<FiltroContent> conteudos;
+            var quantDiv = 40;
            
                 int carregar = 0;
                 if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)

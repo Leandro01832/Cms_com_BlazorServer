@@ -15,9 +15,6 @@ namespace business.business.Group
         public Story(string nome, Story padrao)
         {
             Content[] pages = null;
-            if(this is PatternStory) pages = new Content[99999];
-            if(this is SmallStory) pages = new Content[9999];
-            if(this is ShortStory) pages = new Content[999];
             Pagina = new List<Content>();
             for (int i = 0; i < pages.Length; i++) 
             {
@@ -50,9 +47,6 @@ namespace business.business.Group
             Capitulo = stories.Count;
             Nome = nome;
             Content[] pages = null;
-            if (this is PatternStory) pages = new Content[99999];
-            if (this is SmallStory) pages = new Content[9999];
-            if (this is ShortStory) pages = new Content[999];
             Pagina = new List<Content>();
             for (int i = 0; i < pages.Length; i++)
             {
@@ -84,12 +78,7 @@ namespace business.business.Group
         private int quantComentario = 0;
 
 
-        private int modelo;
-        public int Modelo 
-        {
-            get { if (this is PatternStory) return 1; else return 0; }
-            set {  modelo = value; }
-        }
+        
         public virtual List<Filtro>? Filtro { get; set; }
 
         public string? Nome { get; set; }

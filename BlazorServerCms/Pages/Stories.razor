@@ -665,7 +665,7 @@
                         }                   
                 }
                 if(url != null)
-                    navigation.NavigateTo(url);
+                    await js!.InvokeAsync<object>("AcessarSites", $"{url}");
             }
         }
         else

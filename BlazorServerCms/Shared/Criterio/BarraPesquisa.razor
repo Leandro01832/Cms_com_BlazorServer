@@ -1,6 +1,10 @@
 @inject NavigationManager navigation
 
-@inject OllamaApiClient _ollamaService
+@inject IJSRuntime js
+
+
+@using Mscc.GenerativeAI;
+@using Mscc.GenerativeAI.Types;
 
 <div class="filter-group">
   
@@ -9,6 +13,12 @@
         @bind="Value" 
        @bind:event="oninput"
            @onkeyup="OnInputChanged" />
+
+        @if(exibir)
+        {
+           <img src="/Loading.gif" width="50" alt="carregando" />
+
+        }
            
 </div>
 
@@ -18,9 +28,11 @@
     
     [Parameter] public string Value { get; set; }
 
+    private bool exibir = false;
+
     private string UltimoTermoEnviado { get; set; } = "";
 
-     private List<SubFiltro> ResultadosDaBusca = new();
+     [Parameter]public List<SubFiltro> filtros2 { get; set; }
 
     [Parameter] public EventCallback<string> OnSearch { get; set; }
 
@@ -28,16 +40,16 @@
 
     private ApplicationDbContext Context;
 
-    List<SubFiltro>? filtros2 = new List<SubFiltro>();
+   // List<SubFiltro>? filtros2 = new List<SubFiltro>();
 
     HashSet<string> termosValidos = null;
 
-    HashSet<string> stopWords = null;
+        HashSet<string> stopWords = null;
 
     protected override async  Task  OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        filtros2 = await Context.SubFiltro!
+        @* filtros2 = await Context.SubFiltro!
             .Include(f => f.Camada)!
             .Include(f => f.Criterio)!
             .ThenInclude(f => f.Content)
@@ -49,21 +61,24 @@
             //f.Pagina.Count > 0 &&
              !f.UltimaPasta &&
               f.CriterioId != null)
-            .ToListAsync();
+            .ToListAsync(); *@
 
         termosValidos = new HashSet<string>(
-        filtros2.Select(f => f.Nome.Trim()), 
+        filtros2.OrderBy(f => f.Nome).Select(f => f.Nome.Trim()), 
         StringComparer.OrdinalIgnoreCase );
 
          stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
-        { 
-            "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
-            "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
-        };  
+    { 
+        "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
+        "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
+    };
+
+        
     }
     
-    private async void OnInputChanged(KeyboardEventArgs e)
+    private async Task OnInputChanged(KeyboardEventArgs e)
     {
+        exibir = true;
         if (e.Key == "Enter")
         {
             // 1. Limpeza: Remove espaços extras (ex: "Baleia     " vira "Baleia")
@@ -73,40 +88,125 @@
             // E se não estiver vazio
             if (!string.IsNullOrWhiteSpace(termoLimpo) && termoLimpo != UltimoTermoEnviado)
             {
-                UltimoTermoEnviado = termoLimpo;
+                UltimoTermoEnviado = termoLimpo; 
+                bool apenasNumeros=false;
 
-                var apenasNumeros = Regex.IsMatch(termoLimpo
+                apenasNumeros = Regex.IsMatch(termoLimpo
                 .Replace(" ", "")
                 .Replace(",", ""),
                  @"^\d+$");
-
-                if(apenasNumeros)                
-                    await OnSearch.InvokeAsync(termoLimpo);                
+                if (apenasNumeros)                
+                {
+                    await OnSearch.InvokeAsync(termoLimpo); 
+                }
                 else
                 {
-
-                    var lista = await PesquisarSemantica(termoLimpo);
-                    bool teste = false;
-                    
-                        for(var i = 0; i < lista.Count; i++)
+                  //  if(termos.Count > 0)
+                  //  await OnSearch.InvokeAsync(termoLimpo); 
+                  //  else
+                  //  {
+                        // Dispara a nova busca inteligente direto no banco
+                        var texto = await TraduzirIntencaoComIA(termoLimpo);
+                        
+                        if (texto != null)
                         {
-                            if(i < 10)
-                            {
-                                teste = true;
-                                await OnSearch.InvokeAsync(lista[i].Nome);
-                                break;
-                            }
+                            // Envia o Nome do primeiro resultado (o mais relevante) encontrado pelo banco
+                                var arr = texto.Replace(" ", "")
+                                .Split(',');
+                                var result = "";
+                                foreach(var item in arr)
+                                if(filtros2.FirstOrDefault(f => 
+                                f.Nome.ToLower()
+                                .Contains(item.ToLower())) != null)
+                                result += item.ToLower() + ", ";
+
+                              //  texto = texto.Replace(",", "");
+                            //await js.InvokeAsync<object>("DarAlert", "Conteudo encontrado: " + result );
+                            await OnSearch.InvokeAsync($"{termoLimpo} - {result}"); 
                         }
+                        else
+                        {
+                            // Se o banco não achou nada com Full-Text, você pode usar a IA aqui 
+                            // apenas como um plano B (Fallback) para tentar adivinhar o que o usuário quis dizer.
+                            await OnSearch.InvokeAsync(null);
+                        }          
 
-                   
-                    if(!teste)
-                    await OnSearch.InvokeAsync(null);
-
-                }
-
+                  //  }
+                }                            
             }
+                else if(string.IsNullOrWhiteSpace(termoLimpo))
+                await OnSearch.InvokeAsync("");
         }
+        exibir = false;
     }
+
+
+    private async Task<string> TraduzirIntencaoComIA(string textoUsuario)
+{
+    if (string.IsNullOrWhiteSpace(textoUsuario)) return string.Empty;
+
+        // Criamos uma lista com os nomes reais que você tem no banco para orientar a IA
+        // Isso ajuda a evitar que ela invente nomes que não existem no seu sistema
+        string termosDisponiveis = string.Join(", ", termosValidos ?? new HashSet<string>()); 
+
+         var prompt = $@"Você é um sistema inteligente de mapeamento taxonômico e correspondência biológica.
+            Sua tarefa é analisar a frase ou característica digitada pelo usuário e associá-la a um ou mais termos válidos do nosso sistema.
+
+            Lista de Termos Válidos disponíveis (Estrito):
+            [{termosDisponiveis}]
+
+            Texto digitado pelo usuário: '{textoUsuario}'
+
+            Regras Estritas de Resposta:
+            1. Analise o texto do usuário e determine qual ou quais palavras da lista de 'Termos Válidos' possuem relação direta, sinônimo ou característica biológica com o que foi digitado.
+            2. Responda APENAS com as palavras exatas encontradas na lista de 'Termos Válidos'.
+            3. Se houver mais de um termo correspondente, separe-os estritamente por uma vírgula e um espaço (exemplo: TermoA, TermoB).
+            4. Não invente termos novos. Se a palavra não estiver explicitamente em [{termosDisponiveis}], ignore-a.
+            5. Não adicione saudações, explicações, aspas, introduções ou pontuação. Escreva apenas os termos ou a palavra NENHUM.
+            6. Se o texto do usuário não tiver qualquer relação lógica ou biológica com nenhum dos termos válidos, responda estritamente: NENHUM
+
+            Exemplos de comportamento esperado:
+            Usuário: 'animais com pintas'
+            Resposta: Canidae, Felidae
+            Usuário: 'insetos de colmeia'
+            Resposta: Abelhas
+            Usuário: 'sapos e rãs'
+            Resposta: Bufonidae
+            Usuário: 'onde fica o meu carrinho de compras'
+            Resposta: NENHUM";
+
+            // Pegue sua chave gratuita no site ai.google.dev
+
+            string apiKey = ""; 
+
+            // Configura o modelo (o gemini-2.5-flash é excelente e gratuito)
+            var googleAI = new GoogleAI(apiKey);
+            var model = googleAI.GenerativeModel(Model.Gemini25Flash);
+
+            // Envia o prompt de forma assíncrona
+            var response = await model.GenerateContent(prompt);
+
+            // O texto da resposta estará aqui:
+            Console.WriteLine(response.Text);
+
+            try
+            {
+                
+                    var resultadoIA = response.Text;
+
+                    if (string.Equals(resultadoIA, "NENHUM", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return string.Empty;
+                    }
+
+                return resultadoIA ?? string.Empty;
+            }
+            catch (Exception)
+            {
+                // Fallback: se a IA falhar por algum motivo, retorna o próprio texto limpo
+                return textoUsuario;
+            }
+}
     
       public List<string> maisCriterio(string query, List<SubFiltro>? filtros2)
 {
@@ -128,81 +228,5 @@
 
     return termosEncontrados.Distinct().ToList();
 }
-
-
    
-
-private async Task<List<SubFiltro>> PesquisarSemantica(string termoBusca)
-{
-    if (string.IsNullOrWhiteSpace(termoBusca)) return new List<SubFiltro>();
-
-    // 1. Transforma o que o usuário digitou em um vetor (Embedding)
-    var request = new EmbedRequest
-{
-    Model = "mxbai-embed-large",
-    // Use um formato de "etiqueta" que ajude a IA a focar no tema
-    Input = new List<string> { $"Taxonomia biológica animal: {termoBusca}" }
-};
-    
-    var response = await _ollamaService.EmbedAsync(request);
-    float[] vetorUsuario = response.Embeddings[0].Select(d => (float)d).ToArray();
-
-    // 2. Busca todos os filtros do banco que já possuem inteligência (vetor)
-    var todosFiltros = await Context.SubFiltro
-                               .Where(f => f.VetorEmbedding != null)
-                               .ToListAsync();
-
-    // 3. Calcula a similaridade e ordena
-    ResultadosDaBusca = todosFiltros
-        .Select(f => new { 
-            Filtro = f, 
-            Score = CalcularSimilaridadeCosseno(vetorUsuario, ConverterByteParaFloat(f.VetorEmbedding)) 
-        })
-        .OrderByDescending(x => x.Score) // Os mais parecidos primeiro
-        .Where(x => x.Score > 0.5)      // Filtro de corte (opcional) para evitar resultados irrelevantes
-        .Select(x => x.Filtro) 
-        .ToList();
-
-        return ResultadosDaBusca;
-}
-
-private float CalcularSimilaridadeCosseno(float[] vetorA, float[] vetorB)
-{
-    float dotProduct = 0;
-    float magnitudeA = 0;
-    float magnitudeB = 0;
-
-    for (int i = 0; i < vetorA.Length; i++)
-    {
-        dotProduct += vetorA[i] * vetorB[i];
-        magnitudeA += vetorA[i] * vetorA[i];
-        magnitudeB += vetorB[i] * vetorB[i];
-    }
-
-    return dotProduct / (MathF.Sqrt(magnitudeA) * MathF.Sqrt(magnitudeB));
-}
-
-
-/// <summary>
-/// Converte o array de bytes (varbinary) vindo do SQL Server 
-/// de volta para um array de floats para cálculos matemáticos.
-/// </summary>
-private float[] ConverterByteParaFloat(byte[] bytes)
-{
-    // 1. Validamos se os bytes existem
-    if (bytes == null || bytes.Length == 0) 
-        return Array.Empty<float>();
-
-    // 2. Criamos o array de destino com o tamanho exato.
-    // Como cada float ocupa 4 bytes, dividimos o tamanho total por 4.
-    float[] floats = new float[bytes.Length / sizeof(float)];
-
-    // 3. A "Mágica" da performance: 
-    // Copia os dados bit a bit da memória, sem precisar de loops lentos ou JSON.
-    Buffer.BlockCopy(bytes, 0, floats, 0, bytes.Length);
-
-    return floats;
-}
-
-
 }
