@@ -43,7 +43,8 @@ namespace BlazorServerCms.Data
         public DbSet<MudancaEstado> MudancaEstado { get; set; }
         public DbSet<Time> Time { get; set; }
         public DbSet<Content> Content { get; set; }
-        public DbSet<Pagina>? Pagina { get; set; }
+        public DbSet<Pagina> Pagina { get; set; }
+        public DbSet<Page> Page { get; set; }
         public DbSet<Chave> Chave { get; set; }
         public DbSet<ProductContent> ProductContent { get; set; }
         public DbSet<ChangeContent> ChangeContent { get; set; }

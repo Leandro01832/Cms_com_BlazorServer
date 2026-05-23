@@ -112,7 +112,8 @@ namespace BlazorCms.Client.Pages
         protected List<Type> tipos = null;
         private int indiceChave = 0;
         private int tempoVideo = 0;
-        private List<FiltroContent> result = new List<FiltroContent>();
+     // private List<FiltroContent> result = new List<FiltroContent>();
+     // protected List<Content> listaContent = new List<Content>();
         protected List<int> porcentagens = new List<int>();
         public bool AlterouCamada { get; set; }
         private bool alterouModel = true;
@@ -143,7 +144,6 @@ namespace BlazorCms.Client.Pages
         protected int slideAtualCriterio = 0;
         protected List<Content>[] array;
         protected List<Filtro>[] array2;
-        protected List<Content> listaContent = new List<Content>();
         protected bool tellStory = false;
         protected string inputs = "";
         protected string divPagina = "";
@@ -166,7 +166,6 @@ namespace BlazorCms.Client.Pages
         protected SubFiltro? Model2;
         protected string opcional = "";
         protected bool liked = false;
-        protected bool Content = false;
 
         protected Content? Model { get; set; } = null;
         protected string? html { get; set; } = "";
@@ -182,7 +181,6 @@ namespace BlazorCms.Client.Pages
         public int retroceder { get; set; } = 0;
 
         public int timeproduto { get; set; } = 11;
-        public int? conteudo { get; set; } = 1;
 
         public int? carregando { get; set; } = 40;
 

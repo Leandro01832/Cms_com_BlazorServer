@@ -48,24 +48,7 @@
 
     protected override async  Task  OnInitializedAsync()
     {
-        Context = db.CreateDbContext(null);
-        @* filtros2 = await Context.SubFiltro!
-            .Include(f => f.Camada)!
-            .Include(f => f.Criterio)!
-            .ThenInclude(f => f.Content)
-            .Include(f => f.Pagina)!
-            .ThenInclude(f => f.Content)
-            .Include(f => f.Story)
-            .Include(f => f.Livro)
-            .Where(f => 
-            //f.Pagina.Count > 0 &&
-             !f.UltimaPasta &&
-              f.CriterioId != null)
-            .ToListAsync(); *@
-
-        termosValidos = new HashSet<string>(
-        filtros2.OrderBy(f => f.Nome).Select(f => f.Nome.Trim()), 
-        StringComparer.OrdinalIgnoreCase );
+        Context = db.CreateDbContext(null);       
 
          stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
     { 
@@ -145,6 +128,10 @@
 {
     if (string.IsNullOrWhiteSpace(textoUsuario)) return string.Empty;
 
+        termosValidos = new HashSet<string>(
+        filtros2.OrderBy(f => f.Nome).Select(f => f.Nome.Trim()), 
+        StringComparer.OrdinalIgnoreCase );
+
         // Criamos uma lista com os nomes reais que você tem no banco para orientar a IA
         // Isso ajuda a evitar que ela invente nomes que não existem no seu sistema
         string termosDisponiveis = string.Join(", ", termosValidos ?? new HashSet<string>()); 
@@ -177,7 +164,7 @@
 
             // Pegue sua chave gratuita no site ai.google.dev
 
-            string apiKey = ""; 
+            string apiKey = "AIzaSyDvndqA_iNwDqVk-sMdV3nb5S7dpGcLqCk"; 
 
             // Configura o modelo (o gemini-2.5-flash é excelente e gratuito)
             var googleAI = new GoogleAI(apiKey);

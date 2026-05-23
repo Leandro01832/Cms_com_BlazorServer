@@ -246,7 +246,7 @@ namespace BlazorCms.Client.Pages
             {
                 List<Content> lista = null;
                 if (rotas != null)
-                    lista = await retornarListaFiltrada(rotas);
+                    lista = null;
                 else
                     quant = quantidadeLista;
             }
@@ -272,9 +272,9 @@ namespace BlazorCms.Client.Pages
                     Indice = proximo;
                     acessar();
                 }
-                else if (Filtro != null && !Content)
+                else if (Filtro != null)
                     navegarSubgrupos(true);
-                else if (!Content)
+                else 
                 {
                     cap++;
                     capitulo = RepositoryPagina.stories
@@ -291,7 +291,7 @@ namespace BlazorCms.Client.Pages
                 quant = CountPaginas();
             else
             {
-                var lista = await retornarListaFiltrada(null);
+                var lista = RepositoryPagina.Conteudo2!;
                 quant = lista.Count;
             }
             if (somenteSubgrupos)
@@ -310,7 +310,7 @@ namespace BlazorCms.Client.Pages
             AlterouModel = true;
 
             bool alterouIdice = false;
-            if (rotas != null || Content)
+            if (rotas != null)
             {
                 if (Indice == 1)
                 {
@@ -328,7 +328,7 @@ namespace BlazorCms.Client.Pages
                     {
                         Filtro fi = voltarSubgrupos();
                         Filtro = fi.Id;
-                        var count = CountPagesInFilterAsync((long)Filtro, livro);
+                        var count = CountPagesInFilterAsync((long)Filtro, livro, type);
                         Indice = count;
                         retroceder = 1;
                         alterouIdice = true;
@@ -567,7 +567,7 @@ namespace BlazorCms.Client.Pages
                 {
                     //atualizar #Id
                     var c = Context.Users.FirstOrDefault(u => u.UserName == user.Identity!.Name);
-                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
+                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
                     var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
                     if (lista.Count == 0)
                     {
@@ -849,9 +849,6 @@ namespace BlazorCms.Client.Pages
 
             if (url2 == null)
             {
-                
-                conteudo = Convert.ToInt32(Content);
-
                 string url = null;
                 if (rotas == null)
                 {
@@ -909,14 +906,14 @@ namespace BlazorCms.Client.Pages
             return storyService.PaginarFiltro(filtroId, slideAtual, livro, carregando);
         }
 
-        public int CountPagesInFilterAsync(long filtroId, Livro livro)
+        public int CountPagesInFilterAsync(long filtroId, Livro livro, Type type)
         {
-            return storyService.CountPagesInFilterAsync(filtroId, livro);
+            return storyService.CountPagesInFilterAsync(filtroId, livro, type);
         }
 
-        public Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0)
+        public Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0, Type type = null)
         {
-            return storyService.GetFiltroByIdAsync(filtroId, livro, slide, quantDiv);
+            return storyService.GetFiltroByIdAsync(filtroId, livro, slide, quantDiv, type);
         }
 
         private async void RemoverPlay()

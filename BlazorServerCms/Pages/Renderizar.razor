@@ -243,7 +243,7 @@ else if (!repositoryPagina.erro)
                          
                          
 
-                            @if (!Content)
+                            @if(type != typeof(Comment))
                             {
                                 if (tellStory || Filtro == null)
                                 { 
@@ -479,9 +479,8 @@ else if (!repositoryPagina.erro)
                         <p>Versiculos encontrados</p>
                     }
 
-                    @if (Content)
-                    {
-                        if(Model is UserContent)
+                    
+                        @if(type == typeof(UserContent))
                         {
                             var user = (UserContent)Model;
                             <p>
@@ -489,7 +488,7 @@ else if (!repositoryPagina.erro)
                             </p>
 
                         }
-                    }
+                    
 
                        
                     </div>
@@ -588,7 +587,7 @@ else if (!repositoryPagina.erro)
                         }
                         else
                             {
-                                if (!Content)
+                                if (type != typeof(Comment))
                                 {
                                     <span class="TextoInformativo">Item @Indice de @quantidadeLista</span>
                                 }
@@ -640,9 +639,8 @@ else if (!repositoryPagina.erro)
 
 
 
-                            @if (array != null && listaContent.Count > 0)
-                            {
-                                for (var i = 0; i < array.Length; i++)
+                            
+                                @for (var i = 0; i < array.Length; i++)
                                 {
                                     if ( array[i] != null)
                                     {
@@ -692,7 +690,7 @@ else if (!repositoryPagina.erro)
                                                                 @if (Model != null && condicao )
                                                                 {                                                                  
 
-                                                                    if (!Content)
+                                                                    if (type != typeof(Comment))
                                                                     {
                                                                         <span data-2 class="indice"> @Versiculo</span>
                                                                        
@@ -723,7 +721,7 @@ else if (!repositoryPagina.erro)
                                                                 <div>
                                                                     @if (Model != null && condicao)
                                                                     {
-                                                                        if (!Content)
+                                                                        if (type != typeof(Comment))
                                                                         {
                                                                             <span data-2 class="indice"> @Versiculo</span>
                                                                             
@@ -759,7 +757,7 @@ else if (!repositoryPagina.erro)
                                                                     
                                     
                                 }
-                            }                          
+                                                      
 
                         </div>
                     </div>

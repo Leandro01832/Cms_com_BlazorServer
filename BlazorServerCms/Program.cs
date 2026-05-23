@@ -170,7 +170,7 @@ using (var scope = app.Services.CreateScope())
         .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias)
          || c.QuantLiked > 100000 || c.QuantShared > 100000)
         .OrderBy(co => co.Id).ToListAsync();
-        RepositoryPagina.Conteudo!.AddRange(conteudos);
+        RepositoryPagina.Conteudo!.UnionWith(conteudos);
     }
 
 

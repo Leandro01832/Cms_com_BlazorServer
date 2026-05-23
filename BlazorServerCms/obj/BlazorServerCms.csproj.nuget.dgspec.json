@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj": {}
+    "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj": {
+    "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
+        "projectUniqueName": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
         "projectName": "BlazorServerCms",
-        "projectPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\BlazorServerCms\\obj\\",
+        "projectPath": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\BlazorServerCms\\BlazorServerCms.csproj",
+        "packagesPath": "C:\\Users\\leand\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\BlazorServerCms\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\leand\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -26,8 +30,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\business.csproj": {
-                "projectPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\business.csproj"
+              "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\business\\business.csproj": {
+                "projectPath": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\business\\business.csproj"
               }
             }
           }
@@ -96,6 +100,10 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -120,6 +128,10 @@
               "target": "Package",
               "version": "[9.0.11, )"
             },
+            "Mscc.GenerativeAI": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
             "NVelocity": {
               "target": "Package",
               "version": "[1.2.0, )"
@@ -127,10 +139,6 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
-            },
-            "OllamaSharp": {
-              "target": "Package",
-              "version": "[5.4.25, )"
             },
             "PSC.Blazor.Components.Tours": {
               "target": "Package",
@@ -164,17 +172,21 @@
         }
       }
     },
-    "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\business.csproj": {
+    "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\business\\business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\business.csproj",
+        "projectUniqueName": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\business\\business.csproj",
         "projectName": "business",
-        "projectPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\business.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Documents\\testeBlazor\\projeto\\business\\obj\\",
+        "projectPath": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\business\\business.csproj",
+        "packagesPath": "C:\\Users\\leand\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\projeto\\business\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\leand\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"

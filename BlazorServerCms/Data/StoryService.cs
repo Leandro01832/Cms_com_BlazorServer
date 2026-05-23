@@ -131,10 +131,10 @@ namespace BlazorServerCms.Data
             return conteudos;
         }
 
-        public async Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0)
+        public async Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0, Type type = null)
         {
             List<Content> resultados = null;
-            int Count = CountPagesInFilterAsync(filtroId, livro);
+            int Count = CountPagesInFilterAsync(filtroId, livro, type);
             if(Count < 1000)
             {
                 if (livro == null)
@@ -242,7 +242,7 @@ namespace BlazorServerCms.Data
                 return false;
         }
         
-        public int CountPagesInFilterAsync(long filtroId, Livro livro)
+        public int CountPagesInFilterAsync(long filtroId, Livro livro, Type type)
         {
             var _TotalRegistros = 0;
             try
@@ -253,22 +253,12 @@ namespace BlazorServerCms.Data
                     if(livro == null)
                     cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
                              " inner join Content as C on FC.ContentId=C.Id where " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='Pagina' and C.LivroId is null or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId is null or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' and C.LivroId is null or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId is null or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId is null or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='VideoFilter' and C.LivroId is null "
-                        , con);
+                            $" FC.FiltroId={filtroId} and C.Discriminator='{type.Name}' and C.LivroId is null "
+                             , con);
                     else
                         cmd = new SqlCommand($"SELECT COUNT(*) FROM FiltroContent as FC " +
                              " inner join Content as C on FC.ContentId=C.Id where " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='Pagina' and C.LivroId={livro.Id} or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='AdminContent' and C.LivroId={livro.Id} or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='ProductContent' and C.LivroId={livro.Id} or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='ChangeContent' and C.LivroId={livro.Id} or  " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='Chave' and C.LivroId={livro.Id} or " +
-                            $" FC.FiltroId={filtroId} and C.Discriminator='VideoFilter' and C.LivroId={livro.Id} "
+                            $" FC.FiltroId={filtroId} and C.Discriminator='{type.Name}' and C.LivroId={livro.Id} "
                         , con);
 
                     con.Open();
