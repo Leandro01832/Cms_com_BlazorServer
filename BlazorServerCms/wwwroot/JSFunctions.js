@@ -385,6 +385,12 @@ window.contarHistoria = (story) => {
     
 }
 
+window.IdentificarUsuario = (user) =>
+{
+    var user = prompt("Digite o usuario se preferir sr.(a):", user);    
+    return user;    
+}
+
 window.proximoSlide = () =>
     {
         var slid = document.querySelectorAll('.carousel-item');

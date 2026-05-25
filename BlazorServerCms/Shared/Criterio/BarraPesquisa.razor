@@ -8,11 +8,12 @@
 
 <div class="filter-group">
   
-    <input type="text" class="form-control"  
-           placeholder="Pesquisar ou marcar..." 
-        @bind="Value" 
+    <input type="text" class="form-control" 
+       placeholder="Pesquisar ou marcar..."
+       @bind="Value"
        @bind:event="oninput"
-           @onkeyup="OnInputChanged" />
+       @bind:after="() => OnInputChanged(new ChangeEventArgs { Value = Value })"
+       @onkeyup="OnInputChanged" />
 
         @if(exibir)
         {
@@ -25,14 +26,15 @@
 
 
 @code {
-    
+
     [Parameter] public string Value { get; set; }
 
+    List<SubFiltro> filtros = new List<SubFiltro>();
     private bool exibir = false;
 
     private string UltimoTermoEnviado { get; set; } = "";
 
-     [Parameter]public List<SubFiltro> filtros2 { get; set; }
+    [Parameter]public List<SubFiltro> filtros2 { get; set; }
 
     [Parameter] public EventCallback<string> OnSearch { get; set; }
 
@@ -40,25 +42,25 @@
 
     private ApplicationDbContext Context;
 
-   // List<SubFiltro>? filtros2 = new List<SubFiltro>();
+    // List<SubFiltro>? filtros2 = new List<SubFiltro>();
 
     HashSet<string> termosValidos = null;
 
-        HashSet<string> stopWords = null;
+    HashSet<string> stopWords = null;
 
     protected override async  Task  OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);       
 
-         stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
+        stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
     { 
         "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
         "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
     };
 
-        
+
     }
-    
+
     private async Task OnInputChanged(KeyboardEventArgs e)
     {
         exibir = true;
@@ -74,58 +76,177 @@
                 UltimoTermoEnviado = termoLimpo; 
                 bool apenasNumeros=false;
 
+                    termoLimpo = termoLimpo
+                    .Replace("-", "")
+                    .Replace("Jarvis", "")
+                    .Replace("jarvis", "")
+                    .Replace("Alexa", "")
+                    .Replace("alexa", "")
+                    .Replace("Pesquisar", "")
+                    .Replace("pesquisar", "")
+                    .Replace("Limpar", "")
+                    .Replace("limpar", "")
+                    .Replace("Converter", "")
+                    .Replace("converter", "")
+                    .Trim();
+
                 apenasNumeros = Regex.IsMatch(termoLimpo
                 .Replace(" ", "")
                 .Replace(",", ""),
                  @"^\d+$");
-                if (apenasNumeros)                
+                if (apenasNumeros || termoLimpo.Contains("Marcar")
+                 || termoLimpo.Contains("marcar"))              
                 {
                     await OnSearch.InvokeAsync(termoLimpo); 
                 }
                 else
                 {
-                  //  if(termos.Count > 0)
-                  //  await OnSearch.InvokeAsync(termoLimpo); 
-                  //  else
-                  //  {
-                        // Dispara a nova busca inteligente direto no banco
-                        var texto = await TraduzirIntencaoComIA(termoLimpo);
-                        
-                        if (texto != null)
+                    
+                    var texto = await TraduzirIntencaoComIA(termoLimpo);
+
+                    if (texto != null)
+                    {
+                        // Envia o Nome do primeiro resultado (o mais relevante) encontrado pelo banco                        
+                        List<SubFiltro> listaOrdenada = new List<SubFiltro>();
+                        var arr = texto.Replace(" ", "")
+                        .Split(',');
+                        var result = "";
+                        foreach(var item2 in arr)
                         {
-                            // Envia o Nome do primeiro resultado (o mais relevante) encontrado pelo banco
-                                var arr = texto.Replace(" ", "")
-                                .Split(',');
-                                var result = "";
-                                foreach(var item in arr)
-                                if(filtros2.FirstOrDefault(f => 
+                            var fil = filtros2.FirstOrDefault(f => 
                                 f.Nome.ToLower()
-                                .Contains(item.ToLower())) != null)
-                                result += item.ToLower() + ", ";
-
-                              //  texto = texto.Replace(",", "");
-                            //await js.InvokeAsync<object>("DarAlert", "Conteudo encontrado: " + result );
-                            await OnSearch.InvokeAsync($"{termoLimpo} - {result}"); 
+                                .Contains(item2.ToLower()));
+                            if( fil != null)
+                                listaOrdenada.Add(fil);
                         }
-                        else
-                        {
-                            // Se o banco não achou nada com Full-Text, você pode usar a IA aqui 
-                            // apenas como um plano B (Fallback) para tentar adivinhar o que o usuário quis dizer.
-                            await OnSearch.InvokeAsync(null);
-                        }          
+                        listaOrdenada = listaOrdenada
+                        .OrderByDescending(f => f.CamadaId).ToList();
+                        filtros.Clear();
 
-                  //  }
+                        foreach(var item in listaOrdenada)
+                        {
+                            var fil = filtros2
+                            .FirstOrDefault(f => f.Nome.ToLower()
+                            .Contains(item.Nome.ToLower()));
+                            if(fil != null)
+                            {
+                                
+                                bool hierarquiaValida = verificarHierarquia(fil, filtros);
+                                if(!hierarquiaValida)
+                                filtros.Add(fil);
+                                
+                            }
+                        }
+                            filtros = filtros.Distinct().ToList();
+                            var l = filtros.Select( f => f.Nome).ToList();
+                            result = string.Join(", ", l);
+
+                        //  texto = texto.Replace(",", "");
+                        //await js.InvokeAsync<object>("DarAlert", "Conteudo encontrado: " + result );
+                        await OnSearch.InvokeAsync($"{termoLimpo} - {result}"); 
+                    }
+                    else
+                    {
+                        // Se o banco não achou nada com Full-Text, você pode usar a IA aqui 
+                        // apenas como um plano B (Fallback) para tentar adivinhar o que o usuário quis dizer.
+                        await OnSearch.InvokeAsync(null);
+                    }          
+
+                    //  }
                 }                            
             }
-                else if(string.IsNullOrWhiteSpace(termoLimpo))
+            else if(string.IsNullOrWhiteSpace(termoLimpo))
                 await OnSearch.InvokeAsync("");
         }
         exibir = false;
     }
 
+    // Provavelmente seu código está assim:
+
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        var arr = value.Split(' ');
+        if(
+            arr[arr.Length - 1].Contains("pesquisar") ||
+            arr[arr.Length - 1].Contains("Pesquisar") ||
+            arr[arr.Length - 1].Contains("converter") ||
+            arr[arr.Length - 1].Contains("Converter") ||
+            arr[arr.Length - 1].Contains("limpar") ||
+            arr[arr.Length - 1].Contains("Limpar") 
+         )
+        foreach(var item in arr)
+        {
+             if(
+            arr[arr.Length - 1].Contains("pesquisar") ||
+            arr[arr.Length - 1].Contains("Pesquisar") 
+               )
+            {
+                await OnInputChanged(new KeyboardEventArgs { Key = "Enter" });
+                    break;
+            }
+            else if(
+            arr[arr.Length - 1].Contains("converter") ||
+            arr[arr.Length - 1].Contains("Converter") 
+               )
+            {
+               Value = converter(value);
+                    break;
+            }
+            else if(
+                    arr[arr.Length - 1].Contains("limpar") ||
+                    arr[arr.Length - 1].Contains("Limpar") 
+                    )
+                    {
+                        Value = "";
+                        filtros.Clear();
+                        await OnInputChanged(new KeyboardEventArgs { Key = "Enter" });
+                        break;
+                    }
+        }
+    }
+
+    private bool verificarHierarquia(SubFiltro c, List<SubFiltro>? fils)
+    {
+        bool teste = false;
+        var a = c;
+            if(fils.Contains(c))
+            teste = true;
+            if(fils.Count == 0 ||
+             fils.FirstOrDefault(f => f.CamadaId == c.CamadaId) != null)  
+             {
+                fils.Add(c);
+                teste = true;
+             }        
+           else         
+            foreach(var item in fils)  
+            {
+                a = item;
+                while(a.CamadaId != 1)
+                {
+                    if(a.Id == c.Id)
+                    {
+                        teste = true;
+                        break;
+                    }  
+                    a = verificarFiltros(a);
+                }
+            } 
+        return teste;
+    }
+
+         private SubFiltro verificarFiltros(SubFiltro a)
+        {
+            var b = filtros2
+            .FirstOrDefault(fil =>
+            fil.Id == a.FiltroId)!;
+
+            return b; 
+        }
 
     private async Task<string> TraduzirIntencaoComIA(string textoUsuario)
-{
+    {
     if (string.IsNullOrWhiteSpace(textoUsuario)) return string.Empty;
 
         termosValidos = new HashSet<string>(
@@ -164,7 +285,7 @@
 
             // Pegue sua chave gratuita no site ai.google.dev
 
-            string apiKey = "AIzaSyDvndqA_iNwDqVk-sMdV3nb5S7dpGcLqCk"; 
+            string apiKey = ""; 
 
             // Configura o modelo (o gemini-2.5-flash é excelente e gratuito)
             var googleAI = new GoogleAI(apiKey);
@@ -195,25 +316,37 @@
             }
 }
     
-      public List<string> maisCriterio(string query, List<SubFiltro>? filtros2)
-{
-    if (string.IsNullOrWhiteSpace(query)) return new List<string>();    
+     private string converter(string textoUsuario)
+     {
+        // Lógica de conversão aqui
+        // Exemplo: se o usuário digitar "converter Mamíferos em vers 62".
+        // Depois é só pesquisar
+       var apenasNumeros = Regex.IsMatch(textoUsuario
+                .Replace(" ", "")
+                .Replace(",", ""),
+                 @"^\d+$");
 
-    var termosEncontrados = new List<string>();
-    
-    // 2. Dividimos a query por espaços e removemos entradas vazias
-    var palavrasUsuario = query.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-    // 3. Verificamos cada palavra (ou combinações)
-    foreach (var palavra in palavrasUsuario)
-    {
-        if (!stopWords.Contains(palavra) && termosValidos.Contains(palavra))
+        string result = "";
+        if(!apenasNumeros)
         {
-            termosEncontrados.Add(palavra.ToLower());
+            if(filtros.Count > 0)
+            {            
+                var l = filtros.Select( f => retornarVerso(f.Criterio.Content)).ToList();
+                result = string.Join(", ", l);            
+            }
         }
-    }
+        else
+        {
+            var l = filtros.Select( f => f.Nome).ToList();
+                result = string.Join(", ", l);  
+        }
+        return result;
+     }
 
-    return termosEncontrados.Distinct().ToList();
-}
+     private int retornarVerso(business.business.Content c)
+    {
+        Pagina pag = (Pagina)c;
+        return pag.Versiculo;
+    }
    
 }

@@ -528,7 +528,7 @@ namespace BlazorCms.Client.Pages
 
         private int CountPaginas()
         {
-            return CountPagesAsync((long)capitulo!, livro);
+            return CountPagesAsync((long)capitulo!, livro, type);
         }
 
         private string colocarAutoPlay(string html)
@@ -568,24 +568,24 @@ namespace BlazorCms.Client.Pages
                     //atualizar #Id
                     var c = Context.Users.FirstOrDefault(u => u.UserName == user.Identity!.Name);
                     var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
-                    var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
-                    if (lista.Count == 0)
+                    var lista2 = Context.HashtagFiltro.Where(h => h.HashtagId == hashtagId.Id &&
+                     h.FiltroId == Model2.Id).ToList();
+                   // var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
+                    if (lista2.Count == 0)
                     {
                         Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
+                        Context.Add(new HashtagFiltro { FiltroId = Model2.Id, HashtagId = hashtagId.Id });
                     }
-                    else if (lista.Count == 1)
+                    else if (lista2.Count == 1)
                     {
-                        var item = lista.First();
-                        item.ContentId = Model.Id;
-                        Context.Update(item);
-                    }
-                    else
-                    {
-                        foreach (var item in lista)
+                        var item = Context.HashtagContent
+                        .FirstOrDefault(h => h.HashtagId == hashtagId.Id                         
+                         && Model2.Pagina.FirstOrDefault(p => p.ContentId == h.ContentId) != null);
+                         if(item != null)
                         {
-                            Context.Remove(item);
+                            item.ContentId = Model.Id;
+                            Context.Update(item);                            
                         }
-                        Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
                     }
                     await Context.SaveChangesAsync();
                 }
@@ -634,11 +634,19 @@ namespace BlazorCms.Client.Pages
       private async Task<HashtagContent?> retornarHashtagContent()
         {
             if(profile !=null)
-            {                
+            {          
                 var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
                 var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
-                var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
-                return item;
+                var r = await Context.HashtagFiltro
+                .FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id &&
+                h.FiltroId == Model2.Id);   
+                if(r != null)
+                {
+                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id &&
+                    Model2.Pagina.FirstOrDefault(p => p.ContentId == h.ContentId) != null);
+                    return item;
+                }   
+                
             }
             return null;                   
         }
@@ -658,16 +666,20 @@ namespace BlazorCms.Client.Pages
                     var item = await retornarHashtagContent();
                     if (item != null)
                     {
-                        var i = Model2.Pagina.OrderBy(p => p.ContentId)
-                        .FirstOrDefault(p => p.ContentId == item.ContentId);
-                        Indice = Model2.Pagina.OrderBy(p => p.ContentId).ToList().IndexOf(i) + 1;
+                        var c = await Context.Content!
+                        .FirstOrDefaultAsync(c => c.Id == item.ContentId);
+                        var i = RepositoryPagina.Conteudo2!.OrderBy(p => p.Id)
+                        .FirstOrDefault(p => p.Id == item.ContentId);
+                        Indice = RepositoryPagina.Conteudo2!
+                        .OrderBy(p => p.Id).ToList().IndexOf(i) + 1;
                         acessar();                     
                     }
                     else
                     {
                         try
                         {
-                            await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada. Marque o versículo correto.");
+                            await js!.InvokeAsync<object>("DarAlert",
+                             $"Hashtag #Id não encontrada. Marque o versículo correto.");
 
                         }
                         catch (Exception ex)
@@ -881,14 +893,9 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        public Task<List<Content>> PaginarStory(long storyId, int quantidadeLista, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
+        public int CountPagesAsync(long storyId, Livro livro, Type type)
         {
-            return storyService.PaginarStory(storyId, quantidadeLista, quantDiv, slideAtual, livro, carregando);
-        }
-
-        public int CountPagesAsync(long storyId, Livro livro)
-        {
-            return storyService.CountPagesAsync(storyId, livro);
+            return storyService.CountPagesAsync(storyId, livro, type);
         }
 
         public Task<int> GetYouTubeVideoDurationAsync(string videoId)

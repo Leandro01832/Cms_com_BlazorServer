@@ -232,6 +232,7 @@
     private int users = 0;
     // private int? carregando = null; 
     private string placeholder = "Pesquisar";
+    private string comp = "comp";
     //private bool marcar;
 
     private MarkupString markup;
@@ -252,6 +253,8 @@
 
     HashSet<string> termosValidos = null;
     HashSet<string> stopWords = null;
+
+     ClaimsPrincipal user = null;
 
 
     protected override async Task OnParametersSetAsync()
@@ -441,9 +444,9 @@ var gruposFinais = await Context.SubFiltro
 
             var str = RepositoryPagina.stories.FirstOrDefault(st => st.Capitulo == capitulo);
             if(str != null)
-                navigation.NavigateTo($"/pagina/{livro.Nome}/{str.Capitulo}/{indice}/comp");
+                navigation.NavigateTo($"/page/{livro.Nome}/{str.Capitulo}/{indice}/{comp}");
             else
-                navigation.NavigateTo($"/pagina/{str.Capitulo}/{indice}/comp");
+                navigation.NavigateTo($"/page/{str.Capitulo}/{indice}/{comp}");
         }
 
         if(livro != null)
@@ -481,12 +484,12 @@ var gruposFinais = await Context.SubFiltro
                 .FirstOrDefault(s => s.FiltroId == item.Id);
                 ch = (Chave)f.Criterio.Content!;
             }
-            var str = Context.Story.First(s => s.Id == item.StoryId);
+            var str = Context.Story!.First(s => s.Id == item.StoryId);
 
             if(item.Livro == null && ch != null)
-                url = $"/pagina/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
+                url = $"/page/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
             else
-               url = $"/pagina/{item.Livro.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/comp";
+               url = $"/page/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
 
                 if(!string.IsNullOrEmpty(url))
                 await js!.InvokeAsync<object>("AcessarSites", $"{url}");
@@ -523,14 +526,29 @@ var gruposFinais = await Context.SubFiltro
     {
         bool apenasNumeros = false;
         Query = textoDigitado;
-        //vamos la, aqui é onde a mágica acontece. Quando o usuário digita algo na barra de pesquisa, essa função é chamada. Ela verifica se a consulta (Query) não está vazia e, em seguida, realiza uma busca no banco de dados para encontrar os filtros que correspondem à consulta.
+        //vamos la, aqui é onde a mágica acontece.
+        // Quando o usuário digita algo na barra de pesquisa, essa função é chamada.
+        // Ela verifica se a consulta (Query) não está vazia e, em seguida,
+        //realiza uma busca no banco de dados para encontrar os filtros que correspondem à consulta.
 
+        if(Query != null && Query.Contains("Marcar") || Query.Contains("marcar"))
+        {
+            string? str = "";
+            if(user != null && user.Identity != null && user.Identity.IsAuthenticated)
+            str = await js.InvokeAsync<string>("IdentificarUsuario", user.Identity.Name);
+            else
+            str = await js.InvokeAsync<string>("IdentificarUsuario", "name");
+        }
+        
        
        if(Query != null)
         apenasNumeros = Regex.IsMatch(Query
                 .Replace(" ", "")
-                .Replace(",", ""),
+                .Replace(",", "")
+                .Replace("Marcar", "")
+                .Replace("marcar", ""),
                  @"^\d+$");
+
 
        if(!apenasNumeros)
        {

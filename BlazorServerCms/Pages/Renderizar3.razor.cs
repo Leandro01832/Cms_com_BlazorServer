@@ -318,14 +318,18 @@ namespace BlazorCms.Client.Pages
             type = tipos
             .FirstOrDefault(t => t.Name.ToLower() == ti)!;
 
-            var contentAdd = RepositoryPagina.Conteudo!.Where(c => c.GetType() == type)
+            var contentAdd = RepositoryPagina.Conteudo!
+            .Where(c => c.GetType() == type &&
+             c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null)
             .OrderBy(c => c.Id)
             .ToList();
             Model2 = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
             
-            if(type != typeof(Page) || contentAdd.Count == 0)
+            if(type != typeof(Page) && Filtro != null || contentAdd.Count == 0 && Filtro != null)
             {
-                if(contentAdd.Count == 0)
+                bool teste = false;
+                int count = CountPagesInFilterAsync((long)Filtro!, livro, type);
+                if(contentAdd.Count == 0 && count > 0)
                 {
                   var l = await PaginarFiltro((long)Filtro, slideAtual, livro, carregando);
                    RepositoryPagina.Conteudo!.UnionWith(l.Select(li => li.Content).ToList()!);                    
@@ -336,14 +340,22 @@ namespace BlazorCms.Client.Pages
                 Filtro != null && Model2.Pagina.Select(p => p.Content)
                 .Where(p => p.GetType() == type).ToList().Count == 0)
                 {
+                    teste = true;
                     var t = tipos.First(ti => ti.Name == type.Name);
                     var indice = tipos.IndexOf(t);
                     type = tipos[indice - 1];
+                    count = CountPagesInFilterAsync((long)Filtro!, livro, type);
                     contentAdd.Clear();
                     contentAdd.AddRange(RepositoryPagina.Conteudo!.Where(c => c.GetType() == type)
                     .OrderBy(c => c.Id)
                     .ToList());
                 }
+                if(teste)
+                {
+                    Indice = repositoryPagina.random.Next(1, count);
+                    acessar();
+                    return;
+                } 
                 
             }
 
@@ -409,6 +421,7 @@ namespace BlazorCms.Client.Pages
                 //     listaContent = listaContent.Where(c => c is UserContent).OrderBy(p => p.Id)
                 // .Skip(quantDiv * slideAtual).Take(listaContent.Count)
                 // .ToList();
+              //  instanciarTime(1);
             }
 
         }
@@ -631,13 +644,13 @@ namespace BlazorCms.Client.Pages
                 Filtro f = null;
                 if (Model2 != null && Model2.Criterio != null)
                 {
-                    f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id);
+                    f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id)!;
                     Versiculo = retornarVerso(f.Criterio.Content);
                 }
 
                 else if (f.Criterio == null)
                 {
-                    f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio);
+                    f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio)!;
                     if (f != null && f.Criterio != null)
                         Versiculo = retornarVerso(f.Criterio.Content);
                 }
@@ -656,11 +669,13 @@ namespace BlazorCms.Client.Pages
                     criterio = f.Criterio;
             }
 
-            // Só executa se o ID realmente mudou, evitando rodar em re-renderizações bobas
+            // Só executa se o ID realmente mudou,
+            //  evitando rodar em re-renderizações bobas
             if (Model.Id != _ultimoIdProcessado)
             {
-                AtualizarHashtagId();
-                _ultimoIdProcessado = Model.Id; // Atualiza o último ID processado
+               await AtualizarHashtagId();
+                _ultimoIdProcessado = Model.Id;
+                 // Atualiza o último ID processado
             }
 
         }
@@ -859,181 +874,34 @@ namespace BlazorCms.Client.Pages
             //     inputs = "inputs";
             // else
             //     inputs = "inputs2";
-        }
-
-        // private async Task<List<Content>> retornarListaFiltrada(string rota)
-        // {
-        //     if (Filtro != null && rota == null)
-        //     {
-        //         SubFiltro Fil = listaFiltro.First(f => f.Id == Filtro);
-        //         var m = listaFiltro.FirstOrDefault(f => f.Id == Fil.FiltroId);
-        //         var lista = Fil.Pagina.Select(p => p.Content).ToList();
-
-        //         var cha = lista.OfType<Chave>().LastOrDefault(p => p is Chave);
-        //         chave = retornarVerso(cha);
-        //         indiceChave = lista.IndexOf(cha) + 1;
-        //         quantidadeLista = lista.Count;
-        //         //  cha.Ordenar = (int)lista[cha.Posicao]!.Id;
-
-                
-        //         Model2 = Fil;
-        //         nameGroup = Model2.Nome!;
-        //         if (m != null)
-        //         nameGroup2 = m.Nome!;
-        //         else nameGroup2 = "";
-        //         InfoSemCriterio = listaFiltro
-        //         .FirstOrDefault(f => f.CriterioId == null && f.ComCriterio == Model2.Id) != null;
-                
-        //         if (Fil.Pagina! != null && Model == null)
-        //             Model = Fil.Pagina!.OrderBy(p => p.ContentId).Select(p => p.Content)
-        //             .Where(c => c is Pagina).Skip((Indice - 1) - (slideAtual * quantDiv))
-        //             .FirstOrDefault();
-
-        //         listaContent.Clear();
-        //         if (Model == null || Indice == 0)
-        //         {
-        //             int countPages = CountPagesInFilterAsync((long)Filtro, livro);
-
-        //             if (Indice == 0)
-        //             {
-        //                 List<FiltroContent> resultados = null;
-        //                 var teste = RepositoryPagina.conteudoEmFiltro
-        //                  .FirstOrDefault(cf => cf.conteudoEmFiltro!.ContentId == Model!.Id &&
-        //                  cf.conteudoEmFiltro!.FiltroId == Filtro);
-
-        //                 Indice = await buscarIndice(Model, countPages, teste);
-
-        //                 int slideAtivo = (Indice - 1) / quantDiv;
-        //                 slideAtual = slideAtivo;
-        //             }
-
-        //             result.Clear();
-        //             var l = await PaginarFiltro((long)Filtro, slideAtual, livro, carregando);
-        //             result.AddRange(l);
-
-        //             Model = result.OrderBy(p => p.ContentId).Select(p => p.Content)
-        //            .Where(c => c is Pagina)
-        //            .Skip((Indice - 1) - (slideAtual * quantDiv))
-        //            // .Skip( (slideAtual * quantDiv))
-        //            .FirstOrDefault();
-        //             listaContent.AddRange(result.Select(c => c.Content!).ToList()!);
-
-        //             if (carregando <= repositoryPagina!.quantSlidesCarregando - 30)
-        //                 carregando += 10;
-        //             else
-        //                 carregando = 40;
-        //         }
-        //         else
-        //         {
-        //             if(quantDiv ==0) quantDiv=1;
-        //             int slideAtivo = (Indice - 1) / quantDiv;
-        //             slideAtual = slideAtivo;
-        //             if (alterouPasta)
-        //             {
-        //                 int countPages = CountPagesInFilterAsync((long)Filtro, livro);
-        //                 result.Clear();
-        //                 var l = await PaginarFiltro((long)Filtro, slideAtual, livro, carregando);
-        //                 result.AddRange(l);
-        //                 alterouPasta = false;
-        //             }
-        //             Model = result.OrderBy(p => p.ContentId).Select(p => p.Content)
-        //            .Where(c => c is Pagina)
-        //            .Skip((Indice - 1) - (slideAtual * quantDiv))
-        //            // .Skip( (slideAtual * quantDiv))
-        //            .FirstOrDefault();
-        //             listaContent.AddRange(result.Select(c => c.Content!).ToList()!);
-        //         }
-
-        //         if (Content)
-        //             if (listaContent.FirstOrDefault(c => c is UserContent) == null)
-        //                 foreach (var item in RepositoryPagina.Conteudo2!
-        //                     .Where(c => c.Filtro != null && c is UserContent &&
-        //                     c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList())
-
-        //                     if (listaContent.FirstOrDefault(c => c.Id == item.Id) == null)
-        //                         listaContent.Add(item);
-
-        //         if (Model2.usuarios != null && Model2.usuarios.Count != 0)
-        //         {
-        //             int camada = repositoryPagina.buscarCamada();
-        //             instanciarTime(camada);
-
-        //         }
-
-        //         int cam = repositoryPagina.buscarCamada();
-
-        //         return listaContent.ToList();
-        //     }
-        //     else if (Filtro != null && rota != null)
-        //     {
-        //         listaContent = new List<Content>();
-        //         foreach (var item in listaFiltro)
-        //             foreach (var item2 in item.Pagina)
-        //             {
-        //                 var rotas = item2.Content.Rotas.Split(",");
-        //                 foreach (var rot in rotas)
-        //                     if (rot.ToLower().TrimEnd().TrimStart() == rota.ToLower().TrimEnd().TrimStart())
-        //                         if (!listaContent.Contains(item2.Content))
-        //                             listaContent.Add(item2.Content);
-
-        //             }
-
-        //         Content pag2 = listaContent!
-        //             .OrderBy(p => p.Id).Skip((int)Indice - 1).FirstOrDefault()!;
-
-        //         var str = RepositoryPagina.stories.First(st => st.Id == pag2.StoryId);
-        //         cap = RepositoryPagina.stories.IndexOf(str);
-
-        //         if (pag2 == null)
-        //         {
-        //             navigation.NavigateTo($"/renderizar/{capitulo}/0/11/1/1/0/0/0/");
-        //         }
-
-        //         // quantidadeLista = listaContent!.Count;
-
-        //         return listaContent.ToList();
-        //     }
-
-        //     return listaContent.ToList();
-        // }
+        }     
 
         private void instanciarTime(int camada)
         {
-            Filtro[] fils = new Filtro[10];
+            SubFiltro[] fils = new SubFiltro[10];
             Time time = null;
 
-            fils[0] = listaFiltro.FirstOrDefault(u => u.Id == Model2!.Id)!;
-            fils[1] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[0]).Id)!;
-            fils[2] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[1]).Id)!;
-            fils[3] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[2]).Id)!;
-            fils[4] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[3]).Id)!;
-            fils[5] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[4]).Id)!;
-            fils[6] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[5]).Id)!;
-            fils[7] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[6]).Id)!;
-            fils[8] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[7]).Id)!;
-            fils[9] = listaFiltro.FirstOrDefault(u => u.Id == verificarFiltros(fils[8]).Id)!;
+            fils[0] = listaFiltro.FirstOrDefault(u => u.Id == Model2!.FiltroId)!;
+            fils[1] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[0]) != null &&  u.Id == verificarFiltros(fils[0]).Id)!;
+            fils[2] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[1]) != null &&  u.Id == verificarFiltros(fils[1]).Id)!;
+            fils[3] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[2]) != null &&  u.Id == verificarFiltros(fils[2]).Id)!;
+            fils[4] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[3]) != null &&  u.Id == verificarFiltros(fils[3]).Id)!;
+            fils[5] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[4]) != null &&  u.Id == verificarFiltros(fils[4]).Id)!;
+            fils[6] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[5]) != null &&  u.Id == verificarFiltros(fils[5]).Id)!;
+            fils[7] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[6]) != null &&  u.Id == verificarFiltros(fils[6]).Id)!;
+            fils[8] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[7]) != null &&  u.Id == verificarFiltros(fils[7]).Id)!;
+            fils[9] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[8]) != null &&  u.Id == verificarFiltros(fils[8]).Id)!;
 
-            if (fils[0] is not null && fils[1] is not null &&
-                    fils[2] is not null && fils[3] is not null && fils[4] is not null &&
-                     fils[5] is not null && fils[6] is not null && fils[7] is not null &&
-                     fils[8] is not null && fils[9] is not null)
+            if (fils[9] is not null)
             {
                 time = Context.Time
                .Include(t => t.usuarios)
                .ThenInclude(t => t.UserModel)
                .FirstOrDefault(t =>
-               t.usuarios
-               .FirstOrDefault(u =>
-               fils[0].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[1].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[2].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[3].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[4].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[5].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[6].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[7].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[8].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null &&
-               fils[9].usuarios.FirstOrDefault(us => us.UserModel.UserName == u.UserModel.UserName) != null) != null)!;
+               t.usuarios.FirstOrDefault(u =>
+               fils.FirstOrDefault(f => 
+               f.usuarios.FirstOrDefault(us => us.UserModel.UserName
+                == u.UserModel.UserName) != null) != null)! != null)!;
             }
 
 
@@ -1051,14 +919,13 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private Filtro verificarFiltros(Filtro f)
+        private SubFiltro? verificarFiltros(SubFiltro f)
         {
             if (f == null)
                 return f;
             else
             {
-                SubFiltro camada = (SubFiltro)f;
-                return listaFiltro.First(fil => fil.Id == camada.FiltroId);
+                return listaFiltro.FirstOrDefault(fil => fil.Id == f.FiltroId);
             }
 
         }
@@ -1069,19 +936,19 @@ namespace BlazorCms.Client.Pages
             int multiplicador = 1;
             Filtro[] fils = new Filtro[6];
             var us = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
-            var us2 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+            var us2 = Context.SubFiltro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
                 .FirstOrDefault(u => u.Id == Model2.Id);
-            var us3 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+            var us3 = Context.SubFiltro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
                 .FirstOrDefault(u => u.Id == verificarFiltros(us2).Id);
-            var us4 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+            var us4 = Context.SubFiltro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
                 .FirstOrDefault(u => u.Id == verificarFiltros(us3).Id);
-            var us5 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+            var us5 = Context.SubFiltro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
                 .FirstOrDefault(u => u.Id == verificarFiltros(us4).Id);
-            var us6 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+            var us6 = Context.SubFiltro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
                 .FirstOrDefault(u => u.Id == verificarFiltros(us5).Id);
-            var us7 = Context.Filtro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
+            var us7 = Context.SubFiltro.Include(f => f.usuarios).ThenInclude(f => f.UserModel)
                 .FirstOrDefault(u => u.Id == verificarFiltros(us6).Id);
-            var users = Context.Filtro.ToList().Count;
+            var users = Context.SubFiltro.ToList().Count;
 
 
             if (us2 != null) { pts = 2; fils[0] = us2; } else fils[0] = null;
