@@ -374,6 +374,8 @@
     private string Html = "";
     private string descricao = "";
     private string pensamento = "";
+
+    private bool semCriterio = false;
     
     List<Story>[] array;
 
@@ -604,6 +606,12 @@
                     prompted = prompted.Replace(" ", "");
                     try
                     {
+                        semCriterio = prompted.Contains("/s");
+                        if(semCriterio)
+                        versiculo = int.Parse(prompted
+                        .Replace(" ", "")
+                        .Replace("/s", ""));
+                        else
                         versiculo = int.Parse(prompted);
                     }
                     catch (Exception ex)
@@ -619,7 +627,9 @@
                     .Include(c => c.Content)
                     .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == versiculo);
                     var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
+                   
                     fil = filtros.FirstOrDefault(f => f.Id == fi);
+                    
                            itemConteudo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
                     
                 }
@@ -629,16 +639,16 @@
                     .FirstOrDefault(p => retornarVerso(p.Content) == versiculo) != null).LastOrDefault()!;
 
 
-                if (fil != null)
+                if (fil != null) 
                 {
                     FiltroContent? item = null;
                     HashtagContent? hashtagContent = null;
                     var hashtag = await Context.Hashtag!
                     .FirstAsync(h => h.Name == $"Id"
                     && h.UserModelId == usermodel.Id);
-                    var r = await Context.HashtagFiltro
+                    @* var r = await Context.HashtagFiltro
                     .FirstOrDefaultAsync(h => h.HashtagId == hashtag.Id &&
-                     h.FiltroId == fil.Id);  
+                     h.FiltroId == fil.Id);   *@
                     hashtagContent = await Context.HashtagContent!
                     .Include(h => h.Content)
                     .FirstOrDefaultAsync(h => h.HashtagId == hashtag.Id

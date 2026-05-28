@@ -424,33 +424,7 @@ namespace BlazorCms.Client.Pages
             Filtro = sub.ComCriterio;
             acessar();
         }
-
-        protected void acessarSemCriterio(long filtro)
-        {
-            AlterouModel = true;
-            Indice = 1;
-            Filtro = filtro;
-            showModal = false;
-            //  chave = Versiculo;
-            acessar();
-        }
-
-        protected void UsuarioContar()
-        {
-            tellStory = true;
-            string padrao = @"\(([^)]*)\)";
-            var c = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
-            Match match = Regex.Match(c.Compartilhar, padrao);
-            if (c.Compartilhar != null)
-                if (!match.Groups[1].Value.Contains(','))
-                {
-                    Filtro = listaFiltro.FirstOrDefault(f => f.Pagina != null && f.Pagina.Count > 0
-                    && f.Pagina.FirstOrDefault(p => p.Filtro.Nome.Contains(match.Value)) != null)!.Id;
-                    Indice = 1;
-                    acessar();
-                }
-        }
-
+        
         protected void ativarModal()
         {
             showModal = true;
@@ -569,12 +543,12 @@ namespace BlazorCms.Client.Pages
                     var c = Context.Users.FirstOrDefault(u => u.UserName == user.Identity!.Name);
                     var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
                     var lista2 = Context.HashtagFiltro.Where(h => h.HashtagId == hashtagId.Id &&
-                     h.FiltroId == Model2.Id).ToList();
+                     h.FiltroId == Model2.Id).ToList(); 
                    // var lista = Context.HashtagContent.Where(h => h.HashtagId == hashtagId.Id).ToList();
                     if (lista2.Count == 0)
                     {
                         Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
-                        Context.Add(new HashtagFiltro { FiltroId = Model2.Id, HashtagId = hashtagId.Id });
+                        Context.Add(new HashtagFiltro { FiltroId = Model2.Id, HashtagId = hashtagId.Id });                        
                     }
                     else if (lista2.Count == 1)
                     {
