@@ -54,7 +54,9 @@
 @if (filtros!.Count > 0)
 {
     <div class="filtros">
-        
+
+        @if(variasPalavras)
+        {        
                 <p style="text-align: center;"> 
                 <strong> 
                    @filtros.First().Livro?.Nome
@@ -74,6 +76,46 @@
                         </a>
                     }
                 </p>
+                 <p> 
+                    <a onclick="@compartilhar">
+                         <strong>compartilhar</strong>
+                    </a>
+                </p>
+                <br/>
+                <p>
+                    <a onclick="@anotar">
+                         <img src="/anotar.gif" style="width:50px; margin:5px;" />
+                          <strong>Anotar...</strong>  
+                    </a>
+                </p>
+        }
+        else
+        {
+
+                  <p style="text-align: center;"> <strong>Livro - capitulo - verso</strong> </p>
+
+            <hr />
+
+            @foreach (var item in filtros!)
+            {
+                <p>
+                    <a  onclick="@(() => Acessar(item))" >
+
+                        @if (item.Livro != null)
+                        {
+                            <span> @item.Livro.Nome - </span>
+                        }
+                        else
+                        {
+                            <span>Instagleo - </span>
+                        }
+                        <span> Cap. @item.Story!.Capitulo - </span>
+                        <span> ( @item.Nome ) Versículo @retornarVersoComCriterio(item)</span>
+
+                    </a>
+                </p>
+            }
+        }
                 <br/>
                 <div class="Hashtags">
                     <p>
@@ -93,25 +135,14 @@
 
                 </div>
                 <br/>
-                <p> 
-                    <a onclick="@compartilhar">
-                         <strong>compartilhar</strong>
-                    </a>
-                </p>
-                <br/>
-                <p>
-                    <a onclick="@anotar">
-                         <img src="/anotar.gif" style="width:50px; margin:5px;" />
-                          <strong>Anotar...</strong>  
-                    </a>
-                </p>
+               
         
       
     </div>
 }
 
 <div class="Criterios" >
-<BarraPesquisa Value="@Query" OnSearch="buscar" filtros2="@filtros2" ></BarraPesquisa> 
+<BarraPesquisa Value="@Query" OnSearch="buscar" variasPalavras="@variasPalavras" filtros2="@filtros2" ></BarraPesquisa> 
 
     @{
         if ( ocultar == "1")
@@ -251,6 +282,8 @@
 
     private Filtro itemFiltro = null;
 
+    private bool variasPalavras = false;
+    
     HashSet<string> termosValidos = null;
     HashSet<string> stopWords = null;
 
@@ -530,12 +563,16 @@ var gruposFinais = await Context.SubFiltro
         // Quando o usuário digita algo na barra de pesquisa, essa função é chamada.
         // Ela verifica se a consulta (Query) não está vazia e, em seguida,
         //realiza uma busca no banco de dados para encontrar os filtros que correspondem à consulta.
-
+        if(string.IsNullOrEmpty(Query))
+        {
+            filtros.Clear();
+        }
+        
         if(Query != null && Query.Contains("Marcar") || Query.Contains("marcar"))
         {
             string? str = "";
             if(user != null && user.Identity != null && user.Identity.IsAuthenticated)
-            str = await js.InvokeAsync<string>("IdentificarUsuario", user.Identity.Name);
+            str = await js.InvokeAsync<string>("IdentificarUsuario", user);
             else
             str = await js.InvokeAsync<string>("IdentificarUsuario", "name");
         }
@@ -554,13 +591,27 @@ var gruposFinais = await Context.SubFiltro
        {
             if (!string.IsNullOrEmpty(Query))
             {
-                string teste = Query.Split('-')[1].Trim().ToLower();
+                string teste = "";
+                if(Query.Contains("-"))
+                teste = Query.Split('-')[1].Trim().ToLower();
+                else
+                teste = Query.Trim().ToLower();
+                
                 List<string> termos = maisCriterio(teste, filtros2);
 
-                if(termos.Count > 0)
-                PesquisarComMaisCriterio2(termos);   
+                if(termos.Count > 0 && variasPalavras)
+                {
+                    PesquisarComMaisCriterio2(termos);   
+                }
                 else
-                filtros = new List<SubFiltro>();
+                {
+                    filtros.Clear();
+                    var l = filtros2
+                    .Where(f => teste.ToLower()
+                    .Contains(f.Nome.ToLower())) 
+                    .ToList();
+                        filtros.AddRange(l); 
+                }
 
             }
             else if (string.IsNullOrEmpty(Query))
