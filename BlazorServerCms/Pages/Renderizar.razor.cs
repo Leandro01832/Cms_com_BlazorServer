@@ -157,44 +157,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private async Task<int> buscarIndice(Content? c, int countPages, FiltroContentIndice? teste)
-        {
-            List<Content> resultados = null;
-            if (countPages < 1000)
-            {
-                if (teste == null)
-                {
-                    resultados = await GetFiltroByIdAsync((long)Filtro, livro);
-
-                    var mo = resultados.FirstOrDefault(r => r.Id == c!.Id);
-                    Indice = resultados.IndexOf(mo) + 1;
-
-                }
-                else
-                    Indice = teste.Indice;
-            }
-            else
-            {
-                if (teste == null)
-                {
-                    var slide = 0;
-                    while (resultados == null || resultados.FirstOrDefault(r => r.Id == c!.Id) == null)
-                    {
-                        resultados = await GetFiltroByIdAsync((long)Filtro!, livro, slide, 20);
-
-                        slide++;
-
-                    }
-                    var mo = resultados.FirstOrDefault(r => r.Id == Model!.Id);
-                    Indice = resultados.IndexOf(mo) + 1 + (slide * 20);
-                }
-                else
-                    Indice = teste.Indice;
-            }
-
-            return Indice;
-        }
-
         private void habilitarAuto()
         {
             Timer!.SetTimerAuto(repositoryPagina!.QuantMinutos);
@@ -299,14 +261,6 @@ namespace BlazorCms.Client.Pages
 
         private async void navegarSubgrupos(bool somenteSubgrupos)
         {
-            var quant = 0;
-            if (Filtro == null)
-                quant = CountPaginas();
-            else
-            {
-                var lista = RepositoryPagina.Conteudo2!;
-                quant = lista.Count;
-            }
             if (somenteSubgrupos)
             {
                 Filtro proximoSubgrupo = buscarProximoSubGrupo();
@@ -523,12 +477,7 @@ namespace BlazorCms.Client.Pages
         {
             return HasFiltersAsync((long)capitulo!, livro);
         }
-
-        private int CountPaginas()
-        {
-            return CountPagesAsync((long)capitulo!, livro, type);
-        }
-
+        
         private string colocarAutoPlay(string html)
         {
             var conteudoHtml = html;
@@ -694,7 +643,7 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-      private async Task<HashtagContent?> retornarHashtagContent()
+        private async Task<HashtagContent?> retornarHashtagContent()
         {
             if(profile !=null)
             {          
@@ -967,11 +916,6 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        public int CountPagesAsync(long storyId, Livro livro, Type type)
-        {
-            return storyService.CountPagesAsync(storyId, livro, type);
-        }
-
         public Task<int> GetYouTubeVideoDurationAsync(string videoId)
         {
             return storyService.GetYouTubeVideoDurationAsync(videoId);
@@ -990,11 +934,6 @@ namespace BlazorCms.Client.Pages
         public int CountPagesInFilterAsync(long filtroId, Livro livro, Type type)
         {
             return storyService.CountPagesInFilterAsync(filtroId, livro, type);
-        }
-
-        public Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0, Type type = null)
-        {
-            return storyService.GetFiltroByIdAsync(filtroId, livro, slide, quantDiv, type);
         }
 
         private async void RemoverPlay()

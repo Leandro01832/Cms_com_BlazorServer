@@ -36,98 +36,28 @@ namespace BlazorServerCms.Data
                 if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)
                     carregar = (int)carregando;
                 else carregar = repositoryPagina.quantSlidesCarregando;
-
-                if(livro == null)
-                    conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+               
+                conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
                 .Include(c => c.Filtro)
                 .Include(c => c.Content)
                 .ThenInclude(c => c.Produto)
-               .ThenInclude(c => c.Produto)
-               .Include(c => c.Content)
-               .ThenInclude(c => c.Filtro)
-               .Include(c => c.Content)
-               .ThenInclude(c => c.Comentario)
+                .ThenInclude(c => c.Produto)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Comentario)
                 .Where(c => c.Content is Pagina &&
-                 c.FiltroId == filtroId &&
-                 c.Content.LivroId == null)
+                c.FiltroId == filtroId &&
+                c.Content.LivroId == (livro != null ? livro.Id : null))
                 .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
-                .ToListAsync();
-                else
-                    conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
-               .Include(c => c.Filtro)
-               .Include(c => c.Content)
-               .ThenInclude(c => c.Produto)
-              .ThenInclude(c => c.Produto)
-              .Include(c => c.Content)
-               .ThenInclude(c => c.Filtro)
-              .Include(c => c.Content)
-               .ThenInclude(c => c.Comentario)
-               .Where(c => c.Content is Pagina
-                && c.FiltroId == filtroId
-                 && c.Content.LivroId == livro.Id)
-               .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
-               .ToListAsync();
-            
+                .ToListAsync();           
            
             foreach (var item in conteudos.ToList())
                 if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.ContentId) == null)
              RepositoryPagina.Conteudo!.Add(item!.Content!);
 
             return conteudos;
-        }      
-
-        public async Task<List<Content>> GetFiltroByIdAsync(long filtroId, Livro livro, int slide = 0, int quantDiv = 0, Type type = null)
-        {
-            List<Content> resultados = null;
-            int Count = CountPagesInFilterAsync(filtroId, livro, type);
-            if(Count < 1000)
-            {
-                if (livro == null)
-                    resultados = await Context.Content                       
-                         .Include(c => c.Comentario)
-                         .Include(c => c.Filtro)
-                       .OrderBy(c => c.Id)
-                       .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
-                        f.LivroId == null)
-                       .AsNoTracking().ToListAsync();
-                else
-                    resultados = await Context.Content    
-                        .Include(c => c.Comentario)                     
-                         .Include(c => c.Filtro)
-                   .OrderBy(c => c.Id)
-                   .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
-                        f.LivroId == livro.Id)
-                   .AsNoTracking().ToListAsync();
-            }
-            else
-            {
-                if (livro == null)
-                    resultados = await Context.Content      
-                    .Include(c => c.Comentario)                 
-                         .Include(c => c.Filtro)
-                       .OrderBy(c => c.Id)
-                       .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
-                        f.LivroId == null)
-                       .Skip(slide * quantDiv).Take(quantDiv * repositoryPagina!.quantSlidesCarregando)
-                       .AsNoTracking().ToListAsync();
-                else
-                    resultados = await Context.Content   
-                    .Include(c => c.Comentario)                      
-                         .Include(c => c.Filtro)
-                   .OrderBy(c => c.Id)
-                   .Where(f => f.Filtro.FirstOrDefault(fi => fi.FiltroId == filtroId) != null &&
-                        f.LivroId == livro.Id)
-                   .Skip(slide * quantDiv).Take(quantDiv * repositoryPagina!.quantSlidesCarregando)
-                   .AsNoTracking().ToListAsync();
-
-            }
-
-            foreach (var item in resultados.ToList())
-                if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.Id) == null)
-                    RepositoryPagina.Conteudo!.Add(item!);
-
-            return resultados;
-        }
+        }             
 
         public async Task<int> GetYouTubeVideoDurationAsync(string videoId)
         {
@@ -219,36 +149,7 @@ namespace BlazorServerCms.Data
                 return _TotalRegistros;
         }
        
-        public int CountPagesAsync(long storyId, Livro livro, Type type)
-        {
-            var _TotalRegistros = 0;
-            try
-            {
-                using (var con = new SqlConnection(ApplicationDbContext._connectionString))
-                {
-                    SqlCommand cmd = null;                    
-                    if(livro == null)
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
-                            $" where P.StoryId={storyId} and P.Discriminator='{type.Name}'  " +
-                            $" and P.LivroId is null "
-                            , con);
-                    else
-                        cmd = new SqlCommand($"SELECT COUNT(*) FROM Content as P " +
-                           $" where P.StoryId={storyId} and P.Discriminator='{type.Name}' " +
-                           $" and P.LivroId={livro.Id} " 
-                           , con);
-                    con.Open();
-                        _TotalRegistros = int.Parse(cmd.ExecuteScalar().ToString()!);
-                        con.Close();
-                }
-            }
-            catch (Exception)
-            {
-                _TotalRegistros = 0;
-            }
-
-            return _TotalRegistros;
-        }
+      
 
     }
 }

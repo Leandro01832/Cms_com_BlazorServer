@@ -1,0 +1,190 @@
+  Determinando os projetos a serem restaurados...
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\business\business.csproj : warning NU1903: O pacote 'Newtonsoft.Json' 12.0.1 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-5crp-9r3c-p9vr [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms\BlazorServerCms.csproj : warning NU1603: BlazorServerCms depende de Google.Apis.YouTube.v3 (>= 1.68.0) mas Google.Apis.YouTube.v3 1.68.0 não foi encontrado. Google.Apis.YouTube.v3 1.68.0.3394 foi resolvido. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj : warning NU1603: BlazorServerCms depende de Google.Apis.YouTube.v3 (>= 1.68.0) mas Google.Apis.YouTube.v3 1.68.0 não foi encontrado. Google.Apis.YouTube.v3 1.68.0.3394 foi resolvido.
+  Todos os projetos estão atualizados para restauração.
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj : warning NU1603: BlazorServerCms depende de Google.Apis.YouTube.v3 (>= 1.68.0) mas Google.Apis.YouTube.v3 1.68.0 não foi encontrado. Google.Apis.YouTube.v3 1.68.0.3394 foi resolvido.
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\business\business.csproj : warning NU1903: O pacote 'Newtonsoft.Json' 12.0.1 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-5crp-9r3c-p9vr
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms\BlazorServerCms.csproj : warning NU1603: BlazorServerCms depende de Google.Apis.YouTube.v3 (>= 1.68.0) mas Google.Apis.YouTube.v3 1.68.0 não foi encontrado. Google.Apis.YouTube.v3 1.68.0.3394 foi resolvido.
+  business -> C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\business\bin\Debug\net6.0\business.dll
+  BlazorServerCms -> C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms\bin\Debug\net9.0\BlazorServerCms.dll
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277: foram encontrados conflitos entre diferentes versões do "Microsoft.EntityFrameworkCore.Relational" que não puderam ser resolvidas. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277: Há um conflito entre "Microsoft.EntityFrameworkCore.Relational, Version=9.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" e "Microsoft.EntityFrameworkCore.Relational, Version=9.0.11.0, Culture=neutral, PublicKeyToken=adb9793829ddae60". [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:     "Microsoft.EntityFrameworkCore.Relational, Version=9.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" foi escolhido porque era principal e "Microsoft.EntityFrameworkCore.Relational, Version=9.0.11.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" não era. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:     As referências dependerão de "Microsoft.EntityFrameworkCore.Relational, Version=9.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" [C:\Users\leand\.nuget\packages\microsoft.entityframeworkcore.relational\9.0.1\lib\net8.0\Microsoft.EntityFrameworkCore.Relational.dll]. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:         C:\Users\leand\.nuget\packages\microsoft.entityframeworkcore.relational\9.0.1\lib\net8.0\Microsoft.EntityFrameworkCore.Relational.dll [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:           Inclusões de itens do arquivo de projeto que geraram a referência"C:\Users\leand\.nuget\packages\microsoft.entityframeworkcore.relational\9.0.1\lib\net8.0\Microsoft.EntityFrameworkCore.Relational.dll". [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:             C:\Users\leand\.nuget\packages\microsoft.entityframeworkcore.relational\9.0.1\lib\net8.0\Microsoft.EntityFrameworkCore.Relational.dll [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:     Referências que dependem de ou foram unificadas para "Microsoft.EntityFrameworkCore.Relational, Version=9.0.11.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" []. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:         C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms\bin\Debug\net9.0\BlazorServerCms.dll [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:           Inclusões de itens do arquivo de projeto que geraram a referência"C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms\bin\Debug\net9.0\BlazorServerCms.dll". [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Program Files\dotnet\sdk\9.0.313\Microsoft.Common.CurrentVersion.targets(2433,5): warning MSB3277:             C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms\bin\Debug\net9.0\BlazorServerCms.dll [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(18,36): warning CS0618: "TestContext" é obsoleto: "Use BunitContext instead. TestContext will be removed in a future release." (https://bunit.dev/docs/migrations) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\UnitTest1.cs(19,26): warning CS0618: "TestContext" é obsoleto: "Use BunitContext instead. TestContext will be removed in a future release." (https://bunit.dev/docs/migrations) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\RenderizarMarcarTests.cs(18,38): warning CS0618: "TestContext" é obsoleto: "Use BunitContext instead. TestContext will be removed in a future release." (https://bunit.dev/docs/migrations) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoSubGrupoTests.cs(18,43): warning CS0618: "TestContext" é obsoleto: "Use BunitContext instead. TestContext will be removed in a future release." (https://bunit.dev/docs/migrations) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(18,35): warning CS0618: "TestContext" é obsoleto: "Use BunitContext instead. TestContext will be removed in a future release." (https://bunit.dev/docs/migrations) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\VoltarSubgruposTests.cs(18,37): warning CS0618: "TestContext" é obsoleto: "Use BunitContext instead. TestContext will be removed in a future release." (https://bunit.dev/docs/migrations) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(27,36): warning CS8620: O argumento do tipo 'Dictionary<string, string>' não pode ser usado para o parâmetro 'initialData' do tipo 'IEnumerable<KeyValuePair<string, string?>>' em 'IConfigurationBuilder MemoryConfigurationBuilderExtensions.AddInMemoryCollection(IConfigurationBuilder configurationBuilder, IEnumerable<KeyValuePair<string, string?>>? initialData)' devido a diferenças na nulidade dos tipos de referência. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\VoltarSubgruposTests.cs(27,36): warning CS8620: O argumento do tipo 'Dictionary<string, string>' não pode ser usado para o parâmetro 'initialData' do tipo 'IEnumerable<KeyValuePair<string, string?>>' em 'IConfigurationBuilder MemoryConfigurationBuilderExtensions.AddInMemoryCollection(IConfigurationBuilder configurationBuilder, IEnumerable<KeyValuePair<string, string?>>? initialData)' devido a diferenças na nulidade dos tipos de referência. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoSubGrupoTests.cs(27,36): warning CS8620: O argumento do tipo 'Dictionary<string, string>' não pode ser usado para o parâmetro 'initialData' do tipo 'IEnumerable<KeyValuePair<string, string?>>' em 'IConfigurationBuilder MemoryConfigurationBuilderExtensions.AddInMemoryCollection(IConfigurationBuilder configurationBuilder, IEnumerable<KeyValuePair<string, string?>>? initialData)' devido a diferenças na nulidade dos tipos de referência. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(27,36): warning CS8620: O argumento do tipo 'Dictionary<string, string>' não pode ser usado para o parâmetro 'initialData' do tipo 'IEnumerable<KeyValuePair<string, string?>>' em 'IConfigurationBuilder MemoryConfigurationBuilderExtensions.AddInMemoryCollection(IConfigurationBuilder configurationBuilder, IEnumerable<KeyValuePair<string, string?>>? initialData)' devido a diferenças na nulidade dos tipos de referência. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\RenderizarMarcarTests.cs(27,36): warning CS8620: O argumento do tipo 'Dictionary<string, string>' não pode ser usado para o parâmetro 'initialData' do tipo 'IEnumerable<KeyValuePair<string, string?>>' em 'IConfigurationBuilder MemoryConfigurationBuilderExtensions.AddInMemoryCollection(IConfigurationBuilder configurationBuilder, IEnumerable<KeyValuePair<string, string?>>? initialData)' devido a diferenças na nulidade dos tipos de referência. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\UnitTest1.cs(27,36): warning CS8620: O argumento do tipo 'Dictionary<string, string>' não pode ser usado para o parâmetro 'initialData' do tipo 'IEnumerable<KeyValuePair<string, string?>>' em 'IConfigurationBuilder MemoryConfigurationBuilderExtensions.AddInMemoryCollection(IConfigurationBuilder configurationBuilder, IEnumerable<KeyValuePair<string, string?>>? initialData)' devido a diferenças na nulidade dos tipos de referência. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(144,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(166,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(224,31): warning CS8604: Possível argumento de referência nula para o parâmetro 'item' em 'int List<string>.IndexOf(string item)'. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(237,31): warning CS8604: Possível argumento de referência nula para o parâmetro 'item' em 'int List<string>.IndexOf(string item)'. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(253,36): warning CS8604: Possível argumento de referência nula para o parâmetro 'item' em 'int List<string>.IndexOf(string item)'. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(266,31): warning CS8604: Possível argumento de referência nula para o parâmetro 'item' em 'int List<string>.IndexOf(string item)'. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(266,36): warning CS8604: Possível argumento de referência nula para o parâmetro 'item' em 'int List<string>.IndexOf(string item)'. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(323,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(340,24): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(399,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(426,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(393,24): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(505,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(489,24): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(554,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(566,21): warning CS0472: O resultado da expressão é sempre 'true', pois um valor do tipo 'long' nunca é igual a "null" do tipo 'long?' [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(508,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(581,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(536,21): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(655,24): warning CS8600: Conversão de literal nula ou possível valor nulo em tipo não anulável. [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarAnteriorTests.cs(706,40): warning CS0472: O resultado da expressão é sempre 'true', pois um valor do tipo 'long' nunca é igual a "null" do tipo 'long?' [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoTests.cs(103,57): warning xUnit1026: Theory method 'BuscarProximo_ValidaLimiteMultiplos' on test class 'BuscarProximoTests' does not use parameter 'indice'. Use the parameter, or remove the parameter and associated data. (https://xunit.net/xunit.analyzers/rules/xUnit1026) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\RenderizarMarcarTests.cs(115,73): warning xUnit1031: Test methods should not use blocking task operations, as they can cause deadlocks. Use an async test method and await instead. (https://xunit.net/xunit.analyzers/rules/xUnit1031) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\RenderizarMarcarTests.cs(167,9): warning xUnit2013: Do not use Assert.Equal() to check for collection size. Use Assert.Empty instead. (https://xunit.net/xunit.analyzers/rules/xUnit2013) [C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BlazorServerCms.Tests.csproj]
+  BlazorServerCms.Tests -> C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\bin\Debug\net9.0\BlazorServerCms.Tests.dll
+Execução de teste para C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\bin\Debug\net9.0\BlazorServerCms.Tests.dll (.NETCoreApp,Version=v9.0)
+Versão do VSTest 17.14.1 (x64)
+
+Iniciando execução de teste, espere...
+1 arquivos de teste no total corresponderam ao padrão especificado.
+  Com falha BuscarProximoSubGrupoTests.BuscarProximoSubGrupo_VerificaLimiteMultiplo(indice: 1, count: 2, isUltimo: False) [1 ms]
+  Mensagem de erro:
+   Assert.Equal() Failure: Values differ
+Expected: False
+Actual:   True
+  Rastreamento de pilha:
+     at BuscarProximoSubGrupoTests.BuscarProximoSubGrupo_VerificaLimiteMultiplo(Int32 indice, Int32 count, Boolean isUltimo) in C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\BuscarProximoSubGrupoTests.cs:line 222
+   at InvokeStub_BuscarProximoSubGrupoTests.BuscarProximoSubGrupo_VerificaLimiteMultiplo(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+  Com falha UnitTest1.ClickingButtonIncrementsCounter [755 ms]
+  Mensagem de erro:
+   System.AggregateException : One or more errors occurred. (bUnit's JSInterop has not been configured to handle the call:
+
+    InvokeVoidAsync("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+
+Configure bUnit's JSInterop to handle the call with following:
+
+    SetupVoid("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+or the following, to match any arguments:
+    SetupVoid("tinymceBlazorWrapper.init", _ => true)
+
+The setup methods are available on an instance of the BunitJSInterop or
+BunitJSModuleInterop type. The standard BunitJSInterop is available
+through the BunitContext.JSInterop property, and a BunitJSModuleInterop
+instance is returned from calling SetupModule on a BunitJSInterop instance.
+) ('PSC.Blazor.Components.Tours.Interops.JsInteropCommon' type only implements IAsyncDisposable. Use DisposeAsync to dispose the container.)
+---- Bunit.JSRuntimeUnhandledInvocationException : bUnit's JSInterop has not been configured to handle the call:
+
+    InvokeVoidAsync("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+
+Configure bUnit's JSInterop to handle the call with following:
+
+    SetupVoid("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+or the following, to match any arguments:
+    SetupVoid("tinymceBlazorWrapper.init", _ => true)
+
+The setup methods are available on an instance of the BunitJSInterop or
+BunitJSModuleInterop type. The standard BunitJSInterop is available
+through the BunitContext.JSInterop property, and a BunitJSModuleInterop
+instance is returned from calling SetupModule on a BunitJSInterop instance.
+
+---- System.InvalidOperationException : 'PSC.Blazor.Components.Tours.Interops.JsInteropCommon' type only implements IAsyncDisposable. Use DisposeAsync to dispose the container.
+  Rastreamento de pilha:
+  
+----- Inner Stack Trace #1 (Bunit.JSRuntimeUnhandledInvocationException) -----
+   at Bunit.BunitJSInterop.TryHandlePlannedInvocation[TValue](JSRuntimeInvocation invocation) in /_/src/bunit/JSInterop/BunitJSInterop.cs:line 74
+   at Bunit.BunitJSInterop.HandleInvocation[TValue](JSRuntimeInvocation invocation) in /_/src/bunit/JSInterop/BunitJSInterop.cs:line 59
+   at Bunit.JSInterop.Implementation.JSRuntimeExtensions.HandleInvokeAsync[TValue](BunitJSInterop jSInterop, String identifier, Object[] args) in /_/src/bunit/JSInterop/Implementation/JSRuntimeExtensions.cs:line 9
+   at Bunit.JSInterop.BunitJSRuntime.InvokeAsync[TValue](String identifier, Object[] args) in /_/src/bunit/JSInterop/Implementation/BunitJSRuntime.cs:line 20
+   at Microsoft.JSInterop.JSRuntimeExtensions.InvokeVoidAsync(IJSRuntime jsRuntime, String identifier, Object[] args)
+   at TinyMCE.Blazor.Editor.OnAfterRenderAsync(Boolean firstRender)
+   at Bunit.Rendering.BunitRenderer.AssertNoUnhandledExceptions() in /_/src/bunit/Rendering/BunitRenderer.cs:line 703
+   at Bunit.Rendering.BunitRenderer.Render(RenderFragment renderFragment) in /_/src/bunit/Rendering/BunitRenderer.cs:line 597
+   at Bunit.Rendering.BunitRenderer.RenderFragment(RenderFragment renderFragment) in /_/src/bunit/Rendering/BunitRenderer.cs:line 137
+   at Bunit.BunitContext.RenderInsideRenderTree(RenderFragment renderFragment) in /_/src/bunit/BunitContext.cs:line 224
+   at Bunit.BunitContext.RenderInsideRenderTree[TComponent](RenderFragment renderFragment) in /_/src/bunit/BunitContext.cs:line 208
+   at Bunit.BunitContext.Render[TComponent](RenderFragment renderFragment) in /_/src/bunit/BunitContext.cs:line 163
+   at Bunit.BunitContext.Render[TComponent](Action`1 parameterBuilder) in /_/src/bunit/BunitContext.cs:line 149
+   at UnitTest1.ClickingButtonIncrementsCounter() in C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\UnitTest1.cs:line 87
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+----- Inner Stack Trace #2 (System.InvalidOperationException) -----
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.Dispose()
+   at Bunit.BunitServiceProvider.Dispose() in /_/src/bunit/BunitServiceProvider.cs:line 160
+   at Bunit.BunitContext.Dispose(Boolean disposing) in /_/src/bunit/BunitContext.cs:line 128
+   at Bunit.BunitContext.Dispose() in /_/src/bunit/BunitContext.cs:line 70
+   at ReflectionAbstractionExtensions.DisposeTestClass(ITest test, Object testClass, IMessageBus messageBus, ExecutionTimer timer, CancellationTokenSource cancellationTokenSource) in /_/src/xunit.execution/Extensions/ReflectionAbstractionExtensions.cs:line 79
+  Com falha UnitTest1.CounterStartsAtZero [10 ms]
+  Mensagem de erro:
+   System.AggregateException : One or more errors occurred. (bUnit's JSInterop has not been configured to handle the call:
+
+    InvokeVoidAsync("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+
+Configure bUnit's JSInterop to handle the call with following:
+
+    SetupVoid("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+or the following, to match any arguments:
+    SetupVoid("tinymceBlazorWrapper.init", _ => true)
+
+The setup methods are available on an instance of the BunitJSInterop or
+BunitJSModuleInterop type. The standard BunitJSInterop is available
+through the BunitContext.JSInterop property, and a BunitJSModuleInterop
+instance is returned from calling SetupModule on a BunitJSInterop instance.
+) ('PSC.Blazor.Components.Tours.Interops.JsInteropCommon' type only implements IAsyncDisposable. Use DisposeAsync to dispose the container.)
+---- Bunit.JSRuntimeUnhandledInvocationException : bUnit's JSInterop has not been configured to handle the call:
+
+    InvokeVoidAsync("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+
+Configure bUnit's JSInterop to handle the call with following:
+
+    SetupVoid("tinymceBlazorWrapper.init", Microsoft.AspNetCore.Components.ElementReference, System.Collections.Generic.Dictionary`2[System.String,System.Object], Microsoft.JSInterop.DotNetObjectReference`1[TinyMCE.Blazor.Editor])
+or the following, to match any arguments:
+    SetupVoid("tinymceBlazorWrapper.init", _ => true)
+
+The setup methods are available on an instance of the BunitJSInterop or
+BunitJSModuleInterop type. The standard BunitJSInterop is available
+through the BunitContext.JSInterop property, and a BunitJSModuleInterop
+instance is returned from calling SetupModule on a BunitJSInterop instance.
+
+---- System.InvalidOperationException : 'PSC.Blazor.Components.Tours.Interops.JsInteropCommon' type only implements IAsyncDisposable. Use DisposeAsync to dispose the container.
+  Rastreamento de pilha:
+  
+----- Inner Stack Trace #1 (Bunit.JSRuntimeUnhandledInvocationException) -----
+   at Bunit.BunitJSInterop.TryHandlePlannedInvocation[TValue](JSRuntimeInvocation invocation) in /_/src/bunit/JSInterop/BunitJSInterop.cs:line 74
+   at Bunit.BunitJSInterop.HandleInvocation[TValue](JSRuntimeInvocation invocation) in /_/src/bunit/JSInterop/BunitJSInterop.cs:line 59
+   at Bunit.JSInterop.Implementation.JSRuntimeExtensions.HandleInvokeAsync[TValue](BunitJSInterop jSInterop, String identifier, Object[] args) in /_/src/bunit/JSInterop/Implementation/JSRuntimeExtensions.cs:line 9
+   at Bunit.JSInterop.BunitJSRuntime.InvokeAsync[TValue](String identifier, Object[] args) in /_/src/bunit/JSInterop/Implementation/BunitJSRuntime.cs:line 20
+   at Microsoft.JSInterop.JSRuntimeExtensions.InvokeVoidAsync(IJSRuntime jsRuntime, String identifier, Object[] args)
+   at TinyMCE.Blazor.Editor.OnAfterRenderAsync(Boolean firstRender)
+   at Bunit.Rendering.BunitRenderer.AssertNoUnhandledExceptions() in /_/src/bunit/Rendering/BunitRenderer.cs:line 703
+   at Bunit.Rendering.BunitRenderer.Render(RenderFragment renderFragment) in /_/src/bunit/Rendering/BunitRenderer.cs:line 597
+   at Bunit.Rendering.BunitRenderer.RenderFragment(RenderFragment renderFragment) in /_/src/bunit/Rendering/BunitRenderer.cs:line 137
+   at Bunit.BunitContext.RenderInsideRenderTree(RenderFragment renderFragment) in /_/src/bunit/BunitContext.cs:line 224
+   at Bunit.BunitContext.RenderInsideRenderTree[TComponent](RenderFragment renderFragment) in /_/src/bunit/BunitContext.cs:line 208
+   at Bunit.BunitContext.Render[TComponent](RenderFragment renderFragment) in /_/src/bunit/BunitContext.cs:line 163
+   at Bunit.BunitContext.Render[TComponent](Action`1 parameterBuilder) in /_/src/bunit/BunitContext.cs:line 149
+   at UnitTest1.CounterStartsAtZero() in C:\Users\leand\OneDrive\Documentos\testeBlazor\projeto\BlazorServerCms.Tests\UnitTest1.cs:line 78
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+----- Inner Stack Trace #2 (System.InvalidOperationException) -----
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.Dispose()
+   at Bunit.BunitServiceProvider.Dispose() in /_/src/bunit/BunitServiceProvider.cs:line 160
+   at Bunit.BunitContext.Dispose(Boolean disposing) in /_/src/bunit/BunitContext.cs:line 128
+   at Bunit.BunitContext.Dispose() in /_/src/bunit/BunitContext.cs:line 70
+   at ReflectionAbstractionExtensions.DisposeTestClass(ITest test, Object testClass, IMessageBus messageBus, ExecutionTimer timer, CancellationTokenSource cancellationTokenSource) in /_/src/xunit.execution/Extensions/ReflectionAbstractionExtensions.cs:line 79
+
+Com falha! – Com falha:     3, Aprovado:   260, Ignorado:     0, Total:   263, Duração: 770 ms - BlazorServerCms.Tests.dll (net9.0)
