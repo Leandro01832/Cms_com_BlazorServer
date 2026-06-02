@@ -6,9 +6,9 @@ WITH SequenciaCorreta AS (
        --  + 
         ROW_NUMBER() OVER (order by id ) as valor_sequencial
     FROM Content 
-    WHERE Versiculo is not null
+    WHERE Versiculo is not null and Discriminator = 'Chave'
 )
 UPDATE c
 SET c.Versiculo = s.valor_sequencial
-FROM Content c
-INNER JOIN SequenciaCorreta s ON c.id = s.id;
+FROM Content c 
+INNER JOIN SequenciaCorreta s ON c.id = s.id ;

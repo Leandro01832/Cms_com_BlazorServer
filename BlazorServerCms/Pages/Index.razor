@@ -372,35 +372,46 @@
         "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
     };   
 
+    @*
 
-    @* 
     int teste = 0;
     if(teste == 0)
     {
         var resultado = await Context.SubFiltro
                 .Include(f => f.Pagina)
-                .Where(x => x.UltimaPasta && x.CriterioId != null) 
-                .OrderBy(sub => sub.CriterioId)
+                .Where(x => x.Pagina.Count > 0) 
+                .OrderBy(sub => sub.CamadaId)
                 .ToListAsync();                
 
+                int i = 1;
                 for(var h = 1; h <= resultado.Count; h++)
                 {
                     var fil = await Context.SubFiltro.Include(s => s.Pagina)
-                    .FirstAsync(s => s.Id == resultado[h - 1].FiltroId);
+                    .FirstAsync(s => s.Id == resultado[h - 1].Id);
                     if(fil.Pagina.Count > 0)
                     {
                         var co = await Context.Pagina!
-                        .FirstAsync(c => c.Id == resultado[h - 1].CriterioId);
-                        co.Versiculo = 1000;
-                        Context.Update(co);
-                      await  Context.SaveChangesAsync();
+                        .FirstOrDefaultAsync(c => c.Id == resultado[h - 1].CriterioId);
+                        if(co != null && co.GetType() == typeof(Chave))
+                        {
+                            co.Versiculo = i;
+                            Context.Update(co);
+                            await  Context.SaveChangesAsync();
+                            i++;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"CriterioId {resultado[h - 1].CriterioId} não encontrado para SubFiltroId {resultado[h - 1].Id}");
+                        }
+
                     }
                 }                
                 teste = 1;
     }
 
+    await Context.SaveChangesAsync();
 
-    var contents = await Context.Content
+     var contents = await Context.Content
     .Where(c => c.StoryId==2)
     .OrderBy(c => c.Id)
     .Skip(50).ToListAsync();
@@ -417,9 +428,9 @@
                 LivroId= 1                 
         };
         Context.Add(criterio);
-    }
-    await Context.SaveChangesAsync();
+    } *@
 
+    @* 
              
               var fils = Context.SubFiltro
             .Where(f => f.CriterioId == 40)
@@ -477,9 +488,9 @@ var gruposFinais = await Context.SubFiltro
 
             var str = RepositoryPagina.stories.FirstOrDefault(st => st.Capitulo == capitulo);
             if(str != null)
-                navigation.NavigateTo($"/page/{livro.Nome}/{str.Capitulo}/{indice}/{comp}");
+                navigation.NavigateTo($"/renderizar/page/{livro.Nome}/{str.Capitulo}/{indice}/{comp}");
             else
-                navigation.NavigateTo($"/page/{str.Capitulo}/{indice}/{comp}");
+                navigation.NavigateTo($"/renderizar/page/{str.Capitulo}/{indice}/{comp}");
         }
 
         if(livro != null)
@@ -503,9 +514,11 @@ var gruposFinais = await Context.SubFiltro
             var fil = filtros2!
             .FirstOrDefault(f => f.FiltroId == item.Id); 
             if(fil == null)
-                itemContent = repositoryPagina.random.Next(1, item.Pagina.Count());
+                itemContent = repositoryPagina.random.Next(1, item.Pagina
+                .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
             else
-                itemContent = repositoryPagina.random.Next(1, fil.Pagina.Count());
+                itemContent = repositoryPagina.random.Next(1, fil.Pagina
+                .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
 
             if(fil != null)        
                 ch = (Chave)fil.Criterio.Content!;
@@ -520,9 +533,9 @@ var gruposFinais = await Context.SubFiltro
             var str = Context.Story!.First(s => s.Id == item.StoryId);
 
             if(item.Livro == null && ch != null)
-                url = $"/page/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
+                url = $"/renderizar/page/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
             else
-               url = $"/page/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
+               url = $"/renderizar/page/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
 
                 if(!string.IsNullOrEmpty(url))
                 await js!.InvokeAsync<object>("AcessarSites", $"{url}");
@@ -637,14 +650,36 @@ var gruposFinais = await Context.SubFiltro
                 }
             }
 
+           var teste = await Context.SubFiltro
+        .Include(s => s.Criterio)
+        .ThenInclude(s => s.Content)
+        .FirstOrDefaultAsync(f => 
+            f.Criterio != null && 
+            f.Criterio.Content is Chave && 
+            ((Chave)f.Criterio.Content).Versiculo == int.Parse(Query));
 
-            var fil =  filtros2
-            .FirstOrDefault(f => 
-              ((Chave)f.Criterio.Content).Versiculo == int.Parse(Query));
-              var fil2 = filtros2
-            .FirstOrDefault(f => f.Id == fil.FiltroId);
+            var ultimapasta = filtros2
+            .FirstOrDefault(f => f.Id == teste.Id) == null;
 
-             verificar(fil2);
+            if(!ultimapasta)
+            {
+                var fil =  filtros2.OrderBy(f => f.CamadaId)
+                .FirstOrDefault(f => 
+                ((Chave)f.Criterio.Content).Versiculo == int.Parse(Query));
+                var fil2 = filtros2
+                .FirstOrDefault(f => f.Id == fil.FiltroId);
+
+                verificar(fil2);
+            }
+            else
+            {
+                var fil = filtros2
+                .FirstOrDefault(f => f.Id == teste.FiltroId);
+                verificar(fil);
+            }
+
+
+
        }
       
     }
@@ -657,7 +692,7 @@ var gruposFinais = await Context.SubFiltro
 
     private int retornarVerso(Content c)
     {
-        Pagina pag = (Pagina)c;
+        Chave pag = (Chave)c;
         return pag.Versiculo;
     }
 

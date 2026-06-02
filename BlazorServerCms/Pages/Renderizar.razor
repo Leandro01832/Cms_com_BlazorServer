@@ -1,35 +1,5 @@
-﻿@page "/renderizar/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/renderizar/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/chave/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/chave/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/link/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/link/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/vagaemprego/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/vagaemprego/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/desviopadrao/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/desviopadrao/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/admincontent/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/admincontent/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/productcontent/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/productcontent/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/comment/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/comment/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/videofilter/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/videofilter/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/page/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/page/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-
-@page "/usercontent/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/usercontent/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+﻿@page "/renderizar/{Tipo}/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+@page "/renderizar/{Tipo}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
 
 @using NVelocity.Runtime.Directive
 @inherits RenderizarBase
@@ -156,24 +126,50 @@ else if (!repositoryPagina.erro)
                                     
                                         <p data-first>
                                             <header>
-                                                @if(InfoSemCriterio)
+                                                @if(type == typeof(Page))
                                                 {
-                                                    <a onclick="@Agrupar">  @nameGroup2 -  </a>  
-                                                    <a onclick="@ativarModal">    @nameGroup</a>  
-                                                    <span>(@Activator.CreateInstance(type)!.ToString())</span>
-                                                }
-                                                else if(Model2.CriterioId == null)
-                                                {
-                                                    <a onclick="@acessarComCriterio">@nameGroup</a> 
-                                                    <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    @if(Filtro != null && Model2.CriterioId != null)
+                                                    {
+                                                        <a href="#" onclick="@Agrupar" @onclick:preventDefault>  @nameGroup2 -  </a>  
+                                                        <a href="#" @onclick="@ativarModal" @onclick:preventDefault>@nameGroup</a> 
+                                                        <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    }
+                                                    else  
+                                                    @if(Model2.CriterioId == null)
+                                                    {
+                                                        <a href="#" onclick="@acessarComCriterio" @onclick:preventDefault>@nameGroup</a> 
+                                                        <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    } 
+                                                    else
+                                                    {
+                                                        <a href="#" onclick="@Agrupar">@nameGroup2 - </a>                                                    
+                                                        <a href="#" onclick="@Filtrar">@nameGroup</a>                                                    
+                                                        <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    <a onclick="@Agrupar">@nameGroup2 - </a>                                                    
-                                                    <a onclick="@Filtrar">@nameGroup</a>                                                    
-                                                    <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    @if(Filtro != null && Model2.CriterioId != null)
+                                                    {
+                                                        <a>@nameGroup2 -  </a>  
+                                                        <a>@nameGroup</a> 
+                                                        <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    }
+                                                    else  
+                                                    @if(Model2.CriterioId == null)
+                                                    {
+                                                        <a>@nameGroup</a> 
+                                                        <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    } 
+                                                    else
+                                                    {
+                                                        <a>@nameGroup2 - </a>                                                    
+                                                        <a>@nameGroup</a>                                                    
+                                                        <span>(@Activator.CreateInstance(type)!.ToString())</span>
+                                                    }
                                                 }
 
+                                          
                                             @if (tellStory)
                                             {
                                                 <b> - Capitulo @cap</b>
@@ -307,7 +303,7 @@ else if (!repositoryPagina.erro)
                 @if (nameStory != "Padrao" &&  Model != null 
                 && Model!.Comentario != null)
                 {
-                    <a data-4 href=""  onclick="@(() => acessarComentarios())">
+                    <a data-4 href="#"  onclick="@(() => acessarComentarios())" @onclick:preventDefault >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
                             <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                             <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z" />
@@ -319,7 +315,7 @@ else if (!repositoryPagina.erro)
                 {
                     @if (!liked) 
                     {                           
-                        <a href="#" onclick="@DarUmLike"> 
+                        <a href="#" onclick="@DarUmLike" @onclick:preventDefault> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                 <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                             </svg>
@@ -328,7 +324,7 @@ else if (!repositoryPagina.erro)
                     }
                     else 
                     {                            
-                        <a href="#" onclick="@Unlike" class="btn">
+                        <a href="#" onclick="@Unlike" class="btn" @onclick:preventDefault>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                 <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
                             </svg>
@@ -340,7 +336,7 @@ else if (!repositoryPagina.erro)
                                       
                 @if (Filtro != null && rotas == null)
                 {
-                    <a class="compartilhar" onclick="@share">
+                    <a href="#" class="compartilhar" onclick="@share" @onclick:preventDefault>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                             <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
                         </svg> @Model.QuantShared
@@ -367,10 +363,10 @@ else if (!repositoryPagina.erro)
 
            
                     
-                        <a data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())"  >
+                        <a href="#" data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())" @onclick:preventDefault >
                             marcar? 
                         </a>
-                         <a type="button" @onclick="AcessarHashtagId" style="margin-left: 12px;" >#Id</a> 
+                         <a href="#" @onclick="AcessarHashtagId" style="margin-left: 12px;" @onclick:preventDefault >#Id</a> 
 
                          @if (Filtro != null)
                         {                            
@@ -378,8 +374,7 @@ else if (!repositoryPagina.erro)
                                 <select @onchange="atualizarFiltro" style="margin-left: 12px;"  >
                                     @foreach (var item in tipos)
                                     {
-                                        if (type.Name == Model.GetType().Name ||
-                                         type == typeof(Chave))
+                                        if (type.Name.ToLower() == Model.GetType().Name.ToLower())
                                         {
                                             <option value="@item.Name" selected >
                                                  @Activator.CreateInstance(item)!.ToString()
@@ -412,7 +407,7 @@ else if (!repositoryPagina.erro)
 
         </div>
 
-        @if (usuarios!.Count > 0)
+        @if (usuarios!.Count > 0 && type == typeof(UserContent))
         {
 
             <div class="users">
@@ -516,6 +511,14 @@ else if (!repositoryPagina.erro)
                         }
 
                     }
+                    else if(type == typeof(Link))
+                    {
+                        <p>
+                            <a class="btn btn-primary" @onclick="() => AcessarComLink(Model.Filtro!.First().Filtro!.Id)">
+                                @Model.Filtro!.First().Filtro!.Nome
+                            </a>
+                        </p>
+                    }
                     else if (Model != null && id_video == null )
                     { 
                         if(Model is Chave && Model.Criterio != null
@@ -608,7 +611,7 @@ else if (!repositoryPagina.erro)
 
 
 
-                            
+                                @if(array != null)
                                 @for (var i = 0; i < array.Length; i++)
                                 {
                                     if ( array[i] != null)
@@ -659,16 +662,9 @@ else if (!repositoryPagina.erro)
                                                                 @if (Model != null && condicao )
                                                                 {                                                                  
 
-                                                                    if (type != typeof(Comment))
-                                                                    {
-                                                                        <span data-2 class="indice"> @Versiculo</span>
+                                                                     <span data-2 class="indice"> @Versiculo</span>
                                                                        
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span class="indice">0</span>
-
-                                                                    }
+                                                                   
                                                                 }
                                                                 else
                                                                 {
@@ -689,16 +685,9 @@ else if (!repositoryPagina.erro)
                                                             <div class="@(DivPag) @(classCss)" >
                                                                 <div>
                                                                     @if (Model != null && condicao)
-                                                                    {
-                                                                        if (type != typeof(Comment))
-                                                                        {
-                                                                            <span data-2 class="indice"> @Versiculo</span>
-                                                                            
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <span class="indice">0</span>
-                                                                        }
+                                                                    {                                                                        
+                                                                         <span data-2 class="indice"> @Versiculo</span>                                                                
+                                                                        
                                                                     }
                                                                     else
                                                                     {
@@ -769,7 +758,7 @@ else
         
         @if(Model2 != null && Model2.Criterio != null)
         {
-             <a onclick="@Filtrar"> filtrar @nameGroup</a>  
+             <a href="#" onclick="@Filtrar" @onclick:preventDefault > filtrar @nameGroup</a>  
 
             <p>@Model2.Criterio.Descricao</p>
 
@@ -820,7 +809,7 @@ else
         ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l"
         ClassName="tinymce-wrapper" @bind-Value="comment.Html" />
         <br />
-        <button class="btn btn-primary" onclick="@SalvarComentario">Add Comentário</button>
+        <a href="#" onclick="@SalvarComentario" @onclick:preventDefault>Add Comentário</a>
         <hr />       
         
         @* 

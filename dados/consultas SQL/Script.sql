@@ -31,5 +31,5 @@ SELECT
   --  REPLICATE('    ', Nivel) + Nome AS NomeFormatado,
   --  CamadaId,
     Caminho
-FROM ArvorePeixes where UltimaPasta=0
+FROM ArvorePeixes 
 ORDER BY Caminho;

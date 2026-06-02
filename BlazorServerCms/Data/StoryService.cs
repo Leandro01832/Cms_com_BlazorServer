@@ -69,8 +69,9 @@ namespace BlazorServerCms.Data
                .ToListAsync();
             
            
-            
-             RepositoryPagina.Conteudo!.UnionWith(conteudos.Select(c => c.Content).ToList()!);
+            foreach (var item in conteudos.ToList())
+                if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.ContentId) == null)
+             RepositoryPagina.Conteudo!.Add(item!.Content!);
 
             return conteudos;
         }      
