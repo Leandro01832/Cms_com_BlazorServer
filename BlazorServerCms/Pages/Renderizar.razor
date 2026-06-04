@@ -130,7 +130,10 @@ else if (!repositoryPagina.erro)
                                                 {
                                                     @if(Filtro != null && Model2.CriterioId != null)
                                                     {
-                                                        <a href="#" onclick="@Agrupar" @onclick:preventDefault>  @nameGroup2 -  </a>  
+                                                        if(Model2.Criterio.Camada.Numero != camadas.First().Numero)
+                                                        {
+                                                            <a href="#" onclick="@Agrupar" @onclick:preventDefault>  @nameGroup2 -  </a> 
+                                                        }
                                                         <a href="#" @onclick="@ativarModal" @onclick:preventDefault>@nameGroup</a> 
                                                         <span>(@Activator.CreateInstance(type)!.ToString())</span>
                                                     }
@@ -758,7 +761,16 @@ else
         
         @if(Model2 != null && Model2.Criterio != null)
         {
+            if(Model2.Criterio.Camada.Numero != camadas.Last().Numero)
+            {
              <a href="#" onclick="@Filtrar" @onclick:preventDefault > filtrar @nameGroup</a>  
+            }
+            else
+            {
+             <a > filtrar @nameGroup</a>  
+
+            }
+
 
             <p>@Model2.Criterio.Descricao</p>
 

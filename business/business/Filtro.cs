@@ -65,10 +65,17 @@ namespace business
             this.AnotacaoVersiculos!.Add(new AnotacaoVersiculo { Anotacao = anotacao, Filtro = this });
         }
 
-        public void IncluiPagina(Pagina pag)
+        public void IncluiPagina(Content pag)
         {
             if (this.Pagina == null) this.Pagina = new List<FiltroContent>();
-            this.Pagina!.Add(new FiltroContent { Content = pag, Filtro = this });
+            if (!this.Pagina.Any(fc => fc.ContentId == pag.Id && fc.FiltroId == this.Id))
+            {
+                this.Pagina.Add(new FiltroContent 
+                { 
+                    ContentId = pag.Id, 
+                    FiltroId = this.Id 
+                });
+            }
         }
     }
 }

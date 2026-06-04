@@ -146,6 +146,7 @@ namespace BlazorCms.Client.Pages
         private string? title = null;
         private string? resumo = null;
         private bool alterouPasta = false;
+        protected List<Camada> camadas = null;
         protected List<SubFiltro> listaFiltro = null;
         protected List<SubFiltro> UltimasPastas = null;
         protected List<Type> tipos = null;

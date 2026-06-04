@@ -97,7 +97,7 @@ namespace BlazorCms.Client.Pages
                     var str = RepositoryPagina.stories.First(st => st.Id == _story.Id);
                     Indice = RepositoryPagina.stories.IndexOf(str);
                 }
-                //  automatico = false;
+                
                 Timer!._timer!.Elapsed -= _timer_Elapsed;
                 acessar();
             }
@@ -148,9 +148,6 @@ namespace BlazorCms.Client.Pages
                 Filtro =
                 listaFiltro
                 .Where(f => f.FiltroId == Model2.FiltroId)
-                .OrderBy(p => p.FiltroId)
-                .OrderBy(p => p.CriterioId == null)
-                .ThenBy(p => p.Id)
                 .ToList()[p - 1].Id;
                 acessar();
 
@@ -203,7 +200,6 @@ namespace BlazorCms.Client.Pages
 
             long quant = 0;
             if (Filtro == null)
-              //  quant = CountPaginas();
                 quant = quantidadeLista;
             else
             {
@@ -393,7 +389,6 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarComCriterio()
         {
-           //  AlterouModel = true;
             SubFiltro sub = listaFiltro.FirstOrDefault(s => s.Id == Model2!.Id);
             Filtro = sub.ComCriterio;
             type = typeof(Page);
@@ -481,23 +476,8 @@ namespace BlazorCms.Client.Pages
         private string colocarAutoPlay(string html)
         {
             var conteudoHtml = html;
-            var arr = conteudoHtml!.Split("/");
-
-
-            // for (var index = 0; index < arr.Length; index++)
-            // {
-            //     if (arr[index] == "embed")
-            //     {
-            //         var text = arr[index + 1];
-            //         var arr2 = text.Split('"');
-            //         id_video = arr2[0];
-            //         break;
-            //     }
-            // }
-
-            // html = html.Replace(id_video, id_video + "?autoplay=1");
-            // if (Auto == 0)
-            //     html = html.Replace("?autoplay=1", "?autoplay=1" + "&loop=1" + "&playlist=" + id_video);
+            var arr = conteudoHtml!.Split("/");                    
+            
             html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");
             return html;
         }
@@ -835,9 +815,7 @@ namespace BlazorCms.Client.Pages
        
         protected void AdicionarAoCarrinho(long ProdutoId)
         {
-            //  criptografar = true;
             var url = $"/carrinho/{ProdutoId}/{Compartilhou}/{Model2!.Id}";
-            //  criptografar = false;
             acessar(url);
         }
 

@@ -4,9 +4,6 @@
 @page "/{nomeLivro}/{capitulo:int}/{indice}"
 @using System.Reflection
 
-
-
-
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 @inject UserManager<UserModel> userManager
@@ -235,12 +232,6 @@
     </GuidedTourStep>
 </GuidedTour>
 
-
-
-
-
-
-
 @code
 {
 
@@ -373,43 +364,25 @@
     };   
 
     @*
-
-    int teste = 0;
-    if(teste == 0)
-    {
         var resultado = await Context.SubFiltro
-                .Include(f => f.Pagina)
-                .Where(x => x.Pagina.Count > 0) 
-                .OrderBy(sub => sub.CamadaId)
-                .ToListAsync();                
-
-                int i = 1;
-                for(var h = 1; h <= resultado.Count; h++)
-                {
-                    var fil = await Context.SubFiltro.Include(s => s.Pagina)
-                    .FirstAsync(s => s.Id == resultado[h - 1].Id);
-                    if(fil.Pagina.Count > 0)
-                    {
-                        var co = await Context.Pagina!
-                        .FirstOrDefaultAsync(c => c.Id == resultado[h - 1].CriterioId);
-                        if(co != null && co.GetType() == typeof(Chave))
-                        {
-                            co.Versiculo = i;
-                            Context.Update(co);
-                            await  Context.SaveChangesAsync();
-                            i++;
-                        }
-                        else
-                        {
-                            Console.WriteLine($"CriterioId {resultado[h - 1].CriterioId} não encontrado para SubFiltroId {resultado[h - 1].Id}");
-                        }
-
-                    }
-                }                
-                teste = 1;
-    }
-
-    await Context.SaveChangesAsync();
+        .Include(f => f.Pagina)
+        .Where(x => x.UltimaPasta) 
+        .OrderBy(sub => sub.CamadaId)
+        .ToListAsync();
+        var c = Context.Content
+        .FirstOrDefault(c => c.GetType() == typeof(Comment));        
+        
+        for(var h = 1; h <= resultado.Count; h++)
+        {
+            var fil = await Context.SubFiltro
+            .AsNoTracking()
+            .Include(f => f.Pagina)
+            .FirstAsync(s => s.Id == resultado[h - 1].FiltroId);
+            if(fil.Pagina.Count > 0)            
+            resultado[h - 1].IncluiPagina(c);
+        }       
+        await Context.SaveChangesAsync();
+    
 
      var contents = await Context.Content
     .Where(c => c.StoryId==2)
