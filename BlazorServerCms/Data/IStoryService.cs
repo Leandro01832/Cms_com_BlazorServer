@@ -7,7 +7,7 @@ namespace BlazorServerCms.Data
     {
        
         Task<List<FiltroContent>> PaginarFiltro(long filtroId, 
-         int slideAtual, Livro livro, int? carregando = null);       
+         int quantDiv, int slideAtual, Livro livro, int? carregando = null);       
        
         int CountPagesInFilterAsync(long filtroId, Livro livro, Type type);                
         bool HasFiltersAsync(long storyId , Livro livro);

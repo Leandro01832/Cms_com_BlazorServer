@@ -121,6 +121,12 @@ namespace BlazorCms.Client.Pages
                     perguntar((long)value);
                 filtro = value;
                 alterouPasta = true;
+                var count = CountPagesInFilterAsync((long)Filtro!, livro, type); 
+                var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                var ind = listaFiltro.IndexOf(f);
+                var ind2 = tipos.IndexOf(type);
+                if( arrayContent[ind][ind2] == null)
+                arrayContent[ind][ind2] = new long?[count];
 
             }
         }
@@ -138,7 +144,7 @@ namespace BlazorCms.Client.Pages
         protected UserModel profile = null;
 
        // private string typeClass = "Pagina";
-        protected Type type = typeof(Pagina);
+        protected Type type = typeof(Page);
 
         private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
         private Story _story = null;
@@ -146,6 +152,8 @@ namespace BlazorCms.Client.Pages
         private string? title = null;
         private string? resumo = null;
         private bool alterouPasta = false;
+
+        private long?[][][] arrayContent;
         protected List<Camada> camadas = null;
         protected List<SubFiltro> listaFiltro = null;
         protected List<SubFiltro> UltimasPastas = null;
@@ -222,7 +230,7 @@ namespace BlazorCms.Client.Pages
 
         public int timeproduto { get; set; } = 11;
 
-        public int? carregando { get; set; } = 40;
+        public int? carregando { get; set; } = 10;
 
         public int? Auto
         {

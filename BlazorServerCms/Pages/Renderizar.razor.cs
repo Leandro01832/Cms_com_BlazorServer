@@ -434,6 +434,11 @@ namespace BlazorCms.Client.Pages
                     Vers = int.Parse(await js.InvokeAsync<string>("prompt", "Informe o versículo."));
                 else
                     Vers = (int)Versiculo!;
+                if(Vers > arrayContent.Length)
+                {
+                    await js!.InvokeAsync<object>("DarAlert", $"Informe um versículo menor ou igual a {arrayContent.Length}.");
+                    return;                    
+                }
                 var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
                 && retornarVerso(f.Criterio.Content) == Vers);
                 if (fil == null)
@@ -662,6 +667,12 @@ namespace BlazorCms.Client.Pages
                         .FirstOrDefaultAsync(c => c.Id == item.ContentId);
                         var i = RepositoryPagina.Conteudo2!.OrderBy(p => p.Id)
                         .FirstOrDefault(p => p.Id == item.ContentId);
+                        var count = CountPagesInFilterAsync((long)Filtro!, livro, type); 
+                        var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                        var ind = listaFiltro.IndexOf(f);
+                        var ind2 = tipos.IndexOf(type);
+                        if(arrayContent[ind][ind2] == null)
+                        arrayContent[ind][ind2] = new long?[count];
                         Indice = RepositoryPagina.Conteudo2!
                         .OrderBy(p => p.Id).ToList().IndexOf(i) + 1;
                         acessar();                     
@@ -786,20 +797,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        protected void acessarPastas()
-        {
-            automatico = false;
-            if (Filtro == null)
-            {
-                acessar($"/pastas/{capitulo}/{Indice}");
-            }
-            else
-            {
-                acessar($"/pastas/{capitulo}/{retornarVerso(Model2.Criterio.Content)}");
-
-            }
-        }
-
         protected void acessarCapitulos()
         {
             if (Compartilhou != "comp")
@@ -904,9 +901,9 @@ namespace BlazorCms.Client.Pages
             return storyService.HasFiltersAsync(storyId, livro);
         }
 
-        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int slideAtual, Livro livro, int? carregando = null)
+        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
         {
-            return storyService.PaginarFiltro(filtroId, slideAtual, livro, carregando);
+            return storyService.PaginarFiltro(filtroId, quantDiv, slideAtual, livro, carregando);
         }
 
         public int CountPagesInFilterAsync(long filtroId, Livro livro, Type type)
@@ -986,6 +983,12 @@ namespace BlazorCms.Client.Pages
                await AcessarHashtagId();
                 else
                 {
+                        var count = CountPagesInFilterAsync((long)Filtro!, livro, type); 
+                        var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                        var ind = listaFiltro.IndexOf(f);
+                        var ind2 = tipos.IndexOf(type);
+                        if(arrayContent[ind][ind2] == null)
+                        arrayContent[ind][ind2] = new long?[count];
                         Indice = 1;
                         acessar();  
                 }

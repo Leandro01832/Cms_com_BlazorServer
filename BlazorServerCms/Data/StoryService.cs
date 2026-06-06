@@ -26,16 +26,18 @@ namespace BlazorServerCms.Data
             repositoryPagina = RepositoryPagina;
         }
 
-        public async Task<List<FiltroContent>> PaginarFiltro(long filtroId,   int slideAtual, Livro livro, int? carregando = null)
+        public async Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
         {
             Context = db.CreateDbContext(null);
             List<FiltroContent> conteudos;
-            var quantDiv = 40;
            
                 int carregar = 0;
                 if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)
                     carregar = (int)carregando;
                 else carregar = repositoryPagina.quantSlidesCarregando;
+
+                var slide = slideAtual - 5;
+                if (slide < 0) slide = 0;
                
                 conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
                 .Include(c => c.Filtro)
@@ -49,7 +51,7 @@ namespace BlazorServerCms.Data
                 .Where(c => c.Content is Pagina &&
                 c.FiltroId == filtroId &&
                 c.Content.LivroId == (livro != null ? livro.Id : null))
-                .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+                .Skip(quantDiv * slide).Take(quantDiv * carregar)
                 .ToListAsync();           
            
             foreach (var item in conteudos.ToList())

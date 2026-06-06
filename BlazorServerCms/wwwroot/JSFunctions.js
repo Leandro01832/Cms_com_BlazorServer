@@ -379,10 +379,9 @@ window.retornarSubdominio = (url) =>
     
 }
 
-window.contarHistoria = (story) => {
-    
-    return prompt("Digite 'sim' se você deseja contar e dividir esta história: " + story + ". Atenção!!! Item só poderá ser compartilhado quando a pessoa já souber qual é a pasta.");
-    
+window.contarHistoria = (story) =>
+{    
+    return prompt("Digite 'sim' se você deseja contar e dividir esta história: " + story + ".");    
 }
 
 window.IdentificarUsuario = (user) =>
