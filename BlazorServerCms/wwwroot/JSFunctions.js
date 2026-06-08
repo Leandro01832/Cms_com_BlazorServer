@@ -484,3 +484,24 @@ window.Ocultar = (a) => {
         return "0";
 };
     
+
+window.helpersWebAuthn = {
+    registrar: async (options) => {
+        // Converte strings base64 vindas do C# para ArrayBuffer
+        options.publicKey.challenge = Uint8Array.from(atob(options.publicKey.challenge), c => c.charCodeAt(0));
+        options.publicKey.user.id = Uint8Array.from(atob(options.publicKey.user.id), c => c.charCodeAt(0));
+
+        const credential = await navigator.credentials.create({
+            publicKey: options.publicKey
+        });
+
+        // Retorna os dados da nova chave para o C# salvar
+        return {
+            id: credential.id,
+            rawId: btoa(String.fromCharCode(...new Uint8Array(credential.rawId))),
+            type: credential.type,
+            attestationObject: btoa(String.fromCharCode(...new Uint8Array(credential.response.attestationObject))),
+            clientDataJSON: btoa(String.fromCharCode(...new Uint8Array(credential.response.clientDataJSON)))
+        };
+    }
+};

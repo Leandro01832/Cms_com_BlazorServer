@@ -6,19 +6,14 @@
 
 
 
-<Modal Title="@title" IsVisible="showModal" Close="() => showModal = false"
-       OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
+<Modal Title="@title" IsVisible="showModal" Close="() => showModal = false" OnConfirm="() => compartilhar()"
+       Excluir="() => remover()" Confirm="@confirmar">
 
     @if (confirmar == "Compartilhar")
     {
-        <p> <strong>Compartilhe um pensamento.</strong>  </p>
-        <Editor Id="contentextarea"
-                Inline=false
-                CloudChannel="5"
-                Disable=false
-                JsConfSrc="sample"
-                ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd"
-                ClassName="tinymce-wrapper" @bind-Value="Html" />
+        <p> <strong>Compartilhe um pensamento.</strong> </p>
+        <Editor Id="contentextarea" Inline=false CloudChannel="5" Disable=false JsConfSrc="sample"
+                ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd" ClassName="tinymce-wrapper" @bind-Value="Html" />
     }
     else if (usermodel != null)
     {
@@ -39,9 +34,9 @@
                     <div class="pensar2">
                         <div class="markup">
                             <a @onclick="() => showModal = usuario != null && usuario.Identity!.IsAuthenticated
-                                && usuario.Identity!.Name == usermodel.UserName"> @markup </a>
+                                                               && usuario.Identity!.Name == usermodel.UserName"> @markup </a>
 
-                        </div>
+</div>
 
                     </div>
 
@@ -157,7 +152,8 @@
                             </div>
                         </div>
                         <span dir="auto">
-                            <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
+                            <div aria-disabled="false" role="button" tabindex="0"
+                                 style="display: inline; cursor: pointer;">
                                 <span dir="auto">
                                     https://www.instagleo.net.br
                                 </span>
@@ -217,7 +213,8 @@
                                                 <div class="circulo2">
                                                     @if (array[i][j].Image != null)
                                                     {
-                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)" class="ImgStory" alt="Story">
+                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)"
+                                                             class="ImgStory" alt="Story">
 
                                                     }
                                                 </div>
@@ -255,7 +252,8 @@
                                                 <div class="circulo2">
                                                     @if (array[i][j].Image != null)
                                                     {
-                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)" class="ImgStory" alt="Story">
+                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)"
+                                                             class="ImgStory" alt="Story">
 
                                                     }
                                                 </div>
@@ -277,11 +275,11 @@
     </div>
 
     <div class="botoes">
-        <a class="prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
+        <a class="prev btn btn-dark" onclick="@(async () => { await js!.InvokeAsync<object>("slideAnterior", $""); })">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </a>
-        <a class="prox btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
+        <a class="prox btn btn-dark" onclick="@(async () => { await js!.InvokeAsync<object>("proximoSlide", $""); })">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </a>
@@ -296,17 +294,23 @@
 <div class="listas" role="tablist">
     <a aria-selected="true" class="" href="/@user/publicacao" role="tab" tabindex="0">
         <div class="">
-            <svg aria-label="" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
+            <svg aria-label="" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="12" role="img"
+                 viewBox="0 0 24 24" width="12">
                 <title></title>
-                <rect fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="18" x="3" y="3">
+                <rect fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2" width="18" x="3" y="3">
                 </rect>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="9.015" x2="9.015" y1="3" y2="21">
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      x1="9.015" x2="9.015" y1="3" y2="21">
                 </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="14.985" x2="14.985" y1="3" y2="21">
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      x1="14.985" x2="14.985" y1="3" y2="21">
                 </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="9.015" y2="9.015">
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      x1="21" x2="3" y1="9.015" y2="9.015">
                 </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="14.985" y2="14.985">
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      x1="21" x2="3" y1="14.985" y2="14.985">
                 </line>
             </svg>
             <span class="">
@@ -318,42 +322,45 @@
         <div class="">
             <svg aria-label="" class="" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
                 <title></title>
-                <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95" y1="7.002" y2="7.002">
+                <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95"
+                      y1="7.002" y2="7.002">
                 </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="13.504" x2="16.362" y1="2.001" y2="7.002">
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      x1="13.504" x2="16.362" y1="2.001" y2="7.002">
                 </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.207" x2="10.002" y1="2.11" y2="7.002">
+                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      x1="7.207" x2="10.002" y1="2.11" y2="7.002">
                 </line>
                 <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                 </path>
                 <path fill-rule="evenodd"></path>
             </svg><span class="">
-                Reels
-            </span>
-        </div>
-    </a>
-    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/salvo" role="tab" tabindex="0">
-        <div class="">           
-             <img src="/anotar2.png" style="width:20px; height:20px;" /> 
-            <span class="">
-                Salvos
-            </span>
-        </div>
-    </a>    
+            Reels
+        </span>
+    </div>
+</a>
+<a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/salvo" role="tab" tabindex="0">
+    <div class="">
+        <img src="/anotar2.png" style="width:20px; height:20px;" />
+        <span class="">
+            Salvos
+        </span>
+    </div>
+</a>
 </div>
 <h5>Reels</h5>
 
 <div class="container">
 
     @if (usermodel != null)
-    @foreach (var item in usermodel.conteudos)
-    {
-        if (item.Html != null && item.Html.Contains("iframe"))
+        @foreach (var item in usermodel.conteudos)
         {
-            <div class="content">
-            </div>
+            if (item.Html != null && item.Html.Contains("iframe"))
+            {
+                <div class="content">
+                </div>
+            }
         }
-    }
 
 </div>
 
@@ -453,7 +460,7 @@
         .Include(u => u.Livro)!
         .ThenInclude(u => u.Livro)!
         .ThenInclude(u => u.Filtro)!
-        .Include(u => u.Pastas)!
+        .Include(u => u.VersiculosDecorados)!
         .Include(u => u.PastaSalvas)!
         .ThenInclude(u => u.PastaSalva)!
         .FirstOrDefaultAsync(u => u.UserName == user);
@@ -491,7 +498,7 @@
 
     private async void compartilhar()
     {
-        //  string? value = await js.InvokeAsync<string>("retornarTextArea", "contentextarea");
+        // string? value = await js.InvokeAsync<string>("retornarTextArea", "contentextarea");
         string value = Html;
         if (!string.IsNullOrEmpty(value))
         {
@@ -533,10 +540,10 @@
         if (livro == null && str.Capitulo == 1)
         {
             livro = new UserModelLivro
-                {
-                    Livro = await Context.Livro!.FirstAsync(),
-                    UserModel = usermodel
-                };
+            {
+                Livro = await Context.Livro!.FirstAsync(),
+                UserModel = usermodel
+            };
         }
 
 
@@ -664,10 +671,10 @@
             if (livros.FirstOrDefault(l => l.Livro.StandardChapter == 1) == null)
             {
                 livros.Add(new UserModelLivro
-                    {
-                        UserModel = usermodel,
-                        Livro = await Context.Livro!.Include(l => l.Filtro).FirstAsync() // Instagleo
-                    });
+                {
+                    UserModel = usermodel,
+                    Livro = await Context.Livro!.Include(l => l.Filtro).FirstAsync() // Instagleo
+                });
             }
             List<Filtro> lista = new List<Filtro>();
             foreach (var livro in livros)

@@ -5,25 +5,21 @@
 @inject RepositoryPagina repositoryPagina
 @attribute [Authorize]
 
-<h3>Criar conteudo</h3>     
+<h3>Criar conteudo</h3>
 
-    <Editor Id="contentextarea"
-            Inline=false
-            CloudChannel="5"
-            Disable=false
-            JsConfSrc="sample"
-            ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l"
-            ClassName="tinymce-wrapper" @bind-Value="exampleModel.Html" />
+<Editor Id="contentextarea" Inline=false CloudChannel="5" Disable=false JsConfSrc="sample"
+        ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l" ClassName="tinymce-wrapper"
+        @bind-Value="exampleModel.Html" />
 
-    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
     <p>
         <label>Story:</label>
         <select @bind="exampleModel.StoryId">
 
-            @if(lista2 != null)
+            @if (lista2 != null)
                 @foreach (var item in lista2)
                 {
                     if (item.Nome != "Padrao")
@@ -48,7 +44,7 @@
             <option value="0"> (Opcional) </option>
             @foreach (var item in lista)
             {
-                <option value="@item.Id"> @item.Nome </option>      
+                <option value="@item.Id"> @item.Nome </option>
 
             }
         </select>
@@ -76,7 +72,7 @@
         user = authState.User;
 
         var usermodel = await Context.Users
-                .Include(u => u.Pastas)!
+                .Include(u => u.VersiculosDecorados)!
                 .ThenInclude(u => u.Filtro)!
                 .Include(u => u.PastaSalvas)!
                 .ThenInclude(u => u.PastaSalva)!
@@ -88,13 +84,13 @@
         var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
         exampleModel.UserModelId = u.Id;
 
-            lista = usermodel.Pastas.Select(p => p.Filtro).ToList();        
+        lista = usermodel.VersiculosDecorados.Select(p => p.Filtro).ToList();
     }
 
     private async void HandleSubmit()
     {
-        
 
+        
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 

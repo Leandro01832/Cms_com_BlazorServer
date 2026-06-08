@@ -79,10 +79,88 @@
             }
         </section>
     </div>
-
-</div>
+   
+        <div class="form-group mt-3">
+            <button type="button" id="btnLoginBiometria" class="btn btn-dark w-100">
+                👤 Entrar com Biometria / Passkey
+            </button>
+        </div>
    
 
+</div>
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @* <partial name="_ValidationScriptsPartial" /> *@
+    <script>
+     
+     document.getElementById('btnLoginBiometria').addEventListener('click', async () => {
+    try {
+        // Captura o input de e-mail padrão do ASP.NET Core Identity
+        const emailInput = document.getElementById('Input_Email') || document.querySelector('input[type="email"]');
+        
+        if (!emailInput || !emailInput.value) {
+            alert('Por favor, digite o seu e-mail antes de entrar com a biometria.');
+            return;
+        }
+
+        // Monta o formulário para enviar ao C#
+        const formData = new FormData();
+        formData.append('username', emailInput.value);
+
+        // 1. Busca os parâmetros do desafio no servidor
+        const responseOpcoes = await fetch('/api/webauthn/login-options', { 
+            method: 'POST',
+            body: formData // Envia o e-mail aqui
+        });
+        
+        if (!responseOpcoes.ok) throw new Error('Erro ao buscar opções de login.');
+
+        const options = await responseOpcoes.json();
+
+        // Converte o Challenge de Base64 para binário (UInt8Array)
+        options.publicKey.challenge = Uint8Array.from(atob(options.publicKey.challenge), c => c.charCodeAt(0));
+
+        // 2. Dispara o leitor biométrico do navegador (ou o painel virtual do Edge)
+        const assertion = await navigator.credentials.get({
+            publicKey: options.publicKey
+        });
+
+        // 3. Empacota a assinatura gerada pelo hardware/emulador
+        const dadosParaEnviar = {
+            id: assertion.id,
+            rawId: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.rawId))),
+            type: assertion.type,
+            response: {
+                authenticatorData: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.response.authenticatorData))),
+                clientDataJSON: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.response.clientDataJSON))),
+                signature: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.response.signature))),
+                userHandle: assertion.response.userHandle ? btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.response.userHandle))) : null
+            }
+        };
+
+        // 4. Envia para o C# conferir a assinatura digital no método de verificação
+        const resultadoFinal = await fetch('/api/webauthn/login-verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosParaEnviar)
+        });
+
+        const respostaServidor = await resultadoFinal.json();
+
+        if (respostaServidor.success) {
+            alert('Autenticado com sucesso! Redirecionando...');
+            window.location.href = '/'; // Redireciona para a home logado
+        } else {
+            alert('Chave biométrica inválida ou não cadastrada.');
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert('Falha no login: ' + error.message);
+    }
+});
+    
+    
+    
+    </script>
 }

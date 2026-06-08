@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace business
 {
-    public  class Filtro : BaseModel
+    public class Filtro : BaseModel
     {
         public Filtro()
         {
@@ -15,42 +15,42 @@ namespace business
         public Filtro(List<FiltroContent> pagina)
         {
             if (pagina == null || pagina.Count < 10)
-            throw new ArgumentException("A lista deve conter pelo menos 10 conteudos.");
+                throw new ArgumentException("A lista deve conter pelo menos 10 conteudos.");
             this.pagina = pagina;
             PastaSalva = new PastaSalva();
         }
 
         public string? Nome { get; set; }
         public string? Rotas { get; set; }
-        
-      public long? CamadaId { get; set; }
-    public virtual Camada Camada { get; set; }
+
+        public long? CamadaId { get; set; }
+        public virtual Camada Camada { get; set; }
 
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
 
         public Int64? LivroId { get; set; } = null;
         public virtual Livro? Livro { get; set; }
-
-      // public virtual List<FiltroContent>? Pagina { get; set; }
-        private List<FiltroContent> pagina ;
+        
+        private List<FiltroContent> pagina;
 
         public virtual List<FiltroContent> Pagina
         {
             get => pagina;
             set
             {
-                if (value == null || value.Count < 10)
+                if (value == null || value.Count < 1)
                     throw new ArgumentException("A lista deve conter pelo menos 10 conteudos.");
-                
+
                 pagina = value;
             }
         }
 
-        public virtual List<SubFiltro>? SubFiltro { get; set; }
-      //  public virtual List<UltimaPasta>? UltimaPasta { get; set; }      
 
-        public virtual List<UserModelFiltro> usuarios { get; set; }
+
+        public virtual List<SubFiltro>? SubFiltro { get; set; }  
+
+        public virtual List<UserModelFiltro> usuariosDecorando { get; set; }
 
         public virtual List<AnotacaoVersiculo> AnotacaoVersiculos { get; set; }
         public virtual PastaSalva PastaSalva { get; set; }
@@ -70,10 +70,10 @@ namespace business
             if (this.Pagina == null) this.Pagina = new List<FiltroContent>();
             if (!this.Pagina.Any(fc => fc.ContentId == pag.Id && fc.FiltroId == this.Id))
             {
-                this.Pagina.Add(new FiltroContent 
-                { 
-                    ContentId = pag.Id, 
-                    FiltroId = this.Id 
+                this.Pagina.Add(new FiltroContent
+                {
+                    ContentId = pag.Id,
+                    FiltroId = this.Id
                 });
             }
         }

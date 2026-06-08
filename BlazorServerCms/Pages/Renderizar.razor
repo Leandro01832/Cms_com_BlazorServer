@@ -126,7 +126,7 @@ else if (!repositoryPagina.erro)
                                     
                                         <p data-first>
                                             <header>
-                                                @if(type == typeof(Page))
+                                                @if(TipoClass == typeof(Page))
                                                 {
                                                     @if(Filtro != null && Model2.CriterioId != null)
                                                     {
@@ -135,19 +135,19 @@ else if (!repositoryPagina.erro)
                                                             <a href="#" onclick="@Agrupar" @onclick:preventDefault>  @nameGroup2 -  </a> 
                                                         }
                                                         <a href="#" @onclick="@ativarModal" @onclick:preventDefault>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(type)!.ToString())</a>
+                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
                                                     }
                                                     else  
                                                     @if(Model2.CriterioId == null)
                                                     {
                                                         <a href="#" onclick="@acessarComCriterio" @onclick:preventDefault>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(type)!.ToString())</a>
+                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
                                                     } 
                                                     else
                                                     {
                                                         <a href="#" onclick="@Agrupar">@nameGroup2 - </a>                                                    
                                                         <a href="#" onclick="@Filtrar">@nameGroup</a>                                                    
-                                                        <a>(@Activator.CreateInstance(type)!.ToString())</a>
+                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
                                                     }
                                                 }
                                                 else
@@ -156,19 +156,19 @@ else if (!repositoryPagina.erro)
                                                     {
                                                         <a>@nameGroup2 -  </a>  
                                                         <a>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(type)!.ToString())</a>
+                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
                                                     }
                                                     else  
                                                     @if(Model2.CriterioId == null)
                                                     {
                                                         <a>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(type)!.ToString())</a>
+                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
                                                     } 
                                                     else
                                                     {
                                                         <a>@nameGroup2 - </a>                                                    
                                                         <a>@nameGroup</a>                                                    
-                                                        <a>(@Activator.CreateInstance(type)!.ToString())</a>
+                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
                                                     }
                                                 }
 
@@ -245,7 +245,7 @@ else if (!repositoryPagina.erro)
                          
                          
 
-                            @if(type != typeof(Comment))
+                            @if(TipoClass != typeof(Comment))
                             {
                                 if (tellStory || Filtro == null)
                                 { 
@@ -371,7 +371,7 @@ else if (!repositoryPagina.erro)
                                 <select @onchange="atualizarFiltro" style="margin-left: 12px;"  >
                                     @foreach (var item in tipos)
                                     {
-                                        if (type.Name.ToLower() == Model.GetType().Name.ToLower())
+                                        if (TipoClass.Name.ToLower() == Model.GetType().Name.ToLower())
                                         {
                                             <option value="@item.Name" selected >
                                                  @Activator.CreateInstance(item)!.ToString()
@@ -404,7 +404,7 @@ else if (!repositoryPagina.erro)
 
         </div>
 
-        @if (usuarios!.Count > 0 && type == typeof(UserContent))
+        @if (usuarios!.Count > 0 && TipoClass == typeof(UserContent))
         {
 
             <div class="users">
@@ -456,13 +456,13 @@ else if (!repositoryPagina.erro)
                     {
                         <p>Versiculos encontrados</p>
                     }
-                    else if(type == typeof(DesvioPadrao))
+                    else if(TipoClass == typeof(DesvioPadrao))
                     {
                         <p>@Model.Titulo</p>
                     }
 
                     
-                        @if(type == typeof(UserContent))
+                        @if(TipoClass == typeof(UserContent))
                         {
                             var user = (UserContent)Model;
                             <p>
@@ -508,7 +508,7 @@ else if (!repositoryPagina.erro)
                         }
 
                     }
-                    else if(type == typeof(Link))
+                    else if(TipoClass == typeof(Link))
                     {
                         <p>
                             <a class="btn btn-primary" @onclick="() => AcessarComLink(Model.Filtro!.First().Filtro!.Id)">
@@ -577,7 +577,7 @@ else if (!repositoryPagina.erro)
                         }
                         else
                             {
-                                if (type != typeof(Comment))
+                                if (TipoClass != typeof(Comment))
                                 {
                                     <span class="TextoInformativo">Item @Indice de @quantidadeLista</span>
                                 }

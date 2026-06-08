@@ -16,8 +16,9 @@ namespace business.business
 
 
         public string? HashUserName { get; set; }
-        public string? Compartilhar { get; set; } = null;       
+        public string? Compartilhar { get; set; } = null;
 
+        public int Decorar { get; set; } = 2;
         public string? Image { get; set; }
 
         public int PontosPorDia { get; set; }
@@ -26,15 +27,17 @@ namespace business.business
 
         public int Recorde { get; set; }
 
-        public virtual  List<Assinatura> Assinatura { get; set; }
-        public virtual  List<Anotacao> Anotacao { get; set; }
-        public virtual  List<Hashtag> Hashtag { get; set; }
+
+        public virtual List<Assinatura> Assinatura { get; set; }
+        public virtual List<Anotacao> Anotacao { get; set; }
+        public virtual List<Hashtag> Hashtag { get; set; }
+        public virtual List<UserPasskey> UserPasskey { get; set; }
 
         public virtual List<UserModelLivro> Livro { get; set; }
 
         public virtual List<UserModelTime> Time { get; set; }
 
-        public virtual List<UserModelFiltro> Pastas { get; set; }
+        public virtual List<UserModelFiltro> VersiculosDecorados { get; set; }
 
         public virtual List<UserModelPastaSalva> PastaSalvas { get; set; }
         public virtual List<UserModelContent> PageLiked { get; set; }
@@ -46,7 +49,7 @@ namespace business.business
             if (this.Time == null) this.Time = new List<UserModelTime>();
             this.Time!.Add(new UserModelTime { Time = time, UserModel = this });
         }
-        
+
         public void IncluiLivro(Livro livro)
         {
             if (this.Livro == null) this.Livro = new List<UserModelLivro>();
@@ -55,8 +58,8 @@ namespace business.business
 
         public void incluirPasta(Filtro filtro)
         {
-            if (this.Pastas == null) this.Pastas = new List<UserModelFiltro>();
-            this.Pastas!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
+            if (this.VersiculosDecorados == null) this.VersiculosDecorados = new List<UserModelFiltro>();
+            this.VersiculosDecorados!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
         }
 
         public void incluirPastaSalva(PastaSalva pasta)
@@ -71,6 +74,6 @@ namespace business.business
             this.PageLiked!.Add(new UserModelContent { Content = page, UserModel = this });
         }
 
-       
+
     }
 }

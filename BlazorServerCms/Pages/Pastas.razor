@@ -1,11 +1,12 @@
 ﻿@page "/pastas/{capitulo:long}/{verso:int}"
-@inject RepositoryPagina? repositoryPagina 
+@inject RepositoryPagina? repositoryPagina
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject UserManager<UserModel> userManager
 @layout MeuLayout
 
-@if(Model != null){
+@if (Model != null)
+{
     <h3>Pastas do versiculo @verso do capitulo @Model.Story.Capitulo</h3>
 
 }
@@ -27,34 +28,39 @@
                 @foreach (var item in Model.Filtro)
                 {
                     int pasta = 0;
-                    var fil = filtros.FirstOrDefault(f =>  f.Id == item.FiltroId);
-                    
-                        pasta = filtros.IndexOf(fil) + 1;
-                        condicao = user.PastaSalvas.FirstOrDefault(f => f.PastaSalvaId == fil.Id) != null;
+                    var fil = filtros.FirstOrDefault(f => f.Id == item.FiltroId);
 
-                        <div class="filtragem1">
-                            <p>
-                                pasta @pasta - @item.Filtro!.Nome
-                                <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/dominio/comp/0/0/0/0/0/0" class="btn btn-primary">Acessar</a>
-                                <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
-                                    @if (condicao )
-                                    {
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
-                                        </svg>
+                    pasta = filtros.IndexOf(fil) + 1;
+                    condicao = user.PastaSalvas.FirstOrDefault(f => f.PastaSalvaId == fil.Id) != null;
 
-                                    }
-                                    else
-                                    {
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
-                                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
-                                        </svg>
-                                    }
+                    <div class="filtragem1">
+                        <p>
+                            pasta @pasta - @item.Filtro!.Nome
+                            <a href="/renderizar/@capitulo/@pasta/0/11/1/1/0/0/0/dominio/comp/0/0/0/0/0/0"
+                               class="btn btn-primary">Acessar</a>
+                            <a href="#" onclick="@(() => GetClaimsPrincipalData(fil))">
+                                @if (condicao)
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                        <path
+                                        d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                                    </svg>
 
-                                </a>
-                            </p>
+                                }
+                                else
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-bookmark" viewBox="0 0 16 16">
+                                        <path
+                                        d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                    </svg>
+                                }
 
-                        </div>               
+                            </a>
+                        </p>
+
+                    </div>
 
                     
                 }
@@ -89,7 +95,7 @@
         .Where(p => p.StoryId == capitulo).OrderBy(p => p.Id).ToList();
         Model = lst.Skip((int)verso - 1).FirstOrDefault()!;
         filtros = Context.Filtro!
-    .Include(p => p.usuarios)!
+    .Include(p => p.usuariosDecorando)!
     .ThenInclude(p => p.Filtro)
     .Where(p => p.StoryId == capitulo)
     .OrderBy(f => f.Id).ToList();
@@ -102,7 +108,7 @@
         {
             authMessage = $"{usuario.Identity.Name} esta autenticado.";
             var u = await userManager.GetUserAsync(usuario);
-            user = await Context.Users.Include(u => u.Pastas)
+            user = await Context.Users.Include(u => u.VersiculosDecorados)
              .FirstAsync(us => us.Id == u.Id);
         }
         else
@@ -130,9 +136,9 @@
                 Context.Remove(Context.UserModelPastaSalva
                     .First(s => s.PastaSalvaId == fil.Id &&
                     s.UserModelId == user.Id));
-                  await  Context.SaveChangesAsync();
+                await Context.SaveChangesAsync();
             }
         }
-      
+
     }
 }

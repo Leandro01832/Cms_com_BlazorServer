@@ -23,7 +23,7 @@ namespace BlazorCms.Client.Pages
         [Inject] public ITourService TourService { get; set; }
         [Inject] public NavigationManager? navigation { get; set; }
         [Inject] UserManager<UserModel> userManager { get; set; }
-        
+
         [Inject] BlazorTimer? Timer { get; set; }
         [Inject] protected IJSRuntime? js { get; set; }
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
@@ -31,24 +31,24 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int? capitulo { get; set; } = 1;
         private int indice = 0;
         [Parameter]
-         public int Indice 
-         { 
-            get{ return indice; }
+        public int Indice
+        {
+            get { return indice; }
             set
-            { 
+            {
                 indice = value;
-              //  if(quantidadeLista != 0)
-                
+                //  if(quantidadeLista != 0)
+
                 // else
                 //  js!.InvokeVoidAsync("PreencherProgressBar2", 1);
             }
         }
         [Parameter]
-         public string Tipo { get; set; }        
+        public string Tipo { get; set; }
 
         private async void PreencherProgresso()
         {
-             try
+            try
             {
                 int porc = 100 * Indice / quantidadeLista;
                 await js!.InvokeAsync<object>("PreencherProgressBar2", porc);
@@ -57,7 +57,7 @@ namespace BlazorCms.Client.Pages
             {
                 try
                 {
-                    await js!.InvokeAsync<object>("PreencherProgressBar2", 1);                  
+                    await js!.InvokeAsync<object>("PreencherProgressBar2", 1);
                 }
                 catch (Exception ex2)
                 {
@@ -90,22 +90,22 @@ namespace BlazorCms.Client.Pages
                 Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
                 Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
                 Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-              
+
             }
         }
 
         [Parameter] public string? Compartilhou { get; set; } = null;
         [Parameter] public string? rotas { get; set; } = null;
-        
+
         private long? filtro = null;
 
         private int? versiculo = null;
         [Parameter]
-        public int? Versiculo 
-        { 
+        public int? Versiculo
+        {
             get { return versiculo; }
-            set 
-            { 
+            set
+            {
                 versiculo = value;
             }
         }
@@ -121,12 +121,12 @@ namespace BlazorCms.Client.Pages
                     perguntar((long)value);
                 filtro = value;
                 alterouPasta = true;
-                var count = CountPagesInFilterAsync((long)Filtro!, livro, type); 
+                var count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
                 var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                 var ind = listaFiltro.IndexOf(f);
-                var ind2 = tipos.IndexOf(type);
-                if( arrayContent[ind][ind2] == null)
-                arrayContent[ind][ind2] = new long?[count];
+                var ind2 = tipos.IndexOf(TipoClass);
+                if (arrayContent[ind][ind2] == null && count != 0)
+                    arrayContent[ind][ind2] = new long?[count];
 
             }
         }
@@ -134,8 +134,6 @@ namespace BlazorCms.Client.Pages
         private ApplicationDbContext Context;
         private int? auto = 0;
 
-        private bool limpar = false;
-        
         protected int quantDiv = 0;
         protected int quantDivCriterio = 0;
 
@@ -143,8 +141,22 @@ namespace BlazorCms.Client.Pages
 
         protected UserModel profile = null;
 
-       // private string typeClass = "Pagina";
-        protected Type type = typeof(Page);
+        private Type tipoClass = typeof(Page);
+        
+        protected Type TipoClass
+        {
+            get {return tipoClass;}
+            set
+            {
+                tipoClass= value;
+                var count = CountPagesInFilterAsync((long)Filtro!, livro, value);
+                var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                var ind = listaFiltro.IndexOf(f);
+                var ind2 = tipos.IndexOf(value);
+                if (arrayContent[ind][ind2] == null && count != 0)
+                    arrayContent[ind][ind2] = new long?[count];
+            }
+        }
 
         private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
         private Story _story = null;
@@ -160,8 +172,8 @@ namespace BlazorCms.Client.Pages
         protected List<Type> tipos = null;
         private int indiceChave = 0;
         private int tempoVideo = 0;
-     // private List<FiltroContent> result = new List<FiltroContent>();
-     // protected List<Content> listaContent = new List<Content>();
+        // private List<FiltroContent> result = new List<FiltroContent>();
+        // protected List<Content> listaContent = new List<Content>();
         protected List<int> porcentagens = new List<int>();
         public bool AlterouCamada { get; set; }
         private bool alterouModel = true;
@@ -176,7 +188,7 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-       
+
         protected bool showModal = false;
         protected bool showModal2 = false;
         protected int Pasta = 0;
@@ -184,9 +196,9 @@ namespace BlazorCms.Client.Pages
         protected Comment comment = new Comment();
 
         protected string? id_video = null;
-        
+
         private double Progress { get; set; } = 0;
-        
+
         protected int chave = 0;
         protected int slideAtual = 0;
         protected int slideAtualCriterio = 0;
@@ -197,9 +209,9 @@ namespace BlazorCms.Client.Pages
         protected string divPagina = "";
         protected string placeholder = "";
         protected string preferencia = null;
-        
+
         protected int cap = 1;
-        protected bool automatico = false;        
+        protected bool automatico = false;
         protected string classCss = "";
         protected string DivPag = "";
         protected MarkupString markup;
@@ -246,7 +258,7 @@ namespace BlazorCms.Client.Pages
 
         }
 
-     
+
 
     }
 }

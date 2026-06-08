@@ -1,0 +1,95 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+
+
+
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                <label asp-for="Username" class="form-label"></label>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-3 p-3 border-primary">
+    <h5 class="text-primary">Segurança Avançada</h5>
+    <p class="text-muted small">Cadastre este computador para entrar sem senha usando o Windows Hello ou Biometria.</p>
+    <button type="button" id="btnCadastrarBiometria" class="btn btn-outline-primary">
+        🔑 Configurar Passkey / Biometria
+    </button>
+</div>
+
+<script>
+   document.getElementById('btnCadastrarBiometria').addEventListener('click', async () => {
+    try {
+        // 1. Busca as opções na rota limpa da API
+        const responseOpcoes = await fetch('/api/webauthn/register-options', { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (!responseOpcoes.ok) throw new Error('Servidor retornou erro ao buscar opções.');
+        
+        const options = await responseOpcoes.json();
+
+        // Conversão para binário
+        options.publicKey.challenge = Uint8Array.from(atob(options.publicKey.challenge), c => c.charCodeAt(0));
+        options.publicKey.user.id = Uint8Array.from(atob(options.publicKey.user.id), c => c.charCodeAt(0));
+
+        // 2. Aciona o leitor virtual do Edge
+        const credential = await navigator.credentials.create({
+            publicKey: options.publicKey
+        });
+
+        // 3. Empacota a assinatura
+        const dadosParaEnviar = {
+            id: credential.id,
+            rawId: btoa(String.fromCharCode.apply(null, new Uint8Array(credential.rawId))),
+            type: credential.type,
+            response: {
+                attestationObject: btoa(String.fromCharCode.apply(null, new Uint8Array(credential.response.attestationObject))),
+                clientDataJSON: btoa(String.fromCharCode.apply(null, new Uint8Array(credential.response.clientDataJSON)))
+            }
+        };
+
+        // 4. Envia de volta para salvar
+        const resultadoFinal = await fetch('/api/webauthn/register-credential', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosParaEnviar)
+        });
+
+        if (resultadoFinal.ok) {
+            alert('Biometria cadastrada com sucesso absoluto!');
+        } else {
+            alert('O servidor rejeitou a credencial.');
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert('Falha na operação: ' + error.message);
+    }
+});
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -45,6 +45,8 @@ builder.Services.AddScoped<IEmailSender<UserModel>, EmailSender>();
 
 builder.Services.UseTour();
 
+builder.Services.AddControllers();
+
 // builder.Services.AddServerSideBlazor().AddHubOptions(options =>
 // {
 //     options.MaximumReceiveMessageSize = 64 * 1024;

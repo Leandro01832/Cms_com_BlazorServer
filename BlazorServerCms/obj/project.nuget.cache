@@ -243,7 +243,7 @@
     {
       "code": "NU1603",
       "level": "Warning",
-      "message": "BlazorServerCms depends on Google.Apis.YouTube.v3 (>= 1.68.0) but Google.Apis.YouTube.v3 1.68.0 was not found. Google.Apis.YouTube.v3 1.68.0.3394 was resolved instead.",
+      "message": "BlazorServerCms depende de Google.Apis.YouTube.v3 (>= 1.68.0) mas Google.Apis.YouTube.v3 1.68.0 não foi encontrado. Google.Apis.YouTube.v3 1.68.0.3394 foi resolvido.",
       "projectPath": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
       "warningLevel": 1,
       "filePath": "C:\\Users\\leand\\OneDrive\\Documentos\\testeBlazor\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",

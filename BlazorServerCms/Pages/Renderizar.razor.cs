@@ -97,7 +97,7 @@ namespace BlazorCms.Client.Pages
                     var str = RepositoryPagina.stories.First(st => st.Id == _story.Id);
                     Indice = RepositoryPagina.stories.IndexOf(str);
                 }
-                
+
                 Timer!._timer!.Elapsed -= _timer_Elapsed;
                 acessar();
             }
@@ -164,7 +164,7 @@ namespace BlazorCms.Client.Pages
         {
             Auto = Convert.ToInt32(!automatico);
         }
-     
+
         private void desabilitarAuto()
         {
             if (Timer!.desligarAuto != null)
@@ -228,23 +228,23 @@ namespace BlazorCms.Client.Pages
                 acessar();
             }
             else
-            {               
+            {
                 if (proximo <= quant)
                 {
                     Indice = proximo;
                     acessar();
                 }
-                else if(type != typeof(Page))
+                else if (TipoClass != typeof(Page))
                 {
-                    var t = tipos.FirstOrDefault(t => t.Name.ToLower() == type.Name.ToLower());
+                    var t = tipos.FirstOrDefault(t => t.Name.ToLower() == TipoClass.Name.ToLower());
                     var i = tipos.IndexOf(t);
-                    type = tipos[i - 1];
+                    TipoClass = tipos[i - 1];
                     Indice = 1;
                     acessar();
                 }
                 else if (Filtro != null)
                     navegarSubgrupos(true);
-                else 
+                else
                 {
                     cap++;
                     capitulo = RepositoryPagina.stories
@@ -290,15 +290,15 @@ namespace BlazorCms.Client.Pages
                 {
                     if (Filtro != null)
                     {
-                        if(type != typeof(UserContent))
+                        if (TipoClass != typeof(UserContent))
                         {
-                            var t = tipos.FirstOrDefault(t => t.Name.ToLower() == type.Name.ToLower());
+                            var t = tipos.FirstOrDefault(t => t.Name.ToLower() == TipoClass.Name.ToLower());
                             var i = tipos.IndexOf(t);
-                            type = tipos[i + 1];
+                            TipoClass = tipos[i + 1];
                         }
                         Filtro fi = voltarSubgrupos();
                         Filtro = fi.Id;
-                        var count = CountPagesInFilterAsync((long)Filtro, livro, type);
+                        var count = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
                         Indice = count;
                         retroceder = 1;
                         alterouIdice = true;
@@ -317,7 +317,7 @@ namespace BlazorCms.Client.Pages
                 {
                     var anterior = Indice - 1;
                     Indice = anterior;
-                }                
+                }
             }
             acessar();
         }
@@ -391,13 +391,13 @@ namespace BlazorCms.Client.Pages
         {
             SubFiltro sub = listaFiltro.FirstOrDefault(s => s.Id == Model2!.Id);
             Filtro = sub.ComCriterio;
-            type = typeof(Page);
-            int count = CountPagesInFilterAsync((long)Filtro!, livro, type);
-            Indice = repositoryPagina.random.Next(1, count); 
-             
+            TipoClass = typeof(Page);
+            int count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+            Indice = repositoryPagina.random.Next(1, count);
+
             acessar();
         }
-        
+
         protected void ativarModal()
         {
             showModal = true;
@@ -434,10 +434,10 @@ namespace BlazorCms.Client.Pages
                     Vers = int.Parse(await js.InvokeAsync<string>("prompt", "Informe o versículo."));
                 else
                     Vers = (int)Versiculo!;
-                if(Vers > arrayContent.Length)
+                if (Vers > arrayContent.Length)
                 {
                     await js!.InvokeAsync<object>("DarAlert", $"Informe um versículo menor ou igual a {arrayContent.Length}.");
-                    return;                    
+                    return;
                 }
                 var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
                 && retornarVerso(f.Criterio.Content) == Vers);
@@ -457,12 +457,12 @@ namespace BlazorCms.Client.Pages
                     Filtro = fi?.Id;
 
                     var item = await retornarHashtagContent();
-                    if (item != null && fi.Pagina.FirstOrDefault(p => p.ContentId == item.ContentId) != null)                  
-                    await AcessarHashtagId();
+                    if (item != null && fi.Pagina.FirstOrDefault(p => p.ContentId == item.ContentId) != null)
+                        await AcessarHashtagId();
                     else
                     {
                         Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
-                        acessar();                        
+                        acessar();
                     }
                 }
             }
@@ -477,12 +477,12 @@ namespace BlazorCms.Client.Pages
         {
             return HasFiltersAsync((long)capitulo!, livro);
         }
-        
+
         private string colocarAutoPlay(string html)
         {
             var conteudoHtml = html;
-            var arr = conteudoHtml!.Split("/");                    
-            
+            var arr = conteudoHtml!.Split("/");
+
             html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");
             return html;
         }
@@ -498,90 +498,53 @@ namespace BlazorCms.Client.Pages
                 if (user.Identity!.IsAuthenticated)
                 {
                     //atualizar #Id
-                    var c = Context.Users.FirstOrDefault(u => u.UserName == user.Identity!.Name);
+                    UserModel? c = Context.Users
+                    .Include(u => u.VersiculosDecorados)
+                    .FirstOrDefault(u => u.UserName == user.Identity!.Name);
                     var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
                     var lista = Context.HashtagFiltro
                     .Include(h => h.Filtro)
-                    .Where(h => h.HashtagId == hashtagId.Id).ToList(); 
+                    .Where(h => h.HashtagId == hashtagId.Id).ToList();
                     var lista2 = Context.HashtagFiltro
                     .Include(h => h.Filtro)
                     .ThenInclude(h => h.Pagina)
                     .Where(h => h.HashtagId == hashtagId.Id &&
-                     h.FiltroId == Model2.Id).ToList(); 
-                     var p = type != typeof(Page);
-                     var p2 = lista.FirstOrDefault(f => f.Filtro.CamadaId == Model2.CamadaId) != null;
+                     h.FiltroId == Model2.Id).ToList();
+                    var p = TipoClass != typeof(Page);
+                    var p2 = lista.FirstOrDefault(f => f.Filtro.CamadaId == Model2.CamadaId)
+                     != null || lista.Count == 0;
                     if (lista2.Count == 0)
                     {
-                        if(p || p2)
+                        if (p || p2)
                         {
                             Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
-                            Context.Add(new HashtagFiltro { FiltroId = Model2.Id, HashtagId = hashtagId.Id });                        
-                            await Context.SaveChangesAsync();  
-                            limpar = false;                          
+                            Context.Add(new HashtagFiltro { FiltroId = Model2.Id, HashtagId = hashtagId.Id });
+                            await Context.SaveChangesAsync();
                         }
-                        else
+                        if (c.VersiculosDecorados.Count > c.Decorar)
                         {
-                            try
-                            {
-                                string? Limpar = null;
-                                if(!limpar)
-                                {
-                                    Limpar = await js.InvokeAsync<string>("apagar");
-                                    
-                                }
-
-
-                                if(Limpar == "sim" || limpar)
-                                {
-                                    limpar = true;
-                                    var list = await Context.HashtagContent
-                                    .Where(h => h.HashtagId == hashtagId.Id).ToListAsync();
-                                    foreach(var item in list)
-                                    {
-                                        if(item != null)
-                                        {
-                                            Context.Remove(item); 
-                                            await Context.SaveChangesAsync();
-                                            break;                           
-                                        }
-                                    }
-                                    var list2 = await Context.HashtagFiltro
-                                    .Where(h => h.HashtagId == hashtagId.Id).ToListAsync();
-                                    foreach(var item in list2)
-                                    {
-                                        if(item != null)
-                                        {
-                                            Context.Remove(item); 
-                                            await Context.SaveChangesAsync();
-                                            break;                           
-                                        }
-                                    }
-                                }
-                                else
-                                limpar = false;
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
+                            var decorar = c.VersiculosDecorados.OrderBy(v => v.Data).ToList();
+                            Context.Remove(decorar.First());
+                            await Context.SaveChangesAsync();
                         }
+
                     }
                     else if (lista2.Count == 1)
                     {
                         var list = await Context.HashtagContent
                         .Include(h => h.Content)
                         .Where(h => h.HashtagId == hashtagId.Id).ToListAsync();
-                        foreach(var item in Model2.Pagina)
+                        foreach (var item in Model2.Pagina)
                         {
                             var i = list
-                            .FirstOrDefault(h =>  item.ContentId == h.ContentId);
-                            if(i != null)
+                            .FirstOrDefault(h => item.ContentId == h.ContentId);
+                            if (i != null)
                             {
-                                Context.Remove(i); 
+                                Context.Remove(i);
                                 await Context.SaveChangesAsync();
                                 hashtagId.AddContent(Model);
-                                break;                           
-                            }                            
+                                break;
+                            }
                         }
                         await Context.SaveChangesAsync();
                     }
@@ -630,24 +593,24 @@ namespace BlazorCms.Client.Pages
 
         private async Task<HashtagContent?> retornarHashtagContent()
         {
-            if(profile !=null)
-            {          
+            if (profile != null)
+            {
                 var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
                 var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
                 var r = await Context.HashtagFiltro
                 .FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id &&
-                h.FiltroId == Model2.Id);   
-                if(r != null)
+                h.FiltroId == Model2.Id);
+                if (r != null)
                 {
                     var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id &&
                     Model2.Pagina.FirstOrDefault(p => p.ContentId == h.ContentId) != null);
                     return item;
-                }   
-                
+                }
+
             }
-            return null;                   
+            return null;
         }
-      
+
         protected async Task AcessarHashtagId()
         {
             // Todos os usuarios vão ter a hashtag #Id 
@@ -656,26 +619,20 @@ namespace BlazorCms.Client.Pages
 
             if (Filtro != null)
             {
-                 if (profile != null)
+                if (profile != null)
                 {
                     // aceessar hashtag #Id
-                   
+
                     var item = await retornarHashtagContent();
                     if (item != null)
                     {
                         var c = await Context.Content!
                         .FirstOrDefaultAsync(c => c.Id == item.ContentId);
                         var i = RepositoryPagina.Conteudo2!.OrderBy(p => p.Id)
-                        .FirstOrDefault(p => p.Id == item.ContentId);
-                        var count = CountPagesInFilterAsync((long)Filtro!, livro, type); 
-                        var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                        var ind = listaFiltro.IndexOf(f);
-                        var ind2 = tipos.IndexOf(type);
-                        if(arrayContent[ind][ind2] == null)
-                        arrayContent[ind][ind2] = new long?[count];
+                         .FirstOrDefault(p => p.Id == item.ContentId);
                         Indice = RepositoryPagina.Conteudo2!
                         .OrderBy(p => p.Id).ToList().IndexOf(i) + 1;
-                        acessar();                     
+                        acessar();
                     }
                     else
                     {
@@ -777,7 +734,7 @@ namespace BlazorCms.Client.Pages
 
         protected async void SalvarComentario()
         {
-            if(usuario != null)
+            if (usuario != null)
             {
                 comment.ContentId = Model!.Id;
                 comment.UserModelId = usuario.Id;
@@ -785,7 +742,7 @@ namespace BlazorCms.Client.Pages
                 comment.StoryId = _story.Id;
                 Context.Add(comment);
                 Context.SaveChanges();
-                var FiltroContent = new FiltroContent{ContentId=comment.Id, FiltroId=Model2.Id};
+                var FiltroContent = new FiltroContent { ContentId = comment.Id, FiltroId = Model2.Id };
                 Context.Add(FiltroContent);
                 Context.SaveChanges();
                 RepositoryPagina.Conteudo!.Add(comment);
@@ -793,7 +750,7 @@ namespace BlazorCms.Client.Pages
                 await js!.InvokeAsync<object>("DarAlert",
                  $"Comentário adicionado com sucesso!!!");
                 showModal2 = false;
-                
+
             }
         }
 
@@ -809,7 +766,7 @@ namespace BlazorCms.Client.Pages
                     acessar($"/livro/{livro.Nome}");
             }
         }
-       
+
         protected void AdicionarAoCarrinho(long ProdutoId)
         {
             var url = $"/carrinho/{ProdutoId}/{Compartilhou}/{Model2!.Id}";
@@ -845,9 +802,9 @@ namespace BlazorCms.Client.Pages
         protected void AcessarComLink(long id)
         {
             Filtro = id;
-            type = typeof(Page);
+            TipoClass = typeof(Page);
             Indice = 1;
-        
+
             acessar();
         }
 
@@ -855,7 +812,7 @@ namespace BlazorCms.Client.Pages
         {
             Timer!._timer!.Elapsed -= _timer_Elapsed;
             if (url2 != null) Auto = 0;
-            Tipo = type.Name.ToLower();
+            Tipo = TipoClass.Name.ToLower();
 
             if (url2 == null)
             {
@@ -970,36 +927,30 @@ namespace BlazorCms.Client.Pages
                         acessar();
                     }
         }
-   
+
         protected async void atualizarFiltro(ChangeEventArgs e)
         {
             var valor = e.Value!.ToString()!;
-            type = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;
+            TipoClass = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;
             var item = await retornarHashtagContent();
             if (item != null)
             {
                 var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
                 if (content.GetType().Name.ToLower() == valor.ToLower())
-               await AcessarHashtagId();
+                    await AcessarHashtagId();
                 else
                 {
-                        var count = CountPagesInFilterAsync((long)Filtro!, livro, type); 
-                        var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                        var ind = listaFiltro.IndexOf(f);
-                        var ind2 = tipos.IndexOf(type);
-                        if(arrayContent[ind][ind2] == null)
-                        arrayContent[ind][ind2] = new long?[count];
-                        Indice = 1;
-                        acessar();  
+                    Indice = 1;
+                    acessar();
                 }
             }
-             else
-                {
-                        Indice = 1;
-                        acessar();  
-                }
+            else
+            {
+                Indice = 1;
+                acessar();
+            }
         }
-   
+
     }
 
     public class UserPreferencesImage

@@ -14,5 +14,7 @@ namespace business.business
         public virtual UserModel UserModel { get; set; }
         public virtual Filtro Filtro { get; set; }
 
+        public DateTime Data { get; set; } = DateTime.UtcNow;
+
     }
 }

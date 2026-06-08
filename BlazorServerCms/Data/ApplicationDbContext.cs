@@ -31,6 +31,7 @@ namespace BlazorServerCms.Data
         }
 
         public DbSet<Hashtag> Hashtag { get; set; }
+        public DbSet<UserPasskey> UserPasskey { get; set; }
         public DbSet<Anotacao> Anotacao { get; set; }
         public DbSet<Criterio> Criterio { get; set; }
         public DbSet<Camada> Camada { get; set; }
