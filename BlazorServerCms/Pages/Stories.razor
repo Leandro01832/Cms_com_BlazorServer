@@ -24,7 +24,7 @@
             <p>Deseja realmente excluir este pensamento? </p>
             @markup
         }
-    </Modal>
+    </Modal> 
 
 
 
@@ -436,6 +436,8 @@
         }
 
         usermodel = await Context.Users!
+        .Include(u => u.Relogio)!
+        .ThenInclude(u => u.Content)!
         .Include(u => u.Livro)!
         .ThenInclude(u => u.Livro)!
         .ThenInclude(u => u.Filtro)!
@@ -505,8 +507,9 @@
     {
         string? url = null;
         int versiculo = 1;
-        int carregando = 40;
         Filtro? fil = null;
+        Relogio rel = null;
+        Content contentRel = null;
             int itemConteudo = 0;
 
         if(livro == null && str.Capitulo == 1)
@@ -552,31 +555,35 @@
 
                 if(test)
                 {
-                    carregando = repositoryPagina.quantSlidesCarregando / arr.Length;
-                    for(var j = 0; j < numeros.Length; j++)
-                    {
-                        if (usermodel.Compartilhar != null)
+                    foreach (var item in numeros)
+                    {                        
+                        if (usermodel.Compartilhar.Contains(item.ToString()))
                         {
-                            foreach (var item in filtros)
-                                if (usermodel.Compartilhar.Contains(item.Nome))
-                                {
-                                    var cri = Context.Criterio!
-                                    .Include(c => c.Filtro)
-                                    .Include(c => c.Content)
-                                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == numeros[j]);
-                                    var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
-                                    fil = filtros.FirstOrDefault(f => f.Id == fi);
-                                    itemConteudo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
-                                    break;
-                                }
+                            var cri = Context.Criterio!
+                            .Include(c => c.Filtro)
+                            .Include(c => c.Content)
+                            .FirstOrDefault(c => c.Content is Chave &&
+                             ((Chave)c.Content).Versiculo == item);
+                            var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
+                            rel = usermodel.Relogio.FirstOrDefault(r => r.SubFiltroId == fi);
+                            contentRel = rel.Content;
+                            fil = filtros.FirstOrDefault(f => f.Id == fi);
+                            var l = fil.Pagina
+                            .Select(p => p.Content)
+                            .Where(p => p.GetType() == contentRel.GetType())
+                            .OrderBy(p => p.Id)
+                            .ToList();
+                            var teste = l.FirstOrDefault(c => c.Id == contentRel.Id);
+                            itemConteudo = l.IndexOf(teste) + 1;
                         }
+                        
 
                         if (fil == null)
                             fil = filtros.Where(f => f.Pagina
-                            .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
+                            .FirstOrDefault(p => retornarVerso(p.Content) == item) != null).LastOrDefault()!;
 
-                        if(fil != null)                        
-                            url = $"/renderizar/page/{livro.Livro.Nome}/{str.Capitulo}/{numeros[j]}/{itemConteudo}/{user}";
+                        if(fil != null && contentRel != null)                        
+                            url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{item}/{itemConteudo}/{user}";
                             
                         
                         if(url != null)
@@ -588,6 +595,7 @@
             }
             else
             {
+                
                 if (!string.IsNullOrEmpty(prompted))
                 {
                     prompted = prompted.Replace(" ", "");
@@ -614,70 +622,29 @@
                     .Include(c => c.Content)
                     .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == versiculo);
                     var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
-                   
+                    rel = usermodel.Relogio.FirstOrDefault(r => r.SubFiltroId == fi);
+                    contentRel = rel.Content;                   
                     fil = filtros.FirstOrDefault(f => f.Id == fi);
-                    
-                           itemConteudo = repositoryPagina.random.Next(1, fil.Pagina!.Count);
-                    
+                    itemConteudo = repositoryPagina.random.Next(1, fil.Pagina!.Count);                    
                 }
-
-                if (fil == null)
-                    fil = filtros.Where(f => f.Pagina
-                    .FirstOrDefault(p => retornarVerso(p.Content) == versiculo) != null).LastOrDefault()!;
-
-
-                if (fil != null) 
+                
+                if( contentRel != null)
                 {
-                    FiltroContent? item = null;
-                    HashtagContent? hashtagContent = null;
-                    var hashtag = await Context.Hashtag!
-                    .FirstAsync(h => h.Name == $"Id"
-                    && h.UserModelId == usermodel.Id);
-                    @* var r = await Context.HashtagFiltro
-                    .FirstOrDefaultAsync(h => h.HashtagId == hashtag.Id &&
-                     h.FiltroId == fil.Id);   *@
-
-                     foreach(var i in fil.Pagina)
-                    if( await Context.HashtagContent!
-                    .Include(h => h.Content)
-                    .FirstOrDefaultAsync(h => h.HashtagId == hashtag.Id
-                     && i.ContentId == h.ContentId) != null)
-                     {
-                        item = i;
-                        break;
-                     }
-                        if (item != null)
-                        {
-                            var c = await Context.Content!
-                            .FirstOrDefaultAsync(c => c.Id == item.ContentId);
-                           var i = fil.Pagina!.OrderBy(p => p.ContentId)
-                            .FirstOrDefault(p => p.Content.GetType() == c.GetType() &&
-                             p.ContentId == item.ContentId);
-                            if(i != null)
-                            itemConteudo = fil.Pagina!.OrderBy(p => p.ContentId)
-                            .Where(p => p.Content.GetType() == c.GetType())
-                            .ToList().IndexOf(i) + 1;
-                        }
-
-                        if( item != null)
-                        {
-                            
-                            var  content = Context.Content!.FirstOrDefault(c => c.Id == item.ContentId);
-                            url = $"/renderizar/{content!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";                   
-                        }
-                        else
-                        {
-                            try
-                            {
-                                js.InvokeAsync<object>("DarAlert", "Informe o versiculo correto.");
-                                url = null;
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                        }                   
+                    url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";                   
                 }
+                else
+                {
+                    try
+                    {
+                        js.InvokeAsync<object>("DarAlert", "Informe o versiculo correto.");
+                        url = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }                   
+                
                 if(url != null)
                     await js!.InvokeAsync<object>("AcessarSites", $"{url}");
             }

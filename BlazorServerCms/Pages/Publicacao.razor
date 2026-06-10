@@ -6,7 +6,7 @@
 
 
 
-<Modal Title="@title" IsVisible="showModal" Close="() => showModal = false" OnConfirm="() => compartilhar()"
+<Modal Title="@title" IsVisible="showModal" Close="() =>  showModal = false" OnConfirm="() => compartilhar()"
        Excluir="() => remover()" Confirm="@confirmar">
 
     @if (confirmar == "Compartilhar")
@@ -454,14 +454,12 @@
 
         }
 
-        usermodel = await Context.Users!
-        .Include(u => u.conteudos)!
-        .Include(u => u.Livro)!
-        .ThenInclude(u => u.Livro)!
-        .ThenInclude(u => u.Filtro)!
-        .Include(u => u.VersiculosDecorados)!
-        .Include(u => u.PastaSalvas)!
-        .ThenInclude(u => u.PastaSalva)!
+        usermodel = await Context.Users
+        .Include(u => u.conteudos)
+        .Include(u => u.Livro)
+        .ThenInclude(u => u.Livro)
+        .ThenInclude(u => u.Filtro)
+        .Include(u => u.VersiculosDecorados)
         .FirstOrDefaultAsync(u => u.UserName == user);
 
         if (usermodel.Compartilhar == null)

@@ -74,8 +74,6 @@
         var usermodel = await Context.Users
                 .Include(u => u.VersiculosDecorados)!
                 .ThenInclude(u => u.Filtro)!
-                .Include(u => u.PastaSalvas)!
-                .ThenInclude(u => u.PastaSalva)!
                 .FirstOrDefaultAsync(u => u.UserName == user.Identity.Name)!;
 
         lista2 = await Context.Story!.OrderBy(st => st.Id).ToListAsync();

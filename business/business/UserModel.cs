@@ -38,11 +38,11 @@ namespace business.business
         public virtual List<UserModelTime> Time { get; set; }
 
         public virtual List<UserModelFiltro> VersiculosDecorados { get; set; }
-
-        public virtual List<UserModelPastaSalva> PastaSalvas { get; set; }
+        
         public virtual List<UserModelContent> PageLiked { get; set; }
 
         public virtual List<UserContent> conteudos { get; set; }
+        public virtual List<Relogio> Relogio { get; set; }
 
         public void IncluiTime(Time time)
         {
@@ -61,12 +61,7 @@ namespace business.business
             if (this.VersiculosDecorados == null) this.VersiculosDecorados = new List<UserModelFiltro>();
             this.VersiculosDecorados!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
         }
-
-        public void incluirPastaSalva(PastaSalva pasta)
-        {
-            if (this.PastaSalvas == null) this.PastaSalvas = new List<UserModelPastaSalva>();
-            this.PastaSalvas!.Add(new UserModelPastaSalva { PastaSalva = pasta, UserModel = this });
-        }
+        
 
         public void curtir(Content page)
         {

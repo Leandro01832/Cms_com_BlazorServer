@@ -456,8 +456,13 @@ namespace BlazorCms.Client.Pages
                     fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
                     Filtro = fi?.Id;
 
-                    var item = await retornarHashtagContent();
-                    if (item != null && fi.Pagina.FirstOrDefault(p => p.ContentId == item.ContentId) != null)
+                    var item = await buscarRelogio();
+                    var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
+                    var c = filt.Pagina.Select(p => p.Content)
+                    .Where(p => p.GetType() == Type.GetType(item.Tipo)).Skip(Indice).FirstOrDefault();
+
+                    if (item != null && c != null &&
+                     fi.Pagina.FirstOrDefault(p => p.ContentId == c.Id) != null)
                         await AcessarHashtagId();
                     else
                     {
@@ -499,113 +504,46 @@ namespace BlazorCms.Client.Pages
                 {
                     //atualizar #Id
                     UserModel? c = Context.Users
-                    .Include(u => u.VersiculosDecorados)
+                    .Include(u => u.Relogio)
                     .FirstOrDefault(u => u.UserName == user.Identity!.Name);
-                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
-                    var lista = Context.HashtagFiltro
-                    .Include(h => h.Filtro)
-                    .Where(h => h.HashtagId == hashtagId.Id).ToList();
-                    var lista2 = Context.HashtagFiltro
-                    .Include(h => h.Filtro)
-                    .ThenInclude(h => h.Pagina)
-                    .Where(h => h.HashtagId == hashtagId.Id &&
-                     h.FiltroId == Model2.Id).ToList();
+                    var r = c.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id);
                     var p = TipoClass != typeof(Page);
-                    var p2 = lista.FirstOrDefault(f => f.Filtro.CamadaId == Model2.CamadaId)
-                     != null || lista.Count == 0;
-                    if (lista2.Count == 0)
+                    if (r == null)
                     {
-                        if (p || p2)
-                        {
-                            Context.Add(new HashtagContent { ContentId = Model.Id, HashtagId = hashtagId.Id });
-                            Context.Add(new HashtagFiltro { FiltroId = Model2.Id, HashtagId = hashtagId.Id });
-                            await Context.SaveChangesAsync();
-                        }
-                        if (c.VersiculosDecorados.Count > c.Decorar)
-                        {
-                            var decorar = c.VersiculosDecorados.OrderBy(v => v.Data).ToList();
-                            Context.Remove(decorar.First());
-                            await Context.SaveChangesAsync();
-                        }
-
-                    }
-                    else if (lista2.Count == 1)
-                    {
-                        var list = await Context.HashtagContent
-                        .Include(h => h.Content)
-                        .Where(h => h.HashtagId == hashtagId.Id).ToListAsync();
-                        foreach (var item in Model2.Pagina)
-                        {
-                            var i = list
-                            .FirstOrDefault(h => item.ContentId == h.ContentId);
-                            if (i != null)
-                            {
-                                Context.Remove(i);
-                                await Context.SaveChangesAsync();
-                                hashtagId.AddContent(Model);
-                                break;
-                            }
-                        }
-                        await Context.SaveChangesAsync();
-                    }
-                }
-                else if (profile != null)
-                {
-                    // aceessar hashtag #Id
-                    var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
-                    var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "#Id");
-                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id);
-                    if (item != null)
-                    {
-                        var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
-                        if (content is UserContent)
-                        {
-                            navigation.NavigateTo($"/{Model.GetType().Name}/{content.Id}");
-                        }
-                        else
-                        {
-                            var m = Model2.Pagina.OrderBy(p => p.ContentId)
-                            .FirstOrDefault(p => p.ContentId == content.Id);
-                            Indice = Model2.Pagina
-                            .OrderBy(p => p.ContentId)
-                            .ToList()
-                            .IndexOf(m) + 1;
-                            acessar();
-
-                        }
+                       r = new Relogio
+                       {
+                            ContentId = Model.Id,
+                            SubFiltroId = Model2.Id,
+                            UserModelId = c.Id
+                       };
+                       Context.Add(r);
+                       await Context.SaveChangesAsync();
                     }
                     else
                     {
-                        try
-                        {
-                            await js!.InvokeAsync<object>("DarAlert", $"Hashtag #Id não encontrada. Marque o versículo correto.");
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+                        r.ContentId = Model.Id;
+                        Context.Update(r);
+                       await Context.SaveChangesAsync();
                     }
+                   
                 }
-
+               
+               
             }
         }
 
-        private async Task<HashtagContent?> retornarHashtagContent()
+        private async Task<Relogio?> buscarRelogio()
         {
             if (profile != null)
             {
-                var c = Context.Users.FirstOrDefault(u => u.UserName == profile.UserName);
-                var hashtagId = await Context.Hashtag.FirstAsync(h => h.UserModelId == c.Id && h.Name == "Id");
-                var r = await Context.HashtagFiltro
-                .FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id &&
-                h.FiltroId == Model2.Id);
-                if (r != null)
-                {
-                    var item = await Context.HashtagContent.FirstOrDefaultAsync(h => h.HashtagId == hashtagId.Id &&
-                    Model2.Pagina.FirstOrDefault(p => p.ContentId == h.ContentId) != null);
-                    return item;
-                }
+                var c = Context.Users
+                .Include(u => u.Relogio)
+                .FirstOrDefault(u => u.UserName == profile.UserName);
+                var r = c.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id);
+                if(r != null)
+                return r;
+                else
+                return null;
 
             }
             return null;
@@ -623,15 +561,18 @@ namespace BlazorCms.Client.Pages
                 {
                     // aceessar hashtag #Id
 
-                    var item = await retornarHashtagContent();
+                    var item = await buscarRelogio();
                     if (item != null)
                     {
-                        var c = await Context.Content!
-                        .FirstOrDefaultAsync(c => c.Id == item.ContentId);
-                        var i = RepositoryPagina.Conteudo2!.OrderBy(p => p.Id)
-                         .FirstOrDefault(p => p.Id == item.ContentId);
-                        Indice = RepositoryPagina.Conteudo2!
-                        .OrderBy(p => p.Id).ToList().IndexOf(i) + 1;
+                        var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
+                        var co = filt.Pagina.Select(p => p.Content)
+                        .FirstOrDefault(p => p.Id == item.ContentId);
+                        var l = filt.Pagina.Select(p => p.Content)
+                        .OrderBy(c => c.Id)
+                        .Where(c => c.GetType() == co.GetType()).ToList();
+                        var teste = l.First(c => c.Id == co.Id);
+                        Indice = l.IndexOf(teste) + 1;
+                        TipoClass = co.GetType();
                         acessar();
                     }
                     else
@@ -932,11 +873,13 @@ namespace BlazorCms.Client.Pages
         {
             var valor = e.Value!.ToString()!;
             TipoClass = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;
-            var item = await retornarHashtagContent();
+            var item = await buscarRelogio();
             if (item != null)
             {
-                var content = await Context.Content.FirstOrDefaultAsync(c => c.Id == item.ContentId);
-                if (content.GetType().Name.ToLower() == valor.ToLower())
+                var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
+                    var c = filt.Pagina.Select(p => p.Content)
+                    .Where(p => p.GetType() == Type.GetType(item.Tipo)).Skip(Indice).FirstOrDefault();
+                if (c != null &&  c.GetType().Name.ToLower() == valor.ToLower())
                     await AcessarHashtagId();
                 else
                 {

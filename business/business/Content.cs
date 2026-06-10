@@ -51,6 +51,7 @@ namespace business.business
         public virtual List<HashtagContent> HashtagContent { get; set; }
 
         public virtual List<Comment> Comentario { get; set; }
+        public virtual List<Relogio> Relogio { get; set; }
 
         public int QuantLiked { get; set; } = 0;
         public int QuantShared { get; set; } = 0;

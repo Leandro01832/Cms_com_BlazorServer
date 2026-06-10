@@ -237,15 +237,15 @@ namespace BlazorCms.Client.Pages
             Time time = null;
 
             fils[0] = listaFiltro.FirstOrDefault(u => u.Id == Model2!.FiltroId)!;
-            fils[1] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[0]) != null && u.Id == verificarFiltros(fils[0]).Id)!;
-            fils[2] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[1]) != null && u.Id == verificarFiltros(fils[1]).Id)!;
-            fils[3] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[2]) != null && u.Id == verificarFiltros(fils[2]).Id)!;
-            fils[4] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[3]) != null && u.Id == verificarFiltros(fils[3]).Id)!;
-            fils[5] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[4]) != null && u.Id == verificarFiltros(fils[4]).Id)!;
-            fils[6] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[5]) != null && u.Id == verificarFiltros(fils[5]).Id)!;
-            fils[7] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[6]) != null && u.Id == verificarFiltros(fils[6]).Id)!;
-            fils[8] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[7]) != null && u.Id == verificarFiltros(fils[7]).Id)!;
-            fils[9] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[8]) != null && u.Id == verificarFiltros(fils[8]).Id)!;
+            fils[1] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[0]) != null && u.Id == verificarFiltros(fils[0]))!;
+            fils[2] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[1]) != null && u.Id == verificarFiltros(fils[1]))!;
+            fils[3] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[2]) != null && u.Id == verificarFiltros(fils[2]))!;
+            fils[4] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[3]) != null && u.Id == verificarFiltros(fils[3]))!;
+            fils[5] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[4]) != null && u.Id == verificarFiltros(fils[4]))!;
+            fils[6] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[5]) != null && u.Id == verificarFiltros(fils[5]))!;
+            fils[7] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[6]) != null && u.Id == verificarFiltros(fils[6]))!;
+            fils[8] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[7]) != null && u.Id == verificarFiltros(fils[7]))!;
+            fils[9] = listaFiltro.FirstOrDefault(u => verificarFiltros(fils[8]) != null && u.Id == verificarFiltros(fils[8]))!;
 
             if (fils[9] is not null)
             {
@@ -884,13 +884,17 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        private SubFiltro? verificarFiltros(SubFiltro f)
+        private long? verificarFiltros(SubFiltro f)
         {
             if (f == null)
-                return f;
+                return 0;
             else
             {
-                return listaFiltro.FirstOrDefault(fil => fil.Id == f.FiltroId);
+                var fil = listaFiltro.FirstOrDefault(fil => fil.Id == f.FiltroId);
+                if(fil != null)
+                return fil.Id;
+                else
+                return 0;
             }
 
         }
@@ -901,18 +905,18 @@ namespace BlazorCms.Client.Pages
             int multiplicador = 1;
             Filtro[] fils = new Filtro[6];
             var us = Context.Users.FirstOrDefault(u => u.UserName == Compartilhou);
-            var us2 = Context.SubFiltro.Include(f => f.usuariosDecorando).ThenInclude(f => f.UserModel)
+            var us2 = listaFiltro
                 .FirstOrDefault(u => u.Id == Model2.Id);
-            var us3 = Context.SubFiltro.Include(f => f.usuariosDecorando).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == verificarFiltros(us2).Id);
-            var us4 = Context.SubFiltro.Include(f => f.usuariosDecorando).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == verificarFiltros(us3).Id);
-            var us5 = Context.SubFiltro.Include(f => f.usuariosDecorando).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == verificarFiltros(us4).Id);
-            var us6 = Context.SubFiltro.Include(f => f.usuariosDecorando).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == verificarFiltros(us5).Id);
-            var us7 = Context.SubFiltro.Include(f => f.usuariosDecorando).ThenInclude(f => f.UserModel)
-                .FirstOrDefault(u => u.Id == verificarFiltros(us6).Id);
+            var us3 = listaFiltro
+                .FirstOrDefault(u => u.Id == verificarFiltros(us2));
+            var us4 = listaFiltro
+                .FirstOrDefault(u => u.Id == verificarFiltros(us3));
+            var us5 = listaFiltro
+                .FirstOrDefault(u => u.Id == verificarFiltros(us4));            
+            var us6 = listaFiltro
+                .FirstOrDefault(u => u.Id == verificarFiltros(us5));
+            var us7 = listaFiltro
+                .FirstOrDefault(u => u.Id == verificarFiltros(us6));
             var users = Context.SubFiltro.ToList().Count;
 
 

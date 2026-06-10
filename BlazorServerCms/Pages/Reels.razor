@@ -2,7 +2,7 @@
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject IJSRuntime js
+@inject IJSRuntime js 
 
 
 
@@ -461,8 +461,6 @@
         .ThenInclude(u => u.Livro)!
         .ThenInclude(u => u.Filtro)!
         .Include(u => u.VersiculosDecorados)!
-        .Include(u => u.PastaSalvas)!
-        .ThenInclude(u => u.PastaSalva)!
         .FirstOrDefaultAsync(u => u.UserName == user);
 
         if (usermodel.Compartilhar == null)

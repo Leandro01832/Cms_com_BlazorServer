@@ -57,7 +57,6 @@ namespace BlazorServerCms.Data
         public DbSet<UserModelLivro> UserModelLivro { get; set; }
         public DbSet<UserModelFiltro> UserModelFiltro { get; set; }
         public DbSet<UserModelContent> UserModelPageLiked { get; set; }
-        public DbSet<UserModelPastaSalva> UserModelPastaSalva { get; set; }
         public DbSet<AnotacaoVersiculo> AnotacaoVersiculo { get; set; }
         public DbSet<HashtagContent> HashtagContent { get; set; }
         public DbSet<HashtagFiltro> HashtagFiltro { get; set; }
@@ -78,25 +77,23 @@ namespace BlazorServerCms.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<ProdutoConteudo>()
-         .HasKey(p => new { p.ProdutoId, p.ContentId });
+            .HasKey(p => new { p.ProdutoId, p.ContentId });
             builder.Entity<FiltroContent>()
-          .HasKey(p => new { p.FiltroId, p.ContentId });
+            .HasKey(p => new { p.FiltroId, p.ContentId });
             builder.Entity<UserModelTime>()
-         .HasKey(p => new { p.UserModelId, p.TimeId });            
+            .HasKey(p => new { p.UserModelId, p.TimeId });            
             builder.Entity<UserModelLivro>()
-         .HasKey(p => new { p.UserModelId, p.LivroId });            
+            .HasKey(p => new { p.UserModelId, p.LivroId });            
             builder.Entity<UserModelFiltro>()
-         .HasKey(p => new { p.UserModelId, p.FiltroId });            
+            .HasKey(p => new { p.UserModelId, p.FiltroId });            
             builder.Entity<UserModelContent>()
-         .HasKey(p => new { p.UserModelId, p.ContentId });            
-            builder.Entity<UserModelPastaSalva>()
-         .HasKey(p => new { p.UserModelId, p.PastaSalvaId });
+            .HasKey(p => new { p.UserModelId, p.ContentId });            
             builder.Entity<AnotacaoVersiculo>()
-         .HasKey(p => new { p.AnotacaoId, p.FiltroId });
-          builder.Entity<HashtagContent>()
-         .HasKey(p => new { p.HashtagId, p.ContentId });
-             builder.Entity<HashtagFiltro>()
-         .HasKey(p => new { p.HashtagId, p.FiltroId });
+            .HasKey(p => new { p.AnotacaoId, p.FiltroId });
+            builder.Entity<HashtagContent>()
+            .HasKey(p => new { p.HashtagId, p.ContentId });
+            builder.Entity<HashtagFiltro>()
+            .HasKey(p => new { p.HashtagId, p.FiltroId });
             builder.Entity<Time>()
             .HasIndex(u => u.nome)
             .IsUnique();

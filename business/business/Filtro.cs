@@ -10,14 +10,14 @@ namespace business
     {
         public Filtro()
         {
-            PastaSalva = new PastaSalva();
+            
         }
         public Filtro(List<FiltroContent> pagina)
         {
             if (pagina == null || pagina.Count < 10)
                 throw new ArgumentException("A lista deve conter pelo menos 10 conteudos.");
             this.pagina = pagina;
-            PastaSalva = new PastaSalva();
+            
         }
 
         public string? Nome { get; set; }
@@ -53,7 +53,6 @@ namespace business
         public virtual List<UserModelFiltro> usuariosDecorando { get; set; }
 
         public virtual List<AnotacaoVersiculo> AnotacaoVersiculos { get; set; }
-        public virtual PastaSalva PastaSalva { get; set; }
         public Int64? CriterioId { get; set; }
         public virtual Criterio Criterio { get; set; }
 
