@@ -9,10 +9,11 @@ namespace business.business
     public class Time : BaseModel
     {
        
-        public string? nome { get; set; }
-
-        // Clicou no botão comprar
+        public string? nome { get; set; }        
         public int vendas { get; set; }
         public virtual List<UserModelTime> usuarios { get; set; }
+        public virtual RelogioParede RelogioParede { get; set; }
+
+
     }
 }

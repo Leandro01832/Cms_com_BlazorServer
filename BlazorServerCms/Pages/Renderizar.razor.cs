@@ -391,9 +391,8 @@ namespace BlazorCms.Client.Pages
         {
             SubFiltro sub = listaFiltro.FirstOrDefault(s => s.Id == Model2!.Id);
             Filtro = sub.ComCriterio;
-            TipoClass = typeof(Page);
-            int count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
-            Indice = repositoryPagina.random.Next(1, count);
+            TipoClass = typeof(Link);
+            Indice = 1;
 
             acessar();
         }
@@ -521,6 +520,7 @@ namespace BlazorCms.Client.Pages
                     }
                     else
                     {
+                        r.Data = DateTime.UtcNow;
                         r.ContentId = Model.Id;
                         Context.Update(r);
                        await Context.SaveChangesAsync();
@@ -799,9 +799,10 @@ namespace BlazorCms.Client.Pages
             return storyService.HasFiltersAsync(storyId, livro);
         }
 
-        public Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
+        public Task<List<FiltroContent>> PaginarFiltro<T>( long filtroId, int quantDiv,
+         int slideAtual, Livro livro, int? carregando = null) where T : class
         {
-            return storyService.PaginarFiltro(filtroId, quantDiv, slideAtual, livro, carregando);
+            return storyService.PaginarFiltro<T>(filtroId, quantDiv, slideAtual, livro, carregando);
         }
 
         public int CountPagesInFilterAsync(long filtroId, Livro livro, Type type)

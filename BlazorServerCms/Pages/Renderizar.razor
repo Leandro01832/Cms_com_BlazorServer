@@ -510,11 +510,22 @@ else if (!repositoryPagina.erro)
                     }
                     else if(TipoClass == typeof(Link))
                     {
-                        <p>
-                            <a class="btn btn-primary" @onclick="() => AcessarComLink(Model.Filtro!.First().Filtro!.Id)">
-                                @Model.Filtro!.First().Filtro!.Nome
-                            </a>
-                        </p>
+                        @markup 
+                        var l = listaFiltro.Where(f => f.ComCriterio == Model2.Id)
+                        .OrderBy(f => f.Id).ToList();
+                       int posicaoCalculada = Indice - 1;
+
+                        // SÓ RENDERIZA O BOTÃO SE O ÍNDICE FOR VÁLIDO DENTRO DA LISTA 'l'
+                        if (l != null && posicaoCalculada >= 0 && posicaoCalculada < l.Count)
+                        {
+                            var itemAtual = l[posicaoCalculada];
+                            
+                            <p>
+                                <a class="btn btn-primary" @onclick="() => AcessarComLink(itemAtual.Id)">
+                                    @itemAtual.Nome
+                                </a>
+                            </p>
+                        }
                     }
                     else if (Model != null && id_video == null )
                     { 

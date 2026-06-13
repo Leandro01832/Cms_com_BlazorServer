@@ -32,17 +32,15 @@ namespace business.business
         public virtual List<Anotacao> Anotacao { get; set; }
         public virtual List<Hashtag> Hashtag { get; set; }
         public virtual List<UserPasskey> UserPasskey { get; set; }
-
         public virtual List<UserModelLivro> Livro { get; set; }
-
         public virtual List<UserModelTime> Time { get; set; }
-
-        public virtual List<UserModelFiltro> VersiculosDecorados { get; set; }
-        
+        public virtual List<UserModelFiltro> VersiculosDecorados { get; set; }        
         public virtual List<UserModelContent> PageLiked { get; set; }
-
         public virtual List<UserContent> conteudos { get; set; }
         public virtual List<Relogio> Relogio { get; set; }
+        public virtual List<RelogioParede> RelogioParede { get; set; }
+
+        
 
         public void IncluiTime(Time time)
         {

@@ -19,8 +19,6 @@ namespace business.business
                 
         }
 
-
-
         public MudancaEstado mudanca;
         private string html;
         public DateTime Data { get; set; } = DateTime.Now;
@@ -28,30 +26,20 @@ namespace business.business
         [Required(ErrorMessage = "O titulo é necessário")]
         [Display(Name = "Titulo da pagina")]
         public string? Titulo { get; set; } = "Conteudo";
-
         [Display(Name = "Story")]
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
-
         public Int64? LivroId { get; set; } = null;
         public virtual Livro? Livro { get; set; }
-
         public virtual List<FiltroContent>? Filtro { get; set; }
-
         public virtual Criterio? Criterio { get; set; }
-
         public string? Rotas { get; set; }
-
-
-
         public virtual List<ProdutoConteudo> Produto { get; set; }
-
         public virtual List<UserModelContent> usuarios { get; set; }
-
         public virtual List<HashtagContent> HashtagContent { get; set; }
-
         public virtual List<Comment> Comentario { get; set; }
         public virtual List<Relogio> Relogio { get; set; }
+        public virtual List<RelogioParede> RelogioParede { get; set; }
 
         public int QuantLiked { get; set; } = 0;
         public int QuantShared { get; set; } = 0;

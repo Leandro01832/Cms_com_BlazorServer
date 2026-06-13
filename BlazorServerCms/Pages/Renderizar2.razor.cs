@@ -125,7 +125,16 @@ namespace BlazorCms.Client.Pages
                 var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                 var ind = listaFiltro.IndexOf(f);
                 var ind2 = tipos.IndexOf(TipoClass);
-                if (arrayContent[ind][ind2] == null && count != 0)
+
+                if (TipoClass == typeof(Link))
+                {
+                    var l = listaFiltro.Where(f => f.ComCriterio == f.Id).ToList();
+                    count = l.Count;
+
+                }
+
+
+                if (arrayContent[ind][ind2] == null)
                     arrayContent[ind][ind2] = new long?[count];
 
             }
@@ -142,18 +151,25 @@ namespace BlazorCms.Client.Pages
         protected UserModel profile = null;
 
         private Type tipoClass = typeof(Page);
-        
+
         protected Type TipoClass
         {
-            get {return tipoClass;}
+            get { return tipoClass; }
             set
             {
-                tipoClass= value;
+                tipoClass = value;
                 var count = CountPagesInFilterAsync((long)Filtro!, livro, value);
                 var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                 var ind = listaFiltro.IndexOf(f);
                 var ind2 = tipos.IndexOf(value);
-                if (arrayContent[ind][ind2] == null && count != 0)
+
+                if (TipoClass == typeof(Link))
+                {
+                    var l = listaFiltro.Where(f => f.ComCriterio == f.Id).ToList();
+                    count = l.Count;
+                }
+
+                if (arrayContent[ind][ind2] == null)
                     arrayContent[ind][ind2] = new long?[count];
             }
         }
@@ -172,8 +188,6 @@ namespace BlazorCms.Client.Pages
         protected List<Type> tipos = null;
         private int indiceChave = 0;
         private int tempoVideo = 0;
-        // private List<FiltroContent> result = new List<FiltroContent>();
-        // protected List<Content> listaContent = new List<Content>();
         protected List<int> porcentagens = new List<int>();
         public bool AlterouCamada { get; set; }
         private bool alterouModel = true;
@@ -227,8 +241,41 @@ namespace BlazorCms.Client.Pages
         protected string opcional = "";
         protected bool liked = false;
 
-        protected Content? Model { get; set; } = null;
-        protected string? html { get; set; } = "";
+        private Content? model = null;
+        protected Content? Model
+        {
+            get { return model; }
+            set
+            {
+                model = value;
+                SetModelAsync(value);
+            }
+        }
+
+        private async Task<string> setarHtml(Content c)
+        {
+            return await repositoryPagina!.renderizarPagina(c);
+        }
+
+        private async Task SetModelAsync(Content? value)
+        {
+
+            if (value != null)
+            {
+                Html = await setarHtml(value);
+            }
+        }
+
+        private string? html = "";
+        protected string? Html 
+        { 
+            get{return html;}
+             set
+             {
+                html = value;
+                markup = new MarkupString(value);
+             }
+        } 
         protected string? nameStory { get; set; } = null;
         protected int quantidadeLista { get; set; } = 0;
         protected int quantidadeFiltro { get; set; } = 0;

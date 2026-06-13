@@ -63,6 +63,7 @@ namespace BlazorCms.Client.Pages
                 if (Compartilhou != null && Compartilhou != "comp")
                 {
                     var c = Context.Users
+                    .Include(u => u.Relogio)
                     .FirstOrDefault(u => u.UserName == Compartilhou);
                     profile = c;
 
@@ -81,6 +82,7 @@ namespace BlazorCms.Client.Pages
                 if (Compartilhou != null && Compartilhou != "comp")
                 {
                     var c = Context.Users
+                    .Include(u => u.Relogio)
                     .FirstOrDefault(u => u.UserName == Compartilhou);
                     profile = c;
                 }
@@ -185,6 +187,10 @@ namespace BlazorCms.Client.Pages
                 Versiculo = retornarVerso(fil.Criterio.Content);
             }
 
+            arrayContent = new long?[listaFiltro.Count][][];
+            for (var i = 0; i < arrayContent.Length; i++)
+                arrayContent[i] = new long?[tipos.Count][];
+
             var teste = await Context.SubFiltro
             .Include(s => s.Criterio)
             .ThenInclude(s => s.Content)
@@ -197,21 +203,47 @@ namespace BlazorCms.Client.Pages
            .FirstOrDefault(f => f.Id == teste.Id) == null;
             SubFiltro p = null;
 
-            if (!ultimaPasta)
-                p = listaFiltro.Where(f => f.Criterio != null).FirstOrDefault(f =>
-               retornarVerso(f.Criterio.Content) == Versiculo)!;
-            else
-                p = UltimasPastas.Where(f => f.Criterio != null).FirstOrDefault(f =>
+            if(Indice != 0)
+            {
+                if (!ultimaPasta)
+                    p = listaFiltro.Where(f => f.Criterio != null).FirstOrDefault(f =>
                 retornarVerso(f.Criterio.Content) == Versiculo)!;
+                else
+                    p = UltimasPastas.Where(f => f.Criterio != null).FirstOrDefault(f =>
+                    retornarVerso(f.Criterio.Content) == Versiculo)!;  
 
-            arrayContent = new long?[listaFiltro.Count][][];
-            for (var i = 0; i < arrayContent.Length; i++)
-                arrayContent[i] = new long?[tipos.Count][];
+                    Filtro = listaFiltro
+            .FirstOrDefault(f => f.Id == p.FiltroId)!.Id;              
+            }
+            else
+            {
+               var rel = profile.Relogio.OrderBy(r => r.Data)
+                            .FirstOrDefault(r => r.SubFiltro.CriterioId == null)!;
+                var c = await Context.Content.FirstAsync(c => c.Id == rel.ContentId);
+                long? fi = null;
+                string numeros = string.Concat(Tipo.Where(char.IsDigit));
+                fi = long.Parse(numeros);
+                Tipo = Tipo.Replace(numeros, "");
+                if (!ultimaPasta)
+                    p = listaFiltro.FirstOrDefault(f => f.Id == fi)!;
+                else
+                    p = UltimasPastas.FirstOrDefault(f => f.Id == fi)!; 
+
+                    var test = p.Pagina.FirstOrDefault(p => p.ContentId == c.Id);
+
+                    Indice = p.Pagina
+                        .Where(p => p.Content.GetType().Name.ToLower() == Tipo.ToLower())
+                        .OrderBy(p => p.ContentId).ToList().IndexOf(test) + 1;  
+                    Filtro = listaFiltro
+                    .FirstOrDefault(f => f.Id == p.Id)!.Id;
+            }
+
+
+            
 
 
 
-            Filtro = listaFiltro
-            .FirstOrDefault(f => f.Id == p.FiltroId)!.Id;
+            
 
             List<Chave> chaves = new List<Chave>();
 
@@ -324,7 +356,7 @@ namespace BlazorCms.Client.Pages
             var relativePath = navigation.ToBaseRelativePath(navigation.Uri);
             int ind = 0;
             int ind2 = 0;
-            var ti = relativePath.Split('/')[1].ToLower();
+            var ti = Tipo.ToLower();
             if (ti != TipoClass.Name.ToLower())
                 TipoClass = tipos
                 .FirstOrDefault(t => t.Name.ToLower() == ti)!;
@@ -334,7 +366,7 @@ namespace BlazorCms.Client.Pages
              c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null)
             .OrderBy(c => c.Id)
             .Distinct()
-            .ToList();            
+            .ToList();
 
             Model2 = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
 
@@ -363,8 +395,8 @@ namespace BlazorCms.Client.Pages
                arrayContent[ind][ind2][Indice - 1] == null && Filtro != null)
             {
                 bool teste = false;
-                if (contentAdd.Count == 0 && count > 0 ||
-                    arrayContent[ind][ind2][Indice - 1] == null && count > 0)
+                if (count > 0 && contentAdd.Count == 0 ||
+                    count > 0 && arrayContent[ind][ind2][Indice - 1] == null)
                 {
                     var r = RepositoryPagina.Conteudo!
                     .Where(c => c.Filtro.FirstOrDefault(f => f.FiltroId == Filtro) != null &&
@@ -373,26 +405,7 @@ namespace BlazorCms.Client.Pages
                     if (r.Count == 0 || arrayContent[ind][ind2][Indice - 1] == null)
                     {
                         contentAdd.Clear();
-                        var l = await PaginarFiltro((long)Filtro, quantDiv, slideAtual, livro, carregando);
-                        contentAdd.AddRange(l.Select(li => li.Content)
-                        .Where(c => c.GetType() == TipoClass)
-                        .ToList()!);
-                        quantidadeLista = contentAdd.Count;
-                        var slide = slideAtual - 5;
-                        if (slide < 0) slide = 0;
-                        int posicaoInicial = slide * quantDiv;
-
-                        for (var i = 0; i < contentAdd.Count; i++)
-                        {
-                            // 2. Acesse o índice real e contínuo dentro do seu array original
-                            int indiceAlvo = posicaoInicial + i;
-
-                            // 3. Opcional: Evite estouro de memória (IndexOutOfRangeException) conferindo o tamanho do array
-                            if (indiceAlvo < arrayContent[ind][ind2].Length)
-                            {
-                                arrayContent[ind][ind2][indiceAlvo] = contentAdd[i].Id;
-                            }
-                        }
+                        await preencherLista(contentAdd, ind, ind2);
 
                     }
                 }
@@ -415,6 +428,25 @@ namespace BlazorCms.Client.Pages
                         contentAdd.AddRange(RepositoryPagina.Conteudo!.Where(c => c.GetType() == TipoClass)
                         .OrderBy(c => c.Id)
                         .ToList());
+                        count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+                        if (count == 0)
+                        {
+                            try
+                            {
+                                await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum " +
+                                "item para este tipo de conteudo " +
+                                $"({Activator.CreateInstance(tipoClass)!.ToString()}).");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Um erro aconteceu: " + ex.Message);
+                            }
+                        }
+                        else
+                        {
+                            contentAdd.Clear();
+                            await preencherLista(contentAdd, ind, ind2);
+                        }
                     }
                 if (teste)
                 {
@@ -455,7 +487,10 @@ namespace BlazorCms.Client.Pages
                 }
             }
 
-            Model = contentAdd.FirstOrDefault(c => c.Id == arrayContent[ind][ind2][Indice - 1]);
+            if (tipoClass != typeof(Link))
+                Model = contentAdd.FirstOrDefault(c => c.Id == arrayContent[ind][ind2][Indice - 1]);
+            else
+            Html = "";
 
             RepositoryPagina.Conteudo2.Clear();
             RepositoryPagina.Conteudo2
@@ -478,6 +513,48 @@ namespace BlazorCms.Client.Pages
 
             // Lógica Final: Paginação, Renderização HTML e Finalização
             await FinalizarRenderizacao();
+        }
+
+        private async Task preencherLista(List<Content> lista, int ind, int ind2)
+        {
+            List<FiltroContent> l = null;
+
+            // 1. Pegamos os metadados do método "PaginarFiltro" da classe onde ele está declarado
+            // Se o método estiver na mesma classe atual, use 'this.GetType()'
+            var metodoInfo = this.GetType().GetMethod("PaginarFiltro");
+
+            if (metodoInfo != null)
+            {
+                // 2. Transformamos o método genérico aberto no tipo específico que está na sua variável 'tipoClass'
+                var metodoGenerico = metodoInfo.MakeGenericMethod(tipoClass);
+
+                // 3. Invocamos o método passando os parâmetros dentro de um array de objetos na ordem exata
+                var task = (Task)metodoGenerico.Invoke(this, new object[] { (long)Filtro!, quantDiv, slideAtual, livro, carregando });
+
+                // 4. Como o método é assíncrono (await), aguardamos o término e pegamos o resultado
+                await task;
+                l = (List<FiltroContent>)((dynamic)task).Result;
+            }
+
+            lista.AddRange(l.Select(li => li.Content)
+            .Where(c => c.GetType() == TipoClass)
+            .ToList()!);
+            quantidadeLista = lista.Count;
+            var slide = slideAtual - 5;
+            if (slide < 0) slide = 0;
+            int posicaoInicial = slide * quantDiv;
+
+            for (var i = 0; i < lista.Count; i++)
+            {
+                // 2. Acesse o índice real e contínuo dentro do seu array original
+                int indiceAlvo = posicaoInicial + i;
+
+                // 3. Opcional: Evite estouro de memória (IndexOutOfRangeException) conferindo o tamanho do array
+                if (indiceAlvo < arrayContent[ind][ind2].Length)
+                {
+                    arrayContent[ind][ind2][indiceAlvo] = lista[i].Id;
+                }
+            }
         }
 
         private async Task renderizarSemFiltro()
@@ -684,7 +761,8 @@ namespace BlazorCms.Client.Pages
             //  evitando rodar em re-renderizações bobas
             if (Model.Id != _ultimoIdProcessado)
             {
-                await AtualizarHashtagId();
+                if (tipoClass != typeof(Link))
+                    await AtualizarHashtagId();
                 _ultimoIdProcessado = Model.Id;
                 // Atualiza o último ID processado
             }
@@ -712,7 +790,7 @@ namespace BlazorCms.Client.Pages
                 Model.Html = conteudoHtml;
 
                 // Chama o método de renderização do repositório
-                html = await repositoryPagina!.renderizarPagina(Model);
+                Html = await repositoryPagina!.renderizarPagina(Model);
                 AlterouModel = false;
             }
 
@@ -724,7 +802,7 @@ namespace BlazorCms.Client.Pages
                     if (Model.Titulo == "item" && Model.Html == "<p> Item </p>")
                     {
                         Model.Html = $"<p> Item {Indice} do conteudo {Model2!.Nome} </p>";
-                        html = await repositoryPagina!.renderizarPagina(Model);
+                        Html = await repositoryPagina!.renderizarPagina(Model);
                         // Pode ser removido da lista de conteúdos, se necessário.
                         // Somente se todos os itens forem removidos, ficando apenas as chaves.
                         // as chaves não podem ser removidas. 
@@ -756,7 +834,7 @@ namespace BlazorCms.Client.Pages
 
                         // Limpeza final da string
                         Model.Html = Model.Html.Replace(", </p>", "</p>");
-                        html = await repositoryPagina!.renderizarPagina(Model);
+                        Html = await repositoryPagina!.renderizarPagina(Model);
                     }
                 }
                 catch (Exception ex)
@@ -768,9 +846,9 @@ namespace BlazorCms.Client.Pages
             else if (Model != null && Model.Produto != null && Model.Produto.Count == 0)
             {
                 if (livro != null)
-                    html = livro.Capa;
+                    Html = livro.Capa;
                 else
-                    html = RepositoryPagina.Capa;
+                    Html = RepositoryPagina.Capa;
             }
         }
 
@@ -808,18 +886,10 @@ namespace BlazorCms.Client.Pages
 
         private async void FinalizarVariaveisUI()
         {
-            // 1. Converte o HTML final em MarkupString para renderização no Blazor
-            markup = new MarkupString(html);
-
-            // 2. Prepara o array de Conteúdo para o componente de Paginação (se aplicável)
 
             array = new List<Content>[2];
 
             array2 = new List<Filtro>[2];
-
-
-            // if (listaContent.Count != 0 && listaContent[0] != null)
-            //   listaContent = listaContent.OrderBy(c => c.Id).ToList();
 
             if (array[0] == null)
                 array[0] = new List<Content>();
@@ -865,8 +935,6 @@ namespace BlazorCms.Client.Pages
                 classCss = " DivPagTam3";
             else if (numeroParaVerificar >= 10000 && numeroParaVerificar < 100000)
                 classCss = " DivPagTam4";
-            // Nota: O código original possui dois blocos IF/ELSE para Indice e vers. 
-            // Foi consolidado usando uma variável temporária `numeroParaVerificar`.
 
             // 4. Define Placeholders e Classes CSS Dinâmicas
             if (!tellStory)
@@ -891,10 +959,10 @@ namespace BlazorCms.Client.Pages
             else
             {
                 var fil = listaFiltro.FirstOrDefault(fil => fil.Id == f.FiltroId);
-                if(fil != null)
-                return fil.Id;
+                if (fil != null)
+                    return fil.Id;
                 else
-                return 0;
+                    return 0;
             }
 
         }
@@ -912,7 +980,7 @@ namespace BlazorCms.Client.Pages
             var us4 = listaFiltro
                 .FirstOrDefault(u => u.Id == verificarFiltros(us3));
             var us5 = listaFiltro
-                .FirstOrDefault(u => u.Id == verificarFiltros(us4));            
+                .FirstOrDefault(u => u.Id == verificarFiltros(us4));
             var us6 = listaFiltro
                 .FirstOrDefault(u => u.Id == verificarFiltros(us5));
             var us7 = listaFiltro
@@ -1150,7 +1218,23 @@ namespace BlazorCms.Client.Pages
                         {
                             var us = Context.Users.First(u => u.UserName == user.Identity.Name);
 
-                            us.Compartilhar = "(" + name + ")";
+                            if (us.Compartilhar == null)
+                            {
+                                us.Compartilhar = "(" + Versiculo + ")";
+
+                            }
+                            else
+                            {
+                                if (us.Compartilhar.Contains(','))
+                                {
+                                    var arr = us.Compartilhar.Split(',');
+                                    if (!arr.Contains(Versiculo.ToString()))
+                                    {
+                                        us.Compartilhar += "(" + Versiculo + ")";
+
+                                    }
+                                }
+                            }
                         }
                     }
                 }

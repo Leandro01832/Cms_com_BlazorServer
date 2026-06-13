@@ -26,7 +26,8 @@ namespace BlazorServerCms.Data
             repositoryPagina = RepositoryPagina;
         }
 
-        public async Task<List<FiltroContent>> PaginarFiltro(long filtroId, int quantDiv, int slideAtual, Livro livro, int? carregando = null)
+        public async Task<List<FiltroContent>> PaginarFiltro<T>( long filtroId, int quantDiv,
+         int slideAtual, Livro livro, int? carregando = null) where T : class
         {
             Context = db.CreateDbContext(null);
             List<FiltroContent> conteudos;
@@ -48,8 +49,8 @@ namespace BlazorServerCms.Data
                 .ThenInclude(c => c.Filtro)
                 .Include(c => c.Content)
                 .ThenInclude(c => c.Comentario)
-                .Where(c => c.Content is Pagina &&
-                c.FiltroId == filtroId &&
+                .Where(c => c.FiltroId == filtroId &&
+                c.Content is T &&
                 c.Content.LivroId == (livro != null ? livro.Id : null))
                 .Skip(quantDiv * slide).Take(quantDiv * carregar)
                 .ToListAsync();           

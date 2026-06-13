@@ -35,7 +35,7 @@
 
         <div class="img">
             <div class="imagem">
-                @if (usermodel != null && usermodel.Compartilhar != null )
+                @if (usermodel != null && Pensamento != null )
                 {
                     <div class="pensar2">
                         <div class="markup">
@@ -58,9 +58,9 @@
                                         <div>
                                             <div>
                                                 <div>
-                                                    @if (usermodel != null && usermodel.Compartilhar == null)
+                                                    @if (usermodel != null && Pensamento == null)
                                                     {
-                                                        <div class="@pensamento">
+                                                        <div class="@Pensar">
                                                             <button @onclick="() => showModal = usuario != null && usuario.Identity!.IsAuthenticated
                                                             && usuario.Identity!.Name == usermodel.UserName">Nota...</button>
 
@@ -348,6 +348,8 @@
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     List<Story> stories = new List<Story>();
+    List<Relogio> relogios = new List<Relogio>();
+        List<SubFiltro>? filtros = new List<SubFiltro>();
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
     private MarkupString markup;
@@ -360,7 +362,21 @@
     private string classCircle = "";
     private string Html = "";
     private string descricao = "";
+
+    private int cap = 0;
+    private int interacao = 0;
+    private int somenteUmSemCriterio = 0;
+
     private string pensamento = "";
+    public string Pensamento 
+    {
+        get{return pensamento;}
+         set{
+                pensamento = value;
+                markup = new MarkupString(usermodel.Compartilhar + value);
+            }
+    }
+    private string Pensar = "";
 
     private bool semCriterio = false;
     
@@ -435,26 +451,51 @@
 
         }
 
+        filtros = await Context.SubFiltro!
+            .Include(f => f.Camada)!
+            .Include(f => f.Criterio)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Story)
+            .Include(f => f.Livro)
+            .Where(f =>             
+             !f.UltimaPasta &&
+              f.CriterioId != null && f.Pagina.Count > 0)
+              .OrderBy(f => f.Story.Capitulo)
+            .ToListAsync();
+
         usermodel = await Context.Users!
         .Include(u => u.Relogio)!
         .ThenInclude(u => u.Content)!
+         .Include(u => u.Relogio)!
+        .ThenInclude(u => u.SubFiltro)!
+        .ThenInclude(u => u.Story)!
         .Include(u => u.Livro)!
         .ThenInclude(u => u.Livro)!
         .ThenInclude(u => u.Filtro)!
         .FirstOrDefaultAsync(u => u.UserName == user);
-        
-        if (usermodel.Compartilhar == null)
+
+        relogios = usermodel.Relogio
+        .OrderByDescending(r => r.Data)
+        .Take(usermodel.Decorar)
+        .ToList();
+        relogios = relogios.OrderBy(r => r.SubFiltro.Story!.Capitulo).ToList();
+
+        Pensamento = "(" +
+         string.Join(", ", relogios.Select(r => retornarVersoComCriterio(r.SubFiltro))) +
+          ")"; 
+               
+        if (string.IsNullOrEmpty(usermodel.Compartilhar))
         {
             confirmar = "Compartilhar";
-            pensamento = "teste";
+            Pensar = "teste";
             title = "Nova nota";
         }
         else
         {
-            exibirChave(usermodel.Compartilhar);
-            markup = new MarkupString(usermodel.Compartilhar);
             confirmar = "Excluir";
-            pensamento = "pensar";
+            Pensar = "pensar";
             title = "Excluir pensamento";
 
         }
@@ -479,12 +520,12 @@
         {
             usermodel.Compartilhar = value;
             Context.Update(usermodel);
-            Context.SaveChanges();
-            confirmar = "Excluir";
-            pensamento = "pensar";
-            title = "Excluir pensamento";
+            await Context.SaveChangesAsync();
 
-            markup = new MarkupString(usermodel.Compartilhar);
+            Pensamento = value;
+            confirmar = "Excluir";
+            Pensar = "pensar";
+            title = "Excluir pensamento";
             await js!.InvokeAsync<object>("DarAlert", "Compartilhamento feito com sucesso!!!");
         }
     }
@@ -497,7 +538,7 @@
             Context.Update(usermodel);
             Context.SaveChanges();
             confirmar = "Compartilhar";
-            pensamento = "teste";
+            Pensar = "teste";
             title = "Nova nota";
             await js!.InvokeAsync<object>("DarAlert", "Compartilhamento removido com sucesso!!!");
         }
@@ -524,7 +565,8 @@
 
         if (livro != null)
         {
-            string prompted = await js.InvokeAsync<string>("prompt", "Informe os versiculos para marcar.");
+            string prompted = await js.InvokeAsync<string>("prompt",
+                 "Informe os versiculos para marcar.");
             var filtros = await Context.SubFiltro!
              .OrderBy(f => f.Id)
              .Include(f => f.Criterio)!
@@ -557,7 +599,7 @@
                 {
                     foreach (var item in numeros)
                     {                        
-                        if (usermodel.Compartilhar.Contains(item.ToString()))
+                        if (Pensamento.Contains(item.ToString()))
                         {
                             var cri = Context.Criterio!
                             .Include(c => c.Filtro)
@@ -566,21 +608,19 @@
                              ((Chave)c.Content).Versiculo == item);
                             var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
                             rel = usermodel.Relogio.FirstOrDefault(r => r.SubFiltroId == fi);
-                            contentRel = rel.Content;
-                            fil = filtros.FirstOrDefault(f => f.Id == fi);
-                            var l = fil.Pagina
-                            .Select(p => p.Content)
-                            .Where(p => p.GetType() == contentRel.GetType())
-                            .OrderBy(p => p.Id)
-                            .ToList();
-                            var teste = l.FirstOrDefault(c => c.Id == contentRel.Id);
-                            itemConteudo = l.IndexOf(teste) + 1;
-                        }
-                        
-
-                        if (fil == null)
-                            fil = filtros.Where(f => f.Pagina
-                            .FirstOrDefault(p => retornarVerso(p.Content) == item) != null).LastOrDefault()!;
+                            if(rel != null)
+                            {
+                                contentRel = rel.Content;
+                                fil = filtros.FirstOrDefault(f => f.Id == fi);
+                                var l = fil.Pagina
+                                .Select(p => p.Content)
+                                .Where(p => p.GetType() == contentRel.GetType())
+                                .OrderBy(p => p.Id)
+                                .ToList();
+                                var teste = l.FirstOrDefault(c => c.Id == contentRel.Id);
+                                itemConteudo = l.IndexOf(teste) + 1;
+                            }
+                        }                       
 
                         if(fil != null && contentRel != null)                        
                             url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{item}/{itemConteudo}/{user}";
@@ -603,9 +643,24 @@
                     {
                         semCriterio = prompted.Contains("/s");
                         if(semCriterio)
-                        versiculo = int.Parse(prompted
-                        .Replace(" ", "")
-                        .Replace("/s", ""));
+                        {
+                            rel = relogios.OrderBy(r => r.Data)
+                            .FirstOrDefault(r => r.SubFiltro.CriterioId == null)!;
+                            if(rel != null)
+                            {
+                                contentRel = rel.Content;                   
+                                fil = filtros.FirstOrDefault(f => f.Id == rel.SubFiltroId);
+                                var teste = fil.Pagina
+                                .OrderBy(p => p.ContentId)
+                                .First(p => p.ContentId == contentRel.Id);
+                                itemConteudo = fil.Pagina
+                                .Where(p => p.Content.GetType() == contentRel.GetType())
+                                .OrderBy(p => p.ContentId).ToList().IndexOf(teste) + 1;  
+                            }
+                            versiculo = int.Parse(prompted
+                            .Replace(" ", "")
+                            .Replace("/s", ""));
+                        }
                         else
                         versiculo = int.Parse(prompted);
                     }
@@ -615,7 +670,7 @@
                     }
                 }
 
-                if (usermodel.Compartilhar != null)
+                if (Pensamento != null && rel == null)
                 {
                     var cri = Context.Criterio!
                     .Include(c => c.Filtro)
@@ -623,14 +678,25 @@
                     .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == versiculo);
                     var fi = ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId;
                     rel = usermodel.Relogio.FirstOrDefault(r => r.SubFiltroId == fi);
-                    contentRel = rel.Content;                   
-                    fil = filtros.FirstOrDefault(f => f.Id == fi);
-                    itemConteudo = repositoryPagina.random.Next(1, fil.Pagina!.Count);                    
+                    if(rel != null)
+                    {
+                        contentRel = rel.Content;                   
+                        fil = filtros.FirstOrDefault(f => f.Id == fi);
+                        var teste = fil.Pagina
+                        .OrderBy(p => p.ContentId)
+                        .First(p => p.ContentId == contentRel.Id);
+                        itemConteudo = fil.Pagina
+                        .Where(p => p.Content.GetType() == contentRel.GetType())
+                        .OrderBy(p => p.ContentId).ToList().IndexOf(teste) + 1;  
+                    }
                 }
                 
                 if( contentRel != null)
                 {
-                    url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";                   
+                    if(!semCriterio)
+                    url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";    
+                    else               
+                    url = $"/renderizar/{contentRel!.GetType().Name.ToLower() + rel.SubFiltroId}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/0/{user}";    
                 }
                 else
                 {
@@ -662,88 +728,94 @@
         return p.Versiculo;
     }
 
-    private async void exibirChave(string text)
+    
+     private string retornarVersoComCriterio(SubFiltro c)
     {
-        string texto = text;
-        string padrao = @"\(([^)]*)\)"; // Entre parenteses
-        Match match = Regex.Match(texto, padrao);
-
-        if (match.Success)
+        string capitulo = "";
+        if(cap != c.Story.Capitulo)
         {
-            var livros = usermodel.Livro;
-            if (livros.FirstOrDefault(l => l.Livro.StandardChapter == 1) == null)
-            {
-                livros.Add(new UserModelLivro
-                    {
-                        UserModel = usermodel,
-                        Livro = await Context.Livro!.Include(l => l.Filtro).FirstAsync() // Instagleo
-                    });
-            }
-            List<Filtro> lista = new List<Filtro>();
-            foreach (var livro in livros)
-                lista.AddRange(livro.Livro.Filtro);
+            capitulo = "[cap. " + c.Story.Capitulo + "] ";
+            cap = c.Story.Capitulo; 
 
-            Console.WriteLine(match.Groups[1].Value);
-
-            if (match.Groups[1].Value.Contains(','))
-            {
-                var arr = match.Groups[1].Value.Split(',');
-                foreach (var item in arr)
-                {
-                    if (int.TryParse(item, out int num2))
-                    {
-                       
-                            var cri = Context.Criterio!
-                    .Include(c => c.Filtro)
-                    .Include(c => c.Content)
-                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == int.Parse(item));
-
-                    var fi = lista.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId);
-                            var fil = Context.Filtro!
-                            .Include(f => f.Livro)!
-                            .Include(f => f.Pagina)!
-                            .ThenInclude(f => f.Content)
-                            .First(f => f.Id == fi.Id);
-                            var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
-                            if(ch != null)
-                            {
-                                Chave chave = (Chave)(Chave)cri.Content!;
-                                usermodel.Compartilhar += usermodel.Compartilhar!.Replace(item, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}'>  " + item + ",  </span>");
-                            }
-                        
-                    }
-                }
-            }
-            else
-            {
-                var value = match.Groups[1].Value;
-                if(int.TryParse(value, out int num2))
-                {
-                    var cri = Context.Criterio!
-                    .Include(c => c.Filtro)
-                    .Include(c => c.Content)
-                    .FirstOrDefault(c => c.Content is Chave && ((Chave)c.Content).Versiculo == int.Parse(value));
-
-                    var fi = lista.FirstOrDefault(f => f.Id == ((SubFiltro)cri.Filtro.FirstOrDefault()).FiltroId);
-                   
-                    var fil = Context.Filtro!
-                            .Include(f => f.Livro)!
-                            .Include(f => f.Pagina)!
-                            .ThenInclude(f => f.Content)
-                            .First(f => f.Id == fi!.Id);
-                        var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
-                        if(ch != null)
-                        {
-                            Chave chave = (Chave)cri!.Content!;
-                            if(usermodel != null)
-                        usermodel.Compartilhar = usermodel.Compartilhar!.Replace(value, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + "</span>");
-                        }
-                }
-            }
         }
-        markup = new MarkupString(usermodel.Compartilhar);        
-    }
+        var nome = c.Nome;
+        var f = filtros
+        .FirstOrDefault(f => f.FiltroId == c.Id);
+        if (f == null)
+        {
+            if(c.Criterio != null)
+            {
+                f = Context.SubFiltro
+                .Include(s => s.Criterio)
+                .ThenInclude(s => s.Content)
+                .FirstOrDefault(s => s.FiltroId == c.Id);
 
+                if(interacao >= 2)
+                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!) + "\n";
+                else
+                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!);
+
+            }
+            try
+            {
+
+                if(c == null)
+                    return "";
+                else if(c.Criterio == null)
+                {
+                    somenteUmSemCriterio++;
+                   var  fil = Context.SubFiltro
+                .Include(s => s.Criterio)
+                .ThenInclude(s => s.Content)
+                .FirstOrDefault(s => s.Id == c.ComCriterio);
+                    f = Context.SubFiltro
+                    .Include(s => s.Criterio)
+                    .ThenInclude(s => s.Content)
+                    .FirstOrDefault(s => s.FiltroId == fil.Id);
+                    if(somenteUmSemCriterio == 1)
+                    {
+                        if(interacao >= 2)
+                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!) + "\n";
+                        else
+                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!);
+                    }
+                    else if(interacao >= 2)
+                    return "\n";
+                    else
+                    return "";
+
+                }
+            }
+            catch(Exception ex)
+            {
+                return "";
+            }
+
+            return ""; 
+
+        } 
+        else
+        {
+            if(c.Criterio == null){
+                f = Context.SubFiltro
+                    .Include(s => s.Criterio)
+                    .ThenInclude(s => s.Content)
+                    .FirstOrDefault(s => s.Id == c.ComCriterio); 
+            }
+            var retorno = retornarVerso(f.Criterio.Content!);
+            if(interacao >= 2)
+            return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!) + "\n";
+            else
+            return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!);
+        }
+    
+        interacao++;
+        if(interacao >= 2)
+        interacao = 0;
+        
+
+    }
+    
      private int retornarPosicaoVerso(Filtro filtro, int versiculo)
     {
         var fil = Context.Filtro!

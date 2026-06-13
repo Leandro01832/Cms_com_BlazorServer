@@ -124,7 +124,7 @@
                                 listaOrdenada.Add(fil);
                         }
                         listaOrdenada = listaOrdenada.Where(f => f.CamadaId != 1)
-                        .OrderByDescending(f => f.CamadaId).ToList();
+                        .OrderBy(f => f.CamadaId).ToList();
                         filtros.Clear();
 
                         foreach(var item in listaOrdenada)

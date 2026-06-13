@@ -11,5 +11,6 @@ namespace business.business.Group
         public bool UltimaPasta { get; set; }       
 
         public virtual List<Relogio> Relogio {get;set;}
+        public virtual List<RelogioParede> RelogioParede {get;set;}
     }
 }
