@@ -122,7 +122,7 @@ else if (!repositoryPagina.erro)
                                 }
                                 else
                                 {
-                                    <PageTitle>@nameGroup2 - @nameGroup</PageTitle>
+                                    <PageTitle>@nameGroup2 - @NameGroup</PageTitle>
                                     
                                         <p data-first>
                                             <header>
@@ -134,20 +134,20 @@ else if (!repositoryPagina.erro)
                                                         {
                                                             <a href="#" onclick="@Agrupar" @onclick:preventDefault>  @nameGroup2 -  </a> 
                                                         }
-                                                        <a href="#" @onclick="@ativarModal" @onclick:preventDefault>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
+                                                        <a href="#" @onclick="@ativarModal" @onclick:preventDefault>@NameGroup </a> 
+                                                        
                                                     }
                                                     else  
                                                     @if(Model2.CriterioId == null)
                                                     {
-                                                        <a href="#" onclick="@acessarComCriterio" @onclick:preventDefault>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
+                                                        <a href="#" onclick="@acessarComCriterio" @onclick:preventDefault>@NameGroup </a> 
+                                                        
                                                     } 
                                                     else
                                                     {
                                                         <a href="#" onclick="@Agrupar">@nameGroup2 - </a>                                                    
-                                                        <a href="#" onclick="@Filtrar">@nameGroup</a>                                                    
-                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
+                                                        <a href="#" onclick="@Filtrar">@NameGroup </a>                                                    
+                                                        
                                                     }
                                                 }
                                                 else
@@ -155,20 +155,20 @@ else if (!repositoryPagina.erro)
                                                     @if(Filtro != null && Model2.CriterioId != null)
                                                     {
                                                         <a>@nameGroup2 -  </a>  
-                                                        <a>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
+                                                        <a>@NameGroup (@Activator.CreateInstance(TipoClass)!.ToString())</a> 
+                                                        
                                                     }
                                                     else  
                                                     @if(Model2.CriterioId == null)
                                                     {
-                                                        <a>@nameGroup</a> 
-                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
+                                                        <a>@NameGroup (@Activator.CreateInstance(TipoClass)!.ToString())</a> 
+                                                        
                                                     } 
                                                     else
                                                     {
                                                         <a>@nameGroup2 - </a>                                                    
-                                                        <a>@nameGroup</a>                                                    
-                                                        <a>(@Activator.CreateInstance(TipoClass)!.ToString())</a>
+                                                        <a>@NameGroup (@Activator.CreateInstance(TipoClass)!.ToString())</a>                                                    
+                                                        
                                                     }
                                                 }
 
@@ -368,10 +368,10 @@ else if (!repositoryPagina.erro)
                          @if (Filtro != null)
                         {                            
                                 @* filtro comum para todos os capitulos*@
-                                <select @onchange="atualizarFiltro" style="margin-left: 12px;"  >
+                                <select value="@TipoClass.Name"  @onchange="atualizarFiltro" style="margin-left: 12px;"  >
                                     @foreach (var item in tipos)
                                     {
-                                        if (TipoClass.Name.ToLower() == Model.GetType().Name.ToLower())
+                                        if (item.Name.ToLower() == TipoClass.Name.ToLower())
                                         {
                                             <option value="@item.Name" selected >
                                                  @Activator.CreateInstance(item)!.ToString()
@@ -768,11 +768,11 @@ else
         {
             if(Model2.Criterio.Camada.Numero != camadas.Last().Numero)
             {
-             <a href="#" onclick="@Filtrar" @onclick:preventDefault > filtrar @nameGroup</a>  
+             <a href="#" onclick="@Filtrar" @onclick:preventDefault > filtrar @NameGroup</a>  
             }
             else
             {
-             <a > filtrar @nameGroup</a>  
+             <a > filtrar @NameGroup</a>  
 
             }
 

@@ -548,7 +548,7 @@
     {
         string? url = null;
         int versiculo = 1;
-        Filtro? fil = null;
+        SubFiltro? fil = null;
         Relogio rel = null;
         Content contentRel = null;
             int itemConteudo = 0;
@@ -650,6 +650,9 @@
                             {
                                 contentRel = rel.Content;                   
                                 fil = filtros.FirstOrDefault(f => f.Id == rel.SubFiltroId);
+                                var fil2 = filtros.FirstOrDefault(f => f.Id == fil.ComCriterio);
+                                var fil3 = filtros.FirstOrDefault(f => f.FiltroId == fil2.Id);
+                                versiculo = retornarVerso(fil3.Criterio.Content);
                                 var teste = fil.Pagina
                                 .OrderBy(p => p.ContentId)
                                 .First(p => p.ContentId == contentRel.Id);
@@ -657,9 +660,6 @@
                                 .Where(p => p.Content.GetType() == contentRel.GetType())
                                 .OrderBy(p => p.ContentId).ToList().IndexOf(teste) + 1;  
                             }
-                            versiculo = int.Parse(prompted
-                            .Replace(" ", "")
-                            .Replace("/s", ""));
                         }
                         else
                         versiculo = int.Parse(prompted);

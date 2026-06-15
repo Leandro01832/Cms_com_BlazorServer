@@ -64,6 +64,7 @@ namespace BlazorCms.Client.Pages
                 {
                     var c = Context.Users
                     .Include(u => u.Relogio)
+                    .ThenInclude(u => u.Content)
                     .FirstOrDefault(u => u.UserName == Compartilhou);
                     profile = c;
 
@@ -83,6 +84,7 @@ namespace BlazorCms.Client.Pages
                 {
                     var c = Context.Users
                     .Include(u => u.Relogio)
+                    .ThenInclude(u => u.Content)
                     .FirstOrDefault(u => u.UserName == Compartilhou);
                     profile = c;
                 }
@@ -203,22 +205,22 @@ namespace BlazorCms.Client.Pages
            .FirstOrDefault(f => f.Id == teste.Id) == null;
             SubFiltro p = null;
 
-            if(Indice != 0)
+            if (Indice != 0)
             {
                 if (!ultimaPasta)
                     p = listaFiltro.Where(f => f.Criterio != null).FirstOrDefault(f =>
                 retornarVerso(f.Criterio.Content) == Versiculo)!;
                 else
                     p = UltimasPastas.Where(f => f.Criterio != null).FirstOrDefault(f =>
-                    retornarVerso(f.Criterio.Content) == Versiculo)!;  
+                    retornarVerso(f.Criterio.Content) == Versiculo)!;
 
-                    Filtro = listaFiltro
-            .FirstOrDefault(f => f.Id == p.FiltroId)!.Id;              
+                Filtro = listaFiltro
+        .FirstOrDefault(f => f.Id == p.FiltroId)!.Id;
             }
             else
             {
-               var rel = profile.Relogio.OrderBy(r => r.Data)
-                            .FirstOrDefault(r => r.SubFiltro.CriterioId == null)!;
+                var rel = profile.Relogio.OrderBy(r => r.Data)
+                             .FirstOrDefault(r => r.SubFiltro.CriterioId == null)!;
                 var c = await Context.Content.FirstAsync(c => c.Id == rel.ContentId);
                 long? fi = null;
                 string numeros = string.Concat(Tipo.Where(char.IsDigit));
@@ -227,23 +229,23 @@ namespace BlazorCms.Client.Pages
                 if (!ultimaPasta)
                     p = listaFiltro.FirstOrDefault(f => f.Id == fi)!;
                 else
-                    p = UltimasPastas.FirstOrDefault(f => f.Id == fi)!; 
+                    p = UltimasPastas.FirstOrDefault(f => f.Id == fi)!;
 
-                    var test = p.Pagina.FirstOrDefault(p => p.ContentId == c.Id);
+                var test = p.Pagina.FirstOrDefault(p => p.ContentId == c.Id);
 
-                    Indice = p.Pagina
-                        .Where(p => p.Content.GetType().Name.ToLower() == Tipo.ToLower())
-                        .OrderBy(p => p.ContentId).ToList().IndexOf(test) + 1;  
-                    Filtro = listaFiltro
-                    .FirstOrDefault(f => f.Id == p.Id)!.Id;
+                Indice = p.Pagina
+                    .Where(p => p.Content.GetType().Name.ToLower() == Tipo.ToLower())
+                    .OrderBy(p => p.ContentId).ToList().IndexOf(test) + 1;
+                Filtro = listaFiltro
+                .FirstOrDefault(f => f.Id == p.Id)!.Id;
             }
 
 
-            
 
 
 
-            
+
+
 
             List<Chave> chaves = new List<Chave>();
 
@@ -378,7 +380,7 @@ namespace BlazorCms.Client.Pages
                 var m = listaFiltro.FirstOrDefault(f => f.Id == Model2.FiltroId);
 
 
-                nameGroup = Model2.Nome!;
+                NameGroup = Model2.Nome!;
                 if (m != null)
                     nameGroup2 = m.Nome!;
                 else nameGroup2 = "";
@@ -490,7 +492,7 @@ namespace BlazorCms.Client.Pages
             if (tipoClass != typeof(Link))
                 Model = contentAdd.FirstOrDefault(c => c.Id == arrayContent[ind][ind2][Indice - 1]);
             else
-            Html = "";
+                Html = "";
 
             RepositoryPagina.Conteudo2.Clear();
             RepositoryPagina.Conteudo2

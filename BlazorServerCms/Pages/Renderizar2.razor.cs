@@ -231,7 +231,17 @@ namespace BlazorCms.Client.Pages
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
-        protected string nameGroup = "";
+
+        private string nameGroup = "";
+        protected string NameGroup
+        {
+            get
+            {
+                return nameGroup + $" ({Activator.CreateInstance(tipoClass)!.ToString()})";
+            }
+            set{nameGroup = value;}
+        }
+
         protected string nameGroup2 = "";
         protected UserModel usuario;
         protected ClaimsPrincipal user;
@@ -267,15 +277,15 @@ namespace BlazorCms.Client.Pages
         }
 
         private string? html = "";
-        protected string? Html 
-        { 
-            get{return html;}
-             set
-             {
+        protected string? Html
+        {
+            get { return html; }
+            set
+            {
                 html = value;
                 markup = new MarkupString(value);
-             }
-        } 
+            }
+        }
         protected string? nameStory { get; set; } = null;
         protected int quantidadeLista { get; set; } = 0;
         protected int quantidadeFiltro { get; set; } = 0;

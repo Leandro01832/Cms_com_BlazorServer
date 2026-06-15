@@ -1,6 +1,14 @@
 using business;
     public class DesvioPadrao : Pagina
     {
+        public DesvioPadrao()
+        {
+            
+        }
+        public DesvioPadrao(int capitulo)
+        {
+            Titulo += $" - {capitulo}";
+        }
         // Metodo para calcular o desvio padrão de uma lista de números
         // public double CalcularDesvioPadrao(List<double> numeros)
         // {
@@ -29,7 +37,7 @@ using business;
 
         public override string ToString()
         {
-            return "Desvio Padrao";
+            return "Desvio Padrao Externo";
         }  
     }    
 

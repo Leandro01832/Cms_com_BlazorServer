@@ -740,11 +740,30 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        protected void AcessarComLink(long id)
+        protected async void AcessarComLink(long id)
         {
+            Relogio rel = null;
             Filtro = id;
-            TipoClass = typeof(Page);
-            Indice = 1;
+            if(profile != null)
+            {
+                var rels = profile.Relogio;
+                rel = rels.FirstOrDefault(r => r.SubFiltroId == id)!;                
+            }
+            if(rel != null)
+            {
+                tipoClass = rel.Content.GetType();
+                var fil = listaFiltro.First(f => f.Id == rel.SubFiltroId);
+                var teste = fil.Pagina.FirstOrDefault(p => p.ContentId == rel.ContentId);
+                Indice = fil.Pagina
+                .Where(p => p.Content.GetType() == tipoClass)
+                .OrderBy(p => p.ContentId).ToList().IndexOf(teste) + 1;
+                
+            }
+            else
+            {
+                TipoClass = typeof(Page);
+                Indice = 1;                
+            }
 
             acessar();
         }
