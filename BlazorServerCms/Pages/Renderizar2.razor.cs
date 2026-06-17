@@ -152,6 +152,15 @@ namespace BlazorCms.Client.Pages
 
         private Type tipoClass = typeof(Page);
 
+        // Guarda a posição horizontal (X) de onde o toque começou
+        private double toqueInicioX;
+
+        // Guarda a posição horizontal (X) de onde o toque terminou
+        private double toqueFimX;
+
+        // Distância mínima em pixels para considerar que foi um deslize real e não um clique sem querer
+        private const double DistanciaMinimaParaSwipe = 50;        
+
         protected Type TipoClass
         {
             get { return tipoClass; }
@@ -228,6 +237,7 @@ namespace BlazorCms.Client.Pages
         protected bool automatico = false;
         protected string classCss = "";
         protected string DivPag = "";
+        protected bool larg = false;
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
@@ -237,7 +247,17 @@ namespace BlazorCms.Client.Pages
         {
             get
             {
-                return nameGroup + $" ({Activator.CreateInstance(tipoClass)!.ToString()})";
+                var dom = "";
+                if(livro != null)
+                dom = livro.Nome;
+                else
+                dom = new Uri(navigation.BaseUri).Host;
+                if(Model != null)
+                return nameGroup +
+                 $" ({Activator.CreateInstance(tipoClass)!.ToString()}) [{Model.Titulo}] | {dom} ";
+                 else
+                return nameGroup +
+                 $" ({Activator.CreateInstance(tipoClass)!.ToString()}) | {dom} ";
             }
             set{nameGroup = value;}
         }
@@ -290,9 +310,7 @@ namespace BlazorCms.Client.Pages
         protected int quantidadeLista { get; set; } = 0;
         protected int quantidadeFiltro { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
-        protected bool condicaoFiltro { get; set; } = false;
-
-
+        protected bool condicaoFiltro { get; set; } = false; 
 
 
         public int retroceder { get; set; } = 0;

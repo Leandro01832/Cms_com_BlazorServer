@@ -15,7 +15,7 @@ namespace business.business
 
         public override string ToString()
         {
-            return "Conteudos do Usuário";
+            return "Usuário";
         }
     }
 }

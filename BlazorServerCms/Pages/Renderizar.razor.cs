@@ -194,7 +194,7 @@ namespace BlazorCms.Client.Pages
                 acessar($"/listar-pasta/{_story.Capitulo}");
         }
 
-        protected async void buscarProximo()
+        protected void buscarProximo()
         {
             AlterouModel = true;
 
@@ -914,6 +914,43 @@ namespace BlazorCms.Client.Pages
             }
         }
 
+        
+
+    protected void TratarToqueInicio(TouchEventArgs e)
+    {
+        // Pega a coordenada X do primeiro dedo que encostou na tela
+        toqueInicioX = e.TargetTouches[0].ClientX;
+    }
+
+    protected void TratarToqueFim(TouchEventArgs e)
+    {
+        // Pega a coordenada X de onde o dedo saiu da tela
+        toqueFimX = e.ChangedTouches[0].ClientX;
+
+        // Calcula a direção do movimento
+        AnalisarGestoSwipe();
+    }
+
+    private void AnalisarGestoSwipe()
+    {
+        double diferencaX = toqueInicioX - toqueFimX;
+
+        // Verifica se o movimento foi longo o suficiente
+        if (Math.Abs(diferencaX) > DistanciaMinimaParaSwipe)
+        {
+            if (diferencaX > 0)
+            {
+                // O dedo moveu da direita para a esquerda -> Avança o carrossel
+                buscarProximo();
+            }
+            else
+            {
+                // O dedo moveu da esquerda para a direita -> Voltar o carrossel
+                buscarAnterior();
+            }
+        }
+    }
+   
     }
 
     public class UserPreferencesImage

@@ -25,7 +25,7 @@ namespace business.business
 
         [Required(ErrorMessage = "O titulo é necessário")]
         [Display(Name = "Titulo da pagina")]
-        public string? Titulo { get; set; } = "Conteudo";
+        public virtual string? Titulo { get; set; } = "Conteudo";
         [Display(Name = "Story")]
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }

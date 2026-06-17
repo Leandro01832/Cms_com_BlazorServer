@@ -8,6 +8,7 @@ using business.business.Group;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -28,7 +29,8 @@ namespace BlazorCms.Client.Pages
 
 
 
-            if (Model2 != null && Model2.usuariosDecorando != null && Model2.usuariosDecorando.Count > 0 && Filtro != null)
+            if (Model2 != null && Model2.usuariosDecorando != null &&
+             Model2.usuariosDecorando.Count > 0 && Filtro != null)
                 adicionarPontos();
 
         }
@@ -42,7 +44,7 @@ namespace BlazorCms.Client.Pages
                 await js.InvokeVoidAsync("carregarVideo", id_video);
 
                 id_video = null;
-            }
+            }           
         }
 
         protected override async Task OnInitializedAsync()
@@ -326,9 +328,9 @@ namespace BlazorCms.Client.Pages
                 {
                     var calc = 0;
                     if (largura > 550)
-                        calc = ((18 * largura) / 1024);
+                        calc = ((6 * largura) / 1280);
                     else
-                        calc = ((9 * largura) / 1024);
+                        calc = ((6 * largura) / 375);
                     quantDivCriterio = calc;
                     result = quantDivCriterio;
                 }
@@ -373,18 +375,7 @@ namespace BlazorCms.Client.Pages
             Model2 = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
 
             ind = listaFiltro.IndexOf(Model2);
-            ind2 = tipos.IndexOf(TipoClass);
-
-            if (Filtro != null)
-            {
-                var m = listaFiltro.FirstOrDefault(f => f.Id == Model2.FiltroId);
-
-
-                NameGroup = Model2.Nome!;
-                if (m != null)
-                    nameGroup2 = m.Nome!;
-                else nameGroup2 = "";
-            }
+            ind2 = tipos.IndexOf(TipoClass);            
 
             quantDiv = await marcarIndice(false);
             slideAtual = (Indice - 1) / quantDiv;
@@ -583,25 +574,25 @@ namespace BlazorCms.Client.Pages
             else
                 quantidadeLista = retornarVerso(q);
 
-            if (Indice != 0)
-            {
-                if (livro == null)
-                    Model = RepositoryPagina.Conteudo2!
-                    .FirstOrDefault(p => p is Pagina &&
-                    retornarVerso(p) == Indice
-                    && p.StoryId == _story.Id
-                    && p.LivroId == null);
-                else
-                    Model = RepositoryPagina.Conteudo2!
-                    .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice
-                    && p.StoryId == _story.Id
-                    && p.LivroId == livro.Id);
+            // if (Indice != 0)
+            // {
+            //     if (livro == null)
+            //         Model = RepositoryPagina.Conteudo2!
+            //         .FirstOrDefault(p => p is Pagina &&
+            //         retornarVerso(p) == Indice
+            //         && p.StoryId == _story.Id
+            //         && p.LivroId == null);
+            //     else
+            //         Model = RepositoryPagina.Conteudo2!
+            //         .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice
+            //         && p.StoryId == _story.Id
+            //         && p.LivroId == livro.Id);
 
-            }
+            // }
 
 
-            Model = RepositoryPagina.Conteudo2!
-         .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == _story.Id);
+        //     Model = RepositoryPagina.Conteudo2!
+        //  .FirstOrDefault(p => p is Pagina && retornarVerso(p) == Indice && p.StoryId == _story.Id);
 
         }
 
@@ -616,33 +607,14 @@ namespace BlazorCms.Client.Pages
 
                 var count = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
                 quantidadeLista = count;
-                if (retroceder == 1)
-                    retroceder = 0;
-
-                var CountPages = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
-                var CountPages2 = RepositoryPagina.Conteudo2!
-                .Where(c => c.GetType() == TipoClass && c.Filtro != null &&
-                c.Filtro!.FirstOrDefault(f => f.FiltroId == Filtro) != null).ToList().Count;
-
-                if (CountPages2 == CountPages && CountPages2 != 0)
-                {
-
-
-                    if (Indice != 0)
-                        Model = RepositoryPagina.Conteudo2!.Skip(Indice - 1).First();
-                    else
-                    {
-                        if (Model != null)
-                        {
-
-                            Model = RepositoryPagina.Conteudo2!.FirstOrDefault(c => c.Id == Model!.Id);
-                            Indice = RepositoryPagina.Conteudo2!.ToList().IndexOf(Model) + 1;
-                        }
-                    }
-                }
-
             }
-
+             
+                var m = listaFiltro.FirstOrDefault(f => f.Id == Model2.FiltroId);
+                NameGroup = Model2.Nome!;
+                if (m != null)
+                    nameGroup2 = m.Nome!;
+                else nameGroup2 = "";
+            
         }
 
         // Coloque no método 'renderizar()'
@@ -666,8 +638,12 @@ namespace BlazorCms.Client.Pages
                 .Where(f => f.FiltroId == Filtro)
                 .ToList();
             var f = fils.FirstOrDefault(f => f.Id == Filtro);
-            var p = fils.IndexOf(f) + 1;
-            slideAtualCriterio = (p - 1) / await marcarIndice(true);
+            var p = fils.IndexOf(f);
+            var q = await marcarIndice(true);
+            if(q == 0) q = 1;
+            slideAtualCriterio = p / q;
+
+            
 
             cap = RepositoryPagina.stories.First(st => st.Id == _story.Id).Capitulo;
             nameStory = RepositoryPagina.stories.First(st => st.Id == _story.Id).Nome;
@@ -677,6 +653,10 @@ namespace BlazorCms.Client.Pages
 
         private async Task FinalizarRenderizacao()
         {
+            if (retroceder == 1)
+                    retroceder = 0;
+
+                   
 
             // Lógica de Renderização do HTML (Model.Html)
             if (cap != 0 && AlterouModel && !AlterouCamada)
@@ -950,8 +930,7 @@ namespace BlazorCms.Client.Pages
                 placeholder = "Nº do item";
                 divPagina = "DivPagina2";
                 DivPag = "DivPag2";
-            }
-
+            }   
         }
 
         private long? verificarFiltros(SubFiltro f)
@@ -1247,6 +1226,6 @@ namespace BlazorCms.Client.Pages
                 Console.WriteLine("Erro na mensaegem contar historia: " + ex.Message);
             }
         }
-
+   
     }
 }

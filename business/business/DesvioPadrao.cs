@@ -5,10 +5,21 @@ using business;
         {
             
         }
-        public DesvioPadrao(int capitulo)
+        public DesvioPadrao(int cap)
         {
-            Titulo += $" - {capitulo}";
+            capitulo = cap;
         }
+
+        private int capitulo = 0;
+        private string? titulo = "";
+        public override string? Titulo
+         { 
+            get{return titulo;}
+             set
+             { 
+                titulo = value + " - capitulo " + capitulo;
+             }
+         }
         // Metodo para calcular o desvio padrão de uma lista de números
         // public double CalcularDesvioPadrao(List<double> numeros)
         // {
@@ -37,7 +48,7 @@ using business;
 
         public override string ToString()
         {
-            return "Desvio Padrao Externo";
+            return "Desvio Padrão Ext.";
         }  
     }    
 

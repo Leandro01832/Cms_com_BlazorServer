@@ -29,23 +29,36 @@
     font-size: larger;
 }
 
-.main {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
+
 
 
 .container {
-    min-height: 600px;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    margin-left: 5%;
     z-index: 0;
+
+    /* --- OS TRÊS PASSOS PARA CENTRALIZAR O CONTAINER AZUL --- */
+    width: 100%;             /* 1°: Ocupa a largura total no mobile */
+            /* 2°: Define o limite máximo para telas grandes */
+    
+    margin-left: auto !important;  /* 3°: Empurra de forma idêntica na esquerda */
+    margin-right: auto !important; /* 3°: Empurra de forma idêntica na direita */
+    
+   
+    box-sizing: border-box;  /* Evita que o padding crie barra de rolagem */
+    /* --- A CORREÇÃO AQUI --- */
+    min-height: 100vh; /* vh = Viewport Height. Garante que o container meça SEMPRE 100% da altura da tela do celular */
+}
+
+.tag-pai-do-container {
+    display: flex;
+    justify-content: center; /* Alinha o filho horizontalmente no centro da tela */
+    align-items: center;     /* Opcional: Alinha o filho verticalmente se o pai tiver altura fixa */
+    width: 100%;
 }
 
 .menu {
@@ -73,6 +86,7 @@
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: flex-start;
+    margin-top: 20px;
 
 }
 
@@ -116,7 +130,7 @@ p {
 }
 
 .dropdown {
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
 #NumeroPaginaAcesso2 {
@@ -198,28 +212,52 @@ p {
     background-color: black;
 }
 
-
-.render {
-    position: relative;
-    top: 14%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.render 
+{
+    display: flex;
+    height: 413px;
     z-index: 0;
+    flex-direction: column;
     justify-content: center;
-    overflow: scroll;
+    align-items: center;    
+    overflow: hidden;
+    width: 100%;
+    
+    margin-left: auto !important;  
+    margin-right: auto !important; 
+    
+   
+    box-sizing: border-box;  
 }
 
+.ConteudoPrincipal
+{
+    display: flex;
+    z-index: 0;
+    flex-direction: column;
+    flex: 1;  
+    justify-content: flex-start; 
+    
+    align-items: flex-start;     
+    width: 100%;            
+    margin-left: auto !important;  
+    margin-right: auto !important;
+    
+   
+    box-sizing: border-box;  
+}
+
+
+
 .Paginacao {
-    position: fixed;
-    bottom: 2px;
-    right: 1px;
-    width: 100%;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    opacity: 0.90;
-    align-self: flex-end;
+    width: 100%;
+    
+        /* A MÁGICA: Empurra o rodapé para a última linha do container pai */
+        margin-top: auto !important; 
+        
+        padding-bottom: 8px; /* Pequeno respiro para não colar totalmente no vidro */
 }
 
 Informativo {
@@ -243,8 +281,8 @@ Informativo {
     flex-direction: row;
     overflow: hidden;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: space-around;
+    align-items: space-around;
 }
 
 .DivPagina2 {
@@ -340,31 +378,42 @@ Informativo {
 }
 
 #carouselIndicators {
+    display: flex;
     width: 100%;
+    align-items: space-around;
     height: 100%;
 }
 
 .carousel-inner {
-    align-items: flex-start;
+    display: flex;
+    width: 100%;
+    align-items: space-around;
+}
+
+.carouselIndicators {
+    display: flex;
+    width: 100%;
+    align-items: space-around;
 }
 
 .carousel-item {
-    display: none;
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: space-around;
 }
 
-.ativo {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-}
+
 
 .botoes {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
     height: auto;
-    justify-content: space-between;
+    justify-content: center;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 .prev {
@@ -459,17 +508,15 @@ Informativo {
     border-radius: 50%;
 }
 
-/* .cabecalho {
-    position: fixed;
-    top: 15%;
-    left: 1%;
-    /* 
+ .cabecalho {
+    
+    
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between; 
+    justify-content: flex-start; 
 
-} */
+} 
 
 #horizontes {
     display: flex;
@@ -526,7 +573,7 @@ svg {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 100px;
+    width: 100px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 0;
 }
@@ -555,30 +602,55 @@ svg {
 }
 
 .criterio {
-    height: 30px;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: start;
+    
 }
 
 .DivCriterio {
-    width: 100px;
-    height: 13px; 
-    margin-left: 10px;
+    
+    height: 11px; 
+    margin-left: 20px;
     border-radius: 30px;
-}
-
-
-@media (max-width: 550px) and (min-width: 50px) {
-
-
-    .DivCriterio {
+    flex: 1; 
     width: 50px;
-    height: 13px; 
-    margin-left: 5px;
-    border-radius: 30px;
+    text-align: center;
+    box-sizing: border-box;
 }
+
+@media (max-width: 680px) and (min-width: 50px) {
+
+    
+
+   .DivCriterio
+   {
+        margin-left: 5px;
+        flex: 1; 
+    
+   }
+
+    .Camadas
+    {
+        display: none;
+    }
+
+    .menu
+    {
+        font-size: 0.8rem;
+    }
+
+    header {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        
+    }
+
+    
+
+    
 
     iframe {
         pointer-events: none;
@@ -586,31 +658,52 @@ svg {
 
 
 
-    .prev {
-        height: 10%;
-        background-color: rgb(0, 0, 0, 0, 5);
+    .prev 
+    {
+        display: none;   
         position: fixed;
+        height: 52%;
+        width: 20%;
+        background-color: rgba(0, 0, 0, 0.01);
         z-index: 800;
+        top: 25%;
+        border: 2px solid;
     }
 
-    .prox {
-        height: 10%;
-        background-color: rgb(0, 0, 0, 0, 5);
-        position: fixed;
-        right: 1%;
-        z-index: 800;
+    .prev svg
+    {
+        display: none;
     }
 
-    .render {
-        bottom: 80px; 
-        left: 0;
-        width: 90%;
-        height: 100%;
-        object-fit: cover;
+    .prox
+     {
+        display: none;
+        position: fixed;
+        height: 52%;
+        width: 20%;
+        background-color: rgba(0, 0, 0, 0.01);
+        z-index: 800;
+        top: 25%;
+        border: 2px solid;
+    }
+
+    .prox svg
+    {
+        display: none;
+    }
+
+    .render
+    {        
+        height: 377px;
+        width: 100%;
         z-index: 0;
-        justify-content: center;
-        overflow: scroll;
+        justify-content: flex-start;
+        overflow: none;
     }
+
+    
+
+
 
     .carousel-control-next {
         width: 10%;

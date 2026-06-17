@@ -45,9 +45,7 @@ else if (!repositoryPagina.erro)
     <div class="container" >
 
       
-            <div class="criterio col-md-12">
-
-                
+            <div class="criterio col-md-12">                
 
                 @{
                     if(array2 != null && array2.Length > 0)
@@ -106,7 +104,14 @@ else if (!repositoryPagina.erro)
                                     <header>Story: @nameStory</header>
                                 
                                     <a  onclick="@(() => acessarCapitulos() )" class="btn">
-                                        Capítulo @cap 
+                                        @if(larg)
+                                        {
+                                           <span>Capítulo @cap</span> 
+                                        }
+                                        else
+                                        {
+                                             <span>Cap. @cap</span> 
+                                        }
                                     </a>
                                 </span>
                             } 
@@ -145,8 +150,8 @@ else if (!repositoryPagina.erro)
                                                     } 
                                                     else
                                                     {
-                                                        <a href="#" onclick="@Agrupar">@nameGroup2 - </a>                                                    
-                                                        <a href="#" onclick="@Filtrar">@NameGroup </a>                                                    
+                                                        <a href="#" onclick="@Agrupar" @onclick:preventDefault >@nameGroup2 - </a>                                                    
+                                                        <a href="#" onclick="@Filtrar" @onclick:preventDefault >@NameGroup </a>                                                    
                                                         
                                                     }
                                                 }
@@ -154,58 +159,41 @@ else if (!repositoryPagina.erro)
                                                 {
                                                     @if(Filtro != null && Model2.CriterioId != null)
                                                     {
-                                                        <a>@nameGroup2 -  </a>  
-                                                        <a>@NameGroup (@Activator.CreateInstance(TipoClass)!.ToString())</a> 
+                                                       @nameGroup2 <span>-</span> @NameGroup  
                                                         
                                                     }
                                                     else  
                                                     @if(Model2.CriterioId == null)
                                                     {
-                                                        <a>@NameGroup (@Activator.CreateInstance(TipoClass)!.ToString())</a> 
+                                                        @NameGroup 
                                                         
                                                     } 
                                                     else
                                                     {
-                                                        <a>@nameGroup2 - </a>                                                    
-                                                        <a>@NameGroup (@Activator.CreateInstance(TipoClass)!.ToString())</a>                                                    
+                                                        @nameGroup2 <span>-</span>   @NameGroup                                             
                                                         
                                                     }
                                                 }
 
-                                          
                                             @if (tellStory)
                                             {
-                                                <b> - Capitulo @cap</b>
-                                            } 
+                                                if(larg)
+                                                {
+                                                    <b> Capitulo @cap</b>
+                                                }
+                                                else
+                                                {
+                                                    <b> Cap. @cap</b>
 
+                                                }
+                                            }                                             
                                              </header>
                                         </p>
                                     
 
-                                }
-                                
+                                }                                
 
-                               
-                                    if (!tellStory && Model is not Chave)
-                                    {
-                                        <div>
-                                            <span>
-                                                - Capítulo @cap 
-                                            <span class="versos">
-                                                <a onclick="@(() => acessarVerso())" class="btn btn-primary">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
-                                                    <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                                                    </svg>
-                                                    Versículo @Versiculo
-                                                </a>
-                                            </span>
-                                            </span>
-                                        </div>
-                                    }
-                                    
-                                  
-
-                                }
+                            }
 
                             
 
@@ -230,16 +218,33 @@ else if (!repositoryPagina.erro)
                         <span class="ms-3">Vers.</span>
                     }
 
-                    @if(tellStory)
-                        {
-                            <div class="capSubstory">
-                                <span>
-                                    <a onclick="@(() => desabilitarTellStory())" class="btn versos">
-                                        Versiculo @Versiculo
-                                    </a>
-                                </span>
-                            </div> 
-                        }
+                    
+                         <div>
+                                            <span>
+                                                @if(larg)
+                                                {
+                                                   <span>Capítulo @cap </span> 
+                                                }
+                                                else
+                                                {
+                                                   <span> Cap. @cap </span> 
+
+                                                }
+                                               
+                                            <span class="versos">
+                                                <a onclick="@(() => acessarVerso())" class="btn btn-primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                                                        <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                                        </svg>
+                                                    @if(larg)
+                                                    {
+                                                        <span>Vers.</span>
+                                                    }
+                                                      @Versiculo                                            
+                                                </a>
+                                            </span>
+                                            </span>
+                                        </div>
 
                          <div class="@inputs"> 
                          
@@ -290,6 +295,16 @@ else if (!repositoryPagina.erro)
                             }
 
                         </div>
+
+                         @if(Filtro == null)
+                        {
+                            <a href="#" data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())" @onclick:preventDefault >
+                                marcar? 
+                            </a>
+                        }
+
+                         else
+                        { 
    
 
 <div class="dropdown" id="myDropdown" > 
@@ -358,15 +373,11 @@ else if (!repositoryPagina.erro)
     </div>
   </div> 
 
+                   
            
-                    
-                        <a href="#" data-6 id="ultimapasta" onclick="@(() => redirecionarMarcar())" @onclick:preventDefault >
-                            marcar? 
-                        </a>
-                         <a href="#" @onclick="AcessarHashtagId" style="margin-left: 12px;" @onclick:preventDefault >#Id</a> 
+                         
 
-                         @if (Filtro != null)
-                        {                            
+                                                   
                                 @* filtro comum para todos os capitulos*@
                                 <select value="@TipoClass.Name"  @onchange="atualizarFiltro" style="margin-left: 12px;"  >
                                     @foreach (var item in tipos)
@@ -384,16 +395,17 @@ else if (!repositoryPagina.erro)
                                             </option>
                                         }
                                     }
-                                </select>                           
-                        }     
+                                </select>  
+
+                                <a href="#" @onclick="AcessarHashtagId" style="margin-left: 12px;" @onclick:preventDefault >#Id</a>     
           
 
-                 if(Filtro != null)
-                {
-                    <div class="Camadas" style="margin-left: 12px;">
-                    camada @Model2!.Camada.Numero
-                    </div>
-                }
+                 
+                            <div class="Camadas" style="margin-left: 12px;">
+                            camada @Model2!.Camada.Numero
+                            </div>
+                
+                        }     
 
             }
             
@@ -432,7 +444,8 @@ else if (!repositoryPagina.erro)
         }
 
        
-        <div class="botoes">
+        <div class="botoes" @ontouchstart="TratarToqueInicio" 
+     @ontouchend="TratarToqueFim">
 
             <a class="prev btn btn-primary"  onclick="@buscarAnterior">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
@@ -455,11 +468,12 @@ else if (!repositoryPagina.erro)
                     @if (rotas != null)
                     {
                         <p>Versiculos encontrados</p>
-                    }
-                    else if(TipoClass == typeof(DesvioPadrao))
+                    }         
+                    @if(TipoClass != typeof(Link) && Model != null)   
                     {
                         <p>@Model.Titulo</p>
-                    }
+                    }        
+                    
 
                     
                         @if(TipoClass == typeof(UserContent))
@@ -477,7 +491,9 @@ else if (!repositoryPagina.erro)
 
                @{
 
-                    if (Model != null && Model is ProductContent && Model.Produto.Count > 0)
+                    <div class="ConteudoPrincipal" >                   
+
+                    @if (Model != null && Model is ProductContent && Model.Produto.Count > 0)
                     {
                         @foreach (var item in Model.Produto)
                         {
@@ -543,14 +559,14 @@ else if (!repositoryPagina.erro)
                             
                     }
 
-                    if (Model != null && Model.Produto != null && Model.Produto.Count > 0)
+                    @if (Model != null && Model.Produto != null && Model.Produto.Count > 0)
                     {
                         @*Mostrar links em um modal*@
                         <a href="#" onclick="@AdicionarAoCarrinho">
                             Vá comprar
                         </a>
                     }
-
+                    </div>
                }
                     <!-- ProdutoContent -->
                     
@@ -713,12 +729,8 @@ else if (!repositoryPagina.erro)
                                                 }
 
                                             }
-                                        </div>
-
-                                    
-                                            <div class="carousel-item ">
+                                        </div>                                  
                                             
-                                            </div>
                                     }
                                                                     
                                     

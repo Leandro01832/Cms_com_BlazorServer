@@ -7,13 +7,24 @@ using business;
         }
         public DesvioPadraoInterno(string segmento)
         {
-            Titulo += $" - {segmento}";
+            segm = segmento;
         }
+
+        private string segm = "teste";
+        private string? titulo = "";
+        public override string? Titulo
+         { 
+            get{return titulo;}
+             set
+             { 
+                titulo = value + " - " + segm;
+             }
+         }
         
 
         public override string ToString()
         {
-            return "Desvio Padrao Interno";
+            return "Desvio Padrão Int.";
         }  
     }    
 
