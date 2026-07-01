@@ -114,3 +114,16 @@ C:\Users\leand\OneDrive\Documentos\testeBlazor\porjeto2\business\obj\Debug\net6.
 C:\Users\leand\OneDrive\Documentos\testeBlazor\porjeto2\business\obj\Debug\net6.0\refint\business.dll
 C:\Users\leand\OneDrive\Documentos\testeBlazor\porjeto2\business\obj\Debug\net6.0\business.pdb
 C:\Users\leand\OneDrive\Documentos\testeBlazor\porjeto2\business\obj\Debug\net6.0\ref\business.dll
+D:\porjeto2\business\bin\Debug\net6.0\business.deps.json
+D:\porjeto2\business\bin\Debug\net6.0\business.dll
+D:\porjeto2\business\bin\Debug\net6.0\business.pdb
+D:\porjeto2\business\obj\Debug\net6.0\business.csproj.AssemblyReference.cache
+D:\porjeto2\business\obj\Debug\net6.0\business.GeneratedMSBuildEditorConfig.editorconfig
+D:\porjeto2\business\obj\Debug\net6.0\business.AssemblyInfoInputs.cache
+D:\porjeto2\business\obj\Debug\net6.0\business.AssemblyInfo.cs
+D:\porjeto2\business\obj\Debug\net6.0\business.csproj.CoreCompileInputs.cache
+D:\porjeto2\business\obj\Debug\net6.0\business.sourcelink.json
+D:\porjeto2\business\obj\Debug\net6.0\business.dll
+D:\porjeto2\business\obj\Debug\net6.0\refint\business.dll
+D:\porjeto2\business\obj\Debug\net6.0\business.pdb
+D:\porjeto2\business\obj\Debug\net6.0\ref\business.dll

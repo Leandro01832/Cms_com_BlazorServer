@@ -384,6 +384,7 @@ namespace BlazorCms.Client.Pages
             Indice = (int)Versiculo!;
             Filtro = null;
             ultimaPasta = false;
+            TipoClass = typeof(Chave);
             acessar();
         }
 
@@ -429,13 +430,20 @@ namespace BlazorCms.Client.Pages
             Filtro fi = null;
             try
             {
+                var quantVersiculos = RepositoryPagina.Conteudo!.Where(c => c.GetType() == typeof(Chave)).ToList().Count;
                 if (Filtro != null)
                     Vers = int.Parse(await js.InvokeAsync<string>("prompt", "Informe o versículo."));
                 else
                     Vers = (int)Versiculo!;
-                if (Vers > arrayContent.Length)
+                if (Indice == 1)
                 {
-                    await js!.InvokeAsync<object>("DarAlert", $"Informe um versículo menor ou igual a {arrayContent.Length}.");
+                    await js!.InvokeAsync<object>("DarAlert", $"Seja bem vindo a Story {nameStory}!!! Marque um versículo entre 1 e {quantVersiculos}.");
+                    return;
+                }
+
+                if (Vers > quantVersiculos)
+                {
+                    await js!.InvokeAsync<object>("DarAlert", $"Informe um versículo menor ou igual a {quantVersiculos}.");
                     return;
                 }
                 var fil = listaFiltro.FirstOrDefault(f => f.Criterio.Content is Chave
@@ -453,12 +461,18 @@ namespace BlazorCms.Client.Pages
                 else
                 {
                     fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
+                    TipoClass = typeof(Page);
                     Filtro = fi?.Id;
 
                     var item = await buscarRelogio();
-                    var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
-                    var c = filt.Pagina.Select(p => p.Content)
-                    .Where(p => p.GetType() == Type.GetType(item.Tipo)).Skip(Indice).FirstOrDefault();
+                    SubFiltro filt = null;
+                    Content c = null;
+                    if(item != null)
+                     filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
+                     if(filt != null)
+                     c = filt.Pagina.Select(p => p.Content)
+                    .Where(p => p.GetType() == Type.GetType(item.Tipo))
+                    .Skip(Indice).FirstOrDefault()!;
 
                     if (item != null && c != null &&
                      fi.Pagina.FirstOrDefault(p => p.ContentId == c.Id) != null)
@@ -488,6 +502,7 @@ namespace BlazorCms.Client.Pages
             var arr = conteudoHtml!.Split("/");
 
             html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");
+            html = html.Replace("controls=0", "");
             return html;
         }
 

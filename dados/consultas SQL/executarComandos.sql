@@ -11,12 +11,14 @@ select * from AspNetUsers
 
 select * from Story order by Capitulo
 
---select * from Content where Id=18690
+select * from FiltroContent
 --select * from Content where Id=50882
 select * from HashtagContent where HashtagId=1
 
 select * from AspNetUsers
-select * from Filtro order by CriterioId ASC
+select * from Filtro where FiltroId=78
+
+select Html from Content where Html like '%controls%'
 
 
 

@@ -53,36 +53,48 @@ else if (!repositoryPagina.erro)
                 {
                     @if(array2[0][item].Id == Filtro)
                     {
+                        
                         Pasta = (slideAtualCriterio * quantDivCriterio) + item + 1;
-                        <div class="DivCriterio text-center progressbar2"
-                         style="font-size: 10px;">
-                         @if(Filtro != null)
-                         {
-                            <div style="position: absolute;">
-                                 @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                        <div class="DivCriterio progressbar2">
+
+                            
+
+                            <div class="text-center " style="width: 100%; margin-top:1px;">
+                            @if(Filtro != null)
+                            {
+                                @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                                
+                            }
                             </div>
-                         }
                         </div>
                     }
                     else if(array2[0][item].CriterioId == null)
                     {
-                        <div class="DivCriterio text-center"
-                         style="background-color: rgb(255, 234, 0); border: 1px solid black; font-size: 10px;"> 
-                           @if(!tellStory && Filtro != null)
-                            {
-                                @((slideAtualCriterio * quantDivCriterio) + item + 1) 
-                            }
-                        </div>                        
+                           <div class="DivCriterio" style="background-color: rgb(0, 0, 0);">
+
+                            <div class="teste"> 
+                            </div>  
+                            <div class="text-center" style="width: 100%;">
+                                @if(!tellStory && Filtro != null)
+                                {
+                                    @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                                }
+                            </div>                      
+                           </div>
                     }
                     else
                     {
-                        <div class="DivCriterio text-center"
-                         style="background-color: rgb(255, 255, 255); border: 1px solid black; font-size: 10px;"> 
-                           @if(!tellStory && Filtro != null)
-                            {
-                                @((slideAtualCriterio * quantDivCriterio) + item + 1) 
-                            }
-                        </div>   
+                        <div class="DivCriterio" >
+
+                            <div class="teste"> 
+                            </div>   
+                            <div class="text-center" style="width: 100%;">
+                                @if(!tellStory && Filtro != null)
+                                {
+                                    @((slideAtualCriterio * quantDivCriterio) + item + 1) 
+                                }
+                            </div>   
+                        </div>
                     }
                 }
 
@@ -101,18 +113,8 @@ else if (!repositoryPagina.erro)
                                 <PageTitle>@nameStory</PageTitle> 
                                 <span>
                                 
-                                    <header>Story: @nameStory</header>
-                                
-                                    <a  onclick="@(() => acessarCapitulos() )" class="btn">
-                                        @if(larg)
-                                        {
-                                           <span>Capítulo @cap</span> 
-                                        }
-                                        else
-                                        {
-                                             <span>Cap. @cap</span> 
-                                        }
-                                    </a>
+                                    <header>Story: @nameStory</header>                               
+                                   
                                 </span>
                             } 
                             else
@@ -133,7 +135,7 @@ else if (!repositoryPagina.erro)
                                             <header>
                                                 @if(TipoClass == typeof(Page))
                                                 {
-                                                    @if(Filtro != null && Model2.CriterioId != null)
+                                                    @if(Filtro != null && Model2 != null && Model2.CriterioId != null)
                                                     {
                                                         if(Model2.Criterio.Camada.Numero != camadas.First().Numero)
                                                         {
@@ -143,7 +145,7 @@ else if (!repositoryPagina.erro)
                                                         
                                                     }
                                                     else  
-                                                    @if(Model2.CriterioId == null)
+                                                    @if( Model2 != null && Model2.CriterioId == null)
                                                     {
                                                         <a href="#" onclick="@acessarComCriterio" @onclick:preventDefault>@NameGroup </a> 
                                                         
@@ -177,15 +179,10 @@ else if (!repositoryPagina.erro)
 
                                             @if (tellStory)
                                             {
-                                                if(larg)
-                                                {
-                                                    <b> Capitulo @cap</b>
-                                                }
-                                                else
-                                                {
+                                                
                                                     <b> Cap. @cap</b>
 
-                                                }
+                                                
                                             }                                             
                                              </header>
                                         </p>
@@ -212,37 +209,35 @@ else if (!repositoryPagina.erro)
             <div class="actions col-md-6"> 
                        
               
-                @{
-                    if ( Filtro == null)
-                    {
-                        <span class="ms-3">Vers.</span>
-                    }
+                @{               
 
                     
                          <div>
                                             <span>
-                                                @if(larg)
+                                                
+                                                   <span> Cap. @cap </span> 
+
+                                                
+                                               
+                                                @if(Filtro != null)
                                                 {
-                                                   <span>Capítulo @cap </span> 
+                                                <span class="versos">
+                                                    <a onclick="@(() => acessarVerso())" class="btn btn-primary">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                                                            <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                                            </svg>
+                                                    
+                                                        @Versiculo                                             
+                                                    </a>
+                                                </span>
+
                                                 }
                                                 else
                                                 {
-                                                   <span> Cap. @cap </span> 
-
+                                                    <span class="versos">
+                                                    Vers.
+                                                </span>
                                                 }
-                                               
-                                            <span class="versos">
-                                                <a onclick="@(() => acessarVerso())" class="btn btn-primary">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
-                                                        <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                                                        </svg>
-                                                    @if(larg)
-                                                    {
-                                                        <span>Vers.</span>
-                                                    }
-                                                      @Versiculo                                            
-                                                </a>
-                                            </span>
                                             </span>
                                         </div>
 
@@ -402,7 +397,10 @@ else if (!repositoryPagina.erro)
 
                  
                             <div class="Camadas" style="margin-left: 12px;">
-                            camada @Model2!.Camada.Numero
+                                @if(Model2 != null)
+                                {
+                                    <span>camada @Model2!.Camada.Numero</span>
+                                }
                             </div>
                 
                         }     
@@ -447,6 +445,7 @@ else if (!repositoryPagina.erro)
         <div class="botoes" @ontouchstart="TratarToqueInicio" 
      @ontouchend="TratarToqueFim">
 
+            
             <a class="prev btn btn-primary"  onclick="@buscarAnterior">
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
@@ -469,7 +468,7 @@ else if (!repositoryPagina.erro)
                     {
                         <p>Versiculos encontrados</p>
                     }         
-                    @if(TipoClass != typeof(Link) && Model != null)   
+                    @if(TipoClass != typeof(Link) && Model != null && Filtro != null)   
                     {
                         <p>@Model.Titulo</p>
                     }        
@@ -491,7 +490,7 @@ else if (!repositoryPagina.erro)
 
                @{
 
-                    <div class="ConteudoPrincipal" >                   
+                    <div class="ConteudoPrincipal" >                  
 
                     @if (Model != null && Model is ProductContent && Model.Produto.Count > 0)
                     {
@@ -543,20 +542,27 @@ else if (!repositoryPagina.erro)
                             </p>
                         }
                     }
-                    else if (Model != null && id_video == null )
+                    else if (Model != null )
                     { 
-                        if(Model is Chave && Model.Criterio != null
-                         && Filtro == null && criterio != null)
+                        if(Model.GetType() == typeof(Chave) && Filtro == null) 
                         {
-                            <p>@criterio.Descricao</p> 
+                            if(Indice == 1)
+                            {
+                                <p style="text-align: center;">Seja bem vindo a Story @(nameStory)!!! </p> 
+
+                            }
+                            else
+                            {
+                                <p style="text-align: center;">Versiculo @Indice</p> 
+
+                            }
                         }     
                         else                             
-                        if(id_video == null && Model != null && Model.Html != null &&
+                        if(Model.Html != null && Filtro != null &&
                          !Model.Html!.Contains("iframe")) 
                         {
                             @markup 
-                        }
-                            
+                        }                            
                     }
 
                     @if (Model != null && Model.Produto != null && Model.Produto.Count > 0)
@@ -643,14 +649,17 @@ else if (!repositoryPagina.erro)
                                         <div class="carousel-item ativo">
                                             @for (var ind = 0; ind < array[i].Count; ind++)
                                             {
+
                                                 if (Filtro == null)
                                                 {
+                                                    
                                                     <div class="DivPag@(classCss)">
-                                                        @if (Indice == retornarVerso(array[i][ind]))
+                                                        @if((slideAtual * quantDiv) + (ind + 1) <= RepositoryPagina.Conteudo!.Where(c => c.GetType() == typeof(Chave)).ToList().Count)
+                                                        if (Indice == (slideAtual * quantDiv) + (ind + 1))
                                                         {
 
                                                             <div>
-                                                                <span class="indice"><b>@retornarVerso(array[i][ind])</b> </span>
+                                                                <span class="indice"><b>@((slideAtual * quantDiv) + (ind + 1))</b> </span>
                                                             </div>
 
                                                             <div class="barra">
@@ -663,7 +672,7 @@ else if (!repositoryPagina.erro)
                                                         {
 
                                                             <div>
-                                                                <span class="indices"><b>@retornarVerso(array[i][ind])</b> </span>
+                                                                <span class="indices"><b>@((slideAtual * quantDiv) + (ind + 1))</b> </span>
                                                             </div>
 
                                                             <div class="barra">
@@ -827,7 +836,7 @@ else
        
 </Modal>
 
-<Modal Title="Comentário" IsVisible="showModal2" Close="() => showModal2 = false" ShowConfirmButton ="false">
+<Modal Title="Fazer Comentário" IsVisible="showModal2" Close="() => showModal2 = false" ShowConfirmButton ="false">
 
         <h4>Fazer comentário</h4>
         <Editor Id="contentextarea"
@@ -840,26 +849,31 @@ else
         <br />
         <a href="#" onclick="@SalvarComentario" @onclick:preventDefault>Add Comentário</a>
         <hr />       
+        <hr /> 
+             
         
-        @* 
-        <h4>Comentários</h4>
+        <h4>Comentários </h4>
         @if(Model != null && Model.Comentario != null && Model.Comentario.Count > 0)
         {
            <p> 
             @foreach(var item in Model.Comentario)
             {
-                <div class="comentario">
-                    <h5>@item.UserModel.UserName comentou:</h5>
-                    <p>@item.Html</p>
-                    <hr />
-                </div>
+                if(item.UserModel != null)
+                {
+                    <div class="comentario">
+                        <h5>@item.UserModel.UserName comentou:</h5>
+                        <p>@item.Html</p>
+                        <hr />
+                    </div>
+
+                }
             }
            </p>
             
-        }    
-             *@
+        }     
        
 </Modal>
+
 
 
 <GuidedTour TourId="FormGuidedTour" OverlayEnabled="true">

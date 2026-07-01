@@ -121,22 +121,24 @@ namespace BlazorCms.Client.Pages
                     perguntar((long)value);
                 filtro = value;
                 alterouPasta = true;
-                var count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
-                var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                var ind = listaFiltro.IndexOf(f);
-                var ind2 = tipos.IndexOf(TipoClass);
-
-                if (TipoClass == typeof(Link))
+                if(value != null)
                 {
-                    var l = listaFiltro.Where(f => f.ComCriterio == f.Id).ToList();
-                    count = l.Count;
+                    var count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+                    var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                    var ind = listaFiltro.IndexOf(f);
+                    var ind2 = tipos.IndexOf(TipoClass);
 
+                    if (TipoClass == typeof(Link))
+                    {
+                        var l = listaFiltro.Where(f => f.ComCriterio == f.Id).ToList();
+                        count = l.Count;
+
+                    }
+
+
+                    if (arrayContent[ind][ind2] == null)
+                        arrayContent[ind][ind2] = new long?[count];                    
                 }
-
-
-                if (arrayContent[ind][ind2] == null)
-                    arrayContent[ind][ind2] = new long?[count];
-
             }
         }
         private DemoContextFactory db = new DemoContextFactory();
@@ -167,19 +169,23 @@ namespace BlazorCms.Client.Pages
             set
             {
                 tipoClass = value;
-                var count = CountPagesInFilterAsync((long)Filtro!, livro, value);
-                var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                var ind = listaFiltro.IndexOf(f);
-                var ind2 = tipos.IndexOf(value);
-
-                if (TipoClass == typeof(Link))
+                if(Filtro != null)
                 {
-                    var l = listaFiltro.Where(f => f.ComCriterio == f.Id).ToList();
-                    count = l.Count;
+                    var count = CountPagesInFilterAsync((long)Filtro!, livro, value);
+                    var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                    var ind = listaFiltro.IndexOf(f);
+                    var ind2 = tipos.IndexOf(value);
+
+                    if (TipoClass == typeof(Link))
+                    {
+                        var l = listaFiltro.Where(f => f.ComCriterio == f.Id).ToList();
+                        count = l.Count;
+                    }
+
+                    if (arrayContent[ind][ind2] == null)
+                        arrayContent[ind][ind2] = new long?[count];                    
                 }
 
-                if (arrayContent[ind][ind2] == null)
-                    arrayContent[ind][ind2] = new long?[count];
             }
         }
 
@@ -214,6 +220,7 @@ namespace BlazorCms.Client.Pages
 
         protected bool showModal = false;
         protected bool showModal2 = false;
+        
         protected int Pasta = 0;
 
         protected Comment comment = new Comment();
@@ -237,7 +244,6 @@ namespace BlazorCms.Client.Pages
         protected bool automatico = false;
         protected string classCss = "";
         protected string DivPag = "";
-        protected bool larg = false;
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;

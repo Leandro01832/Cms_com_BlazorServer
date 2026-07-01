@@ -3,6 +3,12 @@
     margin: 0;
 }
 
+.main
+{
+    background-color: rgb(193, 193, 193, 0.5);
+
+}
+
 span {
     background-color: white;
 }

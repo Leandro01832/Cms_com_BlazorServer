@@ -41,7 +41,10 @@ namespace BlazorCms.Client.Pages
             {
                 if (AlterouModel)
                     await js!.InvokeAsync<object>("zerar", "1");
-                await js.InvokeVoidAsync("carregarVideo", id_video);
+                if(Filtro != null)
+                {
+                    await js.InvokeVoidAsync("carregarVideo", id_video);                    
+                }
 
                 id_video = null;
             }           
@@ -158,8 +161,8 @@ namespace BlazorCms.Client.Pages
                .ToListAsync();
 
             UltimasPastas = result
-           .OrderBy(s => s.Criterio?.Content != null && s.Criterio.Content is Chave ?
-            ((Chave)s.Criterio.Content).Versiculo : 100000)
+           .OrderBy(s => s.Criterio != null ? s.FiltroId : // s.FiltroId)           
+           result.Where(f => f.FiltroId == s.FiltroId).LastOrDefault()!.Id)
            .ToList();
 
 
@@ -180,8 +183,8 @@ namespace BlazorCms.Client.Pages
             .ToListAsync();
 
             listaFiltro = result2
-           .OrderBy(s => s.Criterio?.Content != null && s.Criterio.Content is Chave ?
-               ((Chave)s.Criterio.Content).Versiculo : 100000)
+           .OrderBy(s => s.Criterio != null ? s.FiltroId : //s.FiltroId)
+           result2.Where(f => f.FiltroId == s.FiltroId).LastOrDefault()!.Id)
             .ToList();
 
 
@@ -221,25 +224,35 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                var rel = profile.Relogio.OrderBy(r => r.Data)
-                             .FirstOrDefault(r => r.SubFiltro.CriterioId == null)!;
-                var c = await Context.Content.FirstAsync(c => c.Id == rel.ContentId);
-                long? fi = null;
-                string numeros = string.Concat(Tipo.Where(char.IsDigit));
-                fi = long.Parse(numeros);
-                Tipo = Tipo.Replace(numeros, "");
-                if (!ultimaPasta)
-                    p = listaFiltro.FirstOrDefault(f => f.Id == fi)!;
+
+                    long? fi = null;
+                    string numeros = string.Concat(Tipo.Where(char.IsDigit));
+                    fi = long.Parse(numeros);
+                    Tipo = Tipo.Replace(numeros, "");
+                    if (!ultimaPasta)
+                        p = listaFiltro.FirstOrDefault(f => f.Id == fi)!;
+                    else
+                        p = UltimasPastas.FirstOrDefault(f => f.Id == fi)!;
+                    Filtro = listaFiltro
+                    .FirstOrDefault(f => f.Id == p.Id)!.Id;                    
+                if(profile != null)
+                {
+                    var rel = profile.Relogio.OrderBy(r => r.Data)
+                                .FirstOrDefault(r => r.SubFiltro.CriterioId == null)!;
+                    var c = await Context.Content.FirstAsync(c => c.Id == rel.ContentId);
+
+                    var test = p.Pagina.FirstOrDefault(p => p.ContentId == c.Id);
+
+                    Indice = p.Pagina
+                        .Where(p => p.Content.GetType().Name.ToLower() == Tipo.ToLower())
+                        .OrderBy(p => p.ContentId).ToList().IndexOf(test) + 1;
+                }
                 else
-                    p = UltimasPastas.FirstOrDefault(f => f.Id == fi)!;
+                {
+                    var pages = p.Pagina.Where(p => p.Content is Page).ToList();
+                    Indice = repositoryPagina.random.Next(1, pages.Count);
+                }
 
-                var test = p.Pagina.FirstOrDefault(p => p.ContentId == c.Id);
-
-                Indice = p.Pagina
-                    .Where(p => p.Content.GetType().Name.ToLower() == Tipo.ToLower())
-                    .OrderBy(p => p.ContentId).ToList().IndexOf(test) + 1;
-                Filtro = listaFiltro
-                .FirstOrDefault(f => f.Id == p.Id)!.Id;
             }
 
 
@@ -257,10 +270,13 @@ namespace BlazorCms.Client.Pages
             .Include(c => c.Filtro)!
             .ThenInclude(c => c.Filtro)
             .ThenInclude(c => c.Criterio)
-            .Where(c => c.StoryId == _story.Id && c.LivroId == (livro != null ? livro.Id : null))
+            .Where(c => c.StoryId == _story.Id 
+            && c.LivroId == (livro != null ? livro.Id : null))
             .OrderBy(c => c.Versiculo)
             .ToList();
 
+            if(RepositoryPagina.Conteudo!
+            .Where(c => c.GetType() == typeof(Chave)).ToList().Count == 0)
             RepositoryPagina.Conteudo!.UnionWith(chaves);
 
 
@@ -383,9 +399,9 @@ namespace BlazorCms.Client.Pages
             if (Filtro != null)
                 count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
 
-            if (TipoClass != typeof(Page) && Filtro != null ||
-               contentAdd.Count == 0 && Filtro != null ||
-               arrayContent[ind][ind2][Indice - 1] == null && Filtro != null)
+            if (Filtro != null && TipoClass != typeof(Page) ||
+              Filtro != null && contentAdd.Count == 0 ||
+              Filtro != null && ind >=0 && arrayContent[ind][ind2][Indice - 1] == null )
             {
                 bool teste = false;
                 if (count > 0 && contentAdd.Count == 0 ||
@@ -480,8 +496,17 @@ namespace BlazorCms.Client.Pages
                 }
             }
 
-            if (tipoClass != typeof(Link))
+            if (tipoClass != typeof(Link) && tipoClass != typeof(Chave))
                 Model = contentAdd.FirstOrDefault(c => c.Id == arrayContent[ind][ind2][Indice - 1]);
+            else if(tipoClass == typeof(Chave))
+            {
+                contentAdd = RepositoryPagina.Conteudo!
+                .Where(c => c.GetType() == TipoClass)
+                .OrderBy(c => ((Chave)c).Versiculo)
+                .Distinct()
+                .ToList();
+                Model = contentAdd.Skip(Indice - 1).FirstOrDefault();            
+            }           
             else
                 Html = "";
 
@@ -561,6 +586,8 @@ namespace BlazorCms.Client.Pages
                     Mensagem = "aguarde um momento...";
                 return;
             }
+
+            Versiculo = Indice;
 
             var q = RepositoryPagina.Conteudo!
                     .LastOrDefault(c => c.StoryId == _story.Id && c is Chave && c.Html != null)!;
@@ -904,7 +931,7 @@ namespace BlazorCms.Client.Pages
             // 3. Ajusta a classe CSS baseada no tamanho do número da página/verso
 
             int numeroParaVerificar = 0;
-            if (Model2.Criterio != null)
+            if (Filtro != null && Model2.Criterio != null)
                 numeroParaVerificar = Filtro == null ? Indice : retornarVerso(Model2.Criterio.Content);
             else
                 numeroParaVerificar = Indice;

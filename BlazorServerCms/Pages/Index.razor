@@ -348,9 +348,7 @@
             .Include(f => f.Story)
             .Include(f => f.Livro)
             .Where(f => 
-            //f.Pagina.Count > 0 &&
-             !f.UltimaPasta &&
-              f.CriterioId != null && f.Pagina.Count > 0)
+             !f.UltimaPasta  && f.Pagina.Count > 0)
             .ToListAsync();
 
             termosValidos = new HashSet<string>(
@@ -476,39 +474,71 @@ var gruposFinais = await Context.SubFiltro
 
     }
 
-    private async void Acessar(Filtro item)
+    private async void Acessar(SubFiltro item)
     {        
 
         if(!Query.Contains("#"))
         {
             string url = "";
             var itemContent = 1;
-            Chave ch = null;
-            var fil = filtros2!
-            .FirstOrDefault(f => f.FiltroId == item.Id); 
-            
-             itemContent = repositoryPagina.random.Next(1, item.Pagina
-            .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
-
-            if(fil != null)        
-                ch = (Chave)fil.Criterio.Content!;
-            else
-            {
-                var f = Context.SubFiltro
-                .Include(s => s.Criterio)
-                .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.FiltroId == item.Id);
-                ch = (Chave)f.Criterio.Content!;
-            }
             var str = Context.Story!.First(s => s.Id == item.StoryId);
 
-            if(item.Livro == null && ch != null)
-                url = $"/renderizar/page/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
-            else
-               url = $"/renderizar/page/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
+            if(item.CriterioId != null)
+            {
+                Chave ch = null;
+                
+                itemContent = repositoryPagina.random.Next(1, item.Pagina
+                .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
 
-                if(!string.IsNullOrEmpty(url))
-                await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+                var fil = filtros2!
+                .FirstOrDefault(f => f.FiltroId == item.Id); 
+                if(fil != null)        
+                    ch = (Chave)fil.Criterio.Content!;
+                else
+                {
+                    var f = Context.SubFiltro
+                    .Include(s => s.Criterio)
+                    .ThenInclude(s => s.Content)
+                    .FirstOrDefault(s => s.FiltroId == item.Id);
+                    ch = (Chave)f.Criterio.Content!;
+                }
+
+                if(item.Livro == null && ch != null)
+                    url = $"/renderizar/page/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
+                else
+                url = $"/renderizar/page/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
+
+                    if(!string.IsNullOrEmpty(url))
+                    await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+
+            }
+            else
+            {
+                Chave ch = null;
+                var fil = filtros2!
+                .FirstOrDefault(f => f.FiltroId == item.Id); 
+                if(fil != null)        
+                    ch = (Chave)fil.Criterio.Content!;
+                else
+                {
+                    var fil2 = Context.SubFiltro
+                    .Include(s => s.Criterio)
+                    .ThenInclude(s => s.Content)
+                    .FirstOrDefault(s => s.Id == item.ComCriterio);
+                    var f = Context.SubFiltro
+                    .Include(s => s.Criterio)
+                    .ThenInclude(s => s.Content)
+                    .FirstOrDefault(s => s.FiltroId == fil2.Id);
+                    ch = (Chave)f.Criterio.Content!;
+                }
+                 if(item.Livro == null && ch != null)
+                    url = $"/renderizar/page{item.Id}/{str.Capitulo}/{ch.Versiculo}/0/{comp}";
+                else
+                url = $"/renderizar/page{item.Id}/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/0/{comp}";
+
+                    if(!string.IsNullOrEmpty(url))
+                    await js!.InvokeAsync<object>("AcessarSites", $"{url}");
+            }
             
         }
 
@@ -590,8 +620,8 @@ var gruposFinais = await Context.SubFiltro
                 {
                     filtros.Clear();
                     var l = filtros2
-                    .Where(f => teste.ToLower()
-                    .Contains(f.Nome.ToLower())) 
+                    .Where(f => f.Nome.ToLower()
+                    .Contains(teste.ToLower())) 
                     .ToList();
                         filtros.AddRange(l); 
                 }
@@ -689,10 +719,14 @@ var gruposFinais = await Context.SubFiltro
                     return 0;
                 else if(c.Criterio == null)
                 {
-                    f = Context.SubFiltro
+                    var  fil = Context.SubFiltro
                 .Include(s => s.Criterio)
                 .ThenInclude(s => s.Content)
                 .FirstOrDefault(s => s.Id == c.ComCriterio);
+                    f = Context.SubFiltro
+                .Include(s => s.Criterio)
+                .ThenInclude(s => s.Content)
+                .FirstOrDefault(s => s.FiltroId == fil.Id);
                     return retornarVerso(f.Criterio.Content!);
 
                 }
