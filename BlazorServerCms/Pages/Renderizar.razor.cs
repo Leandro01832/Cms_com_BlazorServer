@@ -89,13 +89,13 @@ namespace BlazorCms.Client.Pages
                 {
                     capitulo = RepositoryPagina.stories!
                     .OrderBy(str => str.Capitulo).Skip(1).ToList()[Indice - 1].Capitulo;
-                    Indice = 1;
+                    alterarIndice(1);
                 }
                 else if (args.Key == "Enter")
                 {
                     capitulo = RepositoryPagina.stories.First().Capitulo;
                     var str = RepositoryPagina.stories.First(st => st.Id == _story.Id);
-                    Indice = RepositoryPagina.stories.IndexOf(str);
+                    alterarIndice(RepositoryPagina.stories.IndexOf(str));
                 }
 
                 Timer!._timer!.Elapsed -= _timer_Elapsed;
@@ -129,7 +129,8 @@ namespace BlazorCms.Client.Pages
             {
                 var n = int.Parse(opcional);
                 automatico = false;
-                condicao = true;
+                condicao = int.Parse(opcional) <=
+                RepositoryPagina.Conteudo!.Where(c => c.GetType() == typeof(Chave)).ToList().Count;
             }
             catch (Exception ex)
             {
@@ -138,12 +139,12 @@ namespace BlazorCms.Client.Pages
 
             if (Filtro == null && condicao || tellStory && condicao)
             {
-                Indice = int.Parse(opcional);
+                alterarIndice(int.Parse(opcional));
                 acessar();
             }
             else if (!tellStory && condicao)
             {
-                Indice = 1;
+                alterarIndice(1);
                 int p = int.Parse(opcional);
                 Filtro =
                 listaFiltro
@@ -215,14 +216,13 @@ namespace BlazorCms.Client.Pages
 
             if (rotas != null)
             {
-
                 if (proximo <= quant)
                 {
-                    Indice = proximo;
+                    alterarIndice(proximo);
                 }
                 else
                 {
-                    Indice = 1;
+                    alterarIndice(1);
                 }
 
                 acessar();
@@ -231,7 +231,7 @@ namespace BlazorCms.Client.Pages
             {
                 if (proximo <= quant)
                 {
-                    Indice = proximo;
+                    alterarIndice(proximo);
                     acessar();
                 }
                 else if (TipoClass != typeof(Page))
@@ -239,7 +239,7 @@ namespace BlazorCms.Client.Pages
                     var t = tipos.FirstOrDefault(t => t.Name.ToLower() == TipoClass.Name.ToLower());
                     var i = tipos.IndexOf(t);
                     TipoClass = tipos[i - 1];
-                    Indice = 1;
+                    alterarIndice(1);
                     acessar();
                 }
                 else if (Filtro != null)
@@ -249,7 +249,7 @@ namespace BlazorCms.Client.Pages
                     cap++;
                     capitulo = RepositoryPagina.stories
                     .First(str => str.Capitulo == cap).Capitulo;
-                    Indice = 1;
+                    alterarIndice(1);
                     acessar();
                 }
             }
@@ -261,10 +261,12 @@ namespace BlazorCms.Client.Pages
             {
                 Filtro proximoSubgrupo = buscarProximoSubGrupo();
                 Filtro = proximoSubgrupo.Id;
-                Indice = 1;
+                alterarIndice(1);
             }
             else
-                Indice++;
+            {
+                alterarIndice(Indice+ 1);
+            }
             acessar();
         }
 
@@ -277,11 +279,11 @@ namespace BlazorCms.Client.Pages
             {
                 if (Indice == 1)
                 {
-                    Indice = 1;
+                    alterarIndice(1);
                 }
                 else
                 {
-                    Indice--;
+                    alterarIndice(Indice - 1);
                 }
             }
             else
@@ -299,7 +301,7 @@ namespace BlazorCms.Client.Pages
                         Filtro fi = voltarSubgrupos();
                         Filtro = fi.Id;
                         var count = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
-                        Indice = count;
+                        alterarIndice(count);
                         retroceder = 1;
                         alterouIdice = true;
                     }
@@ -316,7 +318,7 @@ namespace BlazorCms.Client.Pages
                 if (Indice != 1 && rotas == null && !alterouIdice)
                 {
                     var anterior = Indice - 1;
-                    Indice = anterior;
+                    alterarIndice(anterior);
                 }
             }
             acessar();
@@ -381,7 +383,7 @@ namespace BlazorCms.Client.Pages
 
         protected void acessarVerso()
         {
-            Indice = (int)Versiculo!;
+            alterarIndice((int)Versiculo!);
             Filtro = null;
             ultimaPasta = false;
             TipoClass = typeof(Chave);
@@ -393,7 +395,7 @@ namespace BlazorCms.Client.Pages
             SubFiltro sub = listaFiltro.FirstOrDefault(s => s.Id == Model2!.Id);
             Filtro = sub.ComCriterio;
             TipoClass = typeof(Link);
-            Indice = 1;
+            alterarIndice(1);
 
             acessar();
         }
@@ -463,25 +465,25 @@ namespace BlazorCms.Client.Pages
                     fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
                     TipoClass = typeof(Page);
                     Filtro = fi?.Id;
-
-                    var item = await buscarRelogio();
-                    SubFiltro filt = null;
-                    Content c = null;
-                    if(item != null)
-                     filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
-                     if(filt != null)
-                     c = filt.Pagina.Select(p => p.Content)
-                    .Where(p => p.GetType() == Type.GetType(item.Tipo))
-                    .Skip(Indice).FirstOrDefault()!;
-
-                    if (item != null && c != null &&
-                     fi.Pagina.FirstOrDefault(p => p.ContentId == c.Id) != null)
-                        await AcessarHashtagId();
-                    else
-                    {
-                        Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
                         acessar();
-                    }
+
+                    // var item = await buscarRelogio();
+                    // SubFiltro filt = null;
+                    // Content c = null;
+                    // if (item != null)
+                    //     filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
+                    // if (filt != null)
+                    //     c = filt.Pagina.Select(p => p.Content)
+                    //    .Where(p => p.GetType() == Type.GetType(item.Tipo))
+                    //    .Skip(Indice).FirstOrDefault()!;
+
+                    // if (item != null && c != null &&
+                    //  fi.Pagina.FirstOrDefault(p => p.ContentId == c.Id) != null)
+                    //     await AcessarHashtagId();
+                    // else
+                    // {
+                    //     Indice = repositoryPagina.random.Next(1, fi.Pagina.Count);
+                    // }
                 }
             }
             catch (Exception ex)
@@ -524,26 +526,26 @@ namespace BlazorCms.Client.Pages
                     var p = TipoClass != typeof(Page);
                     if (r == null)
                     {
-                       r = new Relogio
-                       {
+                        r = new Relogio
+                        {
                             ContentId = Model.Id,
                             SubFiltroId = Model2.Id,
                             UserModelId = c.Id
-                       };
-                       Context.Add(r);
-                       await Context.SaveChangesAsync();
+                        };
+                        Context.Add(r);
+                        await Context.SaveChangesAsync();
                     }
                     else
                     {
                         r.Data = DateTime.UtcNow;
                         r.ContentId = Model.Id;
                         Context.Update(r);
-                       await Context.SaveChangesAsync();
+                        await Context.SaveChangesAsync();
                     }
-                   
+
                 }
-               
-               
+
+
             }
         }
 
@@ -551,14 +553,27 @@ namespace BlazorCms.Client.Pages
         {
             if (profile != null)
             {
-                var c = Context.Users
-                .Include(u => u.Relogio)
-                .FirstOrDefault(u => u.UserName == profile.UserName);
-                var r = c.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id);
-                if(r != null)
-                return r;
+                var r = profile.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id);
+                if (r != null)
+                {
+                    if (arrayContent[Ind][Ind2] != null && 
+                    arrayContent[Ind][Ind2].Contains(r.ContentId))
+                    {
+                        arrayContent[Ind][Ind2] = repositoryPagina.embaralhar(arrayContent[Ind][Ind2].ToList()).ToArray();
+                        alterarIndice(arrayContent[Ind][Ind2].ToList().IndexOf(r.ContentId) + 1);
+                        
+                    }
+                    else
+                    {
+                        var fi = listaFiltro.FirstOrDefault(f => f.Id == Model2.Id);
+                        alterarIndice(repositoryPagina.random.Next(1,
+                         fi.Pagina.Where(p => p.Content.GetType() == TipoClass).ToList().Count));
+                        
+                    }
+                    return r;
+                }
                 else
-                return null;
+                    return null;
 
             }
             return null;
@@ -582,12 +597,21 @@ namespace BlazorCms.Client.Pages
                         var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
                         var co = filt.Pagina.Select(p => p.Content)
                         .FirstOrDefault(p => p.Id == item.ContentId);
+                        TipoClass = co.GetType();
                         var l = filt.Pagina.Select(p => p.Content)
                         .OrderBy(c => c.Id)
                         .Where(c => c.GetType() == co.GetType()).ToList();
                         var teste = l.First(c => c.Id == co.Id);
-                        Indice = l.IndexOf(teste) + 1;
-                        TipoClass = co.GetType();
+                        if(arrayContent[Ind][Ind2] != null )
+                        {
+                            if(arrayContent[Ind][Ind2].Contains(co.Id))
+                            alterarIndice(arrayContent[Ind][Ind2].ToList().IndexOf(co.Id) + 1);                                                     
+                            else
+                            {
+                                alterarIndice(l.IndexOf(teste) + 1);                                
+                                preencherLista(contentAdd, Ind, Ind2);
+                            }
+                        }
                         acessar();
                     }
                     else
@@ -759,25 +783,26 @@ namespace BlazorCms.Client.Pages
         {
             Relogio rel = null;
             Filtro = id;
-            if(profile != null)
+            if (profile != null)
             {
                 var rels = profile.Relogio;
-                rel = rels.FirstOrDefault(r => r.SubFiltroId == id)!;                
+                rel = rels.FirstOrDefault(r => r.SubFiltroId == id)!;
             }
-            if(rel != null)
+            if (rel != null)
             {
                 tipoClass = rel.Content.GetType();
                 var fil = listaFiltro.First(f => f.Id == rel.SubFiltroId);
                 var teste = fil.Pagina.FirstOrDefault(p => p.ContentId == rel.ContentId);
-                Indice = fil.Pagina
+                alterarIndice(fil.Pagina
                 .Where(p => p.Content.GetType() == tipoClass)
-                .OrderBy(p => p.ContentId).ToList().IndexOf(teste) + 1;
+                .OrderBy(p => p.ContentId).ToList().IndexOf(teste) + 1);
                 
+
             }
             else
             {
                 TipoClass = typeof(Page);
-                Indice = 1;                
+                alterarIndice(1);
             }
 
             acessar();
@@ -810,6 +835,7 @@ namespace BlazorCms.Client.Pages
                 }
 
                 navigation!.NavigateTo(url);
+
             }
             else
             {
@@ -833,7 +859,7 @@ namespace BlazorCms.Client.Pages
             return storyService.HasFiltersAsync(storyId, livro);
         }
 
-        public Task<List<FiltroContent>> PaginarFiltro<T>( long filtroId, int quantDiv,
+        public Task<List<FiltroContent>> PaginarFiltro<T>(long filtroId, int quantDiv,
          int slideAtual, Livro livro, int? carregando = null) where T : class
         {
             return storyService.PaginarFiltro<T>(filtroId, quantDiv, slideAtual, livro, carregando);
@@ -899,7 +925,8 @@ namespace BlazorCms.Client.Pages
                     {
                         Filtro = item.Id;
                         var m = item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id);
-                        Indice = item.Pagina.IndexOf(m) + 1;
+                        alterarIndice(item.Pagina
+                        .Where(p => p.Content.GetType() == TipoClass).ToList().IndexOf(m) + 1);                        
                         acessar();
                     }
         }
@@ -908,64 +935,64 @@ namespace BlazorCms.Client.Pages
         {
             var valor = e.Value!.ToString()!;
             TipoClass = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;
-            var item = await buscarRelogio();
-            if (item != null)
+             acessar();
+            // var item = await buscarRelogio();
+            // if (item != null)
+            // {
+            //     var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
+            //     var c = filt.Pagina.Select(p => p.Content)
+            //     .Where(p => p.GetType() == Type.GetType(item.Tipo)).Skip(Indice).FirstOrDefault();
+            //     if (c != null && c.GetType().Name.ToLower() == valor.ToLower())
+            //         await AcessarHashtagId();
+            //     else
+            //     {
+            //         Indice = 1;
+            //         acessar();
+            //     }
+            // }
+            // else
+            // {
+            //     Indice = 1;
+            // }
+        }
+
+
+
+        protected void TratarToqueInicio(TouchEventArgs e)
+        {
+            // Pega a coordenada X do primeiro dedo que encostou na tela
+            toqueInicioX = e.TargetTouches[0].ClientX;
+        }
+
+        protected void TratarToqueFim(TouchEventArgs e)
+        {
+            // Pega a coordenada X de onde o dedo saiu da tela
+            toqueFimX = e.ChangedTouches[0].ClientX;
+
+            // Calcula a direção do movimento
+            AnalisarGestoSwipe();
+        }
+
+        private void AnalisarGestoSwipe()
+        {
+            double diferencaX = toqueInicioX - toqueFimX;
+
+            // Verifica se o movimento foi longo o suficiente
+            if (Math.Abs(diferencaX) > DistanciaMinimaParaSwipe)
             {
-                var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
-                    var c = filt.Pagina.Select(p => p.Content)
-                    .Where(p => p.GetType() == Type.GetType(item.Tipo)).Skip(Indice).FirstOrDefault();
-                if (c != null &&  c.GetType().Name.ToLower() == valor.ToLower())
-                    await AcessarHashtagId();
+                if (diferencaX > 0)
+                {
+                    // O dedo moveu da direita para a esquerda -> Avança o carrossel
+                    buscarProximo();
+                }
                 else
                 {
-                    Indice = 1;
-                    acessar();
+                    // O dedo moveu da esquerda para a direita -> Voltar o carrossel
+                    buscarAnterior();
                 }
             }
-            else
-            {
-                Indice = 1;
-                acessar();
-            }
         }
 
-        
-
-    protected void TratarToqueInicio(TouchEventArgs e)
-    {
-        // Pega a coordenada X do primeiro dedo que encostou na tela
-        toqueInicioX = e.TargetTouches[0].ClientX;
-    }
-
-    protected void TratarToqueFim(TouchEventArgs e)
-    {
-        // Pega a coordenada X de onde o dedo saiu da tela
-        toqueFimX = e.ChangedTouches[0].ClientX;
-
-        // Calcula a direção do movimento
-        AnalisarGestoSwipe();
-    }
-
-    private void AnalisarGestoSwipe()
-    {
-        double diferencaX = toqueInicioX - toqueFimX;
-
-        // Verifica se o movimento foi longo o suficiente
-        if (Math.Abs(diferencaX) > DistanciaMinimaParaSwipe)
-        {
-            if (diferencaX > 0)
-            {
-                // O dedo moveu da direita para a esquerda -> Avança o carrossel
-                buscarProximo();
-            }
-            else
-            {
-                // O dedo moveu da esquerda para a direita -> Voltar o carrossel
-                buscarAnterior();
-            }
-        }
-    }
-   
     }
 
     public class UserPreferencesImage

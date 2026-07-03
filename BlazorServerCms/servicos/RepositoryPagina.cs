@@ -183,7 +183,32 @@ namespace BlazorServerCms.servicos
             ApplicationDbContext Contexto = db.CreateDbContext(null);
             return Contexto.Pagina!
              .Include(p => p.Story)!;
+        }     
+
+    public List<T> embaralhar<T>(List<T>? lista)
+    {
+        // Criamos uma cópia para não destruir a lista original que veio por parâmetro
+        if (lista == null)
+            return new List<T>();
+        List<T> listaCopia = new List<T>(lista);
+        List<T> retorno = new List<T>();
+
+        while (listaCopia.Count != 0)
+        {
+            // O método Next(min, max) já possui o limite superior EXCLUSIVO. 
+            // Portanto, use apenas listaCopia.Count (sem o "- 1") para conseguir pegar o último item.
+            var indice = random.Next(0, listaCopia.Count);
+            
+            retorno.Add(listaCopia[indice]);
+            
+            // CORREÇÃO DO BUG: Remova pelo ÍNDICE (RemoveAt), não pelo Objeto (Remove).
+            // Se houvesse dois itens idênticos na lista, o .Remove(objeto) tiraria sempre o primeiro 
+            // que encontrasse, quebrando a lógica e gerando um erro de "Índice fora do intervalo".
+            listaCopia.RemoveAt(indice);
         }
+
+        return retorno;
+    }
 
     }
 

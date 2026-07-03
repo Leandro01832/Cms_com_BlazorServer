@@ -36,13 +36,17 @@ namespace BlazorCms.Client.Pages
             get { return indice; }
             set
             {
-                indice = value;
-                //  if(quantidadeLista != 0)
-
-                // else
-                //  js!.InvokeVoidAsync("PreencherProgressBar2", 1);
+                indice = value;                
+                slideAtual = (indice - 1) / quantDiv;
             }
         }
+
+        private async void alterarIndice(int valor)
+        {
+            quantDiv = await marcarIndice(false);
+            Indice = valor;
+        }
+
         [Parameter]
         public string Tipo { get; set; }
 
@@ -121,12 +125,12 @@ namespace BlazorCms.Client.Pages
                     perguntar((long)value);
                 filtro = value;
                 alterouPasta = true;
-                if(value != null)
+                if (value != null)
                 {
                     var count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
                     var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                    var ind = listaFiltro.IndexOf(f);
-                    var ind2 = tipos.IndexOf(TipoClass);
+                    Ind = listaFiltro.IndexOf(f);
+                    Ind2 = tipos.IndexOf(TipoClass);
 
                     if (TipoClass == typeof(Link))
                     {
@@ -136,8 +140,8 @@ namespace BlazorCms.Client.Pages
                     }
 
 
-                    if (arrayContent[ind][ind2] == null)
-                        arrayContent[ind][ind2] = new long?[count];                    
+                    if (arrayContent[Ind][Ind2] == null)
+                        arrayContent[Ind][Ind2] = new long?[count];
                 }
             }
         }
@@ -152,6 +156,30 @@ namespace BlazorCms.Client.Pages
 
         protected UserModel profile = null;
 
+        private List<Content> contentAdd = new List<Content>();
+
+        private int ind = 0;
+        public int Ind
+        {
+            get{return ind;}
+            set
+            {
+                ind = value;
+                buscarRelogio();
+            }
+        }
+
+        private int ind2 = 0;
+        public int Ind2
+        {
+            get{return ind2;}
+            set
+            {
+                ind2 = value;
+                buscarRelogio();
+            }
+        }
+
         private Type tipoClass = typeof(Page);
 
         // Guarda a posição horizontal (X) de onde o toque começou
@@ -161,7 +189,7 @@ namespace BlazorCms.Client.Pages
         private double toqueFimX;
 
         // Distância mínima em pixels para considerar que foi um deslize real e não um clique sem querer
-        private const double DistanciaMinimaParaSwipe = 50;        
+        private const double DistanciaMinimaParaSwipe = 50;
 
         protected Type TipoClass
         {
@@ -169,12 +197,13 @@ namespace BlazorCms.Client.Pages
             set
             {
                 tipoClass = value;
-                if(Filtro != null)
+                if (Filtro != null)
                 {
                     var count = CountPagesInFilterAsync((long)Filtro!, livro, value);
                     var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                    var ind = listaFiltro.IndexOf(f);
-                    var ind2 = tipos.IndexOf(value);
+
+                    Ind = listaFiltro.IndexOf(f);
+                    Ind2 = tipos.IndexOf(value);
 
                     if (TipoClass == typeof(Link))
                     {
@@ -182,8 +211,8 @@ namespace BlazorCms.Client.Pages
                         count = l.Count;
                     }
 
-                    if (arrayContent[ind][ind2] == null)
-                        arrayContent[ind][ind2] = new long?[count];                    
+                    if (arrayContent[Ind][Ind2] == null)
+                        arrayContent[Ind][Ind2] = new long?[count];
                 }
 
             }
@@ -220,7 +249,7 @@ namespace BlazorCms.Client.Pages
 
         protected bool showModal = false;
         protected bool showModal2 = false;
-        
+
         protected int Pasta = 0;
 
         protected Comment comment = new Comment();
@@ -254,18 +283,18 @@ namespace BlazorCms.Client.Pages
             get
             {
                 var dom = "";
-                if(livro != null)
-                dom = livro.Nome;
+                if (livro != null)
+                    dom = livro.Nome;
                 else
-                dom = new Uri(navigation.BaseUri).Host;
-                if(Model != null)
-                return nameGroup +
-                 $" ({Activator.CreateInstance(tipoClass)!.ToString()}) [{Model.Titulo}] | {dom} ";
-                 else
-                return nameGroup +
-                 $" ({Activator.CreateInstance(tipoClass)!.ToString()}) | {dom} ";
+                    dom = new Uri(navigation.BaseUri).Host;
+                if (Model != null)
+                    return nameGroup +
+                     $" ({Activator.CreateInstance(tipoClass)!.ToString()}) [{Model.Titulo}] | {dom} ";
+                else
+                    return nameGroup +
+                     $" ({Activator.CreateInstance(tipoClass)!.ToString()}) | {dom} ";
             }
-            set{nameGroup = value;}
+            set { nameGroup = value; }
         }
 
         protected string nameGroup2 = "";
@@ -316,7 +345,7 @@ namespace BlazorCms.Client.Pages
         protected int quantidadeLista { get; set; } = 0;
         protected int quantidadeFiltro { get; set; } = 0;
         protected bool ultimaPasta { get; set; }
-        protected bool condicaoFiltro { get; set; } = false; 
+        protected bool condicaoFiltro { get; set; } = false;
 
 
         public int retroceder { get; set; } = 0;
