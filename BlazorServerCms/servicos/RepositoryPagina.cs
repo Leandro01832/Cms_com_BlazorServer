@@ -2,9 +2,11 @@
 using business;
 using business.business;
 using business.business.Group;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.JSInterop;
 using NVelocity;
 using NVelocity.App;
 using System.Text;
@@ -26,6 +28,8 @@ namespace BlazorServerCms.servicos
         public bool erro = false;
         public bool exibir = true;
 
+        public int QuantDiv { get; set; } = 23;
+        public int QuantDivCriterio { get; set; } = 23;
         public int QuantMinutos { get; set; } = 30;
         public int quantSlidesCarregando { get; set; } = 90;
 
@@ -209,6 +213,43 @@ namespace BlazorServerCms.servicos
 
         return retorno;
     }
+
+    public async Task<int> marcarIndice(bool criterio, IJSRuntime js)
+        {
+            try
+            {
+                string? num = await js.InvokeAsync<string>("retornarlargura", "url");
+                int result = 0;
+
+                var largura = int.Parse(num);
+                if (!criterio)
+                {
+                    result = ((19 * largura) / 1024);
+                    
+
+                }
+                else
+                {
+                    var calc = 0;
+                    if (largura > 550)
+                    {
+                        calc = ((6 * largura) / 1280);
+                    }
+                    else
+                    {
+                        calc = ((6 * largura) / 375);
+                    }
+                    result = calc;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
+
+
 
     }
 

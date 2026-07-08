@@ -386,6 +386,8 @@
     {
         if (firstRender)
         {
+            repositoryPagina!.QuantDiv = await repositoryPagina.marcarIndice(false, js);
+            repositoryPagina!.QuantDivCriterio = await repositoryPagina.marcarIndice(true, js);
 
             try
             {
@@ -420,6 +422,8 @@
         }
         
     }
+
+   
 
     protected override void OnParametersSet()
     {

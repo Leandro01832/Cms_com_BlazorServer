@@ -30,6 +30,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Streaming> Streaming { get; set; }
         public DbSet<Relogio> Relogio { get; set; }
         public DbSet<Hashtag> Hashtag { get; set; }
         public DbSet<UserPasskey> UserPasskey { get; set; }

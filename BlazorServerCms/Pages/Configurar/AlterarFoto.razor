@@ -1,4 +1,6 @@
 ﻿@page "/alterarFoto"
+
+@using System.Reflection;
 @inject IWebHostEnvironment Environment
 @inject UserManager<UserModel> userManager
 @inject NavigationManager navigation
@@ -37,6 +39,27 @@
     Configurações de login
 </a>
 
+<hr />
+<p>Baralho</p>
+@foreach (var tipo in tipos)
+{
+    if(exampleModel.TipoBaralho.Contains(tipo.Name))
+    {
+        <input type="checkbox" id="@tipo.Name" name="tipo" value="@tipo.Name"
+        @onchange="@((ChangeEventArgs e) =>{ OnTipoChanged(e, tipo.Name); }  )" checked="checked" />
+
+    }
+    else
+    {
+        <input type="checkbox" id="@tipo.Name" name="tipo" value="@tipo.Name"
+        @onchange="@((ChangeEventArgs e) =>{ OnTipoChanged(e, tipo.Name); }  )" />
+    }
+   
+    <label>@Activator.CreateInstance(tipo)!.ToString()</label>
+    
+}
+
+
 @code {
 
     private DemoContextFactory db = new DemoContextFactory();
@@ -45,6 +68,8 @@
     private IBrowserFile file = null;
     private long maxFileSize = 1024 * 800;
 
+    private List<Type> tipos = null;
+
     protected override async Task OnParametersSetAsync()
     {
         Context = db.CreateDbContext(null);
@@ -52,6 +77,30 @@
             .GetAuthenticationStateAsync();
         var user = authState.User;
         exampleModel = await userManager.GetUserAsync(user);
+
+        // 1. Pega o "Assembly" (o seu programa/projeto executável)
+        var assembly = typeof(Content).Assembly;
+
+        // 2. Filtra todos os tipos que são subclasses de Animal
+        tipos = assembly.GetTypes()
+           .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
+
+        Type itemParaMover = typeof(Pagina);
+        Type itemParaMover2 = typeof(Chave);
+        Type itemParaMover3 = typeof(ChangeContent);
+        Type itemParaMover4 = typeof(Page);
+        Type itemParaMover5 = typeof(ProductContent);
+
+        // 1. Verifica se o item realmente existe na lista
+        if (tipos.Contains(itemParaMover))
+        {
+            // 2. Remove o item de sua posição atual
+            tipos.Remove(itemParaMover);
+            tipos.Remove(itemParaMover2);
+            tipos.Remove(itemParaMover3);
+            tipos.Remove(itemParaMover4);
+            tipos.Remove(itemParaMover5);
+        }
 
     }
 
@@ -76,5 +125,48 @@
     private void LoadFiles(InputFileChangeEventArgs e)
     {
         file = e.File;
+    }
+
+    private void OnTipoChanged(ChangeEventArgs e, string valor)
+    {
+        if (bool.Parse(e.Value.ToString())  == true)
+        {
+            
+            if(!string.IsNullOrEmpty(exampleModel.TipoBaralho))
+            {
+                exampleModel.TipoBaralho += ", " + valor;
+            }
+            else
+            {
+                exampleModel.TipoBaralho = valor;
+            }
+            var result = userManager.UpdateAsync(exampleModel).Result;
+             if (!result.Succeeded)
+            {
+                // Handle the error
+                var errors = string.Join(", ", result.Errors.Select(err => err.Description));
+                Console.WriteLine($"Error updating user: {errors}");
+            }
+            else
+            {
+                Console.WriteLine($"User updated successfully with TipoBaralho: {exampleModel.TipoBaralho}");
+            }         
+            
+        }
+        else
+            {
+                if(exampleModel.TipoBaralho.Contains(valor))
+                {
+                    if(exampleModel.TipoBaralho.Contains(", " + valor))
+                  exampleModel.TipoBaralho = exampleModel.TipoBaralho.Replace(", " + valor, "");
+                    if(exampleModel.TipoBaralho.Contains(valor))
+                  exampleModel.TipoBaralho = exampleModel.TipoBaralho.Replace(valor + ",", "");
+                    var result = userManager.UpdateAsync(exampleModel).Result;
+                    if(result.Succeeded)
+                    {
+                        Console.WriteLine($"User removed with successfully, TipoBaralho: {exampleModel.TipoBaralho}");
+                    }
+                }
+            }
     }
 }

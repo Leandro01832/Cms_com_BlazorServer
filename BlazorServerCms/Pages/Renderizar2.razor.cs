@@ -29,21 +29,13 @@ namespace BlazorCms.Client.Pages
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         [Parameter] public string? nomeLivro { get; set; } = "";
         [Parameter] public int? capitulo { get; set; } = 1;
-        private int indice = 0;
+       
+       
         [Parameter]
-        public int Indice
-        {
-            get { return indice; }
-            set
-            {
-                indice = value;                
-                slideAtual = (indice - 1) / quantDiv;
-            }
-        }
+        public int Indice{ get; set; }
 
         private async void alterarIndice(int valor)
         {
-            quantDiv = await marcarIndice(false);
             Indice = valor;
         }
 
@@ -127,7 +119,23 @@ namespace BlazorCms.Client.Pages
                 alterouPasta = true;
                 if (value != null)
                 {
-                    var count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+                   int count = 0;
+                    if(TipoClass != typeof(Baralho) )
+                    count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+                    else
+                    {
+                        if (usuario != null)
+                        {
+                            var arr = usuario.TipoBaralho!.Split(',');
+                            foreach(var item in arr)
+                            {
+                                Type tip = Type.GetType(item.Trim())!;
+                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);                            
+                            }                            
+                        }
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));                            
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));                          
+                    }
                     var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                     Ind = listaFiltro.IndexOf(f);
                     Ind2 = tipos.IndexOf(TipoClass);
@@ -149,8 +157,27 @@ namespace BlazorCms.Client.Pages
         private ApplicationDbContext Context;
         private int? auto = 0;
 
-        protected int quantDiv = 0;
-        protected int quantDivCriterio = 0;
+        protected bool larg = false;
+
+        private int quantDiv = 15;
+        protected int QuantDiv 
+        {
+            get{ return repositoryPagina!.QuantDiv; }
+            set
+            {
+                quantDiv = value;
+            }
+        }
+
+        private int quantDivCriterio = 6;
+        protected int QuantDivCriterio
+         {
+            get { return repositoryPagina!.QuantDivCriterio; }
+            set
+            {
+                quantDivCriterio = value;
+            }
+        }
 
         protected Criterio criterio = null;
 
@@ -161,22 +188,24 @@ namespace BlazorCms.Client.Pages
         private int ind = 0;
         public int Ind
         {
-            get{return ind;}
+            get { return ind; }
             set
             {
                 ind = value;
-                buscarRelogio();
+                //  var fil = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                //  buscarRelogio(fil);
             }
         }
 
         private int ind2 = 0;
         public int Ind2
         {
-            get{return ind2;}
+            get { return ind2; }
             set
             {
                 ind2 = value;
-                buscarRelogio();
+                //  var fil = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                //  buscarRelogio(fil);
             }
         }
 
@@ -199,9 +228,24 @@ namespace BlazorCms.Client.Pages
                 tipoClass = value;
                 if (Filtro != null)
                 {
-                    var count = CountPagesInFilterAsync((long)Filtro!, livro, value);
+                    int count = 0;
+                    if(TipoClass != typeof(Baralho) )
+                    count = CountPagesInFilterAsync((long)Filtro!, livro, value);
+                    else
+                    {
+                        if (usuario != null)
+                        {
+                            var arr = usuario.TipoBaralho!.Split(',');
+                            foreach(var item in arr)
+                            {
+                                Type tip = Type.GetType(item.Trim())!;
+                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);                            
+                            }                            
+                        }
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));                            
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));                          
+                    }
                     var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-
                     Ind = listaFiltro.IndexOf(f);
                     Ind2 = tipos.IndexOf(value);
 
@@ -260,6 +304,7 @@ namespace BlazorCms.Client.Pages
 
         protected int chave = 0;
         protected int slideAtual = 0;
+        protected int slide = 0;
         protected int slideAtualCriterio = 0;
         protected List<Content>[] array;
         protected List<Filtro>[] array2;
@@ -313,7 +358,9 @@ namespace BlazorCms.Client.Pages
             set
             {
                 model = value;
+                if (model != null)
                 SetModelAsync(value);
+                
             }
         }
 
@@ -352,7 +399,8 @@ namespace BlazorCms.Client.Pages
 
         public int timeproduto { get; set; } = 11;
 
-        public int? carregando { get; set; } = 10;
+        public int? carregando { get; set; } = 40;
+        public bool carregou = false;
 
         public int? Auto
         {

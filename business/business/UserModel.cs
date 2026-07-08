@@ -17,6 +17,7 @@ namespace business.business
 
         public string? HashUserName { get; set; }
         public string? Compartilhar { get; set; } = null;
+        public string? TipoBaralho { get; set; }
 
         public int Decorar { get; set; } = 2;
         public string? Image { get; set; }

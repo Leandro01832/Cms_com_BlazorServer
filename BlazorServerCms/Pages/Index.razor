@@ -309,6 +309,14 @@
 
     }
  
+      protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            repositoryPagina!.QuantDiv = await repositoryPagina.marcarIndice(false, js);
+            repositoryPagina!.QuantDivCriterio = await repositoryPagina.marcarIndice(true, js);      
+            
+        }
+
+
 
     protected override async Task OnInitializedAsync()
     {
