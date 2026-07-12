@@ -53,10 +53,12 @@ else if (!repositoryPagina.erro && Model != null)
                 {
                     SubFiltro fil2 = null;
                     SubFiltro fil3 = null;
+                    bool condicao = false;
                     var vers = 0;
                     if(listaFiltro.Count > 0)
                     {
                         var fil = listaFiltro.FirstOrDefault(f => f.Id == array2[0][item].Id);
+                        condicao = fil.Embaralhar;
                         if(fil.Criterio == null)
                         {
                             fil3 = listaFiltro.FirstOrDefault(f => f.Id == fil.ComCriterio)!;
@@ -80,6 +82,10 @@ else if (!repositoryPagina.erro && Model != null)
                             @if(Filtro != null)
                             {
                                 @vers 
+                                if(!condicao)
+                                {
+                                    <span>A</span>
+                                }
                                 
                             }
                             </div>
@@ -95,6 +101,10 @@ else if (!repositoryPagina.erro && Model != null)
                                 @if(!tellStory && Filtro != null)
                                 {
                                     @vers 
+                                    if(!condicao)
+                                    {
+                                        <span>A</span>
+                                    }
                                 }
                             </div>                      
                            </div>
@@ -109,6 +119,10 @@ else if (!repositoryPagina.erro && Model != null)
                                 @if(!tellStory && Filtro != null)
                                 {
                                     @vers 
+                                     if(!condicao)
+                                    {
+                                        <span>A</span>
+                                    }
                                 }
                             </div>   
                         </div>
@@ -231,8 +245,12 @@ else if (!repositoryPagina.erro && Model != null)
                     
                          <div>
                                             <span>
-                                                
+
+                                                @if(!tellStory)
+                                                {
                                                    <span> Cap. @cap </span> 
+                                                }
+                                                
 
                                                 
                                                
@@ -660,17 +678,18 @@ else if (!repositoryPagina.erro && Model != null)
                                         <div class="carousel-item ativo">
                                             @for (var ind = 0; ind < array[i].Count; ind++)
                                             {
+                                                
 
                                                 if (Filtro == null)
                                                 {
                                                     
                                                     <div class="DivPag@(classCss)">
-                                                        @if((slideAtual * QuantDiv) + (ind + 1) <= RepositoryPagina.Conteudo!.Where(c => c.GetType() == typeof(Chave)).ToList().Count)
-                                                        if (Indice == (slideAtual * QuantDiv) + (ind + 1))
+                                                        @if((SlideAtual * QuantDiv) + (ind + 1) <= RepositoryPagina.Conteudo!.Where(c => c.GetType() == typeof(Chave)).ToList().Count)
+                                                        if (Indice == (SlideAtual * QuantDiv) + (ind + 1))
                                                         {
 
                                                             <div>
-                                                                <span class="indice"><b>@((slideAtual * QuantDiv) + (ind + 1))</b> </span>
+                                                                <span class="indice"><b>@((SlideAtual * QuantDiv) + (ind + 1))</b> </span>
                                                             </div>
 
                                                             <div class="barra">
@@ -683,7 +702,7 @@ else if (!repositoryPagina.erro && Model != null)
                                                         {
 
                                                             <div>
-                                                                <span class="indices"><b>@((slideAtual * QuantDiv) + (ind + 1))</b> </span>
+                                                                <span class="indices"><b>@((SlideAtual * QuantDiv) + (ind + 1))</b> </span>
                                                             </div>
 
                                                             <div class="barra">
@@ -696,14 +715,15 @@ else if (!repositoryPagina.erro && Model != null)
                                                 }
                                                 else if (Filtro != null)
                                                 {
-                                                        var condicao = (slideAtual * QuantDiv) + (ind + 1) == Indice;
+                                                   //  var r = Indice - (SlideAtual * QuantDiv);              
+                                                                                                           
                                                        
                                                     if (!tellStory)
                                                     {
-                                                       // var condicao = vers == retornarVerso(array[i][ind]);
+
                                                         <div class="@(DivPag) @(classCss)" >
                                                             <div>
-                                                                @if (Model != null && condicao )
+                                                                @if (Model != null && array[0][ind] == Model.Id )
                                                                 {                                                                  
 
                                                                      <span data-2 class="indice"> @Versiculo</span>
@@ -712,25 +732,24 @@ else if (!repositoryPagina.erro && Model != null)
                                                                 }
                                                                 else
                                                                 {
-                                                                    <span class="indices"> - </span>
-
+                                                                    <span class="indices"> -- </span>
                                                                 }
 
-                                                            </div>
                                                             <div class="barra">
                                                                 -
+                                                            </div>
                                                             </div>
                                                         </div>
                                                     }
                                                     else
                                                     {
-                                                       // var condicao = vers == retornarVerso(array[i][ind]);
+                                                        
 
                                                             <div class="@(DivPag) @(classCss)" >
-                                                                <div>
-                                                                    @if (Model != null && condicao)
+                                                                
+                                                                    @if (Model != null && array[0][ind] == Model.Id)
                                                                     {                                                                        
-                                                                         <span data-2 class="indice"> @Versiculo</span>                                                                
+                                                                         <span data-2 class="indice"> @Versiculo</span>                                                          
                                                                         
                                                                     }
                                                                     else
@@ -739,15 +758,17 @@ else if (!repositoryPagina.erro && Model != null)
 
                                                                     }
                                                                     <div class="barra">
-                                                                        <span class="divisao"> @((slideAtual * QuantDiv) + (ind + 1))</span>
+                                                                        <span class="divisao"> @((SlideAtual * QuantDiv) + (ind + 1))</span>
                                                                     </div>
-
-                                                                </div>
+                                                                
                                                             </div>
 
                                                     }
-                                                }
-
+                                                
+                                                    
+                                                }                                             
+                                           
+                                                
                                             }
                                         </div>                                  
                                             

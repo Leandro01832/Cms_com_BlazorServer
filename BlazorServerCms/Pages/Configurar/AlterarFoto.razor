@@ -43,16 +43,18 @@
 <p>Baralho</p>
 @foreach (var tipo in tipos)
 {
-    if(exampleModel.TipoBaralho.Contains(tipo.Name))
+    if(exampleModel!.TipoBaralho !=  null 
+    && exampleModel.TipoBaralho.Contains(tipo.Namespace + "." + tipo.Name))
     {
-        <input type="checkbox" id="@tipo.Name" name="tipo" value="@tipo.Name"
-        @onchange="@((ChangeEventArgs e) =>{ OnTipoChanged(e, tipo.Name); }  )" checked="checked" />
+        <input type="checkbox" id="@tipo.Name" name="tipo" value="@(tipo.Namespace + "." + tipo.Name)"
+        @onchange="@((ChangeEventArgs e) =>{ OnTipoChanged(e, tipo.Namespace + "." + tipo.Name); }  )"
+         checked="checked" />
 
     }
     else
     {
-        <input type="checkbox" id="@tipo.Name" name="tipo" value="@tipo.Name"
-        @onchange="@((ChangeEventArgs e) =>{ OnTipoChanged(e, tipo.Name); }  )" />
+        <input type="checkbox" id="@tipo.Name" name="tipo" value="@(tipo.Namespace + "." + tipo.Name)"
+        @onchange="@((ChangeEventArgs e) =>{ OnTipoChanged(e, tipo.Namespace + "." + tipo.Name); }  )" />
     }
    
     <label>@Activator.CreateInstance(tipo)!.ToString()</label>
@@ -90,6 +92,7 @@
         Type itemParaMover3 = typeof(ChangeContent);
         Type itemParaMover4 = typeof(Page);
         Type itemParaMover5 = typeof(ProductContent);
+        Type itemParaMover6 = typeof(Link);
 
         // 1. Verifica se o item realmente existe na lista
         if (tipos.Contains(itemParaMover))
@@ -100,6 +103,7 @@
             tipos.Remove(itemParaMover3);
             tipos.Remove(itemParaMover4);
             tipos.Remove(itemParaMover5);
+            tipos.Remove(itemParaMover6);
         }
 
     }

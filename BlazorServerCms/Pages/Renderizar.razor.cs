@@ -129,19 +129,21 @@ namespace BlazorCms.Client.Pages
             {
                 var n = int.Parse(opcional);
                 automatico = false;
-                if(tellStory)
-                condicao = Model2.Pagina.Select(p => p.Content)
-                .Where(c => c.GetType() == TipoClass).ToList().Count <= int.Parse(opcional);
+                if (tellStory)
+                    condicao = int.Parse(opcional) <=
+                     Model2.Pagina.Select(p => p.Content)
+                    .Where(c => c.GetType() == TipoClass).ToList().Count;
                 else
-                condicao = int.Parse(opcional) <=
-                RepositoryPagina.Conteudo!.Where(c => c.GetType() == typeof(Chave)).ToList().Count;
+                    condicao = int.Parse(opcional) <=
+                    RepositoryPagina.Conteudo!
+                    .Where(c => c.GetType() == typeof(Chave)).ToList().Count;
             }
             catch (Exception ex)
             {
                 condicao = false;
             }
 
-            if (Filtro == null && condicao)
+            if (tellStory)
             {
                 alterarIndice(int.Parse(opcional));
                 acessar();
@@ -264,7 +266,7 @@ namespace BlazorCms.Client.Pages
             }
             else
             {
-                alterarIndice(Indice+ 1);
+                alterarIndice(Indice + 1);
             }
             acessar();
         }
@@ -380,13 +382,22 @@ namespace BlazorCms.Client.Pages
 
         }
 
-        protected void acessarVerso()
+        protected async Task acessarVerso()
         {
-            alterarIndice((int)Versiculo!);
-            Filtro = null;
-            ultimaPasta = false;
-            TipoClass = typeof(Chave);
-            acessar();
+            if(!tellStory)
+            {
+                alterarIndice((int)Versiculo!);
+                Filtro = null;
+                ultimaPasta = false;
+                TipoClass = typeof(Chave);
+                acessar();                
+            }
+            else
+            {
+                tellStory = false;
+                await js!.InvokeAsync<object>("DarAlert", $"A história {Model2.Nome} não esta sendo mais contada e dividida!!!");
+
+            }
         }
 
         protected void acessarComCriterio()
@@ -418,12 +429,7 @@ namespace BlazorCms.Client.Pages
             acessarCamada(cam + 1);
         }
 
-        protected async void desabilitarTellStory()
-        {
-            tellStory = false;
-            await js!.InvokeAsync<object>("DarAlert", $"A história {Model2.Nome} não esta sendo mais contada e dividida!!!");
-            acessar();
-        }
+       
 
         protected async void redirecionarMarcar()
         {
@@ -433,7 +439,7 @@ namespace BlazorCms.Client.Pages
             {
                 var quantVersiculos = RepositoryPagina.Conteudo!
                 .Where(c => c.GetType() == typeof(Chave)).ToList().Count;
-                
+
                 Vers = (int)Versiculo!;
                 if (Indice == 1)
                 {
@@ -463,7 +469,7 @@ namespace BlazorCms.Client.Pages
                     fi = listaFiltro.FirstOrDefault(f => f.Id == fil.FiltroId);
                     TipoClass = typeof(Page);
                     Filtro = fi?.Id;
-                        acessar();
+                    acessar();
 
                     // var item = await buscarRelogio();
                     // SubFiltro filt = null;
@@ -561,23 +567,23 @@ namespace BlazorCms.Client.Pages
                 {
                     Filtro = re.SubFiltroId;
                     var fi = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
-                    if (arrayContent[Ind][Ind2] != null && 
+                    if (arrayContent[Ind][Ind2] != null &&
                     arrayContent[Ind][Ind2].Contains(re.ContentId) && fi.Embaralhar)
                     {
 
                         arrayContent[Ind][Ind2] = repositoryPagina.embaralhar(arrayContent[Ind][Ind2].ToList()).ToArray();
                         alterarIndice(arrayContent[Ind][Ind2].ToList().IndexOf(re.ContentId) + 1);
-                        
+
                     }
                     else
-                    {                    
-                        
+                    {
+
                         var l = filt.Pagina.Select(p => p.Content)
-                       // .OrderBy(c => c.Id)
+                        // .OrderBy(c => c.Id)
                         .Where(c => c.GetType() == co.GetType()).ToList();
                         var teste = l.First(c => c.Id == co.Id);
-                        alterarIndice(l.IndexOf(teste) + 1);                                
-                        preencher();
+                        alterarIndice(l.IndexOf(teste) + 1);
+                        await preencher();
                     }
                     return re;
                 }
@@ -608,17 +614,17 @@ namespace BlazorCms.Client.Pages
                         .FirstOrDefault(p => p.Id == item.ContentId);
                         TipoClass = co.GetType();
                         var l = filt.Pagina.Select(p => p.Content)
-                       // .OrderBy(c => c.Id)
+                        // .OrderBy(c => c.Id)
                         .Where(c => c.GetType() == co.GetType()).ToList();
                         var teste = l.First(c => c.Id == co.Id);
-                        if(arrayContent[Ind][Ind2] != null )
+                        if (arrayContent[Ind][Ind2] != null)
                         {
-                            if(arrayContent[Ind][Ind2].Contains(co.Id))
-                            alterarIndice(arrayContent[Ind][Ind2].ToList().IndexOf(co.Id) + 1);                                                     
+                            if (arrayContent[Ind][Ind2].Contains(co.Id))
+                                alterarIndice(arrayContent[Ind][Ind2].ToList().IndexOf(co.Id) + 1);
                             else
                             {
-                                alterarIndice(l.IndexOf(teste) + 1);                                
-                                preencher();
+                                alterarIndice(l.IndexOf(teste) + 1);
+                                await preencher();
                             }
                         }
                         acessar();
@@ -795,7 +801,7 @@ namespace BlazorCms.Client.Pages
             if (profile != null)
             {
                 var fil = listaFiltro.FirstOrDefault(f => f.Id == id);
-                 rel = await buscarRelogio(fil);
+                rel = await buscarRelogio(fil);
             }
             if (rel != null)
             {
@@ -804,9 +810,9 @@ namespace BlazorCms.Client.Pages
                 var teste = fil.Pagina.FirstOrDefault(p => p.ContentId == rel.ContentId);
                 alterarIndice(fil.Pagina
                 .Where(p => p.Content.GetType() == tipoClass)
-               // .OrderBy(p => p.ContentId)
+                // .OrderBy(p => p.ContentId)
                 .ToList().IndexOf(teste) + 1);
-                
+
 
             }
             else
@@ -898,7 +904,7 @@ namespace BlazorCms.Client.Pages
             if (Model is VideoFilter)
             {
                 var marcacoes = Context.MarcacaoVideoFilter
-                .Where(m => m.VideoFilterId == Model.Id)
+                .Where(m => m.ContentId == Model.Id)
                 .OrderBy(m => m.Segundos)
                 .ToList();
                 foreach (var item in marcacoes)
@@ -936,7 +942,7 @@ namespace BlazorCms.Client.Pages
                         Filtro = item.Id;
                         var m = item.Pagina.FirstOrDefault(p => p.ContentId == Model.Id);
                         alterarIndice(item.Pagina
-                        .Where(p => p.Content.GetType() == TipoClass).ToList().IndexOf(m) + 1);                        
+                        .Where(p => p.Content.GetType() == TipoClass).ToList().IndexOf(m) + 1);
                         acessar();
                     }
         }
@@ -944,29 +950,9 @@ namespace BlazorCms.Client.Pages
         protected async void atualizarFiltro(ChangeEventArgs e)
         {
             var valor = e.Value!.ToString()!;
-            TipoClass = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;
-             acessar();
-            // var item = await buscarRelogio();
-            // if (item != null)
-            // {
-            //     var filt = listaFiltro.First(f => f.Id == item.SubFiltroId);
-            //     var c = filt.Pagina.Select(p => p.Content)
-            //     .Where(p => p.GetType() == Type.GetType(item.Tipo)).Skip(Indice).FirstOrDefault();
-            //     if (c != null && c.GetType().Name.ToLower() == valor.ToLower())
-            //         await AcessarHashtagId();
-            //     else
-            //     {
-            //         Indice = 1;
-            //         acessar();
-            //     }
-            // }
-            // else
-            // {
-            //     Indice = 1;
-            // }
+            TipoClass = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;            
+            acessar();
         }
-
-
 
         protected void TratarToqueInicio(TouchEventArgs e)
         {
@@ -1003,70 +989,89 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        public async void preencher()
+        public async Task preencher()
         {
-            if(TipoClass != typeof(Baralho))
+            if (TipoClass != typeof(Baralho))
             {
-                contentAdd.AddRange(await preencherLista(Ind, Ind2));                
+                var l = await preencherLista(Ind, Ind2, Indice, TipoClass);              
+                
             }
             else
             {
+                List<Content>[] arr2 = null;
+                string[] arr = null;
+                int count = 0;
                 if (usuario != null)
                 {
-                    var arr = usuario.TipoBaralho!.Split(',');
-                        List<Content>[] arr2 = new List<Content>[arr.Length + 2];
-                        var it = 0;
-                    for(var i = 0; i < arr.Length; i++)
+                    arr = usuario.TipoBaralho!.Split(',');
+                    arr2 = new List<Content>[arr.Length + 2];
+                }
+                else
+                    arr2 = new List<Content>[2];
+
+                if (usuario != null)
+                {
+                    var assemblyDoProjeto = typeof(Content).Assembly;
+                    for (var i = 0; i < arr.Length; i++)
                     {
-                        Type tip = Type.GetType(arr[i].Trim())!;
-                        TipoClass = tip;
-                        var lista = await preencherLista(Ind, Ind2);
-                        arr2[i] = lista;   
-                        it += lista.Count;                     
-                    }                            
-                    TipoClass = typeof(Page);
-                    var lista2 = await preencherLista(Ind, Ind2);
+                       Type tip = assemblyDoProjeto.GetType(arr[i].Trim())!;
+                        var lista = await buscarLista(tip);
+                        arr2[i] = lista;
+                        count += lista.Count;
+                    }
+                }
+
+
+                var lista2 = await buscarLista(typeof(Page));
+                if (usuario != null)
                     arr2[arr.Length] = lista2;
-                    TipoClass = typeof(ProductContent);
-                    var lista3 = await preencherLista(Ind, Ind2);
+                else
+                    arr2[0] = lista2;
+                count += lista2.Count;
+
+                var lista3 = await buscarLista(typeof(ProductContent));
+                if (usuario != null)
                     arr2[arr.Length + 1] = lista3;
-                    
-                   int mi = 0;
+                else
+                    arr2[1] = lista3;
+                count += lista3.Count;
 
-                    // 1. Criamos uma lista com todos os índices válidos do seu array (ex: 0, 1, 2, 3...)
-                    List<int> indicesDisponiveis = Enumerable
-                    .Range(0, arrayContent[ind][ind2].Length).ToList();
+                int mi = 0;
 
-                    // O loop agora roda baseando-se estritamente nas vagas restantes
-                    while (indicesDisponiveis.Count > 0)
+                // 1. Criamos uma lista com todos os índices válidos do seu array (ex: 0, 1, 2, 3...)
+                List<int> indicesDisponiveis = Enumerable
+                .Range(0, count).ToList();
+
+                // O loop agora roda baseando-se estritamente nas vagas restantes
+                while (indicesDisponiveis.Count > 0)
+                {
+                    var k = repositoryPagina.random.Next(0, arr2.Length);
+                    if (arr2[k] == null || arr2[k].Count == 0) continue;
+
+                    var l = repositoryPagina.random.Next(0, arr2[k].Count);
+
+                    // 2. Em vez de sortear o array inteiro, sorteamos uma POSIÇÃO da lista de vagas restantes!
+                    var indexNaListaDeVagas = repositoryPagina.random.Next(0, indicesDisponiveis.Count);
+                    var indiceAlvo = indicesDisponiveis[indexNaListaDeVagas];
+
+                    // O 'indiceAlvo' aqui é GARANTIDO que está nulo/vazio, eliminando tentativas repetidas
+                    if (!arrayContent[ind][ind2].Contains(arr2[k][l].Id))
                     {
-                        var k = repositoryPagina.random.Next(0, arr2.Length);
-                        if (arr2[k] == null || arr2[k].Count == 0) continue;
+                        arrayContent[ind][ind2][indiceAlvo] = arr2[k][l].Id;
+                        arr2[k].Remove(arr2[k][l]);
+                        mi++;
 
-                        var l = repositoryPagina.random.Next(0, arr2[k].Count);
-
-                        // 2. Em vez de sortear o array inteiro, sorteamos uma POSIÇÃO da lista de vagas restantes!
-                        var indexNaListaDeVagas = repositoryPagina.random.Next(0, indicesDisponiveis.Count);
-                        var indiceAlvo = indicesDisponiveis[indexNaListaDeVagas];
-
-                        // O 'indiceAlvo' aqui é GARANTIDO que está nulo/vazio, eliminando tentativas repetidas
-                        if (!arrayContent[ind][ind2].Contains(arr2[k][l].Id))
-                        {
-                            arrayContent[ind][ind2][indiceAlvo] = arr2[k][l].Id;
-                            mi++;
-
-                            // 3. Como essa vaga foi preenchida, removemos ela da nossa lista de disponíveis!
-                            indicesDisponiveis.RemoveAt(indexNaListaDeVagas);
-                        }
-                        
+                        // 3. Como essa vaga foi preenchida, removemos ela da nossa lista de disponíveis!
+                        indicesDisponiveis.RemoveAt(indexNaListaDeVagas);
                     }
 
-                    Console.WriteLine("Total de itens inseridos de forma ultra rápida: " + mi);
                 }
+                alterarIndice(1);
+                Console.WriteLine("Total de itens inseridos de forma ultra rápida: " + mi);
             }
         }
 
-        private async Task<List<Content>> preencherLista(int ind, int ind2)
+        private async Task<List<Content>> preencherLista(int ind, int ind2, int ind3, Type t)
         {
             List<Content> lista = new List<Content>();
             carregou = false;
@@ -1080,10 +1085,10 @@ namespace BlazorCms.Client.Pages
             if (metodoInfo != null)
             {
                 // 2. Transformamos o método genérico aberto no tipo específico que está na sua variável 'tipoClass'
-                var metodoGenerico = metodoInfo.MakeGenericMethod(tipoClass);
+                var metodoGenerico = metodoInfo.MakeGenericMethod(t);
 
                 // 3. Invocamos o método passando os parâmetros dentro de um array de objetos na ordem exata
-                var task = (Task)metodoGenerico.Invoke(this, new object[] { (long)Filtro!, QuantDiv, slideAtual, livro, carregando });
+                var task = (Task)metodoGenerico.Invoke(this, new object[] { (long)Filtro!, QuantDiv, SlideAtual, livro, carregando });
 
                 // 4. Como o método é assíncrono (await), aguardamos o término e pegamos o resultado
                 await task;
@@ -1091,40 +1096,70 @@ namespace BlazorCms.Client.Pages
             }
 
             lista.AddRange(l.Select(li => li.Content)
-            .Where(c => c.GetType() == TipoClass)
+            .Where(c => c.GetType() == t)
             .ToList()!);
-            quantidadeLista = lista.Count;
-            slide = slideAtual - 5;
-            if (slide < 0) slide = 0;
-            int posicaoInicial = slide * QuantDiv;
 
-            var r = Indice - posicaoInicial;
-            var value = Model2.Pagina.Where(p => p.Content.GetType() == TipoClass)
-            .Select(p => p.Content).ToList()[Indice - 1];
-            if(Model2.Embaralhar)
-            lista = repositoryPagina.embaralhar(lista).ToList();
+            contentAdd.AddRange(lista);
 
-            if(TipoClass != typeof(Baralho))
-            for (var i = 0; i < lista.Count; i++)
-            {
-                // 2. Acesse o índice real e contínuo dentro do seu array original
-                int indiceAlvo = posicaoInicial + i;
+            int posicaoInicial = SlideAtual * QuantDiv;
 
-                // 3. Opcional: Evite estouro de memória (IndexOutOfRangeException) conferindo o tamanho do array
-                if (indiceAlvo < arrayContent[ind][ind2].Length)
+            if (Model2.Embaralhar)
+                lista = repositoryPagina.embaralhar(lista).ToList();
+           
+            var value = Model2.Pagina.Where(p => p.Content.GetType() == t)
+            .Select(p => p.Content).ToList()[ind3 - 1];
+
+            if (TipoClass != typeof(Baralho))
+                for (var i = 0; i < lista.Count; i++)
                 {
-                    if (!arrayContent[ind][ind2].Contains(lista[i].Id))
-                        arrayContent[ind][ind2][indiceAlvo] = lista[i].Id;
+                    // 2. Acesse o índice real e contínuo dentro do seu array original
+                    int indiceAlvo = posicaoInicial + i;
+
+                    // 3. Opcional: Evite estouro de memória (IndexOutOfRangeException) conferindo o tamanho do array
+                    if (indiceAlvo < arrayContent[ind][ind2].Length)
+                    {
+                        if (!arrayContent[ind][ind2].Contains(lista[i].Id))
+                            arrayContent[ind][ind2][indiceAlvo] = lista[i].Id;
+                    }
                 }
-            }            
+
+            var li = arrayContent[ind][ind2].ToList();
+            if (Model2.Embaralhar && TipoClass != typeof(Baralho) && Indice != 1)
+             alterarIndice(li.IndexOf(value.Id)  + 1);
+                
             
-            if(Model2.Embaralhar && TipoClass != typeof(Baralho))
-            alterarIndice(arrayContent[ind][ind2].ToList().IndexOf(value.Id) + posicaoInicial + 1);
             carregou = true;
             return lista;
         }
 
-        
+        private async Task<List<Content>> buscarLista(Type t)
+        {
+            var num = 0;
+            List<Content> lista = new List<Content>();
+            int total = CountPagesInFilterAsync((long)Filtro!, livro, t);
+            if(total > num)
+            num = repositoryPagina.random.Next(1, total);
+
+            var condicao = total > QuantDiv * carregando * 2;
+
+            if(num > 0)
+            while (lista.Count != QuantDiv * carregando)
+            {
+                var li = await preencherLista(Ind, Ind2, num, t);
+                if (!condicao)
+                {
+                    lista = new List<Content>(li);
+                    break;
+                }
+                else
+                    if (lista.Count != QuantDiv * carregando)
+                    {
+                        num = repositoryPagina.random.Next(1, total);
+                    }
+            }
+            
+            return lista;
+        }
     }
 
     public class UserPreferencesImage
@@ -1133,7 +1168,7 @@ namespace BlazorCms.Client.Pages
         public UserModel UserModel { get; set; }
     }
 
-    
+
 
 }
 

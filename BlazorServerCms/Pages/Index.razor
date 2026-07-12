@@ -490,13 +490,14 @@ var gruposFinais = await Context.SubFiltro
             string url = "";
             var itemContent = 1;
             var str = Context.Story!.First(s => s.Id == item.StoryId);
+           var count = repositoryPagina.random.Next(1, item.Pagina
+                .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
 
             if(item.CriterioId != null)
             {
                 Chave ch = null;
                 
-                itemContent = repositoryPagina.random.Next(1, item.Pagina
-                .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
+                itemContent = repositoryPagina.random.Next(1, count);
 
                 var fil = filtros2!
                 .FirstOrDefault(f => f.FiltroId == item.Id); 
@@ -974,6 +975,6 @@ var gruposFinais = await Context.SubFiltro
               }
    }
 
-
+   
 
 }

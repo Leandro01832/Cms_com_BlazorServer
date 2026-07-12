@@ -11172,11 +11172,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
+      "projectUniqueName": "C:\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
       "projectName": "BlazorServerCms",
-      "projectPath": "D:\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
+      "projectPath": "C:\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
       "packagesPath": "C:\\Users\\leand\\.nuget\\packages\\",
-      "outputPath": "D:\\porjeto2\\BlazorServerCms\\obj\\",
+      "outputPath": "C:\\porjeto2\\BlazorServerCms\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -11195,8 +11195,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\porjeto2\\business\\business.csproj": {
-              "projectPath": "D:\\porjeto2\\business\\business.csproj"
+            "C:\\porjeto2\\business\\business.csproj": {
+              "projectPath": "C:\\porjeto2\\business\\business.csproj"
             }
           }
         }

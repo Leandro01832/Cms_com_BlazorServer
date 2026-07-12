@@ -29,14 +29,15 @@ namespace BlazorCms.Client.Pages
         [Inject] AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         [Parameter] public string? nomeLivro { get; set; } = "";
         [Parameter] public int? capitulo { get; set; } = 1;
-       
-       
-        [Parameter]
-        public int Indice{ get; set; }
+
+
+        [Parameter] public int Indice { get; set; }
 
         private async void alterarIndice(int valor)
         {
-            Indice = valor;
+                Indice = valor;
+                SlideAtual = (Indice - 1) / QuantDiv;  
+            
         }
 
         [Parameter]
@@ -59,34 +60,9 @@ namespace BlazorCms.Client.Pages
                 {
                     Console.WriteLine($"Erro!!!");
                 }
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"Erro ao preencher progress bar: quantidadeLista = {quantidadeLista}, Indice = {Indice} " + ex.Message);
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-                Console.WriteLine($"-------------------------------------|||||||||||||||||||---------------------------------------------");
-
+                Console.WriteLine($"----|||||||||||||||||||----");
+                Console.WriteLine($"----|||||||||||||||||||----");
+                Console.WriteLine($"----|||||||||||||||||||----");
             }
         }
 
@@ -119,22 +95,22 @@ namespace BlazorCms.Client.Pages
                 alterouPasta = true;
                 if (value != null)
                 {
-                   int count = 0;
-                    if(TipoClass != typeof(Baralho) )
-                    count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+                    int count = 0;
+                    if (TipoClass != typeof(Baralho))
+                        count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
                     else
                     {
                         if (usuario != null)
                         {
                             var arr = usuario.TipoBaralho!.Split(',');
-                            foreach(var item in arr)
+                            foreach (var item in arr)
                             {
                                 Type tip = Type.GetType(item.Trim())!;
-                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);                            
-                            }                            
+                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);
+                            }
                         }
-                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));                            
-                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));                          
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));
                     }
                     var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                     Ind = listaFiltro.IndexOf(f);
@@ -160,9 +136,9 @@ namespace BlazorCms.Client.Pages
         protected bool larg = false;
 
         private int quantDiv = 15;
-        protected int QuantDiv 
+        protected int QuantDiv
         {
-            get{ return repositoryPagina!.QuantDiv; }
+            get { return repositoryPagina!.QuantDiv; }
             set
             {
                 quantDiv = value;
@@ -171,7 +147,7 @@ namespace BlazorCms.Client.Pages
 
         private int quantDivCriterio = 6;
         protected int QuantDivCriterio
-         {
+        {
             get { return repositoryPagina!.QuantDivCriterio; }
             set
             {
@@ -186,7 +162,7 @@ namespace BlazorCms.Client.Pages
         private List<Content> contentAdd = new List<Content>();
 
         private int ind = 0;
-        public int Ind
+        protected int Ind
         {
             get { return ind; }
             set
@@ -198,7 +174,7 @@ namespace BlazorCms.Client.Pages
         }
 
         private int ind2 = 0;
-        public int Ind2
+        protected int Ind2
         {
             get { return ind2; }
             set
@@ -209,8 +185,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private Type tipoClass = typeof(Page);
-
         // Guarda a posição horizontal (X) de onde o toque começou
         private double toqueInicioX;
 
@@ -219,6 +193,8 @@ namespace BlazorCms.Client.Pages
 
         // Distância mínima em pixels para considerar que foi um deslize real e não um clique sem querer
         private const double DistanciaMinimaParaSwipe = 50;
+
+        private Type tipoClass = typeof(Page);
 
         protected Type TipoClass
         {
@@ -229,21 +205,22 @@ namespace BlazorCms.Client.Pages
                 if (Filtro != null)
                 {
                     int count = 0;
-                    if(TipoClass != typeof(Baralho) )
-                    count = CountPagesInFilterAsync((long)Filtro!, livro, value);
+                    if (TipoClass != typeof(Baralho))
+                        count = CountPagesInFilterAsync((long)Filtro!, livro, value);
                     else
                     {
                         if (usuario != null)
                         {
+                            var assemblyDoProjeto = typeof(Content).Assembly;
                             var arr = usuario.TipoBaralho!.Split(',');
-                            foreach(var item in arr)
+                            foreach (var item in arr)
                             {
-                                Type tip = Type.GetType(item.Trim())!;
-                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);                            
-                            }                            
+                                Type tip = assemblyDoProjeto.GetType(item.Trim())!;
+                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);
+                            }
                         }
-                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));                            
-                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));                          
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));
+                        count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));
                     }
                     var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                     Ind = listaFiltro.IndexOf(f);
@@ -269,12 +246,12 @@ namespace BlazorCms.Client.Pages
         private string? resumo = null;
         private bool alterouPasta = false;
 
-        private long?[][][] arrayContent;
+        protected long?[][][] arrayContent;
         protected List<Camada> camadas = null;
         protected List<SubFiltro> listaFiltro = null;
         protected List<SubFiltro> UltimasPastas = null;
         protected List<Type> tipos = null;
-        private int indiceChave = 0;
+
         private int tempoVideo = 0;
         protected List<int> porcentagens = new List<int>();
         public bool AlterouCamada { get; set; }
@@ -302,11 +279,20 @@ namespace BlazorCms.Client.Pages
 
         private double Progress { get; set; } = 0;
 
-        protected int chave = 0;
-        protected int slideAtual = 0;
-        protected int slide = 0;
+        private int slideAtual = 10000;
+        protected int SlideAtual
+        {
+            get
+            {
+                return slideAtual;
+            }
+            set
+            {
+                slideAtual = value;
+            }
+        }
         protected int slideAtualCriterio = 0;
-        protected List<Content>[] array;
+        protected List<long?>[] array = new List<long?>[1];
         protected List<Filtro>[] array2;
         protected bool tellStory = false;
         protected string inputs = "";
@@ -359,8 +345,8 @@ namespace BlazorCms.Client.Pages
             {
                 model = value;
                 if (model != null)
-                SetModelAsync(value);
-                
+                    SetModelAsync(value);
+
             }
         }
 
@@ -399,7 +385,7 @@ namespace BlazorCms.Client.Pages
 
         public int timeproduto { get; set; } = 11;
 
-        public int? carregando { get; set; } = 40;
+        public int? carregando { get; set; } = 35;
         public bool carregou = false;
 
         public int? Auto

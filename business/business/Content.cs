@@ -20,7 +20,9 @@ namespace business.business
         }
 
         public MudancaEstado mudanca;
+
         private string html;
+        
         public DateTime Data { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "O titulo é necessário")]
@@ -40,6 +42,7 @@ namespace business.business
         public virtual List<Comment> Comentario { get; set; }
         public virtual List<Relogio> Relogio { get; set; }
         public virtual List<RelogioParede> RelogioParede { get; set; }
+        public virtual List<MarcacaoVideoFilter> Marcacao { get; set; }
 
         public int QuantLiked { get; set; } = 0;
         public int QuantShared { get; set; } = 0;

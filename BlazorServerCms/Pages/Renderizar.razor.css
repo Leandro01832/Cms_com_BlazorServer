@@ -210,6 +210,7 @@ p {
 
 .barra {
     height: 5px;
+    width: 20px;
     background-color: black;
 }
 
@@ -257,6 +258,7 @@ p {
     
         /* A MÁGICA: Empurra o rodapé para a última linha do container pai
         margin-bottom: 5px;
+        margin-bottom: 20px;
         
         */
         margin-top: auto !important; 
@@ -277,23 +279,23 @@ Informativo {
 }
 
 .DivPagina {
-    height: 40px;
+    height: 32px;
     opacity: 0.90;
     width: 100%;
-    margin: 6px;
+    margin-bottom: 6px;
     display: flex;
     flex-direction: row;
     overflow: hidden;
     flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: space-around;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .DivPagina2 {
-    height: 50px;
+    height: 32px;
     opacity: 0.90;
     width: 100%;
-    margin: 6px;
+    margin-bottom: 6px;
     display: flex;
     flex-direction: row;
     overflow: hidden;
@@ -304,25 +306,28 @@ Informativo {
 
 .DivPag {
     width: 35px;
-    height: 100%;
     opacity: 0.90;
-    margin: 6px;
-    display: flex;
-    border-radius: 30px;
-    flex-direction: column;
-    background-color: white;
-}
-
-.DivPag2 {
-    width: 35px;
-    height: 100%;
-    opacity: 0.90;
-    margin: 6px;
+    margin-left: 6px;
+    margin-right: 6px;
     margin-bottom: 15px;
     display: flex;
     border-radius: 30px;
     flex-direction: column;
     background-color: white;
+    align-items: flex-start;
+}
+
+.DivPag2 {
+    width: 35px;
+    opacity: 0.90;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-bottom: 15px;
+    display: flex;
+    border-radius: 30px;
+    flex-direction: column;
+    background-color: white;
+    align-items: flex-start;
 }
 
 
@@ -456,7 +461,7 @@ Informativo {
 }
 
 .heade {
-    background-color: white;
+    background-color: rgb(224, 224, 224);
     height: 40px;
     overflow: auto;
     display: flex;
@@ -465,6 +470,10 @@ Informativo {
     width: 100%;
     padding-left: 30px;
     padding-right: 30px;
+}
+
+.heade p {
+    background-color: rgb(224, 224, 224);
 }
 
 

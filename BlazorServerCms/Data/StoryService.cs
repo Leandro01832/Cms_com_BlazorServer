@@ -33,13 +33,14 @@ namespace BlazorServerCms.Data
             List<FiltroContent> conteudos;
            
                 int carregar = 0;
-                if (carregando != null && carregando != 0 && carregando < repositoryPagina.quantSlidesCarregando)
+                if (carregando != null && carregando != 0)
                     carregar = (int)carregando;
-                else carregar = repositoryPagina.quantSlidesCarregando;
 
-                var slide = slideAtual - 5;
-                if (slide < 0) slide = 0;
-               
+                carregar = carregar - 5;
+                slideAtual = slideAtual - 5;
+                if (slideAtual < 0) slideAtual = 0;
+
+                if (typeof(T) == typeof(ProductContent))               
                 conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
                 .Include(c => c.Filtro)
                 .Include(c => c.Content)
@@ -52,8 +53,52 @@ namespace BlazorServerCms.Data
                 .Where(c => c.FiltroId == filtroId &&
                 c.Content is T &&
                 c.Content.LivroId == (livro != null ? livro.Id : null))
-                .Skip(quantDiv * slide).Take(quantDiv * carregar)
-                .ToListAsync();           
+                .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+                .ToListAsync();  
+                else if (typeof(T) == typeof(UserContent))   
+                conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+                .Include(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Comentario)
+                .Where(c => c.FiltroId == filtroId &&  
+                c.Content is T && c.Content!.Data > DateTime.Now.AddDays(-repositoryPagina.dias) &&
+                c.Content.LivroId == (livro != null ? livro.Id : null) ||
+                c.FiltroId == filtroId &&  
+                c.Content is T && c.Content.QuantLiked > 100000 &&
+                c.Content.LivroId == (livro != null ? livro.Id : null) ||
+                c.FiltroId == filtroId &&  
+                c.Content is T && c.Content.QuantShared > 100000 &&
+                c.Content.LivroId == (livro != null ? livro.Id : null))
+                .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+                .ToListAsync();   
+                else if (typeof(T) == typeof(VideoFilter))             
+                conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+                .Include(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Marcacao)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Comentario)
+                .Where(c => c.FiltroId == filtroId &&
+                c.Content is T &&
+                c.Content.LivroId == (livro != null ? livro.Id : null))
+                .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+                .ToListAsync();     
+                else             
+                conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+                .Include(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Comentario)
+                .Where(c => c.FiltroId == filtroId &&
+                c.Content is T &&
+                c.Content.LivroId == (livro != null ? livro.Id : null))
+                .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+                .ToListAsync();     
            
             foreach (var item in conteudos.ToList())
                 if (RepositoryPagina.Conteudo!.FirstOrDefault(c => c.Id == item!.ContentId) == null)
