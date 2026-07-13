@@ -19,6 +19,7 @@ namespace BlazorCms.Client.Pages
     public partial class RenderizarBase : ComponentBase
     {
         [Inject] public IStoryService storyService { get; set; }
+        [Inject] public LiveKitService LiveService { get; set; }
         [Inject] public RepositoryPagina? repositoryPagina { get; set; }
         [Inject] public ITourService TourService { get; set; }
         [Inject] public NavigationManager? navigation { get; set; }
@@ -120,9 +121,7 @@ namespace BlazorCms.Client.Pages
                     {
                         var l = listaFiltro.Where(f => f.ComCriterio == f.Id).ToList();
                         count = l.Count;
-
                     }
-
 
                     if (arrayContent[Ind][Ind2] == null)
                         arrayContent[Ind][Ind2] = new long?[count];
@@ -131,7 +130,10 @@ namespace BlazorCms.Client.Pages
         }
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
-        private int? auto = 0;
+        private int? auto = 0;    
+
+        protected bool carregandoStreaming = true;
+        private IJSObjectReference? moduloJs;    
 
         protected bool larg = false;
 

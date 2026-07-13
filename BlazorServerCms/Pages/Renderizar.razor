@@ -4,6 +4,8 @@
 @using NVelocity.Runtime.Directive
 @inherits RenderizarBase
 @layout MeuLayout
+@implements IAsyncDisposable
+
 
 
 @if (Mensagem != null || carregou == false)
@@ -551,6 +553,22 @@ else if (!repositoryPagina.erro && Model != null)
                             </div>
                         }
 
+                    }
+                    else if(TipoClass == typeof(Streaming))
+                    {
+                        <h3>🎥 Transmissão Ao Vivo</h3> 
+
+                        <a href="#" onclick="@LiveService.CriarIngressDoOBSAsync" > criar o Ingress (OBS)</a>
+
+                        <div class="video-container">
+                            @if (carregandoStreaming)
+                            {
+                                <p>🔄 Conectando ao servidor de streaming ultra-rápido...</p>
+                            }
+                            
+                            @* A mágica do WebRTC vai injetar o player de vídeo dentro desta div *@
+                            <div id="playerLiveKit" style="width: 100%; max-width: 800px; min-height: 450px; background: #000; border-radius: 8px;"></div>
+                        </div>
                     }
                     else if(TipoClass == typeof(Link))
                     {

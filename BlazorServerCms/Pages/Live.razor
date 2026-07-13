@@ -1,0 +1,130 @@
+@page "/live/{user}"
+
+
+@inject  LiveKitService LiveService; 
+@inject IJSRuntime? js;
+
+@attribute [Authorize]
+
+@implements IAsyncDisposable
+
+<h3>🎥 Transmissão Ao Vivo</h3>
+<a href="#" onclick="@LiveService.CriarIngressDoOBSAsync" @onclick:preventDefault > criar o Ingress (OBS)</a>
+
+<div class="video-container">
+    @if (carregandoStreaming)
+    {
+        <p>🔄 Conectando ao servidor de streaming ultra-rápido...</p>
+    }
+
+    @if (conectando)
+    {
+        <button class="btn btn-success" @onclick="LigarCamera">🎥 Iniciar Câmera e Começar Live</button>
+    }
+    
+    @* A mágica do WebRTC vai injetar o player de vídeo dentro desta div *@
+    <div id="cameraLocal" style="width: 100%; max-width: 500px; min-height: 400px; background: #222; border-radius: 12px;"></div>
+    @* <div id="playerLiveKit"
+     style="width: 100%; max-width: 800px; min-height: 450px; background: #000; border-radius: 8px;">
+     </div> *@
+</div>
+                        
+
+
+
+
+@code{
+
+    [Parameter] public string user { get; set; }
+    private bool carregandoStreaming = true;
+    private IJSObjectReference? moduloJs;   
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private UserModel usermodel;
+    private Streaming str = null;
+
+    private bool conectando = true;
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);
+        usermodel = await Context.Users!
+        .Include(u => u.Relogio)!
+        .ThenInclude(u => u.Content)!
+         .Include(u => u.Relogio)!
+        .ThenInclude(u => u.SubFiltro)!
+        .ThenInclude(u => u.Story)!
+        .Include(u => u.Livro)!
+        .ThenInclude(u => u.Livro)!
+        .ThenInclude(u => u.Filtro)!
+        .FirstOrDefaultAsync(u => u.UserName == user);
+
+         str = await Context.Streaming
+        .FirstOrDefaultAsync(str => str.Html == usermodel.Id);
+
+        if(str == null)
+        {
+            str = new Streaming
+            {
+                StoryId = 2,
+                Html = usermodel.Id,
+                QuantLiked = 0,
+                QuantShared = 0,
+                LivroId = null,
+                Titulo = "Ao Vivo"                           
+            };
+            Context.Add(str);
+            await Context.SaveChangesAsync();
+            var fil = await Context.Filtro.FirstAsync(f => f.Id == 10013);
+            str.IncluiFiltro(fil);
+            await Context.SaveChangesAsync();
+        }
+        else
+        {
+            str.Titulo = "Ao Vivo";
+            Context.Update(str);
+            await Context.SaveChangesAsync();
+        }
+
+        
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+{
+    if (firstRender)
+    {
+        // Apenas importa o script uma vez para registrar o objeto no 'window'
+        await js!.InvokeAsync<IJSObjectReference>("import", "./livekit-helper.js");
+        
+        carregandoStreaming = false;
+        StateHasChanged();
+    }
+}
+
+private async Task LigarCamera()
+{
+    conectando = false;
+    
+    string urlServidor = "wss://instagleo-rx9jiwj0.livekit.cloud";
+    string token = LiveService.GerarTokenAcesso("sala-principal", $"{user}");
+
+    // CHAMADA CORRIGIDA: Aponta direto para a função injetada em window
+    await js!.InvokeVoidAsync("window.livekitHelper.iniciarTransmissaoPeloCelular", 
+        urlServidor, token, "cameraLocal");
+}
+
+public async ValueTask DisposeAsync()
+{
+    if (js != null)
+    {
+        str.Titulo = "Live";
+        Context.Update(str);
+        await Context.SaveChangesAsync();
+
+        // Desconecta usando o gerenciador global
+        await js.InvokeVoidAsync("window.livekitHelper.desconectarDaLive");
+    }
+}
+
+}

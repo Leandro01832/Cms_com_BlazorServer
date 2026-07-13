@@ -87,6 +87,18 @@ namespace BlazorServerCms.Data
                 c.Content.LivroId == (livro != null ? livro.Id : null))
                 .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
                 .ToListAsync();     
+                else if (typeof(T) == typeof(Streaming))             
+                conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
+                .Include(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Filtro)
+                .Include(c => c.Content)
+                .ThenInclude(c => c.Comentario)
+                .Where(c => c.FiltroId == filtroId &&
+                c.Content is T && c.Content.Titulo == "Ao Vivo" &&
+                c.Content.LivroId == (livro != null ? livro.Id : null))
+                .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
+                .ToListAsync();     
                 else             
                 conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
                 .Include(c => c.Filtro)
@@ -95,7 +107,7 @@ namespace BlazorServerCms.Data
                 .Include(c => c.Content)
                 .ThenInclude(c => c.Comentario)
                 .Where(c => c.FiltroId == filtroId &&
-                c.Content is T &&
+                c.Content is T && 
                 c.Content.LivroId == (livro != null ? livro.Id : null))
                 .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
                 .ToListAsync();     

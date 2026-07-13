@@ -31,6 +31,22 @@ namespace BlazorCms.Client.Pages
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (firstRender && TipoClass == typeof(Streaming))
+            {
+                // 1. Gera as credenciais da live no backend C#
+                string urlServidorLiveKit = "wss://instagleo-rx9jiwj0.livekit.cloud"; // URL do seu LiveKit
+                string token = LiveService.GerarTokenAcesso("sala-principal", $"{Model.Html}");
+                
+
+                // 2. Importa o script auxiliar usando JS Interop do Blazor
+                moduloJs = await js.InvokeAsync<IJSObjectReference>("import", "./livekit-helper.js");
+
+                // 3. Inicializa o player passando o token gerado pelo C#
+                await moduloJs.InvokeVoidAsync("conectarNaLive", urlServidorLiveKit, token, "playerLiveKit");
+
+                carregandoStreaming = false;
+                StateHasChanged();
+            }
 
             if (QuantDiv != repositoryPagina!.QuantDiv)
             {
@@ -334,7 +350,7 @@ namespace BlazorCms.Client.Pages
                     verificarCompartilhante(fils[i], time);
 
             }
-        }
+        }        
 
         private async Task<int> marcarIndice(bool criterio)
         {
@@ -515,7 +531,8 @@ namespace BlazorCms.Client.Pages
                             });
                         }
 
-                    }
+                    }   
+
                     quantidadeLista = count;
                 }
             }

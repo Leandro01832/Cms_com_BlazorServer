@@ -20,6 +20,16 @@ namespace BlazorCms.Client.Pages
         {
         }
 
+          // Garante que se o usuário mudar de página, o circuito do WebRTC fecha imediatamente
+        public async ValueTask DisposeAsync()
+        {
+            if (moduloJs != null)
+            {
+                await moduloJs.InvokeVoidAsync("desconectarDaLive");
+                await moduloJs.DisposeAsync();
+            }
+        }
+
         private async void StartTimer(Content p)
         {
             try

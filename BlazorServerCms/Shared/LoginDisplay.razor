@@ -18,18 +18,19 @@
 
                             @foreach (var item in array[i])
                             {
+                                
 
                                 <div class="story">
                                     <h6>
-                                        <a onclick="@(() => navigation.NavigateTo($"/{item.UserName}"))">
+                                        <a onclick="@(() => navigation.NavigateTo($"/{item.user.UserName}"))">
                                             <div class="circuloNewStory">
 
                                                 <div class="circulo4">
                                                     <div class="circulo5">
 
-                                                        @if (item != null && item.Image != null)
+                                                        @if (item != null && item.user.Image != null)
                                                         {
-                                                            <img src="ImgUser/usuario-@(item.UserName)-@(item.Image)" class="ImgUser">
+                                                            <img src="ImgUser/usuario-@(item.user.UserName)-@(item.user.Image)" class="ImgUser">
                                                         }
                                                         else
                                                         {
@@ -43,16 +44,16 @@
                                             </div>
                                             <div class="desc">
 
-                                            @if (aoVivo)
+                                            @if (item.live)
                                             {
                                                     <div class="aovivo">
                                                         <p  > Ao Vivo</p>
                                                     </div>
-                                                <p>@descUser(item.UserName)</p>
+                                                <p>@descUser(item.user.UserName)</p>
                                             }
                                             else
                                             {
-                                                <p> @descUser(item.UserName) </p>
+                                                <p> @descUser(item.user.UserName) </p>
 
                                             }
                                             </div>
@@ -70,18 +71,19 @@
 
                             @foreach (var item in array[i])
                             {
+                                
 
                                 <div class="story" title="A descrição da story esta aqui!!!">
                                     <h6>
-                                        <a onclick="@(() => navigation.NavigateTo($"/{item.UserName}"))">
+                                        <a onclick="@(() => navigation.NavigateTo($"/{item.user.UserName}"))">
 
                                             <div class="circulo">
                                                 <div class="circulo2">                                               
                                                    
                                                     
-                                                    @if (item != null && item.Image != null)
+                                                    @if (item != null && item.user.Image != null)
                                                     {
-                                                        <img src="ImgUser/usuario-@(item.UserName)-@(item.Image)" class="ImgUser">
+                                                        <img src="ImgUser/usuario-@(item.user.UserName)-@(item.user.Image)" class="ImgUser">
                                                     }
                                                     else
                                                     {
@@ -94,14 +96,15 @@
                                            
                                             
                                             </div>
-                                            @if(aoVivo){
+
+                                            @if(item.live){
                                                 <div class="aovivo">
                                                 <p> Ao Vivo</p>
                                                 </div>
-                                                <p>@descUser(item.UserName)</p>
+                                                <p>@descUser(item.user.UserName)</p>
                                             }
                                             else{
-                                                <p> @descUser(item.UserName) </p>
+                                                <p> @descUser(item.user.UserName) </p>
 
                                             }
                                         </a>
@@ -134,13 +137,14 @@
 
 
 @code{
-    List<UserModel>[] array;
+    List<UserModelLive>[] array;
     private int itens = 6;
     private int lacos = 0;
     List<UserModel> usuarios;
+    List<UserModel> usuarios2;
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private bool aoVivo;
+    
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -162,16 +166,21 @@
                     itens = 4;
                 else itens = 6;
 
-                lacos = usuarios.Count / itens;
-                var resto = usuarios.Count % itens;
-                if (resto != 0) lacos++;
-                array = new List<UserModel>[lacos];
-
-                for (var i = 0; i < array.Length; i++)
+                if(itens < 6)
                 {
-                    array[i] = new List<UserModel>();
-                    array[i].AddRange(usuarios.Skip(itens * i).Take(itens).ToList());
+                    lacos = usuarios.Count / itens;
+                    var resto = usuarios.Count % itens;
+                    if (resto != 0) lacos++;
+                    array = new List<UserModelLive>[lacos];
+
+                    for (var i = 0; i < array.Length; i++)
+                    {
+                        array[i] = new List<UserModelLive>();
+                        foreach(var item in usuarios.Skip(itens * i).Take(itens).ToList())
+                        array[i].Add( new UserModelLive{ user = item, live = await verificarLive(item) });
+                    }
                 }
+
 
 
             }
@@ -184,18 +193,31 @@
 
     protected override async Task OnInitializedAsync()
     {
-        aoVivo = true; 
+        
         Context = db.CreateDbContext(null);
         usuarios = await Context.Users.ToListAsync();
+        usuarios2 = new List<UserModel>();
         lacos = usuarios.Count / itens;
         var resto = usuarios.Count % itens;
         if (resto != 0) lacos++;
-        array = new List<UserModel>[lacos];
+        array = new List<UserModelLive>[lacos];
+
+            foreach(var item2 in usuarios.ToList())
+            if(!await verificarLive(item2))
+            usuarios2.Add(item2);
+            else
+            {
+               usuarios2.Reverse();
+               usuarios2.Add(item2);
+               usuarios2.Reverse();
+
+            }
 
         for (var i = 0; i < array.Length; i++)
         {
-            array[i] = new List<UserModel>();
-            array[i].AddRange(usuarios.Skip(itens * i).Take(itens).ToList());
+            array[i] = new List<UserModelLive>();
+            foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
+            array[i].Add( new UserModelLive{ user = item, live = await verificarLive(item) });
         }
 
 
@@ -211,4 +233,24 @@
         else
         return user;
     }
+ 
+    private async Task<bool> verificarLive(UserModel user)
+    {
+        ApplicationDbContext banco;
+        banco = db.CreateDbContext(null);
+        var str = await banco.Streaming
+        .FirstOrDefaultAsync(str => str.Html == user.Id);
+
+        if(str != null && str.Titulo == "Ao Vivo")
+        return true;
+        else
+        return false;
+    }
+ 
+    public class UserModelLive
+    {
+        public UserModel user;
+        public bool live;
+    }
+ 
  }
