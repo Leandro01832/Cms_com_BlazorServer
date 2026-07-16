@@ -2,7 +2,10 @@
 using BlazorServerCms.servicos;
 using business;
 using business.business;
+using business.business.conteudo;
 using business.business.Group;
+using business.business.sistema;
+using business.business.relacionamento;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -33,16 +36,24 @@ namespace BlazorCms.Client.Pages
         {
             if (firstRender && TipoClass == typeof(Streaming))
             {
+                string token = "";
                 // 1. Gera as credenciais da live no backend C#
                 string urlServidorLiveKit = "wss://instagleo-rx9jiwj0.livekit.cloud"; // URL do seu LiveKit
-                string token = LiveService.GerarTokenAcesso("sala-principal", $"{Model.Html}");
+                if(usuario != null)
+                token = LiveService.GerarTokenAcesso(Model!.Html!, usuario.Id, false);
+                else
+                {
+                    string idAnonimo = $"anonimo_{Guid.NewGuid().ToString().Substring(0, 8)}";
+                    token = LiveService.GerarTokenAcesso(Model!.Html!, idAnonimo, false);
+                }
                 
 
                 // 2. Importa o script auxiliar usando JS Interop do Blazor
-                moduloJs = await js.InvokeAsync<IJSObjectReference>("import", "./livekit-helper.js");
+                moduloJs = await js!.InvokeAsync<IJSObjectReference>("import", "./livekit-helper.js");
 
                 // 3. Inicializa o player passando o token gerado pelo C#
-                await moduloJs.InvokeVoidAsync("conectarNaLive", urlServidorLiveKit, token, "playerLiveKit");
+                await js.InvokeVoidAsync("window.livekitHelper.conectarNaLive",
+                 urlServidorLiveKit, token, "playerLiveKit");
 
                 carregandoStreaming = false;
                 StateHasChanged();
@@ -66,11 +77,11 @@ namespace BlazorCms.Client.Pages
                 if (AlterouModel)
                     await js!.InvokeAsync<object>("zerar", "1");
                 if (Filtro != null)
-                {
-                    await js.InvokeVoidAsync("carregarVideo", id_video);
-                }
-
-
+                await js.InvokeVoidAsync("carregarVideo", id_video);
+                        
+                    
+                
+                
                 id_video = null;
             }
         }
@@ -223,7 +234,9 @@ namespace BlazorCms.Client.Pages
 
             arrayContent = new long?[listaFiltro.Count][][];
             for (var i = 0; i < arrayContent.Length; i++)
-                arrayContent[i] = new long?[tipos.Count][];
+            arrayContent[i] = new long?[tipos.Count][];
+            
+
 
             var teste = await Context.SubFiltro
             .Include(s => s.Criterio)
@@ -991,8 +1004,10 @@ namespace BlazorCms.Client.Pages
                                 .FirstOrDefault(f => f.UserName == usuarios[j].UserModel.UserName &&
                                 f.VersiculosDecorados != null);
 
-                            var conteudos = Context.UserContent.Include(c => c.UserModel)
-                                    .Where(c => c.UserModel.UserName == usuarios[j].UserModel.UserName &&
+                            var conteudos = Context.UserContent
+                            .Include(c => c.UserModel)
+                                    .Where(c => 
+                                    c.UserModel.UserName == usuarios[j].UserModel.UserName &&
                                     c.Data.Date > DateTime.Now.AddDays(-7).Date)
                                     .ToList();
 

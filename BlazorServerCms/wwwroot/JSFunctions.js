@@ -60,16 +60,26 @@ window.removerVideo = (a) =>
     }
 
     
-
-
-
-
-
-
-  window.carregarVideo = (id_video) => {
+  window.carregarVideo = (id_video) =>
+  {
    // criar div player children de class render se não existir
-    var renderDiv = document.querySelector('.render');
-    if (!document.getElementById('player')) {
+    var renderDiv = document.querySelector('.contentP');
+    if (!document.getElementById('player')) 
+    {
+        var playerDiv = document.createElement('div');
+        playerDiv.id = 'player';
+        renderDiv.appendChild(playerDiv);
+    }
+
+    onYouTubeIframeAPIReady(id_video);
+  }
+
+  window.carregarVideoComment = (id_video) =>
+  {
+   // criar div player children de class render se não existir
+    var renderDiv = document.querySelector('.contentC');
+    if (!document.getElementById('player')) 
+    {
         var playerDiv = document.createElement('div');
         playerDiv.id = 'player';
         renderDiv.appendChild(playerDiv);

@@ -86,14 +86,11 @@
     }
 
     private async void HandleSubmit()
-    {
-
-        
+    {        
         await Context.AddAsync(exampleModel);
         await Context.SaveChangesAsync();
 
         await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
         navigation.NavigateTo("/");
-
     }
 }

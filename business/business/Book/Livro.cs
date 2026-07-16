@@ -1,5 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using business.business.conteudo;
+using business.business.relacionamento;
+using business.business.Group;
+using business.business.sistema;
 
 namespace business.business.Book
 {

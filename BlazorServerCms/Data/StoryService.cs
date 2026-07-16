@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using BlazorServerCms.Pages;
-using BlazorServerCms.servicos;
-using business;
+﻿using BlazorServerCms.servicos;
+using business.business.conteudo;
 using business.business;
 using business.business.Book;
 using Google.Apis.Services;
@@ -98,7 +96,7 @@ namespace BlazorServerCms.Data
                 c.Content is T && c.Content.Titulo == "Ao Vivo" &&
                 c.Content.LivroId == (livro != null ? livro.Id : null))
                 .Skip(quantDiv * slideAtual).Take(quantDiv * carregar)
-                .ToListAsync();     
+                .ToListAsync();      
                 else             
                 conteudos = await Context!.FiltroContent!.OrderBy(p => p.ContentId)
                 .Include(c => c.Filtro)

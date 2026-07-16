@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace business.business
+namespace business.business.conteudo
 {
     public class MudancaEstado : BaseModel, IMudancaEstado
     {
@@ -28,7 +28,6 @@ namespace business.business
             {
                 Html = m.Html,
                 Produto = m.Produto,
-                Rotas = m.Rotas,
                   Titulo = m.Titulo,
                    mudanca = this
                      

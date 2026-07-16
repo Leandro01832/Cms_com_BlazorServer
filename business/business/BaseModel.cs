@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 
-namespace business
+namespace business.business
 {
     public abstract class BaseModel 
     {

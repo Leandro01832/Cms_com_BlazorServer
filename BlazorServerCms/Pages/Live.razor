@@ -23,10 +23,8 @@
     }
     
     @* A mágica do WebRTC vai injetar o player de vídeo dentro desta div *@
-    <div id="cameraLocal" style="width: 100%; max-width: 500px; min-height: 400px; background: #222; border-radius: 12px;"></div>
-    @* <div id="playerLiveKit"
-     style="width: 100%; max-width: 800px; min-height: 450px; background: #000; border-radius: 8px;">
-     </div> *@
+    <div id="cameraLocal" style="width: 100%;  background: #222; border-radius: 12px;"></div>
+    
 </div>
                         
 
@@ -66,7 +64,8 @@
             str = new Streaming
             {
                 StoryId = 2,
-                Html = usermodel.Id,
+                Html = usermodel.UserName,
+                UserModelId = usermodel.Id,
                 QuantLiked = 0,
                 QuantShared = 0,
                 LivroId = null,
@@ -76,12 +75,6 @@
             await Context.SaveChangesAsync();
             var fil = await Context.Filtro.FirstAsync(f => f.Id == 10013);
             str.IncluiFiltro(fil);
-            await Context.SaveChangesAsync();
-        }
-        else
-        {
-            str.Titulo = "Ao Vivo";
-            Context.Update(str);
             await Context.SaveChangesAsync();
         }
 
@@ -105,9 +98,13 @@
 private async Task LigarCamera()
 {
     conectando = false;
+
+    str.Titulo = "Ao Vivo";
+    Context.Update(str);
+    await Context.SaveChangesAsync();
     
     string urlServidor = "wss://instagleo-rx9jiwj0.livekit.cloud";
-    string token = LiveService.GerarTokenAcesso("sala-principal", $"{user}");
+    string token = LiveService.GerarTokenAcesso(usermodel.UserName!, usermodel.Id, true);
 
     // CHAMADA CORRIGIDA: Aponta direto para a função injetada em window
     await js!.InvokeVoidAsync("window.livekitHelper.iniciarTransmissaoPeloCelular", 

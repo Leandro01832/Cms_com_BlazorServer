@@ -13,54 +13,46 @@ public class LiveKitService
     private readonly string _apiKey = "";
     private readonly string _apiSecret = "";
 
-   public string GerarTokenAcesso(string nomeSala, string identidadeUsuario)
+   public string GerarTokenAcesso(string nomeSala, string identidadeUsuario, bool ehStreamer)
+{
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var chaveMarcada = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiSecret));
+
+    // Define as permissões baseadas no papel do usuário
+    var videoGrants = new Dictionary<string, object>
     {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var chaveMarcada = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiSecret));
+        { "roomJoin", true },
+        { "room", nomeSala },
+        { "canPublish", ehStreamer },       // Se for Streamer, pode transmitir vídeo/áudio
+        { "canPublishData", ehStreamer },   // Se for Streamer, pode enviar dados
+        { "canSubscribe", true }            // Todo mundo pode assistir
+    };
 
-        // Estrutura exata de Grants exigida pelo WebRTC do LiveKit
-        var videoGrants = new Dictionary<string, object>
-        {
-            { "roomJoin", true },
-            { "room", nomeSala }
-        };
+    var claims = new List<Claim>
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, identidadeUsuario),
+        new Claim(JwtRegisteredClaimNames.Iss, _apiKey),
+        new Claim(JwtRegisteredClaimNames.Name, identidadeUsuario),
+        new Claim("video", System.Text.Json.JsonSerializer.Serialize(videoGrants), ClaimValueTypes.String)
+    };
 
-        // Montamos os Claims. Atenção: passamos o dicionário direto, sem fazer .Serialize() manual!
-        var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, identidadeUsuario),
-            new Claim(JwtRegisteredClaimNames.Iss, _apiKey),
-            new Claim(JwtRegisteredClaimNames.Name, identidadeUsuario),
-            // O segredo está aqui: usamos o formato correto de valor estruturado para o JWT
-            new Claim("video", System.Text.Json.JsonSerializer.Serialize(videoGrants), ClaimValueTypes.String)
-        };
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+        Subject = new ClaimsIdentity(claims),
+        Expires = DateTime.UtcNow.AddHours(2), 
+        SigningCredentials = new SigningCredentials(chaveMarcada, SecurityAlgorithms.HmacSha256Signature)
+    };
 
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims),
-            // Define o tempo de expiração (importante estar sincronizado com o relógio do servidor)
-            Expires = DateTime.UtcNow.AddHours(4), 
-            SigningCredentials = new SigningCredentials(chaveMarcada, SecurityAlgorithms.HmacSha256Signature)
-        };
-
-        // Remove cabeçalhos desnecessários que o LiveKit costuma rejeitar
-        tokenDescriptor.Claims = new Dictionary<string, object>();
-        foreach (var claim in claims)
-        {
-            if (claim.Type == "video")
-            {
-                // Injeta o objeto mapeado diretamente para evitar strings corrompidas no JSON final
-                tokenDescriptor.Claims.Add("video", videoGrants);
-            }
-            else
-            {
-                tokenDescriptor.Claims.Add(claim.Type, claim.Value);
-            }
-        }
-
-        var tokenCompilado = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(tokenCompilado);
+    tokenDescriptor.Claims = new Dictionary<string, object>();
+    foreach (var claim in claims)
+    {
+        if (claim.Type == "video") tokenDescriptor.Claims.Add("video", videoGrants);
+        else tokenDescriptor.Claims.Add(claim.Type, claim.Value);
     }
+
+    var tokenCompilado = tokenHandler.CreateToken(tokenDescriptor);
+    return tokenHandler.WriteToken(tokenCompilado);
+}
 
     public async Task<(string url, string streamKey)> CriarIngressDoOBSAsync()
     {
@@ -70,7 +62,7 @@ public class LiveKitService
         using var client = new HttpClient();
         
         // O LiveKit Cloud autentica usando o Token de administrador que já geramos no passo anterior
-        string tokenAdmin = GerarTokenAcesso("sala-principal", "admin-sistema");
+        string tokenAdmin = GerarTokenAcesso("sala-principal", "admin-sistema", true);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAdmin);
 
         // Corpo da requisição dizendo que queremos uma entrada do tipo RTMP (OBS)
@@ -80,7 +72,7 @@ public class LiveKitService
             name = "transmissao-obs",
             room_name = "sala-principal",
             participant_identity = "streamer-obs",
-            participant_name = "Leandro OBS"
+            participant_name = "Usuario OBS"
         };
 
         var response = await client.PostAsJsonAsync($"{urlApiLiveKit}/twirp/livekit.Ingress/CreateIngress", payload);

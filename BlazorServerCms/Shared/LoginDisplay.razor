@@ -109,7 +109,7 @@
                                             }
                                         </a>
                                     </h6>
-                                </div>
+                                </div> 
 
                             }
 
@@ -173,11 +173,23 @@
                     if (resto != 0) lacos++;
                     array = new List<UserModelLive>[lacos];
 
+                        usuarios2.Clear();
+                        foreach(var item2 in usuarios.ToList())
+                        if(!verificarLive(item2))
+                        usuarios2.Add(item2);
+                        else
+                        {
+                        usuarios2.Reverse();
+                        usuarios2.Add(item2);
+                        usuarios2.Reverse();
+
+                        }
+
                     for (var i = 0; i < array.Length; i++)
                     {
                         array[i] = new List<UserModelLive>();
-                        foreach(var item in usuarios.Skip(itens * i).Take(itens).ToList())
-                        array[i].Add( new UserModelLive{ user = item, live = await verificarLive(item) });
+                        foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
+                        array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
                     }
                 }
 
@@ -195,15 +207,19 @@
     {
         
         Context = db.CreateDbContext(null);
-        usuarios = await Context.Users.ToListAsync();
+        usuarios = await Context.Users
+        .Include(u => u.conteudos)
+        .ToListAsync();
         usuarios2 = new List<UserModel>();
         lacos = usuarios.Count / itens;
         var resto = usuarios.Count % itens;
         if (resto != 0) lacos++;
         array = new List<UserModelLive>[lacos];
 
+            usuarios2.Clear();
+
             foreach(var item2 in usuarios.ToList())
-            if(!await verificarLive(item2))
+            if(!verificarLive(item2))
             usuarios2.Add(item2);
             else
             {
@@ -217,10 +233,8 @@
         {
             array[i] = new List<UserModelLive>();
             foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
-            array[i].Add( new UserModelLive{ user = item, live = await verificarLive(item) });
+            array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
         }
-
-
 
     }
 
@@ -234,14 +248,14 @@
         return user;
     }
  
-    private async Task<bool> verificarLive(UserModel user)
+    private bool verificarLive(UserModel user)
     {
-        ApplicationDbContext banco;
-        banco = db.CreateDbContext(null);
-        var str = await banco.Streaming
-        .FirstOrDefaultAsync(str => str.Html == user.Id);
+        Content str = null;
+         str = user
+        .conteudos.FirstOrDefault(c => c.GetType() == typeof(Streaming) &&
+         c.Titulo == "Ao Vivo");
 
-        if(str != null && str.Titulo == "Ao Vivo")
+        if(str != null)
         return true;
         else
         return false;

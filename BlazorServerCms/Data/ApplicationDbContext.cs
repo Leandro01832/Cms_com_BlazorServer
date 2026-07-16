@@ -1,5 +1,8 @@
-﻿using business;
-using business.business;
+﻿using business.business;
+using business.business.sistema;
+using business.business.relacionamento;
+using business.business.ecommerce;
+using business.business.conteudo;
 using business.business.Book;
 using business.business.Group;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -30,6 +33,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<Comment> Comment { get; set; }
         public DbSet<Streaming> Streaming { get; set; }
         public DbSet<Relogio> Relogio { get; set; }
         public DbSet<Hashtag> Hashtag { get; set; }

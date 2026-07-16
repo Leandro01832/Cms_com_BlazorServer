@@ -249,6 +249,16 @@ p {
     box-sizing: border-box;  
 }
 
+.contentP
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+    flex: 1; 
+    width: 100%;
+}
+
 
 
 .Paginacao {

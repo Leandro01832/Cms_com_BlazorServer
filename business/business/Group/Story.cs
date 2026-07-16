@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using business.business;
-using business.business.Group;
+using business.business.conteudo;
 
 namespace business.business.Group
 {

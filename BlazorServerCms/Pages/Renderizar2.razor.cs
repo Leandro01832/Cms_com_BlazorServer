@@ -1,7 +1,7 @@
 ﻿using BlazorServerCms.Data;
 using BlazorServerCms.servicos;
-using business;
-using business.business;
+using business.business.sistema;
+using business.business.conteudo;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -113,7 +113,8 @@ namespace BlazorCms.Client.Pages
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));
                     }
-                    var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+                    var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);                    
+
                     Ind = listaFiltro.IndexOf(f);
                     Ind2 = tipos.IndexOf(TipoClass);
 
@@ -128,6 +129,9 @@ namespace BlazorCms.Client.Pages
                 }
             }
         }
+
+        
+
         private DemoContextFactory db = new DemoContextFactory();
         private ApplicationDbContext Context;
         private int? auto = 0;    
@@ -225,6 +229,7 @@ namespace BlazorCms.Client.Pages
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));
                     }
                     var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
+
                     Ind = listaFiltro.IndexOf(f);
                     Ind2 = tipos.IndexOf(value);
 
@@ -243,9 +248,7 @@ namespace BlazorCms.Client.Pages
 
         private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
         private Story _story = null;
-        private Livro? livro = null;
-        private string? title = null;
-        private string? resumo = null;
+        private Livro? livro = null;        
         private bool alterouPasta = false;
 
         protected long?[][][] arrayContent;
@@ -352,6 +355,8 @@ namespace BlazorCms.Client.Pages
             }
         }
 
+        protected Content? Comment{get;set;}
+
         private async Task<string> setarHtml(Content c)
         {
             return await repositoryPagina!.renderizarPagina(c);
@@ -374,8 +379,12 @@ namespace BlazorCms.Client.Pages
             {
                 html = value;
                 markup = new MarkupString(value);
+                var c = Model.Comentario.First(m => m.ContentId == Model.Id);
             }
         }
+
+        
+
         protected string? nameStory { get; set; } = null;
         protected int quantidadeLista { get; set; } = 0;
         protected int quantidadeFiltro { get; set; } = 0;

@@ -5,7 +5,9 @@ using BlazorServerCms.servicos;
 using business;
 using business.business;
 using business.business.Book;
+using business.business.conteudo;
 using business.business.Group;
+using business.business.sistema;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -377,8 +379,8 @@ namespace BlazorCms.Client.Pages
                     foreach (var item in Model2.Pagina.Select(p => p.Content)
                         .OfType<UserContent>().ToList())
                     {
-                        var user = userManager.Users.First(u => u.Id == item.UserModelId);
-                        usuarios.Add(new UserPreferencesImage { user = user.UserName, UserModel = user });
+                       var user = userManager.Users.First(u => u.Id == item.UserModelId);
+                       usuarios.Add(new UserPreferencesImage { user = user.UserName, UserModel = user });
                     }
 
                     if (string.IsNullOrEmpty(opcional))
@@ -686,56 +688,25 @@ namespace BlazorCms.Client.Pages
 
         protected async void share()
         {
-            automatico = false;
-            if (title == null || resumo == null)
+            automatico = false;            
+            try
             {
-                if (title == null)
-                {
-                    title = Model.Titulo;
-                }
-
-                if (resumo == null)
-                {
-                    resumo = await js.InvokeAsync<string>("prompt", "Informe o resumo da pagina.");
-                }
-                await js!.InvokeAsync<object>("DarAlert", $"Agora Compartilhe!!!");
-
-                if (Filtro != null)
-                {
-                    if (user.Identity!.IsAuthenticated)
-                        Compartilhou = user.Identity.Name;
-                    else
-                        Compartilhou = "comp";
-                }
-                acessar();
+                await js!.InvokeAsync<object>("share", $"{Model.Titulo}");
+                Model.QuantShared++;
+                Context.Update(Model);
+                await Context.SaveChangesAsync();
             }
-
-            else
+            catch (Exception ex)
             {
-                try
-                {
-                    Model.QuantShared++;
-                    Context.Update(Model);
-                    await Context.SaveChangesAsync();
-
-                    await js!.InvokeAsync<object>("share", $"{title} / {resumo}");
-                    title = null;
-                    resumo = null;
-                }
-                catch (Exception ex)
-                {
-                    title = null;
-                    resumo = null;
-                }
-
-            }
-
+                Console.WriteLine("Erro: " + ex.Message);
+            }            
         }
 
         protected void acessarComentarios()
         {
             showModal2 = true;
         }
+        
 
         protected async void SalvarComentario()
         {
@@ -743,14 +714,8 @@ namespace BlazorCms.Client.Pages
             {
                 comment.ContentId = Model!.Id;
                 comment.UserModelId = usuario.Id;
-                comment.LivroId = livro?.Id;
-                comment.StoryId = _story.Id;
                 Context.Add(comment);
                 Context.SaveChanges();
-                var FiltroContent = new FiltroContent { ContentId = comment.Id, FiltroId = Model2.Id };
-                Context.Add(FiltroContent);
-                Context.SaveChanges();
-                RepositoryPagina.Conteudo!.Add(comment);
                 comment = new Comment();
                 await js!.InvokeAsync<object>("DarAlert",
                  $"Comentário adicionado com sucesso!!!");
@@ -960,7 +925,8 @@ namespace BlazorCms.Client.Pages
         protected async void atualizarFiltro(ChangeEventArgs e)
         {
             var valor = e.Value!.ToString()!;
-            TipoClass = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!;            
+            TipoClass = tipos.FirstOrDefault(t => t.Name.ToLower() == valor.ToLower())!; 
+            alterarIndice(1);           
             acessar();
         }
 
