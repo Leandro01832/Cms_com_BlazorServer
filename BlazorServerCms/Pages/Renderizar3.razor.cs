@@ -126,7 +126,7 @@ namespace BlazorCms.Client.Pages
                     var c = Context.Users
                     .Include(u => u.Relogio)
                     .ThenInclude(u => u.Content)
-                    .FirstOrDefault(u => u.UserName == Compartilhou);
+                    .FirstOrDefault(u => u.UserName == Compartilhou); 
                     profile = c;
                 }
                 else
@@ -141,7 +141,8 @@ namespace BlazorCms.Client.Pages
 
             // 2. Filtra todos os tipos que são subclasses de Animal
             tipos = assembly.GetTypes()
-               .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
+               .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract &&
+               t.Namespace == "business.business.conteudo").ToList(); 
 
             Type itemParaMover = typeof(Pagina);
             Type itemParaMover2 = typeof(Chave);

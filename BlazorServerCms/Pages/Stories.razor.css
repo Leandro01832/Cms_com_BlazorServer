@@ -116,6 +116,8 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    font-size: 0.9rem; 
+    
 }
 
 #carouselIndicators{

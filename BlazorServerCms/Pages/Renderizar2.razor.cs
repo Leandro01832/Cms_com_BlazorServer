@@ -379,7 +379,7 @@ namespace BlazorCms.Client.Pages
             {
                 html = value;
                 markup = new MarkupString(value);
-                var c = Model.Comentario.First(m => m.ContentId == Model.Id);
+              //  var c = Model.Comentario.First(m => m.ContentId == Model.Id);
             }
         }
 

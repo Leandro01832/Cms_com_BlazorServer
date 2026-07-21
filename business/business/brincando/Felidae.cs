@@ -4,23 +4,21 @@ namespace business.business.brincando
 {
     public class Felidae : Mamifero
     {
+        private Type tipo = typeof(Felidae);
 
-        public override string FazerBarulho(Type mudarComportamento)
+        public override string ExecutarAcao()
         {
-            var className = Activator.CreateInstance(this.GetType())!.ToString();
-            if(mudarComportamento != this.GetType()) 
-            Pergunta = $"faz";
-            var palavras = $" {className} {Pergunta} ";
-            bool c = ExecutarSom(mudarComportamento);
-            if(c)
-            return mudarComportamento != null ? $"Correção:{palavras}"
-             + "miaaaauuuuu!!!!!" : $"{palavras}" + "miaaaauuuuu!!!!! ";
-             else return "";
+            var strBase = base.ExecutarAcao();
+            if(!string.IsNullOrEmpty(strBase))
+            return strBase
+            + $" {Activator.CreateInstance(tipo)!.ToString()} - " + 
+            "Gato, Leão, Leopardo, ";
+            else return "";
         }
 
         public override string ToString()
         {
-            return this.GetType().Name;
+            return tipo.Name;
         }
     }
 

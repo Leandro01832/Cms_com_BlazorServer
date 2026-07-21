@@ -33,6 +33,7 @@ namespace BlazorServerCms.Data
         {
         }
 
+        public DbSet<UserFollow> UserFollow { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Streaming> Streaming { get; set; }
         public DbSet<Relogio> Relogio { get; set; }
@@ -82,6 +83,33 @@ namespace BlazorServerCms.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+                    // Configura a chave composta da tabela intermediária
+            builder.Entity<UserFollow>()
+                .HasKey(f => new { f.ObserverId, f.TargetId });
+
+            // Configura o lado "Seguindo" (Following)
+            builder.Entity<UserFollow>()
+                .HasOne(f => f.Observer)
+                .WithMany(u => u.Following)
+                .HasForeignKey(f => f.ObserverId)
+                .OnDelete(DeleteBehavior.Restrict); // Evita problemas de cascata circular
+
+            // Configura o lado "Seguidores" (Followers)
+            builder.Entity<UserFollow>()
+                .HasOne(f => f.Target)
+                .WithMany(u => u.Followers)
+                .HasForeignKey(f => f.TargetId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // 1. Force o EF a entender que Comment tem sua própria tabela
+            builder.Entity<Comment>()
+                .ToTable("Comments"); // Substitua pelo nome real da sua tabela de comentários, se for diferente
+
+            // 2. Garanta que a entidade Content saiba que não tem herança com Comment
+            builder.Entity<Content>()
+                .HasBaseType((Type)null);
+
             builder.Entity<ProdutoConteudo>()
             .HasKey(p => new { p.ProdutoId, p.ContentId });
             builder.Entity<FiltroContent>()

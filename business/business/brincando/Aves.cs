@@ -1,19 +1,16 @@
-
 namespace business.business.brincando
 {
-    public class Canidae : Mamifero
+    public class Aves : Animal
     {
-        private Type tipo = typeof(Canidae);
-
+        private Type tipo = typeof(Aves);
         public override string ExecutarAcao()
         {
             var strBase = base.ExecutarAcao();
             if(!string.IsNullOrEmpty(strBase))
             return strBase
             + $" {Activator.CreateInstance(tipo)!.ToString()} - " + 
-            "Dalmata, pudol, Rottweiler, ";
-            else
-            return "";
+             "Gaivota, bem-te-vi, ";
+            else return "";
         }
 
         public override string ToString()
@@ -21,5 +18,4 @@ namespace business.business.brincando
             return tipo.Name;
         }
     }
-
 }

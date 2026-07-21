@@ -4,23 +4,21 @@ namespace business.business.brincando
 {
     public class Mamifero : Animal
     {
-        public override string FazerBarulho(Type mudarComportamento)
+        private Type tipo = typeof(Mamifero);
+
+        public override string ExecutarAcao()
         {
-            var className = Activator.CreateInstance(this.GetType())!.ToString();
-            if(mudarComportamento != this.GetType())  
-            Pergunta = $"faz";
-            var palavras = $" {className} {Pergunta} ";
-            bool c = ExecutarSom(mudarComportamento);
-            if(c)
-            return $"{palavras}";
+            var strBase = base.ExecutarAcao();
+            if(!string.IsNullOrEmpty(strBase))
+            return strBase
+            + $" {Activator.CreateInstance(tipo)!.ToString()} - " + 
+            "Tigre, rinoceronte, girafa, ";
             else return "";
         }
 
-
-
         public override string ToString()
         {
-            return this.GetType().Name;
+            return tipo.Name;
         }
     }
 

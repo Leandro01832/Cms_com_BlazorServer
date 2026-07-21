@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-BlazorServerCms-8b25c2e6-6a32-42f6-9839-87dcd7859fd5</UserSecretsId>
   </PropertyGroup>
-
+ 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.68.0" />

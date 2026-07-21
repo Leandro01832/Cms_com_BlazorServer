@@ -6,48 +6,43 @@ namespace business.business.brincando
 {
     public class Animal : Content
     {
+        private Type tipo = typeof(Animal);
 
+        public List<Comportamento> Comportamentos { get; set; }
 
-        public string? Pergunta { get; set; } = "Faz qual barulho??? - ";
-
-
-        public bool ExecutarSom(Type? tipo)
+        public bool ExecutarSom()
         {
-            var name = tipo != null ? tipo.Name : this.GetType().Name;
+            var name =  this.GetType().Name;
             string caminhoSom = Path.Combine(AppContext.BaseDirectory,
              "sons", $"{name}.wav");
-
             if (File.Exists(caminhoSom))
             {
                 using (SoundPlayer player = new SoundPlayer(caminhoSom))
                 {
                     player.PlaySync(); // PlaySync toca o som e espera ele terminar
                 }
-
                 return true;
             }
             else return false;
         }
 
-        public virtual string FazerBarulho(Type mudarComportamento)
+        public virtual string ExecutarAcao()
         {
-            var className = Activator.CreateInstance(this.GetType())!.ToString();
-            if(mudarComportamento != this.GetType()) 
-            Pergunta = $"faz";
-            var palavras = $" {className} {Pergunta} ";
-            bool c = ExecutarSom(mudarComportamento);
-            if(c)
-            return $"{palavras}";
+            bool c = ExecutarSom();
+            var retorno =  $"Correção: {Comportamentos.First().Acao}. " ;
+            if (c)
+                return retorno
+            + $" {Activator.CreateInstance(tipo)!.ToString()}. - ";
             else return "";
         }
 
-        
+
 
 
 
         public override string ToString()
         {
-            return this.GetType().Name;
+           return tipo.Name;
         }
     }
 

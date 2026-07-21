@@ -4,6 +4,7 @@
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime js
+@inject UserManager<UserModel> userManager
 
     <Modal Title="@title" IsVisible="showModal" Close="() => showModal = false"
     OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
@@ -24,6 +25,26 @@
             <p>Deseja realmente excluir este pensamento? </p>
             @markup
         }
+    </Modal> 
+
+    <Modal Title="Seguidores" IsVisible="showModal2" Close="() => showModal2 = false">
+        <div>
+                @foreach(var item in seguidores!)
+                {
+                    <p> @item.UserName </p>
+                }
+
+        </div>       
+    </Modal> 
+   
+    <Modal Title="Seguindo" IsVisible="showModal3" Close="() => showModal3 = false">
+        <div>
+                @foreach(var item in seguindo!)
+                {
+                    <p> @item.UserName </p>
+                }
+
+        </div>       
     </Modal> 
 
 
@@ -129,9 +150,13 @@
                 <div>
                     <div>
                         <div>
-                            <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
-                                Editar perfil
-                            </a>
+                            @if( usuario != null && usuario.Identity!.IsAuthenticated &&
+                             usuario.Identity!.Name == usermodel.UserName)
+                            {
+                                <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
+                                    Editar perfil
+                                </a>
+                            }
                         </div>
 
                     </div>
@@ -142,8 +167,20 @@
             <div class="dados">
 
                 <div>Publicações </div>
-                <div>Seguidores</div>
-                <div>Seguindo</div>
+                <div>
+                    <button class="btn btn-light" @onclick="MostrarSeguidores">
+                        seguidores
+                        @seguidores.Count
+                    </button>
+                </div>
+                <div>
+                    <button class="btn @(isFollowing ? "btn-following" : "btn-follow")"
+                     @onclick="Mostrar">
+                        @(isFollowing || isCurrentPlayerProfile ? "Seguindo" : "Seguir")
+                            @seguindo.Count
+                        
+                    </button>
+                </div>
 
             </div>
             <div class="info">
@@ -350,6 +387,9 @@
     List<Story> stories = new List<Story>();
     List<Relogio> relogios = new List<Relogio>();
         List<SubFiltro>? filtros = new List<SubFiltro>();
+        List<UserModel>? seguidores = new List<UserModel>();
+        List<UserModel>? seguindo = new List<UserModel>();
+
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
     private MarkupString markup;
@@ -357,6 +397,10 @@
     private int itens = 6;
     private bool newStory = true;
     private bool showModal = false;
+    private bool showModal2 = false;
+    private bool showModal3 = false;
+    private bool isCurrentPlayerProfile = false;
+    private bool isFollowing = false;
     private string title = "";
     private string confirmar = "";
     private string classCircle = "";
@@ -455,6 +499,7 @@
 
         }
 
+
         filtros = await Context.SubFiltro!
             .Include(f => f.Camada)!
             .Include(f => f.Criterio)!
@@ -479,6 +524,18 @@
         .ThenInclude(u => u.Livro)!
         .ThenInclude(u => u.Filtro)!
         .FirstOrDefaultAsync(u => u.UserName == user);
+
+         seguidores = await Context.Users
+        .Include(u => u.Followers)
+    .Where(u => u.Id == usermodel.Id) 
+    .SelectMany(u => u.Followers.Select(f => f.Observer)) // Pega o 'Observer' (quem seguiu)
+    .ToListAsync();
+
+    seguindo = await Context.Users
+        .Include(u => u.Following)
+    .Where(u => u.Id == usermodel.Id)
+    .SelectMany(u => u.Following.Select(f => f.Target)) // Pega o 'Target' (quem foi seguido)
+    .ToListAsync();
 
         relogios = usermodel.Relogio
         .OrderByDescending(r => r.Data)
@@ -509,6 +566,15 @@
              .GetAuthenticationStateAsync();
         usuario = authState.User;
 
+        isCurrentPlayerProfile = usuario != null && usuario.Identity!.IsAuthenticated
+        && usuario.Identity!.Name == usermodel.UserName;
+
+        var u = await userManager.GetUserAsync(usuario);
+
+        if (!isCurrentPlayerProfile && usuario != null 
+        && usuario.Identity!.IsAuthenticated)
+        isFollowing = await IsFollowingAsync(u.Id, usermodel.Id);
+        
     }
 
     private void limpar()
@@ -834,5 +900,82 @@
         }
         return 0;
     } 
+
+    /// <summary>
+    /// Alterna o estado de seguir/deixar de seguir entre dois usuários.
+    /// Retorna 'true' se passou a seguir, e 'false' se deixou de seguir.
+    /// </summary>
+    public async Task<bool> ToggleFollowAsync(string observerId, string targetId)
+    {
+        // Impedir que o usuário siga a si mesmo
+        if (observerId == targetId)
+            return false;
+
+        // Procura se o vínculo já existe no banco de dados
+        var existingFollow = await Context.Set<UserFollow>()
+            .FirstOrDefaultAsync(f => f.ObserverId == observerId && f.TargetId == targetId);
+
+        if (existingFollow != null)
+        {
+            // Se já segue, remove o registro (Deixar de Seguir)
+            Context.Set<UserFollow>().Remove(existingFollow);
+            await Context.SaveChangesAsync();
+            return false; 
+        }
+        else
+        {
+            // Se não segue, cria um novo registro (Seguir)
+            var newFollow = new UserFollow
+            {
+                ObserverId = observerId,
+                TargetId = targetId,
+                FollowedAt = DateTime.UtcNow
+            };
+
+            await Context.Set<UserFollow>().AddAsync(newFollow);
+            await Context.SaveChangesAsync();
+            return true; 
+        }
+    }
+
+    /// <summary>
+    /// Verifica se o usuário logado já segue o perfil alvo para definir o texto do botão na tela.
+    /// </summary>
+    public async Task<bool> IsFollowingAsync(string observerId, string targetId)
+    {
+        return await Context.Set<UserFollow>()
+            .AnyAsync(f => f.ObserverId == observerId && f.TargetId == targetId);
+    }
+
+    private async Task HandleFollowToggle()
+    {
+        var authState = await AuthenticationStateProvider
+             .GetAuthenticationStateAsync();
+        usuario = authState.User;
+        var u = await userManager.GetUserAsync(usuario);
+
+        if (u == null || string.IsNullOrEmpty(u.Id)) return;
+
+        // Executa a ação e atualiza o estado visual do botão instantaneamente
+        isFollowing = await ToggleFollowAsync(u.Id, usermodel.Id);
+    }
+
+    private async Task MostrarSeguidores()
+    {
+         showModal2 = true;
+    }
+    
+    private async Task MostrarSeguindo()
+    {
+         showModal3 = true;
+    }
+    
+    private async Task Mostrar()
+    {
+         if( isCurrentPlayerProfile)
+         await MostrarSeguindo();
+         else 
+         await HandleFollowToggle(); 
+    }
 
 }

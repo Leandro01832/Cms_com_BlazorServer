@@ -44,6 +44,12 @@ namespace business.business.sistema
         public virtual List<Relogio> Relogio { get; set; }
         public virtual List<RelogioParede> RelogioParede { get; set; }
 
+        // Quem este usuário está SEGUINDO (Lista de alvos)
+    public virtual List<UserFollow> Following { get; set; } 
+
+    // Quem são os SEGUIDORES deste usuário (Lista de observadores)
+    public virtual List<UserFollow> Followers { get; set; } 
+
         
 
         public void IncluiTime(Time time)
