@@ -36,8 +36,7 @@ namespace business.business.sistema
         public virtual List<Hashtag> Hashtag { get; set; }
         public virtual List<UserPasskey> UserPasskey { get; set; }
         public virtual List<UserModelLivro> Livro { get; set; }
-        public virtual List<UserModelTime> Time { get; set; }
-        public virtual List<UserModelFiltro> VersiculosDecorados { get; set; }        
+        public virtual List<UserModelTime> Time { get; set; }      
         public virtual List<UserModelContent> PageLiked { get; set; }
         public virtual List<Content> conteudos { get; set; }
         public virtual List<Comment> Comentario { get; set; }
@@ -64,11 +63,7 @@ namespace business.business.sistema
             this.Livro!.Add(new UserModelLivro { Livro = livro, UserModel = this });
         }
 
-        public void incluirPasta(Filtro filtro)
-        {
-            if (this.VersiculosDecorados == null) this.VersiculosDecorados = new List<UserModelFiltro>();
-            this.VersiculosDecorados!.Add(new UserModelFiltro { Filtro = filtro, UserModel = this });
-        }
+       
         
 
         public void curtir(Content page)

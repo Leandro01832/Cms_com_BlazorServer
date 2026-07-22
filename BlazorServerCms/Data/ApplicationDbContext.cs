@@ -62,7 +62,6 @@ namespace BlazorServerCms.Data
         public DbSet<FiltroContent> FiltroContent { get; set; }
         public DbSet<UserModelTime> UserModelTime { get; set; }
         public DbSet<UserModelLivro> UserModelLivro { get; set; }
-        public DbSet<UserModelFiltro> UserModelFiltro { get; set; }
         public DbSet<UserModelContent> UserModelPageLiked { get; set; }
         public DbSet<AnotacaoVersiculo> AnotacaoVersiculo { get; set; }
         public DbSet<HashtagContent> HashtagContent { get; set; }
@@ -117,9 +116,7 @@ namespace BlazorServerCms.Data
             builder.Entity<UserModelTime>()
             .HasKey(p => new { p.UserModelId, p.TimeId });            
             builder.Entity<UserModelLivro>()
-            .HasKey(p => new { p.UserModelId, p.LivroId });            
-            builder.Entity<UserModelFiltro>()
-            .HasKey(p => new { p.UserModelId, p.FiltroId });            
+            .HasKey(p => new { p.UserModelId, p.LivroId });           
             builder.Entity<UserModelContent>()
             .HasKey(p => new { p.UserModelId, p.ContentId });            
             builder.Entity<AnotacaoVersiculo>()

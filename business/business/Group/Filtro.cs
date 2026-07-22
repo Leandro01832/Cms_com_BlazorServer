@@ -46,11 +46,7 @@ namespace business.business.Group
             }
         }
 
-
-
-        public virtual List<SubFiltro>? SubFiltro { get; set; }  
-
-        public virtual List<UserModelFiltro> usuariosDecorando { get; set; }
+        public virtual List<SubFiltro>? SubFiltro { get; set; }          
 
         public virtual List<AnotacaoVersiculo> AnotacaoVersiculos { get; set; }
         public Int64? CriterioId { get; set; }

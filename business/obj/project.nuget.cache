@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/DLQD9Wvgz0=",
+  "dgSpecHash": "f6XQpi4DCuY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\business.csproj",
+  "projectFilePath": "C:\\projetos\\porjeto2\\business\\business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leand\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
@@ -70,18 +70,18 @@
     "C:\\Users\\leand\\.nuget\\packages\\system.threading.channels\\4.5.0\\system.threading.channels.4.5.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\leand\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512"
+    "C:\\Users\\leand\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1903",
       "level": "Warning",
       "message": "O pacote 'Newtonsoft.Json' 12.0.1 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
-      "projectPath": "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\business.csproj",
+      "projectPath": "C:\\projetos\\porjeto2\\business\\business.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\business.csproj",
+      "filePath": "C:\\projetos\\porjeto2\\business\\business.csproj",
       "libraryId": "Newtonsoft.Json",
       "targetGraphs": [
         "net6.0"

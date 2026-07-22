@@ -26,8 +26,7 @@ namespace BlazorCms.Client.Pages
 
 
 
-            if (Model2 != null && Model2.usuariosDecorando != null &&
-             Model2.usuariosDecorando.Count > 0 && Filtro != null)
+            if (Model2 != null && Filtro != null)
                 adicionarPontos();
 
         }
@@ -213,8 +212,6 @@ namespace BlazorCms.Client.Pages
             .ThenInclude(p => p.Filtro)!
             .Include(p => p.Pagina)!
             .ThenInclude(p => p.Content)!
-            .Include(p => p.usuariosDecorando)!
-            .ThenInclude(p => p.UserModel)!
             .Where(f => f.LivroId == (livro != null ? livro.Id : null) &&
             !f.UltimaPasta &&
             f.StoryId == _story.Id &&
@@ -345,10 +342,7 @@ namespace BlazorCms.Client.Pages
                .Include(t => t.usuarios)
                .ThenInclude(t => t.UserModel)
                .FirstOrDefault(t =>
-               t.usuarios.FirstOrDefault(u =>
-               fils.FirstOrDefault(f =>
-               f.usuariosDecorando.FirstOrDefault(us => us.UserModel.UserName
-                == u.UserModel.UserName) != null) != null)! != null)!;
+               t.usuarios.FirstOrDefault()! != null)!;
             }
 
 
@@ -360,8 +354,8 @@ namespace BlazorCms.Client.Pages
                 Context.Add(time);
                 Context.SaveChanges();
 
-                for (var i = 0; i < camada - 1; i++)
-                    verificarCompartilhante(fils[i], time);
+                // for (var i = 0; i < camada - 1; i++)
+                //     verificarCompartilhante(fils[i], time);
 
             }
         }        
@@ -979,140 +973,139 @@ namespace BlazorCms.Client.Pages
 
             for (var i = 0; i < 6; i++)
             {
-                var usuarios = fils[i].usuariosDecorando;
+                // var usuarios = fils[i];
 
-                for (var j = 0; j < 7; j++)
-                {
-                    if (usuarios[j].UserModel != null)
-                    {
+                // for (var j = 0; j < 7; j++)
+                // {
+                //     if (usuarios[j].UserModel != null)
+                //     {
 
-                        if (DateTime.Now.Date > usuarios[j].UserModel.DataPontuacao.Date)
-                        {
-                            if (usuarios[j].UserModel.PontosPorDia > usuarios[j].UserModel.Recorde)
-                            {
-                                usuarios[j].UserModel.Recorde = usuarios[j].UserModel.PontosPorDia;
-                                Context.Update(usuarios[j].UserModel);
-                                Context.SaveChanges();
-                            }
-                            usuarios[j].UserModel.PontosPorDia = 1;
-                            usuarios[j].UserModel.DataPontuacao = DateTime.Now;
-                            Context.Update(usuarios[j].UserModel);
-                            Context.SaveChanges();
-                        }
-                        else
-                        {
-                            var fil = Context.Users!
-                                .FirstOrDefault(f => f.UserName == usuarios[j].UserModel.UserName &&
-                                f.VersiculosDecorados != null);
+                //         if (DateTime.Now.Date > usuarios[j].UserModel.DataPontuacao.Date)
+                //         {
+                //             if (usuarios[j].UserModel.PontosPorDia > usuarios[j].UserModel.Recorde)
+                //             {
+                //                 usuarios[j].UserModel.Recorde = usuarios[j].UserModel.PontosPorDia;
+                //                 Context.Update(usuarios[j].UserModel);
+                //                 Context.SaveChanges();
+                //             }
+                //             usuarios[j].UserModel.PontosPorDia = 1;
+                //             usuarios[j].UserModel.DataPontuacao = DateTime.Now;
+                //             Context.Update(usuarios[j].UserModel);
+                //             Context.SaveChanges();
+                //         }
+                //         else
+                //         {
+                //             var fil = Context.Users!
+                //                 .FirstOrDefault(f => f.UserName == usuarios[j].UserModel.UserName );
 
-                            var conteudos = Context.UserContent
-                            .Include(c => c.UserModel)
-                                    .Where(c => 
-                                    c.UserModel.UserName == usuarios[j].UserModel.UserName &&
-                                    c.Data.Date > DateTime.Now.AddDays(-7).Date)
-                                    .ToList();
+                //             var conteudos = Context.UserContent
+                //             .Include(c => c.UserModel)
+                //                     .Where(c => 
+                //                     c.UserModel.UserName == usuarios[j].UserModel.UserName &&
+                //                     c.Data.Date > DateTime.Now.AddDays(-7).Date)
+                //                     .ToList();
 
-                            if (fil != null && i != 0)
-                            {
-                                Filtro condicao = listaFiltro.FirstOrDefault(f => f.usuariosDecorando
-                                     .FirstOrDefault(us => us.UserModelId == usuarios[j].UserModel.Id) != null)!;
+                //             if (fil != null && i != 0)
+                //             {
+                //                 Filtro condicao = listaFiltro.FirstOrDefault(f => f.usuariosDecorando
+                //                      .FirstOrDefault(us => us.UserModelId == usuarios[j].UserModel.Id) != null)!;
 
-                                if (condicao != null)
-                                {
-                                    var UserModels = condicao.usuariosDecorando;
-                                    if (users >= 100000 && users < 200000) multiplicador += 1;
-                                    else if (users >= 200000 && users < 300000) multiplicador += 2;
-                                    else if (users >= 300000 && users < 400000) multiplicador += 3;
-                                    else if (users >= 400000 && users < 500000) multiplicador += 4;
-                                    else if (users >= 500000 && users < 600000) multiplicador += 5;
-                                    else if (users >= 600000 && users < 700000) multiplicador += 6;
-                                    else if (users >= 700000 && users < 800000) multiplicador += 7;
-                                    else if (users >= 800000 && users < 900000) multiplicador += 8;
-                                    else if (users >= 900000) multiplicador += 9;
+                //                 if (condicao != null)
+                //                 {
+                //                     var UserModels = condicao.usuariosDecorando;
+                //                     if (users >= 100000 && users < 200000) multiplicador += 1;
+                //                     else if (users >= 200000 && users < 300000) multiplicador += 2;
+                //                     else if (users >= 300000 && users < 400000) multiplicador += 3;
+                //                     else if (users >= 400000 && users < 500000) multiplicador += 4;
+                //                     else if (users >= 500000 && users < 600000) multiplicador += 5;
+                //                     else if (users >= 600000 && users < 700000) multiplicador += 6;
+                //                     else if (users >= 700000 && users < 800000) multiplicador += 7;
+                //                     else if (users >= 800000 && users < 900000) multiplicador += 8;
+                //                     else if (users >= 900000) multiplicador += 9;
 
-                                    if (UserModels.Count >= 100 && UserModels.Count < 200) multiplicador += 1;
-                                    else if (UserModels.Count >= 200 && UserModels.Count < 300) multiplicador += 2;
-                                    else if (UserModels.Count >= 300 && UserModels.Count < 400) multiplicador += 3;
-                                    else if (UserModels.Count >= 400 && UserModels.Count < 500) multiplicador += 4;
-                                    else if (UserModels.Count >= 500 && UserModels.Count < 600) multiplicador += 5;
-                                    else if (UserModels.Count >= 600 && UserModels.Count < 700) multiplicador += 6;
-                                    else if (UserModels.Count >= 700 && UserModels.Count < 800) multiplicador += 7;
-                                    else if (UserModels.Count >= 800 && UserModels.Count < 900) multiplicador += 8;
-                                    else if (UserModels.Count >= 900) multiplicador += 9;
-
-
-                                    var contentFiltro = conteudos.ToList();
-                                    var userTime = Context.UserModelTime
-                                        .Include(ut => ut.UserModel)
-                                        .Include(ut => ut.Time)
-                                        .Where(ut => ut.UserModel.UserName == usuarios[j].UserModel.UserName).ToList();
-
-                                    multiplicador += conteudos.Count;
-
-                                    if (contentFiltro.Count > conteudos.Count / 2)
-                                        multiplicador += contentFiltro.Count;
-
-                                    if (userTime.Count > 0)
-                                    {
-                                        multiplicador += 1;
-                                        multiplicador += 2 * userTime.Sum(ut => ut.Time.vendas);
-
-                                        int soma = 0;
-                                        List<UserModel> l = new List<UserModel>();
-
-                                        foreach (var t in userTime)
-                                            l.Add(Context.Users
-                                            .First(u => u.UserName == t.UserModel.UserName));
-
-                                        soma += l.Sum(ut => ut.Recorde);
-
-                                        if (soma > repositoryPagina.metaTime)
-                                            multiplicador += 1;
+                //                     if (UserModels.Count >= 100 && UserModels.Count < 200) multiplicador += 1;
+                //                     else if (UserModels.Count >= 200 && UserModels.Count < 300) multiplicador += 2;
+                //                     else if (UserModels.Count >= 300 && UserModels.Count < 400) multiplicador += 3;
+                //                     else if (UserModels.Count >= 400 && UserModels.Count < 500) multiplicador += 4;
+                //                     else if (UserModels.Count >= 500 && UserModels.Count < 600) multiplicador += 5;
+                //                     else if (UserModels.Count >= 600 && UserModels.Count < 700) multiplicador += 6;
+                //                     else if (UserModels.Count >= 700 && UserModels.Count < 800) multiplicador += 7;
+                //                     else if (UserModels.Count >= 800 && UserModels.Count < 900) multiplicador += 8;
+                //                     else if (UserModels.Count >= 900) multiplicador += 9;
 
 
-                                        var pontosGanhos = multiplicador * (pts - i);
-                                        foreach (var UserModel in UserModels)
-                                        {
-                                            if (usuarios[0] is not null && UserModel.UserModel.Id == usuarios[0].UserModel.Id)
-                                                UserModel.UserModel.PontosPorDia += 1000;
-                                            UserModel.UserModel.PontosPorDia += pontosGanhos;
-                                            Context.Update(usuarios[j].UserModel);
-                                            Context.SaveChanges();
-                                        }
-                                    }
+                //                     var contentFiltro = conteudos.ToList();
+                //                     var userTime = Context.UserModelTime
+                //                         .Include(ut => ut.UserModel)
+                //                         .Include(ut => ut.Time)
+                //                         .Where(ut => ut.UserModel.UserName == usuarios[j].UserModel.UserName).ToList();
 
-                                }
-                            }
-                            else
-                                if (i == 0)
-                                {
-                                    multiplicador += conteudos.Count;
-                                    var pontosGanhos = multiplicador * (pts - i);
+                //                     multiplicador += conteudos.Count;
+
+                //                     if (contentFiltro.Count > conteudos.Count / 2)
+                //                         multiplicador += contentFiltro.Count;
+
+                //                     if (userTime.Count > 0)
+                //                     {
+                //                         multiplicador += 1;
+                //                         multiplicador += 2 * userTime.Sum(ut => ut.Time.vendas);
+
+                //                         int soma = 0;
+                //                         List<UserModel> l = new List<UserModel>();
+
+                //                         foreach (var t in userTime)
+                //                             l.Add(Context.Users
+                //                             .First(u => u.UserName == t.UserModel.UserName));
+
+                //                         soma += l.Sum(ut => ut.Recorde);
+
+                //                         if (soma > repositoryPagina.metaTime)
+                //                             multiplicador += 1;
 
 
-                                    usuarios[j].UserModel.PontosPorDia += pontosGanhos;
-                                    Context.Update(usuarios[j]);
-                                    Context.SaveChanges();
-                                }
+                //                         var pontosGanhos = multiplicador * (pts - i);
+                //                         foreach (var UserModel in UserModels)
+                //                         {
+                //                             if (usuarios[0] is not null && UserModel.UserModel.Id == usuarios[0].UserModel.Id)
+                //                                 UserModel.UserModel.PontosPorDia += 1000;
+                //                             UserModel.UserModel.PontosPorDia += pontosGanhos;
+                //                             Context.Update(usuarios[j].UserModel);
+                //                             Context.SaveChanges();
+                //                         }
+                //                     }
+
+                //                 }
+                //             }
+                //             else
+                //                 if (i == 0)
+                //                 {
+                //                     multiplicador += conteudos.Count;
+                //                     var pontosGanhos = multiplicador * (pts - i);
 
 
-                        }
+                //                     usuarios[j].UserModel.PontosPorDia += pontosGanhos;
+                //                     Context.Update(usuarios[j]);
+                //                     Context.SaveChanges();
+                //                 }
 
-                    }
-                    else if (i != 0) break;
 
-                }
+                //         }
+
+                //     }
+                //     else if (i != 0) break;
+
+                // }
 
             }
         }
 
-        private void verificarCompartilhante(Filtro fil, Time time)
-        {
-            foreach (var item in fil.usuariosDecorando)
-                item.UserModel.IncluiTime(time);
-            Context.SaveChanges();
+        // private void verificarCompartilhante(Filtro fil, Time time)
+        // {
+        //     foreach (var item in fil.usuariosDecorando)
+        //         item.UserModel.IncluiTime(time);
+        //     Context.SaveChanges();
 
-        }
+        // }
 
         private Filtro buscarProximoSubGrupo()
         {

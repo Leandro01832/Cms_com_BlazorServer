@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\business.csproj": {}
+    "C:\\projetos\\porjeto2\\business\\business.csproj": {}
   },
   "projects": {
-    "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\business.csproj": {
+    "C:\\projetos\\porjeto2\\business\\business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\business.csproj",
+        "projectUniqueName": "C:\\projetos\\porjeto2\\business\\business.csproj",
         "projectName": "business",
-        "projectPath": "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\business.csproj",
+        "projectPath": "C:\\projetos\\porjeto2\\business\\business.csproj",
         "packagesPath": "C:\\Users\\leand\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leand\\OneDrive\\Documentos\\porjeto2\\business\\obj\\",
+        "outputPath": "C:\\projetos\\porjeto2\\business\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

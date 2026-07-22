@@ -1,729 +1,135 @@
-﻿@page "/{user}/reels"
-@inject RepositoryPagina repositoryPagina
-@inject NavigationManager navigation
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject IJSRuntime js 
-
-
-
-<Modal Title="@title" IsVisible="showModal" Close="() => showModal = false" OnConfirm="() => compartilhar()"
-       Excluir="() => remover()" Confirm="@confirmar">
-
-    @if (confirmar == "Compartilhar")
-    {
-        <p> <strong>Compartilhe um pensamento.</strong> </p>
-        <Editor Id="contentextarea" Inline=false CloudChannel="5" Disable=false JsConfSrc="sample"
-                ApiKey="m8nq39l31dv5y829ehcjsd0rciwei8crem0yubndhdgs72fd" ClassName="tinymce-wrapper" @bind-Value="Html" />
-    }
-    else if (usermodel != null)
-    {
-        <p>Deseja realmente excluir este pensamento? </p>
-        @markup
-    }
-</Modal>
-
-<div class="container" id="container">
-
-    <div class="item dobrar">
-
-
-        <div class="img">
-            <div class="imagem">
-                @if (usermodel != null && usermodel.Compartilhar != null)
-                {
-                    <div class="pensar2">
-                        <div class="markup">
-                            <a @onclick="() => showModal = usuario != null && usuario.Identity!.IsAuthenticated
-                                                               && usuario.Identity!.Name == usermodel.UserName"> @markup </a>
-
-</div>
-
-                    </div>
-
-                }
-                <div>
-                    <div>
-                        <div>
-                            <div>
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    @if (usermodel != null && usermodel.Compartilhar == null)
-                                                    {
-                                                        <div class="@pensamento">
-                                                            <button @onclick="() => showModal = true">Nota...</button>
-
-                                                        </div>
-
-                                                    }
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="teste2">
-                            <span aria-describedby="«ra»">
-                                <div>
-                                    <div class="@classCircle">
-                                        <div class="circulo4">
-                                            <div class="circulo5">
-                                                @if (usermodel != null && usermodel.Image != null)
-                                                {
-                                                    <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser">
-                                                }
-                                                else
-                                                {
-                                                    <img src="ImgUser/padrao.jpg" class="ImgUser">
-
-                                                }
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-
-
-
-
-    </div>
-    <div class="item self">
-
-
-
-        <header>
-            <div class="user">
-
-                <div>
-                    <div>
-                        <a href="/@user/#">
-                            <h2 dir="auto" style="----base-line-clamp-line-height: 25px; --lineHeight: 25px;">
-                                <span>
-                                    @user
-                                </span>
-                            </h2>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <div>
-                            <a href="#" onclick="@(() => navigation.NavigateTo($"/alterarFoto"))">
-                                Editar perfil
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="dados">
-
-                <div>Publicações </div>
-                <div>Seguidores</div>
-                <div>Seguindo</div>
-
-            </div>
-            <div class="info">
-                <div class="informacao">
-                    <div>
-                        <div>
-                            <span dir="auto" style="----base-line-clamp-line-height: 18px; --lineHeight: 18px;">
-                                Leandro Luis
-                            </span>
-                        </div>
-
-                        <div>
-                            <div dir="auto">
-                                Produto/serviço
-                            </div>
-                        </div>
-                        <span dir="auto">
-                            <div aria-disabled="false" role="button" tabindex="0"
-                                 style="display: inline; cursor: pointer;">
-                                <span dir="auto">
-                                    https://www.instagleo.net.br
-                                </span>
-                            </div>
-                        </span>
-                        <h1 dir="auto">
-                        </h1>
-                    </div>
-                </div>
-
-            </div>
-        </header>
-
-
-
-    </div>
-
-
-
-</div>
-
-
-
-<div class="stories">
-
-    <div id="carouselIndicators" bs-pause="false">
-
-        <div class="carousel-inner">
-
-            @if (usermodel != null)
-                @for (var i = 0; i < array.Length; i++)
-                {
-
-
-                    @if (i == 0 && i < array.Length)
-                    {
-
-                        <div class="carousel-item ativo">
-
-                            @for (var j = 0; j < array[i].Count; j++)
-                            {
-                                var str = array[i][j];
-                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.Capitulo);
-
-
-
-                                <div class="story" title="@array[i][j].Descricao" onmouseout="@limpar">
-                                    <h6>
-
-
-                                        <a onclick="@(() => navegar(strBook, str))">
-                                            <div class="desc">
-                                                <p>Story</p>
-                                                <p> @array[i][j].Nome</p>
-                                            </div>
-                                            <div class="circulo">
-                                                <div class="circulo2">
-                                                    @if (array[i][j].Image != null)
-                                                    {
-                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)"
-                                                             class="ImgStory" alt="Story">
-
-                                                    }
-                                                </div>
-                                            </div>
-                                            <p> Cap. @array[i][j].Capitulo</p>
-                                        </a>
-
-
-                                    </h6>
-                                </div>
-
-                            }
-
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="carousel-item">
-
-                            @for (var j = 0; j < array[i].Count; j++)
-                            {
-                                var str = array[i][j];
-
-                                var strBook = usermodel.Livro.FirstOrDefault(l => l.Livro.StandardChapter == str.Capitulo);
-
-
-                                <div class="story" title="@array[i][j].Descricao">
-                                    <h6>
-                                        <a onclick="@(() => navegar(strBook, str))">
-                                            <div class="desc">
-                                                <p>Story</p>
-                                                <p> @array[i][j].Nome</p>
-                                            </div>
-                                            <div class="circulo">
-                                                <div class="circulo2">
-                                                    @if (array[i][j].Image != null)
-                                                    {
-                                                        <img src="ImgStory/cap.@(array[i][j].Capitulo).@(array[i][j].Image)"
-                                                             class="ImgStory" alt="Story">
-
-                                                    }
-                                                </div>
-                                            </div>
-                                            <p> Cap. @array[i][j].Capitulo</p>
-                                        </a>
-                                    </h6>
-                                </div>
-
-                            }
-
-                        </div>
-                    }
-
-
-                }
-
-        </div>
-    </div>
-
-    <div class="botoes">
-        <a class="prev btn btn-dark" onclick="@(async () => { await js!.InvokeAsync<object>("slideAnterior", $""); })">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </a>
-        <a class="prox btn btn-dark" onclick="@(async () => { await js!.InvokeAsync<object>("proximoSlide", $""); })">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </a>
-
-    </div>
-</div>
-
-
-
-<p>@descricao</p>
-
-<div class="listas" role="tablist">
-    <a aria-selected="true" class="" href="/@user/publicacao" role="tab" tabindex="0">
-        <div class="">
-            <svg aria-label="" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="12" role="img"
-                 viewBox="0 0 24 24" width="12">
-                <title></title>
-                <rect fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                      stroke-width="2" width="18" x="3" y="3">
-                </rect>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      x1="9.015" x2="9.015" y1="3" y2="21">
-                </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      x1="14.985" x2="14.985" y1="3" y2="21">
-                </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      x1="21" x2="3" y1="9.015" y2="9.015">
-                </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      x1="21" x2="3" y1="14.985" y2="14.985">
-                </line>
-            </svg>
-            <span class="">
-                Publicações
-            </span>
-        </div>
-    </a>
-    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/reels" role="tab" tabindex="0">
-        <div class="">
-            <svg aria-label="" class="" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
-                <title></title>
-                <line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95"
-                      y1="7.002" y2="7.002">
-                </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      x1="13.504" x2="16.362" y1="2.001" y2="7.002">
-                </line>
-                <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      x1="7.207" x2="10.002" y1="2.11" y2="7.002">
-                </line>
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                </path>
-                <path fill-rule="evenodd"></path>
-            </svg><span class="">
-            Reels
-        </span>
-    </div>
-</a>
-<a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/salvo" role="tab" tabindex="0">
-    <div class="">
-        <img src="/anotar2.png" style="width:20px; height:20px;" />
-        <span class="">
-            Salvos
-        </span>
-    </div>
-</a>
-</div>
-<h5>Reels</h5>
-
-<div class="container">
-
-    @if (usermodel != null)
-        @foreach (var item in usermodel.conteudos)
-        {
-            if (item.Html != null && item.Html.Contains("iframe"))
+﻿       @inject RepositoryPagina repositoryPagina
+       
+        <div class="container">
+            @if(conteudos == null)
             {
-                <div class="content">
-                </div>
+                <img src="/Loading.gif" width="50" />
             }
+             else if (conteudos != null && conteudos.Count > 0)
+        @foreach (var item in conteudos)
+        {
+            var markup = new MarkupString(item.Html);
+            
+           
+                <div class="content">
+                    @markup
+                </div>
+            
+        }
+        else if (conteudos != null && conteudos.Count == 0)
+        {
+            <p>Aui ficam os conteudos de videos</p>
         }
 
-</div>
-
+        </div>
 
 @code
 {
 
     [Parameter] public string user { get; set; }
-    [Parameter] public int? capitulo { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    List<Story> stories = new List<Story>();
-    private ClaimsPrincipal usuario;
     private UserModel usermodel;
-    private MarkupString markup;
-    private int lacos = 0;
-    private int itens = 6;
-    private bool newStory = true;
-    private bool showModal = false;
-    private string title = "";
-    private string confirmar = "";
-    private string classCircle = "";
-    private string Html = "";
-    private string descricao = "";
-    private string pensamento = "";
-    List<Story>[] array;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                string? num = await js.InvokeAsync<string>("retornarlargura", "url");
-                var largura = double.Parse(num);
-
-                if (largura > 200 && largura < 300)
-                    itens = 2;
-                else if (largura > 300 && largura < 400)
-                    itens = 3;
-                else if (largura > 400 && largura < 500)
-                    itens = 4;
-                else itens = 6;
-
-                lacos = stories.Count / itens;
-                var resto = stories.Count % itens;
-                if (resto != 0) lacos++;
-                array = new List<Story>[lacos];
-                var lista = stories.Skip(1).ToList();
-
-                for (var i = 0; i < array.Length; i++)
-                {
-                    array[i] = new List<Story>();
-                    array[i].AddRange(lista.Skip(itens * i).Take(itens).ToList());
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-    }
-
-    protected override void OnParametersSet()
-    {
-        if (capitulo != null)
-            descricao = RepositoryPagina.stories.First(str => str.Capitulo == capitulo).Descricao!;
-    }
+    private List<Content> conteudos = null;
 
     protected override async Task OnInitializedAsync()
-    {
-        if (newStory) classCircle = "circuloNewStory";
-        else classCircle = "circulo3";
-
-        repositoryPagina.exibir = false;
+    {   
         Context = db.CreateDbContext(null);
-        if (stories.Count == 0)
-        {
-            stories = RepositoryPagina.stories;
-            lacos = stories.Count / itens;
-            var resto = stories.Count % itens;
-            if (resto != 0) lacos++;
-            array = new List<Story>[lacos];
-            var lista = stories.Skip(1).ToList();
-
-            for (var i = 0; i < array.Length; i++)
-            {
-                array[i] = new List<Story>();
-                array[i].AddRange(lista.Skip(itens * i).Take(itens).ToList());
-            }
-
-        }
 
         usermodel = await Context.Users!
-        .Include(u => u.Livro)!
-        .ThenInclude(u => u.Livro)!
-        .ThenInclude(u => u.Filtro)!
-        .Include(u => u.VersiculosDecorados)!
+        .Include(u => u.conteudos)!
         .FirstOrDefaultAsync(u => u.UserName == user);
 
-        if (usermodel.Compartilhar == null)
-        {
-            confirmar = "Compartilhar";
-            pensamento = "teste";
-            title = "Nova nota";
-        }
-        else
-        {
-            exibirChave(usermodel.Compartilhar);
-
-            markup = new MarkupString(usermodel.Compartilhar);
-            confirmar = "Excluir";
-            pensamento = "pensar";
-            title = "Excluir pensamento";
-
-        }
-
-
-        var authState = await AuthenticationStateProvider
-             .GetAuthenticationStateAsync();
-        usuario = authState.User;
+        conteudos = await RetornarLista();
 
     }
 
-    private void limpar()
+     private async Task<string[]> GetYouTubeVideo(string id_video)
     {
-        descricao = "";
-    }
-
-
-
-    private async void compartilhar()
-    {
-        // string? value = await js.InvokeAsync<string>("retornarTextArea", "contentextarea");
-        string value = Html;
-        if (!string.IsNullOrEmpty(value))
-        {
-            usermodel.Compartilhar = value;
-            Context.Update(usermodel);
-            Context.SaveChanges();
-            confirmar = "Excluir";
-            pensamento = "pensar";
-            title = "Excluir pensamento";
-
-            exibirChave(usermodel.Compartilhar);
-
-            markup = new MarkupString(usermodel.Compartilhar);
-            await js!.InvokeAsync<object>("DarAlert", "Compartilhamento feito com sucesso!!!");
-        }
-    }
-
-    private async void remover()
-    {
-        if (!string.IsNullOrEmpty(usermodel.Compartilhar))
-        {
-            usermodel.Compartilhar = null;
-            Context.Update(usermodel);
-            Context.SaveChanges();
-            confirmar = "Compartilhar";
-            pensamento = "teste";
-            title = "Nova nota";
-            await js!.InvokeAsync<object>("DarAlert", "Compartilhamento removido com sucesso!!!");
-        }
-    }
-
-    private async void navegar(UserModelLivro livro, Story str)
-    {
-        string? url = null;
-        int versiculo = 1;
-        int carregando = 40;
-        Filtro? fil = null;
-
-        if (livro == null && str.Capitulo == 1)
-        {
-            livro = new UserModelLivro
+        int calculo = 0;
+        var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {
-                Livro = await Context.Livro!.FirstAsync(),
-                UserModel = usermodel
-            };
-        }
+                ApiKey = repositoryPagina.buscarApiYoutube(),
+                ApplicationName = this.GetType().ToString()
+            });
+        var searchListRequest = youtubeService.Videos.List("snippet,contentDetails,statistics,status");
+        searchListRequest.Id = id_video;
+        var search = await searchListRequest.ExecuteAsync();
+        var p = search.Items[0].Snippet.Thumbnails.Medium;
+        var p2 = search.Items[0].Snippet.Title;
+        string[] pesquisa = new string[2];
+        pesquisa[0] = p.Url;
+        pesquisa[1] = p2;
 
 
-        if (livro != null)
+        return pesquisa;
+    }
+
+
+     private string buscarId(Content p)
+    {
+        var id_video = "";
+        if (p != null && p.Html != null && p.Html.Contains("iframe"))
         {
-            string prompted = await js.InvokeAsync<string>("prompt", "Informe os versiculos para marcar.");
-
-            var filtros = await Context.Filtro!
-             .OrderBy(f => f.Id)
-             .Include(f => f.Pagina)!
-             .ThenInclude(f => f.Content)
-             .Where(f => f.LivroId == livro.Livro.Id)
-             .ToListAsync();
-
-            if (prompted.Contains(","))
+            var conteudoHtml = "";
+            if (p.Html != null) conteudoHtml = p.Html;
+            else conteudoHtml = p.Html;
+            var arr = conteudoHtml!.Split("/");
+            for (var index = 0; index < arr.Length; index++)
             {
-                var arr = prompted.Replace(" ", "").Split(",");
-                bool teste = true;
-                int[] numeros = new int[arr.Length];
+                if (arr[index] == "embed" && conteudoHtml.Contains("?autoplay="))
+                {
+                    var text = arr[index + 1];
+                    var arr2 = text.Split("?");
+                    id_video = arr2[0];
+                    break;
+                }
+                else if (arr[index] == "embed")
+                {
+                    var text = arr[index + 1];
+                    var arr2 = text.Split('"');
+                    id_video = arr2[0];
+                    break;
+                }
+            }
 
-                for (var i = 0; i < arr.Length; i++)
+        }
+        return id_video;
+    }
+
+
+
+      private async Task<List<Content>> RetornarLista()
+    {
+        List<Content> lista = new List<Content>();
+
+        foreach (var item in usermodel.conteudos)
+        {
+            if (item.Html != null && item.Html.Contains("iframe"))
+            {
+                var id = buscarId(item);
+                if(!string.IsNullOrEmpty(id))
                 {
                     try
                     {
-                        numeros[i] = int.Parse(arr[i]);
+                        var url = await GetYouTubeVideo(id);
+                        item.Html = $"<center><img src='{url[0]}' class='ContentIframe' /><p>{url[1]}</p></center>";
+                        lista.Add(item);
                     }
-                    catch (Exception)
+                    catch(Exception ex)
                     {
-                        await js!.InvokeAsync<object>("DarAlert", "Informe apenas numeros separando por virgula");
-                        teste = false;
-                        break;
+                        Console.WriteLine($"Errro no conteudo {item.Id} - " + ex.Message);
                     }
                 }
-
-                if (teste)
-                {
-                    carregando = repositoryPagina.quantSlidesCarregando / arr.Length;
-                    for (var j = 0; j < numeros.Length; j++)
-                    {
-                        if (usermodel.Compartilhar != null)
-                        {
-                            foreach (var item in filtros)
-                                if (usermodel.Compartilhar.Contains(item.Nome) && item.Pagina != null &&
-                                item.Pagina.FirstOrDefault(p => p.Content is Pagina &&
-                                    retornarVerso(p.Content) == numeros[j]) != null)
-                                {
-                                    fil = item;
-                                    break;
-                                }
-                        }
-
-                        if (fil == null)
-                            fil = filtros.Where(f => f.Pagina
-                            .FirstOrDefault(p => retornarVerso(p.Content) == numeros[j]) != null).LastOrDefault()!;
-
-                        if (fil != null)
-                            url = $"/{livro.Livro.Nome}/{str.Id}/{numeros[j]}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                        if (url != null)
-                            await js!.InvokeAsync<object>("AcessarSites", $"{url}");
-                        url = null;
-                    }
-
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(prompted))
-                {
-                    prompted = prompted.Replace(" ", "");
-                    try
-                    {
-                        versiculo = int.Parse(prompted);
-                    }
-                    catch (Exception ex)
-                    {
-                        versiculo = 1;
-                    }
-                }
-
-                if (usermodel.Compartilhar != null)
-                {
-                    foreach (var item in filtros)
-                        if (usermodel.Compartilhar.Contains(item.Nome) && item.Pagina != null &&
-                        item.Pagina.FirstOrDefault(p => p.Content is Pagina &&
-                            retornarVerso(p.Content) == versiculo) != null)
-                        {
-                            fil = item;
-                            break;
-                        }
-                }
-
-                if (fil == null)
-                    fil = filtros.Where(f => f.Pagina
-                    .FirstOrDefault(p => retornarVerso(p.Content) == versiculo) != null).LastOrDefault()!;
-
-
-                if (fil != null)
-                    url = $"/{livro.Livro.Nome}/{str.Id}/{versiculo}/0/11/0/0/dominio/{user}/{fil.Id}/{carregando}";
-                if (url != null)
-                    navigation.NavigateTo(url);
-            }
+            }           
         }
-        else
-        {
-            url = $"/{user}/{str.Capitulo}";
-            navigation.NavigateTo(url);
-        }
+
+        return lista;
     }
 
-    private int retornarVerso(Content c)
-    {
-        Pagina p = (Pagina)c;
-        return p.Versiculo;
-    }
+    
 
-    private async void exibirChave(string text)
-    {
-        string texto = text;
-        string padrao = @"\(([^)]*)\)"; // Entre parenteses
-        Match match = Regex.Match(texto, padrao);
 
-        if (match.Success)
-        {
-            var livros = usermodel.Livro;
-            if (livros.FirstOrDefault(l => l.Livro.StandardChapter == 1) == null)
-            {
-                livros.Add(new UserModelLivro
-                {
-                    UserModel = usermodel,
-                    Livro = await Context.Livro!.Include(l => l.Filtro).FirstAsync() // Instagleo
-                });
-            }
-            List<Filtro> lista = new List<Filtro>();
-            foreach (var livro in livros)
-                lista.AddRange(livro.Livro.Filtro);
-
-            Console.WriteLine(match.Groups[1].Value);
-
-            if (match.Groups[1].Value.Contains(','))
-            {
-                var arr = match.Groups[1].Value.Split(',');
-                foreach (var item in arr)
-                {
-                    if (lista.FirstOrDefault(f => item.ToLower().Contains(f.Nome!.ToLower())) != null)
-                    {
-
-                        var fi = lista.FirstOrDefault(f => item.ToLower().Contains(f.Nome.ToLower()));
-                        var fil = Context.Filtro!
-                        .Include(f => f.Livro)!
-                        .Include(f => f.Pagina)!
-                        .ThenInclude(f => f.Content)
-                        .First(f => f.Id == fi.Id);
-                        var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
-                        if (ch != null)
-                        {
-                            Chave chave = (Chave)ch!.Content!;
-                            usermodel.Compartilhar = usermodel.Compartilhar!.Replace(item, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + item + $" - {chave.Versiculo}</span>");
-                        }
-
-                    }
-                }
-            }
-            else
-            {
-                var value = match.Groups[1].Value;
-                if (lista.FirstOrDefault(f => value.ToLower().Contains(f.Nome!.ToLower())) != null)
-                {
-                    var fi = lista.FirstOrDefault(f => value.ToLower().Contains(f.Nome!.ToLower()));
-                    var fil = Context.Filtro!
-                            .Include(f => f.Livro)!
-                            .Include(f => f.Pagina)!
-                            .ThenInclude(f => f.Content)
-                            .First(f => f.Id == fi!.Id);
-                    var ch = fil.Pagina!.FirstOrDefault(p => p.Content is Chave);
-                    if (ch != null)
-                    {
-                        Chave chave = (Chave)ch!.Content!;
-                        usermodel.Compartilhar = usermodel.Compartilhar!.Replace(value, $"<span class='toolip' title='livro {fil.Livro!.Nome} - capitulo {fil.Livro!.StandardChapter} - versiculo {chave.Versiculo}' >" + value + $" - {chave.Versiculo}</span>");
-                    }
-                }
-            }
-        }
-    }
-
+    
 }

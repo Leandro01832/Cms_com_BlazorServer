@@ -154,10 +154,14 @@ namespace BlazorCms.Client.Pages
         private int quantDivCriterio = 6;
         protected int QuantDivCriterio
         {
-            get { return repositoryPagina!.QuantDivCriterio; }
+            get 
+            { 
+                return repositoryPagina!.QuantDivCriterio;
+            }
             set
             {
                 quantDivCriterio = value;
+                repositoryPagina!.QuantDivCriterio = value;
             }
         }
 

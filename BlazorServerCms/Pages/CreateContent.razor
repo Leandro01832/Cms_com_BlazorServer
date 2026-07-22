@@ -59,7 +59,7 @@
     private UserContent? exampleModel = new UserContent();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private List<Filtro> lista = null;
+    private List<SubFiltro> lista = null;
     private List<Story> lista2 = null;
     private long FiltroId;
     private ClaimsPrincipal user = null;
@@ -72,8 +72,6 @@
         user = authState.User;
 
         var usermodel = await Context.Users
-                .Include(u => u.VersiculosDecorados)!
-                .ThenInclude(u => u.Filtro)!
                 .FirstOrDefaultAsync(u => u.UserName == user.Identity.Name)!;
 
         lista2 = await Context.Story!.OrderBy(st => st.Id).ToListAsync();
@@ -82,7 +80,7 @@
         var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
         exampleModel.UserModelId = u.Id;
 
-        lista = usermodel.VersiculosDecorados.Select(p => p.Filtro).ToList();
+        lista = Context.SubFiltro.Where(p => p.CriterioId != null).ToList();
     }
 
     private async void HandleSubmit()

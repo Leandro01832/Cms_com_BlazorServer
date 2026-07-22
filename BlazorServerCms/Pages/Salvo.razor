@@ -1,0 +1,125 @@
+
+ @inject RepositoryPagina repositoryPagina
+
+         <div class="container">
+
+            @if(usermodel == null)
+            {
+                <img src="/Loading.gif" width="50" />
+            }
+             else if (usermodel != null && usermodel.Anotacao.Count > 0)
+        @foreach (var item in usermodel.Anotacao)
+        {           
+                <div class="content">
+                    @if(item.LivroId != null)
+                    {
+                        <span>Livro</span>
+                        <p>
+                            @item.Livro.Nome
+                        </p>
+
+                    }
+                    <span>Query</span>
+                    <p>
+                        @item.Query
+                    </p>
+                    <span>Capitulo</span>
+                    <p>
+                        @item.Capitulo
+                    </p>
+                    <span>Versiculos</span>
+                    <p>
+                        @foreach(var i in item.AnotacaoVersiculos)
+                        {
+                                Pagina ch = null;
+                            var fi = filtros.First(f => f.Id == i.FiltroId);
+                            if(fi.CriterioId != null)
+                            {
+                                var fil = filtros!
+                                .FirstOrDefault(f => f.FiltroId == i.FiltroId); 
+                                if(fil != null)        
+                                    ch = (Chave)fil.Criterio.Content!;
+                                else
+                                {
+                                    var f = Context.SubFiltro
+                                    .Include(s => s.Criterio)
+                                    .ThenInclude(s => s.Content)
+                                    .FirstOrDefault(s => s.FiltroId == item.Id);
+                                    ch = (Chave)f.Criterio.Content!;
+                                }
+
+                            }
+                            else
+                            {
+                                var fil = filtros!
+                                .FirstOrDefault(f => f.FiltroId == i.FiltroId); 
+                                if(fil != null)        
+                                    ch = (Chave)fil.Criterio.Content!;
+                                else
+                                {
+                                    var fil2 = Context.SubFiltro
+                                    .Include(s => s.Criterio)
+                                    .ThenInclude(s => s.Content)
+                                    .FirstOrDefault(s => s.Id == fi.ComCriterio);
+                                    var f = Context.SubFiltro
+                                    .Include(s => s.Criterio)
+                                    .ThenInclude(s => s.Content)
+                                    .FirstOrDefault(s => s.FiltroId == fil2.Id);
+                                    ch = (Chave)f.Criterio.Content!;
+                                }
+                            }
+                                <span>@ch.Versiculo</span>
+                        }
+                    </p>
+
+                </div>
+            
+        }
+        else if (usermodel != null && usermodel.Anotacao.Count == 0)
+        {
+            <p>Aui ficam as anotações</p>
+        }
+
+        </div>
+
+
+@code
+{
+
+    [Parameter] public string user { get; set; }
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+    private UserModel usermodel;  
+  
+
+    private List<SubFiltro> filtros = new List<SubFiltro>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context = db.CreateDbContext(null);
+        usermodel = await Context.Users
+        .Include(u => u.Anotacao)
+        .ThenInclude(u => u.AnotacaoVersiculos)
+        .Include(u => u.Anotacao)
+        .ThenInclude(u => u.Livro)
+        .FirstOrDefaultAsync(u => u.UserName == user);  
+
+        filtros = await Context.SubFiltro!
+            .Include(f => f.Camada)!
+            .Include(f => f.Criterio)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Story)
+            .Include(f => f.Livro)
+            .Where(f => 
+             !f.UltimaPasta  && f.Pagina.Count > 0)
+            .ToListAsync();
+         
+
+    }
+
+    
+
+
+}

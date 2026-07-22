@@ -166,7 +166,12 @@
             </div>
             <div class="dados">
 
-                <div>Publicações </div>
+                <div>
+                    Publicações                    
+                        @publicacoes
+                    
+                    
+                 </div>
                 <div>
                     <button class="btn btn-light" @onclick="MostrarSeguidores">
                         seguidores
@@ -328,8 +333,8 @@
 
 <p>@descricao</p>
 
-<div class="listas" role="tablist">
-    <a aria-selected="true" class="" href="/@user/publicacao" role="tab" tabindex="0">
+<div class="listas" role="tablist"> 
+    <a aria-selected="true"  href="#" onclick="@exibirPublicacao" @onclick:preventDefault  role="tab" tabindex="0">
         <div class="">
             <svg aria-label="" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
                 <title></title>
@@ -346,10 +351,11 @@
             </svg>
             <span class="">
                 Publicações
+                
             </span>
         </div>
     </a>
-    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/reels" role="tab" tabindex="0">
+    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="#" onclick="@exibirReels" @onclick:preventDefault role="tab" tabindex="0">
         <div class="">
             <svg aria-label="" class="" fill="currentColor" height="12" role="img" viewBox="0 0 24 24" width="12">
                 <title></title>
@@ -364,18 +370,37 @@
                 <path fill-rule="evenodd"></path>
             </svg><span class="">
                 Reels
+                
             </span>
         </div>
     </a>
-    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="/@user/salvo" role="tab" tabindex="0">
+    <a aria-selected="false" class="_aa-z _ap3g _a6hd" href="#" onclick="@exibirSalvos" @onclick:preventDefault role="tab" tabindex="0">
         <div class="">            
-            <img src="/anotar2.png" style="width:20px; height:20px;" /> 
+            <img src="/anotar.gif" style="width:20px; height:20px;" /> 
             <span class="">
-                Salvos
+                Salvo
+                 
             </span>
         </div>
     </a>  
 </div>
+
+                @if(publicacao)
+                {
+                    <Publicacao user="@user" ></Publicacao>  
+
+                }
+
+                @if(reels)
+                {
+                    <Reels  user="@user" ></Reels> 
+                }
+
+                @if(salvo)
+                {
+
+                    <Salvo  user="@user" ></Salvo> 
+                }
 
 @code
 {
@@ -386,21 +411,25 @@
     private ApplicationDbContext Context;
     List<Story> stories = new List<Story>();
     List<Relogio> relogios = new List<Relogio>();
-        List<SubFiltro>? filtros = new List<SubFiltro>();
-        List<UserModel>? seguidores = new List<UserModel>();
-        List<UserModel>? seguindo = new List<UserModel>();
+    List<SubFiltro>? filtros = new List<SubFiltro>();
+    List<UserModel>? seguidores = new List<UserModel>();
+    List<UserModel>? seguindo = new List<UserModel>();
 
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
     private MarkupString markup;
     private int lacos = 0;
     private int itens = 6;
+    private int publicacoes = 0;
     private bool newStory = true;
     private bool showModal = false;
     private bool showModal2 = false;
     private bool showModal3 = false;
     private bool isCurrentPlayerProfile = false;
     private bool isFollowing = false;
+    private bool reels = false;
+    private bool salvo = false;
+    private bool publicacao = false;
     private string title = "";
     private string confirmar = "";
     private string classCircle = "";
@@ -415,21 +444,22 @@
     public string Pensamento 
     {
         get{return pensamento;}
-         set{
-                pensamento = value;
-                markup = new MarkupString(usermodel.Compartilhar + value);
-            }
+        set{
+            pensamento = value;
+            markup = new MarkupString(usermodel.Compartilhar + value);
+        }
     }
     private string Pensar = "";
 
     private bool semCriterio = false;
-    
+
     List<Story>[] array;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+           publicacoes = await buscarPublicacoes(0);
             repositoryPagina!.QuantDiv = await repositoryPagina.marcarIndice(false, js);
             repositoryPagina!.QuantDivCriterio = await repositoryPagina.marcarIndice(true, js);
 
@@ -464,15 +494,16 @@
 
             }
         }
-        
+
     }
 
-   
+
 
     protected override void OnParametersSet()
     {
         if (capitulo != null)
             descricao = RepositoryPagina.stories.First(str => str.Capitulo == capitulo).Descricao!;
+            
     }
 
     protected override async Task OnInitializedAsync()
@@ -525,17 +556,17 @@
         .ThenInclude(u => u.Filtro)!
         .FirstOrDefaultAsync(u => u.UserName == user);
 
-         seguidores = await Context.Users
-        .Include(u => u.Followers)
+        seguidores = await Context.Users
+       .Include(u => u.Followers)
     .Where(u => u.Id == usermodel.Id) 
     .SelectMany(u => u.Followers.Select(f => f.Observer)) // Pega o 'Observer' (quem seguiu)
     .ToListAsync();
 
-    seguindo = await Context.Users
-        .Include(u => u.Following)
-    .Where(u => u.Id == usermodel.Id)
-    .SelectMany(u => u.Following.Select(f => f.Target)) // Pega o 'Target' (quem foi seguido)
-    .ToListAsync();
+        seguindo = await Context.Users
+            .Include(u => u.Following)
+        .Where(u => u.Id == usermodel.Id)
+        .SelectMany(u => u.Following.Select(f => f.Target)) // Pega o 'Target' (quem foi seguido)
+        .ToListAsync();
 
         relogios = usermodel.Relogio
         .OrderByDescending(r => r.Data)
@@ -546,7 +577,7 @@
         Pensamento = "(" +
          string.Join(", ", relogios.Select(r => retornarVersoComCriterio(r.SubFiltro))) +
           ")"; 
-               
+
         if (string.IsNullOrEmpty(usermodel.Compartilhar))
         {
             confirmar = "Compartilhar";
@@ -573,9 +604,60 @@
 
         if (!isCurrentPlayerProfile && usuario != null 
         && usuario.Identity!.IsAuthenticated)
-        isFollowing = await IsFollowingAsync(u.Id, usermodel.Id);
+            isFollowing = await IsFollowingAsync(u.Id, usermodel.Id);
+
         
-    }
+
+    }  
+
+    private async Task<int> buscarPublicacoes(int condicao)
+        {
+            try
+            {
+                string sql = @"SELECT count(*) 
+                    FROM Content 
+                    WHERE UserModelId = @UserId";
+                    
+                if(usermodel == null)
+                {
+                    var cont = db.CreateDbContext(null);
+                    var us  = await cont.Users!
+                    .FirstOrDefaultAsync(u => u.UserName == user);
+                    var con = new SqlConnection(ApplicationDbContext._connectionString);
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", us.Id);
+
+                        con.Open();
+                        if(publicacoes == 0)
+                        publicacoes = int.Parse(cmd.ExecuteScalar().ToString());
+                        con.Close();
+                    }
+                    
+
+                }
+                else
+                {
+                    
+                    var con = new SqlConnection(ApplicationDbContext._connectionString);
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", usermodel.Id);
+                        con.Open();
+                        if(publicacoes == 0)
+                        publicacoes = int.Parse(cmd.ExecuteScalar().ToString());
+                        con.Close();                        
+                    }  
+
+                }
+            }
+            catch (Exception ex)
+            {
+                publicacoes = 0;
+            }
+            
+                return publicacoes;
+        }
 
     private void limpar()
     {
@@ -976,6 +1058,27 @@
          await MostrarSeguindo();
          else 
          await HandleFollowToggle(); 
+    }
+
+    private void exibirPublicacao()
+    {
+        publicacao = true;
+        reels = false;
+        salvo = false;
+    }
+
+    private void exibirReels()
+    {
+        publicacao = false;
+        reels = true;
+        salvo = false;
+    }
+
+    private void exibirSalvos()
+    {
+        publicacao = false;
+        reels = false;
+        salvo = true;
     }
 
 }
