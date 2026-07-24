@@ -127,7 +127,7 @@ else
             user.IncluiLivro(livro);
             await Context.SaveChangesAsync();
             await js!.InvokeAsync<object>("DarAlert", $"Livro incluido com sucesso!!");
-            await js!.InvokeAsync<object>("ExecutarReload", $"teste");
+            StateHasChanged();
         }
         else
         {
@@ -144,7 +144,7 @@ else
         Context.Remove(obj);
         await Context.SaveChangesAsync();
         await js!.InvokeAsync<object>("DarAlert", $"Livro removido com sucesso!!");
-        await js!.InvokeAsync<object>("ExecutarReload", $"teste");
+       StateHasChanged();
     }
 
     private bool verificarLivro(Livro livro)

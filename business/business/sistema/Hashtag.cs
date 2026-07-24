@@ -8,10 +8,12 @@ public class Hashtag : BaseModel
     public string Name { get; set; }
 
     public virtual List<HashtagContent> HashtagContent { get; set; }
+    public virtual List<Relogio> Relogio { get; set; }
+    public virtual List<RelogioParede> RelogioParede { get; set; }
 
     public string? UserModelId { get; set; }
 
-    public virtual UserModel UserModel { get; set; }
+    public virtual UserModel UserModel { get; set; } 
 
     public void AddContent(Content content)
     {

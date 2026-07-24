@@ -279,6 +279,7 @@ namespace BlazorCms.Client.Pages
 
         protected bool showModal = false;
         protected bool showModal2 = false;
+        protected bool showModal3 = false;
 
         protected int Pasta = 0;
 

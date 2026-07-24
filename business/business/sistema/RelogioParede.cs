@@ -16,6 +16,9 @@ namespace business.business.sistema
         public long ContentId { get; set; }    
         public virtual Content Content { get; set; }
 
+        public long? HashtagId { get; set; }    
+        public virtual Hashtag Hashtag { get; set; }
+
         //responsável
         public string UserModelId { get; set; }
         public virtual UserModel UserModel {get;set;}

@@ -15,6 +15,8 @@ namespace business.business.sistema
         public virtual SubFiltro SubFiltro {get;set;}
         public long ContentId { get; set; }    
         public virtual Content Content { get; set; }
+        public long? HashtagId { get; set; }    
+        public virtual Hashtag Hashtag { get; set; }
         public string UserModelId { get; set; }
         public virtual UserModel UserModel {get;set;}
     }

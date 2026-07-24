@@ -98,6 +98,7 @@ namespace BlazorCms.Client.Pages
                 var u = await userManager.GetUserAsync(user);
                 usuario = await Context.Users
                 .Include(u => u.PageLiked)
+                .Include(u => u.Hashtag)
                 .FirstAsync(us => us.Id == u.Id);
 
                 if (Compartilhou != null && Compartilhou != "comp")

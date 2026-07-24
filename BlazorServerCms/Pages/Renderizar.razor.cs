@@ -433,6 +433,25 @@ namespace BlazorCms.Client.Pages
             var cam = Model2!.Camada.Numero;
             acessarCamada(cam - 1);
         }
+        
+        protected async void Salvar()
+        {
+            if (usuario != null)
+            {
+                showModal3 = true;
+            }
+            else
+            {
+                await js!.InvokeAsync<object>("DarAlert", $"Faça login para salvar conteudo.");
+            }
+        }
+        
+        protected async void SalvarConteudo(long Hashtag)
+        {
+            var hashyagContent = new HashtagContent{ ContentId= Model.Id, HashtagId= Hashtag  };
+            await Context.AddAsync(hashyagContent);
+            await Context.SaveChangesAsync();
+        }
 
         protected void Filtrar()
         {
