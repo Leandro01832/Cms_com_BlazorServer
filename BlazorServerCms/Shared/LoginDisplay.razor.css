@@ -3,6 +3,20 @@
     margin: 0;
 }
 
+.container
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 120px;
+}
+
+.usuarios
+{
+    width: 200px;
+}
+
 
 .circuloNewStory {
     width: 85px;
@@ -69,9 +83,9 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
-    padding-left: 50px;
-    padding-right: 50px;
+     width: 650px;
+   /* padding-left: 150px;
+    padding-right: 150px; */
 }
 
 #carouselIndicators {
@@ -108,21 +122,19 @@
 }
 
 .prev {
-    position: relative;
-    height: 75%;
-    width: 20px;
-    top: 1%;
-    left: -12%;
-    background-color: black;
+    
+    height: 50px;
+    width: 30px;
+    margin-bottom: 200px;
+    background-color: rgba(0, 0, 0, 0.144);
 }
 
 .prox {
-    position: relative;
-    height: 75%;
-    width: 20px;
-    top: 1%;
-    right: -1%;
-    background-color: black;
+    
+    height: 50px;
+    width: 30px;
+    
+    background-color: rgba(0, 0, 0, 0.144);
 }
 
 .botoes {

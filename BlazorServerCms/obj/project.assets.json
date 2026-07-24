@@ -739,6 +739,23 @@
           }
         }
       },
+      "mercadopago-sdk/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "System.Configuration.ConfigurationManager": "8.0.1"
+        },
+        "compile": {
+          "lib/net8.0/MercadoPago.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/MercadoPago.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "MessagePack/2.5.187": {
         "type": "package",
         "dependencies": {
@@ -5444,6 +5461,23 @@
         "lib/net9.0/JsonSchema.Net.Generation.xml",
         "lib/netstandard2.0/JsonSchema.Net.Generation.dll",
         "lib/netstandard2.0/JsonSchema.Net.Generation.xml"
+      ]
+    },
+    "mercadopago-sdk/3.3.0": {
+      "sha512": "zOzwzRUvHt/8E0jbDhFgVyeaLwuYeNnI++uPWxDzsYiYc3wyvnfFBJU6p0F4GjX/rO3jmKV22gLfN+liWw21+g==",
+      "type": "package",
+      "path": "mercadopago-sdk/3.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net8.0/MercadoPago.dll",
+        "lib/net8.0/MercadoPago.pdb",
+        "lib/net8.0/MercadoPago.xml",
+        "lib/netstandard2.1/MercadoPago.dll",
+        "lib/netstandard2.1/MercadoPago.pdb",
+        "lib/netstandard2.1/MercadoPago.xml",
+        "mercadopago-sdk.3.3.0.nupkg.sha512",
+        "mercadopago-sdk.nuspec"
       ]
     },
     "MessagePack/2.5.187": {
@@ -11163,7 +11197,8 @@
       "Newtonsoft.Json >= 13.0.3",
       "PSC.Blazor.Components.Tours >= 1.0.10",
       "TinyMCE.Blazor >= 1.0.4",
-      "business >= 1.0.0"
+      "business >= 1.0.0",
+      "mercadopago-sdk >= 3.3.0"
     ]
   },
   "packageFolders": {
@@ -11313,6 +11348,10 @@
           "TinyMCE.Blazor": {
             "target": "Package",
             "version": "[1.0.4, )"
+          },
+          "mercadopago-sdk": {
+            "target": "Package",
+            "version": "[3.3.0, )"
           }
         },
         "imports": [
@@ -11343,7 +11382,7 @@
       "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "BlazorServerCms depends on Google.Apis.YouTube.v3 (>= 1.68.0) but Google.Apis.YouTube.v3 1.68.0 was not found. Google.Apis.YouTube.v3 1.68.0.3394 was resolved instead.",
+      "message": "BlazorServerCms depende de Google.Apis.YouTube.v3 (>= 1.68.0) mas Google.Apis.YouTube.v3 1.68.0 não foi encontrado. Google.Apis.YouTube.v3 1.68.0.3394 foi resolvido.",
       "libraryId": "Google.Apis.YouTube.v3",
       "targetGraphs": [
         "net9.0"

@@ -1,0 +1,155 @@
+@page "/paraseguir"
+@inject AuthenticationStateProvider? AuthenticationStateProvider 
+@inject UserManager<UserModel> userManager
+
+   <div style="display: flex; flex-direction: column;  align-items: center; min-height: 80vh; width: 100%; text-align: center;">
+
+    <h2>-- Sugestões para você --</h2>
+
+    <div class="usuarios" style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 15px;">
+        <!-- Seus elementos/foreach de usuários aqui -->
+        @if(usersSeguindo != null)
+        @for(var i = 0; i < usersSeguindo.Length; i++) 
+        {
+           var item = usersSeguindo[i]; // Captura o objeto atual isoladamente
+
+            <div class="user">
+                @if(item != null && item.user != null)
+                {
+                    <div class="user">
+                        @item.user.UserName
+                        <button class="btn @(item.seguindo ? "btn-following" : "btn-follow")" 
+                                @onclick="@(() => HandleFollowToggle(item.user))">
+                            @(item.seguindo ? "Seguindo" : "Seguir")
+                        </button>
+                    </div> 
+                }
+            </div>
+
+        }
+    </div>
+
+</div>
+    
+    
+
+
+
+@code
+{
+
+    private DemoContextFactory db = new DemoContextFactory();
+    private ApplicationDbContext Context;
+
+     List<UserModel>? paraSeguir = new List<UserModel>();
+
+    UserModel UsuarioAutenticado  = null;
+
+     ClaimsPrincipal user = null;
+
+     private bool isFollowing = false;
+
+      UserModelSeguindo[] usersSeguindo = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider
+        .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+
+        Context = db.CreateDbContext(null);
+        if(user.Identity.IsAuthenticated)
+        {
+            UsuarioAutenticado = await userManager.GetUserAsync(user)!;
+            UsuarioAutenticado = Context.Users
+            .Include(u => u.Followers)
+            .First(u => u.Id == UsuarioAutenticado.Id);
+
+            paraSeguir = await Context.Users
+            .Include(u => u.Followers)
+            .Where(u => !u.Followers.Any(f =>
+             f.ObserverId == UsuarioAutenticado.Id) && u.Id != UsuarioAutenticado.Id)
+            .Take(50).ToListAsync();
+
+            usersSeguindo = new UserModelSeguindo[paraSeguir.Count];
+
+            @for(var i = 0; i < usersSeguindo.Length; i++)
+             {
+                usersSeguindo[i] = new UserModelSeguindo();
+                usersSeguindo[i].user = paraSeguir[i];
+                usersSeguindo[i].seguindo = false;
+
+             }
+
+        }
+        else
+        {
+            paraSeguir = new List<UserModel>();
+        }
+    }     
+
+    private async Task HandleFollowToggle(UserModel us)
+    {
+        var authState = await AuthenticationStateProvider
+             .GetAuthenticationStateAsync();
+        user = authState.User;
+        var u = await userManager.GetUserAsync(user);
+
+        if (u == null || string.IsNullOrEmpty(u.Id)) return;
+
+        // Executa a ação e atualiza o estado visual do botão instantaneamente
+        isFollowing = await ToggleFollowAsync(u.Id, us.Id);
+
+         for(var i = 0; i < usersSeguindo.Length; i++)
+            if(usersSeguindo[i].user.Id == us.Id)
+            {
+                usersSeguindo[i].seguindo = isFollowing;
+                break;
+            }
+
+            StateHasChanged();
+    }
+
+    public async Task<bool> ToggleFollowAsync(string observerId, string targetId)
+    {
+        // Impedir que o usuário siga a si mesmo
+        if (observerId == targetId)
+            return false;
+
+        // Procura se o vínculo já existe no banco de dados
+        var existingFollow = await Context.Set<UserFollow>()
+            .FirstOrDefaultAsync(f => f.ObserverId == observerId && f.TargetId == targetId);
+
+        if (existingFollow != null)
+        {
+            // Se já segue, remove o registro (Deixar de Seguir)
+            Context.Set<UserFollow>().Remove(existingFollow);
+            await Context.SaveChangesAsync();
+            return false; 
+        }
+        else
+        {
+            // Se não segue, cria um novo registro (Seguir)
+            var newFollow = new UserFollow
+            {
+                ObserverId = observerId,
+                TargetId = targetId,
+                FollowedAt = DateTime.UtcNow
+            };
+
+            await Context.Set<UserFollow>().AddAsync(newFollow);
+            await Context.SaveChangesAsync();
+            return true; 
+        }
+    }
+
+    public class UserModelSeguindo
+    {
+        public UserModel user;
+        public bool seguindo;
+    }
+
+
+    }
+

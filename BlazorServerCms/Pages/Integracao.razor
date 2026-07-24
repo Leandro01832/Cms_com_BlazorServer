@@ -1,0 +1,41 @@
+ @inject RepositoryPagina repositoryPagina
+
+
+
+<!-- Container para o botão de pagamento -->
+<div id="walletBrick_container"></div>
+
+<input type="hidden" value="@repositoryPagina.buscarApiMercadoPagoPublicKey()" id="publickey" />
+
+<input type="hidden" value="@repositoryPagina.CriarPreferencia(Titulo, Quantidade, PrecoUnitario)" id="preferencia" />
+
+
+
+<script>
+  // Configure sua chave pública do Mercado Pago
+  const publicKey = document.getElementById("publickey").value;
+  // Configure o ID de preferência que você deve receber do seu backend
+  const preferenceId = document.getElementById("preferencia").value;
+
+  // Inicializa o SDK do Mercado Pago
+  const mp = new MercadoPago(publicKey);
+
+  // Cria o botão de pagamento
+  const bricksBuilder = mp.bricks();
+  const renderWalletBrick = async (bricksBuilder) => {
+    await bricksBuilder.create("wallet", "walletBrick_container", {
+      initialization: {
+        preferenceId: preferenceId,
+      }
+});
+  };
+
+  renderWalletBrick(bricksBuilder);
+</script>
+
+@code
+{
+   [Parameter] public string Titulo { get; set; }
+   [Parameter] public int Quantidade { get; set; }
+   [Parameter] public decimal PrecoUnitario { get; set; }
+}

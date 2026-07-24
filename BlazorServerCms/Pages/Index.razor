@@ -14,22 +14,146 @@
 
 <PageTitle>Instagleo</PageTitle>
 
-<div class="row">
-    <LoginDisplay />
-</div>
+
 
 <div class="container">
 
+<div class="stories">
+
+    <div id="carouselIndicators" bs-pause="false">
+
+        <div class="carousel-inner">
+
+            @if(array != null)
+                for (var i = 0; i < array.Length; i++)
+                {
+                    @if (i == 0)
+                    {
+
+                        <div class="carousel-item ativo">
+
+                            @foreach (var item in array[i])
+                            {
+                                
+
+                                <div class="story">
+                                    <h6>
+                                        <a onclick="@(() => navigation.NavigateTo($"/{item.user.UserName}"))">
+                                            <div class="circuloNewStory">
+
+                                                <div class="circulo4">
+                                                    <div class="circulo5">
+
+                                                        @if (item != null && item.user.Image != null)
+                                                        {
+                                                            <img src="ImgUser/usuario-@(item.user.UserName)-@(item.user.Image)" class="ImgUser">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                                                        }
 
 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="desc">
+
+                                            @if (item.live)
+                                            {
+                                                    <div class="aovivo">
+                                                        <p  > Ao Vivo</p>
+                                                    </div>
+                                                <p>@descUser(item.user.UserName)</p>
+                                            }
+                                            else
+                                            {
+                                                <p> @descUser(item.user.UserName) </p>
+
+                                            }
+                                            </div>
+                                        </a>
+                                    </h6>
+                                </div>
+
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item">
+
+                            @foreach (var item in array[i])
+                            {
+                                
+
+                                <div class="story" title="A descrição da story esta aqui!!!">
+                                    <h6>
+                                        <a onclick="@(() => navigation.NavigateTo($"/{item.user.UserName}"))">
+
+                                            <div class="circulo">
+                                                <div class="circulo2">                                               
+                                                   
+                                                    
+                                                    @if (item != null && item.user.Image != null)
+                                                    {
+                                                        <img src="ImgUser/usuario-@(item.user.UserName)-@(item.user.Image)" class="ImgUser">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="ImgUser/padrao.jpg" class="ImgUser">
+
+                                                    }
+                                               
+                                                
+                                                </div>
+                                           
+                                            
+                                            </div>
+
+                                            @if(item.live){
+                                                <div class="aovivo">
+                                                <p> Ao Vivo</p>
+                                                </div>
+                                                <p>@descUser(item.user.UserName)</p>
+                                            }
+                                            else{
+                                                <p> @descUser(item.user.UserName) </p>
+
+                                            }
+                                        </a>
+                                    </h6>
+                                </div> 
+
+                            }
+
+                        </div>
+                    }
+
+
+                }
+
+        </div>
+    </div>
+
+    <div class="botoes">
+        <a class="prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="prox btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
+
+    </div>
+   
+    <div class="info">
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
-@* <button @onclick="DispararFluxo">Executar Automação</button> *@
 
-<div class="info">
-
-    <p>
-        Usuarios inscritos: @users
-    </p>
+    
 
     <p>
         <a data-5 href="#" onclick="@(() => navigation.NavigateTo("/createcontent"))">
@@ -179,6 +303,42 @@
 </div>
 
 </div>
+   
+</div>
+
+    <div class="usuarios">
+
+        <b>Sugestões para você</b>
+        <a href="/paraseguir" >ver tudo</a>
+
+        @if(usersSeguindo != null)
+        @for(var i = 0; i < usersSeguindo.Length; i++)
+        {
+            
+                 var item = usersSeguindo[i]; // Captura o objeto atual isoladamente
+
+            <div class="user">
+                @if(item != null && item.user != null)
+                {
+                    <div class="user">
+                        @item.user.UserName
+                        <button class="btn @(item.seguindo ? "btn-following" : "btn-follow")" 
+                                @onclick="@(() => HandleFollowToggle(item.user))">
+                            @(item.seguindo ? "Seguindo" : "Seguir")
+                        </button>
+                    </div> 
+                }
+            </div>
+
+            
+
+        }
+    </div>
+
+
+
+
+
 
 
 
@@ -240,6 +400,24 @@
 
 @code
 {
+     List<UserModelLive>[] array;
+    private int itens = 6;
+    private int lacos = 0;
+    List<UserModel> usuarios;
+    List<UserModel> usuarios2;
+    List<UserModel>? paraSeguir = new List<UserModel>();
+
+    UserModel UsuarioAutenticado  = null;
+
+    
+
+
+
+
+
+
+
+
 
     [Parameter] public int? capitulo { get; set; }
 
@@ -257,8 +435,7 @@
 
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
-    private int users = 0;
-    // private int? carregando = null; 
+   
     private string placeholder = "Pesquisar";
     private string comp = "comp";
     //private bool marcar;
@@ -269,9 +446,9 @@
 
     private Livro livro = null;
     private bool maisDeUmCriterio = false;
+    private bool isFollowing = false;
 
-    //int? verso = null;
-    //long? filtro = null;
+    
     private bool checkedCriterio1 = false;
     private string criterio2 = "";
 
@@ -285,6 +462,8 @@
     HashSet<string> stopWords = null;
 
      ClaimsPrincipal user = null;
+
+     UserModelSeguindo[] usersSeguindo = null;
 
 
     protected override async Task OnParametersSetAsync()
@@ -318,7 +497,60 @@
       protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             repositoryPagina!.QuantDiv = await repositoryPagina.marcarIndice(false, js);
-            repositoryPagina!.QuantDivCriterio = await repositoryPagina.marcarIndice(true, js);      
+            repositoryPagina!.QuantDivCriterio = await repositoryPagina.marcarIndice(true, js);  
+
+            if (firstRender)
+        {
+            try
+            {
+                if(usuarios == null)
+                    usuarios = await Context.Users.ToListAsync();
+                string? num = await js.InvokeAsync<string>("retornarlargura", "url");
+                var largura = double.Parse(num);
+
+                if (largura > 200 && largura < 300)
+                    itens = 2;
+                else if (largura > 300 && largura < 400)
+                    itens = 3;
+                else if (largura > 400 && largura < 500)
+                    itens = 4;
+                else itens = 6;
+
+                if(itens < 6)
+                {
+                    lacos = usuarios.Count / itens;
+                    var resto = usuarios.Count % itens;
+                    if (resto != 0) lacos++;
+                    array = new List<UserModelLive>[lacos];
+
+                        usuarios2.Clear();
+                        foreach(var item2 in usuarios.ToList())
+                        if(!verificarLive(item2))
+                        usuarios2.Add(item2);
+                        else
+                        {
+                        usuarios2.Reverse();
+                        usuarios2.Add(item2);
+                        usuarios2.Reverse();
+
+                        }
+
+                    for (var i = 0; i < array.Length; i++)
+                    {
+                        array[i] = new List<UserModelLive>();
+                        foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
+                        array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
+                    }
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }    
             
         }
 
@@ -330,6 +562,7 @@
         .GetAuthenticationStateAsync();
         var user = authState.User;
 
+
         // if (!user.Identity!.IsAuthenticated)
         // {
         //     navigation.NavigateTo("/Identity/Account/Login");
@@ -338,8 +571,37 @@
 
 
         Context = db.CreateDbContext(null);
-        var quant = await userManager.Users.ToListAsync();
-        users = quant.Count;
+       var Context2 = db.CreateDbContext(null);
+        if(user.Identity.IsAuthenticated)
+        {
+            UsuarioAutenticado = await userManager.GetUserAsync(user)!;
+            UsuarioAutenticado = Context.Users
+            .Include(u => u.Followers)
+            .First(u => u.Id == UsuarioAutenticado.Id);
+
+            paraSeguir = await Context.Users
+            .Include(u => u.Followers)
+            .Where(u => !u.Followers.Any(f 
+            => f.ObserverId == UsuarioAutenticado.Id) && u.Id != UsuarioAutenticado.Id)
+            .Take(5).ToListAsync();
+
+             usersSeguindo = new UserModelSeguindo[paraSeguir.Count];
+
+             @for(var i = 0; i < usersSeguindo.Length; i++)
+             {
+                usersSeguindo[i] = new UserModelSeguindo();
+                usersSeguindo[i].user = paraSeguir[i];
+                usersSeguindo[i].seguindo = false;
+
+             }
+
+
+        }
+        else
+        {
+            paraSeguir = new List<UserModel>();
+        }
+      
       
 
         if (nomeLivro != null)
@@ -373,100 +635,8 @@
     { 
         "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
         "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
-    };   
-
-    @*
-        var resultado = await Context.SubFiltro
-        .Include(f => f.Pagina)
-        .Where(x => x.UltimaPasta) 
-        .OrderBy(sub => sub.CamadaId)
-        .ToListAsync();
-        var c = Context.Content
-        .FirstOrDefault(c => c.GetType() == typeof(Comment));        
-        
-        for(var h = 1; h <= resultado.Count; h++)
-        {
-            var fil = await Context.SubFiltro
-            .AsNoTracking()
-            .Include(f => f.Pagina)
-            .FirstAsync(s => s.Id == resultado[h - 1].FiltroId);
-            if(fil.Pagina.Count > 0)            
-            resultado[h - 1].IncluiPagina(c);
-        }       
-        await Context.SaveChangesAsync();
-    
-
-     var contents = await Context.Content
-    .Where(c => c.StoryId==2)
-    .OrderBy(c => c.Id)
-    .Skip(50).ToListAsync();
-
-    for(var i = 0; i < 178; i++)
-    {
-        var criterio = new Criterio
-        {
-            Id = contents[i].Id,
-             CamadaId = 9,
-              Ativo = true,
-               DataCriacao = DateTime.UtcNow,
-                Descricao = "Descrição",
-                LivroId= 1                 
-        };
-        Context.Add(criterio);
-    } *@
-
-    @* 
-             
-              var fils = Context.SubFiltro
-            .Where(f => f.CriterioId == 40)
-            .ToList();
-
-            var cri = Context.Criterio
-             .Where(c => c.Id > 40)
-             .ToList();
-
-             for(int i = 0; i < fils.Count; i++)
-             {
-                fils[i].CriterioId = cri[i].Id;
-                Context.SubFiltro.Update(fils[i]);
-             }
-                Context.SaveChanges(); *@
-                  
-                
-
-                // Usando LINQ para encontrar quem não é pai de ninguém
-
-    @* 
-var gruposFinais = await Context.SubFiltro
-    .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))
-    .ToListAsync();
-
-    foreach(var item in gruposFinais)
-    {
-        if(!item.UltimaPasta)
-        {
-            var f = new SubFiltro
-            {
-                FiltroId = item.Id,
-                Nome = "ultima pasta",
-                CriterioId = 40,
-                LivroId = item.LivroId,
-                StoryId = item.StoryId,
-                UltimaPasta = true,
-                CamadaId = item.CamadaId + 1
-            };
-            await Context.SubFiltro.AddAsync(f);
-
-        }
-            
-    }      
-      
-        await Context.SaveChangesAsync(); 
-        *@
-
-    
-
- //   GerarInteligenciaDosFiltros();
+    }; 
+   
 
         if(livro != null && capitulo != null )
         {
@@ -484,8 +654,38 @@ var gruposFinais = await Context.SubFiltro
         options.Add(new FilterOption { Value = "criterio1", Text = "Criterio 1" });
         options.Add(new FilterOption { Value = "criterio2", Text = "Criterio 2" });
 
-        Ocultar();       
+        Ocultar();  
 
+         usuarios = await Context.Users
+        .Include(u => u.conteudos)
+        .ToListAsync();
+        usuarios2 = new List<UserModel>();
+        lacos = usuarios.Count / itens;
+        var resto = usuarios.Count % itens;
+        if (resto != 0) lacos++;
+        array = new List<UserModelLive>[lacos];
+
+            usuarios2.Clear();
+
+            foreach(var item2 in usuarios.ToList())
+            if(!verificarLive(item2))
+            usuarios2.Add(item2);
+            else
+            {
+               usuarios2.Reverse();
+               usuarios2.Add(item2);
+               usuarios2.Reverse();
+
+            }
+
+        for (var i = 0; i < array.Length; i++)
+        {
+            array[i] = new List<UserModelLive>();
+            foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
+            array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
+        }     
+
+        StateHasChanged();
     }
 
     private async void Acessar(SubFiltro item)
@@ -981,6 +1181,101 @@ var gruposFinais = await Context.SubFiltro
               }
    }
 
-   
+   private string descUser(string user)
+    {
+        if( user.ToList().Count > 10){
+
+            return user.Substring(0, 10) + "...";
+        }
+        else
+        return user;
+    }
+
+    private bool verificarLive(UserModel user)
+    {
+        Content str = null;
+         str = user
+        .conteudos.FirstOrDefault(c => c.GetType() == typeof(Streaming) &&
+         c.Titulo == "Ao Vivo");
+
+        if(str != null)
+        return true;
+        else
+        return false;
+    }
+
+     @* private async Task Mostrar(UserModel us)
+    { 
+         await HandleFollowToggle(us); 
+         
+    } *@
+
+    private async Task HandleFollowToggle(UserModel us)
+    {
+        var authState = await AuthenticationStateProvider
+             .GetAuthenticationStateAsync();
+        user = authState.User;
+        var u = await userManager.GetUserAsync(user);
+
+        if (u == null || string.IsNullOrEmpty(u.Id)) return;
+
+        // Executa a ação e atualiza o estado visual do botão instantaneamente
+        isFollowing = await ToggleFollowAsync(u.Id, us.Id);
+        
+            for(var i = 0; i < usersSeguindo.Length; i++)
+            if(usersSeguindo[i].user.Id == us.Id)
+            {
+                usersSeguindo[i].seguindo = isFollowing;
+                break;
+            }
+
+    
+        StateHasChanged();
+    }
+
+    public async Task<bool> ToggleFollowAsync(string observerId, string targetId)
+    {
+        // Impedir que o usuário siga a si mesmo
+        if (observerId == targetId)
+            return false;
+
+        // Procura se o vínculo já existe no banco de dados
+        var existingFollow = await Context.Set<UserFollow>()
+            .FirstOrDefaultAsync(f => f.ObserverId == observerId && f.TargetId == targetId);
+
+        if (existingFollow != null)
+        {
+            // Se já segue, remove o registro (Deixar de Seguir)
+            Context.Set<UserFollow>().Remove(existingFollow);
+            await Context.SaveChangesAsync();
+            return false; 
+        }
+        else
+        {
+            // Se não segue, cria um novo registro (Seguir)
+            var newFollow = new UserFollow
+            {
+                ObserverId = observerId,
+                TargetId = targetId,
+                FollowedAt = DateTime.UtcNow
+            };
+
+            await Context.Set<UserFollow>().AddAsync(newFollow);
+            await Context.SaveChangesAsync();
+            return true; 
+        }
+    }
+
+    public class UserModelLive
+    {
+        public UserModel user;
+        public bool live;
+    }
+    
+    public class UserModelSeguindo
+    {
+        public UserModel user;
+        public bool seguindo;
+    }
 
 }

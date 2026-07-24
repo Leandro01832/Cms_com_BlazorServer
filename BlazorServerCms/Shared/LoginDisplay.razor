@@ -2,269 +2,107 @@
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
 
-<div class="stories">
-
-    <div id="carouselIndicators" bs-pause="false">
-
-        <div class="carousel-inner">
-
-            @if(array != null)
-                for (var i = 0; i < array.Length; i++)
-                {
-                    @if (i == 0)
-                    {
-
-                        <div class="carousel-item ativo">
-
-                            @foreach (var item in array[i])
-                            {
-                                
-
-                                <div class="story">
-                                    <h6>
-                                        <a onclick="@(() => navigation.NavigateTo($"/{item.user.UserName}"))">
-                                            <div class="circuloNewStory">
-
-                                                <div class="circulo4">
-                                                    <div class="circulo5">
-
-                                                        @if (item != null && item.user.Image != null)
-                                                        {
-                                                            <img src="ImgUser/usuario-@(item.user.UserName)-@(item.user.Image)" class="ImgUser">
-                                                        }
-                                                        else
-                                                        {
-                                                            <img src="ImgUser/padrao.jpg" class="ImgUser">
-
-                                                        }
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="desc">
-
-                                            @if (item.live)
-                                            {
-                                                    <div class="aovivo">
-                                                        <p  > Ao Vivo</p>
-                                                    </div>
-                                                <p>@descUser(item.user.UserName)</p>
-                                            }
-                                            else
-                                            {
-                                                <p> @descUser(item.user.UserName) </p>
-
-                                            }
-                                            </div>
-                                        </a>
-                                    </h6>
-                                </div>
-
-                            }
-
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="carousel-item">
-
-                            @foreach (var item in array[i])
-                            {
-                                
-
-                                <div class="story" title="A descrição da story esta aqui!!!">
-                                    <h6>
-                                        <a onclick="@(() => navigation.NavigateTo($"/{item.user.UserName}"))">
-
-                                            <div class="circulo">
-                                                <div class="circulo2">                                               
-                                                   
-                                                    
-                                                    @if (item != null && item.user.Image != null)
-                                                    {
-                                                        <img src="ImgUser/usuario-@(item.user.UserName)-@(item.user.Image)" class="ImgUser">
-                                                    }
-                                                    else
-                                                    {
-                                                        <img src="ImgUser/padrao.jpg" class="ImgUser">
-
-                                                    }
-                                               
-                                                
-                                                </div>
-                                           
-                                            
-                                            </div>
-
-                                            @if(item.live){
-                                                <div class="aovivo">
-                                                <p> Ao Vivo</p>
-                                                </div>
-                                                <p>@descUser(item.user.UserName)</p>
-                                            }
-                                            else{
-                                                <p> @descUser(item.user.UserName) </p>
-
-                                            }
-                                        </a>
-                                    </h6>
-                                </div> 
-
-                            }
-
-                        </div>
-                    }
-
-
-                }
-
-        </div>
-    </div>
-
-    <div class="botoes">
-        <a class="prev btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("slideAnterior", $"");})">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </a>
-        <a class="prox btn btn-dark" onclick="@(async() => {await js!.InvokeAsync<object>("proximoSlide", $"");})">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </a>
-
-    </div>
-</div>
-
-
 @code{
-    List<UserModelLive>[] array;
-    private int itens = 6;
-    private int lacos = 0;
-    List<UserModel> usuarios;
-    List<UserModel> usuarios2;
-    private DemoContextFactory db = new DemoContextFactory();
-    private ApplicationDbContext Context;
-    
-
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                if(usuarios == null)
-                    usuarios = await Context.Users.ToListAsync();
-                string? num = await js.InvokeAsync<string>("retornarlargura", "url");
-                var largura = double.Parse(num);
-
-                if (largura > 200 && largura < 300)
-                    itens = 2;
-                else if (largura > 300 && largura < 400)
-                    itens = 3;
-                else if (largura > 400 && largura < 500)
-                    itens = 4;
-                else itens = 6;
-
-                if(itens < 6)
-                {
-                    lacos = usuarios.Count / itens;
-                    var resto = usuarios.Count % itens;
-                    if (resto != 0) lacos++;
-                    array = new List<UserModelLive>[lacos];
-
-                        usuarios2.Clear();
-                        foreach(var item2 in usuarios.ToList())
-                        if(!verificarLive(item2))
-                        usuarios2.Add(item2);
-                        else
-                        {
-                        usuarios2.Reverse();
-                        usuarios2.Add(item2);
-                        usuarios2.Reverse();
-
-                        }
-
-                    for (var i = 0; i < array.Length; i++)
-                    {
-                        array[i] = new List<UserModelLive>();
-                        foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
-                        array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
-                    }
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
+    {      
+      
     }
 
     protected override async Task OnInitializedAsync()
-    {
-        
-        Context = db.CreateDbContext(null);
-        usuarios = await Context.Users
-        .Include(u => u.conteudos)
+    {       
+         @*
+        var resultado = await Context.SubFiltro
+        .Include(f => f.Pagina)
+        .Where(x => x.UltimaPasta) 
+        .OrderBy(sub => sub.CamadaId)
         .ToListAsync();
-        usuarios2 = new List<UserModel>();
-        lacos = usuarios.Count / itens;
-        var resto = usuarios.Count % itens;
-        if (resto != 0) lacos++;
-        array = new List<UserModelLive>[lacos];
-
-            usuarios2.Clear();
-
-            foreach(var item2 in usuarios.ToList())
-            if(!verificarLive(item2))
-            usuarios2.Add(item2);
-            else
-            {
-               usuarios2.Reverse();
-               usuarios2.Add(item2);
-               usuarios2.Reverse();
-
-            }
-
-        for (var i = 0; i < array.Length; i++)
+        var c = Context.Content
+        .FirstOrDefault(c => c.GetType() == typeof(Comment));        
+        
+        for(var h = 1; h <= resultado.Count; h++)
         {
-            array[i] = new List<UserModelLive>();
-            foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
-            array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
+            var fil = await Context.SubFiltro
+            .AsNoTracking()
+            .Include(f => f.Pagina)
+            .FirstAsync(s => s.Id == resultado[h - 1].FiltroId);
+            if(fil.Pagina.Count > 0)            
+            resultado[h - 1].IncluiPagina(c);
+        }       
+        await Context.SaveChangesAsync();
+    
+
+     var contents = await Context.Content
+    .Where(c => c.StoryId==2)
+    .OrderBy(c => c.Id)
+    .Skip(50).ToListAsync();
+
+    for(var i = 0; i < 178; i++)
+    {
+        var criterio = new Criterio
+        {
+            Id = contents[i].Id,
+             CamadaId = 9,
+              Ativo = true,
+               DataCriacao = DateTime.UtcNow,
+                Descricao = "Descrição",
+                LivroId= 1                 
+        };
+        Context.Add(criterio);
+    } *@
+
+    @* 
+             
+              var fils = Context.SubFiltro
+            .Where(f => f.CriterioId == 40)
+            .ToList();
+
+            var cri = Context.Criterio
+             .Where(c => c.Id > 40)
+             .ToList();
+
+             for(int i = 0; i < fils.Count; i++)
+             {
+                fils[i].CriterioId = cri[i].Id;
+                Context.SubFiltro.Update(fils[i]);
+             }
+                Context.SaveChanges(); *@
+                  
+                
+
+                // Usando LINQ para encontrar quem não é pai de ninguém
+
+    @* 
+var gruposFinais = await Context.SubFiltro
+    .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))
+    .ToListAsync();
+
+    foreach(var item in gruposFinais)
+    {
+        if(!item.UltimaPasta)
+        {
+            var f = new SubFiltro
+            {
+                FiltroId = item.Id,
+                Nome = "ultima pasta",
+                CriterioId = 40,
+                LivroId = item.LivroId,
+                StoryId = item.StoryId,
+                UltimaPasta = true,
+                CamadaId = item.CamadaId + 1
+            };
+            await Context.SubFiltro.AddAsync(f);
+
         }
+            
+    }      
+      
+        await Context.SaveChangesAsync(); 
+        *@
 
-    }
+    
 
-    private string descUser(string user)
-    {
-        if( user.ToList().Count > 10){
-
-            return user.Substring(0, 10) + "...";
-        }
-        else
-        return user;
-    }
- 
-    private bool verificarLive(UserModel user)
-    {
-        Content str = null;
-         str = user
-        .conteudos.FirstOrDefault(c => c.GetType() == typeof(Streaming) &&
-         c.Titulo == "Ao Vivo");
-
-        if(str != null)
-        return true;
-        else
-        return false;
-    }
- 
-    public class UserModelLive
-    {
-        public UserModel user;
-        public bool live;
+ //   GerarInteligenciaDosFiltros();
     }
  
  }

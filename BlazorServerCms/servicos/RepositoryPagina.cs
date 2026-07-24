@@ -9,6 +9,8 @@ using NVelocity;
 using NVelocity.App;
 using System.Text;
 using System.Text.Json;
+using MercadoPago.Client.Preference;
+using MercadoPago.Resource.Preference;
 
 
 namespace BlazorServerCms.servicos
@@ -87,6 +89,16 @@ namespace BlazorServerCms.servicos
         public string buscarApiYoutube()
         {
             return Configuration.GetConnectionString("api_youtube");
+        }
+        
+        public string buscarApiMercadoPago()
+        {
+            return Configuration.GetConnectionString("api_mercadopago");
+        }
+        
+        public string buscarApiMercadoPagoPublicKey()
+        {
+            return Configuration.GetConnectionString("api_mercadopagopublicKey");
         }
 
         public string buscarApiGemini()
@@ -245,6 +257,29 @@ namespace BlazorServerCms.servicos
             {
                 return 0;
             }
+        }
+
+        public async Task<string> CriarPreferencia(string titulo, int quantidade, decimal precoUnitario)
+        {
+             // Cria o objeto de request da preference
+            var request = new PreferenceRequest
+            {
+                Items = new List<PreferenceItemRequest>
+                {
+                    new PreferenceItemRequest
+                    {
+                        Title = titulo, // "Meu produto",
+                        Quantity = quantidade, // 1,
+                        CurrencyId = "ARS",
+                        UnitPrice = precoUnitario // 75.56m,
+                    },
+                },
+            };
+
+            // Cria a preferência usando o client
+            var client = new PreferenceClient();
+            Preference preference = await client.CreateAsync(request);
+            return preference.Id;
         }
 
 

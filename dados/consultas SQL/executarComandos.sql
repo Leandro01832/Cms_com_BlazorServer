@@ -2,12 +2,12 @@ select * from Filtro where CriterioId is null and UltimaPasta=1
 
 update AspNetUsers set Compartilhar=null 
 --update Content set Versiculo=68 where Id=28
---delete from HashtagContent
---UPDATE Content
---SET Discriminator = 'Page'
---WHERE Discriminator = 'Comment';
+delete from UserFollow 
+--UPDATE Story
+--SET Capitulo = 16
+--WHERE Id = 51;
 
-select * from Anotacao
+select * from UserFollow
 
 --SELECT C.Id from Content as C inner join 
 --AspNetUsers as A on A.Id=C.UserModelId where C.UserModelId=''
@@ -20,7 +20,7 @@ select Versiculo, Id from Content where Versiculo is not null
  and Discriminator='Chave' order by Versiculo
 select * from AspNetUsers
 
-select * from Story order by Capitulo
+select * from Story ORDER by Capitulo
 
 select * from FiltroContent
 --select * from Content where Id=50882

@@ -147,6 +147,10 @@
             "TinyMCE.Blazor": {
               "target": "Package",
               "version": "[1.0.4, )"
+            },
+            "mercadopago-sdk": {
+              "target": "Package",
+              "version": "[3.3.0, )"
             }
           },
           "imports": [

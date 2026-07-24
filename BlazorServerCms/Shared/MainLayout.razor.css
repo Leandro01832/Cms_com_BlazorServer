@@ -1,48 +1,16 @@
 .page {
-    position: relative;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 main {
     flex: 1;
 }
 
-.sidebar {
-    background-image: linear-gradient(180deg, rgb(95, 56, 23) 0%, rgb(208, 146, 61) 80%);
-    /*background-image: linear-gradient(180deg, rgb(235, 175, 9) 0%, rgb(95, 56, 23) 80%);*/
-}
-
-.top-row {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
-    justify-content: flex-end;
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-}
-
-    .top-row ::deep a, .top-row .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-    }
-
-    .top-row a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
 @media (max-width: 640.98px) {
-    .top-row:not(.auth) {
-        display: none;
-    }
-
-    .top-row.auth {
-        justify-content: space-between;
-    }
-
-    .top-row a, .top-row .btn-link {
-        margin-left: 0;
+    .sidebar {
+        width: 100%;
     }
 }
 
@@ -51,20 +19,20 @@ main {
         flex-direction: row;
     }
 
+    /* Solta a sidebar para que o NavMenu controle a expansão */
     .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
+        width: auto;
+        position: relative;
+        z-index: 100;
     }
 
-    .top-row {
-        position: sticky;
-        top: 0;
-        z-index: 1;
+    /* Empurra o conteúdo principal 70px para a direita (espaço do menu recolhido) */
+    main {
+        margin-left: 70px;
+        width: calc(100% - 70px);
     }
 
-    .top-row, article {
+    article {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }

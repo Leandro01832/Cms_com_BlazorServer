@@ -1,0 +1,25 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+
+.box-centralizada {
+    display: flex !important;
+    flex-direction: column !important; /* Mantém título e lista empilhados verticalmente */
+    justify-content: center !important; /* Centraliza na vertical */
+    align-items: center !important;     /* Centraliza na horizontal */
+    
+    min-height: 80vh; /* Altura da área para poder alinhar no meio */
+    width: 100%;
+    text-align: center;
+}
+
+/* Garante que os itens dentro do box fiquem bem organizados */
+.usuarios {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha o texto das sugestões à esquerda dentro do bloco centralizado */
+    gap: 12px;
+    margin-top: 15px;
+}
