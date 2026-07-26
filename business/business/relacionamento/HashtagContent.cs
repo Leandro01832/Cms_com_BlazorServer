@@ -10,6 +10,8 @@ public class HashtagContent
     public long HashtagId { get; set; }
     public virtual Content Content { get; set; }
     public long ContentId { get; set; }
+
+    public DateTime Data { get; set; } = DateTime.UtcNow;
     
 }
 

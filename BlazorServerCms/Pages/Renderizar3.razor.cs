@@ -948,10 +948,8 @@ namespace BlazorCms.Client.Pages
 
         private void adicionarPontos()
         {
-            int pts = 0;
+            int pts = 1;
             int multiplicador = 1;
-
-
             int times = 0;
             List<UserModel> lista = new List<UserModel>();
             foreach (var item in profile.Time)
@@ -961,10 +959,9 @@ namespace BlazorCms.Client.Pages
                     lista.Add(item2.UserModel);
             }
 
-            for (var i = 0; i < Model2.Camada.Numero; i++)
-            {
+            
 
-                for (var j = 0; j < lista.Count; j++)
+            for (var j = 0; j < lista.Count; j++)
                 {
 
 
@@ -972,6 +969,7 @@ namespace BlazorCms.Client.Pages
                     {
                         if (lista[j].PontosPorDia > lista[j].Recorde)
                         {
+
                             lista[j].Recorde = lista[j].PontosPorDia;
                             Context.Update(lista[j]);
                             Context.SaveChanges();
@@ -1017,8 +1015,7 @@ namespace BlazorCms.Client.Pages
                             List<UserModel> l = new List<UserModel>();
 
                             foreach (var t in profile.Time)
-                                l.Add(Context.Users
-                                .First(u => u.UserName == t.UserModel.UserName));
+                                l.Add(t.UserModel);
 
                             soma += l.Sum(ut => ut.Recorde);
 
@@ -1026,7 +1023,7 @@ namespace BlazorCms.Client.Pages
                                 multiplicador += 1;
 
 
-                            var pontosGanhos = multiplicador * (pts - i);
+                            var pontosGanhos = multiplicador * pts * Model2.Camada.Numero;
                             foreach (var UserModel in lista)
                             {
 
@@ -1039,7 +1036,7 @@ namespace BlazorCms.Client.Pages
 
 
                         multiplicador += conteudos.Count;
-                        var pontosGanhos2 = multiplicador * (pts - i);
+                        var pontosGanhos2 = multiplicador * pts * Model2.Camada.Numero;
 
 
                         usuarios[j].UserModel.PontosPorDia += pontosGanhos2;
@@ -1052,7 +1049,7 @@ namespace BlazorCms.Client.Pages
 
                 }
 
-            }
+            
         }
 
         // private void verificarCompartilhante(Filtro fil, Time time)

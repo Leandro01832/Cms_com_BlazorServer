@@ -546,6 +546,8 @@
             .ToListAsync();
 
         usermodel = await Context.Users!
+        .Include(u => u.Hashtag)!
+        .ThenInclude(u => u.HashtagContent)!
         .Include(u => u.Relogio)!
         .ThenInclude(u => u.Content)!
          .Include(u => u.Relogio)!
@@ -555,6 +557,19 @@
         .ThenInclude(u => u.Livro)!
         .ThenInclude(u => u.Filtro)!
         .FirstOrDefaultAsync(u => u.UserName == user);
+
+        foreach(var item in usermodel.Hashtag)
+        {
+            if(item.HashtagContent != null)
+            foreach(var item2 in item.HashtagContent)
+            {
+                if(item2!.Data < DateTime.Now.AddDays(-1))
+                {
+                        Context.Remove(item2);
+                       await Context.SaveChangesAsync();
+                }
+            }
+        } 
 
         seguidores = await Context.Users
        .Include(u => u.Followers)

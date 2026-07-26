@@ -5,6 +5,8 @@
 @inject UserManager<UserModel> userManager
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
+
+@inject IJSRuntime js 
 @attribute [Authorize]
 <h3>Alterar Foto</h3>
 
@@ -61,12 +63,28 @@
     
 }
 
+<hr />
+<hr />
+
+<EditForm Model="@exampleModel2" OnSubmit="@HandleSubmit2">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p>
+        <label>hashtag:</label>
+        <InputText id="url" @bind-Value="exampleModel2.Name" />
+
+    </p>
+    <br />
+    <button type="submit">#Criar HashTag#</button>
+</EditForm>
+
 
 @code {
 
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
     private UserModel exampleModel;
+    private Hashtag exampleModel2 = new Hashtag();
     private IBrowserFile file = null;
     private long maxFileSize = 1024 * 800;
 
@@ -124,6 +142,18 @@
             }
         }
         // Process the form
+    }
+    
+    private async void HandleSubmit2()
+    {
+        exampleModel2.Name = exampleModel2.Name.Replace(" ", "");
+        exampleModel2.Name = exampleModel2.Name.ToLower();
+        exampleModel2.UserModelId = exampleModel.Id;
+        Context.Add(exampleModel2);
+        await Context.SaveChangesAsync();  
+        exampleModel2.Name = "";    
+        exampleModel2 = new Hashtag();
+        await js!.InvokeAsync<object>("DarAlert", $"HashTag Criada com sucesso!!!");  
     }
 
     private void LoadFiles(InputFileChangeEventArgs e)

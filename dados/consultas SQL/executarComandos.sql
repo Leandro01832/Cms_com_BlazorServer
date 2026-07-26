@@ -1,13 +1,14 @@
 select * from Filtro where CriterioId is null and UltimaPasta=1
 
-update AspNetUsers set Compartilhar=null 
---update Content set Versiculo=68 where Id=28
-delete from UserFollow 
+--update AspNetUsers set Decorar=10 where UserName='leandro01832' 
+--update Relogio set ContentId=7 where Id=1
+--delete from Hashtag where Id>1 
 --UPDATE Story
 --SET Capitulo = 16
 --WHERE Id = 51;
 
-select * from UserFollow
+select * from AspNetUsers
+--select * from AspNetUsers
 
 --SELECT C.Id from Content as C inner join 
 --AspNetUsers as A on A.Id=C.UserModelId where C.UserModelId=''

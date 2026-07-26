@@ -446,12 +446,26 @@ namespace BlazorCms.Client.Pages
             }
         }
         
-        protected async void SalvarConteudo(long Hashtag)
+       protected async Task SalvarConteudo(long Hashtag)
         {
-            var hashyagContent = new HashtagContent{ ContentId= Model.Id, HashtagId= Hashtag  };
-            await Context.AddAsync(hashyagContent);
+            // 1. Validação de segurança para evitar NullReference Exception
+            if (Model == null || Model.Id == 0 ) 
+                return;
+
+            var hashyagContent = new HashtagContent
+            { 
+                ContentId = Model.Id, 
+                HashtagId = Hashtag 
+            };
+
+            // 2. Adiciona ao rastreador de forma síncrona
+            Context.Add(hashyagContent);
+
+            // 3. Salva de forma assíncrona
             await Context.SaveChangesAsync();
+            showModal3 = false;
         }
+
 
         protected void Filtrar()
         {

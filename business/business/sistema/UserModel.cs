@@ -10,10 +10,7 @@ namespace business.business.sistema
     {
         public UserModel()
         {
-            Hashtag = new List<Hashtag>
-            {
-                new Hashtag { Name = "Id" }
-            };
+            
         }
 
 
