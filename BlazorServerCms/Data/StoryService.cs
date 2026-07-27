@@ -206,8 +206,29 @@ namespace BlazorServerCms.Data
             
                 return _TotalRegistros;
         }
-       
-      
 
+        public async Task<List<Content>> BuscarConteudoHashtag(List<long> lista)
+        {
+            List<Content> l = new List<Content>();
+            foreach(var item in lista)
+            {
+              if(RepositoryPagina.Conteudo!.Any(c => c.Id == item))
+                {
+                    l.Add(RepositoryPagina.Conteudo!.First(c => c.Id == item));
+                }
+                else
+                {
+                    var c = await Context.Content
+                    .Include(c => c.Filtro)
+                    .Include(c => c.Comentario)
+                    .FirstAsync(c => c.Id == item);
+                    RepositoryPagina.Conteudo.Add(c);
+                    l.Add(c);
+                }
+            }
+
+
+            return l;
+        }
     }
 }

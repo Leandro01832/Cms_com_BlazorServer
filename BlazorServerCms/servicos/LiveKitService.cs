@@ -10,7 +10,7 @@ using System.Net.Http.Headers;
 
 public class LiveKitService
 {
-    private readonly string _apiKey = "";
+    private readonly string _apiKey = ""; 
     private readonly string _apiSecret = "";
 
    public string GerarTokenAcesso(string nomeSala, string identidadeUsuario, bool ehStreamer)

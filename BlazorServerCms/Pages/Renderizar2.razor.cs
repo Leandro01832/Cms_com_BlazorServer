@@ -9,10 +9,8 @@ using Microsoft.JSInterop;
 using PSC.Blazor.Components.Tours.Interfaces;
 using System.Security.Claims;
 using business.business.Book;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text.RegularExpressions;
 using business.business.Group;
-using BlazorServerCms.Pages;
 
 namespace BlazorCms.Client.Pages
 {
@@ -67,8 +65,7 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        [Parameter] public string? Compartilhou { get; set; } = null;
-        [Parameter] public string? rotas { get; set; } = null;
+        [Parameter] public string? Compartilhou { get; set; } = null;    
 
         private long? filtro = null;
 
@@ -97,8 +94,10 @@ namespace BlazorCms.Client.Pages
                 if (value != null)
                 {
                     int count = 0;
-                    if (TipoClass != typeof(Baralho))
+                    if (TipoClass != typeof(Baralho) && TipoClass != typeof(BaralhoHashTag))
                         count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+                    else if (TipoClass == typeof(BaralhoHashTag))
+                        count = listaHashtag.Count;
                     else
                     {
                         if (usuario != null)
@@ -130,9 +129,8 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        
-
         private DemoContextFactory db = new DemoContextFactory();
+
         private ApplicationDbContext Context;
         private int? auto = 0;    
 
@@ -215,8 +213,10 @@ namespace BlazorCms.Client.Pages
                 if (Filtro != null)
                 {
                     int count = 0;
-                    if (TipoClass != typeof(Baralho))
+                    if (TipoClass != typeof(Baralho) && TipoClass != typeof(BaralhoHashTag))
                         count = CountPagesInFilterAsync((long)Filtro!, livro, value);
+                    else if (TipoClass == typeof(BaralhoHashTag))
+                        count = listaHashtag.Count;
                     else
                     {
                         if (usuario != null)
@@ -262,7 +262,10 @@ namespace BlazorCms.Client.Pages
         protected List<Type> tipos = null;
 
         private int tempoVideo = 0;
+        private Relogio relogio = null;
+        private List<long> listaHashtag = new List<long>();
         protected List<int> porcentagens = new List<int>();
+        public bool HashTag { get; set; }
         public bool AlterouCamada { get; set; }
         private bool alterouModel = true;
         private bool AlterouModel

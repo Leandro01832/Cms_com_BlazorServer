@@ -1,5 +1,5 @@
-﻿@page "/renderizar/{Tipo}/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
-@page "/renderizar/{Tipo}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}/{rotas?}"
+﻿@page "/renderizar/{Tipo}/{nomeLivro}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}"
+@page "/renderizar/{Tipo}/{capitulo:int}/{Versiculo:int}/{Indice:int}/{Compartilhou?}"
 
 @using NVelocity.Runtime.Directive
 @inherits RenderizarBase
@@ -151,17 +151,7 @@ else if (!repositoryPagina.erro && Model != null)
                                 </span>
                             } 
                             else
-                            {
-
-                                if (rotas != null)
-                                {
-                                    <PageTitle>@rotas</PageTitle>
-                                    
-                                        <p> <header>@rotas</header></p>
-                                    
-                                }
-                                else
-                                {
+                            {                               
                                     <PageTitle>@nameGroup2 - @NameGroup</PageTitle>
                                     
                                         <p data-first>
@@ -218,10 +208,7 @@ else if (!repositoryPagina.erro && Model != null)
                                                 
                                             }                                             
                                              </header>
-                                        </p>
-                                    
-
-                                }                                
+                                        </p>                                          
 
                             }
 
@@ -383,7 +370,7 @@ else if (!repositoryPagina.erro && Model != null)
                                                                 
                                             }
                                                                 
-                                            @if (Filtro != null && rotas == null)
+                                            @if (Filtro != null)
                                             {
                                                 <a href="#" class="compartilhar" onclick="@share" @onclick:preventDefault>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
@@ -504,11 +491,17 @@ else if (!repositoryPagina.erro && Model != null)
                             </svg>
                         </a>
                     </div>
+                    <div>
+                        @if(profile != null)
+                        {
+                            <a href="#" onclick="@VisualizarHashtag" @onclick:preventDefault >
+                                @profile.UserName
+                            </a>
 
-                    @if (rotas != null)
-                    {
-                        <p>Versiculos encontrados</p>
-                    }         
+                        }
+                    </div>
+
+                            
                     @if(TipoClass != typeof(Link) && Filtro != null)   
                     {
                         <p>@Model.Titulo</p>
@@ -949,14 +942,14 @@ else
       {
             foreach(var item in usuario.Hashtag)
             {
-                if(item.Id != 0)
-                {
+                
+                
                  <div class="SaveContent">
                     <a href="#" onclick="@(() => SalvarConteudo(item.Id))" @onclick:preventDefault >
                         @item.Name
                     </a>
                  </div>
-                }
+                
             }
       } 
     </div>

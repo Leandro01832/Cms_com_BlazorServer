@@ -1,5 +1,6 @@
 ﻿using business.business;
 using business.business.Book;
+using business.business.conteudo;
 
 namespace BlazorServerCms.Data
 {
@@ -12,5 +13,7 @@ namespace BlazorServerCms.Data
         int CountPagesInFilterAsync(long filtroId, Livro livro, Type type);                
         bool HasFiltersAsync(long storyId , Livro livro);
         Task<int> GetYouTubeVideoDurationAsync(string videoId);
+
+        Task<List<Content>> BuscarConteudoHashtag(List<long> lista);
     }
 }
