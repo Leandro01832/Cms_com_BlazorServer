@@ -11,6 +11,7 @@ using System.Security.Claims;
 using business.business.Book;
 using System.Text.RegularExpressions;
 using business.business.Group;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorCms.Client.Pages
 {
@@ -34,9 +35,9 @@ namespace BlazorCms.Client.Pages
 
         private async void alterarIndice(int valor)
         {
-                Indice = valor;
-                SlideAtual = (Indice - 1) / QuantDiv;  
-            
+            Indice = valor;
+            SlideAtual = (Indice - 1) / QuantDiv;
+
         }
 
         [Parameter]
@@ -65,7 +66,7 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        [Parameter] public string? Compartilhou { get; set; } = null;    
+        [Parameter] public string? Compartilhou { get; set; } = null;
 
         private long? filtro = null;
 
@@ -112,7 +113,7 @@ namespace BlazorCms.Client.Pages
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));
                     }
-                    var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);                    
+                    var f = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
 
                     Ind = listaFiltro.IndexOf(f);
                     Ind2 = tipos.IndexOf(TipoClass);
@@ -132,10 +133,10 @@ namespace BlazorCms.Client.Pages
         private DemoContextFactory db = new DemoContextFactory();
 
         private ApplicationDbContext Context;
-        private int? auto = 0;    
+        private int? auto = 0;
 
         protected bool carregandoStreaming = true;
-        private IJSObjectReference? moduloJs;    
+        private IJSObjectReference? moduloJs;
 
         protected bool larg = false;
 
@@ -152,8 +153,8 @@ namespace BlazorCms.Client.Pages
         private int quantDivCriterio = 6;
         protected int QuantDivCriterio
         {
-            get 
-            { 
+            get
+            {
                 return repositoryPagina!.QuantDivCriterio;
             }
             set
@@ -202,6 +203,8 @@ namespace BlazorCms.Client.Pages
         // Distância mínima em pixels para considerar que foi um deslize real e não um clique sem querer
         private const double DistanciaMinimaParaSwipe = 50;
 
+        private int indiceAnterior;
+        private Type tipoAnterior = null;
         private Type tipoClass = typeof(Page);
 
         protected Type TipoClass
@@ -221,13 +224,13 @@ namespace BlazorCms.Client.Pages
                     {
                         if (usuario != null)
                         {
-                            var assemblyDoProjeto = typeof(Content).Assembly;
-                            var arr = usuario.TipoBaralho!.Split(',');
-                            foreach (var item in arr)
-                            {
-                                Type tip = assemblyDoProjeto.GetType(item.Trim())!;
-                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);
-                            }
+                            // var assemblyDoProjeto = typeof(Content).Assembly;
+                            // var arr = usuario.TipoBaralho!.Split(',');
+                            // foreach (var item in arr)
+                            // {
+                            //     Type tip = assemblyDoProjeto.GetType(item.Trim())!;
+                            //     count += CountPagesInFilterAsync((long)Filtro!, livro, tip);
+                            // }
                         }
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));
@@ -252,7 +255,7 @@ namespace BlazorCms.Client.Pages
 
         private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
         private Story _story = null;
-        private Livro? livro = null;        
+        private Livro? livro = null;
         private bool alterouPasta = false;
 
         protected long?[][][] arrayContent;
@@ -261,11 +264,43 @@ namespace BlazorCms.Client.Pages
         protected List<SubFiltro> UltimasPastas = null;
         protected List<Type> tipos = null;
 
+        protected Hashtag hashtag = null;
+
+        private long? hashtagId = null;
+        protected long? HashtagId
+        {
+            get { return hashtagId; }
+            set
+            {
+                hashtagId = value;
+
+                hashtag = Context.Hashtag
+                    .Include(u => u.HashtagContent)
+                    .FirstOrDefault(u => u.Id == value)!;
+
+                preencherListaHashtag();
+            }
+        }
+
+        private async void preencherListaHashtag()
+        {
+            listaHashtag.Clear();
+            foreach (var item in hashtag.HashtagContent.OrderBy(hc => hc.Data).ToList())
+            {
+                if (await Context.FiltroContent.AnyAsync(fc => fc.FiltroId == Filtro
+                && fc.ContentId == item.ContentId))
+                {
+                    listaHashtag.Add(item.ContentId);
+                    StateHasChanged();
+                }
+
+            }
+        }
+
         private int tempoVideo = 0;
-        private Relogio relogio = null;
-        private List<long> listaHashtag = new List<long>();
+        protected List<long> listaHashtag = new List<long>();
         protected List<int> porcentagens = new List<int>();
-        public bool HashTag { get; set; }
+        public bool HashTag { get; set; } = false;
         public bool AlterouCamada { get; set; }
         private bool alterouModel = true;
         private bool AlterouModel
@@ -363,7 +398,7 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        protected Content? Comment{get;set;}
+        protected Content? Comment { get; set; }
 
         private async Task<string> setarHtml(Content c)
         {
@@ -387,11 +422,11 @@ namespace BlazorCms.Client.Pages
             {
                 html = value;
                 markup = new MarkupString(value);
-              //  var c = Model.Comentario.First(m => m.ContentId == Model.Id);
+                //  var c = Model.Comentario.First(m => m.ContentId == Model.Id);
             }
         }
 
-        
+
 
         protected string? nameStory { get; set; } = null;
         protected int quantidadeLista { get; set; } = 0;

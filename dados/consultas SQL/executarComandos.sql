@@ -1,4 +1,4 @@
-select * from Filtro where CriterioId is null and UltimaPasta=1
+--select * from Filtro where CriterioId is null and UltimaPasta=1
 
 --update AspNetUsers set Decorar=10 where UserName='leandro01832' 
 --update Relogio set ContentId=7 where Id=1
@@ -7,7 +7,7 @@ select * from Filtro where CriterioId is null and UltimaPasta=1
 --SET Capitulo = 16
 --WHERE Id = 51;
 
-select * from AspNetUsers
+select * from Relogio
 --select * from AspNetUsers
 
 --SELECT C.Id from Content as C inner join 

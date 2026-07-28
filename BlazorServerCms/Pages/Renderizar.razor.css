@@ -214,6 +214,13 @@ p {
     background-color: black;
 }
 
+.barraVermelho
+{
+    height: 5px;
+    width: 20px;
+    background-color: rgb(252, 4, 4);
+}
+
 .render 
 {
     display: flex;
@@ -378,6 +385,13 @@ Informativo {
     background-color: transparent;
 }
 
+.progressbar3 {
+
+    position: relative;
+    height: 10px;
+    background-color: transparent;
+}
+
 .progressbar div {
     height: 100%;
     border-radius: 5px;
@@ -387,6 +401,14 @@ Informativo {
 }
 
 .progressbar2 div {
+    height: 100%;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    width: 1%;
+    align-content: flex-start;
+}
+
+.progressbar3 div {
     height: 100%;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
@@ -546,10 +568,11 @@ Informativo {
  .cabecalho {
     
     
+     width: 100%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: flex-start; 
+    justify-content: space-around; 
 
 } 
 
@@ -636,6 +659,58 @@ svg {
     background-color: #e2f605;
 }
 
+.Save
+{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-around;    
+    
+}
+
+.save1
+{
+    background-color: rgb(244, 240, 11);
+}
+
+.save2
+{
+    background-color: rgb(11, 244, 108);
+    margin-left: 5px;
+}
+
+.SalvarConteudo
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    margin: 10px;
+    height: 300px;
+    overflow:scroll;
+}
+
+.SaveContent
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    margin: 10px;
+}
+
+.hashtag
+{
+    height: 30px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .criterio 
 {
     height: 30px;
@@ -648,6 +723,17 @@ svg {
 }
 
 .DivCriterio
+ {
+    background-color: rgb(106, 106, 106, 0.3);    
+    height: 4px; 
+    margin-left: 20px;
+    flex: 1; 
+    width: 50px;
+    text-align: center;
+    justify-content: center;
+}
+
+.DivHashtag
  {
     background-color: rgb(106, 106, 106, 0.3);    
     height: 4px; 

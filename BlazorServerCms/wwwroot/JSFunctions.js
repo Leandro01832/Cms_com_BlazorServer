@@ -212,7 +212,47 @@ function myStopFunction2() {
     clearInterval(funcaoCarregarPagina2);
 }
 
+window.PreencherProgressBar3 = (m) =>
+{
+    var time = parseInt(m);
+    var ss = 0;
+    let progresso = document.querySelector(".progressbar3 div"); 
 
+        let tentativas = 0;
+const intervalo = setInterval(() => {
+   progresso = document.querySelector(".progressbar3 div");
+
+  if (progresso) {
+      
+    console.log("Elemento encontrado!");
+    clearInterval(intervalo);
+    while (porcentagem > 0) 
+       debugger;
+        funcaoCarregarPagina2 = setInterval(function () {
+            if(document.getElementById("player"))
+            ss = currentTime * 1000;
+            else
+            ss += 1000;
+            porcentagem = parseInt((ss / time) * 100);
+            progresso.setAttribute("style", "width: " + porcentagem + "%");
+            if (porcentagem > 99)
+                {                    
+                    myStopFunction2();
+                }
+        }, 1000); 
+  } else {
+    tentativas++;
+    console.warn("Tentativa " + tentativas + ": elemento '.progressbar div' ainda não encontrado.");
+    if (tentativas > 10) {
+      clearInterval(intervalo);
+      console.error("Elemento não encontrado após várias tentativas.");
+    }
+  }
+}, 300); // tenta a cada 300ms
+        
+
+           
+}
 
 window.PreencherProgressBar = (m) =>
 {

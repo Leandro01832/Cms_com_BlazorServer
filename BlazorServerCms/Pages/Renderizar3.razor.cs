@@ -27,7 +27,7 @@ namespace BlazorCms.Client.Pages
 
 
             if (Filtro != null)
-            adicionarPontos();
+                adicionarPontos();
 
         }
 
@@ -106,6 +106,8 @@ namespace BlazorCms.Client.Pages
                 if (Compartilhou != null && Compartilhou != "comp")
                 {
                     var c = Context.Users
+                    .Include(u => u.Hashtag)
+                    .ThenInclude(u => u.HashtagContent)
                     .Include(u => u.Time)
                     .ThenInclude(u => u.Time)
                     .ThenInclude(u => u.usuarios)
@@ -114,8 +116,6 @@ namespace BlazorCms.Client.Pages
                     .ThenInclude(u => u.Content)
                     .FirstOrDefault(u => u.UserName == Compartilhou);
                     profile = c;
-
-
 
                     if (c.Compartilhar != null)
                     {
@@ -130,6 +130,12 @@ namespace BlazorCms.Client.Pages
                 if (Compartilhou != null && Compartilhou != "comp")
                 {
                     var c = Context.Users
+                    .Include(u => u.Hashtag)
+                    .ThenInclude(u => u.HashtagContent)
+                    .Include(u => u.Time)
+                    .ThenInclude(u => u.Time)
+                    .ThenInclude(u => u.usuarios)
+                    .ThenInclude(u => u.UserModel)
                     .Include(u => u.Relogio)
                     .ThenInclude(u => u.Content)
                     .FirstOrDefault(u => u.UserName == Compartilhou);
@@ -155,6 +161,7 @@ namespace BlazorCms.Client.Pages
             Type itemParaMover3 = typeof(ChangeContent);
             Type itemParaMover4 = typeof(Page);
             Type itemParaMover5 = typeof(Baralho);
+            Type itemParaMover6 = typeof(BaralhoHashTag);
 
             // 1. Verifica se o item realmente existe na lista
             if (tipos.Contains(itemParaMover))
@@ -167,6 +174,8 @@ namespace BlazorCms.Client.Pages
                 // 3. Insere o item na primeira posição (índice 0)
                 tipos.Insert(0, itemParaMover4);
                 tipos.Insert(1, itemParaMover5);
+                tipos.Insert(2, itemParaMover6);
+
             }
 
             Auto = 0;
@@ -299,13 +308,6 @@ namespace BlazorCms.Client.Pages
 
             }
 
-
-
-
-
-
-
-
             List<Chave> chaves = new List<Chave>();
 
             chaves = Context.Chave
@@ -323,7 +325,8 @@ namespace BlazorCms.Client.Pages
             .Where(c => c.GetType() == typeof(Chave)).ToList().Count == 0)
                 RepositoryPagina.Conteudo!.UnionWith(chaves);
 
-
+            if (profile != null && profile.Hashtag.Count > 0)
+                HashtagId = profile.Hashtag.First().Id;
 
         }
 
@@ -331,7 +334,7 @@ namespace BlazorCms.Client.Pages
 
         #region RenderizarConteudo
 
-         private async Task renderizar()
+        private async Task renderizar()
         {
 
             // Pega o caminho relativo (ex: "videofilter/1/2/3")
@@ -384,49 +387,50 @@ namespace BlazorCms.Client.Pages
 
                     }
                 }
-                if (TipoClass != typeof(Page))
-                    while (Filtro != null && contentAdd.Count == 0 ||
-                    Filtro != null && arrayContent[Ind][Ind2][Indice - 1] == null)
-                    {
-                        teste = true;
-
-                        if (TipoClass == typeof(Link) && listaFiltro
-                        .Where(f => f.ComCriterio == Filtro).ToList().Count > 0)
-                            break;
-
-                        var t = tipos.First(ti => ti.Name == TipoClass.Name);
-                        var indice = tipos.IndexOf(t);
-                        TipoClass = tipos[indice - 1];
-
-                        contentAdd.Clear();
-                        contentAdd.AddRange(RepositoryPagina.Conteudo!.Where(c => c.GetType() == TipoClass)
-                        // .OrderBy(c => c.Id)
-                        .ToList());
-
-                        if (arrayContent[Ind][Ind2] != null)
-                            count = arrayContent[Ind][Ind2].Length;
-                        else
-                            count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
-                        if (count == 0)
+                else
+                    if (TipoClass != typeof(Page))
+                        while (Filtro != null && contentAdd.Count == 0 ||
+                        Filtro != null && arrayContent[Ind][Ind2][Indice - 1] == null)
                         {
-                            try
+                            teste = true;
+
+                            if (TipoClass == typeof(Link) && listaFiltro
+                            .Where(f => f.ComCriterio == Filtro).ToList().Count > 0)
+                                break;
+
+                            var t = tipos.First(ti => ti.Name == TipoClass.Name);
+                            var indice = tipos.IndexOf(t);
+                            TipoClass = tipos[indice - 1];
+
+                            contentAdd.Clear();
+                            contentAdd.AddRange(RepositoryPagina.Conteudo!.Where(c => c.GetType() == TipoClass)
+                            // .OrderBy(c => c.Id)
+                            .ToList());
+
+                            if (arrayContent[Ind][Ind2] != null)
+                                count = arrayContent[Ind][Ind2].Length;
+                            else
+                                count = CountPagesInFilterAsync((long)Filtro!, livro, TipoClass);
+                            if (count == 0)
                             {
-                                await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum " +
-                                "item para este tipo de conteudo " +
-                                $"({Activator.CreateInstance(tipoClass)!.ToString()}).");
+                                try
+                                {
+                                    await js!.InvokeAsync<object>("DarAlert", $"Não tem nenhum " +
+                                    "item para este tipo de conteudo " +
+                                    $"({Activator.CreateInstance(tipoClass)!.ToString()}).");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Um erro aconteceu: " + ex.Message);
+                                }
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                Console.WriteLine("Um erro aconteceu: " + ex.Message);
+                                Ind2 = tipos.IndexOf(TipoClass);
+                                alterarIndice(1);
+                                await preencher();
                             }
                         }
-                        else
-                        {
-                            Ind2 = tipos.IndexOf(TipoClass);
-                            alterarIndice(1);
-                            await preencher();
-                        }
-                    }
                 if (teste)
                 {
                     bool info = listaFiltro
@@ -527,8 +531,8 @@ namespace BlazorCms.Client.Pages
         {
             if (condicaoFiltro)
             {
-                var count = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
-                quantidadeLista = count;
+               // var count = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
+                quantidadeLista = arrayContent[Ind][Ind2].Length;
                 var m = listaFiltro.FirstOrDefault(f => f.Id == Model2.FiltroId);
                 NameGroup = Model2.Nome!;
                 if (m != null)
@@ -777,9 +781,9 @@ namespace BlazorCms.Client.Pages
             else
                 liked = false;
         }
-        
-        
-        #endregion       
+
+
+        #endregion
 
         private async Task<int> marcarIndice(bool criterio)
         {
@@ -830,10 +834,10 @@ namespace BlazorCms.Client.Pages
             else
                 return 0;
         }
-               
+
         private void adicionarPontos()
         {
-            if(profile != null)
+            if (profile != null)
             {
                 int pts = 1;
                 int multiplicador = 1;
@@ -847,95 +851,95 @@ namespace BlazorCms.Client.Pages
                 }
 
                 for (var j = 0; j < lista.Count; j++)
+                {
+
+
+                    if (DateTime.Now.Date > lista[j].DataPontuacao.Date)
                     {
-
-
-                        if (DateTime.Now.Date > lista[j].DataPontuacao.Date)
+                        if (lista[j].PontosPorDia > lista[j].Recorde)
                         {
-                            if (lista[j].PontosPorDia > lista[j].Recorde)
-                            {
 
-                                lista[j].Recorde = lista[j].PontosPorDia;
-                                Context.Update(lista[j]);
-                                Context.SaveChanges();
-                            }
-                            lista[j].PontosPorDia = 1;
-                            lista[j].DataPontuacao = DateTime.Now;
+                            lista[j].Recorde = lista[j].PontosPorDia;
                             Context.Update(lista[j]);
                             Context.SaveChanges();
                         }
-                        else
+                        lista[j].PontosPorDia = 1;
+                        lista[j].DataPontuacao = DateTime.Now;
+                        Context.Update(lista[j]);
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
+
+
+                        var conteudos = Context.UserContent
+                        .Include(c => c.UserModel)
+                        .Where(c =>
+                        c.UserModel.UserName == lista[j].UserName &&
+                        c.Data.Date > DateTime.Now.AddDays(-7).Date)
+                        .ToList();
+
+                        if (lista.Count >= 100 && lista.Count < 200) multiplicador += 1;
+                        else if (lista.Count >= 200 && lista.Count < 300) multiplicador += 2;
+                        else if (lista.Count >= 300 && lista.Count < 400) multiplicador += 3;
+                        else if (lista.Count >= 400 && lista.Count < 500) multiplicador += 4;
+                        else if (lista.Count >= 500 && lista.Count < 600) multiplicador += 5;
+                        else if (lista.Count >= 600 && lista.Count < 700) multiplicador += 6;
+                        else if (lista.Count >= 700 && lista.Count < 800) multiplicador += 7;
+                        else if (lista.Count >= 800 && lista.Count < 900) multiplicador += 8;
+                        else if (lista.Count >= 900) multiplicador += 9;
+
+                        var contentFiltro = conteudos.ToList();
+
+                        multiplicador += conteudos.Count;
+
+                        if (contentFiltro.Count > conteudos.Count / 2)
+                            multiplicador += contentFiltro.Count;
+
+                        if (times > 0)
                         {
+                            multiplicador += 2 * profile.Time.Sum(ut => ut.Time.vendas);
+
+                            int soma = 0;
+                            List<UserModel> l = new List<UserModel>();
+
+                            foreach (var t in profile.Time)
+                                l.Add(t.UserModel);
+
+                            soma += l.Sum(ut => ut.Recorde);
+
+                            if (soma > repositoryPagina.metaTime)
+                                multiplicador += 1;
 
 
-                            var conteudos = Context.UserContent
-                            .Include(c => c.UserModel)
-                            .Where(c =>
-                            c.UserModel.UserName == lista[j].UserName &&
-                            c.Data.Date > DateTime.Now.AddDays(-7).Date)
-                            .ToList();
-
-                            if (lista.Count >= 100 && lista.Count < 200) multiplicador += 1;
-                            else if (lista.Count >= 200 && lista.Count < 300) multiplicador += 2;
-                            else if (lista.Count >= 300 && lista.Count < 400) multiplicador += 3;
-                            else if (lista.Count >= 400 && lista.Count < 500) multiplicador += 4;
-                            else if (lista.Count >= 500 && lista.Count < 600) multiplicador += 5;
-                            else if (lista.Count >= 600 && lista.Count < 700) multiplicador += 6;
-                            else if (lista.Count >= 700 && lista.Count < 800) multiplicador += 7;
-                            else if (lista.Count >= 800 && lista.Count < 900) multiplicador += 8;
-                            else if (lista.Count >= 900) multiplicador += 9;
-
-                            var contentFiltro = conteudos.ToList();
-
-                            multiplicador += conteudos.Count;
-
-                            if (contentFiltro.Count > conteudos.Count / 2)
-                                multiplicador += contentFiltro.Count;
-
-                            if ( times > 0)
+                            var pontosGanhos = multiplicador * pts * Model2.Camada.Numero;
+                            foreach (var UserModel in lista)
                             {
-                                multiplicador += 2 * profile.Time.Sum(ut => ut.Time.vendas);
 
-                                int soma = 0;
-                                List<UserModel> l = new List<UserModel>();
-
-                                foreach (var t in profile.Time)
-                                    l.Add(t.UserModel);
-
-                                soma += l.Sum(ut => ut.Recorde);
-
-                                if (soma > repositoryPagina.metaTime)
-                                    multiplicador += 1;
-
-
-                                var pontosGanhos = multiplicador * pts * Model2.Camada.Numero;
-                                foreach (var UserModel in lista)
-                                {
-
-                                    UserModel.PontosPorDia += pontosGanhos;
-                                    Context.Update(UserModel);
-                                    Context.SaveChanges();
-                                }
+                                UserModel.PontosPorDia += pontosGanhos;
+                                Context.Update(UserModel);
+                                Context.SaveChanges();
                             }
-
-
-
-                            multiplicador += conteudos.Count;
-                            var pontosGanhos2 = multiplicador * pts * Model2.Camada.Numero;
-
-
-                            usuarios[j].UserModel.PontosPorDia += pontosGanhos2;
-                            Context.Update(usuarios[j]);
-                            Context.SaveChanges();
-
-
-
                         }
 
-                    }               
+
+
+                        multiplicador += conteudos.Count;
+                        var pontosGanhos2 = multiplicador * pts * Model2.Camada.Numero;
+
+
+                        usuarios[j].UserModel.PontosPorDia += pontosGanhos2;
+                        Context.Update(usuarios[j]);
+                        Context.SaveChanges();
+
+
+
+                    }
+
+                }
             }
         }
-        
+
         private async void perguntar(long pasta)
         {
             try
@@ -991,14 +995,14 @@ namespace BlazorCms.Client.Pages
             var cam = Model2!.Camada.Numero;
             acessarCamada(cam - 1);
         }
-        
+
         protected void Filtrar()
         {
             AlterouModel = false;
             var cam = Model2!.Camada.Numero;
             acessarCamada(cam + 1);
         }
-          
+
         private async Task AtualizarHashtagId()
         {
             // Todos os usuarios vão ter a hashtag #Id 
@@ -1009,31 +1013,31 @@ namespace BlazorCms.Client.Pages
             {
                 if (user.Identity!.IsAuthenticated)
                 {
-                    //atualizar #Id
-                    // UserModel? c = Context.Users
-                    // .Include(u => u.Relogio)
-                    // .ThenInclude(u => u.Hashtag)
-                    // .ThenInclude(u => u.HashtagContent)
-                    // .FirstOrDefault(u => u.UserName == user.Identity!.Name);
-                    relogio = usuario.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id)!;
+                    var re = usuario.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id)!;
                     var p = TipoClass != typeof(Page);
-                    if (relogio == null)
+                    if (re == null)
                     {
-                        relogio = new Relogio
+                        re = new Relogio
                         {
                             ContentId = Model.Id,
                             SubFiltroId = Model2.Id,
                             UserModelId = usuario.Id
                         };
-                        Context.Add(relogio);
+                        Context.Add(re);
                         await Context.SaveChangesAsync();
                     }
                     else
                     {
-                        relogio.Data = DateTime.UtcNow;
-                        relogio.ContentId = Model.Id;
-                        Context.Update(relogio);
+                        re.Data = DateTime.UtcNow;
+                        re.ContentId = Model.Id;
+                        Context.Update(re);
                         await Context.SaveChangesAsync();
+                        usuario = Context.Users
+                        .Include(u => u.PageLiked)
+                        .Include(u => u.Relogio)
+                        .ThenInclude(u => u.Hashtag)
+                        .ThenInclude(u => u.HashtagContent)
+                        .FirstOrDefault(u => u.UserName == user.Identity!.Name)!;
                     }
 
                 }
@@ -1044,22 +1048,22 @@ namespace BlazorCms.Client.Pages
         {
             if (usuario != null)
             {
-                relogio = usuario.Relogio.FirstOrDefault(rel => rel.SubFiltroId == fil.Id &&
+                var re = usuario.Relogio.FirstOrDefault(rel => rel.SubFiltroId == fil.Id &&
                 rel.UserModelId == profile.Id)!;
-                var filt = listaFiltro.First(f => f.Id == relogio.SubFiltroId);
+                var filt = listaFiltro.First(f => f.Id == re.SubFiltroId);
                 var co = filt.Pagina.Select(p => p.Content)
-                .FirstOrDefault(p => p.Id == relogio.ContentId);
+                .FirstOrDefault(p => p.Id == re.ContentId);
                 TipoClass = co.GetType();
-                if (relogio != null)
+                if (re != null)
                 {
-                    Filtro = relogio.SubFiltroId;
+                    Filtro = re.SubFiltroId;
                     var fi = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                     if (arrayContent[Ind][Ind2] != null &&
-                    arrayContent[Ind][Ind2].Contains(relogio.ContentId) && fi.Embaralhar)
+                    arrayContent[Ind][Ind2].Contains(re.ContentId) && fi.Embaralhar)
                     {
 
                         arrayContent[Ind][Ind2] = repositoryPagina.embaralhar(arrayContent[Ind][Ind2].ToList()).ToArray();
-                        alterarIndice(arrayContent[Ind][Ind2].ToList().IndexOf(relogio.ContentId) + 1);
+                        alterarIndice(arrayContent[Ind][Ind2].ToList().IndexOf(re.ContentId) + 1);
 
                     }
                     else
@@ -1072,7 +1076,7 @@ namespace BlazorCms.Client.Pages
                         alterarIndice(l.IndexOf(teste) + 1);
                         await preencher();
                     }
-                    return relogio;
+                    return re;
                 }
                 else
                     return null;
@@ -1080,7 +1084,7 @@ namespace BlazorCms.Client.Pages
             }
             return null;
         }
- 
+
         private void AlterarCamada(int timeNumber)
         {
             if (Model is VideoFilter)
@@ -1128,17 +1132,17 @@ namespace BlazorCms.Client.Pages
                         acessar();
                     }
         }
-          
+
         protected async Task SalvarConteudo(long Hashtag)
         {
             // 1. Validação de segurança para evitar NullReference Exception
-            if (Model == null || Model.Id == 0 ) 
+            if (Model == null || Model.Id == 0)
                 return;
 
             var hashyagContent = new HashtagContent
-            { 
-                ContentId = Model.Id, 
-                HashtagId = Hashtag 
+            {
+                ContentId = Model.Id,
+                HashtagId = Hashtag
             };
 
             // 2. Adiciona ao rastreador de forma síncrona
@@ -1146,9 +1150,12 @@ namespace BlazorCms.Client.Pages
 
             // 3. Salva de forma assíncrona
             await Context.SaveChangesAsync();
+            if (HashtagId != null)
+                HashtagId = hashtag.Id;
+
             showModal3 = false;
         }
-       
+
         protected async void SalvarComentario()
         {
             if (usuario != null)
@@ -1163,9 +1170,9 @@ namespace BlazorCms.Client.Pages
                 showModal2 = false;
 
             }
-        }     
+        }
 
-    
+
     }
 
     public class Baralho : Content
@@ -1175,13 +1182,13 @@ namespace BlazorCms.Client.Pages
             return "Baralho";
         }
     }
-    
+
     //Baralho filtrado: somente diminui a quantidade de itens
     public class BaralhoHashTag : Content
     {
         public override string ToString()
         {
-            return "Baralho filtrado";
+            return "#Hashtag";
         }
     }
 

@@ -4,7 +4,7 @@
 @using NVelocity.Runtime.Directive
 @inherits RenderizarBase
 @layout MeuLayout
-@implements IAsyncDisposable
+@implements IAsyncDisposable 
 
 
 
@@ -46,8 +46,9 @@ else if (!repositoryPagina.erro && Model != null)
 
     <div class="container" >
 
-      
-            <div class="criterio col-md-12">                
+        @if(!HashTag)
+        {
+             <div class="criterio col-md-12">                
 
                 @{
                     if(array2 != null && array2.Length > 0)
@@ -132,9 +133,40 @@ else if (!repositoryPagina.erro && Model != null)
                 }
 
                 }
-            </div> 
+            </div>
+        }
+        else
+        {
+            
+            <p>
+                <a href="#" onclick="@FecharVisualizacaoHashtag" @onclick:preventDefault >
+                <b>Fechar(X)</b>
+                </a>
+            </p>
+            <div class="hashtag" >
+                @if(listaHashtag.Count > 0)
+                    for (var item = 1; item <=  listaHashtag.Count; item++)
+                    {
+                        if(item == Indice)
+                        {
+                            <div class="DivHashtag progressbar3" >
+                                <div>                                 
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                           <div class="DivHashtag" >
 
-        <div class="menu row">
+                            </div> 
+                        }
+                    }
+            </div>
+        }
+
+         @if(!HashTag)
+         {
+            <div class="menu row">
 
 
             <div  class="pesquisas col-md-6" >
@@ -432,7 +464,10 @@ else if (!repositoryPagina.erro && Model != null)
 
              
 
-        </div>
+            </div>
+         }
+
+        
 
         @if (usuarios!.Count > 0 && TipoClass == typeof(UserContent))
         {
@@ -480,19 +515,25 @@ else if (!repositoryPagina.erro && Model != null)
                 </svg>
             </a>
 
-            <div class="render">
-                
-                <div class="cabecalho">
+            <div class="render"> 
+
+                @if(!HashTag) 
+                {
+                    <div class="cabecalho">
 
                     <div>
                         <a href="#" onclick="@Salvar" @onclick:preventDefault >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-                            </svg>
+                            </svg> Marcar?
                         </a>
                     </div>
+                    @if(TipoClass != typeof(Link) && Filtro != null)   
+                    {
+                        <p>@Model.Titulo</p>
+                    }        
                     <div>
-                        @if(profile != null)
+                        @if(profile != null && hashtag != null && listaHashtag.Count > 0 )
                         {
                             <a href="#" onclick="@VisualizarHashtag" @onclick:preventDefault >
                                 @profile.UserName
@@ -502,10 +543,6 @@ else if (!repositoryPagina.erro && Model != null)
                     </div>
 
                             
-                    @if(TipoClass != typeof(Link) && Filtro != null)   
-                    {
-                        <p>@Model.Titulo</p>
-                    }        
                     
 
                     
@@ -521,6 +558,9 @@ else if (!repositoryPagina.erro && Model != null)
 
                        
                     </div>
+                }
+                
+                
 
                @{
 
@@ -638,6 +678,8 @@ else if (!repositoryPagina.erro && Model != null)
         </div>
 
       
+      @if(!HashTag)
+      {
         <div class="Paginacao">
 
             <div class="Informativo">
@@ -742,9 +784,7 @@ else if (!repositoryPagina.erro && Model != null)
 
                                                 }
                                                 else if (Filtro != null)
-                                                {
-                                                   //  var r = Indice - (SlideAtual * QuantDiv);              
-                                                                                                           
+                                                {                                                               
                                                        
                                                     if (!tellStory)
                                                     {
@@ -754,7 +794,7 @@ else if (!repositoryPagina.erro && Model != null)
                                                                 @if (array[0][ind] == Model.Id )
                                                                 {                                                                  
 
-                                                                     <span data-2 class="indice"> @Versiculo</span>
+                                                                    <span data-2 class="indice"> @Versiculo</span>
                                                                        
                                                                    
                                                                 }
@@ -762,10 +802,18 @@ else if (!repositoryPagina.erro && Model != null)
                                                                 {
                                                                     <span class="indices"> -- </span>
                                                                 }
-
-                                                            <div class="barra">
-                                                                -
-                                                            </div>
+                                                            @if(listaHashtag.Contains((long)array[0][ind]!))
+                                                            {
+                                                                <div class="barraVermelho">
+                                                                    -
+                                                                </div>
+                                                            }
+                                                            @if(!listaHashtag.Contains((long)array[0][ind]!))
+                                                            {
+                                                                <div class="barra">
+                                                                    -
+                                                                </div>
+                                                            }
                                                             </div>
                                                         </div>
                                                     }
@@ -785,16 +833,25 @@ else if (!repositoryPagina.erro && Model != null)
                                                                         <span class="indices"> - </span>
 
                                                                     }
-                                                                    <div class="barra">
-                                                                        <span class="divisao"> @((SlideAtual * QuantDiv) + (ind + 1))</span>
-                                                                    </div>
+                                                                    @if(listaHashtag.Contains((long)array[0][ind]!))
+                                                                    {
+                                                                         <div class="barraVermelho">
+                                                                            <span class="divisao"> @((SlideAtual * QuantDiv) + (ind + 1))</span>
+                                                                         </div>
+                                                                    }
+                                                                    @if(!listaHashtag.Contains((long)array[0][ind]!))
+                                                                    {
+                                                                        <div class="barra">
+                                                                            <span class="divisao"> @((SlideAtual * QuantDiv) + (ind + 1))</span>
+                                                                         </div>
+                                                                    }
+                                                                   
                                                                 
                                                             </div>
 
-                                                    }
-                                                
+                                                    }                          
                                                     
-                                                }                                             
+                                                }                        
                                            
                                                 
                                             }
@@ -829,6 +886,8 @@ else if (!repositoryPagina.erro && Model != null)
             </div>
 
         </div>
+      }
+        
 
     </div>
 }
@@ -936,23 +995,47 @@ else
 
 <Modal Title="Salvar" IsVisible="showModal3" Close="() => showModal3 = false" ShowConfirmButton ="false">
 
-    <div class="SalvarConteudo" >
+    <div class="Save">
+
+        <div class="SalvarConteudo save1" >
 
       @if(usuario != null && usuario.Hashtag.Count > 0)
       {
+        <p>#Salvar conteudo#</p>
             foreach(var item in usuario.Hashtag)
-            {
-                
+            {              
                 
                  <div class="SaveContent">
                     <a href="#" onclick="@(() => SalvarConteudo(item.Id))" @onclick:preventDefault >
-                        @item.Name
+                        #@(item.Name)
                     </a>
                  </div>
-                
             }
       } 
+        </div>
+     
+      <div class="SalvarConteudo save2">
+      
+      @if(profile != null && profile.Hashtag.Count > 0)
+      {
+         <p>#visualizar conteudo#</p>
+            foreach(var item in profile.Hashtag)
+            {              
+                
+                 <div class="SaveContent">
+                    <a href="#" @onclick="@(() => HashtagId = item.Id)" @onclick:preventDefault >
+                        #@(item.Name)
+                    </a>
+                 </div>
+            }
+      } 
+
+
+        </div>
+
     </div>
+
+    
        
        
 </Modal>

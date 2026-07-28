@@ -121,9 +121,22 @@ namespace BlazorCms.Client.Pages
 
             var proximo = Indice + 1;
 
-
-            
+            if(HashTag)
+            {
                 if (proximo <= quant)
+                {
+                    alterarIndice(proximo);
+                    acessar();
+                }
+                else
+                {
+                     alterarIndice(1);
+                    acessar();
+                }
+            }
+            else
+            {
+                 if (proximo <= quant)
                 {
                     alterarIndice(proximo);
                     acessar();
@@ -146,6 +159,9 @@ namespace BlazorCms.Client.Pages
                     alterarIndice(1);
                     acessar();
                 }
+            }
+            
+               
             
         }
 
@@ -174,18 +190,27 @@ namespace BlazorCms.Client.Pages
                 {
                     if (Filtro != null)
                     {
-                        if (TipoClass != typeof(UserContent))
+                        if(HashTag)
                         {
-                            var t = tipos.FirstOrDefault(t => t.Name.ToLower() == TipoClass.Name.ToLower());
-                            var i = tipos.IndexOf(t);
-                            TipoClass = tipos[i + 1];
+                            alterarIndice(1);
                         }
-                        Filtro fi = voltarSubgrupos();
-                        Filtro = fi.Id;
-                        var count = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
-                        alterarIndice(count);
-                        retroceder = 1;
-                        alterouIdice = true;
+                        else
+                        {
+                            if (TipoClass != typeof(UserContent))
+                            {
+                                var t = tipos.FirstOrDefault(t => t.Name.ToLower() == TipoClass.Name.ToLower());
+                                var i = tipos.IndexOf(t);
+                                TipoClass = tipos[i + 1];
+                            }
+                            Filtro fi = voltarSubgrupos();
+                            Filtro = fi.Id;
+                            var count = CountPagesInFilterAsync((long)Filtro, livro, TipoClass);
+                            alterarIndice(count);
+                            retroceder = 1;
+                            alterouIdice = true;
+                        }
+
+                       
                     }
 
                     if (Filtro == null)
@@ -378,14 +403,20 @@ namespace BlazorCms.Client.Pages
                             }
                         }
                         tempoVideo = await GetYouTubeVideo(id_video);
+                        if(!HashTag)
                         await js!.InvokeAsync<object>("PreencherProgressBar", tempoVideo + 3000);
+                        else
+                        await js!.InvokeAsync<object>("PreencherProgressBar3", tempoVideo + 3000);
 
                         Timer!.SetTimer(tempoVideo + 3000);
 
                     }
                     else
                     {
+                        if(!HashTag)
                         await js!.InvokeAsync<object>("PreencherProgressBar", timeproduto * 1000);
+                        else
+                        await js!.InvokeAsync<object>("PreencherProgressBar3", timeproduto * 1000);
                         Timer!.SetTimer(timeproduto * 1000);
                     }
                 }
@@ -703,7 +734,11 @@ namespace BlazorCms.Client.Pages
                 
             }
             else if ( TipoClass == typeof(BaralhoHashTag))
-            contentAdd.AddRange(await BuscarConteudoHashtag(listaHashtag));            
+            {
+                contentAdd.AddRange(await BuscarConteudoHashtag(listaHashtag));    
+                for(var i = 0; i < arrayContent[Ind][Ind2].Length; i++)  
+                arrayContent[Ind][Ind2][i] = contentAdd[i].Id;                
+            }
             else
             {
                 List<Content>[] arr2 = null;
@@ -1028,24 +1063,28 @@ namespace BlazorCms.Client.Pages
         }
            
         protected async void VisualizarHashtag()
-        {
-            HashTag = true;
-            var ht = relogio.Hashtag;
-            listaHashtag.Clear();
-            foreach(var item in ht.HashtagContent)
-            if(await Context.FiltroContent.AnyAsync(fc => fc.FiltroId == Model2.Id 
-            && fc.ContentId == item.ContentId))
-            listaHashtag.Add(item.ContentId);
-
+        { 
             if(listaHashtag.Count > 0)
-            TipoClass = typeof(BaralhoHashTag);
+            {
+                HashTag = true;
+                tipoAnterior = TipoClass;
+                indiceAnterior = Indice;
+                TipoClass = typeof(BaralhoHashTag);
+                alterarIndice(1);
+                acessar();
+            }
             else
             {
-                await js!.InvokeAsync<object>("DarAlert", $"Não existe conteudo para essa hashtag #{ht.Name} neste versiculo. ");
+                await js!.InvokeAsync<object>("DarAlert", $"Não existe conteudo para essa hashtag #{hashtag.Name} neste versiculo. ");
             }
+        }
 
-
-
+        protected async void FecharVisualizacaoHashtag()
+        {
+            HashTag = false;
+            Indice = indiceAnterior;
+            TipoClass = tipoAnterior;
+            acessar();
         }
                 
         protected void AdicionarAoCarrinho(long ProdutoId)

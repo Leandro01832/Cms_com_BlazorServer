@@ -222,7 +222,6 @@ namespace BlazorServerCms.Data
                     .Include(c => c.Filtro)
                     .Include(c => c.Comentario)
                     .FirstAsync(c => c.Id == item);
-                    RepositoryPagina.Conteudo.Add(c);
                     l.Add(c);
                 }
             }
