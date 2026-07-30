@@ -10,8 +10,8 @@ html, body {
 
 
 iframe {
-    width: 88%;
-    height: 400px;
+    width: 100%;
+    height: 100%;
 }
 
 .ytp-autohide .ytp-chrome-bottom {
@@ -81,7 +81,7 @@ a, .btn-link {
 
     iframe {
         width: 100%;
-        height: 400px;
+        height: 100%;
     }
 
 }

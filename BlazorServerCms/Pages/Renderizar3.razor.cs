@@ -1172,7 +1172,11 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-
+        protected async void Ocultar()
+        {
+            OcultarMenu = !OcultarMenu;      
+             StateHasChanged();  
+        }
     }
 
     public class Baralho : Content

@@ -1,7 +1,7 @@
 --select * from Filtro where CriterioId is null and UltimaPasta=1
 
 --update AspNetUsers set Decorar=10 where UserName='leandro01832' 
---update Relogio set ContentId=7 where Id=1
+update Relogio set ContentId=7 where Id=1
 --delete from Hashtag where Id>1 
 --UPDATE Story
 --SET Capitulo = 16

@@ -224,7 +224,8 @@ p {
 .render 
 {
     display: flex;
-    height: 413px;
+    height: 100%;
+    position: relative; 
     z-index: 0;
     flex-direction: column;
     justify-content: center;
@@ -382,7 +383,7 @@ Informativo {
     position: relative;
     width: 100%;
     height: 10px;
-    background-color: transparent;
+    background-color: rgb(130, 130, 130);
 }
 
 .progressbar3 {
@@ -567,7 +568,9 @@ Informativo {
 
  .cabecalho {
     
-    
+    position: relative;
+    font-size: 10px;
+        z-index: 1000;
      width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -724,7 +727,9 @@ svg {
 
 .DivCriterio
  {
-    background-color: rgb(106, 106, 106, 0.3);    
+    position: relative;
+        z-index: 1000;
+    background-color: rgb(130, 130, 130);    
     height: 4px; 
     margin-left: 20px;
     flex: 1; 
@@ -744,7 +749,172 @@ svg {
     justify-content: center;
 }
 
+.contentP2 {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -99;
+            overflow: hidden;
+            background-color: #adadad; /* Cor de fundo enquanto o vídeo carrega */
+        }
+
+        .contentP2 iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw; /* Proporção 16:9 */
+            min-height: 100vh;
+            min-width: 177.77vh; /* Proporção 16:9 */
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Impede que o usuário interaja/pause o vídeo clicando nele */
+        }
+
+        /* Camada opcional de sobreposição (Overlay) para escurecer o vídeo e dar leitura ao texto */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Ajuste a opacidade como desejar */
+            z-index: -1;
+        }
+
+        .player-controls-top:hover
+        {
+            display: none;
+        }
+
+        .marcar
+        {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            background-color: white; 
+            width:20%;
+            justify-content: space-between;
+        }
+
+        .profile
+        {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            width:20%;
+            background-color: white;
+            align-items: start;
+            justify-content: space-between;
+        }
+
+        .head
+        {
+            width:60%;
+            height: auto;
+        }
+
+        .ImgUser {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.render ::deep iframe {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 100vw !important;
+    height: 56.25vw !important; /* Proporção 16:9 base */
+    min-height: 100vh !important;
+    min-width: 177.77vh !important; /* 100vh * (16/9) */
+    transform: translate(-50%, -50%) !important;
+    object-fit: cover !important;
+    pointer-events: none;
+}
+
 @media (max-width: 680px) and (min-width: 50px) {
+
+    /* Container que ocupa exatamente a tela toda do celular */
+.contentP2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+}
+
+/* Força o iframe a cobrir toda a tela, cortando o excesso */
+.contentP2 iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    
+    /* Garante que ele cubra tanto na vertical quanto na horizontal */
+    width: 100vw;
+    height: 56.25vw; /* Proporção 16:9 base */
+    min-height: 100vh;
+    min-width: 177.77vh; /* 100vh * (16/9) */
+    
+    /* Centraliza o vídeo e aplica um leve zoom se necessário */
+    transform: translate(-50%, -50%);
+    
+    pointer-events: none;
+}
+
+    .criterio 
+{
+    height: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+    .marcar
+        {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            background-color: white; 
+            width:25%;
+            height: 35px;
+            justify-content: space-between;
+        }
+
+        .marcar .bi-bookmark
+        {
+            display: none;
+        }
+
+        .profile
+        {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            width:25%;
+            height: 35px;
+            background-color: white;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .head
+        {
+            width:50%;
+            height: auto;
+        }
+
+        .ImgUser {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
 
     
 
@@ -763,6 +933,8 @@ svg {
     .menu
     {
         font-size: 0.8rem;
+        position: relative;
+        z-index: 1000;
     }
 
     header {
@@ -815,13 +987,13 @@ svg {
         display: none;
     }
 
-    .render
-    {        
-        height: 377px;
+   .render {        
+        /* REMOVA: height: 377px; */
+        height: 450px;
         width: 100%;
         z-index: 0;
-        justify-content: flex-start;
-        overflow: auto;
+        justify-content: center;
+        overflow: hidden;
     }
 
     

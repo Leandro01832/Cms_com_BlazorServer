@@ -466,7 +466,7 @@
             try
             {
                 string? num = await js.InvokeAsync<string>("retornarlargura", "url");
-                var largura = double.Parse(num);
+                var largura = double.Parse(num); 
 
                 if (largura > 200 && largura < 300)
                     itens = 2;
@@ -561,7 +561,7 @@
         foreach(var item in usermodel.Hashtag)
         {
             if(item.HashtagContent != null)
-            foreach(var item2 in item.HashtagContent)
+            foreach(var item2 in item.HashtagContent.ToList())
             {
                 if(item2!.Data < DateTime.Now.AddDays(-1))
                 {

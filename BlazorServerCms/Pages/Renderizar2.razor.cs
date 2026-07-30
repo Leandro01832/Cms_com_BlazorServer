@@ -30,47 +30,13 @@ namespace BlazorCms.Client.Pages
         [Parameter] public string? nomeLivro { get; set; } = "";
         [Parameter] public int? capitulo { get; set; } = 1;
 
-
         [Parameter] public int Indice { get; set; }
-
-        private async void alterarIndice(int valor)
-        {
-            Indice = valor;
-            SlideAtual = (Indice - 1) / QuantDiv;
-
-        }
 
         [Parameter]
         public string Tipo { get; set; }
 
-        private async void PreencherProgresso()
-        {
-            try
-            {
-                int porc = 100 * Indice / quantidadeLista;
-                await js!.InvokeAsync<object>("PreencherProgressBar2", porc);
-            }
-            catch (Exception ex)
-            {
-                try
-                {
-                    await js!.InvokeAsync<object>("PreencherProgressBar2", 1);
-                }
-                catch (Exception ex2)
-                {
-                    Console.WriteLine($"Erro!!!");
-                }
-                Console.WriteLine($"----|||||||||||||||||||----");
-                Console.WriteLine($"----|||||||||||||||||||----");
-                Console.WriteLine($"----|||||||||||||||||||----");
-            }
-        }
-
         [Parameter] public string? Compartilhou { get; set; } = null;
-
-        private long? filtro = null;
-
-        private int? versiculo = null;
+       
         [Parameter]
         public int? Versiculo
         {
@@ -103,7 +69,10 @@ namespace BlazorCms.Client.Pages
                     {
                         if (usuario != null)
                         {
-                            var arr = usuario.TipoBaralho!.Split(',');
+                            string[]? arr = null;
+                             if(usuario.TipoBaralho != null)
+                             arr = usuario.TipoBaralho!.Split(',');
+                             if(arr != null)
                             foreach (var item in arr)
                             {
                                 Type tip = Type.GetType(item.Trim())!;
@@ -130,17 +99,68 @@ namespace BlazorCms.Client.Pages
             }
         }
 
+         private long? filtro = null;
+        private IJSObjectReference? moduloJs;
+        private int? auto = 0;
+        private int quantDivCriterio = 6;
+        private int ind = 0;
+
+        private int? versiculo = null;
+        private int ind2 = 0;
+        private int quantDiv = 15;
+        private List<Content> contentAdd = new List<Content>();
         private DemoContextFactory db = new DemoContextFactory();
 
         private ApplicationDbContext Context;
-        private int? auto = 0;
+        // Guarda a posição horizontal (X) de onde o toque começou
+        private double toqueInicioX;
 
+        // Guarda a posição horizontal (X) de onde o toque terminou
+        private double toqueFimX;
+
+        // Distância mínima em pixels para considerar que foi um deslize real e não um clique sem querer
+        private const double DistanciaMinimaParaSwipe = 50;
+        private int indiceAnterior;
+        private Type tipoAnterior = null;
+        private Type tipoClass = typeof(Page);
+        private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
+        private Story _story = null;
+        private Livro? livro = null;
+        private bool alterouPasta = false;
+        private long? hashtagId = null;
+        private double Progress { get; set; } = 0;
+        private int slideAtual = 10000;
+        private string nameGroup = "";
+        private bool alterouModel = true;
+        private int tempoVideo = 0;
+        private Content? model = null;
+        private string? html = "";
+
+        public int retroceder { get; set; } = 0;
+
+        public int timeproduto { get; set; } = 11;
+
+        public int? carregando { get; set; } = 35;
+        public bool carregou = false;
+
+        public int? Auto
+        {
+            get { return auto; }
+            set
+            {
+                if (value == 1)
+                    habilitarAuto();
+                else
+                    desabilitarAuto();
+                auto = value;
+            }
+
+        }
+        public bool OcultarMenu { get; set; } = true;
+        public bool HashTag { get; set; } = false;
+        public bool AlterouCamada { get; set; }
         protected bool carregandoStreaming = true;
-        private IJSObjectReference? moduloJs;
 
-        protected bool larg = false;
-
-        private int quantDiv = 15;
         protected int QuantDiv
         {
             get { return repositoryPagina!.QuantDiv; }
@@ -150,7 +170,8 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private int quantDivCriterio = 6;
+        protected string contentCSS = "";
+        protected bool larg = false;
         protected int QuantDivCriterio
         {
             get
@@ -168,9 +189,6 @@ namespace BlazorCms.Client.Pages
 
         protected UserModel profile = null;
 
-        private List<Content> contentAdd = new List<Content>();
-
-        private int ind = 0;
         protected int Ind
         {
             get { return ind; }
@@ -182,7 +200,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private int ind2 = 0;
         protected int Ind2
         {
             get { return ind2; }
@@ -193,19 +210,6 @@ namespace BlazorCms.Client.Pages
                 //  buscarRelogio(fil);
             }
         }
-
-        // Guarda a posição horizontal (X) de onde o toque começou
-        private double toqueInicioX;
-
-        // Guarda a posição horizontal (X) de onde o toque terminou
-        private double toqueFimX;
-
-        // Distância mínima em pixels para considerar que foi um deslize real e não um clique sem querer
-        private const double DistanciaMinimaParaSwipe = 50;
-
-        private int indiceAnterior;
-        private Type tipoAnterior = null;
-        private Type tipoClass = typeof(Page);
 
         protected Type TipoClass
         {
@@ -224,13 +228,16 @@ namespace BlazorCms.Client.Pages
                     {
                         if (usuario != null)
                         {
-                            // var assemblyDoProjeto = typeof(Content).Assembly;
-                            // var arr = usuario.TipoBaralho!.Split(',');
-                            // foreach (var item in arr)
-                            // {
-                            //     Type tip = assemblyDoProjeto.GetType(item.Trim())!;
-                            //     count += CountPagesInFilterAsync((long)Filtro!, livro, tip);
-                            // }
+                            var assemblyDoProjeto = typeof(Content).Assembly;
+                            string[]? arr = null;
+                             if(usuario.TipoBaralho != null)
+                             arr = usuario.TipoBaralho!.Split(',');
+                             if(arr != null)
+                            foreach (var item in arr)
+                            {
+                                Type tip = assemblyDoProjeto.GetType(item.Trim())!;
+                                count += CountPagesInFilterAsync((long)Filtro!, livro, tip);
+                            }
                         }
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(Page));
                         count += CountPagesInFilterAsync((long)Filtro!, livro, typeof(ProductContent));
@@ -253,11 +260,6 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private long? _ultimoIdProcessado = null; // Armazena o último ID processado para comparação
-        private Story _story = null;
-        private Livro? livro = null;
-        private bool alterouPasta = false;
-
         protected long?[][][] arrayContent;
         protected List<Camada> camadas = null;
         protected List<SubFiltro> listaFiltro = null;
@@ -266,7 +268,7 @@ namespace BlazorCms.Client.Pages
 
         protected Hashtag hashtag = null;
 
-        private long? hashtagId = null;
+        
         protected long? HashtagId
         {
             get { return hashtagId; }
@@ -297,12 +299,10 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private int tempoVideo = 0;
+        
         protected List<long> listaHashtag = new List<long>();
         protected List<int> porcentagens = new List<int>();
-        public bool HashTag { get; set; } = false;
-        public bool AlterouCamada { get; set; }
-        private bool alterouModel = true;
+        
         private bool AlterouModel
         {
             get { return alterouModel; }
@@ -324,10 +324,7 @@ namespace BlazorCms.Client.Pages
         protected Comment comment = new Comment();
 
         protected string? id_video = null;
-
-        private double Progress { get; set; } = 0;
-
-        private int slideAtual = 10000;
+        
         protected int SlideAtual
         {
             get
@@ -355,8 +352,7 @@ namespace BlazorCms.Client.Pages
         protected MarkupString markup;
         protected ElementReference firstInput;
         protected string? Mensagem = null;
-
-        private string nameGroup = "";
+        
         protected string NameGroup
         {
             get
@@ -385,7 +381,7 @@ namespace BlazorCms.Client.Pages
         protected string opcional = "";
         protected bool liked = false;
 
-        private Content? model = null;
+        
         protected Content? Model
         {
             get { return model; }
@@ -399,6 +395,22 @@ namespace BlazorCms.Client.Pages
         }
 
         protected Content? Comment { get; set; }
+        protected string? Html
+        {
+            get { return html; }
+            set
+            {
+                html = value;
+                markup = new MarkupString(value);
+                //  var c = Model.Comentario.First(m => m.ContentId == Model.Id);
+            }
+        }
+
+        protected string? nameStory { get; set; } = null;
+        protected int quantidadeLista { get; set; } = 0;
+        protected int quantidadeFiltro { get; set; } = 0;
+        protected bool ultimaPasta { get; set; }
+        protected bool condicaoFiltro { get; set; } = false;
 
         private async Task<string> setarHtml(Content c)
         {
@@ -414,49 +426,34 @@ namespace BlazorCms.Client.Pages
             }
         }
 
-        private string? html = "";
-        protected string? Html
+         private async void PreencherProgresso()
         {
-            get { return html; }
-            set
+            try
             {
-                html = value;
-                markup = new MarkupString(value);
-                //  var c = Model.Comentario.First(m => m.ContentId == Model.Id);
+                int porc = 100 * Indice / quantidadeLista;
+                await js!.InvokeAsync<object>("PreencherProgressBar2", porc);
             }
-        }
-
-
-
-        protected string? nameStory { get; set; } = null;
-        protected int quantidadeLista { get; set; } = 0;
-        protected int quantidadeFiltro { get; set; } = 0;
-        protected bool ultimaPasta { get; set; }
-        protected bool condicaoFiltro { get; set; } = false;
-
-
-        public int retroceder { get; set; } = 0;
-
-        public int timeproduto { get; set; } = 11;
-
-        public int? carregando { get; set; } = 35;
-        public bool carregou = false;
-
-        public int? Auto
+            catch (Exception ex)
+            {
+                try
+                {
+                    await js!.InvokeAsync<object>("PreencherProgressBar2", 1);
+                }
+                catch (Exception ex2)
+                {
+                    Console.WriteLine($"Erro!!!");
+                }
+                Console.WriteLine($"----|||||||||||||||||||----");
+                Console.WriteLine($"----|||||||||||||||||||----");
+                Console.WriteLine($"----|||||||||||||||||||----");
+            }
+        }        
+    
+        private async void alterarIndice(int valor)
         {
-            get { return auto; }
-            set
-            {
-                if (value == 1)
-                    habilitarAuto();
-                else
-                    desabilitarAuto();
-                auto = value;
-            }
+            Indice = valor;
+            SlideAtual = (Indice - 1) / QuantDiv;
 
         }
-
-
-
     }
 }

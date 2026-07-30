@@ -1,39 +1,38 @@
+
+
+/* No seu MainLayout.razor.css */
+
 .page {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-}
+    min-height: 100vh; /* Garante no mínimo a altura inteira da tela */
+    width: 100%;
+} 
+
 
 main {
-    flex: 1;
-}
+        position: fixed;
+        left: 60px;
+        width: 100% !important;
+    }
+
+
 
 @media (max-width: 640.98px) {
-    .sidebar {
-        width: 100%;
-    }
-}
-
-@media (min-width: 641px) {
     .page {
-        flex-direction: row;
+        flex-direction: column !important;
+        min-height: 100dvh; /* dvh lida perfeitamente com a barra de endereço dos navegadores mobile */
     }
 
-    /* Solta a sidebar para que o NavMenu controle a expansão */
     .sidebar {
-        width: auto;
-        position: relative;
-        z-index: 100;
+        width: 100% !important;
+        position: relative !important;
+        z-index: 1000;
     }
 
-    /* Empurra o conteúdo principal 70px para a direita (espaço do menu recolhido) */
     main {
-        margin-left: 70px;
-        width: calc(100% - 70px);
-    }
-
-    article {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
+        position: relative;
+        left: 0;
+        width: 100% !important;
     }
 }

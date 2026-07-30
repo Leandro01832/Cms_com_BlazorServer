@@ -10,10 +10,16 @@ function onYouTubeIframeAPIReady(id_video) {
         width: '640',
         videoId: id_video, // Substitua pelo ID do seu vídeo
         playerVars: {
-        autoplay: 1, // inicia automaticamente
-        controls: 1,
-        mute: 1      // necessário em muitos navegadores para autoplay funcionar
-      },
+                    'autoplay': 1,
+                    'controls': 1,        // Esconde os controles
+                    'showinfo': 1,        // Esconde título e informações
+                    'autohide': 1,
+                    'modestbranding': 1, // Reduz a marca do YouTube
+                    'loop': 1,           // Ativa o loop
+                    'playlist': id_video, // Necessário para o loop funcionar corretamente
+                    'mute': 1,           // Obrigatório para o autoplay funcionar nos navegadores
+                    'enablejsapi': 1
+                },
         events: {
             'onStateChange': onPlayerStateChange,
             'onReady': onPlayerReady
@@ -25,6 +31,10 @@ function onYouTubeIframeAPIReady(id_video) {
 
   function onPlayerReady(event) {
     event.target.playVideo();
+
+    document.addEventListener('click', function() {
+        event.target.unMute();
+    }, { once: true });
     
     setInterval(() => {
       currentTime = player.getCurrentTime();

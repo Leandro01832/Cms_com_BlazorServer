@@ -992,7 +992,7 @@ namespace BlazorCms.Client.Pages
                     array2[0].AddRange(fils);
             }
 
-
+            
 
             // 3. Ajusta a classe CSS baseada no tamanho do número da página/verso
 

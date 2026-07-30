@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="nav-scrollable" @onclick="ToggleNavMenu">
+    <div class="nav-scrollable @NavMenuCssClass" >
         <nav class="flex-column">
             
             <div class="nav-item px-3">
@@ -65,7 +65,7 @@
                                 <span class="link-text">@item.user</span>
                                 <div class="circulo">
                                     <div class="circulo2">
-                                        @if (item.UserModel.Image != null)
+                                        @if (item.UserModel.Image != null) 
                                         {
                                             <img src="ImgUser/usuario-@(item.user)-@(item.UserModel.Image)" class="ImgUser">
                                         }
@@ -139,7 +139,7 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool collapseNavMenu = false;
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
     List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
 
