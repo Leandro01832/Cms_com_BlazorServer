@@ -1,4 +1,4 @@
-# ESTÁGIO 1: Compilação e Publicação
+# ESTÁGIO 1: Compilação e Publicação (.NET 9)
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
@@ -15,9 +15,13 @@ RUN dotnet publish "BlazorServerCms.csproj" -c Release -o /app/publish
 # ESTÁGIO 2: Execução
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
-# Copia apenas os arquivos publicados do estágio anterior
+
+# Copia os arquivos publicados do estágio de build
 COPY --from=build /app/publish .
 
-# Define a porta e o comando de início
-ENV ASPNETCORE_URLS=http://+:8080
+# Define que o ASP.NET escutará em todas as interfaces na porta informada pelo Render (padrão 10000)
+ENV ASPNETCORE_URLS=http://+:10000
+EXPOSE 10000
+
+# Executa a DLL do projeto principal
 ENTRYPOINT ["dotnet", "BlazorServerCms.dll"]

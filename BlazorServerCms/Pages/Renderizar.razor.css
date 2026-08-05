@@ -757,7 +757,7 @@ svg {
             left: 0;
             z-index: -99;
             overflow: hidden;
-            background-color: #adadad; /* Cor de fundo enquanto o vídeo carrega */
+            background-color: #f9f9f9; /* Cor de fundo enquanto o vídeo carrega */
         }
 
         .contentP2 iframe {
