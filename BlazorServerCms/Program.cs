@@ -36,8 +36,10 @@ builder.Services.AddSingleton<BlazorTimer>();
 // var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
  //  options.UseSqlServer(connectionString));
-     builder.Services.AddDbContext<ApplicationDbContext>(options => 
-     options.UseSqlServer(connectionString));
+   //  builder.Services.AddDbContext<ApplicationDbContext>(options => 
+   //  options.UseSqlServer(connectionString));
+     builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services
 .AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = false)

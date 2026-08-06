@@ -1,5 +1,5 @@
 --select * from Filtro where CriterioId is null and UltimaPasta=1
-
+select * from Content where Data > DATEADD(day, -1, GETDATE())
 --update AspNetUsers set Decorar=10 where UserName='leandro01832' 
 --update Content set Data=GETDATE() where Discriminator='UserContent' 
 --delete from Hashtag where Id>1 
@@ -7,7 +7,7 @@
 --SET Capitulo = 16
 --WHERE Id = 51;
 
---select * from Relogio
+select * from Relogio
 --select * from AspNetUsers
 
 --SELECT C.Id from Content as C inner join 

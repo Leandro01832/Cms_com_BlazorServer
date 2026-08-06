@@ -1,4 +1,5 @@
 @inject NavigationManager navigation
+@inject RepositoryPagina repository
 
 @inject IJSRuntime js
 
@@ -298,7 +299,7 @@
 
             // Pegue sua chave gratuita no site ai.google.dev
 
-            string apiKey = "";
+            string apiKey = repository.buscarApiGemini();
 
             // Configura o modelo (o gemini-2.5-flash é excelente e gratuito)
             var googleAI = new GoogleAI(apiKey);

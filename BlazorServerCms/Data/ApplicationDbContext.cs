@@ -14,15 +14,15 @@ namespace BlazorServerCms.Data
     {
         public static string _connectionString = "data source=cms01832.mssql.somee.com;packet size=4096;user id=geraldo01832_SQLLogin_1;pwd=xahtym6bpw;persist security info=False;initial catalog=cms01832;TrustServerCertificate=True";
 
-        public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
-        {
-                // Configuration = configuration;
-                // Environment = environment;
-                // string rootPath = Environment.ContentRootPath;
-                // // 2. Define o caminho completo do arquivo .mdf (ex: na raiz do projeto)
-                // string fullDbPath = Path.Combine(rootPath, "cms.mdf");
-                 _connectionString = Configuration.GetConnectionString("DefaultConnection");
-        }
+        // public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
+        // {
+        //         // Configuration = configuration;
+        //         // Environment = environment;
+        //         // string rootPath = Environment.ContentRootPath;
+        //         // // 2. Define o caminho completo do arquivo .mdf (ex: na raiz do projeto)
+        //         // string fullDbPath = Path.Combine(rootPath, "cms.mdf");
+        //          _connectionString = Configuration.GetConnectionString("DefaultConnection");
+        // }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

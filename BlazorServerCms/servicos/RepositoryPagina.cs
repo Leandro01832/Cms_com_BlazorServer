@@ -100,6 +100,16 @@ namespace BlazorServerCms.servicos
         {
             return Configuration.GetConnectionString("api_mercadopagopublicKey");
         }
+        
+        public string buscarApiLiveKitService()
+        {
+            return Configuration.GetConnectionString("api_livekit");
+        }
+        
+        public  string buscarApiSecretLiveKitService()
+        {
+            return Configuration.GetConnectionString("apisecret_livekit");
+        }
 
         public string buscarApiGemini()
         {

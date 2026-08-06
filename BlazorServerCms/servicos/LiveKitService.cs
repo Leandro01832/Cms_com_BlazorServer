@@ -7,14 +7,20 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+using BlazorServerCms.servicos;
 
 public class LiveKitService
 {
-    private readonly string _apiKey = ""; 
-    private readonly string _apiSecret = "";
+    private  string _apiKey = ""; 
+    private  string _apiSecret = "";
 
    public string GerarTokenAcesso(string nomeSala, string identidadeUsuario, bool ehStreamer)
 {
+    var repository = new RepositoryPagina(new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json").Build(), new HttpClient());
+    _apiKey = repository.buscarApiLiveKitService();
+    _apiSecret = repository.buscarApiSecretLiveKitService();
+
     var tokenHandler = new JwtSecurityTokenHandler();
     var chaveMarcada = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_apiSecret));
 

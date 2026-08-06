@@ -12,6 +12,8 @@
 @inject AuthenticationStateProvider? AuthenticationStateProvider 
 @inject N8nService N8nService
 
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
 <PageTitle>Instagleo</PageTitle>
 
 
@@ -370,16 +372,6 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
 
     UserModel UsuarioAutenticado  = null;
 
-    
-
-
-
-
-
-
-
-
-
     [Parameter] public int? capitulo { get; set; }
 
     [Parameter] public string? nomeLivro { get; set; } = "";
@@ -395,7 +387,9 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
     List<FilterOption> options = new List<FilterOption>();
 
     private DemoContextFactory db = new DemoContextFactory();
-    private ApplicationDbContext Context;
+
+    
+   //private ApplicationDbContext Context=null;
    
     private string placeholder = "Pesquisar";
     private string comp = "comp";
@@ -425,6 +419,12 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
      ClaimsPrincipal user = null;
 
      UserModelSeguindo[] usersSeguindo = null;
+
+   private async Task<T> ExecuteDbContextAsync<T>(Func<ApplicationDbContext, Task<T>> action)
+{
+    using var context = await DbFactory.CreateDbContextAsync();
+    return await action(context);
+}
 
 
     protected override async Task OnParametersSetAsync()
@@ -465,7 +465,8 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             try
             {
                 if(usuarios == null)
-                    usuarios = await Context.Users.ToListAsync();
+                    usuarios =
+                     await ExecuteDbContextAsync(async (ctx) => await ctx.Users.ToListAsync());
                 string? num = await js.InvokeAsync<string>("retornarlargura", "url");
                 var largura = double.Parse(num);
 
@@ -530,21 +531,21 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
 
         // }
 
-
-        Context = db.CreateDbContext(null);
+       // Context = await DbFactory.CreateDbContextAsync();
+       // Context = db.CreateDbContext(null);
        var Context2 = db.CreateDbContext(null);
         if(user.Identity.IsAuthenticated)
         {
             UsuarioAutenticado = await userManager.GetUserAsync(user)!;
-            UsuarioAutenticado = Context.Users
+            UsuarioAutenticado = await ExecuteDbContextAsync(async (ctx) => ctx.Users
             .Include(u => u.Followers)
-            .First(u => u.Id == UsuarioAutenticado.Id);
+            .First(u => u.Id == UsuarioAutenticado.Id));
 
-            paraSeguir = await Context.Users
+            paraSeguir = await ExecuteDbContextAsync(async (ctx) => await ctx.Users
             .Include(u => u.Followers)
             .Where(u => !u.Followers.Any(f 
             => f.ObserverId == UsuarioAutenticado.Id) && u.Id != UsuarioAutenticado.Id)
-            .Take(5).ToListAsync();
+            .Take(5).ToListAsync());
 
              usersSeguindo = new UserModelSeguindo[paraSeguir.Count];
 
@@ -566,17 +567,17 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
       
 
         if (nomeLivro != null)
-            livro = await Context.Livro.FirstOrDefaultAsync(l => l.Nome == nomeLivro);
+            livro = await ExecuteDbContextAsync(async (ctx) => await ctx.Livro.FirstOrDefaultAsync(l => l.Nome == nomeLivro));
 
         repositoryPagina.exibir = true;        
 
         if (_story == null)
         {
-            _story = await Context.Story!
-            .FirstOrDefaultAsync(p => p.Capitulo == repositoryPagina.CapituloLivro)!;
+            _story = await ExecuteDbContextAsync(async (ctx) => await ctx.Story!
+            .FirstOrDefaultAsync(p => p.Capitulo == repositoryPagina.CapituloLivro))!;
         }
 
-        filtros2 = await Context.SubFiltro!
+        filtros2 = await ExecuteDbContextAsync(async (ctx) => await ctx.SubFiltro!
             .Include(f => f.Camada)!
             .Include(f => f.Criterio)!
             .ThenInclude(f => f.Content)
@@ -586,7 +587,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             .Include(f => f.Livro)
             .Where(f => 
              !f.UltimaPasta  && f.Pagina.Count > 0)
-            .ToListAsync();
+            .ToListAsync());
 
             termosValidos = new HashSet<string>(
         filtros2.Select(f => f.Nome.Trim()), 
@@ -617,9 +618,9 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
 
         Ocultar();  
 
-         usuarios = await Context.Users
+         usuarios = await ExecuteDbContextAsync(async (ctx) => await ctx.Users
         .Include(u => u.conteudos)
-        .ToListAsync();
+        .ToListAsync());
         usuarios2 = new List<UserModel>();
         lacos = usuarios.Count / itens;
         var resto = usuarios.Count % itens;
@@ -656,7 +657,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         {
             string url = "";
             var itemContent = 1;
-            var str = Context.Story!.First(s => s.Id == item.StoryId);
+            var str = await ExecuteDbContextAsync(async (ctx) =>  ctx.Story!.First(s => s.Id == item.StoryId));
            var count = repositoryPagina.random.Next(1, item.Pagina
                 .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
 
@@ -672,10 +673,10 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                     ch = (Chave)fil.Criterio.Content!;
                 else
                 {
-                    var f = Context.SubFiltro
+                    var f = await ExecuteDbContextAsync(async (ctx) =>  ctx.SubFiltro
                     .Include(s => s.Criterio)
                     .ThenInclude(s => s.Content)
-                    .FirstOrDefault(s => s.FiltroId == item.Id);
+                    .FirstOrDefault(s => s.FiltroId == item.Id));
                     ch = (Chave)f.Criterio.Content!;
                 }
 
@@ -697,14 +698,14 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                     ch = (Chave)fil.Criterio.Content!;
                 else
                 {
-                    var fil2 = Context.SubFiltro
+                    var fil2 = await ExecuteDbContextAsync(async (ctx) =>  ctx.SubFiltro
                     .Include(s => s.Criterio)
                     .ThenInclude(s => s.Content)
-                    .FirstOrDefault(s => s.Id == item.ComCriterio);
-                    var f = Context.SubFiltro
+                    .FirstOrDefault(s => s.Id == item.ComCriterio));
+                    var f = await ExecuteDbContextAsync(async (ctx) =>  ctx.SubFiltro
                     .Include(s => s.Criterio)
                     .ThenInclude(s => s.Content)
-                    .FirstOrDefault(s => s.FiltroId == fil2.Id);
+                    .FirstOrDefault(s => s.FiltroId == fil2.Id));
                     ch = (Chave)f.Criterio.Content!;
                 }
                  if(item.Livro == null && ch != null)
@@ -726,10 +727,10 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             
             foreach(var item2 in item.Pagina)
             {
-                var hashTagContent = await Context.HashtagContent
+                var hashTagContent = await ExecuteDbContextAsync(async (ctx) => await ctx.HashtagContent
                 .Include(h => h.Hashtag)
                 .FirstOrDefaultAsync(c => c.ContentId == item2.ContentId && 
-                termos.Any(t => c.Hashtag.Name.Contains(t)));
+                termos.Any(t => c.Hashtag.Name.Contains(t))));
                 if(hashTagContent != null)                
                     hashTagContents.Add(hashTagContent);
                 
@@ -826,13 +827,13 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                 }
             }
 
-           var teste = await Context.SubFiltro
+           var teste = await ExecuteDbContextAsync(async (ctx) => await  ctx.SubFiltro
         .Include(s => s.Criterio)
         .ThenInclude(s => s.Content)
         .FirstOrDefaultAsync(f => 
             f.Criterio != null && 
             f.Criterio.Content is Chave && 
-            ((Chave)f.Criterio.Content).Versiculo == int.Parse(Query));
+            ((Chave)f.Criterio.Content).Versiculo == int.Parse(Query)));
 
             var ultimapasta = filtros2
             .FirstOrDefault(f => f.Id == teste.Id) == null;
@@ -872,7 +873,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         return pag.Versiculo;
     }
 
-    private int retornarVersoComCriterio(SubFiltro c)
+    private async Task<int> retornarVersoComCriterio(SubFiltro c)
     {
         var f = filtros2
         .FirstOrDefault(f => f.FiltroId == c.Id);
@@ -880,10 +881,10 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         {
             if(c.Criterio != null)
             {
-                f = Context.SubFiltro
+                f = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
                 .Include(s => s.Criterio)
                 .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.FiltroId == c.Id);
+                .FirstOrDefault(s => s.FiltroId == c.Id));
 
                 return retornarVerso(f.Criterio.Content!);
 
@@ -895,14 +896,14 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                     return 0;
                 else if(c.Criterio == null)
                 {
-                    var  fil = Context.SubFiltro
+                    var  fil = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
                 .Include(s => s.Criterio)
                 .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.Id == c.ComCriterio);
-                    f = Context.SubFiltro
+                .FirstOrDefault(s => s.Id == c.ComCriterio));
+                    f = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
                 .Include(s => s.Criterio)
                 .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.FiltroId == fil.Id);
+                .FirstOrDefault(s => s.FiltroId == fil.Id));
                     return retornarVerso(f.Criterio.Content!);
 
                 }
@@ -918,10 +919,10 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         else
         {
             if(c.Criterio == null){
-                f = Context.SubFiltro
+                f = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
                     .Include(s => s.Criterio)
                     .ThenInclude(s => s.Content)
-                    .FirstOrDefault(s => s.Id == c.ComCriterio); 
+                    .FirstOrDefault(s => s.Id == c.ComCriterio)); 
             }
             var retorno = retornarVerso(f.Criterio.Content!);
             return retorno;
@@ -1062,14 +1063,14 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         }
     }
 
-    private async void anotar()
+   private async Task anotar()
+{
+    var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+
+    if (user.Identity?.IsAuthenticated == true)
     {
-        //aqui você pode implementar a lógica para anotar o conteúdo
-        Console.WriteLine("Anotar conteúdo");
-        var authState = await AuthenticationStateProvider
-       .GetAuthenticationStateAsync();
-        var user = authState.User;
-        if (user.Identity!.IsAuthenticated)
+        await ExecuteDbContextAsync(async ctx =>
         {
             var anotacao = new Anotacao
             {
@@ -1077,18 +1078,24 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                 Query = Query,
                 Capitulo = filtros.FirstOrDefault()?.Story?.Capitulo ?? 0,
                 LivroId = filtros.FirstOrDefault()?.LivroId,
-                DataCriacao = DateTime.Now           
+                DataCriacao = DateTime.Now
             };
-            await Context.Anotacao.AddAsync(anotacao);
-            await Context.SaveChangesAsync();
 
-            foreach(var item in filtros)
+            await ctx.Anotacao.AddAsync(anotacao);
+
+            foreach (var item in filtros)
+            {
                 anotacao.FazerAnotacao(item);
+            }
 
-            await Context.SaveChangesAsync();
-            await js.InvokeVoidAsync("alert", "Anotação criada com sucesso!");
-        }
+            await ctx.SaveChangesAsync();
+            return true;
+        });
+
+        await js.InvokeVoidAsync("alert", "Anotação criada com sucesso!");
     }
+}
+
     private void OnCriterio1Changed(bool args)
     {
         if (args)
@@ -1194,26 +1201,23 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         StateHasChanged();
     }
 
-    public async Task<bool> ToggleFollowAsync(string observerId, string targetId)
-    {
-        // Impedir que o usuário siga a si mesmo
-        if (observerId == targetId)
-            return false;
+   public async Task<bool> ToggleFollowAsync(string observerId, string targetId)
+{
+    if (observerId == targetId) return false;
 
-        // Procura se o vínculo já existe no banco de dados
-        var existingFollow = await Context.Set<UserFollow>()
+    return await ExecuteDbContextAsync(async (ctx) => 
+    {
+        var existingFollow = await ctx.Set<UserFollow>()
             .FirstOrDefaultAsync(f => f.ObserverId == observerId && f.TargetId == targetId);
 
         if (existingFollow != null)
         {
-            // Se já segue, remove o registro (Deixar de Seguir)
-            Context.Set<UserFollow>().Remove(existingFollow);
-            await Context.SaveChangesAsync();
+            ctx.Set<UserFollow>().Remove(existingFollow);
+            await ctx.SaveChangesAsync();
             return false; 
         }
         else
         {
-            // Se não segue, cria um novo registro (Seguir)
             var newFollow = new UserFollow
             {
                 ObserverId = observerId,
@@ -1221,11 +1225,12 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                 FollowedAt = DateTime.UtcNow
             };
 
-            await Context.Set<UserFollow>().AddAsync(newFollow);
-            await Context.SaveChangesAsync();
+            await ctx.Set<UserFollow>().AddAsync(newFollow);
+            await ctx.SaveChangesAsync();
             return true; 
         }
-    }
+    });
+}
 
     public class UserModelLive
     {
