@@ -25,22 +25,23 @@
 </div>
 @if(c != null)
 {
-    <div class="content">
+    <div class="Content" @ontouchstart="TratarToqueInicio" 
+     @ontouchend="TratarToqueFim"> 
 
-        @if(capitulo == null){
-            <input type="number" placeholder="Filtrar por capitulo" @bind="cap" />
-            <a onclick="@filtrar" >Filtrar</a>
+        <div class="filtro-container">
+            @if(capitulo == null){
+                <input type="number" placeholder="Filtrar por capitulo" @bind="cap" id="pesquisar" />
+                <a onclick="@filtrar">Filtrar</a>
+            }
+            else{
+                <a class="btn btn-primary" onclick="@generalizar">Capitulo @cap X</a>
+            }
+        </div>
 
-        }
-        else{
-            <a class="btn btn-primary" onclick="@generalizar" >Capitulo @cap X</a>
-
-        }
-        <div style="text-align:center; width:100%;">
+        <div class="@styleClass" style="text-align:center; width:100%;">
             @markup
         </div>
     </div>
-
 }
 else
 {
@@ -74,18 +75,38 @@ else
     int? indice = null;
     long? filtro = null;
 
+    private string styleClass = "";
+
+     // Guarda a posição horizontal (X) de onde o toque começou
+        private double toqueInicioX;
+
+        // Guarda a posição horizontal (X) de onde o toque terminou
+        private double toqueFimX;
+
+        // Distância mínima em pixels para considerar que foi um deslize real e não um clique sem querer
+        private const double DistanciaMinimaParaSwipe = 50;
+
     [Parameter] public long? Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
+{
+    if (content != null && content.Any())
     {
         if (Id == null)        
-            c = content.FirstOrDefault()!;        
+            c = content.FirstOrDefault();        
         else
-            c = content.First(co => co.Id == Id);
+            c = content.FirstOrDefault(co => co.Id == Id) ?? content.FirstOrDefault();
 
-        markup = new MarkupString(c.Html);
-
+        if (c != null)
+        {
+            styleClass = (c.Html != null && !c.Html.Contains("iframe")) ? "contentP" : "contentP2";
+            
+            // Injeta os parâmetros de autoplay e mute no HTML antes de converter para MarkupString
+            var htmlProcessado = colocarAutoPlay(c.Html ?? string.Empty);
+            markup = new MarkupString(htmlProcessado);
+        }
     }
+}
 
     protected override async Task OnInitializedAsync()
     {
@@ -123,41 +144,54 @@ else
         .OrderBy(co => co.Id).ToList());
     }
 
-    private void proximo()
+   private void proximo()
+{
+    if (content == null || !content.Any()) return;
+
+    var index = content.IndexOf(c);
+
+    // Verifica se existe um próximo item válido
+    if (index >= 0 && index + 1 < content.Count)
     {
-        var index = content.IndexOf(c);
-        if(index + 1 <= content.Count )
-        {
-            c = content.Skip(index + 1).FirstOrDefault()!;
-            navigation.NavigateTo($"/conteudo/{c.Id}");
-
-        }
-        else
-        {
-            content = repositoryPagina.embaralhar(content);
-            c = content.FirstOrDefault()!;
-            navigation.NavigateTo($"/conteudo/{c.Id}");
-        }
-
+        c = content[index + 1];
+    }
+    else
+    {
+        // Se chegou ao fim, embaralha e pega o primeiro
+        content = repositoryPagina.embaralhar(content);
+        c = content.FirstOrDefault();
     }
 
-    private void anterior()
+    if (c != null)
     {
-        var index = content.IndexOf(c);
-        if(index > 0)
-        {
-            c = content.Skip(index - 1).FirstOrDefault()!;
-            colocarAutoPlay(c.Html);
-            navigation.NavigateTo($"/conteudo/{c.Id}");
-        }
-        else
-        {
-            content = repositoryPagina.embaralhar(content);
-            c = content.LastOrDefault()!;
-            colocarAutoPlay(c.Html);
-            navigation.NavigateTo($"/conteudo/{c.Id}");
-        }
+        navigation.NavigateTo($"/conteudo/{c.Id}");
     }
+}
+
+   private void anterior()
+{
+    if (content == null || !content.Any()) return;
+
+    var index = content.IndexOf(c);
+
+    // Verifica se existe um item anterior válido
+    if (index > 0)
+    {
+        c = content[index - 1];
+    }
+    else
+    {
+        // Se está no primeiro item, embaralha e pega o último
+        content = repositoryPagina.embaralhar(content);
+        c = content.LastOrDefault();
+    }
+
+    if (c != null)
+    {
+        colocarAutoPlay(c.Html);
+        navigation.NavigateTo($"/conteudo/{c.Id}");
+    }
+}
 
     private void acessar(Filtro fi)
     {
@@ -179,29 +213,66 @@ else
     }
 
     private string colocarAutoPlay(string html)
+{
+    if (!string.IsNullOrEmpty(html) && html.Contains("youtube"))
     {
-        if(html.Contains("youtube"))
+        var conteudoHtml = html;
+        var arr = conteudoHtml!.Split("/");
+        var id_video = "";
+        for (var index = 0; index < arr.Length; index++)
         {
-
-            var conteudoHtml = html;
-            var arr = conteudoHtml!.Split("/");
-            var id_video = "";
-            for (var index = 0; index < arr.Length; index++)
+            if (arr[index] == "embed")
             {
-                if (arr[index] == "embed")
-                {
-                    var text = arr[index + 1];
-                    var arr2 = text.Split('"');
-                    id_video = arr2[0];
-                    break;
-                }
+                var text = arr[index + 1];
+                var arr2 = text.Split('"');
+                id_video = arr2[0];
+                break;
             }
+        }
+        
+        // autoplay=1&mute=1 garante que o iframe tente rodar sem ser bloqueado pela política de mídia do navegador
+        if (!string.IsNullOrEmpty(id_video) && !html.Contains("autoplay=1"))
+        {
             html = html.Replace(id_video, id_video + "?autoplay=1");
-            html = html.Replace("<iframe", "<iframe" + " allow=' autoplay;' ");
-            return html;
+            html = html.Replace("<iframe", "<iframe allow='autoplay; encrypted-media' ");
         }
         return html;
     }
+    return html;
+}
 
+  protected void TratarToqueInicio(TouchEventArgs e)
+        {
+            // Pega a coordenada X do primeiro dedo que encostou na tela
+            toqueInicioX = e.TargetTouches[0].ClientX;
+        }
 
+        protected void TratarToqueFim(TouchEventArgs e)
+        {
+            // Pega a coordenada X de onde o dedo saiu da tela
+            toqueFimX = e.ChangedTouches[0].ClientX;
+
+            // Calcula a direção do movimento
+            AnalisarGestoSwipe();
+        }
+
+        private void AnalisarGestoSwipe()
+        {
+            double diferencaX = toqueInicioX - toqueFimX;
+
+            // Verifica se o movimento foi longo o suficiente
+            if (Math.Abs(diferencaX) > DistanciaMinimaParaSwipe)
+            {
+                if (diferencaX > 0)
+                {
+                    // O dedo moveu da direita para a esquerda -> Avança o carrossel
+                    proximo();
+                }
+                else
+                {
+                    // O dedo moveu da esquerda para a direita -> Voltar o carrossel
+                    anterior();
+                }
+            }
+        }
 }

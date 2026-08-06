@@ -1,7 +1,7 @@
 --select * from Filtro where CriterioId is null and UltimaPasta=1
 
 --update AspNetUsers set Decorar=10 where UserName='leandro01832' 
---update Relogio set ContentId=7 where Id=1
+--update Content set Data=GETDATE() where Discriminator='UserContent' 
 --delete from Hashtag where Id>1 
 --UPDATE Story
 --SET Capitulo = 16
@@ -35,29 +35,29 @@
 
 
 
-select * from FiltroContent
+-- select * from FiltroContent
 
 
 
-SELECT 
-    s.name AS SchemaName,
-    t.name AS TableName,
-    SUM(p.rows) AS TotalLinhas
-FROM 
-    sys.tables t
-INNER JOIN 
-    sys.schemas s ON t.schema_id = s.schema_id
-INNER JOIN 
-    sys.partitions p ON t.object_id = p.object_id
-WHERE 
-    p.index_id IN (0, 1) -- 0 = Heap (sem índice clusterizado), 1 = Clustered Index
-GROUP BY 
-    s.name, 
-    t.name
-HAVING 
-    SUM(p.rows) > 0
-ORDER BY 
-    TotalLinhas DESC;
+-- SELECT 
+--     s.name AS SchemaName,
+--     t.name AS TableName,
+--     SUM(p.rows) AS TotalLinhas
+-- FROM 
+--     sys.tables t
+-- INNER JOIN 
+--     sys.schemas s ON t.schema_id = s.schema_id
+-- INNER JOIN 
+--     sys.partitions p ON t.object_id = p.object_id
+-- WHERE 
+--     p.index_id IN (0, 1) -- 0 = Heap (sem índice clusterizado), 1 = Clustered Index
+-- GROUP BY 
+--     s.name, 
+--     t.name
+-- HAVING 
+--     SUM(p.rows) > 0
+-- ORDER BY 
+--     TotalLinhas DESC;
 
 
 
