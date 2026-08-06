@@ -34,8 +34,7 @@ Tests/
 *.cache
 
 
-# Ignorar pastas de publicação
-**/BlazorServerCms/wwwroot/
+
 
 # Ignorar dependências de pacotes
 BlazorServerCms/node_modules/

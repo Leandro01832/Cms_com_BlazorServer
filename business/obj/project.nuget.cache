@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f6XQpi4DCuY=",
+  "dgSpecHash": "S0bQx/QWrug=",
   "success": true,
-  "projectFilePath": "C:\\projetos\\porjeto2\\business\\business.csproj",
+  "projectFilePath": "C:\\porjeto2\\business\\business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leand\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
@@ -79,9 +79,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "O pacote 'Newtonsoft.Json' 12.0.1 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
-      "projectPath": "C:\\projetos\\porjeto2\\business\\business.csproj",
+      "projectPath": "C:\\porjeto2\\business\\business.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\projetos\\porjeto2\\business\\business.csproj",
+      "filePath": "C:\\porjeto2\\business\\business.csproj",
       "libraryId": "Newtonsoft.Json",
       "targetGraphs": [
         "net6.0"
