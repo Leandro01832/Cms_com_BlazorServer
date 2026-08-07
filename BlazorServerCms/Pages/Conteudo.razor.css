@@ -12,7 +12,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    z-index: 100;
+    z-index: 101;
     background-color: rgba(249, 248, 248, 0.479);
 }
 
@@ -24,7 +24,7 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    z-index: 0;
+    z-index: 100;
     background-color: rgba(249, 248, 248, 0.479);
 }
 
@@ -105,8 +105,10 @@
     margin-top: 10px;
     display: flex;
     gap: 8px;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 530px;
+    width: 100%;
 }
 
 /* Opcional: melhora a visibilidade do input sobre o vídeo */
