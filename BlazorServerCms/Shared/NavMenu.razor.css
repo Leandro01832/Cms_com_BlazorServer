@@ -141,6 +141,22 @@
     margin-left: -18px;
 }
 
+.bi-book2, .bi-fullscreen, .bi-fullscreen-exit {
+    color: #ffffff;
+    margin-left: 25px;
+    
+}
+
+.bi-search
+{
+    margin-left: 5px;
+}
+
+.nav-item
+{
+    margin-top: 8px;
+}
+
 
 /* --- COMPORTAMENTO NO MOBILE (TELAS MENORES QUE 641px) --- */
 @media (max-width: 640.98px) {
