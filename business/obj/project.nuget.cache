@@ -78,7 +78,7 @@
     {
       "code": "NU1903",
       "level": "Warning",
-      "message": "O pacote 'Newtonsoft.Json' 12.0.1 tem uma alta vulnerabilidade de gravidade conhecida, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
+      "message": "Package 'Newtonsoft.Json' 12.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
       "projectPath": "C:\\projetos\\porjeto2\\business\\business.csproj",
       "warningLevel": 1,
       "filePath": "C:\\projetos\\porjeto2\\business\\business.csproj",

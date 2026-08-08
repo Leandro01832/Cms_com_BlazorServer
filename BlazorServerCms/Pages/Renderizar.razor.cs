@@ -963,12 +963,12 @@ namespace BlazorCms.Client.Pages
         {
             if (array != null && array[0] != null)
                 array[0].Clear();
-            array2 = new List<Filtro>[2];
+            array2 = new List<SubFiltro>[2];
 
             if (array[0] == null)
                 array[0] = new List<long?>();
 
-            // Adiciona o primeiro slide/página de conteúdos ao array[0]
+            
             if (arrayContent[Ind][Ind2].Length > QuantDiv)
                 array[0].AddRange(arrayContent[Ind][Ind2].ToList()
                 .Skip(SlideAtual * QuantDiv).Take(QuantDiv).ToList());
@@ -977,14 +977,14 @@ namespace BlazorCms.Client.Pages
 
 
             if (array2[0] == null)
-                array2[0] = new List<Filtro>();
+                array2[0] = new List<SubFiltro>();
             if (Filtro != null)
             {
                 var fils = listaFiltro
                     .Where(f => f.FiltroId == Model2.FiltroId)
                     .ToList();
 
-                // Adiciona o primeiro slide/página de conteúdos ao array[0]
+                
                 if (fils.Count > QuantDiv)
                     array2[0].AddRange(fils.Skip(QuantDiv * slideAtualCriterio)
                     .Take(QuantDiv).ToList());

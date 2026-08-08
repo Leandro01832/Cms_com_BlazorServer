@@ -338,7 +338,7 @@ namespace BlazorCms.Client.Pages
         }
         protected int slideAtualCriterio = 0;
         protected List<long?>[] array = new List<long?>[1];
-        protected List<Filtro>[] array2;
+        protected List<SubFiltro>[] array2;
         protected bool tellStory = false;
         protected string inputs = "";
         protected string divPagina = "";

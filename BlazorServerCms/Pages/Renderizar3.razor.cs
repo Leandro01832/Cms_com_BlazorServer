@@ -474,7 +474,7 @@ namespace BlazorCms.Client.Pages
                 await preencher();
 
 
-            if (TipoClass != typeof(Link) && TipoClass != typeof(Chave))
+            if (TipoClass != typeof(Link) && TipoClass != typeof(Chave) && Indice != 0)
                 Model = contentAdd.FirstOrDefault(c => c.Id == arrayContent[Ind][Ind2][Indice - 1]);
             else if (TipoClass == typeof(Chave))
             {

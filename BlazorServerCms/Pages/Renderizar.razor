@@ -60,15 +60,29 @@ else if (!repositoryPagina.erro && Model != null)
                     var vers = 0;
                     if(listaFiltro.Count > 0)
                     {
+
                         var fil = listaFiltro.FirstOrDefault(f => f.Id == array2[0][item].Id);
                         condicao = fil.Embaralhar;
-                        if(fil.Criterio == null)
+                        if(!ultimaPasta)
                         {
-                            fil3 = listaFiltro.FirstOrDefault(f => f.Id == fil.ComCriterio)!;
-                            fil2 = listaFiltro.FirstOrDefault(f => f.FiltroId == fil3.Id)!;
+                            if(fil.Criterio == null)
+                            {
+                                fil3 = listaFiltro.FirstOrDefault(f => f.Id == fil.ComCriterio)!;
+                                fil2 = listaFiltro.FirstOrDefault(f => f.FiltroId == fil3.Id)!;
+                            }
+                            else
+                            fil2 = listaFiltro.FirstOrDefault(f => f.FiltroId == fil.Id)!;
                         }
                         else
-                        fil2 = listaFiltro.FirstOrDefault(f => f.FiltroId == fil.Id)!;
+                        {
+                             fil2 = UltimasPastas.FirstOrDefault(fil => fil.FiltroId == array2[0][item].Id);
+                            if (fil2 != null && array2[0][item].Criterio == null)
+                            {
+                                 fil3 = listaFiltro.FirstOrDefault(fil => fil.Id == array2[0][item].ComCriterio);
+                                fil2 = listaFiltro.FirstOrDefault(f => f.FiltroId == fil3.Id);
+
+                            }
+                        }
                         vers = retornarVerso(fil2.Criterio.Content);
 
                     }
@@ -1082,7 +1096,7 @@ else
 
         <div class="SalvarConteudo save1" >
 
-      @if(usuario != null && usuario.Hashtag.Count > 0)
+      @if(usuario != null && usuario.Hashtag != null && usuario.Hashtag.Count > 0)
       {
         <p>#Salvar conteudo#</p>
             foreach(var item in usuario.Hashtag)

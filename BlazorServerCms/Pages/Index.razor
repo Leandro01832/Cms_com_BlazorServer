@@ -178,6 +178,14 @@
 
 </div>
 
+
+
+<div class="Criterios" >
+<BarraPesquisa Value="@Query" OnSearch="buscar" 
+variasPalavras="@variasPalavras" filtros2="@filtros2" >
+</BarraPesquisa> 
+</div>
+
 @if (filtros!.Count > 0)
 {
     <div class="filtros">
@@ -195,7 +203,7 @@
                 <p>
                     @foreach (var item in filtros!)
                     {
-                        <a  onclick="@(() => Acessar(item))">
+                        <a href="#"  onclick="@(() => Acessar(item))" @onclick:preventDefault >
                             <span title="Acessar @(item.Nome)">
                                 - Versículo @(retornarVersoComCriterio(item)), 
                             </span>
@@ -226,7 +234,7 @@
             @foreach (var item in filtros!)
             {
                 <p>
-                    <a  onclick="@(() => Acessar(item))" >
+                    <a href="#"  onclick="@(() => Acessar(item))" @onclick:preventDefault >
 
                         @if (item.Livro != null)
                         {
@@ -237,7 +245,7 @@
                             <span>Instagleo - </span>
                         }
                         <span> Cap. @item.Story!.Capitulo - </span>
-                        <span> ( @item.Nome ) Versículo @retornarVersoComCriterio(item)</span>
+                        <span> ( @item.Nome ) Versículo @(retornarVersoComCriterio(item))</span>
 
                     </a>
                 </p>
@@ -267,12 +275,6 @@
       
     </div>
 }
-
-<div class="Criterios" >
-<BarraPesquisa Value="@Query" OnSearch="buscar" 
-variasPalavras="@variasPalavras" filtros2="@filtros2" >
-</BarraPesquisa> 
-</div>
    
 </div>
 
@@ -309,7 +311,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
 
     @if(nomeLivro == null)
     {
-        <img src="/story.jpg" style="width:80%" />
+        <img src="/story.jpg" style="width:80%; margin-top: 1%;" />
     }
     else if(livro != null)
     {
@@ -380,6 +382,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
     public string? Usuario { get; set; }
     List<SubFiltro>? filtros = new List<SubFiltro>();
     List<SubFiltro>? filtros2 = new List<SubFiltro>();
+    List<SubFiltro>? ultimasPastas = new List<SubFiltro>();
 
     List<HashtagContent> hashTagContents = new List<HashtagContent>();
 
@@ -586,7 +589,18 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             .Include(f => f.Story)
             .Include(f => f.Livro)
             .Where(f => 
-             !f.UltimaPasta  && f.Pagina.Count > 0)
+            !f.UltimaPasta  && f.Pagina.Count > 0)
+            .ToListAsync());
+
+            ultimasPastas = await ExecuteDbContextAsync(async (ctx) => await ctx.SubFiltro!
+            .Include(f => f.Camada)!
+            .Include(f => f.Criterio)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Pagina)!
+            .ThenInclude(f => f.Content)
+            .Include(f => f.Story)
+            .Include(f => f.Livro)
+            .Where(f => f.UltimaPasta)
             .ToListAsync());
 
             termosValidos = new HashSet<string>(
@@ -873,7 +887,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         return pag.Versiculo;
     }
 
-    private async Task<int> retornarVersoComCriterio(SubFiltro c)
+    private int retornarVersoComCriterio(SubFiltro c)
     {
         var f = filtros2
         .FirstOrDefault(f => f.FiltroId == c.Id);
@@ -881,13 +895,9 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         {
             if(c.Criterio != null)
             {
-                f = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
-                .Include(s => s.Criterio)
-                .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.FiltroId == c.Id));
-
+                f =  ultimasPastas
+                .FirstOrDefault(s => s.FiltroId == c.Id);
                 return retornarVerso(f.Criterio.Content!);
-
             }
             try
             {
@@ -896,14 +906,10 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                     return 0;
                 else if(c.Criterio == null)
                 {
-                    var  fil = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
-                .Include(s => s.Criterio)
-                .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.Id == c.ComCriterio));
-                    f = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
-                .Include(s => s.Criterio)
-                .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.FiltroId == fil.Id));
+                    var  fil =  filtros2
+                .FirstOrDefault(s => s.Id == c.ComCriterio);
+                    f =  filtros2
+                .FirstOrDefault(s => s.FiltroId == fil.Id);
                     return retornarVerso(f.Criterio.Content!);
 
                 }
@@ -919,16 +925,14 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         else
         {
             if(c.Criterio == null){
-                f = await ExecuteDbContextAsync(async (ctx) => ctx.SubFiltro
-                    .Include(s => s.Criterio)
-                    .ThenInclude(s => s.Content)
-                    .FirstOrDefault(s => s.Id == c.ComCriterio)); 
+                f =  filtros2
+                    .FirstOrDefault(s => s.Id == c.ComCriterio); 
             }
             var retorno = retornarVerso(f.Criterio.Content!);
             return retorno;
         }
     }
-
+   
     private async Task DispararFluxo()
     {
         var dados = new { 

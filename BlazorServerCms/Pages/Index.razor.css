@@ -167,15 +167,13 @@
     border-radius: 50%;
 }
 
-
-
-
 .filtros {
     font-size: 15px;
+     
     position: absolute;
     background-color: black;
     margin-left: 10%; 
-    margin-top: 5%;
+    margin-top: 24%;
     padding: 2%;
     height: 300px;
     overflow: auto;
@@ -185,7 +183,7 @@
     
 }
 
-    .filtros p a:hover 
+    .filtros p a 
     {
         cursor: pointer;
         text-decoration: underline;
@@ -282,6 +280,23 @@
 
 
 @media (max-width: 550px) and (min-width: 50px) {
+
+    .filtros 
+    {
+    font-size: 15px;
+     
+    position: relative;
+    background-color: black;
+    margin-left: 1%; 
+    margin-top: 3%;
+    padding: 2%;
+    height: 200px;
+    overflow: auto;
+    border-radius: 10%;
+    background-color: rgb(208, 146, 61);
+    color: rgb(95, 56, 23);
+    
+}
 
     .circulo 
     {
