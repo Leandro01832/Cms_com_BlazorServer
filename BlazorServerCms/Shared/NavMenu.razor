@@ -110,6 +110,11 @@
                             ?? context.User.FindFirst("name")?.Value 
                             ?? context.User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value 
                             ?? "Usuário";
+                            var usuario = userManager.Users.FirstOrDefault(u => u.UserName == userName);
+                            if(usuario != null && usuario.Nome != null)
+                            {
+                                userName = usuario.Nome;
+                            }
                         }
                         <NavLink class="nav-link" href="@userName">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person icon" viewBox="0 0 16 16">

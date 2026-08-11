@@ -13,8 +13,7 @@ namespace business.business.sistema
             
         }
 
-
-        public string? HashUserName { get; set; }
+        public string? Nome { get; set; }
         public string? Compartilhar { get; set; } = null;
         public string? TipoBaralho { get; set; }
 

@@ -206,9 +206,9 @@ else
     {
         string url = null;
         if (filtro != null)
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/dominio/{c.UserModel.HashUserName}/{filtro}";          
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/{filtro}";          
         else
-            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}/0/11/0/0/dominio/{c.UserModel.HashUserName}";
+            url = $"/Renderizar/{repositoryPagina.CapituloLivro}/{indice}";
         return url;
     }
 

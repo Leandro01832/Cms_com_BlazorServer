@@ -1,3 +1,4 @@
+using BlazorServerCms.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -7,6 +8,14 @@ using System.Security.Claims;
 [Route("[controller]")]
 public class AuthController : Controller
 {
+
+    private readonly ApplicationDbContext _userService;
+
+    public AuthController(ApplicationDbContext userService)
+    {
+        _userService = userService;
+    }
+
     // 1. Action para iniciar o fluxo de login com o Google
     [HttpGet("login-google")]
     public IActionResult LoginGoogle(string returnUrl = "/")
@@ -41,7 +50,13 @@ public class AuthController : Controller
         var googleId = result.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
         // AQUI: Você pode consultar/salvar o usuário no seu banco de dados
-        // ex: await _userService.GetOrCreateUserAsync(email, name, googleId);
+         var user = _userService.Users.FirstOrDefault(u => u.Email == email);
+        if (user != null)
+        {
+            user.Nome = name;
+            _userService.Users.Update(user);
+            await _userService.SaveChangesAsync();
+        }
 
         // Redireciona o usuário para a página final pretendida
         return LocalRedirect(returnUrl);

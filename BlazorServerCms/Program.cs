@@ -14,6 +14,7 @@ using MercadoPago.Client.Preference;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.HttpOverrides;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -113,6 +114,17 @@ try
 
 
 var app = builder.Build();
+
+var forwardedHeadersOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+};
+
+// Limpa as redes conhecidas para aceitar o proxy do Render
+forwardedHeadersOptions.KnownNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 using (var scope = app.Services.CreateScope())
 {
@@ -222,7 +234,7 @@ using (var scope = app.Services.CreateScope())
             UserName = "leandro01832",
             Email = email,
             EmailConfirmed = true,
-            HashUserName = BCrypt.Net.BCrypt.HashPassword("leandro01832")
+            Nome = "Leandro"
         };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");

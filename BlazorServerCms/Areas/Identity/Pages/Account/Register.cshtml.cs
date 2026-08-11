@@ -112,7 +112,7 @@ namespace BlazorServerCms.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.Email = Input.Email;
                 user.UserName = Input.User.Replace(" ", "").ToLower();
-                user.HashUserName = Encrypt(user.UserName);
+                user.Nome = null;
                 user.EmailConfirmed = true;
                 await _userStore.SetUserNameAsync(user, Input.User, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
