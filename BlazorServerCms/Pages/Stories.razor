@@ -103,7 +103,16 @@
                                     <div class="@classCircle">
                                         <div class="circulo4">
                                             <div class="circulo5">
-                                                @if (usermodel != null && usermodel.Image != null)
+                                                @if (usermodel != null && usermodel.Image != null
+                                                && usermodel.Image.StartsWith("http://") ||
+                                                usermodel != null && usermodel.Image != null
+                                                && usermodel.Image.StartsWith("https://"))
+                                                {
+                                                    @* Foto de provedor externo (Google, OAuth, etc.) *@
+                                                    <img src="@usermodel.Image" class="ImgUser" alt="Foto de perfil" />
+                                                }                
+                                                else
+                                                if (usermodel != null && usermodel.Image != null)
                                                 {
                                                     <img src="ImgUser/usuario-@(user)-@(usermodel.Image)" class="ImgUser">
                                                 }

@@ -7,7 +7,7 @@ select * from Content where Data > DATEADD(day, -1, GETDATE())
 --SET Capitulo = 16
 --WHERE Id = 51;
 
-select * from Relogio
+select * from AspNetUsers
 --select * from AspNetUsers
 
 --SELECT C.Id from Content as C inner join 
