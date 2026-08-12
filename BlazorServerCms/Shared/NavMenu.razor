@@ -2,6 +2,7 @@
 @using BlazorServerCms.Shared.Criterio
 @inject IJSRuntime js
 @inject RepositoryPagina repositoryPagina
+@inject AuthenticationStateProvider? AuthenticationStateProvider 
 
 <!-- Container Principal do Menu Lateral -->
 <div class="sidebar-container">
@@ -106,14 +107,12 @@
                 <Authorized>
                     <div class="nav-item px-3">
                         @{
-                            var userName = context.User.Identity?.Name 
-                            ?? context.User.FindFirst("name")?.Value 
-                            ?? context.User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value 
-                            ?? "Usuário";
-                            var usuario = userManager.Users.FirstOrDefault(u => u.UserName == userName);
-                            if(usuario != null && usuario.Nome != null)
+                            if(userName == null)
                             {
-                                userName = usuario.Nome;
+                                userName = context.User.Identity?.Name 
+                                ?? context.User.FindFirst("name")?.Value 
+                                ?? context.User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value 
+                                ?? "Usuário";
                             }
                         }
                         <NavLink class="nav-link" href="@userName">
@@ -181,11 +180,23 @@
 @code {
     private bool collapseNavMenu = false; 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string? userName;
     List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
 
     private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
 
-  
+    override protected async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider
+             .GetAuthenticationStateAsync();
+        var user = authState.User;
+        var u = await userManager.GetUserAsync(user);
+                            if(u != null && u.Nome != null)
+                            {
+                                userName = u.Nome;
+                            }
+    }
 
     private void buscar(string args)
     {
