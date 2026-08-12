@@ -398,7 +398,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
 
     List<FilterOption> options = new List<FilterOption>();
 
-    private DemoContextFactory db = new DemoContextFactory();
+   // private DemoContextFactory db = new DemoContextFactory();
 
     
    //private ApplicationDbContext Context=null;
@@ -535,17 +535,13 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         var authState = await AuthenticationStateProvider
         .GetAuthenticationStateAsync();
         var user = authState.User;
-
-
-        // if (!user.Identity!.IsAuthenticated)
-        // {
-        //     navigation.NavigateTo("/Identity/Account/Login");
-
-        // }
-
-       // Context = await DbFactory.CreateDbContextAsync();
-       // Context = db.CreateDbContext(null);
-       var Context2 = db.CreateDbContext(null);
+        @* 
+         if (!user.Identity!.IsAuthenticated)
+         {
+             navigation.NavigateTo("/Identity/Account/Login")
+         }
+         *@
+        
         if(user.Identity.IsAuthenticated)
         {
             UsuarioAutenticado = await userManager.GetUserAsync(user)!;

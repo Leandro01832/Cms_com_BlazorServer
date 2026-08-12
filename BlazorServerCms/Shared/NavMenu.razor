@@ -4,6 +4,8 @@
 @inject RepositoryPagina repositoryPagina
 @inject AuthenticationStateProvider? AuthenticationStateProvider 
 
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
 <!-- Container Principal do Menu Lateral -->
 <div class="sidebar-container">
     <div class="top-row ps-3 navbar navbar-dark">
@@ -181,22 +183,32 @@
     private bool collapseNavMenu = false; 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private string? userName;
+    private string? userName = null;
     List<IdentityUserImage> usuarios = new List<IdentityUserImage>();
 
     private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
+
+    private async Task<T> ExecuteDbContextAsync<T>(Func<ApplicationDbContext, Task<T>> action)
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+        return await action(context);
+    }
 
     override protected async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider
              .GetAuthenticationStateAsync();
         var user = authState.User;
-        var u = await userManager.GetUserAsync(user);
-                            if(u != null && u.Nome != null)
-                            {
-                                userName = u.Nome;
-                            }
+        var u =
+        await ExecuteDbContextAsync(async (ctx) => await ctx.Users
+        .FirstOrDefaultAsync(x => x.UserName == user.Identity!.Name));
+        if(u != null && u.Nome != null)
+        {
+            userName = u.Nome;
+        }
     }
+
+
 
     private void buscar(string args)
     {
