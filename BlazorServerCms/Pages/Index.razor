@@ -164,7 +164,7 @@
     <div class="info">
 <button class="btn btn-primary" type="button" @onclick="StartTour">Start Tour</button>
 
-    
+    @markup2
 
     <p>
         <a data-5 href="#" onclick="@(() => navigation.NavigateTo("/createcontent"))">
@@ -315,8 +315,10 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
 
         }
     </div>
+    
 
 <div class="apresentacao">
+
 
     @if(nomeLivro == null)
     {
@@ -408,10 +410,13 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
     //private bool marcar;
 
     private MarkupString markup;
+    private MarkupString markup2;
+    private Content live = null;
 
     private Story _story = null;
 
     private Livro livro = null;
+
     private bool maisDeUmCriterio = false;
     private bool isFollowing = false;
 
@@ -597,16 +602,18 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             !f.UltimaPasta  && f.Pagina.Count > 0)
             .ToListAsync());
 
-            ultimasPastas = await ExecuteDbContextAsync(async (ctx) => await ctx.SubFiltro!
-            .Include(f => f.Camada)!
+            ultimasPastas = await ExecuteDbContextAsync(async (ctx) => await ctx.SubFiltro!            
             .Include(f => f.Criterio)!
             .ThenInclude(f => f.Content)
-            .Include(f => f.Pagina)!
-            .ThenInclude(f => f.Content)
-            .Include(f => f.Story)
-            .Include(f => f.Livro)
             .Where(f => f.UltimaPasta)
             .ToListAsync());
+           
+            live = await ExecuteDbContextAsync(async (ctx) => await ctx.Content!            
+            .FirstAsync(f => f.Id == 51124));
+
+            markup2 = new MarkupString(live.Html);
+
+
 
             termosValidos = new HashSet<string>(
         filtros2.Select(f => f.Nome.Trim()), 

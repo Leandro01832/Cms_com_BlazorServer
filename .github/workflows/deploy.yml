@@ -1,0 +1,23 @@
+name: Deploy via SSH no EC2 (Windows)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Executar comandos no EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            powershell -Command "cd C:/inetpub/wwwroot; git pull origin main; dotnet publish BlazorServerCms/BlazorServerCms.csproj -c Release -o C:/inetpub/wwwroot/cms; iisreset"

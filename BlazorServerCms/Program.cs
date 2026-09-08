@@ -180,11 +180,7 @@ using (var scope = app.Services.CreateScope())
     var userASP = await userManager.FindByNameAsync(email);
 
     MercadoPagoConfig.AccessToken = repositoryPagina.buscarApiMercadoPago();
-
-   
-
-
-    // var lista = await repositoryPagina.buscarPatternStory();
+    
 
     if (await contexto!.Set<Story>().AnyAsync())
     {
@@ -238,6 +234,8 @@ using (var scope = app.Services.CreateScope())
         };
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
+        await userManager.AddToRoleAsync(user, "Assinante");
+        await userManager.AddToRoleAsync(user, "Manager");
     }
 
     

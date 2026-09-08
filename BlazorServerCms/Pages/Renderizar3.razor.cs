@@ -474,7 +474,7 @@ namespace BlazorCms.Client.Pages
                 await preencher();
 
 
-            if (TipoClass != typeof(Link) && TipoClass != typeof(Chave) && Indice != 0)
+            if (TipoClass != typeof(Link) && TipoClass != typeof(Chave) && Indice != 0 && AlterouModel)
                 Model = contentAdd.FirstOrDefault(c => c.Id == arrayContent[Ind][Ind2][Indice - 1]);
             else if (TipoClass == typeof(Chave))
             {
@@ -485,7 +485,7 @@ namespace BlazorCms.Client.Pages
                 .ToList();
                 Model = contentAdd.Skip(Indice - 1).FirstOrDefault();
             }
-            else
+            else if(AlterouModel)
                 Html = "";
 
             RepositoryPagina.Conteudo2.Clear();
@@ -1130,6 +1130,7 @@ namespace BlazorCms.Client.Pages
                         alterarIndice(item.Pagina
                         .Where(p => p.Content.GetType() == TipoClass).ToList().IndexOf(m) + 1);
                         acessar();
+                        break;
                     }
         }
 

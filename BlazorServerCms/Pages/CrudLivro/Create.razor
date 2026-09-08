@@ -1,45 +1,116 @@
 ﻿@page "/livro/create"
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
-@attribute [Authorize(Roles = "Admin")]
+@inject AuthenticationStateProvider? AuthenticationStateProvider 
+@inject UserManager<UserModel> userManager
+@inject IJSRuntime js 
 
-<EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
+@attribute [Authorize]
+
+@if(usuario != null && usuario.Assinatura != null && !usuario.Assinatura.Any())
+{
+    <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+
+     <div style="width: 70%;">
+        <label>Escolha seu subdomínio:</label>
+        <div class="input-text">
+            <InputText @bind-Value="exampleModel.Nome" Class="form-control" placeholder="nomedasuaempresa" />
+            <span class="input-group-text">.instagleo.net.br</span>
+        </div>
+        <small class="text-muted">Apenas letras, números e hífen. Sem espaços ou acentos.</small>
+    </div>    
+
     <p>
         <label>Url:</label>
         <InputText id="url" @bind-Value="exampleModel.url" />
     </p>
+    <br />
     <p>
         <label>Capitulo:</label>
-        <input id="capitulo" type="number" @bind="exampleModel.StandardChapter" />
+        <input id="capitulo" type="number" @bind="exampleModel.StandardChapter" min="1" />
         
     </p>
 
     <br />
+    @if (!string.IsNullOrEmpty(mensagemErro))
+    {
+        <div class="alert alert-danger">@mensagemErro</div>
+    }
 
 
 
     <button type="submit">Adicionar</button>
-</EditForm>
+    </EditForm>
+}
+else
+{
+    <p>Você já tem uma assinatura ativa.</p>
+}
+
+
 
 @code {
     private Livro exampleModel = new();
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
-    protected override void OnInitialized()
+    private UserModel? usuario = null;
+
+    private string mensagemErro = string.Empty;
+
+    private readonly string[] termosReservados = new[] { "admin", "www", "api", "app", "mail", "portal" };
+
+   
+
+    protected override async Task OnInitializedAsync()
     {
-        Context = db.CreateDbContext(null);
+         Context = db.CreateDbContext(null);
+         var authState = await AuthenticationStateProvider
+        .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        usuario = await Context.Users
+        .Include(u => u.Assinatura)
+        .FirstOrDefaultAsync(u => u.UserName == user.Identity!.Name)!;
     }
 
     private async void HandleSubmit()
     {
+         // 1. Sanitizar entrada (converter para minúsculas e remover caracteres especiais)
+        var subdominioTratado = exampleModel.Nome.Trim().ToLower();
+        // 2. Validar termos proibidos
+        if (termosReservados.Contains(subdominioTratado))
+        {
+            mensagemErro = "Este nome é reservado pelo sistema. Escolha outro.";
+            return;
+        }
+
+         // 3. Verificar se já existe no Banco de Dados
+        bool jaExiste = await Context.Livro
+            .AnyAsync(t => t.Nome == subdominioTratado);
+
+        if (jaExiste)
+        {
+            mensagemErro = "Este subdomínio já está em uso por outro cliente.";
+            return;
+        }
+
         var book = new Livro(Context.Livro.ToList());
         book.url = exampleModel.url;
         book.StandardChapter = exampleModel.StandardChapter;
         await Context.AddAsync(book);
         await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/livro/1");
+
+       var result = await userManager.AddToRoleAsync(usuario, "Assinante");
+       
+        if (result.Succeeded)
+        {
+             await js.InvokeVoidAsync("alert",
+              "Subdomínio salvo com sucesso! O usuario foi adicionado ao grupo Assinante.");
+        }
+        
+        navigation.NavigateTo("/");
     }
 }

@@ -12,7 +12,7 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
-        public static string _connectionString = "data source=cms01832.mssql.somee.com;packet size=4096;user id=geraldo01832_SQLLogin_1;pwd=xahtym6bpw;persist security info=False;initial catalog=cms01832;TrustServerCertificate=True";
+        public static string _connectionString = "";
 
         // public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
         // {
@@ -28,11 +28,14 @@ namespace BlazorServerCms.Data
         {
             optionsBuilder.UseSqlServer(_connectionString);
         }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
+       
+        public DbSet<Nicho> Nicho { get; set; }
         public DbSet<UserFollow> UserFollow { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Streaming> Streaming { get; set; }
@@ -61,6 +64,7 @@ namespace BlazorServerCms.Data
         public DbSet<ProdutoConteudo> ProdutoConteudo { get; set; }
         public DbSet<FiltroContent> FiltroContent { get; set; }
         public DbSet<UserModelTime> UserModelTime { get; set; }
+        public DbSet<UserModelNicho> UserModelNicho { get; set; }
         public DbSet<UserModelLivro> UserModelLivro { get; set; }
         public DbSet<UserModelContent> UserModelPageLiked { get; set; }
         public DbSet<AnotacaoVersiculo> AnotacaoVersiculo { get; set; }
@@ -109,6 +113,8 @@ namespace BlazorServerCms.Data
             builder.Entity<Content>()
                 .HasBaseType((Type)null);
 
+            builder.Entity<UserModelNicho>()
+            .HasKey(p => new { p.NichoId, p.UserModelId });
             builder.Entity<ProdutoConteudo>()
             .HasKey(p => new { p.ProdutoId, p.ContentId });
             builder.Entity<FiltroContent>()

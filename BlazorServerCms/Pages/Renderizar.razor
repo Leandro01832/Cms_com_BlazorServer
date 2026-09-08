@@ -210,10 +210,10 @@ else if (!repositoryPagina.erro && Model != null)
                                                 {
                                                     @if(Filtro != null && Model2 != null && Model2.CriterioId != null)
                                                     {
-                                                        if(Model2.Criterio.Camada.Numero != camadas.First().Numero)
-                                                        {
-                                                            <a href="#" onclick="@Agrupar" @onclick:preventDefault>  @nameGroup2 -  </a> 
-                                                        }
+                                                        <a href="#" onclick="@Agrupar" @onclick:preventDefault>@nameGroup2</a> 
+                                                        
+                                                            <span> - </span>
+                                                        
                                                         <a href="#" @onclick="@ativarModal" @onclick:preventDefault>@NameGroup </a> 
                                                         
                                                     }
@@ -895,13 +895,13 @@ else if (!repositoryPagina.erro && Model != null)
                                                                 {
                                                                     <span class="indices"> -- </span>
                                                                 }
-                                                            @if(listaHashtag.Contains((long)array[0][ind]!))
+                                                            @if(array[0][ind] is long item && listaHashtag.Contains(item))
                                                             {
                                                                 <div class="barraVermelho">
                                                                     -
                                                                 </div>
                                                             }
-                                                            @if(!listaHashtag.Contains((long)array[0][ind]!))
+                                                            else
                                                             {
                                                                 <div class="barra">
                                                                     -

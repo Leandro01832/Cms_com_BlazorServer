@@ -728,90 +728,93 @@ namespace BlazorCms.Client.Pages
 
         public async Task preencher()
         {
-            if (TipoClass != typeof(Baralho) && TipoClass != typeof(BaralhoHashTag))
+            if(AlterouModel)
             {
-                var l = await preencherLista(Ind, Ind2, Indice, TipoClass);              
-                
-            }
-            else if ( TipoClass == typeof(BaralhoHashTag))
-            {
-                contentAdd.AddRange(await BuscarConteudoHashtag(listaHashtag));    
-                for(var i = 0; i < arrayContent[Ind][Ind2].Length; i++)  
-                arrayContent[Ind][Ind2][i] = contentAdd[i].Id;                
-            }
-            else
-            {
-                List<Content>[] arr2 = null;
-                string[] arr = null;
-                int count = 0;
-                if (usuario != null)
+                 if (TipoClass != typeof(Baralho) && TipoClass != typeof(BaralhoHashTag))
                 {
-                    arr = usuario.TipoBaralho!.Split(',');
-                    arr2 = new List<Content>[arr.Length + 2];
+                    var l = await preencherLista(Ind, Ind2, Indice, TipoClass);              
+                    
+                }
+                else if ( TipoClass == typeof(BaralhoHashTag))
+                {
+                    contentAdd.AddRange(await BuscarConteudoHashtag(listaHashtag));    
+                    for(var i = 0; i < arrayContent[Ind][Ind2].Length; i++)  
+                    arrayContent[Ind][Ind2][i] = contentAdd[i].Id;                
                 }
                 else
-                    arr2 = new List<Content>[2];
-
-                if (usuario != null)
                 {
-                    var assemblyDoProjeto = typeof(Content).Assembly;
-                    for (var i = 0; i < arr.Length; i++)
+                    List<Content>[] arr2 = null;
+                    string[] arr = null;
+                    int count = 0;
+                    if (usuario != null)
                     {
-                       Type tip = assemblyDoProjeto.GetType(arr[i].Trim())!;
-                        var lista = await buscarLista(tip);
-                        arr2[i] = lista;
-                        count += lista.Count;
+                        arr = usuario.TipoBaralho!.Split(',');
+                        arr2 = new List<Content>[arr.Length + 2];
                     }
-                }
+                    else
+                        arr2 = new List<Content>[2];
 
-
-                var lista2 = await buscarLista(typeof(Page));
-                if (usuario != null)
-                    arr2[arr.Length] = lista2;
-                else
-                    arr2[0] = lista2;
-                count += lista2.Count;
-
-                var lista3 = await buscarLista(typeof(ProductContent));
-                if (usuario != null)
-                    arr2[arr.Length + 1] = lista3;
-                else
-                    arr2[1] = lista3;
-                count += lista3.Count;
-
-                int mi = 0;
-
-                // 1. Criamos uma lista com todos os índices válidos do seu array (ex: 0, 1, 2, 3...)
-                List<int> indicesDisponiveis = Enumerable
-                .Range(0, count).ToList();
-
-                // O loop agora roda baseando-se estritamente nas vagas restantes
-                while (indicesDisponiveis.Count > 0)
-                {
-                    var k = repositoryPagina.random.Next(0, arr2.Length);
-                    if (arr2[k] == null || arr2[k].Count == 0) continue;
-
-                    var l = repositoryPagina.random.Next(0, arr2[k].Count);
-
-                    // 2. Em vez de sortear o array inteiro, sorteamos uma POSIÇÃO da lista de vagas restantes!
-                    var indexNaListaDeVagas = repositoryPagina.random.Next(0, indicesDisponiveis.Count);
-                    var indiceAlvo = indicesDisponiveis[indexNaListaDeVagas];
-
-                    // O 'indiceAlvo' aqui é GARANTIDO que está nulo/vazio, eliminando tentativas repetidas
-                    if (!arrayContent[ind][ind2].Contains(arr2[k][l].Id))
+                    if (usuario != null)
                     {
-                        arrayContent[ind][ind2][indiceAlvo] = arr2[k][l].Id;
-                        arr2[k].Remove(arr2[k][l]);
-                        mi++;
-
-                        // 3. Como essa vaga foi preenchida, removemos ela da nossa lista de disponíveis!
-                        indicesDisponiveis.RemoveAt(indexNaListaDeVagas);
+                        var assemblyDoProjeto = typeof(Content).Assembly;
+                        for (var i = 0; i < arr.Length; i++)
+                        {
+                        Type tip = assemblyDoProjeto.GetType(arr[i].Trim())!;
+                            var lista = await buscarLista(tip);
+                            arr2[i] = lista;
+                            count += lista.Count;
+                        }
                     }
 
-                }
-                alterarIndice(1);
-                Console.WriteLine("Total de itens inseridos de forma ultra rápida: " + mi);
-            }
+
+                    var lista2 = await buscarLista(typeof(Page));
+                    if (usuario != null)
+                        arr2[arr.Length] = lista2;
+                    else
+                        arr2[0] = lista2;
+                    count += lista2.Count;
+
+                    var lista3 = await buscarLista(typeof(ProductContent));
+                    if (usuario != null)
+                        arr2[arr.Length + 1] = lista3;
+                    else
+                        arr2[1] = lista3;
+                    count += lista3.Count;
+
+                    int mi = 0;
+
+                    // 1. Criamos uma lista com todos os índices válidos do seu array (ex: 0, 1, 2, 3...)
+                    List<int> indicesDisponiveis = Enumerable
+                    .Range(0, count).ToList();
+
+                    // O loop agora roda baseando-se estritamente nas vagas restantes
+                    while (indicesDisponiveis.Count > 0)
+                    {
+                        var k = repositoryPagina.random.Next(0, arr2.Length);
+                        if (arr2[k] == null || arr2[k].Count == 0) continue;
+
+                        var l = repositoryPagina.random.Next(0, arr2[k].Count);
+
+                        // 2. Em vez de sortear o array inteiro, sorteamos uma POSIÇÃO da lista de vagas restantes!
+                        var indexNaListaDeVagas = repositoryPagina.random.Next(0, indicesDisponiveis.Count);
+                        var indiceAlvo = indicesDisponiveis[indexNaListaDeVagas];
+
+                        // O 'indiceAlvo' aqui é GARANTIDO que está nulo/vazio, eliminando tentativas repetidas
+                        if (!arrayContent[ind][ind2].Contains(arr2[k][l].Id))
+                        {
+                            arrayContent[ind][ind2][indiceAlvo] = arr2[k][l].Id;
+                            arr2[k].Remove(arr2[k][l]);
+                            mi++;
+
+                            // 3. Como essa vaga foi preenchida, removemos ela da nossa lista de disponíveis!
+                            indicesDisponiveis.RemoveAt(indexNaListaDeVagas);
+                        }
+
+                    }
+                    alterarIndice(1);
+                    Console.WriteLine("Total de itens inseridos de forma ultra rápida: " + mi);
+                }        
+            }        
         }
 
         private async Task<List<Content>> preencherLista(int ind, int ind2, int ind3, Type t)
