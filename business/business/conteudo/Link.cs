@@ -1,4 +1,7 @@
-using business.business.conteudo;
+
+
+  namespace business.business.conteudo
+{
 
 public class Link : Pagina
 {
@@ -7,4 +10,6 @@ public class Link : Pagina
     {
         return "Links";
     }
+}
+
 }

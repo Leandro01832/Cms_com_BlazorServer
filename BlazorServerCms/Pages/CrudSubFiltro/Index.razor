@@ -3,22 +3,23 @@
 @inject NavigationManager navigation
 @attribute [Authorize(Roles = "Admin")]
 
+
+
 @if (camadas == null)
 {
 <p><em>Carregando...</em></p>
 }
 else if (camadas.Length == 0)
 {
+    <p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
+        <p><a onclick="@escolher">Escolher</a></p>
 <p><em>Não existem camadas cadastradas...</em></p>
 }
 else
 {
-
-    <p>
-        <input type="text" @bind="nome" placeholder="Nome do livro" />
-        <a @onclick="buscarFiltros"> Buscar filtros </a>
-
-    </p>
+<p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
+        <p><a onclick="@escolher">Escolher</a></p>
+   
 
 <table class="table">
     <thead>
@@ -55,6 +56,10 @@ else
     private string? nome = "";
     private long? LivroId = null;
 
+    private string? username;
+
+    private UserModel usuario;
+
     protected override async Task OnParametersSetAsync()
     {
         await CarregaCamadas(pagina);
@@ -70,9 +75,9 @@ else
     {
         camadas = await Context.SubFiltro!
         .OrderBy(p => p.Id)
-         .Where(f => f.LivroId == LivroId)
-               .Skip((pag - 1) * 10)
-               .Take(10)
+         .Where(f => f.LivroId == LivroId && !f.UltimaPasta)
+               .Skip((pag - 1) * 7)
+               .Take(7)
         .ToArrayAsync();
     }
 
@@ -84,14 +89,17 @@ else
             navigation.NavigateTo($"/crud/SubFiltro/1");
     }
 
-    private async void buscarFiltros()
+    
+
+    private async void escolher()
     {
-        var liv = await Context.Livro!
-        .FirstOrDefaultAsync(f => f.Nome == nome);
-        if (liv != null)
-            LivroId = liv.Id;
-        else
-            LivroId = null;
+        usuario = Context.Users
+       .Include(u => u.Assinatura)
+       .ThenInclude(u => u.Livro)
+       .First(u => u.UserName == username);
+        LivroId = usuario.Assinatura.First().Livro!.Id;
+       await CarregaCamadas(pagina);
+        StateHasChanged();
     }
 
 }

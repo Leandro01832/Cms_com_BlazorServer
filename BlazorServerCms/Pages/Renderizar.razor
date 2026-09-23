@@ -63,7 +63,7 @@ else if (!repositoryPagina.erro && Model != null)
 
                         var fil = listaFiltro.FirstOrDefault(f => f.Id == array2[0][item].Id);
                         condicao = fil.Embaralhar;
-                        if(!ultimaPasta)
+                        if(listaFiltro.FirstOrDefault(f => f.FiltroId == fil.Id) != null)
                         {
                             if(fil.Criterio == null)
                             {
@@ -76,6 +76,9 @@ else if (!repositoryPagina.erro && Model != null)
                         else
                         {
                              fil2 = UltimasPastas.FirstOrDefault(fil => fil.FiltroId == array2[0][item].Id);
+                                if(fil2 == null)                             
+                                    fil2 = listaFiltro.FirstOrDefault(f => f.Id == fil.Id);
+                             
                             if (fil2 != null && array2[0][item].Criterio == null)
                             {
                                  fil3 = listaFiltro.FirstOrDefault(fil => fil.Id == array2[0][item].ComCriterio);
@@ -83,10 +86,18 @@ else if (!repositoryPagina.erro && Model != null)
 
                             }
                         }
+                        if(fil2 != null &&
+                         fil2.Criterio != null &&
+                         fil2.Criterio.Content != null)
                         vers = retornarVerso(fil2.Criterio.Content);
 
                     }
 
+                   if(vers == 0)
+                   {
+
+                   }
+                   
                     @if(array2[0][item].Id == Filtro)
                     {
                         
@@ -695,7 +706,7 @@ else if (!repositoryPagina.erro && Model != null)
                     }
                     else if(TipoClass == typeof(Link))
                     {
-                        @markup 
+                        
                         var l = listaFiltro.Where(f => f.ComCriterio == Model2.Id)
                         .OrderBy(f => f.Id).ToList();
                        int posicaoCalculada = Indice - 1;

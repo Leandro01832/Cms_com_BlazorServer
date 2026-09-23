@@ -659,7 +659,7 @@ namespace BlazorCms.Client.Pages
         {
             Relogio? rel = null;
             Filtro = id;
-            if (usuario != null)
+            if (profile != null)
             {
                 var fil = listaFiltro.FirstOrDefault(f => f.Id == id);
                 rel = await buscarRelogio(fil);

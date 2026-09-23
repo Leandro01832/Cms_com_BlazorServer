@@ -657,7 +657,7 @@ namespace BlazorCms.Client.Pages
 
             // Só executa se o ID realmente mudou,
             //  evitando rodar em re-renderizações bobas
-            if (Model.Id != _ultimoIdProcessado && Indice != 1)
+            if (Model != null  &&  Model.Id != _ultimoIdProcessado && Indice != 1)
             {
                 if (tipoClass != typeof(Link))
                     await AtualizarHashtagId();
@@ -871,13 +871,13 @@ namespace BlazorCms.Client.Pages
                     else
                     {
 
+                        DateTime dataLimite = DateTime.Now.AddDays(-7);
 
                         var conteudos = Context.UserContent
-                        .Include(c => c.UserModel)
-                        .Where(c =>
-                        c.UserModel.UserName == lista[j].UserName &&
-                        c.Data.Date > DateTime.Now.AddDays(-7).Date)
-                        .ToList();
+                            .Include(c => c.UserModel)
+                            .Where(c => c.UserModel.UserName == lista[j].UserName &&
+                                        c.Data > DateTime.Now.AddDays(-7))
+                            .ToList();
 
                         if (lista.Count >= 100 && lista.Count < 200) multiplicador += 1;
                         else if (lista.Count >= 200 && lista.Count < 300) multiplicador += 2;
@@ -1050,12 +1050,12 @@ namespace BlazorCms.Client.Pages
             {
                 var re = usuario.Relogio.FirstOrDefault(rel => rel.SubFiltroId == fil.Id &&
                 rel.UserModelId == profile.Id)!;
-                var filt = listaFiltro.First(f => f.Id == re.SubFiltroId);
-                var co = filt.Pagina.Select(p => p.Content)
-                .FirstOrDefault(p => p.Id == re.ContentId);
-                TipoClass = co.GetType();
                 if (re != null)
                 {
+                var filt = listaFiltro.FirstOrDefault(f => f.Id == re.SubFiltroId);
+                    var co = filt.Pagina.Select(p => p.Content)
+                    .FirstOrDefault(p => p.Id == re.ContentId);
+                    TipoClass = co.GetType();
                     Filtro = re.SubFiltroId;
                     var fi = listaFiltro.FirstOrDefault(f => f.Id == Filtro);
                     if (arrayContent[Ind][Ind2] != null &&

@@ -26,7 +26,7 @@ namespace business.business.conteudo
 
         private string html;
         
-        public DateTime Data { get; set; } = DateTime.Now;
+        public DateTime? Data { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "O titulo é necessário")]
         [Display(Name = "Titulo da pagina")]
@@ -52,16 +52,9 @@ namespace business.business.conteudo
         public int QuantLiked { get; set; } = 0;
         public int QuantShared { get; set; } = 0;
 
-        public string? Html
-        {
-            get { return html; }
-            set
-            {
-                html = value;
-                if (value != null)
-                    Data = DateTime.Now;
-            }
-        }
+        [Required(ErrorMessage = "A URL é obrigatória.")]
+        [Url(ErrorMessage = "Insira um endereço de URL válido.")]
+        public string? Html{ get; set; }
 
         private int ordenar = 0;
         [NotMapped]

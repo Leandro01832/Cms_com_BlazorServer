@@ -16,6 +16,7 @@
             <label>Livro:</label>
             <select @bind="exampleModel.LivroId">
 
+                  @if(usuario != null && usuario.Assinatura != null)
                 @foreach (var item in usuario.Assinatura)
                 {
                     if (primeiroLoop)
@@ -132,7 +133,8 @@
         exampleModel = await Context.SubFiltro!.FirstAsync(l => l.Id == Id);
         var grupo = await Context.SubFiltro!.FirstAsync(l => l.Id == exampleModel.FiltroId);
         
-        SubFiltro = await Context.SubFiltro!.ToListAsync();
+        lista = await Context.Story!.ToListAsync();
+        SubFiltro = await Context.SubFiltro!.Where(sub => !sub.UltimaPasta).ToListAsync();
         Camada = await Context.Camada!.ToListAsync();
         Criterio = await Context.Criterio!.Include(cr => cr.Filtro).ToListAsync();
         
@@ -153,7 +155,7 @@
     {
         Context.Update(exampleModel);
         await Context.SaveChangesAsync();
-        navigation.NavigateTo("crud/camada4/1");
+        navigation.NavigateTo("crud/SubFiltro/1");
         // Process the form
     }
 

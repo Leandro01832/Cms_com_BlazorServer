@@ -1,4 +1,6 @@
 ﻿@page "/createcontent"
+@using Mscc.GenerativeAI
+@using Mscc.GenerativeAI.Types
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime js
@@ -7,13 +9,18 @@
 
 <h3>Criar conteudo</h3>
 
-<Editor Id="contentextarea" Inline=false CloudChannel="5" Disable=false JsConfSrc="sample"
-        ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l" ClassName="tinymce-wrapper"
-        @bind-Value="exampleModel.Html" />
+
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+
+     <div class="mb-3">
+            <label class="form-label">Url do youtube</label>
+                <input type="url" value="@exampleModel.Html" 
+                @onchange="OnHtmlChanged" 
+                class="form-control" />
+        </div>
 
     <p>
         <label>Story:</label>
@@ -74,7 +81,7 @@
         var usermodel = await Context.Users
                 .FirstOrDefaultAsync(u => u.UserName == user.Identity.Name)!;
 
-        lista2 = await Context.Story!.OrderBy(st => st.Id).ToListAsync();
+        lista2 = await Context.Story!.OrderBy(st => st.Capitulo).ToListAsync();
 
         exampleModel.StoryId = lista2.First().Id;
         var u = Context.Users.First(u => u.UserName == user.Identity!.Name);
@@ -91,4 +98,102 @@
         await js!.InvokeAsync<object>("DarAlert", $"Conteudo criado com sucesso");
         navigation.NavigateTo("/");
     }
+
+    private async Task OnHtmlChanged(ChangeEventArgs e)
+    {
+        exampleModel.Html = e.Value?.ToString();
+        var url = ExtrairUrlIframe(exampleModel.Html);
+        var titulo = ExtrairTitleIframe(exampleModel.Html);
+        exampleModel.Titulo = titulo ?? exampleModel.Titulo;
+
+         var prompt = $@"Você é um sistema inteligente de classificação de conteudo (CMS).
+            Sua tarefa é analisar cada url e indicar qual o capítulo correspondente.
+            - Capítulo 1: Story Natureza (Inclui meio ambiente, cosmos, astronomia, animais, plantas, ciências naturais).
+            - Capítulo 2: Story Moda e Estilo (Inclui moda, beleza, estilo de vida, tendências).
+            - Capítulo 3: Story Veiculos e Transporte (Inclui carros, motos, bicicletas, transporte público).
+            - Capítulo 4: Story Materiais e Construção (Inclui construção civil, materiais de construção, arquitetura).
+            - capítulo 5: Story Casa e Decoração (Inclui decoração, design de interiores, móveis, jardinagem, eletronicos, eletrodómesticos).
+            - capitulo 6: Story Imóveis e Imobiliária (Inclui imóveis, mercado imobiliário, arquitetura residencial).
+            - capítulo 7: Story Alimentos e Bebidas (Inclui culinária, gastronomia, bebidas, receitas).
+            - capítulo 8: Story entretenimento e Cultura (Inclui filmes, música, teatro, literatura, Viagens, Turismo, Esportes).
+            - capítulo 9: Story Cosméticos, Beleza e Cuidados Pessoais (Inclui cosméticos, cuidados com a pele, cabelo, maquiagem, perfumaria).
+            - capítulo 10: Story Tecnologia e Inovação (Inclui tecnologia, gadgets, inovação, ciência aplicada).
+            - capítulo 11: Story Info-produtos e Marketing Digital (Inclui marketing digital, infoprodutos, e-commerce, estratégias online).
+            - capítulo 12: Story Saúde e Bem-estar (Inclui saúde, fitness, bem-estar, medicina).
+            - capítulo 13: Story Colecionáveis e Hobbies (Inclui hobbies, colecionáveis, atividades recreativas).
+            - capítulo 14: Story Artes e Artesanato (Inclui artes, artesanato, trabalhos manuais, DIY).
+            - capítulo 15: Story Estudos e materiais educativos (Inclui educação, estudos, materiais didáticos).
+            - capítulo 16: Story Segurança e Proteção (Inclui segurança, proteção, vigilância, prevenção).
+            - capítulo 17: Story Blog e Vlog (Inclui blogs, vlogs, conteúdo online, influenciadores).
+            - capítulo 18: Story Empresas e Negócios (Inclui negócios, empreendedorismo, gestão, finanças).
+            - capítulo 19: Story Notícias e Atualidades (Inclui notícias, atualidades, jornalismo, mídia).
+            - capítulo 20: Story Agronegócio e Agricultura (Inclui agricultura, agronegócio, produção rural, agroindústria).
+            - capítulo 21: Story projetos e Engenharia (Inclui engenharia, projetos, construção, inovação tecnológica).
+            - capítulo 22: Story Serviços e Profissões (Inclui serviços, profissões, carreiras, mercado de trabalho).
+            Regras Estritas de Resposta:
+            1. Analise a url e determine qual o capitulo.
+            2. Responda APENAS com os capitulos exatos encontrados na lista acima.
+            3. Se houver mais de um capitulo correspondente, separe-os estritamente por uma vírgula e um espaço (exemplo: capítulo 1, capítulo 2).
+           
+            4. Não adicione saudações, explicações, aspas, introduções ou pontuação.
+            
+            A url do vídeo é: {url}
+
+            ";
+
+             string apiKey = repositoryPagina.buscarApiGemini();
+
+            // Configura o modelo (o gemini-2.5-flash é excelente e gratuito)
+            var googleAI = new GoogleAI(apiKey);
+            var model = googleAI.GenerativeModel(Model.Gemini25Flash);
+
+            // Envia o prompt de forma assíncrona
+            var response = await model.GenerateContent(prompt);
+
+            // O texto da resposta estará aqui:
+            Console.WriteLine(response.Text);
+
+            var arr = response.Text!
+            .Replace(" ", "")
+            .Replace("capítulo", "")
+            .Split(',');
+
+
+
+        if (!string.IsNullOrEmpty(exampleModel.Html))
+        {
+            exampleModel.StoryId = lista2.First(s => s.Capitulo == long.Parse(arr[0])).Id;
+        }
+    }
+
+    public string? ExtrairUrlIframe(string htmlIframe)
+{
+    if (string.IsNullOrWhiteSpace(htmlIframe)) return null;
+
+    // Busca pelo padrão src="URL" ou src='URL'
+    var match = Regex.Match(htmlIframe, @"src=[""'](?<url>[^""']+)[""']", RegexOptions.IgnoreCase);
+
+    if (match.Success)
+    {
+        return match.Groups["url"].Value;
+    }
+
+    return htmlIframe; // Caso já seja uma URL simples
+}
+   
+    public string? ExtrairTitleIframe(string htmlIframe)
+{
+    if (string.IsNullOrWhiteSpace(htmlIframe)) return null;
+
+    // Procura por title="TEXTO" ou title='TEXTO'
+    var match = Regex.Match(htmlIframe, @"title=[""'](?<titulo>[^""']+)[""']", RegexOptions.IgnoreCase);
+
+    if (match.Success)
+    {
+        return match.Groups["titulo"].Value;
+    }
+
+    return null; // Se não encontrar o atributo title, retorna nulo em vez do HTML inteiro
+}
+
 }
