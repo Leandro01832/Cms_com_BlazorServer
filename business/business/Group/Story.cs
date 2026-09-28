@@ -79,6 +79,7 @@ namespace business.business.Group
 
         
         public virtual List<Filtro>? Filtro { get; set; }
+        public virtual List<Portal>? Portal { get; set; }
 
         public string? Nome { get; set; }
         public string? Image { get; set; }

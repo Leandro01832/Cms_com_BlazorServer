@@ -26,6 +26,8 @@ namespace business.business.Group
         public long? CamadaId { get; set; }
         public virtual Camada Camada { get; set; }
 
+        public Int64 PortalId { get; set; }
+        public virtual Portal? Portal { get; set; }
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
 

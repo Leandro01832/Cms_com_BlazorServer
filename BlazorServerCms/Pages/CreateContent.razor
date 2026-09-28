@@ -17,7 +17,7 @@
 
      <div class="mb-3">
             <label class="form-label">Url do youtube</label>
-                <input type="url" value="@exampleModel.Html" 
+                <input type="text" value="@exampleModel.Html" 
                 @onchange="OnHtmlChanged" 
                 class="form-control" />
         </div>
@@ -106,7 +106,7 @@
         var titulo = ExtrairTitleIframe(exampleModel.Html);
         exampleModel.Titulo = titulo ?? exampleModel.Titulo;
 
-         var prompt = $@"Você é um sistema inteligente de classificação de conteudo (CMS).
+        var prompt = $@"Você é um sistema inteligente de classificação de conteudo (CMS).
             Sua tarefa é analisar cada url e indicar qual o capítulo correspondente.
             - Capítulo 1: Story Natureza (Inclui meio ambiente, cosmos, astronomia, animais, plantas, ciências naturais).
             - Capítulo 2: Story Moda e Estilo (Inclui moda, beleza, estilo de vida, tendências).
@@ -134,14 +134,16 @@
             1. Analise a url e determine qual o capitulo.
             2. Responda APENAS com os capitulos exatos encontrados na lista acima.
             3. Se houver mais de um capitulo correspondente, separe-os estritamente por uma vírgula e um espaço (exemplo: capítulo 1, capítulo 2).
-           
+
             4. Não adicione saudações, explicações, aspas, introduções ou pontuação.
-            
+
             A url do vídeo é: {url}
 
             ";
 
-             string apiKey = repositoryPagina.buscarApiGemini();
+        try
+        {
+            string apiKey = repositoryPagina.buscarApiGemini();
 
             // Configura o modelo (o gemini-2.5-flash é excelente e gratuito)
             var googleAI = new GoogleAI(apiKey);
@@ -163,6 +165,11 @@
         if (!string.IsNullOrEmpty(exampleModel.Html))
         {
             exampleModel.StoryId = lista2.First(s => s.Capitulo == long.Parse(arr[0])).Id;
+        }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao classificar o capítulo: {ex.Message}");
         }
     }
 

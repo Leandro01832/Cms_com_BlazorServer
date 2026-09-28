@@ -52,8 +52,7 @@ namespace business.business.conteudo
         public int QuantLiked { get; set; } = 0;
         public int QuantShared { get; set; } = 0;
 
-        [Required(ErrorMessage = "A URL é obrigatória.")]
-        [Url(ErrorMessage = "Insira um endereço de URL válido.")]
+         
         public string? Html{ get; set; }
 
         private int ordenar = 0;

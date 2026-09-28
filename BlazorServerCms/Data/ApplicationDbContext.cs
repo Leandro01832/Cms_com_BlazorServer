@@ -13,7 +13,7 @@ namespace BlazorServerCms.Data
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
         public static string _connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=cms;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;Application Name=vscode-mssql;Command Timeout=0";
-      //  public static string _connectionString = "Data Source=instagleo.net.br,11433;Initial Catalog=instagle_;Persist Security Info=True;User ID=leodev;Password=Leandro01083832;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;Command Timeout=0";
+        
 
         // public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
         // {
