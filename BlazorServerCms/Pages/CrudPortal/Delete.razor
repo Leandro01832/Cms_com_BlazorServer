@@ -1,0 +1,67 @@
+@page "/portal/delete/{Id:long}"
+@attribute [Authorize(Roles = "Admin")]
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<div class="container mt-4">
+	<h3>Excluir Portal</h3>
+
+	@if (portal == null)
+	{
+		<p><em>Carregando...</em></p>
+	}
+	else
+	{
+		<p>Confirma a exclusão do portal <strong>@portal.Nome</strong> (Story: @portal.Story?.Nome)?</p>
+
+		@if (!string.IsNullOrWhiteSpace(erro))
+		{
+			<div class="alert alert-danger" role="alert">@erro</div>
+		}
+
+		<button type="button" class="btn btn-danger" @onclick="Excluir">Confirmar exclusão</button>
+		<button type="button" class="btn btn-secondary ms-2" @onclick="Voltar">Cancelar</button>
+	}
+</div>
+
+@code {
+	[Parameter] public long Id { get; set; }
+
+	private Portal? portal;
+	private string? erro;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		await using var context = await DbFactory.CreateDbContextAsync();
+		portal = await context.Portal
+			.AsNoTracking()
+			.Include(item => item.Story)
+			.FirstOrDefaultAsync(item => item.Id == Id);
+
+		if (portal == null)
+			Navigation.NavigateTo("/crud/portal/1");
+	}
+
+	private async Task Excluir()
+	{
+		await using var context = await DbFactory.CreateDbContextAsync();
+		if (await context.Filtro!.AnyAsync(filtro => filtro.PortalId == Id))
+		{
+			erro = "Este portal não pode ser excluído porque possui filtros vinculados.";
+			return;
+		}
+
+		var registro = await context.Portal.FirstOrDefaultAsync(item => item.Id == Id);
+		if (registro == null)
+		{
+			Navigation.NavigateTo("/crud/portal/1");
+			return;
+		}
+
+		context.Portal.Remove(registro);
+		await context.SaveChangesAsync();
+		Navigation.NavigateTo("/crud/portal/1");
+	}
+
+	private void Voltar() => Navigation.NavigateTo("/crud/portal/1");
+}

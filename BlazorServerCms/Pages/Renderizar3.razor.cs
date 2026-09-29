@@ -1178,6 +1178,37 @@ namespace BlazorCms.Client.Pages
             OcultarMenu = !OcultarMenu;      
              StateHasChanged();  
         }
+    
+        public async Task AtualizarSequenciaVersiculosAsync()
+        {
+                string sql = @"
+                WITH ConteudosValidos AS (
+                SELECT DISTINCT
+                c.id AS content_id,
+                MIN(f.CamadaId) AS menor_camada_id,
+                MIN(f.FiltroId) AS menor_filtro_id
+                FROM Filtro f
+                INNER JOIN Content c ON c.id = f.CriterioId
+                INNER JOIN FiltroContent fc ON fc.FiltroId = f.Id
+                INNER JOIN Filtro f ON f.Id = f.Id
+                WHERE c.Versiculo IS NOT NULL
+                GROUP BY c.id
+                ),
+                SequenciaPerfeita AS (
+                    SELECT
+                        content_id,
+                        ROW_NUMBER() OVER (ORDER BY menor_filtro_id ASC) AS novo_versiculo
+                    FROM ConteudosValidos
+                )
+                UPDATE c
+                SET c.Versiculo = s.novo_versiculo
+                FROM Content c
+                INNER JOIN SequenciaPerfeita s ON c.id = s.content_id;";
+
+            // Executa o comando diretamente no banco através do DbContext
+            await Context.Database.ExecuteSqlRawAsync(sql);
+        }
+    
     }
 
     public class Baralho : Content

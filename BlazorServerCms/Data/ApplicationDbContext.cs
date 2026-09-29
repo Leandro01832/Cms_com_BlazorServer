@@ -13,6 +13,7 @@ namespace BlazorServerCms.Data
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
         public static string _connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=cms;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;Application Name=vscode-mssql;Command Timeout=0";
+    
         
 
         // public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
@@ -79,6 +80,7 @@ namespace BlazorServerCms.Data
         public DbSet<Pedido>? Pedido { get; set; }
         public DbSet<ItemPedido>? ItemPedido { get; set; }       
         public DbSet<Story>? Story { get; set; }
+        public DbSet<Portal> Portal { get; set; }
         public DbSet<Telefone>? Telefone { get; set; }
         public DbSet<Livro>? Livro { get; set; }       
         public IConfiguration Configuration { get; }

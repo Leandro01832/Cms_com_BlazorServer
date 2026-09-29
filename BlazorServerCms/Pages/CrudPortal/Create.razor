@@ -1,0 +1,116 @@
+@page "/portal/create"
+@attribute [Authorize(Roles = "Admin")]
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<div class="container mt-4">
+	<h3>Novo Portal</h3>
+
+	@if (stories == null)
+	{
+		<p><em>Carregando...</em></p>
+	}
+	else
+	{
+		<EditForm Model="portal" OnValidSubmit="Salvar">
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+
+			@if (!string.IsNullOrWhiteSpace(erro))
+			{
+				<div class="alert alert-danger" role="alert">@erro</div>
+			}
+
+			<div class="mb-3">
+				<label class="form-label" for="nome">Nome</label>
+				<InputText id="nome" @bind-Value="portal.Nome" class="form-control" required />
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="descricao">Descrição</label>
+				<InputTextArea id="descricao" @bind-Value="portal.Descricao" class="form-control" />
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="logo">Logo (URL ou caminho)</label>
+				<InputText id="logo" @bind-Value="portal.Logo" class="form-control" />
+			</div>
+
+			<div class="row">
+				<div class="col-md-3 mb-3">
+					<label class="form-label" for="corPrimaria">Cor primária</label>
+					<InputText id="corPrimaria" @bind-Value="portal.CorPrimaria" class="form-control" placeholder="#000000" />
+				</div>
+				<div class="col-md-3 mb-3">
+					<label class="form-label" for="corSecundaria">Cor secundária</label>
+					<InputText id="corSecundaria" @bind-Value="portal.CorSecundaria" class="form-control" placeholder="#000000" />
+				</div>
+				<div class="col-md-3 mb-3">
+					<label class="form-label" for="corTerciaria">Cor terciária</label>
+					<InputText id="corTerciaria" @bind-Value="portal.CorTerciaria" class="form-control" placeholder="#000000" />
+				</div>
+				<div class="col-md-3 mb-3">
+					<label class="form-label" for="corQuaternaria">Cor quaternária</label>
+					<InputText id="corQuaternaria" @bind-Value="portal.CorQuaternaria" class="form-control" placeholder="#000000" />
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label" for="story">Story</label>
+				<InputSelect id="story" @bind-Value="portal.StoryId" class="form-select">
+					<option value="0">Selecione uma Story...</option>
+					@foreach (var story in stories)
+					{
+						<option value="@story.Id">@story.Nome</option>
+					}
+				</InputSelect>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Salvar</button>
+			<button type="button" class="btn btn-secondary ms-2" @onclick="Voltar">Cancelar</button>
+		</EditForm>
+	}
+</div>
+
+@code {
+	private Portal portal = new();
+	private List<Story>? stories;
+	private string? erro;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await using var context = await DbFactory.CreateDbContextAsync();
+		stories = await context.Story!
+			.AsNoTracking()
+			.OrderBy(story => story.Nome)
+			.ToListAsync();
+	}
+
+	private async Task Salvar()
+	{
+		if (string.IsNullOrWhiteSpace(portal.Nome))
+		{
+			erro = "Informe o nome do portal.";
+			return;
+		}
+
+		if (portal.StoryId <= 0)
+		{
+			erro = "Selecione uma Story.";
+			return;
+		}
+
+		await using var context = await DbFactory.CreateDbContextAsync();
+		if (!await context.Story!.AnyAsync(story => story.Id == portal.StoryId))
+		{
+			erro = "A Story selecionada não existe mais.";
+			return;
+		}
+
+		context.Portal.Add(portal);
+		await context.SaveChangesAsync();
+		Navigation.NavigateTo("/crud/portal/1");
+	}
+
+	private void Voltar() => Navigation.NavigateTo("/crud/portal/1");
+}

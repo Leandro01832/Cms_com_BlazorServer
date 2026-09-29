@@ -1,0 +1,111 @@
+@page "/crud/portal/{pagina:int}"
+@attribute [Authorize(Roles = "Admin")]
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<div class="container mt-4">
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h3>Portais</h3>
+		<a class="btn btn-success" href="/portal/create">Novo Portal</a>
+	</div>
+
+	@if (portais == null)
+	{
+		<p><em>Carregando...</em></p>
+	}
+	else if (portais.Count == 0)
+	{
+		<p>Não existem portais cadastrados.</p>
+	}
+	else
+	{
+		<div class="table-responsive">
+			<table class="table table-striped align-middle">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Story</th>
+						<th>Descrição</th>
+						<th>Cores</th>
+						<th>Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in portais)
+					{
+						<tr>
+							<td>
+								@if (!string.IsNullOrWhiteSpace(item.Logo))
+								{
+									<img src="@item.Logo" alt="Logo de @item.Nome" style="max-width:48px;max-height:48px;object-fit:contain" class="me-2" />
+								}
+								@item.Nome
+							</td>
+							<td>@item.Story?.Nome</td>
+							<td>@item.Descricao</td>
+							<td>
+								@Cor(item.CorPrimaria)
+								@Cor(item.CorSecundaria)
+								@Cor(item.CorTerciaria)
+								@Cor(item.CorQuaternaria)
+							</td>
+							<td class="text-nowrap">
+								<a class="btn btn-sm btn-primary" href="/portal/edit/@item.Id">Editar</a>
+								<a class="btn btn-sm btn-danger ms-1" href="/portal/delete/@item.Id">Excluir</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<nav aria-label="Paginação de portais">
+			<ul class="pagination">
+				<li class="page-item @(pagina <= 1 ? "disabled" : "")">
+					<a class="page-link" href="/crud/portal/@(pagina - 1)">Anterior</a>
+				</li>
+				<li class="page-item @(pagina >= totalPaginas ? "disabled" : "")">
+					<a class="page-link" href="/crud/portal/@(pagina + 1)">Próxima</a>
+				</li>
+			</ul>
+			<span>Página @pagina de @totalPaginas</span>
+		</nav>
+	}
+</div>
+
+@code {
+	[Parameter] public int pagina { get; set; } = 1;
+
+	private const int ItensPorPagina = 10;
+	private List<Portal>? portais;
+	private int totalPaginas = 1;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		await using var context = await DbFactory.CreateDbContextAsync();
+		var total = await context.Portal.CountAsync();
+		totalPaginas = Math.Max(1, (int)Math.Ceiling(total / (double)ItensPorPagina));
+		pagina = Math.Clamp(pagina, 1, totalPaginas);
+
+		portais = await context.Portal
+			.AsNoTracking()
+			.Include(item => item.Story)
+			.OrderBy(item => item.Nome)
+			.ThenBy(item => item.Id)
+			.Skip((pagina - 1) * ItensPorPagina)
+			.Take(ItensPorPagina)
+			.ToListAsync();
+	}
+
+	private static RenderFragment Cor(string? valor) => builder =>
+	{
+		if (string.IsNullOrWhiteSpace(valor))
+			return;
+
+		builder.OpenElement(0, "span");
+		builder.AddAttribute(1, "title", valor);
+		builder.AddAttribute(2, "style", $"display:inline-block;width:20px;height:20px;margin-right:4px;border:1px solid #777;background-color:{valor}");
+		builder.AddAttribute(3, "aria-label", $"Cor {valor}");
+		builder.CloseElement();
+	};
+}
