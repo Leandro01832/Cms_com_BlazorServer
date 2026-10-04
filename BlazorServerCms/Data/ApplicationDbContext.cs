@@ -16,15 +16,7 @@ namespace BlazorServerCms.Data
     
         
 
-        // public ApplicationDbContext(string connectionString, IConfiguration configuration, IWebHostEnvironment environment)
-        // {
-        //         // Configuration = configuration;
-        //         // Environment = environment;
-        //         // string rootPath = Environment.ContentRootPath;
-        //         // // 2. Define o caminho completo do arquivo .mdf (ex: na raiz do projeto)
-        //         // string fullDbPath = Path.Combine(rootPath, "cms.mdf");
-        //          _connectionString = Configuration.GetConnectionString("DefaultConnection");
-        // }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,6 +26,7 @@ namespace BlazorServerCms.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            
         }
 
        

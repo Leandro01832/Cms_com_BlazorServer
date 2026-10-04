@@ -159,6 +159,8 @@ namespace BlazorCms.Client.Pages
         public bool OcultarMenu { get; set; } = true;
         public bool HashTag { get; set; } = false;
         public bool AlterouCamada { get; set; }
+
+        protected int IndicePortal = 0;
         protected bool carregandoStreaming = true;
 
         protected int QuantDiv

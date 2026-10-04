@@ -8,9 +8,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PSC.Blazor.Components.Tours;
-using MercadoPago.Config;
-using MercadoPago.Resource.Preference;
-using MercadoPago.Client.Preference;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication;
@@ -35,7 +32,6 @@ builder.Services.AddScoped<N8nService>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<RepositoryPagina>();
 builder.Services.AddSingleton<LiveKitService>();
-builder.Services.AddSingleton<PixService>();
 builder.Services.AddSingleton<BlazorTimer>();
 // var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -179,7 +175,7 @@ using (var scope = app.Services.CreateScope())
     var password = builder.Configuration.GetConnectionString("Senha");
     var userASP = await userManager.FindByNameAsync(email);
 
-    MercadoPagoConfig.AccessToken = repositoryPagina.buscarApiMercadoPago();
+   
     
 
     if (await contexto!.Set<Story>().AnyAsync())

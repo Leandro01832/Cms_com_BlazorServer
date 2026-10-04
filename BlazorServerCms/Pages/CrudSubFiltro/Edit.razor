@@ -59,19 +59,31 @@
         </p>
     }
 
-    <p>
-        <label>Nome:</label>
-        <InputText id="Nome" @bind-Value="exampleModel.Nome" />
-    </p>
-    <p>
+    <p> 
         <label>Story:</label>
-        <select @bind="exampleModel.StoryId">
-            @foreach (var item in lista)
+        <select @bind="StoryId">
+            @foreach (var item in lista!.Where(sub => sub.Nome != "Padrao"))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
         </select>
     </p>
+
+    <p>
+        <label>Portal:</label>
+        <select @bind="exampleModel.PortalId">
+            @foreach (var item in Portal!.Where(sub => sub.StoryId == StoryId))
+            {
+                <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
+            }
+        </select>
+    </p>
+
+    <p>
+        <label>Nome:</label>
+        <InputText id="Nome" @bind-Value="exampleModel.Nome" />
+    </p>
+   
    <p>
         <label>Filtro:</label>
         <select @bind="exampleModel.FiltroId">
@@ -111,9 +123,11 @@
 @code {
     private SubFiltro exampleModel = new();
 
-    long StoryId = 0;
+    long? StoryId = 0;
     long SubStoryId = 0;
-    private List<Story> lista = new List<Story>();
+
+     private List<Story> lista = new List<Story>();
+        public List<Portal> Portal = new List<Portal>();
      public List<SubFiltro> SubFiltro = new List<SubFiltro>();
     public List<Camada> Camada = new List<Camada>();
     public List<Criterio> Criterio = new List<Criterio>();
@@ -133,6 +147,7 @@
         exampleModel = await Context.SubFiltro!.FirstAsync(l => l.Id == Id);
         var grupo = await Context.SubFiltro!.FirstAsync(l => l.Id == exampleModel.FiltroId);
         
+        Portal = await Context.Portal!.ToListAsync();
         lista = await Context.Story!.ToListAsync();
         SubFiltro = await Context.SubFiltro!.Where(sub => !sub.UltimaPasta).ToListAsync();
         Camada = await Context.Camada!.ToListAsync();

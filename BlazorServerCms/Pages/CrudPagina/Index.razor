@@ -205,7 +205,8 @@ else
         .ToArrayAsync();
 
         lista = await Context.SubFiltro
-        .Where(pai => pai.StoryId == 2 && pai.LivroId == 1)
+        .Include(sf => sf.Portal)
+        .Where(pai => pai.Portal.StoryId == 2 && pai.LivroId == 1)
         .ToListAsync();
 
         listaStories = await Context.Story.Skip(1).ToListAsync();

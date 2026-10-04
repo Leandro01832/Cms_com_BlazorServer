@@ -28,8 +28,7 @@ namespace business.business.Group
 
         public Int64 PortalId { get; set; }
         public virtual Portal? Portal { get; set; }
-        public Int64 StoryId { get; set; }
-        public virtual Story? Story { get; set; }
+      
 
         public Int64? LivroId { get; set; } = null;
         public virtual Livro? Livro { get; set; }
@@ -54,7 +53,14 @@ namespace business.business.Group
         public Int64? CriterioId { get; set; }
         public virtual Criterio Criterio { get; set; }
 
-        public byte[]? VetorEmbedding { get; set; }
+        /// <summary>
+        /// Indica se a contagem de versículos deve ser encerrada
+        ///  após o filtro ser aplicado. Se verdadeiro,
+        ///  a contagem será interrompida indicando que
+        ///  os versiculos repetiram nas proximas camadas;
+        ///  caso contrário, continuará normalmente.
+        /// </summary>
+       public bool TerminarContagem { get; set; } 
 
         public void FazerAnotacao(Anotacao anotacao)
         {

@@ -318,6 +318,7 @@
 
         if (!repository)
             filtro = await Context.Filtro!
+            .Include(f => f.Portal)!
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
             .ThenInclude(f => f.Produto)
@@ -400,7 +401,7 @@
 
     private void acessarPasta()
     {
-        navigation.NavigateTo($"/renderizar/{filtro.StoryId}/1/0/11/0/0/0/dominio/comp/{Id}");
+        navigation.NavigateTo($"/renderizar/{filtro.Portal!.StoryId}/1/0/11/0/0/0/dominio/comp/{Id}");
     }
 
     private async void clicou()

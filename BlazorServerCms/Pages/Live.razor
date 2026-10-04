@@ -48,8 +48,9 @@
         usermodel = await Context.Users!
         .Include(u => u.Relogio)!
         .ThenInclude(u => u.Content)!
-         .Include(u => u.Relogio)!
+        .Include(u => u.Relogio)!
         .ThenInclude(u => u.SubFiltro)!
+        .ThenInclude(u => u.Portal)!
         .ThenInclude(u => u.Story)!
         .Include(u => u.Livro)!
         .ThenInclude(u => u.Livro)!

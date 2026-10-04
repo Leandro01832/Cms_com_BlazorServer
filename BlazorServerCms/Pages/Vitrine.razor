@@ -93,13 +93,14 @@
         indiceFiltro = 0;
         capitulo = 1;
 
-        filtrosPorCap = Context.Pagina!
-        .Include(p => p.Story)
+        filtrosPorCap = Context.Story!
+        .Include(p => p.Portal)!
         .ThenInclude(p => p.Filtro)!
         .ThenInclude(p => p.Pagina)!
         .ThenInclude(p => p.Content)
-        .Where(p => p.Story!.Capitulo == capitulo)
-                   .First().Story!.Filtro!.OrderBy(f => f.Id).ToList();
+        .Where(p => p.Capitulo == capitulo)
+        .First().Portal!
+        .Select(p => p.Filtro).First()!.OrderBy(f => f.Id).ToList();
 
 
         if (indiceFiltro >= filtrosPorCap.Count)
@@ -109,14 +110,14 @@
 
     private int retornarCap(Filtro fil)
     {
-        return Context.Pagina!.Include(p => p.Story)
-        .First(p => p.StoryId == fil.StoryId).Story!.Capitulo;
+        return 0;
     }
 
-    private int retornarPasta(Filtro fil)
+    private async Task<int> retornarPasta(Filtro fil)
     {
-        var filtros = Context.Pagina!.Include(p => p.Story).ThenInclude(p => p.Filtro)
-        .First(p => p.StoryId == fil.StoryId).Story!.Filtro;
+        var filtros = await Context.Filtro!
+        .Include(p => p.Portal)!
+        .Where(p => p.Portal!.StoryId == fil.Portal.StoryId).ToListAsync();;
         var f = filtros!.First(fi => fi.Id == fil.Id);
         return filtros!.IndexOf(f) + 1;
     }

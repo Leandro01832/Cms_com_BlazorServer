@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cp7NFYVyB3Y=",
+  "dgSpecHash": "aTQ/NA3bqe4=",
   "success": true,
-  "projectFilePath": "C:\\dev2\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
+  "projectFilePath": "C:\\dev3\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leand\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\google.apis\\1.68.0\\google.apis.1.68.0.nupkg.sha512",
@@ -63,7 +63,6 @@
     "C:\\Users\\leand\\.nuget\\packages\\jsonpointer.net\\5.3.1\\jsonpointer.net.5.3.1.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\jsonschema.net\\7.3.4\\jsonschema.net.7.3.4.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\jsonschema.net.generation\\5.0.4\\jsonschema.net.generation.5.0.4.nupkg.sha512",
-    "C:\\Users\\leand\\.nuget\\packages\\mercadopago-sdk\\3.3.0\\mercadopago-sdk.3.3.0.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\messagepack\\2.5.187\\messagepack.2.5.187.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\messagepack.annotations\\2.5.187\\messagepack.annotations.2.5.187.nupkg.sha512",
     "C:\\Users\\leand\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
@@ -245,9 +244,9 @@
       "code": "NU1603",
       "level": "Warning",
       "message": "BlazorServerCms depends on Google.Apis.YouTube.v3 (>= 1.68.0) but Google.Apis.YouTube.v3 1.68.0 was not found. Google.Apis.YouTube.v3 1.68.0.3394 was resolved instead.",
-      "projectPath": "C:\\dev2\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
+      "projectPath": "C:\\dev3\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\dev2\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
+      "filePath": "C:\\dev3\\porjeto2\\BlazorServerCms\\BlazorServerCms.csproj",
       "libraryId": "Google.Apis.YouTube.v3",
       "targetGraphs": [
         "net9.0"

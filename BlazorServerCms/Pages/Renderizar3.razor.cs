@@ -205,13 +205,14 @@ namespace BlazorCms.Client.Pages
            .ToListAsync();
 
             var result = await Context.SubFiltro!
+               .Include(p => p.Portal)!
                .Include(p => p.Criterio)!
                .ThenInclude(p => p.Content)!
                .Include(p => p.Criterio)!
                .ThenInclude(p => p.Filtro)!
                .Where(f => f.LivroId == (livro != null ? livro.Id : null) &&
                f.UltimaPasta &&
-               f.StoryId == _story.Id)
+               f.Portal!.StoryId == _story.Id)
                .ToListAsync();
 
             UltimasPastas = result
@@ -221,6 +222,7 @@ namespace BlazorCms.Client.Pages
 
 
             var result2 = await Context.SubFiltro!
+            .Include(p => p.Portal)!
             .Include(p => p.Camada)!
             .Include(p => p.Criterio)!
             .ThenInclude(p => p.Content)!
@@ -230,7 +232,7 @@ namespace BlazorCms.Client.Pages
             .ThenInclude(p => p.Content)!
             .Where(f => f.LivroId == (livro != null ? livro.Id : null) &&
             !f.UltimaPasta &&
-            f.StoryId == _story.Id &&
+            f.Portal!.StoryId == _story.Id &&
             f.Pagina.Count > 0)
             .ToListAsync();
 
@@ -328,6 +330,13 @@ namespace BlazorCms.Client.Pages
             if (profile != null && profile.Hashtag.Count > 0)
                 HashtagId = profile.Hashtag.First().Id;
 
+            var portais = await Context.Portal
+            .Where(p => p.StoryId == _story.Id)
+            .ToListAsync();
+            var portal = portais.FirstOrDefault(p => p.Id == listaFiltro.First().PortalId);
+            if(portais.Count > 1)
+            IndicePortal = portais.IndexOf(portal) + 1;
+       
         }
 
         #endregion
@@ -448,7 +457,7 @@ namespace BlazorCms.Client.Pages
                             contentAdd.Add(new Link
                             {
                                 Id = item.Id,
-                                StoryId = item.StoryId,
+                                StoryId = item.Portal!.StoryId,
                                 LivroId = item.LivroId,
                                 Criterio = null,
                                 Html = $"<p> <a href='#' > {item.Nome} </a> </p>",

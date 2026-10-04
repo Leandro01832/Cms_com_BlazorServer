@@ -110,7 +110,8 @@
             .ThenInclude(f => f.Content)
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
-            .Include(f => f.Story)
+            .Include(f => f.Portal)
+            .ThenInclude(f => f.Story)
             .Include(f => f.Livro)
             .Where(f => 
              !f.UltimaPasta  && f.Pagina.Count > 0)

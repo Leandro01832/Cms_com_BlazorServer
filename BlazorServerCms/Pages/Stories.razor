@@ -421,6 +421,7 @@
     List<Story> stories = new List<Story>();
     List<Relogio> relogios = new List<Relogio>();
     List<SubFiltro>? filtros = new List<SubFiltro>();
+    List<Portal>? portais = new List<Portal>();
     List<UserModel>? seguidores = new List<UserModel>();
     List<UserModel>? seguindo = new List<UserModel>();
 
@@ -540,18 +541,25 @@
         }
 
 
-        filtros = await Context.SubFiltro!
+            filtros = await Context.SubFiltro!
+            .Include(f => f.Portal)!
+            .ThenInclude(f => f.Story)
+            .Include(f => f.Camada)!
             .Include(f => f.Camada)!
             .Include(f => f.Criterio)!
             .ThenInclude(f => f.Content)
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
-            .Include(f => f.Story)
             .Include(f => f.Livro)
             .Where(f =>             
-             !f.UltimaPasta &&
-              f.CriterioId != null && f.Pagina.Count > 0)
-              .OrderBy(f => f.Story.Capitulo)
+            !f.UltimaPasta &&
+            f.CriterioId != null && f.Pagina.Count > 0)
+            .OrderBy(f => f.Portal!.Story!.Capitulo)
+            .ToListAsync();
+
+            portais = await Context.Portal!
+            .Include(p => p.Story)
+            .Where(p => p.StoryId != filtros.FirstOrDefault()!.Portal!.StoryId)
             .ToListAsync();
 
         usermodel = await Context.Users!
@@ -561,6 +569,7 @@
         .ThenInclude(u => u.Content)!
          .Include(u => u.Relogio)!
         .ThenInclude(u => u.SubFiltro)!
+        .ThenInclude(u => u.Portal)!
         .ThenInclude(u => u.Story)!
         .Include(u => u.Livro)!
         .ThenInclude(u => u.Livro)!
@@ -596,7 +605,7 @@
         .OrderByDescending(r => r.Data)
         .Take(usermodel.Decorar)
         .ToList();
-        relogios = relogios.OrderBy(r => r.SubFiltro.Story!.Capitulo).ToList();
+        relogios = relogios.OrderBy(r => r.SubFiltro.Portal!.Story!.Capitulo).ToList();
 
         Pensamento = "(" +
          string.Join(", ", relogios.Select(r => retornarVersoComCriterio(r.SubFiltro))) +
@@ -907,11 +916,14 @@
     
      private string retornarVersoComCriterio(SubFiltro c)
     {
+        var porta = c.Portal;
+        var indicePorta = portais.IndexOf(porta) + 1;
+
         string capitulo = "";
-        if(cap != c.Story.Capitulo)
+        if(cap != c.Portal!.Story!.Capitulo)
         {
-            capitulo = "[cap. " + c.Story.Capitulo + "] ";
-            cap = c.Story.Capitulo; 
+            capitulo = "[cap. " + c.Portal!.Story.Capitulo + "] ";
+            cap = c.Portal!.Story.Capitulo; 
 
         }
         var nome = c.Nome;
@@ -927,9 +939,9 @@
                 .FirstOrDefault(s => s.FiltroId == c.Id);
 
                 if(interacao >= 2)
-                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!) + "\n";
+                return capitulo + nome + $"[{indicePorta}] - " + retornarVerso(f.Criterio.Content!) + "\n";
                 else
-                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!);
+                return capitulo + nome + $"[{indicePorta}] - " + retornarVerso(f.Criterio.Content!);
 
             }
             try
@@ -951,9 +963,9 @@
                     if(somenteUmSemCriterio == 1)
                     {
                         if(interacao >= 2)
-                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!) + "\n";
+                        return capitulo + nome + $"[{indicePorta}] /s - " + retornarVerso(f.Criterio.Content!) + "\n";
                         else
-                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!);
+                        return capitulo + nome + $"[{indicePorta}] /s - " + retornarVerso(f.Criterio.Content!);
                     }
                     else if(interacao >= 2)
                     return "\n";

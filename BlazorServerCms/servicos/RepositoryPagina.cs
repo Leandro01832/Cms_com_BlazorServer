@@ -9,8 +9,6 @@ using NVelocity;
 using NVelocity.App;
 using System.Text;
 using System.Text.Json;
-using MercadoPago.Client.Preference;
-using MercadoPago.Resource.Preference;
 
 
 namespace BlazorServerCms.servicos
@@ -269,30 +267,7 @@ namespace BlazorServerCms.servicos
             }
         }
 
-        public async Task<string> CriarPreferencia(string titulo, int quantidade, decimal precoUnitario)
-        {
-             // Cria o objeto de request da preference
-            var request = new PreferenceRequest
-            {
-                Items = new List<PreferenceItemRequest>
-                {
-                    new PreferenceItemRequest
-                    {
-                        Title = titulo, // "Meu produto",
-                        Quantity = quantidade, // 1,
-                        CurrencyId = "ARS",
-                        UnitPrice = precoUnitario // 75.56m,
-                    },
-                },
-            };
-
-            // Cria a preferência usando o client
-            var client = new PreferenceClient();
-            Preference preference = await client.CreateAsync(request);
-            return preference.Id;
-        }
-
-
+        
 
     }
 

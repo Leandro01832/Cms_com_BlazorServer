@@ -74,13 +74,9 @@ namespace business.business.Group
 
         private int paginaPadraoLink = 0;
         private int quantidade = 0;
-        private int quantComentario = 0;
-
-
-        
-        public virtual List<Filtro>? Filtro { get; set; }
+        private int quantComentario = 0;        
+      
         public virtual List<Portal>? Portal { get; set; }
-
         public string? Nome { get; set; }
         public string? Image { get; set; }
         public string? Descricao { get; set; }

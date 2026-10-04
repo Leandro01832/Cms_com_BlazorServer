@@ -204,7 +204,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                 <p style="text-align: center;"> 
                 <strong> 
                    @filtros.First().Livro?.Nome
-                 - Cap. @filtros.First().Story?.Capitulo 
+                 - Cap. @filtros.First().Portal?.Story?.Capitulo 
                  - @Query
                  </strong> 
                  </p>
@@ -253,7 +253,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                         {
                             <span>Instagleo - </span>
                         }
-                        <span> Cap. @item.Story!.Capitulo - </span>
+                        <span> Cap. @item.Portal!.Story!.Capitulo - </span>
                         <span> ( @item.Nome ) Versículo @(retornarVersoComCriterio(item))</span>
 
                     </a>
@@ -596,7 +596,8 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             .ThenInclude(f => f.Content)
             .Include(f => f.Pagina)!
             .ThenInclude(f => f.Content)
-            .Include(f => f.Story)
+            .Include(f => f.Portal)
+            .ThenInclude(f => f.Story)
             .Include(f => f.Livro)
             .Where(f => 
             !f.UltimaPasta  && f.Pagina.Count > 0)
@@ -683,7 +684,8 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         {
             string url = "";
             var itemContent = 1;
-            var str = await ExecuteDbContextAsync(async (ctx) =>  ctx.Story!.First(s => s.Id == item.StoryId));
+            var str = await ExecuteDbContextAsync(async (ctx) => 
+             ctx.Story!.First(s => s.Id == item.Portal!.StoryId));
            var count = repositoryPagina.random.Next(1, item.Pagina
                 .Select(p => p.Content).Where(c => c.GetType() == typeof(Page)).Count());
 
@@ -1092,7 +1094,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             {
                 UserModelId = userManager.GetUserId(user),
                 Query = Query,
-                Capitulo = filtros.FirstOrDefault()?.Story?.Capitulo ?? 0,
+                Capitulo = filtros.FirstOrDefault()?.Portal!.Story?.Capitulo ?? 0,
                 LivroId = filtros.FirstOrDefault()?.LivroId,
                 DataCriacao = DateTime.Now
             };
