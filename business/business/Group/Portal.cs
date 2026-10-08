@@ -25,6 +25,8 @@ namespace business.business.Group
         public string? CorTerciaria { get; set; }
         public string? CorQuaternaria { get; set; }
 
+        public string? Html { get; set; }
+
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
         public virtual List<Filtro>? Filtro { get; set; }

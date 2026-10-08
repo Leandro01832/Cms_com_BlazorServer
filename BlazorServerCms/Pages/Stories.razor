@@ -2,9 +2,10 @@
 @page "/{user}/{capitulo:int?}"
 @inject RepositoryPagina repositoryPagina
 @inject NavigationManager navigation
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject AuthenticationStateProvider AuthenticationStateProvider 
 @inject IJSRuntime js
 @inject UserManager<UserModel> userManager
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
 
     <Modal Title="@title" IsVisible="showModal" Close="() => showModal = false"
     OnConfirm="() => compartilhar()" Excluir="() => remover()" Confirm="@confirmar">
@@ -214,7 +215,11 @@
                         <span dir="auto">
                             <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
                                 <span dir="auto">
-                                    https://www.instagleo.net.br
+                                    <a href="/portal/@(portais.IndexOf(portal) + 1)">
+                                        <span dir="auto">
+                                            <strong>Portal</strong>
+                                        </span>
+                                    </a>
                                 </span>
                             </div>
                         </span>
@@ -414,6 +419,12 @@
 @code
 {
 
+    private async Task<T> ExecuteDbContextAsync<T>(Func<ApplicationDbContext, Task<T>> action)
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+        return await action(context);
+    }
+
     [Parameter] public string user { get; set; }
     [Parameter] public int? capitulo { get; set; }
     private DemoContextFactory db = new DemoContextFactory();
@@ -424,6 +435,8 @@
     List<Portal>? portais = new List<Portal>();
     List<UserModel>? seguidores = new List<UserModel>();
     List<UserModel>? seguindo = new List<UserModel>();
+
+     private Portal portal = null;
 
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
@@ -469,7 +482,7 @@
     {
         if (firstRender)
         {
-           publicacoes = await buscarPublicacoes(0);
+            publicacoes = await buscarPublicacoes(0);
             repositoryPagina!.QuantDiv = await repositoryPagina.marcarIndice(false, js);
             repositoryPagina!.QuantDivCriterio = await repositoryPagina.marcarIndice(true, js);
 
@@ -513,7 +526,7 @@
     {
         if (capitulo != null)
             descricao = RepositoryPagina.stories.First(str => str.Capitulo == capitulo).Descricao!;
-            
+
     }
 
     protected override async Task OnInitializedAsync()
@@ -541,26 +554,25 @@
         }
 
 
-            filtros = await Context.SubFiltro!
-            .Include(f => f.Portal)!
-            .ThenInclude(f => f.Story)
-            .Include(f => f.Camada)!
-            .Include(f => f.Camada)!
-            .Include(f => f.Criterio)!
-            .ThenInclude(f => f.Content)
-            .Include(f => f.Pagina)!
-            .ThenInclude(f => f.Content)
-            .Include(f => f.Livro)
-            .Where(f =>             
-            !f.UltimaPasta &&
-            f.CriterioId != null && f.Pagina.Count > 0)
-            .OrderBy(f => f.Portal!.Story!.Capitulo)
-            .ToListAsync();
+        filtros = await Context.SubFiltro!
+        .Include(f => f.Portal)!
+        .ThenInclude(f => f.Story)
+        .Include(f => f.Camada)!
+        .Include(f => f.Camada)!
+        .Include(f => f.Criterio)!
+        .ThenInclude(f => f.Content)
+        .Include(f => f.Pagina)!
+        .ThenInclude(f => f.Content)
+        .Include(f => f.Livro)
+        .Where(f =>             
+        !f.UltimaPasta &&
+        f.CriterioId != null && f.Pagina.Count > 0)
+        .OrderBy(f => f.Portal!.Story!.Capitulo)
+        .ToListAsync();
 
-            portais = await Context.Portal!
-            .Include(p => p.Story)
-            .Where(p => p.StoryId != filtros.FirstOrDefault()!.Portal!.StoryId)
-            .ToListAsync();
+        portais = await Context.Portal!
+        .OrderBy(p => p.Id)
+        .ToListAsync();
 
         usermodel = await Context.Users!
         .Include(u => u.Hashtag)!
@@ -579,14 +591,14 @@
         foreach(var item in usermodel.Hashtag)
         {
             if(item.HashtagContent != null)
-            foreach(var item2 in item.HashtagContent.ToList())
-            {
-                if(item2!.Data < DateTime.Now.AddDays(-1))
+                foreach(var item2 in item.HashtagContent.ToList())
                 {
+                    if(item2!.Data < DateTime.Now.AddDays(-1))
+                    {
                         Context.Remove(item2);
-                       await Context.SaveChangesAsync();
+                        await Context.SaveChangesAsync();
+                    }
                 }
-            }
         } 
 
         seguidores = await Context.Users
@@ -596,7 +608,7 @@
     .ToListAsync();
 
         seguindo = await Context.Users
-            .Include(u => u.Following)
+        .Include(u => u.Following)
         .Where(u => u.Id == usermodel.Id)
         .SelectMany(u => u.Following.Select(f => f.Target)) // Pega o 'Target' (quem foi seguido)
         .ToListAsync();
@@ -607,9 +619,22 @@
         .ToList();
         relogios = relogios.OrderBy(r => r.SubFiltro.Portal!.Story!.Capitulo).ToList();
 
-        Pensamento = "(" +
-         string.Join(", ", relogios.Select(r => retornarVersoComCriterio(r.SubFiltro))) +
-          ")"; 
+        portal = await Context.Portal!
+        .Include(p => p.Story) 
+        .FirstOrDefaultAsync(p => p.Id == relogios.First().SubFiltro.PortalId);
+
+        Pensamento = "( " ;
+        foreach(var r in relogios)
+        {            
+            Pensamento +=  retornarVersoComCriterio(r.SubFiltro) ;
+            if(relogios.IndexOf(r) == relogios.Count - 1)             
+                Pensamento += " ";
+            else
+                Pensamento += ", ";             
+        }         
+        Pensamento += ")" ;
+
+
 
         if (string.IsNullOrEmpty(usermodel.Compartilhar))
         {
@@ -639,58 +664,58 @@
         && usuario.Identity!.IsAuthenticated)
             isFollowing = await IsFollowingAsync(u.Id, usermodel.Id);
 
-        
+
 
     }  
 
     private async Task<int> buscarPublicacoes(int condicao)
+    {
+        try
         {
-            try
-            {
-                string sql = @"SELECT count(*) 
+            string sql = @"SELECT count(*) 
                     FROM Content 
                     WHERE UserModelId = @UserId";
-                    
-                if(usermodel == null)
-                {
-                    var cont = db.CreateDbContext(null);
-                    var us  = await cont.Users!
-                    .FirstOrDefaultAsync(u => u.UserName == user);
-                    var con = new SqlConnection(ApplicationDbContext._connectionString);
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.Parameters.AddWithValue("@UserId", us.Id);
 
-                        con.Open();
-                        if(publicacoes == 0)
-                        publicacoes = int.Parse(cmd.ExecuteScalar().ToString());
-                        con.Close();
-                    }
-                    
-
-                }
-                else
-                {
-                    
-                    var con = new SqlConnection(ApplicationDbContext._connectionString);
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        cmd.Parameters.AddWithValue("@UserId", usermodel.Id);
-                        con.Open();
-                        if(publicacoes == 0)
-                        publicacoes = int.Parse(cmd.ExecuteScalar().ToString());
-                        con.Close();                        
-                    }  
-
-                }
-            }
-            catch (Exception ex)
+            if(usermodel == null)
             {
-                publicacoes = 0;
+                var cont = db.CreateDbContext(null);
+                var us  = await cont.Users!
+                .FirstOrDefaultAsync(u => u.UserName == user);
+                var con = new SqlConnection(ApplicationDbContext._connectionString);
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", us.Id);
+
+                    con.Open();
+                    if(publicacoes == 0)
+                        publicacoes = int.Parse(cmd.ExecuteScalar().ToString());
+                    con.Close();
+                }
+
+
             }
-            
-                return publicacoes;
+            else
+            {
+
+                var con = new SqlConnection(ApplicationDbContext._connectionString);
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", usermodel.Id);
+                    con.Open();
+                    if(publicacoes == 0)
+                        publicacoes = int.Parse(cmd.ExecuteScalar().ToString());
+                    con.Close();                        
+                }  
+
+            }
         }
+        catch (Exception ex)
+        {
+            publicacoes = 0;
+        }
+
+        return publicacoes;
+    }
 
     private void limpar()
     {
@@ -736,7 +761,7 @@
         SubFiltro? fil = null;
         Relogio rel = null;
         Content contentRel = null;
-            int itemConteudo = 0;
+        int itemConteudo = 0;
 
         if(livro == null && str.Capitulo == 1)
         {
@@ -749,7 +774,8 @@
 
 
         if (livro != null)
-        {
+        {       
+            
             string prompted = await js.InvokeAsync<string>("prompt",
                  "Informe os versiculos para marcar.");
             var filtros = await Context.SubFiltro!
@@ -916,13 +942,10 @@
     
      private string retornarVersoComCriterio(SubFiltro c)
     {
-        var porta = c.Portal;
-        var indicePorta = portais.IndexOf(porta) + 1;
-
         string capitulo = "";
         if(cap != c.Portal!.Story!.Capitulo)
         {
-            capitulo = "[cap. " + c.Portal!.Story.Capitulo + "] ";
+            capitulo = "|cap. " + c.Portal!.Story.Capitulo + "| ";
             cap = c.Portal!.Story.Capitulo; 
 
         }
@@ -939,9 +962,9 @@
                 .FirstOrDefault(s => s.FiltroId == c.Id);
 
                 if(interacao >= 2)
-                return capitulo + nome + $"[{indicePorta}] - " + retornarVerso(f.Criterio.Content!) + "\n";
+                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!) + "\n";
                 else
-                return capitulo + nome + $"[{indicePorta}] - " + retornarVerso(f.Criterio.Content!);
+                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!);
 
             }
             try
@@ -963,9 +986,9 @@
                     if(somenteUmSemCriterio == 1)
                     {
                         if(interacao >= 2)
-                        return capitulo + nome + $"[{indicePorta}] /s - " + retornarVerso(f.Criterio.Content!) + "\n";
+                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!) + "\n";
                         else
-                        return capitulo + nome + $"[{indicePorta}] /s - " + retornarVerso(f.Criterio.Content!);
+                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!);
                     }
                     else if(interacao >= 2)
                     return "\n";
@@ -992,9 +1015,9 @@
             }
             var retorno = retornarVerso(f.Criterio.Content!);
             if(interacao >= 2)
-            return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!) + "\n";
+            return capitulo + nome + $" - " + retornarVerso(f.Criterio.Content!) + "\n";
             else
-            return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!);
+            return capitulo + nome + $" - " + retornarVerso(f.Criterio.Content!);
         }
     
         interacao++;
@@ -1115,6 +1138,14 @@
         publicacao = false;
         reels = false;
         salvo = true;
+    }
+
+    private string retornarPortal(List<Relogio> relogios, SubFiltro filtro)
+    {
+        var porta = relogios
+        .FirstOrDefault(r => r.SubFiltroId == filtro.Id)!.SubFiltro.Portal;
+        var indicePorta = portais.IndexOf(porta) + 1;
+        return $"[{indicePorta}]";
     }
 
 }

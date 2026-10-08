@@ -2,6 +2,7 @@
 @page "/acesso/{indice}"
 @page "/livro/{nomeLivro}"
 @page "/{nomeLivro}/{capitulo:int}/{indice}"
+@page "/portal/{indicePortal:int}"
 @using System.Reflection
 
 @inject NavigationManager navigation
@@ -324,7 +325,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
     {
         <img src="/story.jpg" style="width:80%; margin-top: 1%;" />
     }
-    else if(livro != null)
+    else if(indicePortal != 0 && portal != null && portal.Html != null)
     {
         @markup
     }
@@ -387,8 +388,9 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
 
     [Parameter] public int? capitulo { get; set; }
 
-    [Parameter] public string? nomeLivro { get; set; } = "";
+    [Parameter] public string? nomeLivro { get; set; } = null;
     [Parameter] public string? indice { get; set; }
+    [Parameter] public int indicePortal { get; set; } = 0;
     public string? Query { get; set; }
     public string? Usuario { get; set; }
     List<SubFiltro>? filtros = new List<SubFiltro>();
@@ -414,6 +416,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
     private Content live = null;
 
     private Story _story = null;
+    private Portal portal = null;
 
     private Livro livro = null;
 
@@ -568,7 +571,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                 usersSeguindo[i].user = paraSeguir[i];
                 usersSeguindo[i].seguindo = false;
 
-             }
+            }
 
 
         }
@@ -576,13 +579,13 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         {
             paraSeguir = new List<UserModel>();
         }
-      
-      
+
+
 
         if (nomeLivro != null)
             livro = await ExecuteDbContextAsync(async (ctx) => await ctx.Livro.FirstOrDefaultAsync(l => l.Nome == nomeLivro));
 
-        repositoryPagina.exibir = true;        
+        repositoryPagina.exibir = true;         
 
         if (_story == null)
         {
@@ -603,29 +606,29 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
             !f.UltimaPasta  && f.Pagina.Count > 0)
             .ToListAsync());
 
-            ultimasPastas = await ExecuteDbContextAsync(async (ctx) => await ctx.SubFiltro!            
-            .Include(f => f.Criterio)!
-            .ThenInclude(f => f.Content)
-            .Where(f => f.UltimaPasta)
-            .ToListAsync());
-           
-            live = await ExecuteDbContextAsync(async (ctx) => await ctx.Content!            
-            .FirstAsync(f => f.Id == 51124));
+        ultimasPastas = await ExecuteDbContextAsync(async (ctx) => await ctx.SubFiltro!            
+        .Include(f => f.Criterio)!
+        .ThenInclude(f => f.Content)
+        .Where(f => f.UltimaPasta)
+        .ToListAsync());
 
-            markup2 = new MarkupString(live.Html);
+        live = await ExecuteDbContextAsync(async (ctx) => await ctx.Content!            
+        .FirstAsync(f => f.Id == 51124));
+
+        markup2 = new MarkupString(live.Html);
 
 
 
-            termosValidos = new HashSet<string>(
-        filtros2.Select(f => f.Nome.Trim()), 
-        StringComparer.OrdinalIgnoreCase );
+        termosValidos = new HashSet<string>(
+    filtros2.Select(f => f.Nome.Trim()), 
+    StringComparer.OrdinalIgnoreCase );
 
-         stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
+        stopWords = new HashSet<string>(StringComparer.OrdinalIgnoreCase) 
     { 
         "de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", 
         "com", "por", "para", "um", "uma", "os", "as", "o", "a", "e" 
     }; 
-   
+
 
         if(livro != null && capitulo != null )
         {
@@ -637,33 +640,32 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
                 navigation.NavigateTo($"/renderizar/page/{str.Capitulo}/{indice}/{comp}");
         }
 
-        if(livro != null)
-            markup = new MarkupString(livro.Capa);
+
 
         options.Add(new FilterOption { Value = "criterio1", Text = "Criterio 1" });
         options.Add(new FilterOption { Value = "criterio2", Text = "Criterio 2" });
 
         Ocultar();  
 
-         usuarios = await ExecuteDbContextAsync(async (ctx) => await ctx.Users
-        .Include(u => u.conteudos)
-        .ToListAsync());
+        usuarios = await ExecuteDbContextAsync(async (ctx) => await ctx.Users
+       .Include(u => u.conteudos)
+       .ToListAsync());
         usuarios2 = new List<UserModel>();
         lacos = usuarios.Count / itens;
         var resto = usuarios.Count % itens;
         if (resto != 0) lacos++;
         array = new List<UserModelLive>[lacos];
 
-            usuarios2.Clear();
+        usuarios2.Clear();
 
-            foreach(var item2 in usuarios.ToList())
+        foreach(var item2 in usuarios.ToList())
             if(!verificarLive(item2))
-            usuarios2.Add(item2);
+                usuarios2.Add(item2);
             else
             {
-               usuarios2.Reverse();
-               usuarios2.Add(item2);
-               usuarios2.Reverse();
+                usuarios2.Reverse();
+                usuarios2.Add(item2);
+                usuarios2.Reverse();
 
             }
 
@@ -671,8 +673,23 @@ variasPalavras="@variasPalavras" filtros2="@filtros2" >
         {
             array[i] = new List<UserModelLive>();
             foreach(var item in usuarios2.Skip(itens * i).Take(itens).ToList())
-            array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
+                array[i].Add( new UserModelLive{ user = item, live = verificarLive(item) });
         }     
+
+        if(indicePortal != 0)
+        {
+            var portais = await ExecuteDbContextAsync(async (ctx) =>
+             await ctx.Portal.OrderBy(p => p.Id).ToListAsync());
+
+            portal = portais[indicePortal - 1];
+
+        }
+
+        if(portal != null)
+        {
+            markup = new MarkupString(portal.Html!);
+            nomeLivro = "";
+        }
 
         StateHasChanged();
     }

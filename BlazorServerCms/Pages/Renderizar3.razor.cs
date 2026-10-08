@@ -984,7 +984,7 @@ namespace BlazorCms.Client.Pages
                                     {
                                         us.Compartilhar += "(" + Versiculo + ")";
 
-                                    }
+                                    } 
                                 }
                             }
                         }
@@ -1022,6 +1022,15 @@ namespace BlazorCms.Client.Pages
             {
                 if (user.Identity!.IsAuthenticated)
                 {
+                    if(usuario.Relogio.Count > 0)
+                    if(Model2.PortalId != usuario.Relogio.First().SubFiltro.PortalId)
+                    {
+                        foreach (var item in usuario.Relogio)
+                        {
+                            Context.Remove(item);
+                           await Context.SaveChangesAsync();
+                        }
+                    }
                     var re = usuario.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id)!;
                     var p = TipoClass != typeof(Page);
                     if (re == null)

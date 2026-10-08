@@ -160,7 +160,7 @@ namespace BlazorCms.Client.Pages
         public bool HashTag { get; set; } = false;
         public bool AlterouCamada { get; set; }
 
-        protected int IndicePortal = 0;
+        protected int? IndicePortal = null;
         protected bool carregandoStreaming = true;
 
         protected int QuantDiv
