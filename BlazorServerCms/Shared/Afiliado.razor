@@ -1,0 +1,16 @@
+@inject IJSRuntime JSRuntime
+
+<button @onclick="FinalizarCompraAfiliada" class="btn btn-primary">
+    Comprar no Mercado Livre
+</button>
+
+@code {
+    [Parameter]
+    public string LinkAfiliadoMercadoLivre { get; set; } = "https://mercadolivre.com/...";
+
+    private async Task FinalizarCompraAfiliada()
+    {
+        // Abre o link de afiliado em uma nova aba do navegador mantendo seu site aberto
+        await JSRuntime.InvokeVoidAsync("open", LinkAfiliadoMercadoLivre, "_blank");
+    }
+}

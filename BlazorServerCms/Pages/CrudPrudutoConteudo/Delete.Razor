@@ -1,0 +1,56 @@
+@page "/produtoconteudo/delete/{Id:long}"
+@page "/crud/produtoconteudo/delete/{Id:long}"
+@attribute [Authorize(Roles = "Admin")]
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<div class="container mt-4">
+    <h3>Excluir Produto</h3>
+
+    @if (produto == null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else
+    {
+        <p>Confirma a exclusão do produto <strong>@produto.Titulo</strong>?</p>
+
+        <button type="button" class="btn btn-danger" @onclick="Excluir">Confirmar exclusão</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="Voltar">Cancelar</button>
+    }
+</div>
+
+@code {
+    [Parameter] public long Id { get; set; }
+
+    private ProductContent? produto;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+        produto = await context.ProductContent
+            .AsNoTracking()
+            .FirstOrDefaultAsync(item => item.Id == Id);
+
+        if (produto == null)
+            Navigation.NavigateTo("/crud/produtoconteudo/1");
+    }
+
+    private async Task Excluir()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+        var registro = await context.ProductContent.FirstOrDefaultAsync(item => item.Id == Id);
+
+        if (registro == null)
+        {
+            Navigation.NavigateTo("/crud/produtoconteudo/1");
+            return;
+        }
+
+        context.ProductContent.Remove(registro);
+        await context.SaveChangesAsync();
+        Navigation.NavigateTo("/crud/produtoconteudo/1");
+    }
+
+    private void Voltar() => Navigation.NavigateTo("/crud/produtoconteudo/1");
+}

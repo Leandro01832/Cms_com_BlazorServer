@@ -3,13 +3,17 @@
     margin: 0;
 }
 
+
+
 .container
 {
+    
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
     height: 120px;
+    
 }
 
 
@@ -88,10 +92,12 @@
 }
 
 .stories {
+    
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
      width: 60%;
+     
 }
 
 #carouselIndicators {

@@ -1,0 +1,123 @@
+@page "/produtoconteudo/edit/{Id:long}"
+@page "/crud/produtoconteudo/edit/{Id:long}"
+@attribute [Authorize(Roles = "Admin")]
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<div class="container mt-4">
+    <h3>Editar Produto</h3>
+
+    @if (produto == null)
+    {
+        <p><em>Carregando...</em></p>
+    }
+    else
+    {
+
+         <Editor Id="contentextarea" Inline=false CloudChannel="5" Disable=false JsConfSrc="sample"
+        ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l" ClassName="tinymce-wrapper"
+        @bind-Value="produto.Html" />
+
+        <EditForm Model="@produto" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label">Título</label>
+                <InputText @bind-Value="produto.Titulo" class="form-control" />
+                <ValidationMessage For="@(() => produto.Titulo)" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Story</label>
+                <InputSelect @bind-Value="produto.StoryId" class="form-select">
+                    @foreach (var story in stories)
+                    {
+                        <option value="@story.Id">@story.Nome</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Livro</label>
+                <InputSelect @bind-Value="produto.LivroId" class="form-select">
+                    <option value="">Nenhum</option>
+                    @foreach (var livro in livros)
+                    {
+                        <option value="@livro.Id">@livro.url</option>
+                    }
+                </InputSelect> 
+            </div> 
+
+            <div class="mb-3">
+                <label class="form-label">URL do produto</label>
+                <InputText @bind-Value="produto.Afilado" class="form-control" />
+                <ValidationMessage For="@(() => produto.Afilado)" />
+            </div>
+
+           
+
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <button type="button" class="btn btn-secondary ms-2" @onclick="Voltar">Cancelar</button>
+        </EditForm>
+    }
+</div>
+
+@code {
+    [Parameter] public long Id { get; set; }
+
+    private ProductContent? produto;
+    private List<Story> stories = new();
+    private List<Livro> livros = new();
+
+    private  ApplicationDbContext? context;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        context = await DbFactory.CreateDbContextAsync();
+
+        produto = await context.ProductContent
+            .Include(item => item.Story)
+            .Include(item => item.Livro)
+            .FirstOrDefaultAsync(item => item.Id == Id);
+
+        stories = await context.Story.OrderBy(item => item.Nome).ToListAsync();
+        livros = await context.Livro.OrderBy(item => item.url).ToListAsync();
+
+        if (produto == null)
+        {
+            Navigation.NavigateTo("/crud/produtoconteudo/1");
+            return;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+        var registro = await context.ProductContent.FirstOrDefaultAsync(item => item.Id == Id);
+
+        if (registro == null)
+        {
+            Navigation.NavigateTo("/crud/produtoconteudo/1");
+            return;
+        }
+
+        registro.Titulo = produto!.Titulo;
+        registro.StoryId = produto.StoryId;
+        registro.LivroId = produto.LivroId;
+        registro.Afilado = produto.Afilado;
+        registro.Html = produto.Html;
+        registro.Data = produto.Data ?? DateTime.Now;
+
+        context.ProductContent.Update(registro);
+        await context.SaveChangesAsync();
+        Navigation.NavigateTo("/crud/produtoconteudo/1");
+    }
+
+    private void Voltar() => Navigation.NavigateTo("/crud/produtoconteudo/1");
+
+
+     
+
+
+}

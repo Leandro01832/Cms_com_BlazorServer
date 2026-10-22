@@ -1,4 +1,6 @@
-﻿namespace business.business.conteudo
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace business.business.conteudo
 {
     public class ProductContent : Pagina
     {
@@ -9,7 +11,11 @@
 
         public ProductContent(int count) : base(count)
         {
+            
         }
+
+        [Url]
+        public string Afilado { get; set; }
 
         public override string ToString()
         {

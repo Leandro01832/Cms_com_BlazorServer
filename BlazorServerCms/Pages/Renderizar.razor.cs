@@ -937,17 +937,29 @@ namespace BlazorCms.Client.Pages
 
         protected async void StartTour()
         {
-            automatico = false;
-            try
+            await InvokeAsync(async () =>
             {
-                await js!.InvokeAsync<object>("ExibirOpcoesTour");
-                await js!.InvokeAsync<object>("ExibirOpcoesTour");
-                await TourService.StartTour("FormGuidedTour");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+                try
+                {
+                    automatico = false;
+                    // Certifique-se de chamar apenas se o componente já renderizou no navegador
+                    await js!.InvokeAsync<object>("ExibirOpcoesTour");
+                    await js!.InvokeAsync<object>("ExibirOpcoesTour");
+                    await TourService.StartTour("FormGuidedTour");
+                }
+                catch (JSDisconnectedException ex)
+                {
+                    // O leitor/navegador foi fechado ou a conexão caiu
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    // A referência JavaScript foi descartada antes da conclusão
+                }
+                catch (Exception ex)
+                {
+                    // Tratamento para outras exceções de JS Interop
+                }           
+            });
         }
 
         protected async void ativarOption()

@@ -525,7 +525,7 @@ window.retornarTextArea = (textArea) =>
         }
     }
     
-    window.ExibirOpcoesTour = () => {
+window.ExibirOpcoesTour = () => {
     const el = document.querySelector('.dropdown-content');
     if (!el) return; // Evita erro se a div não existir na tela
 

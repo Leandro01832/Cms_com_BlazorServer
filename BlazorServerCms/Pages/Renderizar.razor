@@ -669,9 +669,16 @@ else if (!repositoryPagina.erro && Model != null)
 
                     @if (TipoClass == typeof(ProductContent) && Model.Produto.Count > 0)
                     {
+                        ProductContent m = (ProductContent)Model;
+
+                        if(m.Afilado == null)
+                        {
+                            @markup
+                           <Afiliado  LinkAfiliadoMercadoLivre="@m.Afilado" ></Afiliado>                       
+                        }
+                        else
                         @foreach (var item in Model.Produto)
                         {
-
                             <div class="row container produto">
                                 <div class="col-md-6 info">
                                     <p> Categoria: @item.Produto.Nome </p>
@@ -696,6 +703,8 @@ else if (!repositoryPagina.erro && Model != null)
 
                             </div>
                         }
+
+                        
 
                     }
                     else if(TipoClass == typeof(Streaming))

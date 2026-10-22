@@ -59,7 +59,7 @@
         </p>
     }
 
-    <p> 
+    @* <p> 
         <label>Story:</label>
         <select @bind="StoryId">
             @foreach (var item in lista!.Where(sub => sub.Nome != "Padrao"))
@@ -67,12 +67,12 @@
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
         </select>
-    </p>
+    </p> *@
 
     <p>
         <label>Portal:</label>
         <select @bind="exampleModel.PortalId">
-            @foreach (var item in Portal!.Where(sub => sub.StoryId == StoryId))
+            @foreach (var item in Portal)
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -87,7 +87,7 @@
    <p>
         <label>Filtro:</label>
         <select @bind="exampleModel.FiltroId">
-            @foreach (var item in SubFiltro!.Where(sub => sub.LivroId == exampleModel.LivroId))
+            @foreach (var item in SubFiltro!.Where(sub => sub.LivroId == exampleModel.LivroId && sub.PortalId == exampleModel.PortalId))
             {
                 <option value="@item.Id" id="option@(item.Id)">@item.Nome</option>
             }
@@ -123,7 +123,7 @@
 @code {
     private SubFiltro exampleModel = new();
 
-    long? StoryId = 0;
+    // long? StoryId = 0;
     long SubStoryId = 0;
 
      private List<Story> lista = new List<Story>();
@@ -182,5 +182,7 @@
        .First(u => u.UserName == username);
         primeiroLoop = true;
     }
+
+    
 }
 

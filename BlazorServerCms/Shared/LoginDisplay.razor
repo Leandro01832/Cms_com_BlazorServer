@@ -12,6 +12,7 @@
     protected override async Task OnInitializedAsync()
     {       
          @*
+         
         var resultado = await Context.SubFiltro
         .Include(f => f.Pagina)
         .Where(x => x.UltimaPasta) 

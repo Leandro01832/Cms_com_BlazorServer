@@ -1,6 +1,7 @@
 ﻿@page "/createcontent"
 @using Mscc.GenerativeAI
 @using Mscc.GenerativeAI.Types
+
 @inject NavigationManager navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IJSRuntime js
@@ -9,22 +10,19 @@
 
 <h3>Criar conteudo</h3>
 
-
+<Editor Id="contentextarea" Inline=false CloudChannel="5" Disable=false JsConfSrc="sample"
+        ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l" ClassName="tinymce-wrapper"
+        @bind-Value="exampleModel.Html" rows="20"   />
 
 <EditForm Model="@exampleModel" OnSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-     <div class="mb-3">
-            <label class="form-label">Url do youtube</label>
-                <input type="text" value="@exampleModel.Html" 
-                @onchange="OnHtmlChanged" 
-                class="form-control" />
-        </div>
+   
 
     <p>
         <label>Story:</label>
-        <select @bind="exampleModel.StoryId">
+        <select  @bind="@exampleModel.StoryId" >
 
             @if (lista2 != null)
                 @foreach (var item in lista2)
@@ -101,43 +99,42 @@
 
     private async Task OnHtmlChanged(ChangeEventArgs e)
     {
-        exampleModel.Html = e.Value?.ToString();
-        var url = ExtrairUrlIframe(exampleModel.Html);
+        exampleModel.StoryId = long.Parse(e.Value?.ToString());
         var titulo = ExtrairTitleIframe(exampleModel.Html);
         exampleModel.Titulo = titulo ?? exampleModel.Titulo;
 
         var prompt = $@"Você é um sistema inteligente de classificação de conteudo (CMS).
-            Sua tarefa é analisar cada url e indicar qual o capítulo correspondente.
+            Sua tarefa é analisar cada HTML e através do src da tag iframe indicar qual o capítulo correspondente.
             - Capítulo 1: Story Natureza (Inclui meio ambiente, cosmos, astronomia, animais, plantas, ciências naturais).
-            - Capítulo 2: Story Moda e Estilo (Inclui moda, beleza, estilo de vida, tendências).
-            - Capítulo 3: Story Veiculos e Transporte (Inclui carros, motos, bicicletas, transporte público).
+            - capítulo 2: Story Agronegócio e Agricultura (Inclui agricultura, agronegócio, produção rural, agroindústria).
+            - Capítulo 3: Story Moda e Estilo (Inclui moda, beleza, estilo de vida, tendências).
             - Capítulo 4: Story Materiais e Construção (Inclui construção civil, materiais de construção, arquitetura).
             - capítulo 5: Story Casa e Decoração (Inclui decoração, design de interiores, móveis, jardinagem, eletronicos, eletrodómesticos).
             - capitulo 6: Story Imóveis e Imobiliária (Inclui imóveis, mercado imobiliário, arquitetura residencial).
             - capítulo 7: Story Alimentos e Bebidas (Inclui culinária, gastronomia, bebidas, receitas).
             - capítulo 8: Story entretenimento e Cultura (Inclui filmes, música, teatro, literatura, Viagens, Turismo, Esportes).
-            - capítulo 9: Story Cosméticos, Beleza e Cuidados Pessoais (Inclui cosméticos, cuidados com a pele, cabelo, maquiagem, perfumaria).
-            - capítulo 10: Story Tecnologia e Inovação (Inclui tecnologia, gadgets, inovação, ciência aplicada).
-            - capítulo 11: Story Info-produtos e Marketing Digital (Inclui marketing digital, infoprodutos, e-commerce, estratégias online).
+            - Capítulo 9: Story Veiculos e Transporte (Inclui carros, motos, bicicletas, transporte público).
+            - capítulo 10: Story Cosméticos, Beleza e Cuidados Pessoais (Inclui cosméticos, cuidados com a pele, cabelo, maquiagem, perfumaria).
+            - capítulo 11: Story Empresas e Negócios (Inclui negócios, empreendedorismo, gestão, finanças).
             - capítulo 12: Story Saúde e Bem-estar (Inclui saúde, fitness, bem-estar, medicina).
             - capítulo 13: Story Colecionáveis e Hobbies (Inclui hobbies, colecionáveis, atividades recreativas).
             - capítulo 14: Story Artes e Artesanato (Inclui artes, artesanato, trabalhos manuais, DIY).
             - capítulo 15: Story Estudos e materiais educativos (Inclui educação, estudos, materiais didáticos).
-            - capítulo 16: Story Segurança e Proteção (Inclui segurança, proteção, vigilância, prevenção).
-            - capítulo 17: Story Blog e Vlog (Inclui blogs, vlogs, conteúdo online, influenciadores).
-            - capítulo 18: Story Empresas e Negócios (Inclui negócios, empreendedorismo, gestão, finanças).
+            - capítulo 16: Story projetos e Engenharia (Inclui engenharia, projetos, construção, inovação tecnológica).
+            - capítulo 17: Story Serviços e Profissões (Inclui serviços, profissões, carreiras, mercado de trabalho).
+            - capítulo 18: Story Info-produtos e Marketing Digital (Inclui marketing digital, infoprodutos, e-commerce, estratégias online).
             - capítulo 19: Story Notícias e Atualidades (Inclui notícias, atualidades, jornalismo, mídia).
-            - capítulo 20: Story Agronegócio e Agricultura (Inclui agricultura, agronegócio, produção rural, agroindústria).
-            - capítulo 21: Story projetos e Engenharia (Inclui engenharia, projetos, construção, inovação tecnológica).
-            - capítulo 22: Story Serviços e Profissões (Inclui serviços, profissões, carreiras, mercado de trabalho).
+            - capítulo 20: Story Tecnologia e Inovação (Inclui tecnologia, gadgets, inovação, ciência aplicada).
+            - capítulo 21: Story Segurança e Proteção (Inclui segurança, proteção, vigilância, prevenção).
+           
             Regras Estritas de Resposta:
-            1. Analise a url e determine qual o capitulo.
+            1. Analise o código HTML e determine qual o capitulo.
             2. Responda APENAS com os capitulos exatos encontrados na lista acima.
             3. Se houver mais de um capitulo correspondente, separe-os estritamente por uma vírgula e um espaço (exemplo: capítulo 1, capítulo 2).
 
             4. Não adicione saudações, explicações, aspas, introduções ou pontuação.
 
-            A url do vídeo é: {url}
+            O código HTML é: {exampleModel.Html}
 
             ";
 
@@ -165,6 +162,7 @@
         if (!string.IsNullOrEmpty(exampleModel.Html))
         {
             exampleModel.StoryId = lista2.First(s => s.Capitulo == long.Parse(arr[0])).Id;
+            StateHasChanged();
         }
         }
         catch (Exception ex)

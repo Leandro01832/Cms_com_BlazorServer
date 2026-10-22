@@ -13,18 +13,40 @@ else if (camadas.Length == 0)
 {
     <p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
         <p><a onclick="@escolher">Escolher</a></p>
+            <div >
+				<label class="form-label" for="story">Portal</label>
+				<InputSelect id="story" @bind-Value="PortalId"  @onchange="selecionarPortal" > 
+					<option value="0">Selecione um portal...</option>
+					@foreach (var portal in portais)
+					{
+						<option value="@portal.Id">@portal.Nome</option>
+					}
+				</InputSelect>
+			</div>
 <p><em>Não existem camadas cadastradas...</em></p>
 }
 else
 {
 <p><input type="text" placeholder="Digite o Usuario" @bind="username" /></p>
-        <p><a onclick="@escolher">Escolher</a></p>
+        <p><a onclick="@escolher">Escolher</a></p> 
+        <div >
+				<label class="form-label" for="story">Portal</label>
+				<InputSelect id="story" @bind-Value="PortalId"  @onchange="selecionarPortal" > 
+					<option value="0">Selecione um portal...</option>
+					@foreach (var portal in portais)
+					{
+						<option value="@portal.Id">@portal.Nome</option>
+					}
+				</InputSelect>
+			</div>
+
    
 
 <table class="table">
     <thead>
         <tr>
             <th>Nome</th>
+            <th>Camada</th>
             <th>Editar</th>
         </tr>
     </thead>
@@ -33,6 +55,14 @@ else
         {
             <tr>
                 <td>@camada.Nome</td>
+
+                <td>
+                    @if (camada.Camada != null)
+                    {
+                        <span>@camada.Camada.Numero</span>
+                            
+                    }
+                    </td>
                 <td><a class="btn btn-primary" href="SubFiltro/edit/@camada.Id">Editar</a> </td>
             </tr>
         }
@@ -53,8 +83,11 @@ else
     private DemoContextFactory db = new DemoContextFactory();
     private ApplicationDbContext Context;
 
+    private List<Portal> portais = new List<Portal>();
+
     private string? nome = "";
     private long? LivroId = null;
+    private long? PortalId = null;
 
     private string? username;
 
@@ -67,15 +100,18 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Context = db.CreateDbContext(null);
-        await CarregaCamadas(pagina);
+        Context = db.CreateDbContext(null);        
+        portais = await Context.Portal!.ToListAsync();
     }
 
     async Task CarregaCamadas(int pag)
     {
         camadas = await Context.SubFiltro!
+        .Include(s => s.Camada)
         .OrderBy(p => p.Id)
-         .Where(f => f.LivroId == LivroId && !f.UltimaPasta)
+         .Where(f => f.LivroId == LivroId &&
+          !f.UltimaPasta &&
+          f.PortalId == PortalId)
                .Skip((pag - 1) * 7)
                .Take(7)
         .ToArrayAsync();
@@ -89,7 +125,7 @@ else
             navigation.NavigateTo($"/crud/SubFiltro/1");
     }
 
-    
+
 
     private async void escolher()
     {
@@ -98,8 +134,15 @@ else
        .ThenInclude(u => u.Livro)
        .First(u => u.UserName == username);
         LivroId = usuario.Assinatura.First().Livro!.Id;
-       await CarregaCamadas(pagina);
+        await CarregaCamadas(pagina);
         StateHasChanged();
     }
 
+    private async void selecionarPortal(ChangeEventArgs e)
+    {
+        PortalId = long.Parse(e.Value!.ToString()!);
+        await CarregaCamadas(pagina);
+        StateHasChanged();
+
+    }
 }

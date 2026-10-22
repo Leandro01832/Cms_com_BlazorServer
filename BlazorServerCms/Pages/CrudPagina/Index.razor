@@ -5,6 +5,8 @@
 @inject UserManager<UserModel> userManager
 @inject IJSRuntime? js
 
+@inject RepositoryPagina repositoryPagina
+
 @inject NavigationManager navigation
 
 
@@ -40,15 +42,33 @@ else
                     <option value="@story.Id">@story.Nome</option>
                 }
             </select>
+
+    <label>Portal:</label>
+    <select @onchange="selecionarPortal">
+                <option value="0">Selecione o Portal...</option>
+                @foreach (var p in portais)
+                {
+                    <option value="@p.Id">@p.Nome</option>
+                }
+    </select>
     <input type="number" onchange="@acessarPagina" min="1" />
 
     </div>
-    <div class="legenda-Animais" style="background-color: rgb(149, 148, 148);">
-        <span class="badge bg-info">Maíferos</span>
-        <span class="badge" style="background-color: lightpink;">Aves</span>
-        <span class="badge" style="background-color: rgb(227, 247, 4);">Peixes</span>
-        <span class="badge" style="background-color: rgb(2, 242, 54);">Anfíbios</span>
-        <span class="badge" style="background-color: rgb(217, 152, 247);">Répteis</span>
+    <div class="legenda-portal" style="background-color: rgb(149, 148, 148);">
+        <span>legenda</span>
+
+        @if(FilterStyles != null)
+        @foreach (var estilo in FilterStyles)
+        {
+            var filtro = lista.FirstOrDefault(f => f.Id == estilo.FiltroId);
+            if (filtro != null)
+            {
+                <span style="@estilo.Style">
+                    @filtro.Nome
+                </span>
+            }
+        }
+        
     </div>
     <table class="table">
         <thead>
@@ -85,63 +105,61 @@ else
                         <a class="btn btn-primary" href="pagina/edit/@pagina.Id">Editar</a>
                         <a class="btn btn-danger" href="pagina/delete/@pagina.Id">Deletar</a>
                         @if(!marcado)
-                        {
-                            if(UserContent)
-                            {
-                                <button class="btn btn-secondary" @onclick="() => mudarEstado(pagina.Id)">
-                                Mudar estado para pagina (item)
-                                </button> 
-                            }
-                            
+                        {                           
                                 <select class="form-select" @onchange="e => adicionarFiltro(e, pagina)">
                                     <option value="">Adicionar filtro</option>
                                     @foreach(var grupo in grupos)
                                     {
                                         var grup = lista
-                                        .FirstOrDefault(g => g.Id == grupo.FiltroId);
+                                        .FirstOrDefault(g => g.Id == grupo.Id);
+                                        var med = grup.Camada.Numero / 2;
+                                        if(med == 1) med = 2;
                                         if(grup != null)
-                                        while (grup.CamadaId > 4)                                        
+                                        while (grup.Camada.Numero > med)                                        
                                             grup = lista
                                             .FirstOrDefault(g => g.Id == grup.FiltroId);
-                                        
-                                        if(grup != null && grupo.CamadaId > 4)
-                                        if(grup.Nome == "Maíferos")
-                                        {
-                                            <option value="@grupo.Id" style="background-color: aqua;" >Grupo1: @grupo.Nome
-                                            </option> 
 
-                                        }
-                                        else if(grup.Nome == "Aves")
-                                        {
-                                            <option value="@grupo.Id" style="background-color: lightpink;" >Grupo2: @grupo.Nome</option>
+                                            var l = lista.Where(g => g.Camada.Numero == grup.Camada.Numero &&
+                                             g.PortalId == grup.PortalId).ToList();
 
-                                        }
-                                        else if(grup.Nome == "Peixes")
-                                        {
-                                            <option value="@grupo.Id" style="background-color: rgb(227, 247, 4);" >Grupo3: @grupo.Nome</option>
+                                            var quant = l.Count;                                             
 
-                                        }
-                                        else if(grup.Nome == "Anfíbios")
-                                        {
-                                            <option value="@grupo.Id" style="background-color: rgb(2, 242, 54);" >Grupo4: @grupo.Nome</option>
+                                            if(FilterStyles.Count == 0)
+                                             for (int i = 0; i < quant; i++)
+                                             {
+                                                int r = repositoryPagina.random.Next(256);
+                                                int g = repositoryPagina.random.Next(256);
+                                                int b = repositoryPagina.random.Next(256);
 
-                                        }
-                                        else if(grup.Nome == "Répteis")
-                                        {
-                                            <option value="@grupo.Id" style="background-color: rgb(217, 152, 247);" >Grupo5: @grupo.Nome</option>
+                                                // Monta a string no formato CSS
+                                                string estiloCss = $"background-color: rgb({r}, {g}, {b});";
 
-                                        }
-                                        else
-                                        {
-                                            <option value="@grupo.Id">Grupo6: @grupo.Nome</option>
+                                                var css = estiloCss;
+                                                FilterStyles.Add(new FilterStyle
+                                                {
+                                                    FiltroId = l[i].Id,
+                                                    Style = css
+                                                });
+                                             }
+                                             
 
-                                        }
+                                        if(grup != null && grupo.Camada.Numero > med &&
+                                        FilterStyles.Count > 0)
+                                            foreach (var filterStyle in FilterStyles)
+                                            {
+                                                
+                                                if (filterStyle.FiltroId == grup.Id)
+                                                {
+                                                    <option value="@grupo.Id" style="@filterStyle.Style" >
+                                                         @grupo.Nome
+                                                    </option> 
+                                                }
+                                            }                                    
                                         
 
                                     }
+                               
                                 </select>
-
-
                         }
                    
                     </td>
@@ -173,11 +191,18 @@ else
     private bool UserContent = true;
 
     private Type typeSelecionado = null;
-
+    
     List<SubFiltro> grupos = new List<SubFiltro>();
     List<SubFiltro> lista = new List<SubFiltro>();
+    List<Portal> portais = new List<Portal>();
+
+    private List<FilterStyle>? FilterStyles = new List<FilterStyle>();
+    
 
         private List<Type> tipos = null;
+
+        private long? storyId = 2;
+        private long? portalId = 0;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -195,43 +220,40 @@ else
         usuario = authState.User;
 
         var u = await userManager.GetUserAsync(usuario);
-        user = await Context.Users.Include(u => u.Livro).ThenInclude(u => u.Livro)
+        user = await Context.Users
+        .Include(u => u.Livro)
+        .ThenInclude(u => u.Livro)
         .FirstAsync(us => us.Id == u.Id);
 
          camadas = await Context.Content!
                .Include(p => p.Filtro)!
                .ThenInclude(f => f.Filtro)
+               .ThenInclude(f => f.Portal)
                 .OrderBy(p => p.Data)
         .ToArrayAsync();
 
         lista = await Context.SubFiltro
+        .Include(sf => sf.Camada)
         .Include(sf => sf.Portal)
-        .Where(pai => pai.Portal.StoryId == 2 && pai.LivroId == 1)
+        .Where(pai => pai.Portal.StoryId == storyId && pai.LivroId == 1)
         .ToListAsync();
 
         listaStories = await Context.Story.Skip(1).ToListAsync();
 
-        var gruposFinais = await Context.SubFiltro
-    .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id))
-    .ToListAsync();
+        portais = await Context.Portal
+        .Include(p => p.Filtro)
+        .ToListAsync();
 
-        foreach (var grupo in gruposFinais)
-        {
-            var subFiltro = await Context.SubFiltro
-                .FirstOrDefaultAsync(sf => sf.Id == grupo.FiltroId);
-
-            if (subFiltro != null)
-            {
-                grupos.Add(subFiltro);
-            }
-        }
+        
 
         // 1. Pega o "Assembly" (o seu programa/projeto executável)
             var assembly = typeof(Content).Assembly;
 
             // 2. Filtra todos os tipos que são subclasses de Animal
             tipos = assembly.GetTypes()
-               .Where(t => t.IsSubclassOf(typeof(Content)) && !t.IsAbstract).ToList();
+               .Where(t => t.IsSubclassOf(typeof(Content)) &&
+               t.Namespace == "business.business.conteudo" &&
+                !t.IsAbstract).ToList();
 
                 Type itemParaMover = typeof(Pagina);
                 Type itemParaMover2 = typeof(Chave);
@@ -262,45 +284,7 @@ else
                 .ToList());
     }
 
-    private async void mudarEstado(long Id)
-    {
-        var pagina = await Context.Pagina.FirstAsync(p => p.Id == Id);
-
-        if(pagina is Pagina)
-        {
-            var userContent = new UserContent
-            {
-                Id = pagina.Id,
-                Data = pagina.Data,
-                Html = pagina.Html,
-                LivroId = pagina.LivroId,
-                StoryId = pagina.StoryId
-            };
-
-            Context.Remove(pagina);
-            Context.Add(userContent);
-            await Context.SaveChangesAsync();
-            await js!.InvokeAsync<object>("DarAlert", $"Estado alterado com sucesso!!");
-            navigation.NavigateTo($"/crud/pagina/1");
-        }
-        else
-        {
-            var pagin = new Pagina
-            {
-                Id = pagina.Id,
-                Data = pagina.Data,
-                Html = pagina.Html,
-                LivroId = pagina.LivroId,
-                StoryId = pagina.StoryId
-            };
-
-            Context.Remove(pagina);
-            Context.Add(pagin);
-            await Context.SaveChangesAsync();
-            await js!.InvokeAsync<object>("DarAlert", $"Estado alterado com sucesso!!");
-            navigation.NavigateTo($"/crud/pagina/1");
-        }
-    }
+   
 
     private async void adicionarFiltro(ChangeEventArgs e, Content pagina)
     {
@@ -327,6 +311,9 @@ else
                     filtro = await Context.SubFiltro
                     .FirstOrDefaultAsync(f => f.Id == filtro.FiltroId);
                 }
+                filtro = await Context.SubFiltro
+                .FirstOrDefaultAsync(f => f.Id == filtroId);
+                await AtualizarSequenciaVersiculosAsync(filtro.PortalId);
             }
                 await js!.InvokeAsync<object>("DarAlert",
                      $"Filtro adicionado com sucesso!!");
@@ -334,29 +321,29 @@ else
         }
     }
 
-    private async Task marcar(ChangeEventArgs e)
+            private async Task marcar(ChangeEventArgs e)
     {
         marcado = (bool)e.Value;
         paginas.Clear();
         if ((bool)e.Value)
         {
             paginas.AddRange(camadas
-               .Where(p => p.Filtro.Count > 0)
-              
+               .Where(p => p.Filtro.Count > 0 )              
                  .ToList());
+
                   navigation.NavigateTo($"/crud/pagina/1"); 
         }
         else
         {
             paginas.AddRange(camadas
-               .Where(p => p.Filtro.Count == 0)
-               
+               .Where(p => p.Filtro.Count == 0)               
                  .ToList());
+
                   navigation.NavigateTo($"/crud/pagina/1"); 
         }
     }
 
-    private async Task selecionar(ChangeEventArgs e)
+            private async Task selecionar(ChangeEventArgs e)
     {
         if (!string.IsNullOrEmpty(e.Value!.ToString()))
         {
@@ -385,41 +372,72 @@ else
         }
     }   
 
-    private async Task selecionarCapitulo(ChangeEventArgs e)
-    {
-        if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
-        {
-            var storyId = long.Parse(e.Value.ToString());
-            paginas.Clear();
-            if(marcado)
+            private async Task selecionarCapitulo(ChangeEventArgs e)
             {
-                paginas.AddRange(camadas
-                .Where(p => p.StoryId == storyId &&
-                p.Filtro.Count > 0 &&
-                p.GetType().Name == 
-                Activator.CreateInstance(typeSelecionado).GetType().Name)
-                .OrderBy(p => p.Data)                 
-                .ToList());
-                navigation.NavigateTo($"/crud/pagina/1"); 
+                if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
+                {
+                    storyId = long.Parse(e.Value.ToString());
+                    paginas.Clear();
+                    if(marcado)
+                    {
+                        paginas.AddRange(camadas
+                        .Where(p => p.StoryId == storyId &&
+                        p.Filtro.Count > 0 &&
+                        p.GetType().Name == 
+                        Activator.CreateInstance(typeSelecionado).GetType().Name)
+                        .OrderBy(p => p.Data)                 
+                        .ToList());
+                        navigation.NavigateTo($"/crud/pagina/1"); 
+                    }
+                    else
+                    {
+                        paginas.AddRange(camadas
+                        .Where(p => p.StoryId == storyId &&
+                        p.Filtro.Count == 0 &&
+                        p.GetType().Name == 
+                        Activator.CreateInstance(typeSelecionado).GetType().Name)
+                        .OrderBy(p => p.Data)                 
+                        .ToList());
+                        navigation.NavigateTo($"/crud/pagina/1"); 
+                    }
+                }
+                else
+                {
+                    paginas = camadas.Take(10).ToList();
+                    navigation.NavigateTo($"/crud/pagina/1"); 
+                }
             }
-            else
-            {
-                 paginas.AddRange(camadas
-                .Where(p => p.StoryId == storyId &&
-                p.Filtro.Count == 0 &&
-                p.GetType().Name == 
-                Activator.CreateInstance(typeSelecionado).GetType().Name)
-                .OrderBy(p => p.Data)                 
-                .ToList());
-                navigation.NavigateTo($"/crud/pagina/1"); 
-            }
-        }
-        else
+   
+        private async Task selecionarPortal(ChangeEventArgs e)
         {
-            paginas = camadas.Take(10).ToList();
-            navigation.NavigateTo($"/crud/pagina/1"); 
+                grupos.Clear();
+                if(FilterStyles != null)
+                FilterStyles.Clear();
+                if (!string.IsNullOrEmpty(e.Value!.ToString()) && e.Value!.ToString() != "0")
+                {
+                    portalId = long.Parse(e.Value.ToString());
+                    var gruposFinais = await Context.SubFiltro
+                    .Where(pai => !Context.SubFiltro.Any(filho => filho.FiltroId == pai.Id)
+                     && pai.PortalId == portalId && pai.LivroId == 1)
+                    .ToListAsync();
+                    
+
+                    foreach (var grupo in gruposFinais)
+                    {
+                        var subFiltro = await Context.SubFiltro
+                        .Include(sf => sf.Camada)
+                            .FirstOrDefaultAsync(sf => sf.Id == grupo.FiltroId);
+
+                        if (subFiltro != null)
+                        {
+                            grupos.Add(subFiltro);
+                        }
+                    }
+                    StateHasChanged();
+                    
+                }
+       
         }
-    }
 
     private void acessarPagina(ChangeEventArgs e)
     {
@@ -469,4 +487,40 @@ else
         else return false;
     }
 
+    public async Task AtualizarSequenciaVersiculosAsync(long portalId)
+    {
+        string sql = $@"
+        WITH ConteudosValidos AS (
+        SELECT DISTINCT
+        c.id AS content_id,
+        MIN(f.CamadaId) AS menor_camada_id,
+        MIN(f.FiltroId) AS menor_filtro_id
+        FROM Filtro f
+        INNER JOIN Content c ON c.id = f.CriterioId
+        INNER JOIN FiltroContent fc ON fc.FiltroId = f.Id
+        INNER JOIN Filtro f ON f.Id = f.Id
+        WHERE c.Versiculo IS NOT NULL and f.PortalId={portalId}
+        GROUP BY c.id
+        ),
+        SequenciaPerfeita AS (
+            SELECT
+                content_id,
+                ROW_NUMBER() OVER (ORDER BY menor_filtro_id ASC) AS novo_versiculo
+            FROM ConteudosValidos
+        )
+        UPDATE c
+        SET c.Versiculo = s.novo_versiculo
+        FROM Content c
+        INNER JOIN SequenciaPerfeita s ON c.id = s.content_id;";
+     // Executa o comando diretamente no banco através do DbContext
+        await Context.Database.ExecuteSqlRawAsync(sql);
+    }
+
+
+
+    public class FilterStyle
+    {
+        public long FiltroId { get; set; }
+        public string Style { get; set; }
+    }
 }

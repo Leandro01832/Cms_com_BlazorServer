@@ -1,0 +1,83 @@
+@page "/produtoconteudo/create"
+@page "/crud/produtoconteudo/create"
+@attribute [Authorize(Roles = "Admin")]
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+
+<div class="container mt-4">
+    <h3>Novo Produto</h3>
+
+    <Editor Id="contentextarea" Inline=false CloudChannel="5" Disable=false JsConfSrc="sample"
+        ApiKey="px1gj9e5oqsz4iq09k64xo0soennnq76rueii3yapaqt671l" ClassName="tinymce-wrapper"
+        @bind-Value="produto.Html" />
+
+    <EditForm Model="@produto" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Título</label>
+            <InputText @bind-Value="produto.Titulo" class="form-control" />
+            <ValidationMessage For="@(() => produto.Titulo)" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Story</label>
+            <InputSelect @bind-Value="produto.StoryId" class="form-select">
+                <option value="0">Selecione...</option>
+                @foreach (var story in stories)
+                {
+                    <option value="@story.Id">@story.Nome</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Livro</label>
+            <InputSelect @bind-Value="produto.LivroId" class="form-select">
+                <option value="">Nenhum</option>
+                @foreach (var livro in livros)
+                {
+                    <option value="@livro.Id">@livro.url</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">URL do produto</label>
+            <InputText @bind-Value="produto.Afilado" class="form-control" />
+            <ValidationMessage For="@(() => produto.Afilado)" />
+        </div>
+
+        
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary ms-2" @onclick="Voltar">Cancelar</button>
+    </EditForm>
+</div>
+
+@code {
+    private ProductContent produto = new();
+    private List<Story> stories = new();
+    private List<Livro> livros = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+        stories = await context.Story.OrderBy(item => item.Nome).ToListAsync();
+        livros = await context.Livro.OrderBy(item => item.url).ToListAsync();
+
+        if (stories.Count > 0 && produto.StoryId == 0)
+            produto.StoryId = stories.First().Id;
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await using var context = await DbFactory.CreateDbContextAsync();
+        context.ProductContent.Add(produto);
+        await context.SaveChangesAsync();
+        Navigation.NavigateTo("/crud/produtoconteudo/1");
+    }
+
+    private void Voltar() => Navigation.NavigateTo("/crud/produtoconteudo/1");
+}

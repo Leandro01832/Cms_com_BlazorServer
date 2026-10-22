@@ -3,6 +3,8 @@
     margin: 0;
 }
 
+
+
 .circuloNewStory {
     width: 165px;
     height: 165px;
@@ -88,6 +90,7 @@
     justify-content: flex-start;
    gap: 10px;
     margin-bottom: 30px;
+    margin-left: 60px;
 }
 
 .item {
@@ -176,6 +179,7 @@
 
 .listas {
     margin-top: 20px;
+    margin-left: 40%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
