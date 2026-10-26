@@ -12,11 +12,8 @@ namespace BlazorServerCms.Data
 {
     public class ApplicationDbContext : IdentityDbContext<UserModel>
     {
-        public static string _connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=cms;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;Application Name=vscode-mssql;Command Timeout=0";
-    
-        
-
-        
+       public static string _connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=cms;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;Application Name=vscode-mssql;Command Timeout=0";
+            
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,6 +27,7 @@ namespace BlazorServerCms.Data
         }
 
        
+        public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<Nicho> Nicho { get; set; }
         public DbSet<UserFollow> UserFollow { get; set; }
         public DbSet<Comment> Comment { get; set; }

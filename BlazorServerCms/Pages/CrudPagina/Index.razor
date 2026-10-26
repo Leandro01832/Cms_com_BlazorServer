@@ -110,6 +110,8 @@ else
                                     <option value="">Adicionar filtro</option>
                                     @foreach(var grupo in grupos)
                                     {
+                                        var grupoPai = lista
+                                        .FirstOrDefault(g => g.Id == grupo.FiltroId);
                                         var grup = lista
                                         .FirstOrDefault(g => g.Id == grupo.Id);
                                         var med = grup.Camada.Numero / 2;
@@ -151,7 +153,7 @@ else
                                                 if (filterStyle.FiltroId == grup.Id)
                                                 {
                                                     <option value="@grupo.Id" style="@filterStyle.Style" >
-                                                         @grupo.Nome
+                                                         @grupo.Nome - @grupoPai.Nome
                                                     </option> 
                                                 }
                                             }                                    
@@ -498,7 +500,6 @@ else
         FROM Filtro f
         INNER JOIN Content c ON c.id = f.CriterioId
         INNER JOIN FiltroContent fc ON fc.FiltroId = f.Id
-        INNER JOIN Filtro f ON f.Id = f.Id
         WHERE c.Versiculo IS NOT NULL and f.PortalId={portalId}
         GROUP BY c.id
         ),

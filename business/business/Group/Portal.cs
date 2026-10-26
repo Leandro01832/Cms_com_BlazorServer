@@ -30,5 +30,6 @@ namespace business.business.Group
         public Int64 StoryId { get; set; }
         public virtual Story? Story { get; set; }
         public virtual List<Filtro>? Filtro { get; set; }
+        public virtual List<UserProfile>? UserProfile { get; set; }
     }
 }

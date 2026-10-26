@@ -27,6 +27,7 @@ namespace business.business.sistema
         public int Recorde { get; set; }
 
 
+        public virtual List<UserProfile> UserProfile { get; set; }
         public virtual List<Assinatura> Assinatura { get; set; }
         public virtual List<Anotacao> Anotacao { get; set; }
         public virtual List<Hashtag> Hashtag { get; set; }
