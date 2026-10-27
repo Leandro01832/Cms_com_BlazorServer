@@ -215,9 +215,9 @@
                         <span dir="auto">
                             <div aria-disabled="false" role="button" tabindex="0" style="display: inline; cursor: pointer;">
                                 <span dir="auto">
-                                    <a href="/portal/@(portais.IndexOf(portal) + 1)">
+                                    <a href="#" onclick="@(() => SelecionarPortal(true) )" >
                                         <span dir="auto">
-                                            <strong>Portal</strong>
+                                            <strong>@porta.Nome</strong>
                                         </span>
                                     </a>
                                 </span>
@@ -438,7 +438,7 @@
     List<UserModel>? seguidores = new List<UserModel>();
     List<UserModel>? seguindo = new List<UserModel>();
 
-     private Portal portal = null;
+    private Portal porta = null;
 
     private ClaimsPrincipal usuario;
     private UserModel usermodel;
@@ -577,6 +577,7 @@
         .ToListAsync();
 
         usermodel = await Context.Users!
+        .Include(u => u.UserProfile)!
         .Include(u => u.Hashtag)!
         .ThenInclude(u => u.HashtagContent)!
         .Include(u => u.Relogio)!
@@ -621,9 +622,7 @@
         .ToList();
         relogios = relogios.OrderBy(r => r.SubFiltro.Portal!.Story!.Capitulo).ToList();
 
-        portal = await Context.Portal!
-        .Include(p => p.Story) 
-        .FirstOrDefaultAsync(p => p.Id == relogios.First().SubFiltro.PortalId);
+        SelecionarPortal(false);
 
         Pensamento = "( " ;
         foreach(var r in relogios)
@@ -777,7 +776,7 @@
 
         if (livro != null)
         {       
-            
+
             string prompted = await js.InvokeAsync<string>("prompt",
                  "Informe os versiculos para marcar.");
             var filtros = await Context.SubFiltro!
@@ -837,8 +836,8 @@
 
                         if(fil != null && contentRel != null)                        
                             url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{item}/{itemConteudo}/{user}";
-                            
-                        
+
+
                         if(url != null)
                             await js!.InvokeAsync<object>("AcessarSites", $"{url}");
                         url = null;
@@ -848,7 +847,7 @@
             }
             else
             {
-                
+
                 if (!string.IsNullOrEmpty(prompted))
                 {
                     prompted = prompted.Replace(" ", "");
@@ -875,7 +874,7 @@
                             }
                         }
                         else
-                        versiculo = int.Parse(prompted);
+                            versiculo = int.Parse(prompted);
                     }
                     catch (Exception ex)
                     {
@@ -903,13 +902,13 @@
                         .OrderBy(p => p.ContentId).ToList().IndexOf(teste) + 1;  
                     }
                 }
-                
+
                 if( contentRel != null)
                 {
                     if(!semCriterio)
-                    url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";    
+                        url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";    
                     else               
-                    url = $"/renderizar/{contentRel!.GetType().Name.ToLower() + rel.SubFiltroId}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/0/{user}";    
+                        url = $"/renderizar/{contentRel!.GetType().Name.ToLower() + rel.SubFiltroId}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/0/{user}";    
                 }
                 else
                 {
@@ -923,7 +922,7 @@
                         Console.WriteLine(ex.Message);
                     }
                 }                   
-                
+
                 if(url != null)
                     await js!.InvokeAsync<object>("AcessarSites", $"{url}");
             }
@@ -941,8 +940,8 @@
         return p.Versiculo;
     }
 
-    
-     private string retornarVersoComCriterio(SubFiltro c)
+
+    private string retornarVersoComCriterio(SubFiltro c)
     {
         string capitulo = "";
         if(cap != c.Portal!.Story!.Capitulo)
@@ -964,9 +963,9 @@
                 .FirstOrDefault(s => s.FiltroId == c.Id);
 
                 if(interacao >= 2)
-                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!) + "\n";
+                    return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!) + "\n";
                 else
-                return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!);
+                    return capitulo + nome + " - " + retornarVerso(f.Criterio.Content!);
 
             }
             try
@@ -977,10 +976,10 @@
                 else if(c.Criterio == null)
                 {
                     somenteUmSemCriterio++;
-                   var  fil = Context.SubFiltro
-                .Include(s => s.Criterio)
-                .ThenInclude(s => s.Content)
-                .FirstOrDefault(s => s.Id == c.ComCriterio);
+                    var  fil = Context.SubFiltro
+                 .Include(s => s.Criterio)
+                 .ThenInclude(s => s.Content)
+                 .FirstOrDefault(s => s.Id == c.ComCriterio);
                     f = Context.SubFiltro
                     .Include(s => s.Criterio)
                     .ThenInclude(s => s.Content)
@@ -988,14 +987,14 @@
                     if(somenteUmSemCriterio == 1)
                     {
                         if(interacao >= 2)
-                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!) + "\n";
+                            return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!) + "\n";
                         else
-                        return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!);
+                            return capitulo + nome + " /s - " + retornarVerso(f.Criterio.Content!);
                     }
                     else if(interacao >= 2)
-                    return "\n";
+                        return "\n";
                     else
-                    return "";
+                        return "";
 
                 }
             }
@@ -1017,25 +1016,25 @@
             }
             var retorno = retornarVerso(f.Criterio.Content!);
             if(interacao >= 2)
-            return capitulo + nome + $" - " + retornarVerso(f.Criterio.Content!) + "\n";
+                return capitulo + nome + $" - " + retornarVerso(f.Criterio.Content!) + "\n";
             else
-            return capitulo + nome + $" - " + retornarVerso(f.Criterio.Content!);
+                return capitulo + nome + $" - " + retornarVerso(f.Criterio.Content!);
         }
-    
+
         interacao++;
         if(interacao >= 2)
-        interacao = 0;
-        
+            interacao = 0;
+
 
     }
-    
-     private int retornarPosicaoVerso(Filtro filtro, int versiculo)
+
+    private int retornarPosicaoVerso(Filtro filtro, int versiculo)
     {
         var fil = Context.Filtro!
             .Include(f => f.Pagina)!
             .ThenInclude(p => p.Content)
             .FirstOrDefault(f => f.Id == filtro.Id);
-         
+
         FiltroContent? pagina = fil!.Pagina!.FirstOrDefault(p => p.Content is Pagina && ((Pagina)p.Content!).Versiculo == versiculo);
         if (pagina != null)
         {
@@ -1105,20 +1104,20 @@
 
     private async Task MostrarSeguidores()
     {
-         showModal2 = true;
+        showModal2 = true;
     }
-    
+
     private async Task MostrarSeguindo()
     {
-         showModal3 = true;
+        showModal3 = true;
     }
-    
+
     private async Task Mostrar()
     {
-         if( isCurrentPlayerProfile)
-         await MostrarSeguindo();
-         else 
-         await HandleFollowToggle(); 
+        if( isCurrentPlayerProfile)
+            await MostrarSeguindo();
+        else 
+            await HandleFollowToggle(); 
     }
 
     private void exibirPublicacao()
@@ -1148,6 +1147,64 @@
         .FirstOrDefault(r => r.SubFiltroId == filtro.Id)!.SubFiltro.Portal;
         var indicePorta = portais.IndexOf(porta) + 1;
         return $"[{indicePorta}]";
+    }
+
+    private async void SelecionarPortal(bool alterar)
+    {
+        string prompted = "";
+        if(alterar)
+        prompted = await js.InvokeAsync<string>("prompt",
+                 "Informe o portal.");
+       
+        try
+        {
+            int portal = 0;
+            if(alterar)
+            portal = int.Parse(prompted);
+            var portais = usermodel.UserProfile
+            .OrderBy(u => u.Id)
+            .ToList();
+
+            if(alterar)
+            porta = await Context.Portal
+            .Include(p => p.Story) 
+            .FirstOrDefaultAsync(p => p.Id == portais[(int)portal].PortalId);
+            else
+            porta = await Context.Portal
+        .Include(p => p.Story) 
+        .FirstOrDefaultAsync(p => p.Id == portais.First(p => p.Ativo).Id)!;
+
+             Pensamento = "( " ;
+            foreach(var r in relogios)
+            {            
+                Pensamento +=  retornarVersoComCriterio(r.SubFiltro) ;
+                if(relogios.IndexOf(r) == relogios.Count - 1)             
+                    Pensamento += " ";
+                else
+                    Pensamento += ", ";             
+            }         
+            Pensamento += ")" ;
+
+            if (string.IsNullOrEmpty(usermodel.Compartilhar))
+            {
+                confirmar = "Compartilhar";
+                Pensar = "teste";
+                title = "Nova nota";
+            }
+            else
+            {
+                confirmar = "Excluir";
+                Pensar = "pensar";
+                title = "Excluir pensamento";
+
+            }
+
+            StateHasChanged();
+        }
+        catch(Exception ex)
+        {
+            
+        }
     }
 
 }

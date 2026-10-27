@@ -8,5 +8,5 @@ public class UserProfile : BaseModel
     public virtual UserModel? UserModel { get; set; }
     public long? PortalId { get; set; } 
     public virtual Portal? Portal { get; set; }    
-    public bool Ativo { get; set; } = true;
+    public bool Ativo { get; set; } 
 }

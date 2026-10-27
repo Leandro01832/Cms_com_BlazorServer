@@ -5,14 +5,6 @@ namespace business.business.Group
     
     public class Portal : BaseModel
     {
-        // portal para Biologo - pronto,
-        // portal para veterinario
-        // portal para ramster - petshop
-        // portal para cachorro - petshop
-        // portal para gato - petshop
-        // portal para peixe - petshop
-        // portal para aves - petshop
-
         public Portal()
         {
             

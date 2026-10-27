@@ -98,6 +98,7 @@ namespace BlazorCms.Client.Pages
                 var u = await userManager.GetUserAsync(user);
                 usuario = await Context.Users
                 .Include(u => u.PageLiked)
+                .Include(u => u.UserProfile)
                 .Include(u => u.Relogio)
                 .ThenInclude(u => u.Hashtag)
                 .ThenInclude(u => u.HashtagContent)
@@ -1022,15 +1023,34 @@ namespace BlazorCms.Client.Pages
             {
                 if (user.Identity!.IsAuthenticated)
                 {
-                    if(usuario.Relogio.Count > 0)
-                    if(Model2.PortalId != usuario.Relogio.First().SubFiltro.PortalId)
+                    foreach(var item in usuario.UserProfile)
                     {
-                        foreach (var item in usuario.Relogio)
-                        {
-                            Context.Remove(item);
-                           await Context.SaveChangesAsync();
-                        }
+                        item.Ativo = false;
+                        Context.Update(item);
                     }
+                   
+                    if(usuario.Relogio.Count > 0 && 
+                    usuario.UserProfile
+                    .FirstOrDefault( u => u.PortalId == Model2.PortalId) == null)
+                    {                        
+                        var userProfile = new UserProfile
+                        {
+                            PortalId = Model2.PortalId,
+                            UserModelId = usuario.Id,
+                            Ativo = true                                
+                        };
+                        Context.Add(userProfile);
+
+                        await Context.SaveChangesAsync();
+                    }
+                    
+                        var u = usuario.UserProfile.FirstOrDefault( u => u.PortalId == Model2.PortalId);
+                        u.Ativo = true;
+                        Context.Update(u);
+                        await Context.SaveChangesAsync();                         
+                    
+                    
+                    
                     var re = usuario.Relogio.FirstOrDefault(rel => rel.SubFiltroId == Model2.Id)!;
                     var p = TipoClass != typeof(Page);
                     if (re == null)
