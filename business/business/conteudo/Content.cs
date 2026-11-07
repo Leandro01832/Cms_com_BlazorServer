@@ -51,6 +51,8 @@ namespace business.business.conteudo
 
         public int QuantLiked { get; set; } = 0;
         public int QuantShared { get; set; } = 0;
+        [Display(Name = "Gerado por IA")]
+        public bool IA { get; set; } = false;
 
          
         public string? Html{ get; set; }

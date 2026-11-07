@@ -213,7 +213,7 @@ namespace BlazorCms.Client.Pages
                .ThenInclude(p => p.Filtro)!
                .Where(f => f.LivroId == (livro != null ? livro.Id : null) &&
                f.UltimaPasta &&
-               f.Portal!.StoryId == _story.Id)
+               f.Portal!.StoryId == _story.Id && f.PortalId == Portal)
                .ToListAsync();
 
             UltimasPastas = result
@@ -234,7 +234,7 @@ namespace BlazorCms.Client.Pages
             .Where(f => f.LivroId == (livro != null ? livro.Id : null) &&
             !f.UltimaPasta &&
             f.Portal!.StoryId == _story.Id &&
-            f.Pagina.Count > 0)
+            f.Pagina.Count > 0 && f.PortalId == Portal)
             .ToListAsync();
 
             listaFiltro = result2
@@ -349,6 +349,8 @@ namespace BlazorCms.Client.Pages
 
             // Pega o caminho relativo (ex: "videofilter/1/2/3")
             var relativePath = navigation.ToBaseRelativePath(navigation.Uri);
+            if(relativePath.Contains("detalhar"))
+            detalhes = true;
             //  int ind = 0;
             //  int ind2 = 0;
             var ti = Tipo.ToLower();
@@ -618,39 +620,44 @@ namespace BlazorCms.Client.Pages
            f.Criterio != null &&
            f.FiltroId == Model2.Id) == null;
 
-            if (Filtro != null && ultimaPasta)
+           if(!detalhes)
             {
-                var f = UltimasPastas.FirstOrDefault(fil => fil.FiltroId == Model2.Id);
-                if (f != null && f.Criterio != null)
+                if (Filtro != null && ultimaPasta)
                 {
-                    Versiculo = retornarVerso(f.Criterio.Content);
+                    var f = UltimasPastas.FirstOrDefault(fil => fil.FiltroId == Model2.Id);
+                    if (f != null && f.Criterio != null)
+                    {
+                        Versiculo = retornarVerso(f.Criterio.Content);
 
+                    }
+                    else
+                    {
+                        var fi = listaFiltro.FirstOrDefault(fil => fil.Id == Model2.ComCriterio);
+                        f = listaFiltro.FirstOrDefault(f => f.FiltroId == fi.Id);
+                        Versiculo = retornarVerso(f.Criterio.Content);
+                    }
+                }
+                else if (Filtro != null)
+                {
+                    Filtro f = null;
+                    if (Model2 != null && Model2.Criterio != null)
+                    {
+                        f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id)!;
+                        Versiculo = retornarVerso(f.Criterio.Content);
+                    }
+
+                    else if (f.Criterio == null)
+                    {
+                        f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio)!;
+                        if (f != null && f.Criterio != null)
+                            Versiculo = retornarVerso(f.Criterio.Content);
+                    }
                 }
                 else
-                {
-                    var fi = listaFiltro.FirstOrDefault(fil => fil.Id == Model2.ComCriterio);
-                    f = listaFiltro.FirstOrDefault(f => f.FiltroId == fi.Id);
-                    Versiculo = retornarVerso(f.Criterio.Content);
-                }
+                    Versiculo = retornarVerso(Model);
             }
-            else if (Filtro != null)
-            {
-                Filtro f = null;
-                if (Model2 != null && Model2.Criterio != null)
-                {
-                    f = listaFiltro.FirstOrDefault(f => f.FiltroId == Model2.Id)!;
-                    Versiculo = retornarVerso(f.Criterio.Content);
-                }
 
-                else if (f.Criterio == null)
-                {
-                    f = listaFiltro.FirstOrDefault(f => f.Id == Model2.ComCriterio)!;
-                    if (f != null && f.Criterio != null)
-                        Versiculo = retornarVerso(f.Criterio.Content);
-                }
-            }
-            else
-                Versiculo = retornarVerso(Model);
+            
 
             if (Filtro == null)
             {

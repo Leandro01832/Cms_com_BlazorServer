@@ -203,7 +203,8 @@
                     <div>
                         <div>
                             <span dir="auto" style="----base-line-clamp-line-height: 18px; --lineHeight: 18px;">
-                                Leandro Luis
+
+                                @user
                             </span>
                         </div>
 
@@ -446,6 +447,7 @@
     private int lacos = 0;
     private int itens = 6;
     private int publicacoes = 0;
+    
     private bool newStory = true;
     private bool showModal = false;
     private bool showModal2 = false;
@@ -835,7 +837,7 @@
                         }                       
 
                         if(fil != null && contentRel != null)                        
-                            url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{item}/{itemConteudo}/{user}";
+                            url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{item}/{itemConteudo}/{porta.Id}/{user}";
 
 
                         if(url != null)
@@ -906,9 +908,9 @@
                 if( contentRel != null)
                 {
                     if(!semCriterio)
-                        url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{user}";    
+                        url = $"/renderizar/{contentRel!.GetType().Name.ToLower()}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/{itemConteudo}/{porta.Id}/{user}";    
                     else               
-                        url = $"/renderizar/{contentRel!.GetType().Name.ToLower() + rel.SubFiltroId}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/0/{user}";    
+                        url = $"/renderizar/{contentRel!.GetType().Name.ToLower() + rel.SubFiltroId}/{livro.Livro.Nome}/{str.Capitulo}/{versiculo}/0/{porta.Id}/{user}";    
                 }
                 else
                 {

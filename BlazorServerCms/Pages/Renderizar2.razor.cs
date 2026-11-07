@@ -31,6 +31,7 @@ namespace BlazorCms.Client.Pages
         [Parameter] public int? capitulo { get; set; } = 1;
 
         [Parameter] public int Indice { get; set; }
+        [Parameter] public long Portal { get; set; }
 
         [Parameter]
         public string Tipo { get; set; }
@@ -131,6 +132,7 @@ namespace BlazorCms.Client.Pages
         private double Progress { get; set; } = 0;
         private int slideAtual = 10000;
         private string nameGroup = "";
+        private bool detalhes = false;
         private bool alterouModel = true;
         private int tempoVideo = 0;
         private Content? model = null;

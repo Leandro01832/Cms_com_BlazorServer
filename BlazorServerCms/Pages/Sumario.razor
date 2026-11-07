@@ -37,5 +37,29 @@
         stories = await Context.Story!.Where(str => str.Nome != "Padrao")
         .OrderBy(str => str.Capitulo)
         .ToListAsync();
+
+        @*
+
+            var fils =  await Context.SubFiltro!
+            .Include(f => f.SubFiltro)!
+            .ThenInclude(f => f.Pagina)!
+            .Where(f => 
+            f.CamadaId==3  && f.Pagina.Count > 0 && f.PortalId==1)
+            .ToListAsync();
+
+            foreach(var item in fils)
+            {
+                if(item.SubFiltro.FirstOrDefault(s => s.Pagina.Count == 0) != null)
+                {
+                    var filContent = new FiltroContent
+                    {
+                        ContentId = 51192,
+                        FiltroId = item.SubFiltro.First().Id
+                    };
+                    Context.Add(filContent);
+                    await Context.SaveChangesAsync();               
+                }
+            } 
+        *@
     }
 }

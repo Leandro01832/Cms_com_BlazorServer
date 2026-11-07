@@ -4,6 +4,7 @@
 @page "/{nomeLivro}/{capitulo:int}/{indice}"
 @page "/portal/{indicePortal:int}"
 @using System.Reflection
+@using Mscc.GenerativeAI
 
 @inject NavigationManager navigation
 @inject RepositoryPagina repositoryPagina
@@ -689,7 +690,7 @@ variasPalavras="@variasPalavras" filtros2="@filtros2"  >
         {
             markup = new MarkupString(portal.Html!);
             nomeLivro = "";
-        }
+        }        
 
         StateHasChanged();
     }
@@ -726,9 +727,9 @@ variasPalavras="@variasPalavras" filtros2="@filtros2"  >
                 }
 
                 if(item.Livro == null && ch != null)
-                    url = $"/renderizar/page/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
+                    url = $"/renderizar/page/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{item.PortalId}/{comp}";
                 else
-                url = $"/renderizar/page/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{comp}";
+                url = $"/renderizar/page/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/{itemContent}/{item.PortalId}/{comp}";
 
                     if(!string.IsNullOrEmpty(url))
                     await js!.InvokeAsync<object>("AcessarSites", $"{url}");
@@ -754,9 +755,9 @@ variasPalavras="@variasPalavras" filtros2="@filtros2"  >
                     ch = (Chave)f.Criterio.Content!;
                 }
                  if(item.Livro == null && ch != null)
-                    url = $"/renderizar/page{item.Id}/{str.Capitulo}/{ch.Versiculo}/0/{comp}";
+                    url = $"/renderizar/page{item.Id}/{str.Capitulo}/{ch.Versiculo}/0/{item.PortalId}/{comp}";
                 else
-                url = $"/renderizar/page{item.Id}/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/0/{comp}";
+                url = $"/renderizar/page{item.Id}/{item.Livro!.Nome}/{str.Capitulo}/{ch.Versiculo}/0/{item.PortalId}/{comp}";
 
                     if(!string.IsNullOrEmpty(url))
                     await js!.InvokeAsync<object>("AcessarSites", $"{url}");

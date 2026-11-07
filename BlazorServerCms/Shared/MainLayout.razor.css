@@ -11,8 +11,8 @@
 
 
 main {
-        
-        margin-left: 50px !important;
+         position: relative;
+         z-index: 1000;
         width: 100% !important;
     }
 

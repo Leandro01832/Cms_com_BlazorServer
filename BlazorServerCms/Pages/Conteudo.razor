@@ -64,8 +64,8 @@ else
 
 @code {
 
-    List<UserContent> content = new List<UserContent>();
-    UserContent c = null;
+    List<Content> content = new List<Content>();
+    Content c = null;
     Filtro f = null;
     private MarkupString markup;
     private DemoContextFactory db = new DemoContextFactory();
@@ -111,8 +111,9 @@ else
     protected override async Task OnInitializedAsync()
     {
         Context = db.CreateDbContext(null);
-        content = repositoryPagina.embaralhar( RepositoryPagina.Conteudo!.OfType<UserContent>()
-        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+        content = repositoryPagina.embaralhar( Context.Content
+        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias) &&
+        c.IA)
         .OrderBy(co => co.Id).ToList());
 
         indice = 1;
@@ -125,9 +126,9 @@ else
 
             capitulo = cap;
             var story = RepositoryPagina.stories.First(str => str.Capitulo == cap);
-            content = repositoryPagina.embaralhar( RepositoryPagina.Conteudo!.OfType<UserContent>()
+            content = repositoryPagina.embaralhar( content
             .Where(c => c.StoryId == story.Id &&
-            c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+            c.Data > DateTime.Now.AddDays(-repositoryPagina.dias) && c.IA)
             .OrderBy(co => co.Id).ToList());
         }
         else        
@@ -139,8 +140,8 @@ else
     private void generalizar()
     {
         capitulo = null;
-        content = repositoryPagina.embaralhar( RepositoryPagina.Conteudo!.OfType<UserContent>()
-        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias))
+        content = repositoryPagina.embaralhar(content
+        .Where(c => c.Data > DateTime.Now.AddDays(-repositoryPagina.dias) && c.IA)
         .OrderBy(co => co.Id).ToList());
     }
 
