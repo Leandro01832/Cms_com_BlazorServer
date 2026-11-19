@@ -1,0 +1,70 @@
+@page "/triangulo"
+
+@inject IJSRuntime js
+
+
+<div class="mb-3" style="margin-left: 50px;">
+    <h3>Triângulo de Sierpinski (Profundidade: @_depth)</h3>
+    <button class="btn btn-primary" @onclick="@diminuirNivel">- Nível</button>
+    <button class="btn btn-primary" @onclick="@aumentarNivel">+ Nível</button>
+</div>
+
+<svg width="500" height="450" viewBox="0 0 500 450" style="border: 1px solid #ccc; margin-left: 50px;">
+    @foreach (var triangle in _triangles)
+    {
+        <polygon points="@triangle" fill="#2b579a" />
+    }
+</svg>
+
+@code {
+    private int _depth = 8;
+    private List<string> _triangles = new();
+
+    protected override void OnParametersSet()
+    {
+        _triangles.Clear();
+        // Vértices do triângulo equilátero inicial: Topo, Esquerda, Direita
+        GenerateSierpinski(_depth, (250, 20), (20, 420), (480, 420));
+        
+    } 
+
+    private async void aumentarNivel()
+    {
+        if (_depth < 8)
+        {
+            _depth++;
+            OnParametersSet();
+             await js!.InvokeAsync<object>("DarAlert", "O numero de triângulos gerados é: " + _triangles.Count);
+        }
+    }
+
+    private async void diminuirNivel()
+    {
+        if (_depth > 0)
+        {
+            _depth--;
+            OnParametersSet();
+             await js!.InvokeAsync<object>("DarAlert", "O numero de triângulos gerados é: " + _triangles.Count);
+        }
+    }
+
+    private void GenerateSierpinski(int level, (double x, double y) p1, (double x, double y) p2, (double x, double y) p3)
+    {
+        if (level == 0)
+        {
+            // Caso base: adiciona as coordenadas do triângulo final
+            _triangles.Add($"{(int)p1.x},{(int)p1.y} {(int)p2.x},{(int)p2.y} {(int)p3.x},{(int)p3.y}");
+            return;
+        }
+
+        // Calcula os pontos médios de cada lado
+        var mid12 = ((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
+        var mid23 = ((p2.x + p3.x) / 2, (p2.y + p3.y) / 2);
+        var mid31 = ((p3.x + p1.x) / 2, (p3.y + p1.y) / 2);
+
+        // Chama recursivamente para os 3 sub-triângulos externos
+        GenerateSierpinski(level - 1, p1, mid12, mid31);
+        GenerateSierpinski(level - 1, mid12, p2, mid23);
+        GenerateSierpinski(level - 1, mid31, mid23, p3);
+    }
+}
