@@ -192,20 +192,7 @@ using (var scope = app.Services.CreateScope())
         // contexto.SaveChanges();
     }
 
-    if (await contexto!.Set<Content>().AnyAsync())
-    {
-        DateTime dataCorte = DateTime.Now.AddDays(-repositoryPagina.dias);
-
-            var conteudos = await contexto.UserContent
-                    .Include(f => f.Filtro)
-                    .Include(f => f.UserModel)
-                    .Where(c => c.Data > dataCorte 
-                || c.QuantLiked > 100000 
-                ||  c.QuantShared > 100000)
-                    .OrderBy(co => co.Id)
-                    .ToListAsync();
-        RepositoryPagina.Conteudo!.UnionWith(conteudos);
-    }
+    
 
 
    
